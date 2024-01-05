@@ -40,17 +40,6 @@ const MyNickname = styled.h1`
 
 const EditBtn = styled.button``;
 
-const MySectionWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 80%;
-  height: 600px;
-  margin: 20px 20px 20px;
-  padding: 20px;
-  background-color: white;
-`;
-
 const Tabs = styled.div`
   width: 80%;
   height: 500px;
@@ -73,17 +62,92 @@ const MyPostsBtn = styled.button``;
 
 const MyLikesBtn = styled.button``;
 
+//--------------------------------------------
+// Calendar
+
 const CalendarWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
 
 const StyleCalendar = styled.div`
+  .react-calendar {
+    width: 800px;
+    height: 400px;
+  }
+
   .react-calendar__tile--active {
     background-color: pink;
   }
 `;
+//--------------------------------------------
+// MyPosts
 
+const MySectionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 80%;
+  height: 600px;
+  margin: 20px 20px 20px;
+  padding: 20px;
+  background-color: white;
+`;
+
+const MyPostsWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+`;
+
+const MyPosts = styled.div`
+  display: grid;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const MyPostImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+  width: 220px;
+  height: 170px;
+  margin-top: 20px;
+`;
+const MyPostText = styled.p``;
+//--------------------------------------------
+// LikesPosts
+
+const LikesWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+`;
+
+const MyLikes = styled.div`
+  display: grid;
+
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const LikesPostImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+  width: 220px;
+  height: 170px;
+  margin-top: 20px;
+`;
+
+const LikesPostText = styled.p``;
 export default {
   ProfileEditWrapper,
   MySectionWrapper,
@@ -98,5 +162,13 @@ export default {
   MyPostsBtn,
   MyLikesBtn,
   CalendarWrapper,
-  StyleCalendar
+  StyleCalendar,
+  MyPostsWrapper,
+  MyPostImg,
+  MyPosts,
+  MyPostText,
+  LikesWrapper,
+  MyLikes,
+  LikesPostImg,
+  LikesPostText
 };

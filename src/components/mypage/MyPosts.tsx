@@ -1,7 +1,38 @@
-import React from "react";
+import React from 'react';
+import St from './style';
 
 const MyPosts = () => {
-  return <div>MyPosts</div>;
+  return (
+    <div>
+      MyPosts
+      <St.MyPostsWrapper>
+        <St.MyPosts>
+          <St.MyPostImg>Img</St.MyPostImg>
+          <St.MyPostText>text text</St.MyPostText>
+        </St.MyPosts>
+        <St.MyPosts>
+          <St.MyPostImg>Img</St.MyPostImg>
+          <St.MyPostText>text text</St.MyPostText>
+        </St.MyPosts>
+        <St.MyPosts>
+          <St.MyPostImg>Img</St.MyPostImg>
+          <St.MyPostText>text text</St.MyPostText>
+        </St.MyPosts>
+        <St.MyPosts>
+          <St.MyPostImg>Img</St.MyPostImg>
+          <St.MyPostText>text text</St.MyPostText>
+        </St.MyPosts>
+        <St.MyPosts>
+          <St.MyPostImg>Img</St.MyPostImg>
+          <St.MyPostText>text text</St.MyPostText>
+        </St.MyPosts>
+        <St.MyPosts>
+          <St.MyPostImg>Img</St.MyPostImg>
+          <St.MyPostText>text text</St.MyPostText>
+        </St.MyPosts>
+      </St.MyPostsWrapper>
+    </div>
+  );
 };
 
 export default MyPosts;
