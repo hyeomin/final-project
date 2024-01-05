@@ -1,5 +1,6 @@
-import styled from "styled-components";
-import defaultImg from "../../assets/defaultImg.jpg";
+import styled from 'styled-components';
+import 'react-calendar/dist/Calendar.css';
+import defaultImg from '../../assets/defaultImg.jpg';
 
 const Wrapper = styled.div`
   display: flex;
@@ -72,6 +73,17 @@ const MyPostsBtn = styled.button``;
 
 const MyLikesBtn = styled.button``;
 
+const CalendarWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const StyleCalendar = styled.div`
+  .react-calendar__tile--active {
+    background-color: pink;
+  }
+`;
+
 export default {
   ProfileEditWrapper,
   MySectionWrapper,
@@ -85,4 +97,6 @@ export default {
   CalendarBtn,
   MyPostsBtn,
   MyLikesBtn,
+  CalendarWrapper,
+  StyleCalendar
 };
