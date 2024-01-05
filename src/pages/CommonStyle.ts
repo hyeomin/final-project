@@ -5,4 +5,8 @@ const FullContainer = styled.div`
     background-color: lightgray;
 `;
 
-export default { FullContainer };
+const Dummy = styled.div`
+    background-color: pink;
+`;
+
+export default { FullContainer, Dummy };
