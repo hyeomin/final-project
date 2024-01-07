@@ -1,9 +1,11 @@
-import St from "./style";
+import St from './style'
 
 
 function Main() {
+
   return (
     <St.Container>
+    
       <St.AdminSection>
         <img src="" alt="" />
         <St.PrevNextBottons>
@@ -14,13 +16,22 @@ function Main() {
       <St.TopRankingPosts>
         <St.Title>
           <h1>User Pick???</h1>
-          <h2>전체보기</h2>
+          <button type="button" >
+            전체보기
+          </button>
         </St.Title>
         <St.Nav>
-          <button>관리자 게시물</button>
-          <button>인기 게시물</button>
-          <button>환경보호 제품 추천</button>
-          <button>제품 나눔</button>
+          {/* 전체가 탑랭킹 게시물로 표시된다면 인기 게시물 카테고리가 필요한지 고려 필요 */}
+          <button type="button" >
+            관리자 게시물
+          </button>
+          <button type="button">인기 게시물</button>
+          <button type="button">
+            환경보호 제품 추천
+          </button>
+          <button type="button">
+            제품 나눔
+          </button>
         </St.Nav>
         <St.PostsSlide>
           <St.ThumbnailsBox>
@@ -63,4 +74,3 @@ function Main() {
 }
 
 export default Main;
-

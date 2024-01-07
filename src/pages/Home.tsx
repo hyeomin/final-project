@@ -1,5 +1,6 @@
-import Main from '../components/main';
+
 import CS from './CommonStyle';
+import Main from '../components/main/index';
 
 function Home() {
   return (
