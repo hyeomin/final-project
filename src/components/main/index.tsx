@@ -36,9 +36,6 @@ function Main() {
             <li>
               <img src="" alt="img4" />
             </li>
-            <li>
-              <img src="" alt="img5" />
-            </li>
           </St.ThumbnailsBox>
           <div>
             <button>prev</button>

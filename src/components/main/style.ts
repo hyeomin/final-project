@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  /* background-color: brown;  */
+  background-color: brown; 
   display: flex; //FullContainer의 속성을 조절해야 가운데로 올듯
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 1200px;
+  max-width: 1440px;
   width: 100%;
   height: 100%;
 `;
@@ -15,7 +15,7 @@ const AdminSection = styled.section`
   background-color: #f5e1ab;
   position: relative;
   width: 85%;
-  height: 400px;
+  height: 350px;
   margin-bottom: 10px;
   & img {
     position: absolute;
@@ -39,7 +39,7 @@ const TopRankingPosts = styled.section`
   justify-content: center;
   align-items: center;
   width: 85%;
-  height: 250px;
+  height: 50%;
   margin-bottom: 10px;
 `;
 const Title = styled.div`
@@ -69,6 +69,7 @@ const PostsSlide = styled.div`
   & div {
     position: absolute;
     display: flex;
+    justify-content: center;
     width: 100%;
     gap: 86%;
   }
@@ -80,8 +81,8 @@ const ThumbnailsBox = styled.ul`
   width: 100%;
   gap: 10px;
   & li {
-    width: 110px;
-    height: 110px;
+    width: 20%;
+    height: 250px;
     background-color: beige;
     & img {
       width: 100%;
