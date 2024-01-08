@@ -3,6 +3,7 @@ import { collection } from '@firebase/firestore';
 import { db } from '../shared/firebase';
 // import { QUERY_KEYS } from '../query/keys';
 import { addDoc, getDocs, query, where, orderBy, limit } from '@firebase/firestore';
+import { Post } from '../types';
 
 // //created by Mango posts 가져오기
 const getAdminPosts = async () => {
