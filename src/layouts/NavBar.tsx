@@ -6,13 +6,13 @@ function NavBar() {
     <NavContainer>
       <LeftNav className="left-side">
         <NavLink to="/">Home</NavLink>
-        <NavLink to="/">Community</NavLink>
+        <NavLink to="/">게시글 전체보기</NavLink>
         <NavLink to="/about">About</NavLink>
       </LeftNav>
       <RightNav className="right-side">
         <NavLink to="/auth">Login</NavLink>
         <NavLink to="/write">Write</NavLink>
-        <NavLink to="/about">My Page</NavLink>
+        <NavLink to="/mypage">My Page</NavLink>
       </RightNav>
     </NavContainer>
   );
