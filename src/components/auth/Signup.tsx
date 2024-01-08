@@ -27,9 +27,7 @@ function Signup({ setIsSignUp }: Props) {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      console.log('user', user);
-    });
+    onAuthStateChanged(auth, (user) => {});
   }, []);
 
   const signUp = async (email: string, password: string, name: string) => {
@@ -38,6 +36,9 @@ function Signup({ setIsSignUp }: Props) {
       const user = userCredential.user;
       console.log('user', user);
       await updateProfile(user, { displayName: name });
+      setEmail('');
+      setPassword('');
+      setNickname('');
     } catch (error) {
       console.error('에러입니다');
     }
