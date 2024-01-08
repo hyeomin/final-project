@@ -27,14 +27,15 @@ function Signup({ setIsSignUp }: Props) {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {});
+    onAuthStateChanged(auth, (user) => {
+      console.log('user', user);
+    });
   }, []);
 
   const signUp = async (email: string, password: string, name: string) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      console.log('user', user);
       await updateProfile(user, { displayName: name });
       setEmail('');
       setPassword('');
