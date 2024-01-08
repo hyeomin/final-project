@@ -2,6 +2,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 import { db, storage } from '../../shared/firebase';
+import { PostType } from '../../types/Posts';
 
 type Props = {
   newPost: Omit<PostType, 'id'>;

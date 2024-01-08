@@ -28,12 +28,13 @@ function WriteBody() {
     category,
     title,
     content,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: Number(new Date()),
+    updatedAt: Number(new Date()),
     hashtag: null,
     uid: null,
     likeCount: 0,
-    likedUsers: null
+    likedUsers: null,
+    role: 'user'
   };
 
   const modules = useMemo(() => {
