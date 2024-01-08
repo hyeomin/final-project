@@ -10,6 +10,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import './swiperStyle.css';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Post } from '../../types';
 
 function Main() {
   const queryClient = useQueryClient();
