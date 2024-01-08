@@ -6,7 +6,7 @@ import Detail from '../pages/Detail';
 import MyPage from '../pages/MyPage';
 import Write from '../pages/Write';
 import Home from '../pages/Home';
-import PageList from '../pages/PageList';
+import ViewAll from '../pages/ViewAll';
 
 export default function Router() {
   return (
@@ -14,7 +14,7 @@ export default function Router() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/pagelist" element={<PageList />} />
+          <Route path="/viewAll" element={<ViewAll />} />
           <Route path="/write" element={<Write />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/detail/:id" element={<Detail />} />
