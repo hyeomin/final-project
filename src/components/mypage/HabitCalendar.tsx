@@ -11,7 +11,8 @@ type Value = ValuePiece | [ValuePiece, ValuePiece];
 const HabitCalendar = () => {
   // 초기값은 현재 날짜
   const [today, setToday] = useState<Value>(new Date());
-
+  //클릭한 캘린더의 날짜를 알려줌
+  const moment = require('moment');
   const onChangeToday = () => {
     setToday(today);
   };
@@ -20,7 +21,7 @@ const HabitCalendar = () => {
     <St.CalendarWrapper>
       <St.StyleCalendar>
         <Calendar onChange={onChangeToday} value={today} locale="en" calendarType="gregory" />
-        {/* <div>{moment(today).format('YYYY년 MM월 DD일')}</div> */}
+        <div>{moment(today).format('YYYY년 MM월 DD일')}</div>
       </St.StyleCalendar>
     </St.CalendarWrapper>
   );

@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 
 const ProfileEditWrapper = styled.div`
   width: 80%;
-  height: 200px;
+  height: 250px;
   margin: 20px;
   padding: 20px;
   background-color: white;
@@ -27,12 +27,10 @@ const UserInfo = styled.div`
   gap: 100px;
 `;
 
-const MyImage = styled.div`
-  width: 100px;
-  height: 100px;
+const MyImage = styled.img`
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  /* background-color: lightgray; */
-  background-image: url(${defaultImg});
 `;
 const MyNickname = styled.h1`
   font-size: 20px;
