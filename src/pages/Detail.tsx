@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import DetailBody from '../components/detail/DetailBody';
 import CS from './CommonStyle';
 
 function Detail() {
@@ -12,10 +13,7 @@ function Detail() {
             <button>next</button>
           </div>
         </CoverImageContainer>
-        <div>
-          <h3>Title</h3>
-        </div>
-        <div>Content</div>
+        <DetailBody />
       </PostContainer>
     </CS.FullContainer>
   );

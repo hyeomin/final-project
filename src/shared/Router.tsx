@@ -3,10 +3,10 @@ import Layout from '../layouts/Layout';
 import About from '../pages/About';
 import Auth from '../pages/Auth';
 import Detail from '../pages/Detail';
-import MyPage from '../pages/MyPage';
-import Write from '../pages/Write';
 import Home from '../pages/Home';
+import MyPage from '../pages/MyPage';
 import ViewAll from '../pages/ViewAll';
+import Write from '../pages/Write';
 
 export default function Router() {
   return (
