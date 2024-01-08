@@ -14,7 +14,7 @@ export default function Router() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/pagelist" element={<PageList />} />
+          <Route path="/viewAll" element={<PageList />} />
           <Route path="/write" element={<Write />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/detail/:id" element={<Detail />} />
