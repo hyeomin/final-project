@@ -1,22 +1,24 @@
-import { useState } from "react";
-import Calendar from "./Calendar";
-import LikesPosts from "./LikesPosts";
-import MyPosts from "./MyPosts";
-import St from "./style";
+import { useState } from 'react';
+import HabitCalendar from './HabitCalendar';
+import LikesPosts from './LikesPosts';
+import MyPosts from './MyPosts';
+import St from './style';
+import defaultImg from '../../assets/defaultImg.jpg';
 
 function MyProfile() {
-  const [activeTab, setActiveTab] = useState("calendar");
+  const [activeTab, setActiveTab] = useState('calendar');
 
-  const onClickTabBtn = (click: string) => {
-    setActiveTab(click);
+  const onClickTabBtn = (name: string) => {
+    setActiveTab(name);
   };
+
   return (
     <div>
       <St.Wrapper>
         <St.ProfileEditWrapper>
           ProfileEditWrapper
           <St.UserInfo>
-            <St.MyImage></St.MyImage>
+            <St.MyImage src={defaultImg} alt="defaultImg" />
             <St.MyNickname>user Nickname</St.MyNickname>
             <St.EditBtn>수정하기</St.EditBtn>
           </St.UserInfo>
@@ -26,30 +28,30 @@ function MyProfile() {
           <St.TabBtns>
             <St.CalendarBtn
               onClick={() => {
-                onClickTabBtn("calendar");
+                onClickTabBtn('calendar');
               }}
             >
               calendar
             </St.CalendarBtn>
             <St.MyPostsBtn
               onClick={() => {
-                onClickTabBtn("myPosts");
+                onClickTabBtn('myPosts');
               }}
             >
               My Posts
             </St.MyPostsBtn>
             <St.MyLikesBtn
               onClick={() => {
-                onClickTabBtn("likes");
+                onClickTabBtn('likes');
               }}
             >
               Likes
             </St.MyLikesBtn>
           </St.TabBtns>
           <St.Tabs>
-            {activeTab === "calendar" && <Calendar />}
-            {activeTab === "myPosts" && <MyPosts />}
-            {activeTab === "likes" && <LikesPosts />}
+            {activeTab === 'calendar' && <HabitCalendar />}
+            {activeTab === 'myPosts' && <MyPosts />}
+            {activeTab === 'likes' && <LikesPosts />}
           </St.Tabs>
         </St.MySectionWrapper>
       </St.Wrapper>
