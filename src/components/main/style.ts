@@ -51,12 +51,13 @@ const Title = styled.div`
   padding: 20px 0 0 10px;
   margin-bottom: 10px;
   & h1 {
-    font-size: 22px;
+    font-size: 30px;
   }
   & button {
+    margin-top: 15px;
     border: none;
     background-color: transparent;
-    font-weight: 600;
+    font-weight: 700;
     &:hover {
       cursor: pointer;
       text-decoration: underline;

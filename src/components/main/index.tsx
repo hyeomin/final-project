@@ -77,6 +77,10 @@ function Main() {
     });
   };
 
+  const onClickMovToDetail = (id: string) => {
+    navigate(`/detail/${id}`)
+  }
+
   const onClickViewAllButton = () => {
     navigate('/viewAll');
   };
@@ -106,7 +110,7 @@ function Main() {
         >
           {createdByMango?.map((item, idx) => {
             return (
-              <SwiperSlide key={idx}>
+              <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
                 <img src={item.coverUrl!} alt={`Slide ${idx}`} />
               </SwiperSlide>
             );
@@ -147,9 +151,10 @@ function Main() {
                 spaceBetween: 10
               }
             }}
+            className='slides'
           >
             {topRanking.map((item, idx) => (
-              <SwiperSlide key={idx}>
+              <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
                 <img src={item.coverUrl!} alt={`Slide ${idx}`} />
               </SwiperSlide>
             ))}
