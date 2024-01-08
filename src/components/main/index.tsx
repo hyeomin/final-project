@@ -1,11 +1,30 @@
 import St from './style'
-
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getPosts } from './test/posts';
+import { useNavigate } from 'react-router-dom';
 
 function Main() {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate()
+
+
+  const { data } = useQuery({
+    queryKey: ['posts'],
+    queryFn: getPosts,
+  });
+  // data에는 아이디 값이 있는데 왜 comments에는 아이디 값이 없지? uuid를 써야하나
+  console.log('data ====>', data);
+
+
+  const onClickViewAllButton = () => {
+    navigate('/pageList') //쿼리스트링 ViewAll 어떤지
+  };
+  const onClickTopRankingAdminPosts = () => {};
+  const onClickRecommendation = () => {};
+  const onClickSharing = () => {};
 
   return (
     <St.Container>
-    
       <St.AdminSection>
         <img src="" alt="" />
         <St.PrevNextBottons>
@@ -16,20 +35,20 @@ function Main() {
       <St.TopRankingPosts>
         <St.Title>
           <h1>User Pick???</h1>
-          <button type="button" >
+          <button type="button" onClick={onClickViewAllButton}>
             전체보기
           </button>
         </St.Title>
         <St.Nav>
           {/* 전체가 탑랭킹 게시물로 표시된다면 인기 게시물 카테고리가 필요한지 고려 필요 */}
-          <button type="button" >
+          <button type="button" onClick={onClickTopRankingAdminPosts}>
             관리자 게시물
           </button>
           <button type="button">인기 게시물</button>
-          <button type="button">
+          <button type="button" onClick={onClickRecommendation}>
             환경보호 제품 추천
           </button>
-          <button type="button">
+          <button type="button" onClick={onClickSharing}>
             제품 나눔
           </button>
         </St.Nav>

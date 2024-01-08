@@ -1,5 +1,6 @@
 import { doc, addDoc, collection, getDocs, query, deleteDoc, updateDoc } from '@firebase/firestore';
 import { db } from '../../../shared/firebase';
+import { QUERY_KEYS } from './keys';
 
 export type Post = {
   id?: string;
@@ -20,7 +21,7 @@ export type Comment = {
 //posts 가져오기
 const getPosts = async () => {
   try {
-    const q = query(collection(db, 'posts'));
+    const q = query(collection(db, QUERY_KEYS.POSTS));
     const querySnapshot = await getDocs(q);
 
     const posts: Post[] = [];
@@ -36,7 +37,7 @@ const getPosts = async () => {
 //게시물 추가
 const addPost = async (newPost: Post)=> {
   try {
-    const collectionRef = collection(db, 'posts');
+    const collectionRef = collection(db, QUERY_KEYS.POSTS);
 
     const resp = await addDoc(collectionRef, newPost);
     console.log('addPost의 resp ==>', resp);
@@ -49,7 +50,7 @@ const addPost = async (newPost: Post)=> {
 const updatePost = async ({ id, content }: Post) => {
   try {
     console.log('content ===> ', content);
-    const postRef = doc(db, 'posts', id!);
+    const postRef = doc(db, QUERY_KEYS.POSTS, id!);
     await updateDoc(postRef, { content });
     console.log('수정완료');
   } catch (error) {
@@ -60,7 +61,7 @@ const updatePost = async ({ id, content }: Post) => {
 //게시물 삭제
 const deletePost = async (id: string) => {
   try {
-    const postRef = doc(db, 'posts', id);
+    const postRef = doc(db, QUERY_KEYS.POSTS, id);
     await deleteDoc(postRef);
   } catch (error) {
     console.log('error', error);
@@ -71,7 +72,7 @@ const deletePost = async (id: string) => {
 const getComments = async () => {
   const id = 'fUc0v4igU6D8b0h3ZRLO';
   try {
-    const q = query(collection(db, 'posts', id, 'comments'));
+    const q = query(collection(db, QUERY_KEYS.POSTS, id, QUERY_KEYS.COMMENTS));
     const querySnapshot = await getDocs(q);
 
     const comments: Comment[] = [];
@@ -90,9 +91,9 @@ const deleteComment = async (id: string) => {
   const commentId = id;
   console.log('코멘트의 아이디 ==>',commentId)
 
-  const postRef = doc(db, 'posts', postId);
+  const postRef = doc(db, QUERY_KEYS.POSTS, postId);
   console.log('postRef==>', postRef)
-  const commentRef = doc(postRef, 'comments', commentId);
+  const commentRef = doc(postRef, QUERY_KEYS.COMMENTS, commentId);
   console.log('commentRef==>', commentRef)
   try {
     await deleteDoc(commentRef);

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Post, getComments, getPosts } from './posts';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import usePostsQuery from './usePostsQuery';
+import { QUERY_KEYS } from './keys';
 
 function Main() {
   const queryClient = useQueryClient();
@@ -10,7 +11,7 @@ function Main() {
   const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
 
   const { data } = useQuery({
-    queryKey: ['posts'],
+    queryKey: [QUERY_KEYS.POSTS],
     queryFn: getPosts
   });
   // data에는 아이디 값이 있는데 왜 comments에는 아이디 값이 없지? uuid를 써야하나
