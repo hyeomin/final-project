@@ -79,7 +79,7 @@ function Main() {
           {createdByMango?.map((item, idx) => {
             return (
               <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
-                <img src={item.image!} alt={`Slide ${idx}`} />
+                <img src={''} alt={`Slide ${idx}`} />
               </SwiperSlide>
             );
           })}
