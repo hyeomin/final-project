@@ -1,6 +1,8 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import St from './style';
+import { auth, storage } from '../../shared/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 type Props = {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -16,6 +18,16 @@ function Login({ setIsSignUp }: Props) {
     setPassword(e.target.value);
   };
 
+  const signIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('userCredential', userCredential);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <St.authWrapper>
       <SingleInputContainer>
@@ -27,7 +39,7 @@ function Login({ setIsSignUp }: Props) {
         <input type="password" value={password} onChange={onChangePWhandler} placeholder="비밀번호를 입력하세요." />
       </SingleInputContainer>
       <SingleInputContainer></SingleInputContainer>
-      <button>로그인</button>
+      <button onClick={signIn}>로그인</button>
       <SignUpNavigation>
         <p>아직 회원이 아니신가요?</p>
         <button
