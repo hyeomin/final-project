@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
 import { useEffect, useState } from 'react';
 import St from './style';
-import { auth, storage } from '../../shared/firebase';
+import { auth, db, storage } from '../../shared/firebase';
 import { getAuth, updateProfile } from 'firebase/auth';
 import defaultImg from '../../assets/defaultImg.jpg';
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { addDoc, collection } from 'firebase/firestore';
 
 type Props = {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ type Data = {
   password: string;
   nickname: string;
   image?: string;
+  role?: string;
 };
 
 function Signup({ setIsSignUp }: Props) {
@@ -96,6 +98,13 @@ function Signup({ setIsSignUp }: Props) {
       setEmail('');
       setPassword('');
       setNickname('');
+      // 회원가입 시, user 컬렉션에 값이 저장됨
+      const docRef = await addDoc(collection(db, 'users'), {
+        displayName: auth.currentUser?.displayName,
+        profileImg: auth.currentUser?.photoURL,
+        uid: auth.currentUser?.uid,
+        role: 'user'
+      });
     } catch (error) {
       console.error('에러입니다');
     }

@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import St from './style';
-import { auth, storage } from '../../shared/firebase';
+import { auth, storage, db } from '../../shared/firebase';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
-import Layout from '../../layouts/Layout';
+
 type Props = {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
 };

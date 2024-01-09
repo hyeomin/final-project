@@ -50,7 +50,7 @@ function Main() {
     return <div>No data found</div>;
   }
 
-// 각각 게시물 클릭시 detail로 이동
+  // 각각 게시물 클릭시 detail로 이동
   const onClickMovToDetail = (id: string) => {
     navigate(`/detail/${id}`);
   };
@@ -79,7 +79,7 @@ function Main() {
           {createdByMango?.map((item, idx) => {
             return (
               <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
-                <img src={item.image!} alt={`Slide ${idx}`} />
+                <img src={''} alt={`Slide ${idx}`} />
               </SwiperSlide>
             );
           })}
@@ -123,7 +123,7 @@ function Main() {
             >
               {topRanking.map((item, idx) => (
                 <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
-                  <img src={item.coverUrl!} alt={`Slide ${idx}`} />
+                  <img src={''} alt={`Slide ${idx}`} />
                 </SwiperSlide>
               ))}
             </Swiper>
