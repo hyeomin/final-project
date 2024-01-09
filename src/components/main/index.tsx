@@ -1,7 +1,7 @@
 import St from './style';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { getAdminPosts, getUserPosts } from '../../api/posts';
+import { getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -16,21 +16,15 @@ function Main() {
   //망고 발행물
   const { isLoading: MangoIsLoading, data: createdByMango } = useQuery({
     queryKey: ['adminContents'],
-    queryFn: getAdminPosts
+    queryFn: getAdminHomeContents
   });
 
   //탑랭킹
   const { isLoading: TopRankingIsLoading, data: topRanking } = useQuery({
     queryKey: ['topRanking'],
-    queryFn: getUserPosts
+    queryFn: getTopRankingPosts
   });
 
-  //test
-  // const { isLoading, data } = useQuery({
-  //   queryKey: ['users'],
-  //   queryFn: getAdmins
-  // });
-  // console.log('get Admins', data![0])
 
   // 망고 발행물 로딩
   if (MangoIsLoading) {
@@ -49,6 +43,9 @@ function Main() {
   if (!topRanking || topRanking.length === 0) {
     return <div>No data found</div>;
   }
+
+
+
 
 // 각각 게시물 클릭시 detail로 이동
   const onClickMovToDetail = (id: string) => {
