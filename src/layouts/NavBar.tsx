@@ -6,7 +6,7 @@ function NavBar() {
     <NavContainer>
       <LeftNav className="left-side">
         <NavLink to="/">Home</NavLink>
-        <NavLink to="/">게시글 전체보기</NavLink>
+        <NavLink to="/viewAll">게시글 전체보기</NavLink>
         <NavLink to="/about">About</NavLink>
       </LeftNav>
       <RightNav className="right-side">

@@ -1,11 +1,11 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
 import St from './style';
 import './swiperStyle.css';
 
@@ -13,27 +13,38 @@ function Main() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  //전체게시물
-  // const { data: posts } = useQuery({
-  //   queryKey: [QUERY_KEYS.POSTS],
-  //   queryFn: getPosts
-  // });
-
-  //망고
-  const { isLoading: MangoIsLoading, data: createdByMango } = useQuery({
-    queryKey: ['adminContents'],
-    queryFn: getAdminHomeContents
+  const postQueries = useQueries({
+    queries: [
+      {
+        queryKey: ['adminContents'],
+        queryFn: getAdminHomeContents
+      },
+      {
+        queryKey: ['topRanking'],
+        queryFn: getTopRankingPosts
+      }
+    ]
   });
 
-  //탑랭킹
-  const { isLoading: TopRankingIsLoading, data: topRanking } = useQuery({
-    queryKey: ['topRanking'],
-    queryFn: getTopRankingPosts
+  //필터된 posts 목록 (망고관리자 게시물은 임시로 둔다.)
+  const createdByMango = postQueries[0].data || [];
+  const topRanking = postQueries[1].data || [];
+
+  // 이미지URL 불러오기
+  const imageQueries = useQueries({
+    queries:
+      topRanking?.map((post) => ({
+        queryKey: ['imageURL', post.id],
+        queryFn: () => downloadImageURL(post.id as string)
+      })) || []
   });
   console.log('topRanking',topRanking)
 
+  const isLoadingAdminContents = postQueries[0].isLoading;
+  const isLoadingTopRanking = postQueries[1].isLoading;
+
   // 망고 발행물 로딩
-  if (MangoIsLoading) {
+  if (isLoadingAdminContents) {
     return <div>Loading...</div>;
   }
 
@@ -41,25 +52,14 @@ function Main() {
     return <div>No data found</div>;
   }
 
-  // 탑랭킹 로딩
-  if (TopRankingIsLoading) {
+  // // 탑랭킹 로딩
+  if (isLoadingTopRanking) {
     return <div>Loading...</div>;
   }
 
   if (!topRanking || topRanking.length === 0) {
     return <div>No data found</div>;
   }
-
-  // 이미지 URL 가져오기
-  // const getImageUrl = async (postId: string) => {
-  //   const imageRef = ref(storage, `posts/${postId}`);
-  //   try {
-  //     return await getDownloadURL(imageRef);
-  //   } catch (error) {
-  //     console.error('Error', error);
-  //     return '';
-  //   }
-  // };
 
   // 각각 게시물 클릭시 detail로 이동
   const onClickMovToDetail = (id: string) => {
@@ -132,11 +132,31 @@ function Main() {
               }}
               className="slides"
             >
-              {topRanking.map((item, idx) => (
-                <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
-                  <img src={''} alt={`Slide ${idx}`} />
-                </SwiperSlide>
-              ))}
+              {topRanking!.map((item, idx) => {
+                const imageQuery = imageQueries[idx];
+                return (
+                  <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
+                    {imageQuery.isLoading ? (
+                      <p>Loading image...</p>
+                    ) : (
+                      imageQuery.data && <img src={imageQuery.data} alt={item.title} />
+                    )}
+                  </SwiperSlide>
+                );
+              })}
+
+              {topRanking!.map((item, idx) => {
+                const imageQuery = imageQueries[idx];
+                return (
+                  <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
+                    {imageQuery.isLoading ? (
+                      <p>Loading image...</p>
+                    ) : (
+                      imageQuery.data && <img src={imageQuery.data} alt={item.title} />
+                    )}
+                  </SwiperSlide>
+                );
+              })}
             </Swiper>
           </St.ThumbnailsBox>
         </St.PostsSlide>
