@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import St from './style';
-import { auth, storage, db } from '../../shared/firebase';
+import { auth } from '../../shared/firebase';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 type Props = {
