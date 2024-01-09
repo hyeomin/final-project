@@ -1,31 +1,38 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
+import { coverImageState } from '../../recoil/posts';
 
-type Props = {
-  imageList: File[];
-  setImageList: React.Dispatch<React.SetStateAction<File[]>>;
-};
+function ImageUpload() {
+  const [coverImageList, setCoverImageList] = useRecoilState(coverImageState);
 
-function ImageUpload({ imageList, setImageList }: Props) {
   const onAddImageHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedImages = event.target.files;
 
     if (selectedImages) {
       const filesArray = Array.from(selectedImages);
-      const updatedImageList = [...imageList, ...filesArray];
-      setImageList(updatedImageList);
+      const updatedImageList = [...coverImageList, ...filesArray];
+      setCoverImageList(updatedImageList);
     }
   };
 
   const onDeletePreview = (id: number) => {
-    const listAfterDelete = imageList.filter((_, index) => index !== id);
-    setImageList(listAfterDelete);
+    const listAfterDelete = coverImageList.filter((_, index) => index !== id);
+    setCoverImageList(listAfterDelete);
+  };
+
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleButtonClick = () => {
+    console.log(9);
+    fileInputRef.current?.click();
   };
 
   return (
     <div>
-      <input type="file" multiple onChange={onAddImageHandler} />
+      <input type="file" multiple onChange={onAddImageHandler} style={{ display: 'none' }} ref={fileInputRef} />
+      <button onClick={handleButtonClick}>커버 이미지 업로드</button>
       <section>
-        {imageList.map((file, id) => {
+        {coverImageList.map((file, id) => {
           const imageUrl = URL.createObjectURL(file);
           return (
             <div key={id}>

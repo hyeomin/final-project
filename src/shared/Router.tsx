@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from '../layouts/Layout';
 import About from '../pages/About';
 import Auth from '../pages/Auth';
@@ -20,6 +20,7 @@ export default function Router() {
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/about" element={<About />} />
+          <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
       </Layout>
     </BrowserRouter>
