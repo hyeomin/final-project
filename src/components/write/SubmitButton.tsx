@@ -1,15 +1,19 @@
 import { addDoc, collection } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { coverImageState, titleState } from '../../recoil/posts';
 import { db, storage } from '../../shared/firebase';
-import { PostType } from '../../types/Posts';
+import { PostType2 } from '../../types/Posts';
 
 type Props = {
-  newPost: Omit<PostType, 'id'>;
-  imageList: File[];
+  newPost: Omit<PostType2, 'id'>;
 };
 
-function SubmitButton({ newPost, imageList }: Props) {
+function SubmitButton({ newPost }: Props) {
+  const [coverImageList, setCoverImageList] = useRecoilState(coverImageState);
+  const [title, setTitle] = useRecoilState(titleState);
+
   const navigate = useNavigate();
 
   const onSubmitHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,12 +29,12 @@ function SubmitButton({ newPost, imageList }: Props) {
       console.log('Document written with ID: ', docRef.id);
       const postId = docRef.id;
 
-      for (const file of imageList) {
+      for (const file of coverImageList) {
         const imageRef = ref(storage, `posts/${postId}/${file.name}`);
         await uploadBytes(imageRef, file);
       }
-
-      navigate('/'); // 업로드된 게시물로 이동해야
+      setTitle('');
+      navigate(`/detail/${postId}`);
     } catch (error) {
       console.error('Error adding document: ', error);
     }
