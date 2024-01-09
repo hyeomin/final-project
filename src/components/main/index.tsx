@@ -50,10 +50,10 @@ function Main() {
     return <div>No data found</div>;
   }
 
-// 각각 게시물 클릭시 detail로 이동
+  // 각각 게시물 클릭시 detail로 이동
   const onClickMovToDetail = (id: string) => {
-    navigate(`/detail/${id}`)
-  }
+    navigate(`/detail/${id}`);
+  };
 
   const onClickViewAllButton = () => {
     navigate('/viewAll');
@@ -79,7 +79,7 @@ function Main() {
           {createdByMango?.map((item, idx) => {
             return (
               <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
-                <img src={""} alt={`Slide ${idx}`} />
+                <img src={''} alt={`Slide ${idx}`} />
               </SwiperSlide>
             );
           })}
@@ -93,41 +93,41 @@ function Main() {
           </button>
         </St.Title>
         <St.PostsSlide>
-        <St.ThumbnailsBox>
-          <Swiper
-            spaceBetween={10}
-            slidesPerView={4}
-            pagination={{
-              clickable: true
-            }}
-            navigation={true}
-            modules={[Pagination, Navigation]}
-            breakpoints={{
-              0: {
-                slidesPerView:1
-              },
-              600: {
-                slidesPerView: 2,
-                spaceBetween: 20
-              },
-              800: {
-                slidesPerView: 3,
-                spaceBetween: 10
-              },
-              1080: {
-                slidesPerView: 4,
-                spaceBetween: 10
-              }
-            }}
-            className='slides'
-          >
-            {topRanking.map((item, idx) => (
-              <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
-                <img src={''} alt={`Slide ${idx}`} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </St.ThumbnailsBox>
+          <St.ThumbnailsBox>
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={4}
+              pagination={{
+                clickable: true
+              }}
+              navigation={true}
+              modules={[Pagination, Navigation]}
+              breakpoints={{
+                0: {
+                  slidesPerView: 1
+                },
+                600: {
+                  slidesPerView: 2,
+                  spaceBetween: 20
+                },
+                800: {
+                  slidesPerView: 3,
+                  spaceBetween: 10
+                },
+                1080: {
+                  slidesPerView: 4,
+                  spaceBetween: 10
+                }
+              }}
+              className="slides"
+            >
+              {topRanking.map((item, idx) => (
+                <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
+                  <img src={''} alt={`Slide ${idx}`} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </St.ThumbnailsBox>
         </St.PostsSlide>
       </St.TopRankingPosts>
     </St.Container>
