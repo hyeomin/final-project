@@ -7,7 +7,7 @@ import { db, storage } from '../shared/firebase';
 // 전체 게시물 가져오기
 const getPosts = async () => {
   try {
-    const q = query(collection(db, QUERY_KEYS.POSTS));
+    const q = query(collection(db, QUERY_KEYS.POSTS), orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
 
     const posts: PostType[] = [];

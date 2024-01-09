@@ -38,7 +38,7 @@ function Main() {
         queryFn: () => downloadImageURL(post.id as string)
       })) || []
   });
-  console.log('topRanking',topRanking)
+
 
   const isLoadingAdminContents = postQueries[0].isLoading;
   const isLoadingTopRanking = postQueries[1].isLoading;
