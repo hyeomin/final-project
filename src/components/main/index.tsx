@@ -33,6 +33,7 @@ function Main() {
     queryKey: ['topRanking'],
     queryFn: getTopRankingPosts
   });
+  console.log('topRanking',topRanking)
 
 
   // 망고 발행물 로딩

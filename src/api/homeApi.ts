@@ -45,12 +45,11 @@ const getTopRankingPosts = async () => {
   try {
     const q = query(collection(db, QUERY_KEYS.POSTS), where('role', '==', 'user'), orderBy('likeCount', 'desc'), limit(8));
     const querySnapshot = await getDocs(q);
-
     const posts: PostType[] = [];
     querySnapshot.forEach((doc) => {
       posts.push({ id: doc.id, ...doc.data() });
     });
-
+    console.log('인기 유저게시물 리스트===>', posts)
     return posts;
   } catch (error) {
     console.log(error);
