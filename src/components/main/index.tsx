@@ -5,7 +5,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { getAdminPosts, getTopRankingPosts } from '../../api/posts';
+import { getAdminPosts, getUserPosts } from '../../api/posts';
 import St from './style';
 import './swiperStyle.css';
 
@@ -22,7 +22,7 @@ function Main() {
   //탑랭킹
   const { isLoading: TopRankingIsLoading, data: topRanking } = useQuery({
     queryKey: ['topRanking'],
-    queryFn: getTopRankingPosts
+    queryFn: getUserPosts
   });
 
   //test

@@ -9,7 +9,7 @@ type PostType = {
   createdAt?: Date;
   updatedAt?: Date;
   hashtag?: null;
-  uid?: null;
+  uid?: string;
   likeCount?: number;
   likedUsers?: null;  
 };
