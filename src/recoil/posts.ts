@@ -20,18 +20,19 @@ const contentState = atom({
 
 const categoryState = atom({
   key: EDIT_INPUT_CATEGORY,
-  default: ''
+  default: 'noCategory'
 });
 
 const categoryListState = atom({
   key: EDIT_INPUT_CATEGORY_LIST,
   default: [
-    { id: 0, name: '카테고리 없음', isAdmin: false },
-    { id: 1, name: '제품 추천', isAdmin: false },
-    { id: 2, name: '노하우 공유', isAdmin: false },
-    { id: 3, name: '물품 나눔', isAdmin: false },
-    { id: 4, name: '관리자 게시물', isAdmin: true },
-    { id: 5, name: '뉴스룸', isAdmin: true }
+    { id: 0, nameEng: 'noCategory', nameKor: '카테고리 없음', isAdmin: false },
+    { id: 1, nameEng: 'recommendation', nameKor: '제품 추천', isAdmin: false },
+    { id: 2, nameEng: 'knowHow', nameKor: '노하우 공유', isAdmin: false },
+    { id: 3, nameEng: 'sharing', nameKor: '물품 나눔', isAdmin: false },
+    { id: 4, nameEng: 'habit', nameKor: '습관 기록', isAdmin: false },
+    { id: 5, nameEng: 'adminPost', nameKor: '관리자 게시물', isAdmin: true },
+    { id: 6, nameEng: 'newsRoom', nameKor: '뉴스룸', isAdmin: true }
   ]
 });
 

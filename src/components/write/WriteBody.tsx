@@ -37,7 +37,6 @@ function WriteBody() {
     role: 'user'
   };
 
-  console.log(auth.currentUser);
   if (auth.currentUser === null) {
     return <div></div>;
   }

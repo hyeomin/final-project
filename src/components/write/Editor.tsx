@@ -16,6 +16,12 @@ function Editor() {
 
   const quillRef = useRef<ReactQuill>(null);
 
+  const onChangeSelectHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedNameKor = event.target.value;
+    const selectedNameEng = categoryList.find((category) => category.nameKor === selectedNameKor);
+    setCategory(selectedNameEng ? selectedNameEng.nameEng : categoryList[0].nameEng);
+  };
+
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -38,12 +44,12 @@ function Editor() {
 
   return (
     <WritingArea>
-      <select value={category} onChange={(event) => setCategory(event.target.value)}>
+      <select value={category} onChange={onChangeSelectHandler}>
         <option value="" disabled hidden>
           카테고리
         </option>
         {categoryList.map((item) => {
-          return <option key={item.id}>{item.name}</option>;
+          return <option key={item.id}>{item.nameKor}</option>;
         })}
       </select>
       <input
