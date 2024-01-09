@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import St from './style';
 import { auth, storage } from '../../shared/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import Layout from '../../layouts/Layout';
 type Props = {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -18,6 +20,7 @@ function Login({ setIsSignUp }: Props) {
     setPassword(e.target.value);
   };
 
+  // 로그인
   const signIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -26,6 +29,13 @@ function Login({ setIsSignUp }: Props) {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  // 로그아웃
+  const logOut = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('logout');
+    await signOut(auth);
   };
 
   return (
@@ -40,6 +50,8 @@ function Login({ setIsSignUp }: Props) {
       </SingleInputContainer>
       <SingleInputContainer></SingleInputContainer>
       <button onClick={signIn}>로그인</button>
+      <button onClick={logOut}>로그아웃</button>
+
       <SignUpNavigation>
         <p>아직 회원이 아니신가요?</p>
         <button
