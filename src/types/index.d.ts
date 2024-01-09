@@ -11,7 +11,7 @@ type PostType = {
   hashtag?: null;
   uid?: string;
   likeCount?: number;
-  likedUsers?: null;  
+  likedUsers?: null;
 };
 
 type User = {
