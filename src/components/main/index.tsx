@@ -5,7 +5,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { getAdminPosts, getUserPosts } from '../../api/posts';
+import { getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
 import St from './style';
 import './swiperStyle.css';
 
@@ -13,24 +13,23 @@ function Main() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  //망고 발행물
+  //전체게시물
+  // const { data: posts } = useQuery({
+  //   queryKey: [QUERY_KEYS.POSTS],
+  //   queryFn: getPosts
+  // });
+
+  //망고
   const { isLoading: MangoIsLoading, data: createdByMango } = useQuery({
     queryKey: ['adminContents'],
-    queryFn: getAdminPosts
+    queryFn: getAdminHomeContents
   });
 
   //탑랭킹
   const { isLoading: TopRankingIsLoading, data: topRanking } = useQuery({
     queryKey: ['topRanking'],
-    queryFn: getUserPosts
+    queryFn: getTopRankingPosts
   });
-
-  //test
-  // const { isLoading, data } = useQuery({
-  //   queryKey: ['users'],
-  //   queryFn: getAdmins
-  // });
-  // console.log('get Admins', data![0])
 
   // 망고 발행물 로딩
   if (MangoIsLoading) {
@@ -49,6 +48,17 @@ function Main() {
   if (!topRanking || topRanking.length === 0) {
     return <div>No data found</div>;
   }
+
+  // 이미지 URL 가져오기
+  // const getImageUrl = async (postId: string) => {
+  //   const imageRef = ref(storage, `posts/${postId}`);
+  //   try {
+  //     return await getDownloadURL(imageRef);
+  //   } catch (error) {
+  //     console.error('Error', error);
+  //     return '';
+  //   }
+  // };
 
   // 각각 게시물 클릭시 detail로 이동
   const onClickMovToDetail = (id: string) => {
