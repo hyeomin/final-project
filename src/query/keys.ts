@@ -1,4 +1,8 @@
 export const QUERY_KEYS = {
   POSTS: 'posts',
-  SHARE: 'sharing'
+  ADMIN: 'admin',
+  KNOWHOW: 'knowHow',
+  RECOMMEND: 'recommend',
+  SHARE: 'sharing',
+  HABIT: 'habit'
 };
