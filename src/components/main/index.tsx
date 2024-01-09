@@ -1,9 +1,7 @@
 import St from './style';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import usePostsQuery from '../../query/usePostsQuery';
-import { getAdminPosts, getTopRankingPosts } from '../../api/posts';
+import { getAdminPosts, getAdmins, getTopRankingPosts } from '../../api/posts';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -14,13 +12,6 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 function Main() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-
-  const [content, setContent] = useState('');
-  const [title, setTitle] = useState('');
-  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
-  const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
-
-  const { addMutate } = usePostsQuery();
 
   //망고 발행물
   const { isLoading: MangoIsLoading, data: createdByMango } = useQuery({
@@ -34,6 +25,13 @@ function Main() {
     queryFn: getTopRankingPosts
   });
 
+  //test
+  // const { isLoading, data } = useQuery({
+  //   queryKey: ['users'],
+  //   queryFn: getAdmins
+  // });
+  // console.log('get Admins', data![0])
+
   // 망고 발행물 로딩
   if (MangoIsLoading) {
     return <div>Loading...</div>;
@@ -42,7 +40,6 @@ function Main() {
   if (!createdByMango || createdByMango.length === 0) {
     return <div>No data found</div>;
   }
-  // console.log('createdByMango ====>', createdByMango);
 
   // 탑랭킹 로딩
   if (TopRankingIsLoading) {
@@ -52,31 +49,8 @@ function Main() {
   if (!topRanking || topRanking.length === 0) {
     return <div>No data found</div>;
   }
-  // console.log('topRanking ====>', topRanking);
 
-  const onSubmitAddBtnClick = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const newPost: Post = {
-      title,
-      content,
-      coverUrl: '',
-      createdAt: Date.now(),
-      uid: 'test user',
-      category: 'admin',
-      likeCount: 31,
-      role: 'user',
-      profileImg: null
-    };
-    addMutate(newPost, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({
-          queryKey: ['posts'],
-          refetchType: 'active'
-        });
-      }
-    });
-  };
-
+// 각각 게시물 클릭시 detail로 이동
   const onClickMovToDetail = (id: string) => {
     navigate(`/detail/${id}`)
   }
@@ -87,12 +61,6 @@ function Main() {
 
   return (
     <St.Container>
-      <form onSubmit={onSubmitAddBtnClick}>
-        <input placeholder="dummy 추가용" value={title} onChange={onChangeTitle} type="text" />
-        <input placeholder="dummy 추가용" value={content} onChange={onChangeContent} type="text" />
-        <button type="submit">추가</button>
-      </form>
-
       <St.AdminContentsSection>
         <Swiper
           spaceBetween={30}
@@ -111,7 +79,7 @@ function Main() {
           {createdByMango?.map((item, idx) => {
             return (
               <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
-                <img src={item.coverUrl!} alt={`Slide ${idx}`} />
+                <img src={item.image!} alt={`Slide ${idx}`} />
               </SwiperSlide>
             );
           })}

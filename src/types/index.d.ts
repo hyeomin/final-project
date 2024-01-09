@@ -1,17 +1,26 @@
 declare module '*.jpg';
 declare module '*.png';
 
-//test
-type Post = {
+type PostType = {
   id?: string;
+  category?: string;
   title?: string;
   content?: string;
-  category?: string;
-  role?: string;
-  uid?: string;
-  createdAt?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+  hashtag?: null;
+  uid?: null;
   likeCount?: number;
-  role?: string;
+  likedUsers?: null;  
+};
+
+type User = {
+  id?: string;
+  name?: string;
+  password?: string;
+  email?: string;
+  uid?: string;
+  displayName?: string | null;
   profileImg?: string | null;
-  coverUrl?: string | null;
+  role?: string;
 };
