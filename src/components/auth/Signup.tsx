@@ -47,7 +47,6 @@ function Signup({ setIsSignUp }: Props) {
   return (
     <St.authWrapper>
       <St.profileImg src={defaultImg} alt="defaultImg" />
-
       <St.InputContainer>
         <span>아이디</span>
         <input value={email} onChange={onChangeEmailhandler} type="text" placeholder="아이디를 입력하세요." />
