@@ -1,16 +1,13 @@
-import St from './style';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { getAdminHomeContents, getPosts, getTopRankingPosts } from '../../api/homeApi';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import St from './style';
 import './swiperStyle.css';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import { storage } from '../../shared/firebase';
-import { getDownloadURL, ref } from 'firebase/storage';
-import { QUERY_KEYS } from '../../query/keys';
 
 function Main() {
   const queryClient = useQueryClient();
@@ -21,7 +18,7 @@ function Main() {
   //   queryKey: [QUERY_KEYS.POSTS],
   //   queryFn: getPosts
   // });
-  
+
   //망고
   const { isLoading: MangoIsLoading, data: createdByMango } = useQuery({
     queryKey: ['adminContents'],
@@ -34,7 +31,6 @@ function Main() {
     queryFn: getTopRankingPosts
   });
   console.log('topRanking',topRanking)
-
 
   // 망고 발행물 로딩
   if (MangoIsLoading) {
@@ -54,20 +50,18 @@ function Main() {
     return <div>No data found</div>;
   }
 
+  // 이미지 URL 가져오기
+  // const getImageUrl = async (postId: string) => {
+  //   const imageRef = ref(storage, `posts/${postId}`);
+  //   try {
+  //     return await getDownloadURL(imageRef);
+  //   } catch (error) {
+  //     console.error('Error', error);
+  //     return '';
+  //   }
+  // };
 
-// 이미지 URL 가져오기
-// const getImageUrl = async (postId: string) => {
-//   const imageRef = ref(storage, `posts/${postId}`);
-//   try {
-//     return await getDownloadURL(imageRef);
-//   } catch (error) {
-//     console.error('Error', error);
-//     return ''; 
-//   }
-// };
-
-
-// 각각 게시물 클릭시 detail로 이동
+  // 각각 게시물 클릭시 detail로 이동
   const onClickMovToDetail = (id: string) => {
     navigate(`/detail/${id}`);
   };

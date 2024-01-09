@@ -15,7 +15,6 @@
     "axios": "^1.6.4",
     "firebase": "^10.7.1",
     "moment": "^2.30.1",
-    "quill-image-resize-module-react": "^3.0.0",
     "react": "^18.2.0",
     "react-calendar": "^4.7.0",
     "react-dom": "^18.2.0",

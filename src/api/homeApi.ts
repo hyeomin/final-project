@@ -1,8 +1,8 @@
 //게시물 추가
-import { collection } from '@firebase/firestore';
-import { db } from '../shared/firebase';
-import { getDocs, query, where, orderBy, limit } from '@firebase/firestore';
+import { collection, getDocs, limit, orderBy, query, where } from '@firebase/firestore';
+import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
+import { db, storage } from '../shared/firebase';
 
 // 전체 게시물 가져오기
 const getPosts = async () => {
@@ -21,11 +21,15 @@ const getPosts = async () => {
   }
 };
 
-
 //created by Mango posts 가져오기
 const getAdminHomeContents = async () => {
   try {
-    const q = query(collection(db, QUERY_KEYS.POSTS), where('role', '==', 'admin'), orderBy('createdAt', 'desc'), limit(5));
+    const q = query(
+      collection(db, QUERY_KEYS.POSTS),
+      where('role', '==', 'admin'),
+      orderBy('createdAt', 'desc'),
+      limit(5)
+    );
     const querySnapshot = await getDocs(q);
 
     const posts: PostType[] = [];
@@ -43,7 +47,12 @@ const getAdminHomeContents = async () => {
 // //created by Mango posts 가져오기
 const getTopRankingPosts = async () => {
   try {
-    const q = query(collection(db, QUERY_KEYS.POSTS), where('role', '==', 'user'), orderBy('likeCount', 'desc'), limit(8));
+    const q = query(
+      collection(db, QUERY_KEYS.POSTS),
+      where('role', '==', 'user'),
+      orderBy('likeCount', 'desc'),
+      limit(8)
+    );
     const querySnapshot = await getDocs(q);
     const posts: PostType[] = [];
     querySnapshot.forEach((doc) => {
@@ -57,6 +66,26 @@ const getTopRankingPosts = async () => {
   }
 };
 
+const downloadImageURL = async (postId: string) => {
+  try {
+    const listRef = ref(storage, `posts/${postId}`);
+    const res = await listAll(listRef);
+    console.log('리스폰스', res);
+    if (res.items.length > 0) {
+      const firstFileRef = res.items[0];
+      const url = await getDownloadURL(firstFileRef);
+      console.log(url);
+      return url;
+    } else {
+      console.log('No files found in the directory');
+    }
+  } catch (error) {
+    console.error('Error getting files: ', error);
+    return;
+  }
+};
 
-
-export { getPosts, getAdminHomeContents, getTopRankingPosts};
+export { downloadImageURL, getAdminHomeContents, getPosts, getTopRankingPosts };
+function setUrl(url: string) {
+  throw new Error('Function not implemented.');
+}

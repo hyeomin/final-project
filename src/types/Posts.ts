@@ -9,12 +9,12 @@ export interface Posts {
   uid: string;
 }
 
-export type PostType = {
+export type PostType2 = {
   category: string;
   id: string;
   title: string;
   content: string;
-  uid: null;
+  uid: string;
   hashtag: null;
   createdAt: number;
   updatedAt: number;
