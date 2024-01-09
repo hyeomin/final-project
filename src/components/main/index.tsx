@@ -17,10 +17,10 @@ function Main() {
   const navigate = useNavigate();
 
   //전체게시물
-  const { data: posts } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getPosts
-  });
+  // const { data: posts } = useQuery({
+  //   queryKey: [QUERY_KEYS.POSTS],
+  //   queryFn: getPosts
+  // });
   
   //망고
   const { isLoading: MangoIsLoading, data: createdByMango } = useQuery({
@@ -55,15 +55,15 @@ function Main() {
 
 
 // 이미지 URL 가져오기
-const getImageUrl = async (postId: string) => {
-  const imageRef = ref(storage, `posts/${postId}`);
-  try {
-    return await getDownloadURL(imageRef);
-  } catch (error) {
-    console.error('Error', error);
-    return ''; 
-  }
-};
+// const getImageUrl = async (postId: string) => {
+//   const imageRef = ref(storage, `posts/${postId}`);
+//   try {
+//     return await getDownloadURL(imageRef);
+//   } catch (error) {
+//     console.error('Error', error);
+//     return ''; 
+//   }
+// };
 
 
 // 각각 게시물 클릭시 detail로 이동

@@ -22,8 +22,7 @@ const getPosts = async () => {
 };
 
 
-
-// //created by Mango posts 가져오기
+//created by Mango posts 가져오기
 const getAdminHomeContents = async () => {
   try {
     const q = query(collection(db, QUERY_KEYS.POSTS), where('role', '==', 'admin'), orderBy('createdAt', 'desc'), limit(5));
