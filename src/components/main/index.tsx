@@ -1,7 +1,7 @@
 import St from './style';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { getAdminPosts, getAdmins, getTopRankingPosts } from '../../api/posts';
+import { getAdminPosts, getUserPosts } from '../../api/posts';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -22,7 +22,7 @@ function Main() {
   //탑랭킹
   const { isLoading: TopRankingIsLoading, data: topRanking } = useQuery({
     queryKey: ['topRanking'],
-    queryFn: getTopRankingPosts
+    queryFn: getUserPosts
   });
 
   //test
@@ -79,7 +79,7 @@ function Main() {
           {createdByMango?.map((item, idx) => {
             return (
               <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
-                <img src={''} alt={`Slide ${idx}`} />
+                <img src={item.image!} alt={`Slide ${idx}`} />
               </SwiperSlide>
             );
           })}
