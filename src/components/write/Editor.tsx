@@ -1,10 +1,15 @@
 import { useMemo, useRef } from 'react';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { contentState, titleState } from '../../recoil/posts';
 import SelectCategory from './SelectCategory';
 import imageHandler from './imageHandler';
+
+import { ImageActions } from '@xeger/quill-image-actions';
+import { ImageFormats } from '@xeger/quill-image-formats';
+
+import 'react-quill/dist/quill.snow.css';
 
 function Editor() {
   const TITLE = 'title';
@@ -13,9 +18,13 @@ function Editor() {
   const [content, setContent] = useRecoilState(contentState);
 
   const quillRef = useRef<ReactQuill>(null);
+  Quill.register('modules/imageActions', ImageActions);
+  Quill.register('modules/imageFormats', ImageFormats);
 
   const modules = useMemo(() => {
     return {
+      imageActions: {},
+      imageFormats: {},
       toolbar: {
         container: [
           [{ header: [1, 2, 3, false] }],
@@ -27,10 +36,33 @@ function Editor() {
         ],
         handlers: {
           image: () => imageHandler(quillRef)
+        },
+        ImageResize: {
+          modules: ['Resize']
         }
       }
     };
   }, []);
+
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'indent',
+    'link',
+    'image',
+    'align',
+    'color',
+    'background',
+    'float',
+    'height',
+    'width'
+  ];
 
   const editorStyle = { height: '600px', maxHeight: '800px' };
 
@@ -50,6 +82,7 @@ function Editor() {
           value={content}
           onChange={setContent}
           modules={modules}
+          formats={formats}
           ref={quillRef}
         />
       </EditorContainer>
