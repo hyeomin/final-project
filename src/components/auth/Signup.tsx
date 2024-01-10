@@ -1,15 +1,11 @@
-import React, { useRef } from 'react';
-import { useEffect, useState } from 'react';
-import St from './style';
-import { auth, db, storage } from '../../shared/firebase';
-import { getAuth, updateProfile } from 'firebase/auth';
-import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-
-type Props = {
-  setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
-};
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { isSignUpState } from '../../recoil/users';
+import { auth, db } from '../../shared/firebase';
+import St from './style';
 
 type Data = {
   email: string;
@@ -20,13 +16,15 @@ type Data = {
   role?: string;
 };
 
-function Signup({ setIsSignUp }: Props) {
+function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
   const [image, setImage] = useState('');
+
+  const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
 
   const onChangeEmailhandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
