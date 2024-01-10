@@ -1,7 +1,3 @@
-import { useQueries, useQuery } from '@tanstack/react-query';
-import { QUERY_KEYS } from '../../query/keys';
-import { downloadImageURL, getPosts } from '../../api/homeApi';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 type Props = {

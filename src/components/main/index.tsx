@@ -1,7 +1,7 @@
 import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import { downloadDefaultImage, downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
 import St from './style';
 import { GoHeart } from 'react-icons/go';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -45,6 +45,14 @@ function Main() {
       })) || []
   });
 
+  //default 이미지
+  const {
+    data: defaultImage
+  } = useQuery({
+    queryKey: ['defaultImageURL'],
+    queryFn: () => downloadDefaultImage({folder: 'default', imageName: 'homeDefault.jpg'})
+  });
+
   const { updateMutate } = usePostsQuery();
 
   const isLoadingAdminContents = postQueries[0].isLoading;
@@ -79,14 +87,12 @@ function Main() {
     navigate('/viewAll');
   };
 
-  //id 타입에 undefined들어가야하는 이유?
   const onClickLikeButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string | undefined) => {
     e.stopPropagation();
     if (id) {
       // 'id'만 있는 PostType 객체생성
       const postToUpdate: PostType = { id };
       updateMutate(postToUpdate, {
-        // 왜 invalidateQueries가 안되는 걸까 -- 해결
         onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEYS.USERPOSTS],
@@ -162,28 +168,26 @@ function Main() {
                 const imageQuery = imageQueries[idx];
                 return (
                   <SwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
+                    <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
+                      {/* item.LikedUsers 배열 안에 currentUserId가 있을 경우 HeartFillIcon                            */}
+                      {item.likedUsers?.includes(currentUser!) ? (
+                        <>
+                          <St.HeartFillIcon />
+                          <p>{item.likedUsers?.length}</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>{item.likedUsers?.length}</p>
+                          <St.HeartIcon />
+                        </>
+                      )}
+                    </St.LikeButton>
                     {imageQuery.isLoading ? (
                       <p>Loading image...</p>
+                    ) : imageQuery.data ? (
+                      <img src={imageQuery.data} alt={item.title} />
                     ) : (
-                      imageQuery.data && (
-                        <>
-                          <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                            {/* item.LikedUsers 배열 안에 currentUserId가 있을 경우 HeartFillIcon                            */}
-                            {item.likedUsers?.includes(currentUser!) ? (
-                              <>
-                                <St.HeartFillIcon />
-                                <p>{item.likedUsers?.length}</p>
-                              </>
-                            ) : (
-                              <>
-                                <p>{item.likedUsers?.length}</p>
-                                <St.HeartIcon />
-                              </>
-                            )}
-                          </St.LikeButton>
-                          <img src={imageQuery.data} alt={item.title} />
-                        </>
-                      )
+                      <img src={defaultImage!} alt="default image" />
                     )}
                   </SwiperSlide>
                 );

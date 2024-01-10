@@ -5,7 +5,7 @@ type Props = {
   post: PostType;
 };
 const Comment = ({ post }: Props) => {
-  console.log('현재 포스트 정보', post);
+  // console.log('현재 포스트 정보', post);
 
 
   return (
