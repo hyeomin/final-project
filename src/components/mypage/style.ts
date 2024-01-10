@@ -3,6 +3,9 @@ import 'react-calendar/dist/Calendar.css';
 import defaultImg from '../../assets/defaultImg.jpg';
 
 const Wrapper = styled.div`
+  max-width: 1440px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,7 +14,6 @@ const Wrapper = styled.div`
 `;
 
 const ProfileEditWrapper = styled.div`
-  width: 80%;
   height: 250px;
   margin: 20px;
   padding: 20px;
@@ -41,19 +43,26 @@ const FileImgUpload = styled.button``;
 const DisplayNameModify = styled.input``;
 
 const MyImage = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
 `;
 const MyNickname = styled.h1`
   font-size: 20px;
 `;
 
+const MyEmail = styled.h4``;
+
+const EmailAndName = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const EditBtn = styled.button``;
 
 const Tabs = styled.div`
-  width: 80%;
-  height: 500px;
+  width: 100%;
+  height: 100%;
   margin: 20px;
   padding: 20px;
   background-color: lightgray;
@@ -100,41 +109,42 @@ const MySectionWrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   width: 80%;
-  height: 600px;
+  height: 100%;
   margin: 20px 20px 20px;
   padding: 20px;
   background-color: white;
 `;
 
 const MyPostsWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
   justify-content: center;
   align-items: center;
   gap: 20px;
 `;
 
-const MyPosts = styled.div`
-  display: flex;
-  /* flex-direction: column; */
-  justify-content: center;
-`;
-
 const MyPostImg = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid white;
-  width: 220px;
-  height: 170px;
+
   margin-top: 20px;
+
+  img {
+    object-fit: cover;
+    width: 280px;
+    height: 300px;
+  }
 `;
 const MyPostTextBox = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  place-items: center;
 `;
 
 const PostText = styled.div`
-  width: 200px;
+  width: 300px;
+  height: 350px;
+  margin-bottom: 20px;
 `;
 //--------------------------------------------
 // LikesPosts
@@ -169,7 +179,9 @@ export default {
   ProfileEditWrapper,
   MySectionWrapper,
   MyImage,
+  EmailAndName,
   MyNickname,
+  MyEmail,
   Wrapper,
   UserInfo,
   EditBtn,
@@ -182,7 +194,6 @@ export default {
   StyleCalendar,
   MyPostsWrapper,
   MyPostImg,
-  MyPosts,
   MyPostTextBox,
   LikesWrapper,
   MyLikes,

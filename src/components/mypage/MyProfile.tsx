@@ -124,8 +124,11 @@ function MyProfile() {
           <St.UserInfo>
             {/* <St.MyImage src={auth.currentUser?.photoURL! || defaultImg} alt="defaultImg" /> */}
             <St.profileImg src={previewImage || defaultImg} alt="img" style={{ width: '100px', height: '100px' }} />
-            <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
-            {/* {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px' }} />} */}
+            <St.EmailAndName>
+              <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
+              <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>
+            </St.EmailAndName>
+
             <St.UserInfoModify>
               <St.FileInput style={{ border: '1px solid black' }} type="file" onChange={onChangeUpload} />
               <St.FileImgUpload onClick={onClickUpload}>업로드</St.FileImgUpload>
