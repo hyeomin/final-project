@@ -1,28 +1,37 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
+import HowToUse from './HowToUse';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import NewsRoom from './NewsRoom';
+
+type Section = '이용안내' | '뉴스룸' | '지금 시작하기';
+
 function AboutMain() {
+  const HOWTOUSE = '이용안내';
+  const NEWSROOM = '뉴스룸';
+  const GETSTARTED = '지금 시작하기';
+
+  const [openSection, setOpenSection] = useState<Section>(HOWTOUSE);
+
+  const onOpenToggleHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const buttonName = event.currentTarget.textContent as Section;
+    setOpenSection(buttonName);
+  };
+
   return (
     <AboutMainContainer>
       <NavBar>
-        <button>이용안내</button>
-        <button>뉴스룸</button>
-        <button>지금 시작하기</button>
+        <button onClick={onOpenToggleHandler}>이용안내</button>
+        <button onClick={onOpenToggleHandler}>뉴스룸</button>
+        <button onClick={onOpenToggleHandler}>지금 시작하기</button>
       </NavBar>
-      <HowtoUse>
-        <div>
-          <p>oo의시작 ! 작은 것부터 실천하자!</p>
-          <p>사람들이 친환경 습관을 관리하고 자신의 친환경 습관과 노하우를 사람들과 공유할 수 있는 커뮤니티</p>
-        </div>
-        <HowtoUseNavBar>
-          <button>게시글 올리기</button>
-          <button>다른 사람 게시글 확인</button>
-          <button>캘린더로 습관 관리</button>
-        </HowtoUseNavBar>
-        <p>이용 설명 요기</p>
-        <div>이용안내 이미지 요기</div>
-      </HowtoUse>
-      {/* <NewsRoom>뉴스룸</NewsRoom>
-        <StartNow>지금 시작하기</StartNow> */}
+      {openSection === HOWTOUSE && <HowToUse />}
+      {openSection === NEWSROOM && <NewsRoom />}
+      {openSection === GETSTARTED && <StartNow>지금 시작하기</StartNow>}
     </AboutMainContainer>
   );
 }
@@ -46,34 +55,10 @@ const NavBar = styled.div`
   column-gap: 10px;
 
   background-color: lightblue;
-`;
-
-const HowtoUse = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: 10px;
-
-  padding: 10px;
-  background-color: lightblue;
-
-  & p {
-    padding: 10px;
-    text-align: center;
-    background-color: pink;
-  }
-`;
-
-const HowtoUseNavBar = styled.div`
-  display: flex;
-  column-gap: 10px;
 
   & button {
-    width: 150px;
+    width: 140px;
   }
-`;
-const NewsRoom = styled.div`
-  background-color: lightblue;
 `;
 
 const StartNow = styled.div`
