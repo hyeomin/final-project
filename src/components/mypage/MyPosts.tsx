@@ -1,11 +1,12 @@
 import React from 'react';
 import St from './style';
-import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
 
 import { getMyPosts } from '../../api/myPostAPI';
 import { QUERY_KEYS } from '../../query/keys';
 import { auth } from '../../shared/firebase';
+import { collection } from 'firebase/firestore';
 
 // 내 게시물 가져오기
 const MyPosts = () => {
@@ -44,29 +45,42 @@ const MyPosts = () => {
   // console.log('ddd', imageQueries);
   // console.log('eee', userPosts);
 
+  //useInfiniteQuery 더보기 구현
+
+  // const {
+  //   data: posts,
+  //   fetchNextPage,
+  //   hasNextPage,
+  //   isLoading,
+  //   isError,
+  //   error
+  // } = useInfiniteQuery({
+  //   queryKey: [QUERY_KEYS.POSTS],
+  //   queryFn: async ({ pageParam }) => {
+  //     console.log('pageParam', pageParam);
+  //     const ref = collection(db, 'posts')
+  //   }
+  // });
+
   return (
     <div>
       MyPosts
       <St.MyPostsWrapper>
-        {/* <St.MyPosts> */}
-        {/* <St.MyPostImg></St.MyPostImg> */}
         <St.MyPostTextBox>
           {posts &&
             posts?.map((post) => {
               if (post.uid === auth.currentUser?.uid) {
                 return (
                   <St.PostText>
-                    {/* 제목이랑 content 순서 바껴야 함 */}
+                    {/* 제목이랑 content 순서 바뀌어야 함 */}
                     <St.MyPostImg dangerouslySetInnerHTML={{ __html: post?.content as string }} />
                     <div>{post.title}</div>
-
-                    {/* <div>{post.content}</div>; */}
                   </St.PostText>
                 );
               }
             })}
         </St.MyPostTextBox>
-        {/* </St.MyPosts> */}
+        <button style={{ width: '100px', height: '50px;' }}>more</button>
       </St.MyPostsWrapper>
     </div>
   );

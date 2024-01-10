@@ -13,6 +13,7 @@ type PostType = {
   likeCount?: number;
   likedUsers?: string[];
   isLike?: boolean;
+  data?: string[];
 };
 
 type User = {

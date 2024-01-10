@@ -1,7 +1,9 @@
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, DocumentData } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
 import { db } from '../shared/firebase';
 import { getAuth } from 'firebase/auth';
+import { useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 // 로그인한 유저 uid 일치하는 posts 가져오기
 
