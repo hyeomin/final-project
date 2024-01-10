@@ -24,8 +24,21 @@ const UserInfo = styled.div`
   align-items: center;
   text-align: center;
   margin-top: 20px;
-  gap: 100px;
+  gap: 20px;
 `;
+
+const profileImg = styled.img`
+  border-radius: 50%;
+`;
+
+const UserInfoModify = styled.div``;
+const FileInput = styled.input`
+  border: 1px solid black;
+`;
+
+const FileImgUpload = styled.button``;
+
+const DisplayNameModify = styled.input``;
 
 const MyImage = styled.img`
   width: 150px;
@@ -168,5 +181,10 @@ export default {
   LikesWrapper,
   MyLikes,
   LikesPostImg,
-  LikesPostText
+  LikesPostText,
+  profileImg,
+  FileInput,
+  FileImgUpload,
+  DisplayNameModify,
+  UserInfoModify
 };
