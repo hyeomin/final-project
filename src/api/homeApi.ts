@@ -71,11 +71,9 @@ const downloadImageURL = async (postId: string) => {
   try {
     const listRef = ref(storage, `posts/${postId}`);
     const res = await listAll(listRef);
-    console.log('리스폰스', res);
     if (res.items.length > 0) {
       const firstFileRef = res.items[0];
       const url = await getDownloadURL(firstFileRef);
-      console.log(url);
       return url;
     } else {
       console.log('No files found in the directory');

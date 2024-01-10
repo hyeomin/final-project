@@ -15,10 +15,17 @@ export type PostType2 = {
   title: string;
   content: string;
   uid: string;
-  hashtag: null;
+  hashtags: string[];
   createdAt: number;
   updatedAt: number;
   likeCount: number;
   likedUsers: null;
   role: string;
+};
+
+export type CategoryType = {
+  id: number;
+  nameEng: string;
+  nameKor: string;
+  isAdmin: boolean;
 };

@@ -1,26 +1,18 @@
 import { useMemo, useRef } from 'react';
 import ReactQuill from 'react-quill';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { categoryListState, categoryState, contentState, titleState } from '../../recoil/posts';
+import { contentState, titleState } from '../../recoil/posts';
+import SelectCategory from './SelectCategory';
 import imageHandler from './imageHandler';
 
 function Editor() {
   const TITLE = 'title';
 
-  const [category, setCategory] = useRecoilState(categoryState);
   const [title, setTitle] = useRecoilState(titleState);
   const [content, setContent] = useRecoilState(contentState);
 
-  const categoryList = useRecoilValue(categoryListState);
-
   const quillRef = useRef<ReactQuill>(null);
-
-  const onChangeSelectHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedNameKor = event.target.value;
-    const selectedNameEng = categoryList.find((category) => category.nameKor === selectedNameKor);
-    setCategory(selectedNameEng ? selectedNameEng.nameEng : categoryList[0].nameEng);
-  };
 
   const modules = useMemo(() => {
     return {
@@ -40,18 +32,11 @@ function Editor() {
     };
   }, []);
 
-  const editorStyle = { height: '600px', overflow: 'auto' };
+  const editorStyle = { height: '600px', maxHeight: '800px' };
 
   return (
     <WritingArea>
-      <select value={category} onChange={onChangeSelectHandler}>
-        <option value="" disabled hidden>
-          카테고리
-        </option>
-        {categoryList.map((item) => {
-          return <option key={item.id}>{item.nameKor}</option>;
-        })}
-      </select>
+      <SelectCategory />
       <input
         name={TITLE}
         value={title}
@@ -91,5 +76,9 @@ const WritingArea = styled.div`
 `;
 
 const EditorContainer = styled.div`
-  padding: 10px 0;
+  overflow: hidden;
+
+  .ql-editor {
+    font-size: 18px; // Set your desired default font size here
+  }
 `;
