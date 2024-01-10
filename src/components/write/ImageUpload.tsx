@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
+import styled from 'styled-components';
 import { coverImageState } from '../../recoil/posts';
 
 function ImageUpload() {
@@ -31,19 +32,30 @@ function ImageUpload() {
     <div>
       <input type="file" multiple onChange={onAddImageHandler} style={{ display: 'none' }} ref={fileInputRef} />
       <button onClick={handleButtonClick}>커버 이미지 업로드</button>
-      <section>
+      <PreviewContainer>
         {coverImageList.map((file, id) => {
           const imageUrl = URL.createObjectURL(file);
           return (
             <div key={id}>
-              <img src={imageUrl} alt={`${file.name}-${id}`} />
+              <PreviewImage src={imageUrl} alt={`${file.name}-${id}`} />
               <button onClick={() => onDeletePreview(id)}>삭제</button>
             </div>
           );
         })}
-      </section>
+      </PreviewContainer>
     </div>
   );
 }
 
 export default ImageUpload;
+
+const PreviewContainer = styled.section`
+  display: flex;
+  column-gap: 20px;
+`;
+
+const PreviewImage = styled.img`
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+`;
