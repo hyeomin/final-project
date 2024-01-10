@@ -1,9 +1,8 @@
-import { addDoc, collection } from 'firebase/firestore';
-import { ref, uploadBytes } from 'firebase/storage';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { coverImageState, titleState } from '../../recoil/posts';
-import { db, storage } from '../../shared/firebase';
+import { addPost } from '../../api/postApi';
+import { contentState, coverImageState, hashtagState, titleState } from '../../recoil/posts';
 import { PostType2 } from '../../types/Posts';
 
 type Props = {
@@ -13,31 +12,33 @@ type Props = {
 function SubmitButton({ newPost }: Props) {
   const [coverImageList, setCoverImageList] = useRecoilState(coverImageState);
   const [title, setTitle] = useRecoilState(titleState);
+  const [content, setContent] = useRecoilState(contentState);
+  const [hashtags, setHashtags] = useRecoilState(hashtagState);
 
   const navigate = useNavigate();
 
+  const queryClient = useQueryClient();
+  const addMutation = useMutation({
+    mutationFn: () => addPost({ newPost, coverImageList }),
+    onSuccess: (postId) => {
+      queryClient.invalidateQueries({ queryKey: ['addPost'] });
+      setTitle('');
+      setContent('');
+      setHashtags([]);
+      navigate(`/detail/${postId}`);
+    }
+  });
+
   const onSubmitHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-
-    const confirmation = window.confirm('등록하시겠습니까?');
-    if (!confirmation) {
+    if (title.length === 0) {
+      window.alert('제목 입력은 필수입니다.');
       return;
+    } else {
+      const confirmation = window.confirm('등록하시겠습니까?');
+      if (!confirmation) return;
     }
-
-    try {
-      const docRef = await addDoc(collection(db, 'posts'), newPost);
-      console.log('Document written with ID: ', docRef.id);
-      const postId = docRef.id;
-
-      for (const file of coverImageList) {
-        const imageRef = ref(storage, `posts/${postId}/${file.name}`);
-        await uploadBytes(imageRef, file);
-      }
-      setTitle('');
-      navigate(`/detail/${postId}`);
-    } catch (error) {
-      console.error('Error adding document: ', error);
-    }
+    addMutation.mutate();
   };
 
   return (

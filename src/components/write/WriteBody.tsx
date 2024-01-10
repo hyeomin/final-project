@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { categoryState, contentState, titleState } from '../../recoil/posts';
+import { categoryState, contentState, hashtagState, titleState } from '../../recoil/posts';
+import { roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import Editor from './Editor';
 import Hashtag from './Hashtag';
@@ -14,15 +13,8 @@ function WriteBody() {
   const [category, setCategory] = useRecoilState(categoryState);
   const [title, setTitle] = useRecoilState(titleState);
   const [content, setContent] = useRecoilState(contentState);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (auth.currentUser === null) {
-      window.alert('유저 정보가 없습니다.');
-      navigate('/');
-    }
-  }, [navigate]);
+  const [hashtags, setHashtags] = useRecoilState(hashtagState);
+  const role = useRecoilValue(roleState);
 
   const newPost = {
     category,
@@ -30,16 +22,12 @@ function WriteBody() {
     content,
     createdAt: Date.now(),
     updatedAt: Date.now(),
-    hashtag: null,
+    hashtags,
     uid: auth.currentUser!.uid,
     likeCount: 0,
     likedUsers: null,
-    role: 'user'
+    role
   };
-
-  if (auth.currentUser === null) {
-    return <div></div>;
-  }
 
   return (
     <Container>
