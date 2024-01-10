@@ -5,5 +5,6 @@ export const QUERY_KEYS = {
   KNOWHOW: 'knowHow',
   RECOMMEND: 'recommend',
   SHARE: 'sharing',
-  HABIT: 'habit'
+  HABIT: 'habit',
+  USERPOSTS: 'userPosts',
 };
