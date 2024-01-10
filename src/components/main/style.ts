@@ -34,7 +34,7 @@ const PrevNextBottons = styled.div`
   height: 100%;
   gap: 87%; // gap말고 다른 스타일 속성 사용해야할듯
 `;
-const TopRankingPosts = styled.section`
+const userPostsPosts = styled.section`
   /* background-color: #f5e1ab; */
   display: flex;
   flex-direction: column;
@@ -103,7 +103,7 @@ export default {
   Container,
   AdminContentsSection,
   PrevNextBottons,
-  TopRankingPosts,
+  userPostsPosts,
   Title,
   // Nav,
   PostsSlide,
