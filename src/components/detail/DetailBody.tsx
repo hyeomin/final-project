@@ -17,7 +17,6 @@ function DetailBody() {
   });
 
 
-
   return (
     <div>
       <div>
