@@ -1,30 +1,23 @@
 import { atom } from 'recoil';
-import {
-  EDIT_COVER_IMAGE,
-  EDIT_INPUT_CATEGORY,
-  EDIT_INPUT_CATEGORY_LIST,
-  EDIT_INPUT_CONTENT,
-  EDIT_INPUT_HASTAG,
-  EDIT_INPUT_TITLE
-} from './keys';
+import { EDIT_INPUT } from './keys';
 
 const titleState = atom({
-  key: EDIT_INPUT_TITLE,
+  key: EDIT_INPUT.TITLE,
   default: ''
 });
 
 const contentState = atom({
-  key: EDIT_INPUT_CONTENT,
+  key: EDIT_INPUT.CONTENT,
   default: ''
 });
 
 const categoryState = atom({
-  key: EDIT_INPUT_CATEGORY,
+  key: EDIT_INPUT.CATEGORY,
   default: 'noCategory'
 });
 
 const categoryListState = atom({
-  key: EDIT_INPUT_CATEGORY_LIST,
+  key: EDIT_INPUT.CATEGORY_LIST,
   default: [
     { id: 0, nameEng: 'noCategory', nameKor: '카테고리 없음', isAdmin: false },
     { id: 1, nameEng: 'recommendation', nameKor: '제품 추천', isAdmin: false },
@@ -37,12 +30,12 @@ const categoryListState = atom({
 });
 
 const hashtagState = atom<string[]>({
-  key: EDIT_INPUT_HASTAG,
+  key: EDIT_INPUT.HASHTAGS,
   default: []
 });
 
 const coverImageState = atom<File[]>({
-  key: EDIT_COVER_IMAGE,
+  key: EDIT_INPUT.COVER_IMAGE,
   default: []
 });
 
