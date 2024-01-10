@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { GoHeart } from 'react-icons/go';
+import { GoHeartFill } from 'react-icons/go';
 
 const Container = styled.div`
   /* background-color: #fcad92;  */
@@ -79,6 +81,24 @@ const ThumbnailsBox = styled.div`
   height: 300px;
 `;
 
+const LikeButton = styled.button`
+  border: none;
+  background: none;
+`;
+const HeartIcon = styled(GoHeart)`
+  background-color: blue;
+  color: white;
+  font-size: 26px;
+  cursor: pointer;
+`;
+
+const HeartFillIcon = styled(GoHeartFill)`
+  background-color: blue;
+  color: red;
+  font-size: 26px;
+  cursor: pointer;
+`;
+
 export default {
   Container,
   AdminContentsSection,
@@ -87,5 +107,8 @@ export default {
   Title,
   // Nav,
   PostsSlide,
-  ThumbnailsBox
+  ThumbnailsBox,
+  LikeButton,
+  HeartIcon,
+  HeartFillIcon
 };
