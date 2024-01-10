@@ -1,8 +1,20 @@
 //게시물 추가
-import { collection, getDocs, limit, orderBy, query, where } from '@firebase/firestore';
+import {
+  collection,
+  getDoc,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  where,
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove
+} from '@firebase/firestore';
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
-import { db, storage } from '../shared/firebase';
+import { auth, db, storage } from '../shared/firebase';
 
 // 전체 게시물 가져오기
 const getPosts = async () => {
@@ -78,7 +90,7 @@ const downloadImageURL = async (postId: string) => {
       const url = await getDownloadURL(firstFileRef);
       return url;
     } else {
-      console.log('No files found in the directory');
+      // console.log('No files found in the directory');
       return '';
     }
   } catch (error) {
@@ -87,7 +99,45 @@ const downloadImageURL = async (postId: string) => {
   }
 };
 
-export { downloadImageURL, getAdminHomeContents, getPosts, getTopRankingPosts };
+// // 좋아요 상태 변경
+const updateLikedUsers = async (post: PostType) => {
+  const currentUserId = auth.currentUser?.uid;
+  try {
+    //post.id와 현재 로그인 유저정보 존재여부 확인
+    if (post.id && currentUserId) {
+      const postRef = doc(db, QUERY_KEYS.POSTS, post.id);
+      const postSnap = await getDoc(postRef);
+      console.log('postSnap ??==>', postSnap.exists());
+      console.log('postSnap==>', postSnap.data());
+      // post.id 값에 해당하는 post 존재여부 확인
+      if (postSnap.exists()) {
+        const postData = postSnap.data();
+        const likedUsers = postData.likedUsers || [];
+        //해당 post를 좋아하는 유저 리스트에 currentUserId가 있는지 확인
+        if (likedUsers.includes(currentUserId)) {
+          await updateDoc(postRef, {
+            likedUsers: arrayRemove(currentUserId)
+          });
+          console.log('좋아요 취소!')
+        } else {
+          // currentUserId가 likedUsers에 없으면 추가
+          await updateDoc(postRef, {
+            likedUsers: arrayUnion(currentUserId)
+          });
+          console.log('좋아요!')
+        }
+        
+      } else {
+        console.log('Error: post.id가 없습니다.');
+      }
+    }
+  } catch (error) {
+    console.log('error', error);
+  }
+};
+
+export { getAdminHomeContents, getPosts, getTopRankingPosts, downloadImageURL, updateLikedUsers };
+
 // function setUrl(url: string) {
 //   throw new Error('Function not implemented.');
 // }
@@ -113,12 +163,11 @@ export { downloadImageURL, getAdminHomeContents, getPosts, getTopRankingPosts };
 //   }
 // };
 
-
 // admin 작성 게시물 가져오기
 // const getAdminPosts = async () => {
 //   const adminIds = await getAdmins();
 //   const postsRef = collection(db, QUERY_KEYS.POSTS);
-  
+
 //   const promises = adminIds.map((adminId) => {
 //     const q = query(postsRef, where('uid', '==', adminId), orderBy('createdAt', 'desc'), limit(5));
 //     return getDocs(q);
@@ -153,11 +202,10 @@ export { downloadImageURL, getAdminHomeContents, getPosts, getTopRankingPosts };
 //   }
 // };
 
-
 //user 작성 게시물 가져오기 (좋아요수 기준)
 // const getUserPosts = async () => {
 //   const userIds = await getUsers();
-  
+
 //   const postsRef = collection(db, QUERY_KEYS.POSTS);
 //   const promises = userIds.map((userId) => {
 //     const q = query(postsRef, where('uid', '==', userId), orderBy('likeCount', 'desc'), limit(8));
