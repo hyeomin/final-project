@@ -1,114 +1,117 @@
 import St from './style';
 import defaultImg from '../../assets/defaultImg.jpg';
-import { useQuery } from '@tanstack/react-query';
+import { InfiniteData, QueryFunctionContext, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { getAdminPostList, getHabitList, getRecommendList, getShareList, getknowHowList } from '../../api/pageListApi';
 import { QUERY_KEYS } from '../../query/keys';
 import { useEffect, useState } from 'react';
 import usePaginatedItem from '../../hooks/usePaginatedItem';
+import { DocumentData, collection, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore';
+import { db } from '../../shared/firebase';
+
+interface AdminPostListResponse {
+  items: PostType[];
+  nextCursor?: string;
+}
 
 function ViewAllBody() {
-  const [selectCategory, setSelectCategory] = useState<PostType[]>([]);
-  console.log(selectCategory);
-  const adminQuery = useQuery({ queryKey: [QUERY_KEYS.ADMIN], queryFn: getAdminPostList });
+  // const [selectCategory, setSelectCategory] = useState<PostType[]>([]);
+
+  //const adminQuery = useQuery({ queryKey: [QUERY_KEYS.ADMIN], queryFn: getAdminPostList });
   const knowHowQuery = useQuery({ queryKey: [QUERY_KEYS.KNOWHOW], queryFn: getknowHowList });
   const recommendQuery = useQuery({ queryKey: [QUERY_KEYS.RECOMMEND], queryFn: getRecommendList });
   const shareQuery = useQuery({ queryKey: [QUERY_KEYS.SHARE], queryFn: getShareList });
   const habitQuery = useQuery({ queryKey: [QUERY_KEYS.HABIT], queryFn: getHabitList });
 
-  useEffect(() => {
-    if (knowHowQuery.data) {
-      setSelectCategory(knowHowQuery.data);
+  // let formattedDate = new Intl.DateTimeFormat('ko-KR', {
+  //   dateStyle: 'full',
+  //   timeStyle: 'short'
+  // }).format(new Date());
+
+  const [lastVisible, setLastVisible] = useState<DocumentData | null>(null);
+
+  const {
+    data: admin,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isError,
+    error
+  } = useInfiniteQuery({
+    queryKey: [QUERY_KEYS.ADMIN],
+    queryFn: async ({ pageParam }) => {
+      console.log('pageParam', pageParam);
+      const Ref = collection(db, 'test');
+
+      const q = lastVisible
+        ? query(
+            collection(db, 'test'),
+            where('role', '==', 'admin'),
+            //orderBy('createdAt', 'desc'),
+            startAfter(lastVisible),
+            limit(4)
+          )
+        : query(collection(db, 'test'), where('role', '==', 'admin'), limit(4));
+
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.docs.length > 0) {
+        setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
+      }
+
+      return querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Omit<PostType, 'id'>) //id 제외하고 나머지 필드를 PostType으로 변환
+      }));
+    },
+
+    initialPageParam: '',
+    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
+      //console.log('333333', lastPage[lastPage.length - 1]); //배열 4개중에 마지막 데이터
+      //console.log('333333', lastPage[lastPage.length - 1].id); //배열 4개중에 마지막 데이터
+      if (lastPage.length === 0) {
+        return undefined;
+      }
+      return lastPage[lastPage.length - 1].id;
+    },
+    select: (data) => {
+      return data.pages.flat();
     }
-  }, [knowHowQuery.data]);
+  });
 
-  /*----------------------------*/
-
-  //더보기 기능 (관리자용)
-  // 1. itemPerRow : 기본 개수 (4 개)
-  // 2. startIndex : 배열 slice에서 사용되는 시작 index (값: 0)
-  // 3. cnt : 더보기 클릭시 개수 (cnt = 1 : 기본 4개 보여주기 위해서 1로 시작)
-  // 3. endIndex : startIndex + itemPerRow * cnt
-  // 4. DisplayItem : 배열(관리자/selectedCategory).slice(startIndex,endIndex)
-  // 5. 더보기 클릭시 cnt ++
-
-  // const itemPerRow = 4;
-  // const startIndex = 0;
-  // let endIndex = 0;
-  // const [cnt, setCnt] = useState(1);
-  // const [DisplayAdminItem, setDisplayAdminItem] = useState<PostType[]>([]);
-
-  // useEffect(() => {
-  //   if (adminQuery.data) {
-  //     endIndex = startIndex + itemPerRow * cnt;
-  //     setDisplayAdminItem(adminQuery.data.slice(startIndex, endIndex));
-  //   }
-  // }, [adminQuery.data, cnt]);
-
-  // //더보기 버튼
-  // const handleShowMoreClick = () => {
-  //   setCnt((prev) => prev + 1);
-  // };
-  /*----------------------------*/
-
-  //커스텀 훅 : 더보기 기능 (관리자용)
-  const ITEM_PER_ROW = 4;
-  const { displayData: displayAdminData, showMore: showMoreAdmin } = usePaginatedItem(
-    adminQuery.data || [],
-    ITEM_PER_ROW
-  );
-
-  //커스텀 훅 : 더보기 기능 (사용자용)
-  const { displayData: displayUserData, showMore: showMoreUser } = usePaginatedItem(selectCategory || [], ITEM_PER_ROW);
-
-  /*----------------------------*/
-  //카테고리별 더보기 기능 (사용자용)
-
-  // const userItemPerRow = 4;
-  // const userStartIndex = 0;
-  // let userEndIndex = 0;
-  // const [userCnt, setUserCnt] = useState(1);
-  // const [displayUserItem, setDisplayUserItem] = useState<PostType[]>([]);
-  // console.log(displayUserItem);
-  // useEffect(() => {
-  //   if (adminQuery.data) {
-  //     userEndIndex = userStartIndex + userItemPerRow * userCnt;
-  //     setDisplayUserItem(selectCategory.slice(userStartIndex, userEndIndex));
-  //   }
-  // }, [selectCategory, userCnt]);
-
-  // //더보기 버튼
-  // const handleUserShowMoreClick = () => {
-  //   setUserCnt((prev) => prev + 1);
-  // };
+  console.log('Loading:', isLoading, 'Error:', isError, 'Data:', admin);
 
   /*----------------------------*/
   //로딩 & 에러 처리 구간
-  const isLoading =
-    adminQuery.isLoading ||
-    knowHowQuery.isLoading ||
-    recommendQuery.isLoading ||
-    shareQuery.isLoading ||
-    habitQuery.isLoading;
+  // const isLoading =
+  //   adminQuery.isLoading ||
+  //   knowHowQuery.isLoading ||
+  //   recommendQuery.isLoading ||
+  //   shareQuery.isLoading ||
+  //   habitQuery.isLoading;
 
-  const isError =
-    adminQuery.isError || knowHowQuery.isError || recommendQuery.isError || shareQuery.isError || habitQuery.isError;
+  // const isError =
+  //   adminQuery.isError || knowHowQuery.isError || recommendQuery.isError || shareQuery.isError || habitQuery.isError;
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (isError) {
-    return <div>Error loading data</div>;
-  }
+  // if (isError) {
+  //   return <div>Error loading data</div>;
+  // }
   /*----------------------------*/
 
   //버튼 클릭시 해당 카테고리 선택
   const handleButtonsClick = (category: PostType[] | undefined) => {
     if (category) {
-      setSelectCategory(category);
+      //setSelectCategory(category);
     } else {
-      setSelectCategory([]);
+      //setSelectCategory([]);
     }
+  };
+
+  const fetchMore = () => {
+    if (!hasNextPage) return;
+    fetchNextPage();
   };
 
   return (
@@ -118,11 +121,12 @@ function ViewAllBody() {
 
         <St.ContentsWrapper>
           <St.Contents>
-            {displayAdminData?.map((item) => (
+            {admin?.map((item) => (
               <St.Content key={item.id}>
                 {/*
                 <img src={item.coverUrl ? item.coverUrl : defaultImg} alt={item.title}></img>
                 */}
+                <img src={defaultImg} alt={item.title}></img>
                 <p>{item.title}</p>
                 <p>{item.content}</p>
                 <p>{item.category}</p>
@@ -131,7 +135,7 @@ function ViewAllBody() {
           </St.Contents>
         </St.ContentsWrapper>
         <St.MoreContentWrapper>
-          <button onClick={showMoreAdmin}>더보기...</button>
+          <button onClick={fetchMore}>더보기...</button>
         </St.MoreContentWrapper>
       </St.MainSubWrapper>
 
@@ -155,11 +159,10 @@ function ViewAllBody() {
 
         <St.ContentsWrapper>
           <St.Contents>
-            {displayUserData?.map((item) => (
+            {knowHowQuery.data?.map((item) => (
               <St.Content key={item.id}>
-                {/*
-                <img src={item.coverUrl ? item.coverUrl : defaultImg} alt={item.title}></img>
-                */}
+                <img src={defaultImg} alt={item.title}></img>
+
                 <p>{item.title}</p>
                 <p>{item.content}</p>
                 <p>{item.category}</p>
@@ -169,7 +172,7 @@ function ViewAllBody() {
         </St.ContentsWrapper>
 
         <St.MoreContentWrapper>
-          <button onClick={showMoreUser}>더보기...</button>
+          <button>더보기...</button>
         </St.MoreContentWrapper>
       </St.MainSubWrapper>
     </>
