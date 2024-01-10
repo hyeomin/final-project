@@ -1,15 +1,35 @@
 import { db } from '../shared/firebase';
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import {
+  DocumentData,
+  QueryDocumentSnapshot,
+  collection,
+  getDocs,
+  limit,
+  query,
+  startAfter,
+  where
+} from 'firebase/firestore';
 
 //관리자 (콘텐츠 by Mango)
-export const getAdminPostList = async (): Promise<PostType[]> => {
-  const q = query(collection(db, 'test'), where('role', '==', 'admin'));
+export const getAdminPostList = async (
+  pageParam: undefined | QueryDocumentSnapshot<DocumentData, DocumentData>
+): Promise<PostType[]> => {
+  console.log('pageParam', pageParam);
+
+  let lastVisible;
+
+  const q = pageParam
+    ? query(collection(db, 'test'), where('role', '==', 'admin'), startAfter(pageParam), limit(4))
+    : query(collection(db, 'test'), where('role', '==', 'admin'), limit(4));
+
   const querySnapShot = await getDocs(q);
 
-  return querySnapShot.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as Omit<PostType, 'id'>) //id 제외하고 나머지 필드를 PostType으로 변환
-  }));
+  lastVisible = querySnapShot.docs[querySnapShot.docs.length - 1];
+  return querySnapShot.docs;
+  // return querySnapShot.docs.map((doc) => ({
+  //   id: doc.id,
+  //   ...(doc.data() as Omit<PostType, 'id'>) //id 제외하고 나머지 필드를 PostType으로 변환
+  // }));
 };
 
 //카테고리(1) 친환경 노하우

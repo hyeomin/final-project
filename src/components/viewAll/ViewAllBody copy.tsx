@@ -5,17 +5,7 @@ import { getAdminPostList, getHabitList, getRecommendList, getShareList, getknow
 import { QUERY_KEYS } from '../../query/keys';
 import { useEffect, useState } from 'react';
 import usePaginatedItem from '../../hooks/usePaginatedItem';
-import {
-  DocumentData,
-  QueryDocumentSnapshot,
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  startAfter,
-  where
-} from 'firebase/firestore';
+import { DocumentData, collection, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore';
 import { db } from '../../shared/firebase';
 
 interface AdminPostListResponse {
@@ -47,10 +37,9 @@ function ViewAllBody() {
     isError
   } = useInfiniteQuery({
     queryKey: [QUERY_KEYS.ADMIN],
-    queryFn: async ({ pageParam }) => {
-      console.log('pageParam', pageParam);
-      const q = pageParam
-        ? query(collection(db, 'test'), where('role', '==', 'admin'), startAfter(pageParam), limit(4))
+    queryFn: async () => {
+      const q = lastVisible
+        ? query(collection(db, 'test'), where('role', '==', 'admin'), startAfter(lastVisible), limit(4))
         : query(collection(db, 'test'), where('role', '==', 'admin'), limit(4));
 
       const querySnapshot = await getDocs(q);
@@ -58,10 +47,13 @@ function ViewAllBody() {
         setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
       }
 
-      return querySnapshot.docs;
+      return querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as Omit<PostType, 'id'>) //id 제외하고 나머지 필드를 PostType으로 변환
+      }));
     },
 
-    initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
+    initialPageParam: '',
     getNextPageParam: (lastPage) => {
       //console.log('333333', lastPage[lastPage.length - 1]); //배열 4개중에 마지막 데이터
       //console.log('333333', lastPage[lastPage.length - 1].id); //배열 4개중에 마지막 데이터
@@ -69,10 +61,10 @@ function ViewAllBody() {
       if (lastPage.length === 0) {
         return undefined;
       }
-      return lastPage[lastPage.length - 1]; //sdfsdfsfsdfd
+      return lastPage[lastPage.length - 1].id; //sdfsdfsfsdfd
     },
     select: (data) => {
-      return data.pages.flat().map((doc) => ({ id: doc.id, ...(doc.data() as Omit<PostType, 'id'>) }));
+      return data.pages.flat();
     }
   });
 
