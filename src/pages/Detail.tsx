@@ -10,7 +10,7 @@ import Comment from '../components/detail/Comment';
 
 function Detail() {
   //인덱스 넘버로 페이지 관리
-  const [page, setPage] = useState(0);
+  const [postIndexNumber, setPostIndexNumber] = useState(0);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -49,8 +49,9 @@ useEffect(() => {
     }
 
     const postIndex = posts.findIndex((post) => post.id === id);
-    setPage(postIndex); // 현재 post의 인덱스 설정
+    setPostIndexNumber(postIndex); // 현재 post의 인덱스 설정
   }
+  console.log('현재 post의 인덱스 넘버', postIndexNumber)
 }, [id, posts, navigate]); 
 
 
@@ -66,10 +67,10 @@ if (error) {
 
 //prev 버튼
   const onClickPrevButton = () => {
-  if (posts && page > 0) {
-    const prevPostId = posts[page - 1].id;
+  if (posts && postIndexNumber > 0) {
+    const prevPostId = posts[postIndexNumber - 1].id;
     navigate(`/detail/${prevPostId}`);
-    setPage(page - 1);
+    setPostIndexNumber(postIndexNumber - 1);
   } else {
     // 첫 페이지일 경우 얼럿
     alert("이미 첫 번째 게시물입니다.");
@@ -78,10 +79,10 @@ if (error) {
 
 //next 버튼
 const onClickNextButton = () => {
-  if (posts && page < posts.length - 1) {
-    const nextPostId = posts[page + 1].id;
+  if (posts && postIndexNumber < posts.length - 1) {
+    const nextPostId = posts[postIndexNumber + 1].id;
     navigate(`/detail/${nextPostId}`);
-    setPage(page + 1); 
+    setPostIndexNumber(postIndexNumber + 1); 
   } else {
     // 마지막 페이지일 경우 얼럿
     alert("마지막 게시물입니다.");
