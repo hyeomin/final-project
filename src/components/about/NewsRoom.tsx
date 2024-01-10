@@ -1,15 +1,9 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import NewsUpload from './NewsUpload';
 
 function NewsRoom() {
-  const [newsUrl, setNewsUrl] = useState('');
-
-  const onSubmitHandler = () => {
-    // 파이어베이스 업로드
-  };
-
   return (
     <NewsRoomContainer>
       <SwiperContainer>
@@ -31,12 +25,7 @@ function NewsRoom() {
           <SwiperSlide>Slide 2</SwiperSlide>
         </Swiper>
       </SwiperContainer>
-      <NewsUplaod>
-        <form onSubmit={onSubmitHandler}>
-          <input value={newsUrl} onChange={(e) => setNewsUrl(e.target.value)} />
-          <button type="submit">뉴스 등록하기</button>
-        </form>
-      </NewsUplaod>
+      <NewsUpload />
     </NewsRoomContainer>
   );
 }
@@ -53,12 +42,4 @@ const SwiperContainer = styled.div`
   height: 250px;
 
   background-color: pink;
-`;
-
-const NewsUplaod = styled.div`
-  display: flex;
-
-  & input {
-    flex: 1;
-  }
 `;
