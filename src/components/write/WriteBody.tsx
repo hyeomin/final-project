@@ -1,4 +1,3 @@
-import 'react-quill/dist/quill.snow.css';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { categoryState, contentState, hashtagState, titleState } from '../../recoil/posts';
