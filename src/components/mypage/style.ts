@@ -115,8 +115,8 @@ const MyPostsWrapper = styled.div`
 `;
 
 const MyPosts = styled.div`
-  display: grid;
-  flex-direction: column;
+  display: flex;
+  /* flex-direction: column; */
   justify-content: center;
 `;
 
@@ -129,7 +129,13 @@ const MyPostImg = styled.div`
   height: 170px;
   margin-top: 20px;
 `;
-const MyPostText = styled.p``;
+const MyPostTextBox = styled.div`
+  display: flex;
+`;
+
+const PostText = styled.div`
+  width: 200px;
+`;
 //--------------------------------------------
 // LikesPosts
 
@@ -177,7 +183,7 @@ export default {
   MyPostsWrapper,
   MyPostImg,
   MyPosts,
-  MyPostText,
+  MyPostTextBox,
   LikesWrapper,
   MyLikes,
   LikesPostImg,
@@ -186,5 +192,6 @@ export default {
   FileInput,
   FileImgUpload,
   DisplayNameModify,
-  UserInfoModify
+  UserInfoModify,
+  PostText
 };
