@@ -1,17 +1,16 @@
-import { useState } from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Login from '../components/auth/Login';
 import Signup from '../components/auth/Signup';
+import { isSignUpState } from '../recoil/users';
 import CS from './CommonStyle';
 
 function Auth() {
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
 
   return (
     <CS.FullContainer>
-      <AuthContainer>
-        {isSignUp ? <Signup setIsSignUp={setIsSignUp} /> : <Login setIsSignUp={setIsSignUp} />}
-      </AuthContainer>
+      <AuthContainer>{isSignUp ? <Signup /> : <Login />}</AuthContainer>
     </CS.FullContainer>
   );
 }
