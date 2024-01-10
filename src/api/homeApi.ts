@@ -84,7 +84,10 @@ const downloadImageURL = async (postId: string) => {
   try {
     const listRef = ref(storage, `posts/${postId}`);
     const res = await listAll(listRef);
+<<<<<<< HEAD
 
+=======
+>>>>>>> f1a16c58e86dba73941f4486927b5b2306dad57d
     if (res.items.length > 0) {
       const firstFileRef = res.items[0];
       const url = await getDownloadURL(firstFileRef);

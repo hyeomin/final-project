@@ -1,8 +1,17 @@
-export const EDIT_INPUT_TITLE = 'EDIT_INPUT_TITLE';
-export const EDIT_INPUT_CONTENT = 'EDIT_INPUT_CONTENT';
-export const EDIT_INPUT_CATEGORY = 'EDIT_INPUT_CATEGORY';
-export const EDIT_INPUT_HASTAG = 'EDIT_INPUT_HASTAG';
+// posts key
+export const EDIT_INPUT = {
+  TITLE: 'title',
+  CONTENT: 'content',
+  CATEGORY: 'category',
+  HASHTAGS: 'hashtags',
+  CATEGORY_LIST: 'categoryList',
+  COVER_IMAGE: 'coverImage'
+};
 
-export const EDIT_INPUT_CATEGORY_LIST = 'EDIT_INPUT_CATEGORY_LIST';
+// users key
 
-export const EDIT_COVER_IMAGE = 'EDIT_COVER_IMAGE';
+export const USER_INFO = {
+  ROLE: 'role',
+  IS_LOGGEDIN: 'isLoggedIn',
+  IS_SIGNUP: 'isSignUp'
+};

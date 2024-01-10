@@ -1,7 +1,12 @@
 import { NavLink } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { isLoggedInState } from '../recoil/users';
+import AuthNavBar from './AuthNavBar';
 
 function NavBar() {
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+  console.log(isLoggedIn);
   return (
     <NavContainer>
       <LeftNav className="left-side">
@@ -9,11 +14,7 @@ function NavBar() {
         <NavLink to="/viewAll">게시글 전체보기</NavLink>
         <NavLink to="/about">About</NavLink>
       </LeftNav>
-      <RightNav className="right-side">
-        <NavLink to="/auth">Login</NavLink>
-        <NavLink to="/write">Write</NavLink>
-        <NavLink to="/mypage">My Page</NavLink>
-      </RightNav>
+      <AuthNavBar />
     </NavContainer>
   );
 }
@@ -28,11 +29,6 @@ const NavContainer = styled.div`
 `;
 
 const LeftNav = styled.div`
-  display: flex;
-  column-gap: 10px;
-`;
-
-const RightNav = styled.div`
   display: flex;
   column-gap: 10px;
 `;
