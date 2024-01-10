@@ -49,7 +49,7 @@ import React from "react";
 //   const updateCommentBtn = (id: string) => {};
 
 //   const onClickViewAllButton = () => {};
-//   const onClickTopRankingAdminPosts = () => {};
+//   const onClickuserPostsAdminPosts = () => {};
 //   const onClickRecommendation = () => {};
 //   const onClickSharing = () => {};
 
@@ -97,7 +97,7 @@ import React from "react";
 //           <button>next</button>
 //         </St.PrevNextBottons>
 //       </St.AdminSection>
-//       <St.TopRankingPosts>
+//       <St.userPostsPosts>
 //         <St.Title>
 //           <h1>User Pick???</h1>
 //           <button type="button" onClick={onClickViewAllButton}>
@@ -106,7 +106,7 @@ import React from "react";
 //         </St.Title>
 //         {/* <St.Nav> */}
 //           {/* 전체가 탑랭킹 게시물로 표시된다면 인기 게시물 카테고리가 필요한지 고려 필요
-//           <button type="button" onClick={onClickTopRankingAdminPosts}>
+//           <button type="button" onClick={onClickuserPostsAdminPosts}>
 //             관리자 게시물
 //           </button>
 //           <button type="button">인기 게시물</button>
@@ -137,7 +137,7 @@ import React from "react";
 //             <button>next</button>
 //           </div>
 //         </St.PostsSlide>
-//       </St.TopRankingPosts>
+//       </St.userPostsPosts>
 //       {/* <section>
 //         <h1>Top 10</h1>
 //         <ul>

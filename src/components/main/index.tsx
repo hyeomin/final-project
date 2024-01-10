@@ -34,12 +34,12 @@ function Main() {
 
   //필터된 posts 목록 (망고관리자 게시물은 임시로 둔다.)
   const createdByMango = postQueries[0].data || [];
-  const topRanking = postQueries[1].data || [];
+  const userPosts = postQueries[1].data || [];
 
   // 이미지URL 불러오기
   const imageQueries = useQueries({
     queries:
-      topRanking?.map((post) => ({
+      userPosts?.map((post) => ({
         queryKey: ['imageURL', post.id],
         queryFn: () => downloadImageURL(post.id as string)
       })) || []
@@ -48,7 +48,7 @@ function Main() {
   const { updateMutate } = usePostsQuery();
 
   const isLoadingAdminContents = postQueries[0].isLoading;
-  const isLoadingTopRanking = postQueries[1].isLoading;
+  const isLoadinguserPosts = postQueries[1].isLoading;
 
   // 망고 발행물 로딩
   if (isLoadingAdminContents) {
@@ -60,11 +60,11 @@ function Main() {
   }
 
   // // 탑랭킹 로딩
-  if (isLoadingTopRanking) {
+  if (isLoadinguserPosts) {
     return <div>Loading...</div>;
   }
 
-  if (!topRanking || topRanking.length === 0) {
+  if (!userPosts || userPosts.length === 0) {
     return <div>No data found</div>;
   }
 
@@ -122,7 +122,7 @@ function Main() {
           })}
         </Swiper>
       </St.AdminContentsSection>
-      <St.TopRankingPosts>
+      <St.userPostsPosts>
         <St.Title>
           <h1>인기 게시물</h1>
           <button type="button" onClick={onClickViewAllButton}>
@@ -158,7 +158,7 @@ function Main() {
               }}
               className="slides"
             >
-              {topRanking!.map((item, idx) => {
+              {userPosts!.map((item, idx) => {
                 const imageQuery = imageQueries[idx];
                 return (
                   <SwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
@@ -171,7 +171,6 @@ function Main() {
                             {/* item.LikedUsers 배열 안에 currentUserId가 있을 경우 HeartFillIcon                            */}
                             {item.likedUsers?.includes(currentUser!) ? (
                               <>
-                                {' '}
                                 <St.HeartFillIcon />
                                 <p>{item.likedUsers?.length}</p>
                               </>
@@ -192,7 +191,7 @@ function Main() {
             </Swiper>
           </St.ThumbnailsBox>
         </St.PostsSlide>
-      </St.TopRankingPosts>
+      </St.userPostsPosts>
     </St.Container>
   );
 }
