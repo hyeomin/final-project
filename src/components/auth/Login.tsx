@@ -42,7 +42,6 @@ function Login() {
       // 로그인 성공 시 role의 recoil(전역상태) update
       const user = userList && userList.find((user) => user.uid === userCredential.user.uid);
       if (user) setRole(user.role);
-      console.log('유저롤', user?.role);
 
       // 로그인 성공 시 isLoggedinState(true)로 업데이트
       setIsLoggedIn(true);
