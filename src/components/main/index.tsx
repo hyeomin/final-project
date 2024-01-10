@@ -62,7 +62,7 @@ function Main() {
   }
 
   // 각각 게시물 클릭시 detail로 이동
-  const onClickMovToDetail = (id: string) => {
+  const onClickMoveToDetail = (id: string) => {
     navigate(`/detail/${id}`);
   };
 
@@ -135,20 +135,7 @@ function Main() {
               {topRanking!.map((item, idx) => {
                 const imageQuery = imageQueries[idx];
                 return (
-                  <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
-                    {imageQuery.isLoading ? (
-                      <p>Loading image...</p>
-                    ) : (
-                      imageQuery.data && <img src={imageQuery.data} alt={item.title} />
-                    )}
-                  </SwiperSlide>
-                );
-              })}
-
-              {topRanking!.map((item, idx) => {
-                const imageQuery = imageQueries[idx];
-                return (
-                  <SwiperSlide key={idx} onClick={() => onClickMovToDetail(item.id!)}>
+                  <SwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
                     {imageQuery.isLoading ? (
                       <p>Loading image...</p>
                     ) : (
