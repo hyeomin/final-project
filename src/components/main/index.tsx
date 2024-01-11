@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
-import St from './style';
+import St from './style'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
