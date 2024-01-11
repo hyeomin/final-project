@@ -14,7 +14,7 @@ interface PostListProps {
   sortBy: SortList;
 }
 
-function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
+function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
   const { data: posts, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -64,37 +64,30 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   return (
     <St.MainSubWrapper>
       <St.ContentsWrapper>
-        <St.Contents>
+        <St.AdminContents>
           {posts?.map((post, idx) => {
             const imageQuery = imageQueries[idx];
             return (
-              <St.Content key={post.id}>
+              <St.AdminContent key={post.id}>
                 {imageQuery.isLoading ? (
                   <p>Loading image...</p>
                 ) : (
                   <img src={imageQuery.data || defaultCover} alt={post.title} />
                 )}
-                <St.commentAndLikes>
-                  <p>💬5</p>
-                  <p>♥{post.likeCount}</p>
-                </St.commentAndLikes>
 
-                <St.TitleAndContent>
-                  <p>{post.title}</p>
-                  <div dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} />
-                </St.TitleAndContent>
+                <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
+                <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} />
+
                 <St.NeedDelete>
-                  <p>삭제예정/ {post.category}</p>
-                  <p>삭제예정/ {post.role}</p>
+                  <p>삭제예정/ 카테고리: {post.category}</p>
+                  <p>삭제예정/ 작성자:{post.role}</p>
+                  <p>삭제예정/ 날짜: {getFormattedDate_yymmdd(post.createdAt!)}</p>
+                  <p>삭제예정/좋아요수: {post.likeCount}</p>
                 </St.NeedDelete>
-
-                <St.Row>
-                  <h3>{getFormattedDate_yymmdd(post.createdAt!)}</h3>
-                </St.Row>
-              </St.Content>
+              </St.AdminContent>
             );
           })}
-        </St.Contents>
+        </St.AdminContents>
       </St.ContentsWrapper>
       <St.MoreContentWrapper>
         <button onClick={() => fetchNextPage()}>더보기 &gt;</button>
@@ -103,4 +96,4 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   );
 }
 
-export default PostList;
+export default PostListAdmin;
