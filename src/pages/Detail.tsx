@@ -41,12 +41,12 @@ function Detail() {
   useEffect(() => {
     if (posts) {
       // 해당 아이디를 가진 post가 존재하는지 확인
-      const validatePostId = posts.some((post) => post.id === id);
-      if (!id || !validatePostId) {
-        alert('존재하지 않는 게시물입니다.');
-        navigate('/'); // 홈으로 이동
-        return;
-      }
+      // const validatePostId = posts.some((post) => post.id === id);
+      // if (!id || !validatePostId) {
+      //   alert('존재하지 않는 게시물입니다.');
+      //   navigate('/'); // 홈으로 이동
+      //   return;
+      // }
 
       const postIndex = posts.findIndex((post) => post.id === id);
       setPostIndexNumber(postIndex); // 현재 post의 인덱스 설정
@@ -55,6 +55,7 @@ function Detail() {
     console.log('현재 post의 인덱스 넘버', postIndexNumber);
   }, [id, posts, navigate, imageUrl ]);
 
+  //커버이미지 로딩
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -62,6 +63,7 @@ function Detail() {
   if (error) {
     return <div>Error loading image</div>;
   }
+
 
   //prev 버튼
   const onClickPrevButton = () => {

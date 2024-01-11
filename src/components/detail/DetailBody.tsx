@@ -9,9 +9,7 @@ function DetailBody({ post }: Props) {
       <div>
         <h3>{post?.title}</h3>
       </div>
-      <div>
-        <div dangerouslySetInnerHTML={{ __html: post?.content as string }} />
-      </div>
+      <div dangerouslySetInnerHTML={{ __html: post?.content as string }} />
     </div>
   );
 }
