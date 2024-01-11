@@ -17,4 +17,5 @@ const FooterContainer = styled.div`
   align-items: center;
 
   row-gap: 10px;
+  background-color: pink;
 `;

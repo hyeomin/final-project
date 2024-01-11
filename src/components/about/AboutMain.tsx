@@ -6,7 +6,7 @@ import HowToUse from './HowToUse';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import NewsRoom from './NewsRoom';
+import YoutubeTest from './YoutubeTest';
 
 type Section = '이용안내' | '뉴스룸' | '지금 시작하기';
 
@@ -30,7 +30,7 @@ function AboutMain() {
         <button onClick={onOpenToggleHandler}>지금 시작하기</button>
       </NavBar>
       {openSection === HOWTOUSE && <HowToUse />}
-      {openSection === NEWSROOM && <NewsRoom />}
+      {openSection === NEWSROOM && <YoutubeTest />}
       {openSection === GETSTARTED && <StartNow>지금 시작하기</StartNow>}
     </AboutMainContainer>
   );

@@ -7,11 +7,11 @@ function NewsUpload() {
 
   const fetchAndParseHTML = async (url: string) => {
     try {
-      // Fetch HTML content
+      // HTML 가져오기
       const response = await axios.get(url, { responseType: 'text' });
       const htmlContent = response.data;
 
-      // Parse HTML content
+      // HTML 파싱
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlContent, 'text/html');
 
@@ -19,8 +19,8 @@ function NewsUpload() {
       const metaTitleElement = doc.querySelector('meta[name="title"]') as HTMLMetaElement;
       const ogImageElement = doc.querySelector('meta[property="og:image"]') as HTMLMetaElement;
 
-      const metaTitle = metaTitleElement?.content;
-      const ogImage = ogImageElement?.content;
+      const metaTitle = metaTitleElement?.getAttribute('content') || '';
+      const ogImage = ogImageElement?.getAttribute('content') || '';
 
       return { metaTitle, ogImage };
     } catch (error) {
@@ -32,11 +32,7 @@ function NewsUpload() {
   const handleNewsUpload = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = await fetchAndParseHTML(newsUrl);
-    console.log('뉴스데이터', data); // { metaTitle: "...", ogImage: "..." }
-  };
-
-  const onSubmitHandler = () => {
-    // 파이어베이스 업로드
+    console.log('뉴스데이터', data);
   };
 
   return (

@@ -1,12 +1,7 @@
-import CS from "./CommonStyle";
-import MyProfile from "../components/mypage/MyProfile";
+import MyProfile from '../components/mypage/MyProfile';
 
 function MyPage() {
-  return (
-    <CS.FullContainer>
-      <MyProfile />
-    </CS.FullContainer>
-  );
+  return <MyProfile />;
 }
 
 export default MyPage;

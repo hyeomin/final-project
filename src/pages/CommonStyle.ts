@@ -1,12 +1,14 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const FullContainer = styled.div`
-    margin: 50px;
-    background-color: lightgray;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
 `;
 
 const Dummy = styled.div`
-    background-color: pink;
+  background-color: pink;
 `;
 
 export default { FullContainer, Dummy };
