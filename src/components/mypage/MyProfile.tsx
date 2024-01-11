@@ -1,9 +1,12 @@
+import { useQuery } from '@tanstack/react-query';
 import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
 import { GoCalendar, GoHeart, GoTasklist } from 'react-icons/go';
+import { getMyPosts } from '../../api/myPostAPI';
 import defaultImg from '../../assets/defaultImg.jpg';
+import { QUERY_KEYS } from '../../query/keys';
 import { auth, db, storage } from '../../shared/firebase';
 import HabitCalendar from './HabitCalendar';
 import LikesPosts from './LikesPosts';
@@ -37,6 +40,12 @@ function MyProfile() {
   //     }
   //   });
   // }, []);
+
+  // 내 게시물 갯수 가져오기
+  const { data: posts } = useQuery({
+    queryKey: [QUERY_KEYS.POSTS],
+    queryFn: getMyPosts
+  });
 
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
@@ -123,6 +132,10 @@ function MyProfile() {
         {/* <St.UserInfo> */}
         {/* <St.MyImage src={auth.currentUser?.photoURL! || defaultImg} alt="defaultImg" /> */}
         <St.profileImg src={previewImage || defaultImg} alt="img" />
+        <St.EmailAndName>
+          <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
+          <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>내 게시물 {posts?.length}
+        </St.EmailAndName>
         <St.ProfileInfo>
           <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
           {/* {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px' }} />} */}

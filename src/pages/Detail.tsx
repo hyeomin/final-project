@@ -3,15 +3,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { downloadImageURL, getPosts } from '../api/homeApi';
+import defaultCover from '../assets/defaultCoverImg.jpeg';
 import Comment from '../components/detail/Comment';
-<<<<<<< HEAD
 import DetailBody from '../components/detail/DetailBody';
 import { QUERY_KEYS } from '../query/keys';
 import CS from './CommonStyle';
-=======
-import defaultCover from '../assets/defaultCoverImg.jpeg'
-
->>>>>>> f9c6d76296933b663a2f640c79571b21118b5760
 
 function Detail() {
   //인덱스 넘버로 페이지 관리
@@ -35,7 +31,7 @@ function Detail() {
     isLoading,
     error
   } = useQuery({
-    queryKey: ['imageUrl',  post?.id],
+    queryKey: ['imageUrl', post?.id],
     queryFn: () => downloadImageURL(post?.id!),
     enabled: !!post?.id
   });
@@ -56,7 +52,7 @@ function Detail() {
     }
 
     console.log('현재 post의 인덱스 넘버', postIndexNumber);
-  }, [id, posts, navigate, imageUrl ]);
+  }, [id, posts, navigate, imageUrl]);
 
   //커버이미지 로딩
   if (isLoading) {
@@ -66,7 +62,6 @@ function Detail() {
   if (error) {
     return <div>Error loading image</div>;
   }
-
 
   //prev 버튼
   const onClickPrevButton = () => {
@@ -96,7 +91,9 @@ function Detail() {
     <CS.FullContainer>
       <PostContainer>
         <CoverImageContainer>
-          <div>{imageUrl ? <img src={imageUrl} alt="Post Cover" />: <img src={defaultCover} alt="default cover" />}</div>
+          <div>
+            {imageUrl ? <img src={imageUrl} alt="Post Cover" /> : <img src={defaultCover} alt="default cover" />}
+          </div>
           <div>
             <button onClick={onClickPrevButton} type="button">
               prev

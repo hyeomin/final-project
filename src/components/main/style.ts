@@ -17,7 +17,7 @@ const Container = styled.div`
 const AdminContentsSection = styled.section`
   background-color: #f5e1ab;
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 350px;
   margin-bottom: 10px;
   & img {
@@ -43,7 +43,7 @@ const userPostsPosts = styled.section`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50%;
+  /* height: 50%; */
   margin-bottom: 10px;
 `;
 
@@ -92,14 +92,15 @@ const ThumbnailsBox = styled.div`
   /* background-color: aquamarine; */
   justify-content: center;
   width: 100%;
-  height: 300px;
+  /* height: 300px; */
 `;
 
+// Swiper 디자인
 const StyledSwiperSlide = styled(SwiperSlide)`
   display: flex;
   border-radius: 20px;
   width: 345px;
-  height: 440px;
+  height: 300px;
   overflow: hidden;
   background-color: lightblue;
   position: relative;

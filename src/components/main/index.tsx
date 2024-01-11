@@ -160,7 +160,7 @@ function Main() {
               {userPosts!.map((item, idx) => {
                 const imageQuery = imageQueries[idx];
                 return (
-                  <SwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
+                  <St.StyledSwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
                     <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
                       {item.likedUsers?.includes(currentUser!) ? (
                         <>
@@ -179,7 +179,7 @@ function Main() {
                     ) : (
                       <img src={imageQuery.data || defaultCover} alt={item.title} />
                     )}
-                  </SwiperSlide>
+                  </St.StyledSwiperSlide>
                 );
               })}
             </Swiper>
