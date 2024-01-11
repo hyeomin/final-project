@@ -127,12 +127,13 @@ const MyPostImg = styled.div`
   justify-content: center;
   align-items: center;
 
-  margin-top: 20px;
-
   img {
     object-fit: cover;
     width: 280px;
     height: 300px;
+  }
+  p {
+    height: 15px;
   }
 `;
 const MyPostTextBox = styled.div`
@@ -144,7 +145,6 @@ const MyPostTextBox = styled.div`
 const PostText = styled.div`
   width: 300px;
   height: 350px;
-  margin-bottom: 20px;
 `;
 //--------------------------------------------
 // LikesPosts
@@ -171,7 +171,7 @@ const LikesPostImg = styled.div`
   border: 1px solid white;
   width: 220px;
   height: 170px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 `;
 
 const LikesPostText = styled.p``;
