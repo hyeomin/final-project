@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import React, { useEffect, useRef, useState } from 'react';
+import { GoCalendar, GoHeart, GoTasklist } from 'react-icons/go';
+import { getMyPosts } from '../../api/myPostAPI';
+import defaultImg from '../../assets/defaultImg.jpg';
+import { QUERY_KEYS } from '../../query/keys';
+import { auth, db, storage } from '../../shared/firebase';
 import HabitCalendar from './HabitCalendar';
 import LikesPosts from './LikesPosts';
 import MyPosts from './MyPosts';
 import St from './style';
-import defaultImg from '../../assets/defaultImg.jpg';
-import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { auth, db, storage } from '../../shared/firebase';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { getMyPosts } from '../../api/myPostAPI';
-import { useQuery } from '@tanstack/react-query';
-import { QUERY_KEYS } from '../../query/keys';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -126,60 +127,71 @@ function MyProfile() {
   }, [imageUpload]);
 
   return (
-    <div>
-      <St.Wrapper>
-        <St.ProfileEditWrapper>
-          ProfileEditWrapper
-          <St.UserInfo>
-            {/* <St.MyImage src={auth.currentUser?.photoURL! || defaultImg} alt="defaultImg" /> */}
-            <St.profileImg src={previewImage || defaultImg} alt="img" style={{ width: '100px', height: '100px' }} />
-            <St.EmailAndName>
-              <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
-              <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>내 게시물 {posts?.length}
-            </St.EmailAndName>
-
-            <St.UserInfoModify>
-              <St.FileInput style={{ border: '1px solid black' }} type="file" onChange={onChangeUpload} />
-              <St.FileImgUpload onClick={onClickUpload}>업로드</St.FileImgUpload>
-              <br />
-              <St.DisplayNameModify type="text" value={newDisplayName} onChange={onChangeDisplayName} />
-              <St.EditBtn onClick={onSubmitModifyProfile}>수정하기</St.EditBtn>
-            </St.UserInfoModify>
-          </St.UserInfo>
-        </St.ProfileEditWrapper>
-        <St.MySectionWrapper>
-          MySectionWrapper
-          <St.TabBtns>
-            <St.CalendarBtn
-              onClick={() => {
-                onClickTabBtn('calendar');
-              }}
-            >
-              calendar
-            </St.CalendarBtn>
-            <St.MyPostsBtn
-              onClick={() => {
-                onClickTabBtn('myPosts');
-              }}
-            >
-              My Posts
-            </St.MyPostsBtn>
-            <St.MyLikesBtn
-              onClick={() => {
-                onClickTabBtn('likes');
-              }}
-            >
-              Likes
-            </St.MyLikesBtn>
-          </St.TabBtns>
-          <St.Tabs>
-            {activeTab === 'calendar' && <HabitCalendar />}
-            {activeTab === 'myPosts' && <MyPosts />}
-            {activeTab === 'likes' && <LikesPosts />}
-          </St.Tabs>
-        </St.MySectionWrapper>
-      </St.Wrapper>
-    </div>
+    <St.Wrapper>
+      <St.ProfileEditWrapper>
+        {/* <St.UserInfo> */}
+        {/* <St.MyImage src={auth.currentUser?.photoURL! || defaultImg} alt="defaultImg" /> */}
+        <St.profileImg src={previewImage || defaultImg} alt="img" />
+        <St.EmailAndName>
+          <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
+          <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>내 게시물 {posts?.length}
+        </St.EmailAndName>
+        <St.ProfileInfo>
+          <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
+          {/* {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px' }} />} */}
+          <St.UserPostInfo>
+            <span>게시물: 00개</span>
+            <span>등급: Lv.0</span>
+          </St.UserPostInfo>
+          <St.UserInfoModify>
+            <St.FileInput style={{ border: '1px solid black' }} type="file" onChange={onChangeUpload} />
+            <St.FileImgUpload onClick={onClickUpload}>업로드</St.FileImgUpload>
+            <br />
+            <St.DisplayNameModify type="text" value={newDisplayName} onChange={onChangeDisplayName} />
+            <St.EditBtn onClick={onSubmitModifyProfile}>수정하기</St.EditBtn>
+          </St.UserInfoModify>
+        </St.ProfileInfo>
+        {/* </St.UserInfo> */}
+      </St.ProfileEditWrapper>
+      <St.MySectionWrapper>
+        {/* MySectionWrapper */}
+        <St.TabButtonContainer>
+          <St.TabButton
+            onClick={() => {
+              onClickTabBtn('calendar');
+            }}
+          >
+            <div>
+              <GoCalendar />
+              캘린더
+            </div>
+          </St.TabButton>
+          <St.TabButton
+            onClick={() => {
+              onClickTabBtn('myPosts');
+            }}
+          >
+            <div>
+              <GoTasklist />내 게시물
+            </div>
+          </St.TabButton>
+          <St.TabButton
+            onClick={() => {
+              onClickTabBtn('likes');
+            }}
+          >
+            <div>
+              <GoHeart /> 좋아요
+            </div>
+          </St.TabButton>
+        </St.TabButtonContainer>
+        <St.Tabs>
+          {activeTab === 'calendar' && <HabitCalendar />}
+          {activeTab === 'myPosts' && <MyPosts />}
+          {activeTab === 'likes' && <LikesPosts />}
+        </St.Tabs>
+      </St.MySectionWrapper>
+    </St.Wrapper>
   );
 }
 
