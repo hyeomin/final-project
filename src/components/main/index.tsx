@@ -1,9 +1,9 @@
 import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { downloadDefaultImage, downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import St from './style';
-import { GoHeart } from 'react-icons/go';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -45,14 +45,6 @@ function Main() {
       })) || []
   });
 
-  //default 이미지
-  const {
-    data: defaultImage
-  } = useQuery({
-    queryKey: ['defaultImageURL'],
-    queryFn: () => downloadDefaultImage({folder: 'default', imageName: 'homeDefault.jpg'})
-  });
-
   const { updateMutate } = usePostsQuery();
 
   const isLoadingAdminContents = postQueries[0].isLoading;
@@ -75,8 +67,6 @@ function Main() {
   if (!userPosts || userPosts.length === 0) {
     return <div>No data found</div>;
   }
-
-  //
 
   // 각각 게시물 클릭시 detail로 이동
   const onClickMoveToDetail = (id: string) => {
@@ -169,7 +159,6 @@ function Main() {
                 return (
                   <SwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
                     <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                      {/* item.LikedUsers 배열 안에 currentUserId가 있을 경우 HeartFillIcon                            */}
                       {item.likedUsers?.includes(currentUser!) ? (
                         <>
                           <St.HeartFillIcon />
@@ -184,10 +173,8 @@ function Main() {
                     </St.LikeButton>
                     {imageQuery.isLoading ? (
                       <p>Loading image...</p>
-                    ) : imageQuery.data ? (
-                      <img src={imageQuery.data} alt={item.title} />
                     ) : (
-                      <img src={defaultImage!} alt="default image" />
+                      <img src={imageQuery.data || defaultCover} alt={item.title} />
                     )}
                   </SwiperSlide>
                 );

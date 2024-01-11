@@ -1,3 +1,6 @@
+
+// date에 post.createdAt이 들어갑니다. 
+// ex: getFormattaedDate(post.createdAt)
 export const getFormattedDate = (date: number) => {
     return new Date(date).toLocaleDateString("ko", {
         year: "numeric",

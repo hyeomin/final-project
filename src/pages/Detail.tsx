@@ -7,6 +7,8 @@ import { downloadImageURL, getPosts } from '../api/homeApi';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Comment from '../components/detail/Comment';
+import defaultCover from '../assets/defaultCoverImg.jpeg'
+
 
 function Detail() {
   //인덱스 넘버로 페이지 관리
@@ -22,7 +24,7 @@ function Detail() {
 
   // post 정보
   const post = posts?.find((post) => post.id === id);
-  console.log('post ===>', post);
+  // console.log('post ===>', post);
 
   //해당 게시물 coverImage URL
   const {
@@ -30,7 +32,7 @@ function Detail() {
     isLoading,
     error
   } = useQuery({
-    queryKey: ['imageUrl'],
+    queryKey: ['imageUrl',  post?.id],
     queryFn: () => downloadImageURL(post?.id!),
     enabled: !!post?.id
   });
@@ -49,8 +51,9 @@ function Detail() {
       const postIndex = posts.findIndex((post) => post.id === id);
       setPostIndexNumber(postIndex); // 현재 post의 인덱스 설정
     }
+
     console.log('현재 post의 인덱스 넘버', postIndexNumber);
-  }, [id, posts, navigate]);
+  }, [id, posts, navigate, imageUrl ]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -59,8 +62,6 @@ function Detail() {
   if (error) {
     return <div>Error loading image</div>;
   }
-
-  //흠 페이지가 바껴도 리렌더링이 안 됨..
 
   //prev 버튼
   const onClickPrevButton = () => {
@@ -90,7 +91,7 @@ function Detail() {
     <CS.FullContainer>
       <PostContainer>
         <CoverImageContainer>
-          <div>{imageUrl && <img src={imageUrl} alt="Post Cover" />}</div>
+          <div>{imageUrl ? <img src={imageUrl} alt="Post Cover" />: <img src={defaultCover} alt="default cover" />}</div>
           <div>
             <button onClick={onClickPrevButton} type="button">
               prev

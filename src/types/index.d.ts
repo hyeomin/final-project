@@ -17,11 +17,17 @@ type PostType = {
 
 type User = {
   id?: string;
-  name?: string;
   password?: string;
   email?: string;
   uid?: string;
-  displayName?: string | null;
-  profileImg?: string | null;
+  displayName: string | null;
+  profileImg: string | null;
   role?: string;
 };
+
+type Comment = {
+  id: string;
+  uid: string;
+  profileImg: string;
+  createdAt: string;
+}
