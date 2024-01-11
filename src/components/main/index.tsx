@@ -6,6 +6,7 @@ import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { QUERY_KEYS } from '../../query/keys';
 import usePostsQuery from '../../query/usePostsQuery';
 import { auth } from '../../shared/firebase';
@@ -67,8 +68,6 @@ function Main() {
     return <div>No data found</div>;
   }
 
-  //
-
   // 각각 게시물 클릭시 detail로 이동
   const onClickMoveToDetail = (id: string) => {
     navigate(`/detail/${id}`);
@@ -78,14 +77,12 @@ function Main() {
     navigate('/viewAll');
   };
 
-  //id 타입에 undefined들어가야하는 이유?
   const onClickLikeButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string | undefined) => {
     e.stopPropagation();
     if (id) {
       // 'id'만 있는 PostType 객체생성
       const postToUpdate: PostType = { id };
       updateMutate(postToUpdate, {
-        // 왜 invalidateQueries가 안되는 걸까 -- 해결
         onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEYS.USERPOSTS],
@@ -163,31 +160,26 @@ function Main() {
               {userPosts!.map((item, idx) => {
                 const imageQuery = imageQueries[idx];
                 return (
-                  <St.StyledSwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
+                  <SwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
+                    <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
+                      {item.likedUsers?.includes(currentUser!) ? (
+                        <>
+                          <St.HeartFillIcon />
+                          <p>{item.likedUsers?.length}</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>{item.likedUsers?.length}</p>
+                          <St.HeartIcon />
+                        </>
+                      )}
+                    </St.LikeButton>
                     {imageQuery.isLoading ? (
                       <p>Loading image...</p>
                     ) : (
-                      imageQuery.data && (
-                        <>
-                          <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                            {/* item.LikedUsers 배열 안에 currentUserId가 있을 경우 HeartFillIcon                            */}
-                            {item.likedUsers?.includes(currentUser!) ? (
-                              <>
-                                <St.HeartFillIcon />
-                                <p>{item.likedUsers?.length}</p>
-                              </>
-                            ) : (
-                              <>
-                                <p>{item.likedUsers?.length}</p>
-                                <St.HeartIcon />
-                              </>
-                            )}
-                          </St.LikeButton>
-                          <img src={imageQuery.data} alt={item.title} />
-                        </>
-                      )
+                      <img src={imageQuery.data || defaultCover} alt={item.title} />
                     )}
-                  </St.StyledSwiperSlide>
+                  </SwiperSlide>
                 );
               })}
             </Swiper>
