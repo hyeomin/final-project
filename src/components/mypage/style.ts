@@ -240,7 +240,6 @@ export default {
   UserInfoModify,
   ProfileInfo,
   UserPostInfo,
-  TabButton
-  UserInfoModify,
+  TabButton,
   PostText
 };
