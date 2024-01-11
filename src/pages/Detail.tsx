@@ -54,7 +54,7 @@ function Detail() {
     console.log('현재 post의 인덱스 넘버', postIndexNumber);
   }, [id, posts, navigate, imageUrl]);
 
-  //커버이미지 로딩
+  //커버이미지 로딩 ==> 추후 스피너 적용
   if (isLoading) {
     return <div>Loading...</div>;
   }
