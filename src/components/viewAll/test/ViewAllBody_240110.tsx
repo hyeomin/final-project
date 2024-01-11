@@ -1,33 +1,39 @@
-import St from './style';
+import St from '../style';
 import defaultImg from '../../assets/defaultImg.jpg';
-import { InfiniteData, QueryFunctionContext, useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { getAdminPostList, getHabitList, getRecommendList, getShareList, getknowHowList } from '../../api/pageListApi';
-import { QUERY_KEYS } from '../../query/keys';
-import { useEffect, useState } from 'react';
-import usePaginatedItem from '../../hooks/usePaginatedItem';
-import { DocumentData, collection, getDocs, limit, orderBy, query, startAfter, where } from 'firebase/firestore';
-import { db } from '../../shared/firebase';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import {
+  getAdminPostList,
+  getCategoryPosts,
+  getHabitList,
+  getRecommendList,
+  getShareList,
+  getknowHowList
+} from '../../../api/pageListApi';
+import { QUERY_KEYS } from '../../../query/keys';
+import {
+  DocumentData,
+  QueryDocumentSnapshot,
+  collection,
+  getDocs,
+  limit,
+  query,
+  startAfter,
+  where
+} from 'firebase/firestore';
+import { db } from '../../../shared/firebase';
+import { useState } from 'react';
 
-interface AdminPostListResponse {
-  items: PostType[];
-  nextCursor?: string;
-}
+type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'admin';
 
 function ViewAllBody() {
-  // const [selectCategory, setSelectCategory] = useState<PostType[]>([]);
+  const [selectCategory, setSelectCategory] = useState<PostType[]>([]);
+  //const [categoryList, setcategoryList] = useState<Category>('knowHow');
 
   //const adminQuery = useQuery({ queryKey: [QUERY_KEYS.ADMIN], queryFn: getAdminPostList });
-  const knowHowQuery = useQuery({ queryKey: [QUERY_KEYS.KNOWHOW], queryFn: getknowHowList });
-  const recommendQuery = useQuery({ queryKey: [QUERY_KEYS.RECOMMEND], queryFn: getRecommendList });
-  const shareQuery = useQuery({ queryKey: [QUERY_KEYS.SHARE], queryFn: getShareList });
-  const habitQuery = useQuery({ queryKey: [QUERY_KEYS.HABIT], queryFn: getHabitList });
-
-  // let formattedDate = new Intl.DateTimeFormat('ko-KR', {
-  //   dateStyle: 'full',
-  //   timeStyle: 'short'
-  // }).format(new Date());
-
-  const [lastVisible, setLastVisible] = useState<DocumentData | null>(null);
+  // const knowHowQuery = useQuery({ queryKey: [QUERY_KEYS.KNOWHOW], queryFn: getCategoryPosts('knowHow') });
+  // const recommendQuery = useQuery({ queryKey: [QUERY_KEYS.RECOMMEND], queryFn: getRecommendList });
+  // const shareQuery = useQuery({ queryKey: [QUERY_KEYS.SHARE], queryFn: getShareList });
+  // const habitQuery = useQuery({ queryKey: [QUERY_KEYS.HABIT], queryFn: getHabitList });
 
   const {
     data: admin,
@@ -37,34 +43,24 @@ function ViewAllBody() {
     isError
   } = useInfiniteQuery({
     queryKey: [QUERY_KEYS.ADMIN],
-    queryFn: async () => {
-      const q = lastVisible
-        ? query(collection(db, 'test'), where('role', '==', 'admin'), startAfter(lastVisible), limit(4))
+    queryFn: async ({ pageParam }) => {
+      const q = pageParam
+        ? query(collection(db, 'test'), where('role', '==', 'admin'), startAfter(pageParam), limit(4))
         : query(collection(db, 'test'), where('role', '==', 'admin'), limit(4));
 
       const querySnapshot = await getDocs(q);
-      if (querySnapshot.docs.length > 0) {
-        setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
-      }
-
-      return querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...(doc.data() as Omit<PostType, 'id'>) //id 제외하고 나머지 필드를 PostType으로 변환
-      }));
+      return querySnapshot.docs;
     },
 
-    initialPageParam: '',
+    initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
     getNextPageParam: (lastPage) => {
-      //console.log('333333', lastPage[lastPage.length - 1]); //배열 4개중에 마지막 데이터
-      //console.log('333333', lastPage[lastPage.length - 1].id); //배열 4개중에 마지막 데이터
-      console.log('lastPage', lastPage);
       if (lastPage.length === 0) {
         return undefined;
       }
-      return lastPage[lastPage.length - 1].id; //sdfsdfsfsdfd
+      return lastPage[lastPage.length - 1];
     },
     select: (data) => {
-      return data.pages.flat();
+      return data.pages.flat().map((doc) => ({ id: doc.id, ...doc.data() } as PostType));
     }
   });
 
@@ -132,10 +128,10 @@ function ViewAllBody() {
 
       <St.MainSubWrapper>
         <St.ButtonWrapper>
-          <St.Button onClick={() => handleButtonsClick(knowHowQuery.data)}>친환경 노하우</St.Button>
+          {/* <St.Button onClick={() => handleButtonsClick(knowHowQuery.data)}>친환경 노하우</St.Button>
           <St.Button onClick={() => handleButtonsClick(recommendQuery.data)}>제품 추천</St.Button>
           <St.Button onClick={() => handleButtonsClick(shareQuery.data)}>제품 나눔</St.Button>
-          <St.Button onClick={() => handleButtonsClick(habitQuery.data)}>습관 인증</St.Button>
+          <St.Button onClick={() => handleButtonsClick(habitQuery.data)}>습관 인증</St.Button> */}
         </St.ButtonWrapper>
 
         <St.SortWrapper>
@@ -150,7 +146,7 @@ function ViewAllBody() {
 
         <St.ContentsWrapper>
           <St.Contents>
-            {knowHowQuery.data?.map((item) => (
+            {selectCategory?.map((item) => (
               <St.Content key={item.id}>
                 <img src={defaultImg} alt={item.title}></img>
 

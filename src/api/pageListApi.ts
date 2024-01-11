@@ -1,3 +1,4 @@
+import { QueryFunctionContext, QueryKey } from '@tanstack/react-query';
 import { db } from '../shared/firebase';
 import {
   DocumentData,
@@ -9,69 +10,90 @@ import {
   startAfter,
   where
 } from 'firebase/firestore';
+import { Category } from '../components/viewAll/ViewAllBody';
 
 //관리자 (콘텐츠 by Mango)
-export const getAdminPostList = async (
-  pageParam: undefined | QueryDocumentSnapshot<DocumentData, DocumentData>
-): Promise<PostType[]> => {
-  console.log('pageParam', pageParam);
+export const getAdminPostList =
+  (category: Category) => async (pageParam: undefined | QueryDocumentSnapshot<DocumentData, DocumentData>) => {
+    const q = pageParam
+      ? query(collection(db, 'posts'), where('role', '==', 'admin'), startAfter(pageParam), limit(4))
+      : query(collection(db, 'posts'), where('role', '==', 'admin'), limit(4));
 
-  let lastVisible;
-
-  const q = pageParam
-    ? query(collection(db, 'test'), where('role', '==', 'admin'), startAfter(pageParam), limit(4))
-    : query(collection(db, 'test'), where('role', '==', 'admin'), limit(4));
-
-  const querySnapShot = await getDocs(q);
-
-  lastVisible = querySnapShot.docs[querySnapShot.docs.length - 1];
-  return querySnapShot.docs;
-  // return querySnapShot.docs.map((doc) => ({
-  //   id: doc.id,
-  //   ...(doc.data() as Omit<PostType, 'id'>) //id 제외하고 나머지 필드를 PostType으로 변환
-  // }));
-};
+    const querySnapShot = await getDocs(q);
+    return querySnapShot.docs;
+  };
 
 //카테고리(1) 친환경 노하우
-export const getknowHowList = async (): Promise<PostType[]> => {
-  const q = query(collection(db, 'test'), where('category', '==', 'knowHow'));
+export const getknowHowList = async ({
+  pageParam
+}: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
+  const q = pageParam
+    ? query(collection(db, 'test'), where('category', '==', 'knowHow'), startAfter(pageParam), limit(4))
+    : query(collection(db, 'test'), where('category', '==', 'knowHow'), limit(4));
+
   const querySnapShot = await getDocs(q);
 
-  return querySnapShot.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as Omit<PostType, 'id'>) //id 제외하고 나머지 필드를 PostType으로 변환
-  }));
+  return querySnapShot.docs;
 };
-
 //카테고리(2) 제품 추천
-export const getRecommendList = async (): Promise<PostType[]> => {
-  const q = query(collection(db, 'test'), where('category', '==', 'recommendation'));
+export const getRecommendList = async ({
+  pageParam
+}: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
+  const q = pageParam
+    ? query(collection(db, 'test'), where('category', '==', 'recommendation'), startAfter(pageParam), limit(4))
+    : query(collection(db, 'test'), where('category', '==', 'recommendation'), limit(4));
+
   const querySnapShot = await getDocs(q);
 
-  return querySnapShot.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as Omit<PostType, 'id'>) //id 제외하고 나머지 필드를 PostType으로 변환
-  }));
+  return querySnapShot.docs;
 };
-
 //카테고리(3) 제품 나눔
-export const getShareList = async (): Promise<PostType[]> => {
-  const q = query(collection(db, 'test'), where('category', '==', 'sharing'));
+export const getShareList = async ({
+  pageParam
+}: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
+  const q = pageParam
+    ? query(collection(db, 'test'), where('category', '==', 'sharing'), startAfter(pageParam), limit(4))
+    : query(collection(db, 'test'), where('category', '==', 'sharing'), limit(4));
+
   const querySnapShot = await getDocs(q);
 
-  return querySnapShot.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as Omit<PostType, 'id'>) //id 제외하고 나머지 필드를 PostType으로 변환
-  }));
+  return querySnapShot.docs;
 };
-
 //카테고리(4) 습관 인증
-export const getHabitList = async (): Promise<PostType[]> => {
-  const q = query(collection(db, 'test'), where('category', '==', 'habit'));
+export const getHabitList = async ({
+  pageParam
+}: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
+  const q = pageParam
+    ? query(collection(db, 'test'), where('category', '==', 'habit'), startAfter(pageParam), limit(4))
+    : query(collection(db, 'test'), where('category', '==', 'habit'), limit(4));
+
   const querySnapShot = await getDocs(q);
 
-  return querySnapShot.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as Omit<PostType, 'id'>) //id 제외하고 나머지 필드를 PostType으로 변환
-  }));
+  return querySnapShot.docs;
 };
+
+export const getCategoryPosts =
+  (category: Category) =>
+  async ({
+    pageParam
+  }: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
+    const q = pageParam
+      ? query(collection(db, 'posts'), where('category', '==', category), startAfter(pageParam), limit(4))
+      : query(collection(db, 'posts'), where('category', '==', category), limit(4));
+
+    const querySnapShot = await getDocs(q);
+    return querySnapShot.docs;
+  };
+
+export const sortPopularCategoryPosts =
+  (category: Category) =>
+  async ({
+    pageParam
+  }: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
+    const q = pageParam
+      ? query(collection(db, 'posts'), where('category', '==', category), startAfter(pageParam), limit(4))
+      : query(collection(db, 'posts'), where('category', '==', category), limit(4));
+
+    const querySnapShot = await getDocs(q);
+    return querySnapShot.docs;
+  };
