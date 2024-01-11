@@ -9,6 +9,8 @@ import { QUERY_KEYS } from '../../query/keys';
 import { isLoggedInState, isSignUpState, roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import St from './style';
+import { Data } from './Signup';
+import { FormSubmitHandler, SubmitHandler, useForm } from 'react-hook-form';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -18,14 +20,26 @@ function Login() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const [role, setRole] = useRecoilState(roleState);
 
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    formState: { errors }
+  } = useForm<Data>({ mode: 'onChange' });
+
   const navigate = useNavigate();
 
-  const onChangeEmailhandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-  const onChangePWhandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+  // const onChangeEmailhandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setEmail(e.target.value);
+  // };
+  // const onChangePWhandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setPassword(e.target.value);
+  // };
+
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
 
   const { data: userList } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
@@ -33,10 +47,9 @@ function Login() {
   });
 
   // 로그인
-  const signIn = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const signIn: SubmitHandler<Data> = async (data) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
       console.log('userCredential', userCredential);
 
       // 로그인 성공 시 role의 recoil(전역상태) update
@@ -63,28 +76,50 @@ function Login() {
 
   return (
     <St.authWrapper>
-      <SingleInputContainer>
-        <span>아이디</span>
-        <input value={email} onChange={onChangeEmailhandler} type="text" placeholder="아이디를 입력하세요." />
-      </SingleInputContainer>
-      <SingleInputContainer>
-        <span>비밀번호</span>
-        <input type="password" value={password} onChange={onChangePWhandler} placeholder="비밀번호를 입력하세요." />
-      </SingleInputContainer>
-      <SingleInputContainer></SingleInputContainer>
-      <button onClick={signIn}>로그인</button>
-      <button onClick={logOut}>로그아웃</button>
+      <form onSubmit={handleSubmit(signIn)}>
+        <SingleInputContainer>
+          <span>아이디</span>
+          <input
+            type="text"
+            placeholder="아이디를 입력하세요."
+            {...register('email', {
+              required: true,
+              pattern: emailRegex
+            })}
+          />
+          {errors?.email?.type === 'required' && <St.WarningMsg> 이메일을 입력해주세요</St.WarningMsg>}
+          {errors?.email?.type === 'pattern' && <St.WarningMsg>이메일 양식에 맞게 입력해주세요</St.WarningMsg>}
+        </SingleInputContainer>
+        <SingleInputContainer>
+          <span>비밀번호</span>
+          <input
+            type="password"
+            placeholder="비밀번호를 입력하세요."
+            {...register('password', {
+              required: true,
+              pattern: passwordRegex
+            })}
+          />
+          {errors?.password?.type === 'required' && <St.WarningMsg> ⚠️ 비밀번호를 입력해주세요</St.WarningMsg>}
+          {errors?.password?.type === 'pattern' && (
+            <St.WarningMsg> ⚠️ 비밀번호는 문자, 숫자 1개이상 포함, 8자리 이상입니다</St.WarningMsg>
+          )}
+        </SingleInputContainer>
+        <SingleInputContainer></SingleInputContainer>
+        <button type="submit">로그인</button>
+        <button onClick={logOut}>로그아웃</button>
 
-      <SignUpNavigation>
-        <p>아직 회원이 아니신가요?</p>
-        <button
-          onClick={() => {
-            setIsSignUp(true);
-          }}
-        >
-          회원가입 하기
-        </button>
-      </SignUpNavigation>
+        <SignUpNavigation>
+          <p>아직 회원이 아니신가요?</p>
+          <button
+            onClick={() => {
+              setIsSignUp(true);
+            }}
+          >
+            회원가입 하기
+          </button>
+        </SignUpNavigation>
+      </form>
     </St.authWrapper>
   );
 }
