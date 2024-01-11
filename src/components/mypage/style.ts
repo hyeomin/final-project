@@ -1,6 +1,6 @@
-import styled from 'styled-components';
 import 'react-calendar/dist/Calendar.css';
-import defaultImg from '../../assets/defaultImg.jpg';
+import styled from 'styled-components';
+import theme from '../../styles/theme';
 
 const Wrapper = styled.div`
   max-width: 1440px;
@@ -11,13 +11,31 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+
+  row-gap: 80px;
 `;
 
 const ProfileEditWrapper = styled.div`
+  display: flex;
+  column-gap: 30px;
+
+  width: 100%;
   height: 250px;
-  margin: 20px;
-  padding: 20px;
-  background-color: white;
+  padding: 40px;
+
+  background-color: ${theme.color.lightgray};
+`;
+
+const ProfileInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+`;
+
+const UserPostInfo = styled.div`
+  display: flex;
+  column-gap: 20px;
 `;
 
 const UserInfo = styled.div`
@@ -30,7 +48,10 @@ const UserInfo = styled.div`
 `;
 
 const profileImg = styled.img`
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 
 const UserInfoModify = styled.div``;
@@ -65,15 +86,28 @@ const Tabs = styled.div`
   height: 100%;
   margin: 20px;
   padding: 20px;
-  background-color: lightgray;
+  /* background-color: lightgray; */
 `;
 
-const TabBtns = styled.div`
-  margin-top: 20px;
+const TabButtonContainer = styled.div`
   display: flex;
-  align-self: self-start;
-  margin-left: 70px;
-  justify-content: flex-start;
+  column-gap: 20px;
+  font-size: 20px;
+`;
+
+const TabButton = styled.button`
+  background-color: transparent;
+  border-color: transparent;
+
+  & div {
+    display: flex;
+    color: lightgray;
+    column-gap: 7px;
+
+    &:hover {
+      color: black;
+    }
+  }
 `;
 
 const CalendarBtn = styled.button``;
@@ -106,13 +140,13 @@ const StyleCalendar = styled.div`
 const MySectionWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
   width: 80%;
-  height: 100%;
-  margin: 20px 20px 20px;
-  padding: 20px;
-  background-color: white;
+  height: 600px;
+  /* margin: 20px 20px 20px; */
+  /* padding: 20px; */
+
+  border-top: 1px solid #d9d9d9;
 `;
 
 const MyPostsWrapper = styled.div`
@@ -186,7 +220,7 @@ export default {
   UserInfo,
   EditBtn,
   Tabs,
-  TabBtns,
+  TabButtonContainer,
   CalendarBtn,
   MyPostsBtn,
   MyLikesBtn,
@@ -204,5 +238,8 @@ export default {
   FileImgUpload,
   DisplayNameModify,
   UserInfoModify,
+  ProfileInfo,
+  UserPostInfo,
+  TabButton,
   PostText
 };
