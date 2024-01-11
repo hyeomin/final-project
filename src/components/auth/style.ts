@@ -13,4 +13,8 @@ const profileImg = styled.img`
   height: 50px;
 `;
 
-export default { InputContainer, profileImg, authWrapper };
+const WarningMsg = styled.p`
+  color: red;
+`;
+
+export default { InputContainer, profileImg, authWrapper, WarningMsg };
