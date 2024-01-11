@@ -58,7 +58,7 @@ const TitleContainer = styled.div`
   /* margin-bottom: 10px; */
 
   & h1 {
-    font-size: 38px;
+    font-size: 26px;
     font-weight: 700;
   }
 `;
@@ -69,7 +69,7 @@ const SubTitle = styled.div`
 
   & p {
     color: ${theme.color.mangoMain};
-    font-size: 24px;
+    font-size: 17px;
     font-weight: 700;
   }
 
@@ -107,8 +107,8 @@ const StyledSwiperSlide = styled(SwiperSlide)`
 
 const LikeButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 10px;
+  bottom: 10px;
+  left: 10px;
 `;
 
 const HeartIcon = styled(GoHeart)`

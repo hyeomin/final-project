@@ -194,17 +194,6 @@ function Main() {
           </St.ThumbnailsBox>
         </St.PostsSlide>
       </St.userPostsPosts>
-      <St.TopTenContainer>
-        <St.TitleContainer>
-          <h1>Top 10</h1>
-          <St.SubTitle>
-            <p>망고에서 제일 인기 있는 게시물들을 둘러보세요</p>
-            <button type="button" onClick={onClickViewAllButton}>
-              {'전체보기 >'}
-            </button>
-          </St.SubTitle>
-        </St.TitleContainer>
-      </St.TopTenContainer>
     </St.Container>
   );
 }
