@@ -2,7 +2,7 @@ declare module '*.jpg';
 declare module '*.png';
 
 type PostType = {
-  id?: string;
+  id: string;
   category?: string;
   title?: string;
   content?: string;
@@ -17,11 +17,17 @@ type PostType = {
 
 type User = {
   id?: string;
-  name?: string;
   password?: string;
   email?: string;
   uid?: string;
-  displayName?: string | null;
-  profileImg?: string | null;
+  displayName: string | null;
+  profileImg: string | null;
   role?: string;
 };
+
+type CommentType = {
+  id: string;
+  uid: string;
+  profileImg: string;
+  createdAt: number;
+}
