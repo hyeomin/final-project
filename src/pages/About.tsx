@@ -1,21 +1,19 @@
 import styled from 'styled-components';
 import AboutMain from '../components/about/AboutMain';
 import WhyMango from '../components/about/WhyMango';
-import CS from './CommonStyle';
+import theme from '../styles/theme';
 
 function About() {
   return (
-    <CS.FullContainer>
-      <AboutContainer>
-        <Header>Header Image 요기 사진 들어갈 것</Header>
-        <WhyMango />
-        <AboutMain />
-        <Bottom>
-          <div>Left</div>
-          <div>Right</div>
-        </Bottom>
-      </AboutContainer>
-    </CS.FullContainer>
+    <AboutContainer>
+      <Header>Header Image 요기 사진 들어갈 것</Header>
+      <WhyMango />
+      <AboutMain />
+      <Bottom>
+        <div>Left</div>
+        <div>Right</div>
+      </Bottom>
+    </AboutContainer>
   );
 }
 
@@ -27,11 +25,13 @@ const AboutContainer = styled.div`
   align-items: center;
 
   row-gap: 10px;
-  padding: 10px;
+
+  background-color: ${theme.color.mangoMain};
 `;
 
 const Header = styled.div`
   width: 100%;
+  height: 400px;
   background-color: pink;
 `;
 

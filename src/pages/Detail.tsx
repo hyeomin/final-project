@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import DetailBody from '../components/detail/DetailBody';
-import CS from './CommonStyle';
 import { useQuery } from '@tanstack/react-query';
-import { QUERY_KEYS } from '../query/keys';
-import { downloadImageURL, getPosts } from '../api/homeApi';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { downloadImageURL, getPosts } from '../api/homeApi';
 import Comment from '../components/detail/Comment';
+import DetailBody from '../components/detail/DetailBody';
+import { QUERY_KEYS } from '../query/keys';
+import CS from './CommonStyle';
 
 function Detail() {
   //인덱스 넘버로 페이지 관리
@@ -100,9 +100,9 @@ function Detail() {
             </button>
           </div>
         </CoverImageContainer>
-        <DetailBody post={post!}/>
+        <DetailBody post={post!} />
       </PostContainer>
-      <Comment post={post!}/>
+      <Comment post={post!} />
     </CS.FullContainer>
   );
 }

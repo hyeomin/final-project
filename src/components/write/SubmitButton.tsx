@@ -1,13 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import styled from 'styled-components';
 import { addPost } from '../../api/postApi';
 import { contentState, coverImageState, hashtagState, titleState } from '../../recoil/posts';
+import theme from '../../styles/theme';
 import { PostType2 } from '../../types/Posts';
 
 type Props = {
   newPost: Omit<PostType2, 'id'>;
 };
+
+interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'save' | 'done';
+}
 
 function SubmitButton({ newPost }: Props) {
   const [coverImageList, setCoverImageList] = useRecoilState(coverImageState);
@@ -42,11 +48,33 @@ function SubmitButton({ newPost }: Props) {
   };
 
   return (
-    <div>
-      <button>임시 저장</button>
-      <button onClick={onSubmitHandler}>완료</button>
-    </div>
+    <ButtonContainer>
+      <CustomButton variant="save">임시 저장</CustomButton>
+      <CustomButton variant="done" onClick={onSubmitHandler}>
+        완료
+      </CustomButton>
+    </ButtonContainer>
   );
 }
 
 export default SubmitButton;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  column-gap: 10px;
+`;
+
+const CustomButton = styled.button<CustomButtonProps>`
+  color: white;
+  background-color: ${theme.color.mangoMain};
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+
+  ${({ variant }) =>
+    variant === 'save' &&
+    `
+    color: black;
+    background-color: white;
+  `}
+`;
