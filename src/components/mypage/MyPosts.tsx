@@ -59,7 +59,7 @@ const MyPosts = () => {
             return (
               <St.PostText>
                 <>
-                  <img src={imageQuery.data} />
+                  <img src={imageQuery.data!} />
                   <div>{item.title}</div>
                   <St.MyPostImg dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
                 </>
