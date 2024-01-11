@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 /*유저 등록 데이터 (친환경노하우~습관인증) */
 const MainSubWrapper = styled.div`
-  width: 1440px;
+  width: 100%;
   margin: auto;
   margin-bottom: 150px;
 `;
@@ -44,7 +44,7 @@ const SortWrapper = styled.ul`
 
 /*게시물*/
 const ContentsWrapper = styled.div`
-  width: 1200px;
+  width: 100%;
   margin: auto;
   margin-bottom: 70px;
   display: flex;
