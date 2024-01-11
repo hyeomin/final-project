@@ -1,17 +1,17 @@
 import { useQueries, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
-import defaultCover from '../../assets/defaultCoverImg.jpeg';
-import St from './style'
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import './swiperStyle.css';
-import usePostsQuery from '../../query/usePostsQuery';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { QUERY_KEYS } from '../../query/keys';
+import usePostsQuery from '../../query/usePostsQuery';
 import { auth } from '../../shared/firebase';
+import St from './style';
+import './swiperStyle.css';
 
 function Main() {
   const currentUser = auth.currentUser?.uid;
@@ -119,12 +119,15 @@ function Main() {
         </Swiper>
       </St.AdminContentsSection>
       <St.userPostsPosts>
-        <St.Title>
+        <St.TitleContainer>
           <h1>인기 게시물</h1>
-          <button type="button" onClick={onClickViewAllButton}>
-            전체보기
-          </button>
-        </St.Title>
+          <St.SubTitle>
+            <p>망고에서 제일 인기 있는 게시물들을 둘러보세요</p>
+            <button type="button" onClick={onClickViewAllButton}>
+              {'전체보기 >'}
+            </button>
+          </St.SubTitle>
+        </St.TitleContainer>
         <St.PostsSlide>
           <St.ThumbnailsBox>
             <Swiper
@@ -157,7 +160,7 @@ function Main() {
               {userPosts!.map((item, idx) => {
                 const imageQuery = imageQueries[idx];
                 return (
-                  <SwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
+                  <St.StyledSwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
                     <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
                       {item.likedUsers?.includes(currentUser!) ? (
                         <>
@@ -174,9 +177,9 @@ function Main() {
                     {imageQuery.isLoading ? (
                       <p>Loading image...</p>
                     ) : (
-                      <img src={imageQuery.data || defaultCover} alt={item.title}/>
+                      <img src={imageQuery.data || defaultCover} alt={item.title} />
                     )}
-                  </SwiperSlide>
+                  </St.StyledSwiperSlide>
                 );
               })}
             </Swiper>

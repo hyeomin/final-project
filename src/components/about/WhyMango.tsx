@@ -3,7 +3,7 @@ import styled from 'styled-components';
 function WhyMango() {
   return (
     <WhyContainer>
-      <h5>Why Mango?</h5>
+      <h5>WHY MANGO?</h5>
       <p>망고의 미션은 이러합니다</p>
     </WhyContainer>
   );

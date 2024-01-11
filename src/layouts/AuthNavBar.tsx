@@ -13,15 +13,15 @@ function AuthNavBar() {
   const navigate = useNavigate();
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    if (!isLoggedIn) {
-      const confirmation = window.confirm('로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?');
-      if (confirmation) {
-        navigate('/auth');
-      } else {
-        navigate('/');
-      }
-    } else navigate('/write');
+    // event.preventDefault();
+    // if (!isLoggedIn) {
+    //   const confirmation = window.confirm('로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?');
+    //   if (confirmation) {
+    //     navigate('/auth');
+    //   } else {
+    //     navigate('/');
+    //   }
+    // } else navigate('/write');
   };
 
   const onLogOutHandler = async (e: React.FormEvent) => {
