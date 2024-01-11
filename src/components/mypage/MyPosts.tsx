@@ -1,38 +1,75 @@
 import React from 'react';
 import St from './style';
+import { useInfiniteQuery, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
+import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
 
+import { getMyPosts } from '../../api/myPostAPI';
+import { QUERY_KEYS } from '../../query/keys';
+import { auth } from '../../shared/firebase';
+
+// 내 게시물 가져오기
 const MyPosts = () => {
+  const { data: posts } = useQuery({
+    queryKey: [QUERY_KEYS.POSTS],
+    queryFn: getMyPosts
+  });
+  // console.log('myPost ===>', posts);
+
+  const postQueries = useQueries({
+    queries: [
+      {
+        queryKey: ['adminContents'],
+        queryFn: getAdminHomeContents
+      },
+      {
+        queryKey: [QUERY_KEYS.USERPOSTS],
+        queryFn: getTopRankingPosts
+      }
+    ]
+  });
+
+  //필터된 posts 목록 (망고관리자 게시물은 임시로 둔다.)
+  // const createdByMango = postQueries[0].data || [];
+  const myPosts = postQueries[1].data || [];
+
+  // 이미지URL 불러오기
+  const imageQueries = useQueries({
+    queries:
+      posts?.map((post) => ({
+        queryKey: ['imageURL', post.id],
+        queryFn: () => downloadImageURL(post.id as string)
+      })) || []
+  });
+
+  // console.log('imageQueries', imageQueries);
+  // console.log('이거!!!!!!!posts', myPosts);
+
+  function removeImageTags(htmlContent: string) {
+    return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
+  }
+
+  //useInfiniteQuery 더보기 구현
+
   return (
-    <div>
-      MyPosts
-      <St.MyPostsWrapper>
-        <St.MyPosts>
-          <St.MyPostImg></St.MyPostImg>
-          <St.MyPostText> </St.MyPostText>
-        </St.MyPosts>
-        <St.MyPosts>
-          <St.MyPostImg></St.MyPostImg>
-          <St.MyPostText></St.MyPostText>
-        </St.MyPosts>
-        <St.MyPosts>
-          <St.MyPostImg>Img</St.MyPostImg>
-          <St.MyPostText>text text</St.MyPostText>
-        </St.MyPosts>
-        <St.MyPosts>
-          <St.MyPostImg>Img</St.MyPostImg>
-          <St.MyPostText>text text</St.MyPostText>
-        </St.MyPosts>
-        <St.MyPosts>
-          <St.MyPostImg>Img</St.MyPostImg>
-          <St.MyPostText>text text</St.MyPostText>
-        </St.MyPosts>
-        <St.MyPosts>
-          <St.MyPostImg>Img</St.MyPostImg>
-          <St.MyPostText>text text</St.MyPostText>
-        </St.MyPosts>
-      </St.MyPostsWrapper>
-    </div>
+    <St.MyPostsWrapper>
+      <St.MyPostTextBox>
+        {posts?.map((item, idx) => {
+          const imageQuery = imageQueries[idx];
+          if (item.uid === auth.currentUser?.uid) {
+            return (
+              <St.PostText>
+                <>
+                  <img src={imageQuery.data!} />
+                  <div>{item.title}</div>
+                  <St.MyPostImg dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
+                </>
+                <button style={{ width: '100px', height: '50px;' }}>more</button>
+              </St.PostText>
+            );
+          }
+        })}
+      </St.MyPostTextBox>
+    </St.MyPostsWrapper>
   );
 };
-
 export default MyPosts;
