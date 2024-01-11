@@ -22,7 +22,7 @@ function Detail() {
 
   // post 정보
   const post = posts?.find((post) => post.id === id);
-  console.log('post ===>', post);
+  console.log('현재 포스트 정보 ===>', post);
 
   //해당 게시물 coverImage URL
   const {
@@ -39,19 +39,19 @@ function Detail() {
   useEffect(() => {
     if (posts) {
       // 해당 아이디를 가진 post가 존재하는지 확인
-      const validatePostId = posts.some((post) => post.id === id);
-      if (!id || !validatePostId) {
-        alert('존재하지 않는 게시물입니다.');
-        navigate('/'); // 홈으로 이동
-        return;
-      }
+      // const validatePostId = posts.some((post) => post.id === id);
+      // if (!id || !validatePostId) {
+      //   alert('존재하지 않는 게시물입니다.');
+      //   navigate('/'); // 홈으로 이동
+      //   return;
+      // }
 
       const postIndex = posts.findIndex((post) => post.id === id);
       setPostIndexNumber(postIndex); // 현재 post의 인덱스 설정
     }
-    console.log('현재 post의 인덱스 넘버', postIndexNumber);
   }, [id, posts, navigate]);
 
+  //커버이미지 로딩
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -60,7 +60,6 @@ function Detail() {
     return <div>Error loading image</div>;
   }
 
-  //흠 페이지가 바껴도 리렌더링이 안 됨..
 
   //prev 버튼
   const onClickPrevButton = () => {
