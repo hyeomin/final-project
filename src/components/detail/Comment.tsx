@@ -11,28 +11,33 @@ type Props = {
   post: PostType;
 };
 const Comment = ({ post }: Props) => {
+  const postId = post?.id;
   const [content, setContent] = useState('');
+  const [textArea, setTextArea] = useState('');
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
-  // 작성자 아바타 가져오기
+  // 로그인된 유저정보
   const { data: currentUser } = useQuery({
     queryKey: ['userData'],
     queryFn: getUserData
   });
-  const postId = post?.id;
+
 
   // 댓글목록 가져오기
   const { data: comments } = useQuery({
-    queryKey: [QUERY_KEYS.COMMENTS],
+    queryKey: [QUERY_KEYS.COMMENTS, postId],
     queryFn: () => getComments(postId)
   });
 
-  console.log('댓글 목록 ===>', comments);
-
+  //로그인 유저의 프로필 이미지
   const userProfile = currentUser?.profileImg;
+
+  //mutates
   const { addCommentMutate, updateCommentMutate, deleteCommentMutate } = useCommentQuery();
 
   // 이벤트 핸들러
   const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
+  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => setTextArea(e.target.value);
 
   // 댓글 등록
   const onSubmitNewComment = (e: React.FormEvent<HTMLFormElement>) => {
@@ -48,22 +53,33 @@ const Comment = ({ post }: Props) => {
     };
     addCommentMutate({ newComment, postId: post.id });
     setContent('');
-    alert('등록되었습니다.')
+    alert('등록되었습니다.');
   };
 
   //댓글 삭제
   const onClickDeleteButton = (id: string) => {
-    console.log('id==>', id)
-    const confirm = window.confirm('정말로 삭제하시겠습니까?')
-    if(!confirm) return;
-    deleteCommentMutate({id, postId: post.id})
+    console.log('id==>', id);
+    const confirm = window.confirm('정말로 삭제하시겠습니까?');
+    if (!confirm) return;
+    deleteCommentMutate({ id, postId: post.id });
   };
 
-  //댓글 수정
+  //댓글 수정완료
   const onClickUpdateButton = (id: string) => {
-    const confirm = window.confirm('저장하시겠습니까?')
-    if(!confirm) return;
-    // updateCommentMutate()
+    const confirm = window.confirm('저장하시겠습니까?');
+    if (!confirm) return;
+    updateCommentMutate({postId: post.id, id, textArea})
+    setEditingCommentId(null);
+  };
+
+  // 수정버튼 클릭 ==> 수정모드
+  const onClickEditModeButton = (id: string) => {
+    setEditingCommentId(id);
+  };
+
+  //취소버튼
+  const onClickCancelButton = () => {
+    setEditingCommentId(null);
   };
 
   return (
@@ -86,12 +102,23 @@ const Comment = ({ post }: Props) => {
                   <span>{comment.displayName}</span>
                   <span>{getFormattedDate(comment.createdAt)}</span>
                 </NameAndTime>
-                <Buttons>
-                  <button onClick={() => onClickUpdateButton(comment.id)}>수정</button>
-                  <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
-                </Buttons>
+                {editingCommentId === comment.id ? (
+                  <Buttons>
+                    <button onClick={() => onClickUpdateButton(comment.id)}>저장</button>
+                    <button onClick={onClickCancelButton}>취소</button>
+                  </Buttons>
+                ) : (
+                  <Buttons>
+                    <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
+                    <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
+                  </Buttons>
+                )}
               </CommentDetail>
-              <Content>{comment.content}</Content>
+              {editingCommentId === comment.id ? (
+                <textarea defaultValue={comment.content} onChange={(e) => onChangeTextArea(e)}/>
+              ) : (
+                <Content>{comment.content}</Content>
+              )}
             </Card>
           );
         })}
@@ -123,14 +150,14 @@ const ProfileImg = styled.div`
 const CommentList = styled.div`
   display: flex;
   flex-direction: column;
-  /* background-color: aliceblue; */
+  background-color: aliceblue;
 `;
 
 const Card = styled.div`
   display: flex;
   flex-direction: column;
   /* background-color: red; */
-  width: 700px;
+  width: 500px;
   padding: 20px 10px 20px 10px;
 
   &:not(:last-child) {

@@ -80,13 +80,19 @@ const deleteComment = async ({id, postId}: deleteComment) => {
   }
 };
 
+type UpdateComment = {
+  id: string;
+  textArea: string;
+  postId: string
+}
 // // 게시물 UPDATE
-const updateComment = async ({ id, content }: PostType) => {
+const updateComment = async ({ postId, id, textArea: content }: UpdateComment) => {
   try {
-    console.log('content ===> ', content);
-    const postRef = doc(db, QUERY_KEYS.POSTS, id!);
-    await updateDoc(postRef, { content });
-    console.log('수정완료');
+    const postRef = doc(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS, id);
+    const createdAt = Date.now();
+    const resp = await updateDoc(postRef, { content, createdAt});
+    console.log('수정완료==>', resp);
+    
   } catch (error) {
     console.log('error', error);
   }
