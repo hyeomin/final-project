@@ -2,7 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { getUserData } from '../../api/detailApi';
-import defaultUserProfileImg from '../../assets/defaultImg.jpg';
+import defaultUserProfile from '../../assets/defaultImg.jpg';
+import useCommentQuery from '../../query/useCommentQuery';
+import { QUERY_KEYS } from '../../query/keys';
 
 type Props = {
   post: PostType;
@@ -16,25 +18,45 @@ const Comment = ({ post }: Props) => {
     queryFn: getUserData
   });
 
-  const userProfileImg = currentUser?.profileImg;
+  // 댓글목록 가져오기
+  const {data: comments} = useQuery({
+    queryKey: [QUERY_KEYS.COMMENTS],
+    
+  })
+
+  const userProfile = currentUser?.profileImg;
+  const { addCommentMutate } = useCommentQuery();
 
   // 이벤트 핸들러
   const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
 
-  // 코멘트 등록
+  // 댓글 등록
   const onSubmitNewComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(`${content}`);
+    if (!currentUser) return;
+
+    const newComment = {
+      uid: currentUser.uid,
+      profileImg: currentUser.profileImg,
+      createdAt: Date.now()
+    };
+    addCommentMutate({ newComment, postId: post.id });
   };
   return (
     <Container>
-      <ProfileImg>
-        <img src={userProfileImg || defaultUserProfileImg} alt="profile image" />
-      </ProfileImg>
-      <form onSubmit={onSubmitNewComment}>
-        <input value={content} onChange={onChangeContent} type="text" />
-        <button type="submit">등록하기</button>
-      </form>
+      <div>
+        <ProfileImg>
+          <img src={userProfile || defaultUserProfile} alt="profile" />
+        </ProfileImg>
+        <form onSubmit={onSubmitNewComment}>
+          <input value={content} onChange={onChangeContent} type="text" />
+          <button type="submit">등록하기</button>
+        </form>
+      </div>
+      <div>
+
+
+      </div>
     </Container>
   );
 };

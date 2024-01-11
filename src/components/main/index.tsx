@@ -1,4 +1,4 @@
-import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueries, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
@@ -174,7 +174,7 @@ function Main() {
                     {imageQuery.isLoading ? (
                       <p>Loading image...</p>
                     ) : (
-                      <img src={imageQuery.data || defaultCover} alt={item.title} />
+                      <img src={imageQuery.data || defaultCover} alt={item.title}/>
                     )}
                   </SwiperSlide>
                 );

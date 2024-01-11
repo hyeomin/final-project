@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, orderBy, query, where } from 'firebase/firestore';
 import { auth, db } from '../shared/firebase';
 import { QUERY_KEYS } from '../query/keys';
 
@@ -18,7 +18,7 @@ const getUserData = async () => {
       //스냅샷 속성 empty
     //   console.log('스냅샷===>', querySnapshot);
       const userData = querySnapshot.docs[0].data();
-      // console.log('User data:', userData);
+      console.log('User data:', userData);
       return userData;
     } else {
       console.log('그런 문서 없음');
@@ -28,15 +28,84 @@ const getUserData = async () => {
     console.log(error);
   }
 };
+type AddCommentParams = {
+  newComment: Omit<CommentType, 'id'>;
+  postId: string;
+};
+
 
 //새 댓글 추가
-const addComment=async (newComment: Comment) => {
+const addComment=async ({ newComment, postId }: AddCommentParams) => {
   const userId = auth.currentUser?.uid;
   if(!userId) return;
-const docRef = await addDoc(collection(db, "cities"), {
-  
-});
-console.log("Document written with ID: ", docRef.id);
-} 
+const commentRef = collection(db, 'posts', postId, 'comments')
+const resp = await addDoc(commentRef, newComment);
+console.log('코멘트 추가===>', resp)
+}
+
+
+//코멘트 가져오기
+const getComments = async () => {
+  try {
+    const commentRef = collection(db, QUERY_KEYS.POSTS, 'ykHM5RAzFDJJFk0Yym2v', "comments");
+    const commentQuery = query(commentRef, orderBy("createdAt", "desc"))
+    const querySnapshot = await getDocs(commentQuery);
+    const comments:CommentType [] = []
+
+    querySnapshot.forEach((doc) => {
+      console.log('doc.data() ===>', doc.data())
+      // comments.push({id: doc.id, ...doc.data()});
+    });
+    return comments;
+  } catch (error) {
+    console.log('error', error);
+  }
+};
+
+
+
+// // 게시물 수정
+// const updatePost = async ({ id, content }: Post) => {
+//   try {
+//     console.log('content ===> ', content);
+//     const postRef = doc(db, QUERY_KEYS.POSTS, id!);
+//     await updateDoc(postRef, { content });
+//     console.log('수정완료');
+//   } catch (error) {
+//     console.log('error', error);
+//   }
+// };
+
+// //게시물 삭제
+// const deletePost = async (id: string) => {
+//   try {
+//     const postRef = doc(db, QUERY_KEYS.POSTS, id);
+//     await deleteDoc(postRef);
+//   } catch (error) {
+//     console.log('error', error);
+//   }
+// };
+
+// //코멘트 삭제
+// const deleteComment = async (id: string) => {
+//   const postId = 'fUc0v4igU6D8b0h3ZRLO';
+//   const commentId = id;
+//   console.log('코멘트의 아이디 ==>',commentId)
+
+//   const postRef = doc(db, QUERY_KEYS.POSTS, postId);
+//   console.log('postRef==>', postRef)
+//   const commentRef = doc(postRef, "comments", commentId);
+//   console.log('commentRef==>', commentRef)
+//   try {
+//     await deleteDoc(commentRef);
+//     console.log('삭제완료');
+//   } catch (error) {
+//     console.log('error', error);
+//   }
+// };
+
+
+
+
 
 export { getUserData, addComment };

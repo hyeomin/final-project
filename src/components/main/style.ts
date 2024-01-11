@@ -8,8 +8,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 1440px;
-  width: 100%;
+  width: 1200px;
   height: 100%;
 `;
 
