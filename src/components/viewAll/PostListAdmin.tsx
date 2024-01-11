@@ -79,10 +79,9 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
                 <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} />
 
                 <St.NeedDelete>
-                  <p>삭제예정/ 카테고리: {post.category}</p>
-                  <p>삭제예정/ 작성자:{post.role}</p>
-                  <p>삭제예정/ 날짜: {getFormattedDate_yymmdd(post.createdAt!)}</p>
-                  <p>삭제예정/좋아요수: {post.likeCount}</p>
+                  <p>삭제예정/ {post.category}</p>
+                  <p>삭제예정/ {post.role}</p>
+                  <p>삭제예정/ {getFormattedDate_yymmdd(post.createdAt!)}</p>
                 </St.NeedDelete>
               </St.AdminContent>
             );

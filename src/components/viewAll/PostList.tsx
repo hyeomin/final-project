@@ -3,7 +3,7 @@ import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries } from '@t
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
-import { getFormattedDate, getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
+import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
 
 interface PostListProps {
