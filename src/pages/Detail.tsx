@@ -2,9 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { downloadCoverImageURLs } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
-import CoverImage from '../components/detail/CoverImage';
-import DetailBody from '../components/detail/DetailBody';
 import Comment from '../components/detail/comment/Index';
 import { QUERY_KEYS } from '../query/keys';
 
@@ -34,6 +33,15 @@ function Detail() {
   //   queryFn: () => downloadImageURL(post?.id!),
   //   enabled: !!post?.id
   // });
+  const {
+    data: imageURLList,
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ['imageUrl', post?.id],
+    queryFn: () => downloadCoverImageURLs(post?.id!),
+    enabled: !!post?.id
+  });
 
   // 현재 페이지 인덱스로 page 상태 변경
   useEffect(() => {
@@ -79,7 +87,7 @@ function Detail() {
 
   return (
     <DetailPostContainer>
-      <CoverImage post={post!} />
+      {/* <CoverImage post={post!} /> */}
       <div>
         <button onClick={onClickPrevButton} type="button">
           이전 게시물
@@ -88,7 +96,7 @@ function Detail() {
           다음 게시물
         </button>
       </div>
-      <DetailBody post={post!} />
+      {/* <DetailBody post={post!} /> */}
       <Comment post={post!} />
     </DetailPostContainer>
   );
