@@ -5,6 +5,7 @@ import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { getFormattedDate, getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
+import { useNavigate } from 'react-router-dom';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -15,6 +16,7 @@ interface PostListProps {
 }
 
 function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
+  const navigate = useNavigate();
   const { data: posts, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -47,6 +49,11 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
+  // 각각 게시물 클릭시 detail로 이동
+  const onClickMoveToDetail = (id: string) => {
+    navigate(`/detail/${id}`);
+  };
+
   // 이미지URL 불러오기
   const imageQueries = useQueries({
     queries:
@@ -68,7 +75,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
           {posts?.map((post, idx) => {
             const imageQuery = imageQueries[idx];
             return (
-              <St.AdminContent key={post.id}>
+              <St.AdminContent key={post.id} onClick={() => onClickMoveToDetail(post.id)}>
                 {imageQuery.isLoading ? (
                   <p>Loading image...</p>
                 ) : (
