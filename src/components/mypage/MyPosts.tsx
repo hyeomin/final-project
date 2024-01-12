@@ -63,11 +63,11 @@ const MyPosts = () => {
                   <div>{item.title}</div>
                   <St.MyPostImg dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
                 </>
-                <button style={{ width: '100px', height: '50px;' }}>more</button>
               </St.PostText>
             );
           }
         })}
+        <button style={{ width: '100px', height: '50px;' }}>more</button>;
       </St.MyPostTextBox>
     </St.MyPostsWrapper>
   );

@@ -132,15 +132,13 @@ function MyProfile() {
         {/* <St.UserInfo> */}
         {/* <St.MyImage src={auth.currentUser?.photoURL! || defaultImg} alt="defaultImg" /> */}
         <St.profileImg src={previewImage || defaultImg} alt="img" />
-        <St.EmailAndName>
-          <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
-          <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>내 게시물 {posts?.length}
-        </St.EmailAndName>
+        <St.EmailAndName></St.EmailAndName>
         <St.ProfileInfo>
           <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
+          <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>
           {/* {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px' }} />} */}
           <St.UserPostInfo>
-            <span>게시물: 00개</span>
+            <span>게시물: {posts?.length}</span>
             <span>등급: Lv.0</span>
           </St.UserPostInfo>
           <St.UserInfoModify>

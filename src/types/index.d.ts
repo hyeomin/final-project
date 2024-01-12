@@ -6,8 +6,8 @@ type PostType = {
   category?: string;
   title?: string;
   content?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: number;
+  updatedAt?: number;
   hashtag?: null;
   uid?: string;
   likeCount?: number;
@@ -30,4 +30,4 @@ type CommentType = {
   uid: string;
   profileImg: string;
   createdAt: number;
-}
+};

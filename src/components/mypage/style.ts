@@ -127,12 +127,53 @@ const CalendarWrapper = styled.div`
 const StyleCalendar = styled.div`
   .react-calendar {
     width: 800px;
-    height: 400px;
+    border-radius: 0px 0px 30px 30px;
+    background-color: ${theme.color.lightgray};
+    border: ${theme.color.lightgray};
+    box-shadow: 5px 5px 5px ${theme.color.gray};
+
+    /* height: 600px; */
   }
 
   .react-calendar__tile--active {
-    background-color: pink;
+    background-color: ${theme.color.mangoYellow};
   }
+
+  .react-calendar__navigation {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    /* margin-top: 50px; */
+    /* text-align:center; */
+    height: 50px;
+  }
+
+  .react-calendar button {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    border-radius: 20px;
+  }
+  .habitImage {
+    margin-top: 5px;
+    width: 50px;
+    height: 50px;
+  }
+`;
+
+const CalendarTitle = styled.div`
+  width: 800px;
+  height: 70px;
+  border: 0.5px solid lightgray;
+  background-color: ${theme.color.mangoYellow};
+  border-radius: 30px 30px 0px 0px;
+  box-shadow: 5px 5px 5px ${theme.color.gray};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 //--------------------------------------------
 // MyPosts
@@ -220,6 +261,7 @@ export default {
   UserInfo,
   EditBtn,
   Tabs,
+  CalendarTitle,
   TabButtonContainer,
   CalendarBtn,
   MyPostsBtn,
