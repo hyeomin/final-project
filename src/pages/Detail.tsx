@@ -39,7 +39,7 @@ function Detail() {
     data: imageURLList,
     isLoading,
     isError
-  } = useQuery({ queryKey: ['imageURL'], queryFn: () => downloadCoverImageURLs(post?.id!), enabled: !!post?.id });
+  } = useQuery({ queryKey: ['imageUrl', post?.id], queryFn: () => downloadCoverImageURLs(post?.id!), enabled: !!post?.id });
 
   // 현재 페이지 인덱스로 page 상태 변경
   useEffect(() => {

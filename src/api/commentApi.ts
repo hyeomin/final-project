@@ -48,11 +48,8 @@ type deleteType = {
 
 // //코멘트 DELETE
 const deleteComment = async ({ id, postId }: deleteType) => {
-  console.log('코멘트의 아이디 ==>', id);
   if (!id || !postId) return;
-
   const commentRef = doc(db, QUERY_KEYS.POSTS, postId, 'comments', id);
-  console.log('commentRef==>', commentRef);
   try {
     await deleteDoc(commentRef);
     console.log('삭제완료');
@@ -63,11 +60,11 @@ const deleteComment = async ({ id, postId }: deleteType) => {
 
 type UpdateComment = {
   id: string;
-  textArea: string;
+  editingText: string;
   postId: string;
 };
 // // 게시물 UPDATE
-const updateComment = async ({ postId, id, textArea: content }: UpdateComment) => {
+const updateComment = async ({ postId, id, editingText: content }: UpdateComment) => {
   try {
     const postRef = doc(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS, id);
     const createdAt = Date.now();
