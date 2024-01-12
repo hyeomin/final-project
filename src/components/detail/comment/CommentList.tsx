@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import { auth } from '../../../shared/firebase';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getComments } from '../../../api/commentApi';
 import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import styled from 'styled-components';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
-import defaultUserProfile from '../../../assets/defaultImg.jpg'
+import defaultUserProfile from '../../../assets/defaultImg.jpg';
 
 type Props = {
   post: PostType;
 };
 const CommentList = ({ post }: Props) => {
+  const queryClient = useQueryClient();
   const postId = post?.id;
 
-  const [textArea, setTextArea] = useState('');
+  const [editingText, setEditingText] = useState('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
   const currentUser = auth.currentUser;
-  console.log('auth 유저정보', currentUser);
 
   // 댓글목록 가져오기
   const { data: comments } = useQuery({
@@ -29,21 +29,39 @@ const CommentList = ({ post }: Props) => {
   //mutates
   const { updateCommentMutate, deleteCommentMutate } = useCommentQuery();
 
-  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => setTextArea(e.target.value);
+  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => setEditingText(e.target.value);
 
   //댓글 삭제
   const onClickDeleteButton = (id: string) => {
     console.log('id==>', id);
     const confirm = window.confirm('정말로 삭제하시겠습니까?');
     if (!confirm) return;
-    deleteCommentMutate({ id, postId: post.id });
+    deleteCommentMutate(
+      { id, postId: post.id },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.COMMENTS]
+          });
+        }
+      }
+    );
   };
 
   //댓글 수정완료
   const onClickUpdateButton = (id: string) => {
     const confirm = window.confirm('저장하시겠습니까?');
     if (!confirm) return;
-    updateCommentMutate({ postId: post.id, id, textArea });
+    updateCommentMutate(
+      { postId: post.id, id, editingText },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.COMMENTS]
+          });
+        }
+      }
+    );
     setEditingCommentId(null);
   };
 
@@ -59,41 +77,45 @@ const CommentList = ({ post }: Props) => {
 
   return (
     <List>
-      {comments?.map((comment) => {
-        return (
-          <Card key={comment.id}>
-            <CommentDetail>
-              <ProfileImg>
-                <img src={comment.photoURL || defaultUserProfile} alt="profile" />
-              </ProfileImg>
-              <NameAndTime>
-                <span>{comment.displayName}</span>
-                <span>{getFormattedDate(comment.createdAt)}</span>
-              </NameAndTime>
-              {currentUser?.uid === comment.uid && (
-                <>
-                  {editingCommentId === comment.id ? (
-                    <Buttons>
-                      <button onClick={() => onClickUpdateButton(comment.id)}>저장</button>
-                      <button onClick={onClickCancelButton}>취소</button>
-                    </Buttons>
-                  ) : (
-                    <Buttons>
-                      <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
-                      <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
-                    </Buttons>
-                  )}
-                </>
+      {comments?.length === 0 ? (
+        <div>첫번째 댓글의 주인공이 되어보세요!</div>
+      ) : (
+        comments?.map((comment) => {
+          return (
+            <Card key={comment.id}>
+              <CommentDetail>
+                <ProfileImg>
+                  <img src={comment.photoURL || defaultUserProfile} alt="profile" />
+                </ProfileImg>
+                <NameAndTime>
+                  <span>{comment.displayName}</span>
+                  <span>{getFormattedDate(comment.createdAt)}</span>
+                </NameAndTime>
+                {currentUser?.uid === comment.uid && (
+                  <>
+                    {editingCommentId === comment.id ? (
+                      <Buttons>
+                        <button onClick={() => onClickUpdateButton(comment.id)}>저장</button>
+                        <button onClick={onClickCancelButton}>취소</button>
+                      </Buttons>
+                    ) : (
+                      <Buttons>
+                        <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
+                        <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
+                      </Buttons>
+                    )}
+                  </>
+                )}
+              </CommentDetail>
+              {editingCommentId === comment.id ? (
+                <textarea defaultValue={comment.content} onChange={(e) => onChangeTextArea(e)} />
+              ) : (
+                <Content>{comment.content}</Content>
               )}
-            </CommentDetail>
-            {editingCommentId === comment.id ? (
-              <textarea defaultValue={comment.content} onChange={(e) => onChangeTextArea(e)} />
-            ) : (
-              <Content>{comment.content}</Content>
-            )}
-          </Card>
-        );
-      })}
+            </Card>
+          );
+        })
+      )}
     </List>
   );
 };
@@ -108,7 +130,6 @@ const ProfileImg = styled.div`
     border-radius: 50%;
   }
 `;
-
 
 const List = styled.div`
   display: flex;
