@@ -2,6 +2,7 @@ import { GoHeart, GoHeartFill } from 'react-icons/go';
 import styled from 'styled-components';
 import { SwiperSlide } from 'swiper/react';
 import theme from '../../styles/theme';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   /* background-color: #fcad92;  */
@@ -106,6 +107,12 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   position: relative;
 `;
 
+const UserPostCover = styled(Link)`
+  width: 100%;
+  height: 100%;
+  display: flex;
+`;
+
 const LikeButton = styled.button`
   position: absolute;
   bottom: 10px;
@@ -137,9 +144,9 @@ export default {
   userPostsPosts,
   TitleContainer,
   SubTitle,
-  // Nav,
   PostsSlide,
   ThumbnailsBox,
+  UserPostCover,
   LikeButton,
   HeartIcon,
   HeartFillIcon,
