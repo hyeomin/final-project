@@ -6,7 +6,7 @@ import moment from 'moment';
 import { QUERY_KEYS } from '../../query/keys';
 import { getMyPosts } from '../../api/myPostAPI';
 import { useQuery } from '@tanstack/react-query';
-import habitSticker from '../../assets/habitSticker.png';
+import mangoIcon from '../../assets/mangoIcon.png';
 import { getFormattedDateCustom } from '../../util/formattedDateAndTime';
 type ValuePiece = Date | null;
 
@@ -87,7 +87,7 @@ const HabitCalendar = ({ date }: any) => {
                   <img
                     key={formattedDate}
                     className="habitImage"
-                    src={habitSticker}
+                    src={mangoIcon}
                     alt={`habit-sticker-${formattedDate}`}
                   />
                   x {postCount}
