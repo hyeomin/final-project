@@ -8,7 +8,6 @@ type Props = {
   post: PostType;
 };
 const Comment = ({ post }: Props) => {
-  const postId = post?.id;
 
 
   return (
