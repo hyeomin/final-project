@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-
   row-gap: 80px;
 `;
 
@@ -181,11 +180,8 @@ const MySectionWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
   height: 600px;
-  /* margin: 20px 20px 20px; */
-  /* padding: 20px; */
-
   border-top: 1px solid #d9d9d9;
 `;
 

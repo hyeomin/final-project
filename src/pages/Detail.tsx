@@ -88,7 +88,7 @@ function Detail() {
 
   return (
     <DetailPostContainer>
-      <CoverImage post={post!} />
+      {/* <CoverImage post={post!} /> */}
       <div>
         <button onClick={onClickPrevButton} type="button">
           이전 게시물

@@ -129,14 +129,11 @@ function MyProfile() {
   return (
     <St.Wrapper>
       <St.ProfileEditWrapper>
-        {/* <St.UserInfo> */}
-        {/* <St.MyImage src={auth.currentUser?.photoURL! || defaultImg} alt="defaultImg" /> */}
-        <St.profileImg src={previewImage || defaultImg} alt="img" />
+        <St.MyImage src={previewImage || auth.currentUser?.photoURL! || defaultImg} alt="defaultImg" />
         <St.EmailAndName></St.EmailAndName>
         <St.ProfileInfo>
           <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
           <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>
-          {/* {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px' }} />} */}
           <St.UserPostInfo>
             <span>게시물: {posts?.length}</span>
             <span>등급: Lv.0</span>
@@ -149,10 +146,8 @@ function MyProfile() {
             <St.EditBtn onClick={onSubmitModifyProfile}>수정하기</St.EditBtn>
           </St.UserInfoModify>
         </St.ProfileInfo>
-        {/* </St.UserInfo> */}
       </St.ProfileEditWrapper>
       <St.MySectionWrapper>
-        {/* MySectionWrapper */}
         <St.TabButtonContainer>
           <St.TabButton
             onClick={() => {

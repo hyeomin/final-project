@@ -1,4 +1,4 @@
-import { signOut } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { GoChevronDown } from 'react-icons/go';
 import { NavLink } from 'react-router-dom';
@@ -15,19 +15,19 @@ type Props = {
 };
 
 function AuthNavBar({ styledNav }: Props) {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!auth.currentUser);
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!auth.currentUser);
 
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
 
-  useEffect(() => {
-    if (auth.currentUser) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-    if (!isLoggedIn) setRole('');
-  }, [isLoggedIn, auth.currentUser]);
+  // useEffect(() => {
+  //   if (auth.currentUser) {
+  //     setIsLoggedIn(true);
+  //   } else {
+  //     setIsLoggedIn(false);
+  //   }
+  //   if (!isLoggedIn) setRole('');
+  // }, [isLoggedIn, auth.currentUser]);
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     // event.preventDefault();
@@ -54,12 +54,16 @@ function AuthNavBar({ styledNav }: Props) {
     }
   };
 
+  const auth = getAuth();
+  console.log('auth', auth);
   return (
     <AuthContainer>
+      {/* useEffect에 넣기 */}
+      {/* {auth.currentUser ? '로그아웃' : '로그인'} */}
       <NavLink to="/write" onClick={onAuthCheckHandler} style={styledNav}>
         글쓰기
       </NavLink>
-      {isLoggedIn ? (
+      {auth.currentUser ? (
         <>
           <NavLink to="/auth" onClick={onLogOutHandler} style={styledNav}>
             로그아웃
