@@ -7,21 +7,21 @@
 
 @font-face {
   font-family: 'SBAggroB-bold';
-  font-style: bold;
-  font-weight: normal;
-  src: local('Milk Mango Regular'), url('./fonts/SBAggro/SB_어그로OTF_B.otf') format('woff');
+  font-style: normal;
+  font-weight: bold;
+  src: url('./fonts/SBAggro/SB_OTF_B.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'SBAggroB-light';
-  font-style: light;
-  font-weight: normal;
-  src: local('Milk Mango Regular'), url('./fonts/SBAggro/SB_어그로OTF_L.otf') format('woff');
+  font-style: normal;
+  font-weight: light;
+  src: url('./fonts/SBAggro/SB_OTF_L.otf') format('opentype');
 }
 
 @font-face {
   font-family: 'SBAggroB-regular';
-  font-style: light;
+  font-style: normal;
   font-weight: normal;
-  src: local('Milk Mango Regular'), url('./fonts/SBAggro/SB_어그로OTF_M.otf') format('woff');
+  src: url('./fonts/SBAggro/SB_OTF_M.otf') format('opentype');
 }

@@ -130,22 +130,19 @@ const StyleCalendar = styled.div`
     border-radius: 0px 0px 30px 30px;
     background-color: ${theme.color.lightgray};
     border: ${theme.color.lightgray};
-    box-shadow: 5px 5px 5px ${theme.color.gray};
-
-    /* height: 600px; */
+    box-shadow: 3px 3px 3px 3px ${theme.color.gray};
   }
 
   .react-calendar__tile--active {
     background-color: ${theme.color.mangoYellow};
   }
 
-  .react-calendar__navigation {
+  .react-calendar__navigation button {
     display: flex;
     justify-content: center;
-    /* align-items: center; */
-    /* margin-top: 50px; */
-    /* text-align:center; */
-    height: 50px;
+    align-content: center;
+
+    padding-bottom: 30px;
   }
 
   .react-calendar button {
@@ -153,7 +150,6 @@ const StyleCalendar = styled.div`
     height: 100px;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
     border-radius: 20px;
   }
@@ -170,10 +166,13 @@ const CalendarTitle = styled.div`
   border: 0.5px solid lightgray;
   background-color: ${theme.color.mangoYellow};
   border-radius: 30px 30px 0px 0px;
-  box-shadow: 5px 5px 5px ${theme.color.gray};
+  box-shadow: 3px 3px 3px 3px ${theme.color.gray};
   display: flex;
   align-items: center;
   justify-content: center;
+  color: ${theme.color.mangoMain};
+  font-size: 25px;
+  font-family: ${theme.font.mango};
 `;
 //--------------------------------------------
 // MyPosts
@@ -190,18 +189,18 @@ const MySectionWrapper = styled.div`
   border-top: 1px solid #d9d9d9;
 `;
 
-const MyPostsWrapper = styled.div`
+const PostsWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
 `;
 
-const MyPostImg = styled.div`
+const Contents = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  /* 
   img {
     object-fit: cover;
     width: 280px;
@@ -209,47 +208,56 @@ const MyPostImg = styled.div`
   }
   p {
     height: 15px;
-  }
+  } */
 `;
-const MyPostTextBox = styled.div`
+const PostsBox = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   place-items: center;
+  gap: 20px;
 `;
 
-const PostText = styled.div`
+const PostImg = styled.img`
   width: 300px;
-  height: 350px;
+  height: 200px;
+  object-fit: cover;
+  border: 0.5px solid ${theme.color.gray};
+  border-radius: 30px;
+`;
+
+const TextBox = styled.div`
+  width: 300px;
+  height: 300px;
 `;
 //--------------------------------------------
 // LikesPosts
 
-const LikesWrapper = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-`;
+// const LikesWrapper = styled.div`
+//   display: grid;
+//   grid-template-columns: repeat(3, 1fr);
+//   justify-content: center;
+//   align-items: center;
+//   gap: 20px;
+// `;
 
-const MyLikes = styled.div`
-  display: grid;
+// const MyLikes = styled.div`
+//   display: grid;
 
-  flex-direction: column;
-  justify-content: center;
-`;
+//   flex-direction: column;
+//   justify-content: center;
+// `;
 
-const LikesPostImg = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid white;
-  width: 220px;
-  height: 170px;
-  /* margin-top: 20px; */
-`;
+// const LikesPostImg = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   border: 1px solid white;
+//   width: 220px;
+//   height: 170px;
+//   /* margin-top: 20px; */
+// `;
 
-const LikesPostText = styled.p``;
+// const LikesPostText = styled.p``;
 export default {
   ProfileEditWrapper,
   MySectionWrapper,
@@ -268,13 +276,13 @@ export default {
   MyLikesBtn,
   CalendarWrapper,
   StyleCalendar,
-  MyPostsWrapper,
-  MyPostImg,
-  MyPostTextBox,
-  LikesWrapper,
-  MyLikes,
-  LikesPostImg,
-  LikesPostText,
+  PostsWrapper,
+  Contents,
+  PostsBox,
+  // LikesWrapper,
+  // MyLikes,
+  // LikesPostImg,
+  // LikesPostText,
   profileImg,
   FileInput,
   FileImgUpload,
@@ -283,5 +291,6 @@ export default {
   ProfileInfo,
   UserPostInfo,
   TabButton,
-  PostText
+  TextBox,
+  PostImg
 };

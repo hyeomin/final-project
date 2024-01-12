@@ -51,25 +51,23 @@ const MyPosts = () => {
   //useInfiniteQuery 더보기 구현
 
   return (
-    <St.MyPostsWrapper>
-      <St.MyPostTextBox>
+    <St.PostsWrapper>
+      <St.PostsBox>
         {posts?.map((item, idx) => {
           const imageQuery = imageQueries[idx];
           if (item.uid === auth.currentUser?.uid) {
             return (
-              <St.PostText>
-                <>
-                  <img src={imageQuery.data!} />
-                  <div>{item.title}</div>
-                  <St.MyPostImg dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
-                </>
-              </St.PostText>
+              <St.TextBox>
+                <St.PostImg src={imageQuery.data!} />
+                <div>{item.title}</div>
+                <St.Contents dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
+              </St.TextBox>
             );
           }
         })}
-        <button style={{ width: '100px', height: '50px;' }}>more</button>;
-      </St.MyPostTextBox>
-    </St.MyPostsWrapper>
+      </St.PostsBox>
+      <button style={{ width: '100px', height: '50px;' }}>more</button>;
+    </St.PostsWrapper>
   );
 };
 export default MyPosts;
