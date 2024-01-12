@@ -9,19 +9,19 @@
   font-family: 'SBAggroB-bold';
   font-style: bold;
   font-weight: normal;
-  src: local('Milk Mango Regular'), url('./fonts/SBAggro/SB 어그로OTF B.otf') format('woff');
+  src: local('Milk Mango Regular'), url('./fonts/SBAggro/SB_어그로OTF_B.otf') format('woff');
 }
 
 @font-face {
   font-family: 'SBAggroB-light';
   font-style: light;
   font-weight: normal;
-  src: local('Milk Mango Regular'), url('./fonts/SBAggro/SB 어그로OTF L.otf') format('woff');
+  src: local('Milk Mango Regular'), url('./fonts/SBAggro/SB_어그로OTF_L.otf') format('woff');
 }
 
 @font-face {
   font-family: 'SBAggroB-regular';
   font-style: light;
   font-weight: normal;
-  src: local('Milk Mango Regular'), url('./fonts/SBAggro/SB 어그로OTF M.otf') format('woff');
+  src: local('Milk Mango Regular'), url('./fonts/SBAggro/SB_어그로OTF_M.otf') format('woff');
 }
