@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import React from 'react'
 import { QUERY_KEYS } from './keys';
-import { addComment } from '../api/detailApi';
+import { addComment, deleteComment, updateComment } from '../api/detailApi';
 
 const useCommentQuery = () => {
   const {mutate: addCommentMutate} = useMutation({
@@ -11,15 +11,15 @@ const useCommentQuery = () => {
 
   const {mutate: updateCommentMutate} = useMutation({
     mutationKey: [QUERY_KEYS.COMMENTS],
-    mutationFn: addComment
-  })
+    mutationFn: updateComment
+    })
 
   const {mutate: deleteCommentMutate} = useMutation({
     mutationKey: [QUERY_KEYS.COMMENTS],
-    mutationFn: addComment
+    mutationFn: deleteComment
   })
 
-  return { addCommentMutate}
+  return { addCommentMutate, updateCommentMutate, deleteCommentMutate}
 }
 
 export default useCommentQuery

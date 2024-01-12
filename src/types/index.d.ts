@@ -6,13 +6,14 @@ type PostType = {
   category?: string;
   title?: string;
   content?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: number;
+  updatedAt?: number;
   hashtag?: null;
   uid?: string;
   likeCount?: number;
   likedUsers?: string[];
   isLike?: boolean;
+  role?: string;
 };
 
 type User = {
@@ -27,7 +28,9 @@ type User = {
 
 type CommentType = {
   id: string;
+  displayName: string;
   uid: string;
   profileImg: string;
   createdAt: number;
+  content: string;
 }
