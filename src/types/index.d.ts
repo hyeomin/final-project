@@ -28,7 +28,9 @@ type User = {
 
 type CommentType = {
   id: string;
+  displayName: string | null;
   uid: string;
-  profileImg: string;
+  photoURL: string | null;
   createdAt: number;
+  content: string;
 };
