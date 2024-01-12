@@ -46,34 +46,6 @@ const LikesPosts = () => {
   return (
     <div>
       Likes Posts
-      {/* <St.LikesWrapper>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-      </St.LikesWrapper>
-      <St.MyPostsWrapper>
-        <St.MyPostTextBox> */}
       {posts?.map((item, idx) => {
         const imageQuery = imageQueries[idx];
         return (
@@ -86,8 +58,6 @@ const LikesPosts = () => {
           </St.PostText>
         );
       })}
-      {/* </St.MyPostTextBox>
-      </St.MyPostsWrapper> */}
     </div>
   );
 };

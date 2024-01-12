@@ -30,6 +30,7 @@ const HabitCalendar = ({ date }: any) => {
   });
   const createdAtList = data ? data.map((data) => getFormattedDateCustom(data.createdAt!)) : [];
   const dayList = [
+    //테스트용
     '2023. 12. 12.',
     '2023. 12. 25.',
     '2024. 01. 01.',
