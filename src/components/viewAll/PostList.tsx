@@ -8,7 +8,9 @@ import { SortList } from './ViewAllBody';
 import { useNavigate } from 'react-router-dom';
 import { QUERY_KEYS } from '../../query/keys';
 import { getAllUsers } from '../../api/authApi';
-
+import defaultImg from '../../assets/defaultImg.jpg';
+import { FaHeart } from 'react-icons/fa';
+import { FaRegComment } from 'react-icons/fa';
 interface PostListProps {
   queryKey: QueryKey;
   queryFn: (
@@ -93,22 +95,37 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           {posts?.map((post, idx) => {
             const imageQuery = imageQueries[idx];
             return (
-              <St.Content key={post.id} onClick={() => onClickMoveToDetail(post.id)}>
+              <St.Content key={post.id}>
                 {imageQuery.isLoading ? (
                   <p>Loading image...</p>
                 ) : (
-                  <img src={imageQuery.data || defaultCover} alt={post.title} />
+                  <St.ContentImg
+                    onClick={() => onClickMoveToDetail(post.id)}
+                    src={imageQuery.data || defaultCover}
+                    alt={post.title}
+                  />
                 )}
                 <St.commentAndLikes>
-                  <p>💬5</p>
-                  <p>♥{post.likeCount}</p>
+                  <FaRegComment />
+                  <p>5</p>
+                  <p>
+                    <FaHeart size="15" />
+                  </p>
+                  <p>{post.likeCount}</p>
                 </St.commentAndLikes>
 
-                <div>
+                <St.UserProfile>
                   {userList && userList?.find((user) => user.uid === post.uid) && (
-                    <div>{userList.find((user) => user.uid === post.uid)?.displayName}</div>
+                    <>
+                      <St.ProfileImg
+                        src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultImg}
+                        alt="profile"
+                      />
+
+                      <div>{userList.find((user) => user.uid === post.uid)?.displayName}</div>
+                    </>
                   )}
-                </div>
+                </St.UserProfile>
 
                 <St.TitleAndContent>
                   <p>{post.title}</p>
