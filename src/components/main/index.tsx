@@ -1,5 +1,5 @@
 import { useQueries, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -73,10 +73,6 @@ function Main() {
     navigate(`/detail/${id}`);
   };
 
-  const onClickViewAllButton = () => {
-    navigate('/viewAll');
-  };
-
   const onClickLikeButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string | undefined) => {
     e.stopPropagation();
     if (id) {
@@ -123,9 +119,9 @@ function Main() {
           <h1>인기 게시물</h1>
           <St.SubTitle>
             <p>망고에서 제일 인기 있는 게시물들을 둘러보세요</p>
-            <button type="button" onClick={onClickViewAllButton}>
-              {'전체보기 >'}
-            </button>
+            <Link to='/viewAll'>
+              <button type="button">{'전체보기 >'}</button>
+            </Link>
           </St.SubTitle>
         </St.TitleContainer>
         <St.PostsSlide>
