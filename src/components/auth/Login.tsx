@@ -1,23 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import React, { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { getAllUsers } from '../../api/authApi';
 import { QUERY_KEYS } from '../../query/keys';
-import { isLoggedInState, isSignUpState, roleState } from '../../recoil/users';
+import { isSignUpState, roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
-import St from './style';
 import { Data } from './Signup';
-import { FormSubmitHandler, SubmitHandler, useForm } from 'react-hook-form';
+import St from './style';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const [role, setRole] = useRecoilState(roleState);
 
   const {
@@ -54,10 +53,9 @@ function Login() {
 
       // 로그인 성공 시 role의 recoil(전역상태) update
       const user = userList && userList.find((user) => user.uid === userCredential.user.uid);
-      if (user) setRole(user.role);
-
-      // 로그인 성공 시 isLoggedinState(true)로 업데이트
-      setIsLoggedIn(true);
+      if (user) {
+        setRole(user.role);
+      }
 
       // home으로 이동
       navigate('/');

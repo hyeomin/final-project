@@ -6,6 +6,7 @@ import HowToUse from './HowToUse';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import theme from '../../styles/theme';
 import YoutubeTest from './YoutubeTest';
 
 type Section = '이용안내' | '뉴스룸' | '지금 시작하기';
@@ -24,6 +25,11 @@ function AboutMain() {
 
   return (
     <AboutMainContainer>
+      <Title>
+        <p>망고만의 건강한 생활습관을 만드는 우리의 원칙</p>
+        <h3>WE MAKE</h3>
+        <h3>ECO LIFESTYLE </h3>
+      </Title>
       <NavBar>
         <button onClick={onOpenToggleHandler}>이용안내</button>
         <button onClick={onOpenToggleHandler}>뉴스룸</button>
@@ -44,10 +50,24 @@ const AboutMainContainer = styled.div`
   align-items: center;
   row-gap: 10px;
 
-  width: 800px;
-  padding: 20px;
-
   background-color: pink;
+`;
+
+const Title = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+  font-family: ${theme.font.agroRegular};
+
+  & p {
+    font-size: 20px;
+  }
+
+  & h3 {
+    font-family: ${theme.font.agroBold};
+    font-size: 70px;
+  }
 `;
 
 const NavBar = styled.div`

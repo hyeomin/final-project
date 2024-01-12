@@ -7,6 +7,13 @@ const color = {
   lightgray: '#FAFAFA;'
 };
 
+const font = {
+  mango: 'Milk Mango Regular',
+  agroBold: 'SBAggroB-bold',
+  agroLight: 'SBAggroB-light',
+  agroRegular: 'SBAggroB-light'
+};
+
 const fontSize = {
   sm: '17px',
   base: '22px',
@@ -15,9 +22,8 @@ const fontSize = {
 
 const theme = {
   color,
+  font,
   fontSize
 };
-
-const button = {};
 
 export default theme;
