@@ -31,6 +31,7 @@ function SubmitButton({ newPost }: Props) {
       setTitle('');
       setContent('');
       setHashtags([]);
+      setCoverImageList([]);
       navigate(`/detail/${postId}`);
     }
   });
