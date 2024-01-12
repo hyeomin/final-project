@@ -13,6 +13,7 @@ type PostType = {
   likeCount?: number;
   likedUsers?: string[];
   isLike?: boolean;
+  role?: string; //kim 추가 24.01.11
 };
 
 type User = {

@@ -11,6 +11,15 @@ export const getFormattedDate = (date: number) => {
   });
 };
 
+//kim
+export const getFormattedDate_yymmdd = (date: number) => {
+  return new Date(date).toLocaleDateString('ko', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+};
+
 // 캘린더에 쓸 거 하나 만들었습니다.. - Haliey
 export const getFormattedDateCustom = (date: number) => {
   return new Date(date).toLocaleDateString('ko', {
