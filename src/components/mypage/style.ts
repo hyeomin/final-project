@@ -47,11 +47,16 @@ const UserInfo = styled.div`
   gap: 20px;
 `;
 
-const profileImg = styled.img`
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+const profileImg = styled.div`
+  /* width: 150px;
+  height: 150px; */
+  /* border-radius: 50%; */
   object-fit: cover;
+  img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+  }
 `;
 
 const UserInfoModify = styled.div``;

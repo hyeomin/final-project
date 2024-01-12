@@ -11,7 +11,8 @@ import { auth } from '../../shared/firebase';
 const MyPosts = () => {
   const { data: posts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getMyPosts
+    queryFn: getMyPosts,
+    enabled: !!auth.currentUser
   });
   // console.log('myPost ===>', posts);
 
