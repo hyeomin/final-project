@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { getComments, getUserData } from '../../api/detailApi';
+import { getComments } from '../../api/commentApi';
 import defaultUserProfile from '../../assets/defaultImg.jpg';
 import useCommentQuery from '../../query/useCommentQuery';
 import { QUERY_KEYS } from '../../query/keys';
 import { getFormattedDate } from '../../util/formattedDateAndTime';
+import { auth } from '../../shared/firebase';
 
 type Props = {
   post: PostType;
@@ -16,11 +17,8 @@ const Comment = ({ post }: Props) => {
   const [textArea, setTextArea] = useState('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
-  // 로그인된 유저정보
-  const { data: currentUser } = useQuery({
-    queryKey: ['userData'],
-    queryFn: getUserData
-  });
+  const currentUser = auth.currentUser;
+  console.log('auth 유저정보', currentUser)
 
   // 댓글목록 가져오기
   const { data: comments } = useQuery({
@@ -29,7 +27,7 @@ const Comment = ({ post }: Props) => {
   });
 
   //로그인 유저의 프로필 이미지
-  const userProfile = currentUser?.profileImg;
+  const userProfile = currentUser?.photoURL
 
   //mutates
   const { addCommentMutate, updateCommentMutate, deleteCommentMutate } = useCommentQuery();
@@ -46,7 +44,7 @@ const Comment = ({ post }: Props) => {
     const newComment = {
       uid: currentUser.uid,
       displayName: currentUser.displayName,
-      profileImg: currentUser.profileImg,
+      photoURL: currentUser.photoURL,
       createdAt: Date.now(),
       content
     };
@@ -95,7 +93,7 @@ const Comment = ({ post }: Props) => {
             <Card key={comment.id}>
               <CommentDetail>
                 <ProfileImg>
-                  <img src={userProfile || defaultUserProfile} alt="profile" />
+                    <img src={comment.photoURL || defaultUserProfile} alt="profile" />
                 </ProfileImg>
                 <NameAndTime>
                   <span>{comment.displayName}</span>
