@@ -85,8 +85,7 @@ function Main() {
       updateMutate(postToUpdate, {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.USERPOSTS],
-            exact: true
+            queryKey: [QUERY_KEYS.USERPOSTS]
           });
         }
       });

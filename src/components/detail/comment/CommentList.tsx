@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { auth } from '../../../shared/firebase';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getComments } from '../../../api/commentApi';
 import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
@@ -12,13 +12,13 @@ type Props = {
   post: PostType;
 };
 const CommentList = ({ post }: Props) => {
+  const queryClient = useQueryClient();
   const postId = post?.id;
 
   const [editingText, setEditingText] = useState('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
   const currentUser = auth.currentUser;
-  console.log('auth 유저정보', currentUser);
 
   // 댓글목록 가져오기
   const { data: comments } = useQuery({
@@ -36,14 +36,32 @@ const CommentList = ({ post }: Props) => {
     console.log('id==>', id);
     const confirm = window.confirm('정말로 삭제하시겠습니까?');
     if (!confirm) return;
-    deleteCommentMutate({ id, postId: post.id });
+    deleteCommentMutate(
+      { id, postId: post.id },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.COMMENTS]
+          });
+        }
+      }
+    );
   };
 
   //댓글 수정완료
   const onClickUpdateButton = (id: string) => {
     const confirm = window.confirm('저장하시겠습니까?');
     if (!confirm) return;
-    updateCommentMutate({ postId: post.id, id, editingText });
+    updateCommentMutate(
+      { postId: post.id, id, editingText },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.COMMENTS]
+          });
+        }
+      }
+    );
     setEditingCommentId(null);
   };
 

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { auth } from '../../../shared/firebase';
 import useCommentQuery from '../../../query/useCommentQuery';
+import { useQueryClient } from '@tanstack/react-query';
+import { QUERY_KEYS } from '../../../query/keys';
 
 type Props = {
     post: PostType;
   };
 
 const AddCommentForm = ({ post }: Props) => {
+  const queryClient = useQueryClient();
     const currentUser = auth.currentUser;
     console.log('auth 유저정보', currentUser)
 
@@ -28,7 +31,13 @@ const AddCommentForm = ({ post }: Props) => {
           createdAt: Date.now(),
           content
         };
-        addCommentMutate({ newComment, postId: post.id });
+        addCommentMutate({ newComment, postId: post.id }, {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.COMMENTS],
+            })
+          }
+        });
         setContent('');
         alert('등록되었습니다.');
       };
