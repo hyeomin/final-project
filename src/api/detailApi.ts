@@ -1,7 +1,7 @@
-import { addDoc, collection, doc, getDocs, orderBy, query, where } from 'firebase/firestore';
-import { auth, db } from '../shared/firebase';
+import { addDoc, collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
-
+import { auth, db, storage } from '../shared/firebase';
 
 // 현재 로그인한 user Data 가져오기
 const getUserData = async () => {
@@ -16,7 +16,7 @@ const getUserData = async () => {
 
     if (!querySnapshot.empty) {
       //스냅샷 속성 empty
-    //   console.log('스냅샷===>', querySnapshot);
+      //   console.log('스냅샷===>', querySnapshot);
       const userData = querySnapshot.docs[0].data();
       console.log('User data:', userData);
       return userData;
@@ -33,27 +33,25 @@ type AddCommentParams = {
   postId: string;
 };
 
-
 //새 댓글 추가
-const addComment=async ({ newComment, postId }: AddCommentParams) => {
+const addComment = async ({ newComment, postId }: AddCommentParams) => {
   const userId = auth.currentUser?.uid;
-  if(!userId) return;
-const commentRef = collection(db, 'posts', postId, 'comments')
-const resp = await addDoc(commentRef, newComment);
-console.log('코멘트 추가===>', resp)
-}
-
+  if (!userId) return;
+  const commentRef = collection(db, 'posts', postId, 'comments');
+  const resp = await addDoc(commentRef, newComment);
+  console.log('코멘트 추가===>', resp);
+};
 
 //코멘트 가져오기
 const getComments = async () => {
   try {
-    const commentRef = collection(db, QUERY_KEYS.POSTS, 'ykHM5RAzFDJJFk0Yym2v', "comments");
-    const commentQuery = query(commentRef, orderBy("createdAt", "desc"))
+    const commentRef = collection(db, QUERY_KEYS.POSTS, 'ykHM5RAzFDJJFk0Yym2v', 'comments');
+    const commentQuery = query(commentRef, orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(commentQuery);
-    const comments:CommentType [] = []
+    const comments: CommentType[] = [];
 
     querySnapshot.forEach((doc) => {
-      console.log('doc.data() ===>', doc.data())
+      console.log('doc.data() ===>', doc.data());
       // comments.push({id: doc.id, ...doc.data()});
     });
     return comments;
@@ -62,7 +60,23 @@ const getComments = async () => {
   }
 };
 
+const downloadCoverImageURLs = async (postId: string) => {
+  try {
+    const listRef = ref(storage, `posts/${postId}`);
+    const res = await listAll(listRef);
 
+    if (res.items.length > 0) {
+      const urls = await Promise.all(res.items.map((fileRef) => getDownloadURL(fileRef)));
+      return urls;
+    } else {
+      console.log('No files found in the directory');
+      return [];
+    }
+  } catch (error) {
+    console.error('Error getting files: ', error);
+    return null;
+  }
+};
 
 // // 게시물 수정
 // const updatePost = async ({ id, content }: Post) => {
@@ -104,8 +118,4 @@ const getComments = async () => {
 //   }
 // };
 
-
-
-
-
-export { getUserData, addComment };
+export { addComment, downloadCoverImageURLs, getUserData };
