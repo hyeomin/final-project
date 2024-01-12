@@ -59,7 +59,7 @@ const CommentList = ({ post }: Props) => {
 
   return (
     <List>
-      {comments?.map((comment) => {
+      {comments?.length === 0 ? <div>첫번째 댓글의 주인공이 되어보세요!</div> : comments?.map((comment) => {
         return (
           <Card key={comment.id}>
             <CommentDetail>
