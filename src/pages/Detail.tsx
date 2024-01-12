@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { downloadCoverImageURLs } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
 import defaultCover from '../assets/defaultCoverImg.jpeg';
-import Comment from '../components/detail/Comment';
 import DetailBody from '../components/detail/DetailBody';
 import { QUERY_KEYS } from '../query/keys';
+import Comment from '../components/detail/comment/Index';
 
 function Detail() {
   //인덱스 넘버로 페이지 관리
@@ -59,7 +59,7 @@ function Detail() {
     console.log('현재 post의 인덱스 넘버', postIndexNumber);
   }, [id, posts, navigate]);
 
-  //커버이미지 로딩
+  //커버이미지 로딩 ==> 추후 스피너 적용
   if (isLoading) {
     return <div>Loading...</div>;
   }
