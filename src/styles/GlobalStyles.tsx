@@ -56,5 +56,11 @@ const GlobalStyle = createGlobalStyle`
         -moz-osx-font-smoothing: grayscale;
     }
 
+    a, a:hover, a:active, a:visited, a:focus {
+        color: inherit;        /* Inherits color from parent and applies to all states */
+        text-decoration: none; /* Removes underline from links in all states */
+        outline: none;         /* Removes outline on focus, can be customized */
+    }
+
 `;
 export default GlobalStyle;

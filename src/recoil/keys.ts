@@ -12,6 +12,7 @@ export const EDIT_INPUT = {
 
 export const USER_INFO = {
   ROLE: 'role',
+  PROFILE_IMAGE: 'profileImage',
   IS_LOGGEDIN: 'isLoggedIn',
   IS_SIGNUP: 'isSignUp'
 };
