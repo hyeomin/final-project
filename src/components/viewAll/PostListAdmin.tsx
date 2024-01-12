@@ -96,7 +96,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
         </St.AdminContents>
       </St.ContentsWrapper>
       <St.MoreContentWrapper>
-        <button onClick={() => fetchNextPage()}>더보기 &gt;</button>
+        <button onClick={() => fetchNextPage()}>더 보기 </button>
       </St.MoreContentWrapper>
     </St.MainSubWrapper>
   );

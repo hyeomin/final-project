@@ -13,6 +13,7 @@ const CategoryWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 30px;
 `;
 
 /*버튼*/
@@ -100,7 +101,6 @@ const ContentsWrapper = styled.div`
 `;
 
 const Contents = styled.ul`
-  margin: 30px;
   display: flex;
 
   flex-wrap: wrap;
@@ -110,7 +110,7 @@ const Contents = styled.ul`
 
 const Content = styled.li`
   position: relative;
-  width: 270px; //345 > 270 변경
+  width: 235px; //345 > 235 변경 *아래Row width도 같이 변경필요
   height: 500px; //626 > 500 변경
   flex-shrink: 0;
   border-radius: 40px;
@@ -124,7 +124,7 @@ const Content = styled.li`
 
   img {
     object-fit: cover;
-    width: 268px; //345 > 268 변경
+    width: 233px; //345 > 233 변경
     height: 280px; //420 > 280 변경
     flex-shrink: 0;
     border-radius: 40px 40px 0px 0px;
@@ -135,15 +135,37 @@ const Content = styled.li`
   }
 `;
 
+const Row = styled.div`
+  border-top: 1px solid #000000;
+  width: 200px;
+
+  position: absolute; /* relative: St.Content */
+  bottom: 3%;
+  left: 5%;
+
+  padding-top: 8px;
+  //margin: 0;
+
+  h3 {
+    margin-left: 15px;
+    color: #222222;
+    font-family: SB AggroOTF;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
+
 const commentAndLikes = styled.div`
-  padding: 0 40px;
+  padding: 0 20px;
   display: flex;
   gap: 10px;
 `;
 
 const TitleAndContent = styled.div`
-  padding: 0 40px;
-  width: 265px;
+  padding: 0 20px;
+  width: 100%;
   height: 80px;
   flex-shrink: 0;
   p {
@@ -187,11 +209,12 @@ const MoreContentWrapper = styled.div`
 
 const MangoDiv = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const MangoWord = styled.p`
   color: ${theme.color.mangoMain};
-  //font-family: Milk Mango;
+  font-family: ${theme.font.mango};
   font-size: 38px;
   font-style: normal;
   font-weight: 400;
@@ -229,7 +252,7 @@ const AdminContents = styled.ul`
 `;
 
 const AdminContent = styled.li`
-  width: 590px;
+  width: 490px;
   margin-bottom: 40px;
   li {
     list-style: none;
@@ -238,7 +261,7 @@ const AdminContent = styled.li`
 
   img {
     object-fit: cover;
-    width: 590px; //710 -> 550 (전체사이즈 1200)
+    width: 490px; //710 -> 550 (전체사이즈 1200)
     height: 360px;
     flex-shrink: 0;
     border-radius: 40px;
@@ -263,28 +286,6 @@ const AdminPostContent = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-`;
-
-const Row = styled.div`
-  border-top: 1px solid #000000;
-  width: 240px;
-
-  position: absolute; /* relative: St.Content */
-  bottom: 3%;
-  left: 5%;
-
-  padding-top: 8px;
-  margin: 0;
-
-  h3 {
-    margin-left: 15px;
-    color: #222222;
-    font-family: SB AggroOTF;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
 `;
 
 const NeedDelete = styled.div`

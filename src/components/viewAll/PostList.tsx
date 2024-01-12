@@ -70,8 +70,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   //에디터 라이브러리 html에서 가져오는 거여서 기본적으로 <p></p><p>가 있음 => 10글자
   //사용하고 싶은 길이 +10 글자 해야함
   const reduceContent = (postContent: string, cnt: number) => {
-    console.log(postContent);
-    console.log(postContent.slice(0, cnt - 1));
     return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
   };
 
@@ -80,6 +78,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     navigate(`/detail/${id}`);
   };
 
+  //사용자 프로필 데이터
   const { data: userList } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
     queryFn: getAllUsers
@@ -105,6 +104,12 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                   <p>♥{post.likeCount}</p>
                 </St.commentAndLikes>
 
+                <div>
+                  {userList && userList?.find((user) => user.uid === post.uid) && (
+                    <div>{userList.find((user) => user.uid === post.uid)?.displayName}</div>
+                  )}
+                </div>
+
                 <St.TitleAndContent>
                   <p>{post.title}</p>
                   <div dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }} />
@@ -123,7 +128,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         </St.Contents>
       </St.ContentsWrapper>
       <St.MoreContentWrapper>
-        <button onClick={() => fetchNextPage()}>더보기 &gt;</button>
+        <button onClick={() => fetchNextPage()}>더 보기</button>
       </St.MoreContentWrapper>
     </St.MainSubWrapper>
   );
