@@ -29,8 +29,6 @@ function AuthNavBar({ styledNav }: Props) {
     if (!isLoggedIn) setRole('');
   }, [isLoggedIn, auth.currentUser]);
 
-  console.log('이미지 찾자', auth);
-
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     // event.preventDefault();
     // if (!isLoggedIn) {

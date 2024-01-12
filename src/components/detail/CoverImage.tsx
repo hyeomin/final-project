@@ -29,8 +29,6 @@ function CoverImage({ post }: Props) {
   if (imageURLList && imageURLList.length === 0) {
   }
 
-  console.log('이미지 리스트', imageURLList);
-
   return (
     <CoverImageContainer>
       <PostTitle>{post.title}</PostTitle>

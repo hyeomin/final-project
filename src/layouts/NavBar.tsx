@@ -11,7 +11,7 @@ function NavBar() {
   return (
     <NavContainer>
       <LeftNav>
-        <Logo to="/">Mango</Logo>
+        <Logo>Mango</Logo>
         <NavLink to="/">홈</NavLink>
         <NavLink to="/about" style={styledNav}>
           망고소개
@@ -45,12 +45,11 @@ const LeftNav = styled.div`
   align-items: center;
   column-gap: 40px;
   color: #888888;
-
   font-size: 16px;
   font-weight: bold;
 `;
 
-const Logo = styled(NavLink)`
+const Logo = styled.span`
   font-family: ${theme.font.mango};
   color: ${theme.color.mangoMain};
   font-size: 30px;
