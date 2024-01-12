@@ -11,7 +11,6 @@ type Props = {
 const AddCommentForm = ({ post }: Props) => {
   const queryClient = useQueryClient();
     const currentUser = auth.currentUser;
-    console.log('auth 유저정보', currentUser)
 
     const [content, setContent] = useState('');
 

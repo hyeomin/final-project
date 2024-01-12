@@ -48,11 +48,8 @@ type deleteType = {
 
 // //코멘트 DELETE
 const deleteComment = async ({ id, postId }: deleteType) => {
-  console.log('코멘트의 아이디 ==>', id);
   if (!id || !postId) return;
-
   const commentRef = doc(db, QUERY_KEYS.POSTS, postId, 'comments', id);
-  console.log('commentRef==>', commentRef);
   try {
     await deleteDoc(commentRef);
     console.log('삭제완료');
