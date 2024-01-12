@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import theme from './theme';
 
 const GlobalStyle = createGlobalStyle`
     html, body, div, span, applet, object, iframe,
@@ -49,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
     }
     body {
         margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, 'roca', 'Segoe UI', 'Roboto', 'Oxygen',
+        font-family: 'Pretendard-Regular',-apple-system, BlinkMacSystemFont, 'roca', 'Segoe UI', 'Roboto', 'Oxygen',
             'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
             sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -62,5 +63,11 @@ const GlobalStyle = createGlobalStyle`
         outline: none;         /* Removes outline on focus, can be customized */
     }
 
+    @font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
 `;
 export default GlobalStyle;

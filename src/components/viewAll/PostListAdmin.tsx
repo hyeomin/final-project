@@ -75,14 +75,19 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
           {posts?.map((post, idx) => {
             const imageQuery = imageQueries[idx];
             return (
-              <St.AdminContent key={post.id} onClick={() => onClickMoveToDetail(post.id)}>
+              <St.AdminContent key={post.id}>
                 {imageQuery.isLoading ? (
                   <p>Loading image...</p>
                 ) : (
-                  <img src={imageQuery.data || defaultCover} alt={post.title} />
+                  <img
+                    onClick={() => onClickMoveToDetail(post.id)}
+                    src={imageQuery.data || defaultCover}
+                    alt={post.title}
+                  />
                 )}
 
                 <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
+                <St.AdminPostSpace></St.AdminPostSpace>
                 <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} />
 
                 <St.NeedDelete>

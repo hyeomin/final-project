@@ -11,7 +11,7 @@ const LikesPosts = () => {
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getLikePosts
   });
-  console.log('이거이거이거 ===>', posts);
+  // console.log('이거이거이거 ===>', posts);
 
   const postQueries = useQueries({
     queries: [
@@ -44,51 +44,20 @@ const LikesPosts = () => {
   }
 
   return (
-    <div>
-      Likes Posts
-      {/* <St.LikesWrapper>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-      </St.LikesWrapper>
-      <St.MyPostsWrapper>
-        <St.MyPostTextBox> */}
-      {posts?.map((item, idx) => {
-        const imageQuery = imageQueries[idx];
-        return (
-          <St.PostText>
-            <>
-              <img src={imageQuery.data!} />
+    <St.PostsWrapper>
+      <St.PostsBox>
+        {posts?.map((item, idx) => {
+          const imageQuery = imageQueries[idx];
+          return (
+            <St.TextBox>
+              <St.PostImg src={imageQuery.data!} />
               <div>{item.title}</div>
-              <St.MyPostImg dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
-            </>
-          </St.PostText>
-        );
-      })}
-      {/* </St.MyPostTextBox>
-      </St.MyPostsWrapper> */}
-    </div>
+              <St.Contents dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
+            </St.TextBox>
+          );
+        })}
+      </St.PostsBox>
+    </St.PostsWrapper>
   );
 };
 
