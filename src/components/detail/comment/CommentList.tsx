@@ -6,7 +6,7 @@ import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import styled from 'styled-components';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
-import defaultUserProfile from '../../../assets/defaultImg.jpg'
+import defaultUserProfile from '../../../assets/defaultImg.jpg';
 
 type Props = {
   post: PostType;
@@ -14,7 +14,7 @@ type Props = {
 const CommentList = ({ post }: Props) => {
   const postId = post?.id;
 
-  const [textArea, setTextArea] = useState('');
+  const [editingText, setEditingText] = useState('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
   const currentUser = auth.currentUser;
@@ -29,7 +29,7 @@ const CommentList = ({ post }: Props) => {
   //mutates
   const { updateCommentMutate, deleteCommentMutate } = useCommentQuery();
 
-  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => setTextArea(e.target.value);
+  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => setEditingText(e.target.value);
 
   //댓글 삭제
   const onClickDeleteButton = (id: string) => {
@@ -43,7 +43,7 @@ const CommentList = ({ post }: Props) => {
   const onClickUpdateButton = (id: string) => {
     const confirm = window.confirm('저장하시겠습니까?');
     if (!confirm) return;
-    updateCommentMutate({ postId: post.id, id, textArea });
+    updateCommentMutate({ postId: post.id, id, editingText });
     setEditingCommentId(null);
   };
 
@@ -59,41 +59,45 @@ const CommentList = ({ post }: Props) => {
 
   return (
     <List>
-      {comments?.length === 0 ? <div>첫번째 댓글의 주인공이 되어보세요!</div> : comments?.map((comment) => {
-        return (
-          <Card key={comment.id}>
-            <CommentDetail>
-              <ProfileImg>
-                <img src={comment.photoURL || defaultUserProfile} alt="profile" />
-              </ProfileImg>
-              <NameAndTime>
-                <span>{comment.displayName}</span>
-                <span>{getFormattedDate(comment.createdAt)}</span>
-              </NameAndTime>
-              {currentUser?.uid === comment.uid && (
-                <>
-                  {editingCommentId === comment.id ? (
-                    <Buttons>
-                      <button onClick={() => onClickUpdateButton(comment.id)}>저장</button>
-                      <button onClick={onClickCancelButton}>취소</button>
-                    </Buttons>
-                  ) : (
-                    <Buttons>
-                      <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
-                      <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
-                    </Buttons>
-                  )}
-                </>
+      {comments?.length === 0 ? (
+        <div>첫번째 댓글의 주인공이 되어보세요!</div>
+      ) : (
+        comments?.map((comment) => {
+          return (
+            <Card key={comment.id}>
+              <CommentDetail>
+                <ProfileImg>
+                  <img src={comment.photoURL || defaultUserProfile} alt="profile" />
+                </ProfileImg>
+                <NameAndTime>
+                  <span>{comment.displayName}</span>
+                  <span>{getFormattedDate(comment.createdAt)}</span>
+                </NameAndTime>
+                {currentUser?.uid === comment.uid && (
+                  <>
+                    {editingCommentId === comment.id ? (
+                      <Buttons>
+                        <button onClick={() => onClickUpdateButton(comment.id)}>저장</button>
+                        <button onClick={onClickCancelButton}>취소</button>
+                      </Buttons>
+                    ) : (
+                      <Buttons>
+                        <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
+                        <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
+                      </Buttons>
+                    )}
+                  </>
+                )}
+              </CommentDetail>
+              {editingCommentId === comment.id ? (
+                <textarea defaultValue={comment.content} onChange={(e) => onChangeTextArea(e)} />
+              ) : (
+                <Content>{comment.content}</Content>
               )}
-            </CommentDetail>
-            {editingCommentId === comment.id ? (
-              <textarea defaultValue={comment.content} onChange={(e) => onChangeTextArea(e)} />
-            ) : (
-              <Content>{comment.content}</Content>
-            )}
-          </Card>
-        );
-      })}
+            </Card>
+          );
+        })
+      )}
     </List>
   );
 };
@@ -108,7 +112,6 @@ const ProfileImg = styled.div`
     border-radius: 50%;
   }
 `;
-
 
 const List = styled.div`
   display: flex;

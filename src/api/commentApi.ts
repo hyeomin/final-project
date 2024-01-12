@@ -63,11 +63,11 @@ const deleteComment = async ({ id, postId }: deleteType) => {
 
 type UpdateComment = {
   id: string;
-  textArea: string;
+  editingText: string;
   postId: string;
 };
 // // 게시물 UPDATE
-const updateComment = async ({ postId, id, textArea: content }: UpdateComment) => {
+const updateComment = async ({ postId, id, editingText: content }: UpdateComment) => {
   try {
     const postRef = doc(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS, id);
     const createdAt = Date.now();
