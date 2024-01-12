@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import AboutMain from '../components/about/AboutMain';
 import WhyMango from '../components/about/WhyMango';
-import theme from '../styles/theme';
 
 function About() {
   return (
@@ -23,15 +22,10 @@ const AboutContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
-
-  row-gap: 10px;
-
-  background-color: ${theme.color.mangoMain};
 `;
 
 const Header = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 400px;
   background-color: pink;
 `;
@@ -40,7 +34,6 @@ const Bottom = styled.div`
   display: flex;
   column-gap: 30px;
 
-  padding: 10px;
   background-color: pink;
 
   & div {
