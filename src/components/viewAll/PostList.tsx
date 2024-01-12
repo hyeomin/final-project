@@ -1,10 +1,13 @@
 import St from './style';
-import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries } from '@tanstack/react-query';
+import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
+import { useNavigate } from 'react-router-dom';
+import { QUERY_KEYS } from '../../query/keys';
+import { getAllUsers } from '../../api/authApi';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -15,6 +18,8 @@ interface PostListProps {
 }
 
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
+  const navigate = useNavigate();
+
   const { data: posts, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -61,6 +66,27 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
   };
 
+  //내용 문자열 일정수 이상, 그 이상 문자열 ... 출력
+  //에디터 라이브러리 html에서 가져오는 거여서 기본적으로 <p></p><p>가 있음 => 10글자
+  //사용하고 싶은 길이 +10 글자 해야함
+  const reduceContent = (postContent: string, cnt: number) => {
+    console.log(postContent);
+    console.log(postContent.slice(0, cnt - 1));
+    return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
+  };
+
+  // 각각 게시물 클릭시 detail로 이동
+  const onClickMoveToDetail = (id: string) => {
+    navigate(`/detail/${id}`);
+  };
+
+  const { data: userList } = useQuery({
+    queryKey: [QUERY_KEYS.USERS],
+    queryFn: getAllUsers
+  });
+
+  console.log('사용자정보:', userList);
+
   return (
     <St.MainSubWrapper>
       <St.ContentsWrapper>
@@ -68,7 +94,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           {posts?.map((post, idx) => {
             const imageQuery = imageQueries[idx];
             return (
-              <St.Content key={post.id}>
+              <St.Content key={post.id} onClick={() => onClickMoveToDetail(post.id)}>
                 {imageQuery.isLoading ? (
                   <p>Loading image...</p>
                 ) : (
@@ -81,7 +107,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
 
                 <St.TitleAndContent>
                   <p>{post.title}</p>
-                  <div dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} />
+                  <div dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }} />
                 </St.TitleAndContent>
                 <St.NeedDelete>
                   <p>삭제예정/ {post.category}</p>

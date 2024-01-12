@@ -125,7 +125,7 @@ const Content = styled.li`
   img {
     object-fit: cover;
     width: 268px; //345 > 268 변경
-    height: 320px; //420 > 320 변경
+    height: 280px; //420 > 280 변경
     flex-shrink: 0;
     border-radius: 40px 40px 0px 0px;
   }
