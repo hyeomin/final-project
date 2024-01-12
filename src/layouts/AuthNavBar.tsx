@@ -1,16 +1,29 @@
 import { signOut } from 'firebase/auth';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { isLoggedInState, isSignUpState, roleState } from '../recoil/users';
+import { isSignUpState, roleState } from '../recoil/users';
 import { auth } from '../shared/firebase';
 
-function AuthNavBar() {
+type Props = {
+  styledNav: ({ isActive }: { isActive: boolean }) => {
+    color: string;
+  };
+};
+
+function AuthNavBar({ styledNav }: Props) {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!auth.currentUser);
+
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const [role, setRole] = useRecoilState(roleState);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (!auth.currentUser) setIsLoggedIn(false);
+    if (!isLoggedIn) setRole('');
+  }, [isLoggedIn, auth.currentUser]);
+
+  console.log('이미지 찾자', auth);
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     // event.preventDefault();
@@ -31,35 +44,32 @@ function AuthNavBar() {
       console.log('logout');
 
       // 로그아웃 시 Recoil 전역 상태 업데이트
-      setIsLoggedIn(false);
       setRole('');
     } catch (error) {
       console.log('Logout Error', error);
     }
   };
 
-  console.log('로그인 상태 리코일', isLoggedIn);
-  console.log('회원가입 상태 리코일', isSignUp);
-
   return (
     <AuthContainer>
-      <NavLink to="/write" onClick={onAuthCheckHandler}>
+      <NavLink to="/write" onClick={onAuthCheckHandler} style={styledNav}>
         Write
       </NavLink>
       {isLoggedIn ? (
         <>
-          <NavLink to="/auth" onClick={onLogOutHandler}>
-            Logout
+          <NavLink to="/auth" onClick={onLogOutHandler} style={styledNav}>
+            로그아웃
           </NavLink>
           <NavLink to="/mypage">My Page</NavLink>
+          <div></div>
         </>
       ) : (
         <>
-          <NavLink to="/auth" onClick={() => setIsSignUp(false)}>
-            Login
+          <NavLink to="/auth" onClick={() => setIsSignUp(false)} style={styledNav}>
+            로그인
           </NavLink>
           <NavLink to="/auth" onClick={() => setIsSignUp(true)}>
-            Signup
+            회원가입
           </NavLink>
         </>
       )}
@@ -71,5 +81,7 @@ export default AuthNavBar;
 
 const AuthContainer = styled.div`
   display: flex;
-  column-gap: 10px;
+  column-gap: 20px;
+  color: #888;
+  font-size: 14px;
 `;

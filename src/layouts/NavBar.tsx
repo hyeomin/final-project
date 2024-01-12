@@ -1,19 +1,26 @@
 import { NavLink } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { isLoggedInState } from '../recoil/users';
+import theme from '../styles/theme';
 import AuthNavBar from './AuthNavBar';
 
 function NavBar() {
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
-  console.log(isLoggedIn);
+  const styledNav = ({ isActive }: { isActive: boolean }) => {
+    return { color: isActive ? '#222222' : '' };
+  };
 
   return (
     <NavContainer>
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/viewAll">게시글 전체보기</NavLink>
-      <NavLink to="/about">About</NavLink>
-      <AuthNavBar />
+      <LeftNav>
+        <Logo>Mango</Logo>
+        <NavLink to="/">홈</NavLink>
+        <NavLink to="/about" style={styledNav}>
+          망고소개
+        </NavLink>
+        <NavLink to="/viewAll" style={styledNav}>
+          게시물 보기
+        </NavLink>
+      </LeftNav>
+      <AuthNavBar styledNav={styledNav} />
     </NavContainer>
   );
 }
@@ -25,7 +32,25 @@ const NavContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 60px;
-  padding: 0 240px;
+  padding: 0 120px;
+  border: 1px solid lightgrey;
 
-  background-color: pink;
+  & a {
+    text-decoration: none;
+  }
+`;
+
+const LeftNav = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 40px;
+  color: #888888;
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+const Logo = styled.span`
+  font-family: ${theme.font.mango};
+  color: ${theme.color.mangoMain};
+  font-size: 30px;
 `;

@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { downloadImageURL, getPosts } from '../api/homeApi';
+import { downloadCoverImageURLs } from '../api/detailApi';
+import { getPosts } from '../api/homeApi';
 import defaultCover from '../assets/defaultCoverImg.jpeg';
 import Comment from '../components/detail/Comment';
 import DetailBody from '../components/detail/DetailBody';
 import { QUERY_KEYS } from '../query/keys';
-import CS from './CommonStyle';
 
 function Detail() {
   //인덱스 넘버로 페이지 관리
@@ -25,16 +25,21 @@ function Detail() {
   const post = posts?.find((post) => post.id === id);
   // console.log('post ===>', post);
 
-  //해당 게시물 coverImage URL
+  // 해당 게시물 coverImage URL
+  // const {
+  //   data: imageUrl,
+  //   isLoading,
+  //   error
+  // } = useQuery({
+  //   queryKey: ['imageUrl', post?.id],
+  //   queryFn: () => downloadImageURL(post?.id!),
+  //   enabled: !!post?.id
+  // });
   const {
-    data: imageUrl,
+    data: imageURLList,
     isLoading,
-    error
-  } = useQuery({
-    queryKey: ['imageUrl', post?.id],
-    queryFn: () => downloadImageURL(post?.id!),
-    enabled: !!post?.id
-  });
+    isError
+  } = useQuery({ queryKey: ['imageURL'], queryFn: () => downloadCoverImageURLs(post?.id!), enabled: !!post?.id });
 
   // 현재 페이지 인덱스로 page 상태 변경
   useEffect(() => {
@@ -52,14 +57,14 @@ function Detail() {
     }
 
     console.log('현재 post의 인덱스 넘버', postIndexNumber);
-  }, [id, posts, navigate, imageUrl]);
+  }, [id, posts, navigate]);
 
   //커버이미지 로딩
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
+  if (isError) {
     return <div>Error loading image</div>;
   }
 
@@ -88,25 +93,28 @@ function Detail() {
   };
 
   return (
-    <CS.FullContainer>
-      <PostContainer>
-        <CoverImageContainer>
-          <div>
-            {imageUrl ? <img src={imageUrl} alt="Post Cover" /> : <img src={defaultCover} alt="default cover" />}
-          </div>
-          <div>
-            <button onClick={onClickPrevButton} type="button">
-              prev
-            </button>
-            <button onClick={onClickNextButton} type="button">
-              next
-            </button>
-          </div>
-        </CoverImageContainer>
-        <DetailBody post={post!} />
-      </PostContainer>
+    <PostContainer>
+      <CoverImageContainer>
+        {imageURLList ? (
+          imageURLList.map((image) => {
+            return <CoverImage src={image} alt="Post Cover" />;
+          })
+        ) : (
+          <CoverImage src={defaultCover} alt="default cover" />
+        )}
+
+        <div>
+          <button onClick={onClickPrevButton} type="button">
+            prev
+          </button>
+          <button onClick={onClickNextButton} type="button">
+            next
+          </button>
+        </div>
+      </CoverImageContainer>
+      <DetailBody post={post!} />
       <Comment post={post!} />
-    </CS.FullContainer>
+    </PostContainer>
   );
 }
 
@@ -115,7 +123,7 @@ export default Detail;
 const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  /* height: 100vh; */
   row-gap: 20px;
   background-color: #b8ed8c;
   & div {
@@ -134,7 +142,13 @@ const CoverImageContainer = styled.div`
     display: flex;
     justify-content: space-between;
     position: absolute;
-    width: 500px;
+    width: 100%;
     background-color: lightblue;
+    top: 50%;
   }
+`;
+
+const CoverImage = styled.img`
+  object-fit: cover;
+  width: 100%;
 `;
