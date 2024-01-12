@@ -122,17 +122,17 @@ const Content = styled.li`
     width: 35%;
   }
 
-  img {
-    object-fit: cover;
-    width: 233px; //345 > 233 변경
-    height: 280px; //420 > 280 변경
-    flex-shrink: 0;
-    border-radius: 40px 40px 0px 0px;
-  }
-
   p {
     margin-bottom: 10px;
   }
+`;
+
+const ContentImg = styled.img`
+  object-fit: cover;
+  width: 233px; //345 > 233 변경
+  height: 280px; //420 > 280 변경
+  flex-shrink: 0;
+  border-radius: 40px 40px 0px 0px;
 `;
 
 const Row = styled.div`
@@ -159,6 +159,7 @@ const Row = styled.div`
 
 const commentAndLikes = styled.div`
   padding: 0 20px;
+  padding-top: 10px;
   display: flex;
   gap: 10px;
 `;
@@ -271,21 +272,48 @@ const AdminContent = styled.li`
 
 const AdminPostTitle = styled.p`
   color: #000;
-  font-family: Inter;
-  font-size: 26px;
+  //font-family: ${theme.font.pretendard};
+  font-size: 22px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   text-align: left;
 `;
 
+const AdminPostSpace = styled.div`
+  display: flex;
+  height: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
 const AdminPostContent = styled.div`
   color: #000;
-  font-family: Inter;
-  font-size: 17px;
+  //font-family: ${theme.font.pretendard};
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+`;
+
+const UserProfile = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 20px;
+`;
+
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+  /* img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  } */
 `;
 
 const NeedDelete = styled.div`
@@ -301,6 +329,7 @@ export default {
   ContentsWrapper,
   Contents,
   Content,
+  ContentImg,
   MainSubWrapper,
   MoreContentWrapper,
   MangoDiv,
@@ -310,10 +339,13 @@ export default {
   AdminContents,
   AdminContent,
   AdminPostTitle,
+  AdminPostSpace,
   AdminPostContent,
   CategoryWrapper,
   Row,
   TitleAndContent,
   commentAndLikes,
+  UserProfile,
+  ProfileImg,
   NeedDelete
 };

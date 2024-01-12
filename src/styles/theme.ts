@@ -11,7 +11,8 @@ const font = {
   mango: 'Milk Mango Regular',
   agroBold: 'SBAggroB-bold',
   agroLight: 'SBAggroB-light',
-  agroRegular: 'SBAggroB-regular'
+  agroRegular: 'SBAggroB-regular',
+  pretendard: 'Pretendard-Regular'
 };
 
 const fontSize = {
