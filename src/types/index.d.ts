@@ -6,13 +6,14 @@ type PostType = {
   category?: string;
   title?: string;
   content?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: number;
+  updatedAt?: number;
   hashtag?: null;
   uid?: string;
   likeCount?: number;
   likedUsers?: string[];
   isLike?: boolean;
+  role?: string; //kim 추가 24.01.11
 };
 
 type User = {
@@ -30,4 +31,4 @@ type CommentType = {
   uid: string;
   profileImg: string;
   createdAt: number;
-}
+};
