@@ -22,7 +22,6 @@ const Comment = ({ post }: Props) => {
     queryFn: getUserData
   });
 
-
   // 댓글목록 가져오기
   const { data: comments } = useQuery({
     queryKey: [QUERY_KEYS.COMMENTS, postId],
@@ -68,7 +67,7 @@ const Comment = ({ post }: Props) => {
   const onClickUpdateButton = (id: string) => {
     const confirm = window.confirm('저장하시겠습니까?');
     if (!confirm) return;
-    updateCommentMutate({postId: post.id, id, textArea})
+    updateCommentMutate({ postId: post.id, id, textArea });
     setEditingCommentId(null);
   };
 
@@ -102,20 +101,24 @@ const Comment = ({ post }: Props) => {
                   <span>{comment.displayName}</span>
                   <span>{getFormattedDate(comment.createdAt)}</span>
                 </NameAndTime>
-                {editingCommentId === comment.id ? (
-                  <Buttons>
-                    <button onClick={() => onClickUpdateButton(comment.id)}>저장</button>
-                    <button onClick={onClickCancelButton}>취소</button>
-                  </Buttons>
-                ) : (
-                  <Buttons>
-                    <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
-                    <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
-                  </Buttons>
+                {currentUser?.uid === comment.uid && (
+                  <>
+                    {editingCommentId === comment.id ? (
+                      <Buttons>
+                        <button onClick={() => onClickUpdateButton(comment.id)}>저장</button>
+                        <button onClick={onClickCancelButton}>취소</button>
+                      </Buttons>
+                    ) : (
+                      <Buttons>
+                        <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
+                        <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
+                      </Buttons>
+                    )}
+                  </>
                 )}
               </CommentDetail>
               {editingCommentId === comment.id ? (
-                <textarea defaultValue={comment.content} onChange={(e) => onChangeTextArea(e)}/>
+                <textarea defaultValue={comment.content} onChange={(e) => onChangeTextArea(e)} />
               ) : (
                 <Content>{comment.content}</Content>
               )}
