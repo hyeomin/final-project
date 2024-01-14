@@ -98,6 +98,7 @@ const ThumbnailsBox = styled.div`
 
 // Swiper 디자인
 const StyledSwiperSlide = styled(SwiperSlide)`
+  position: relative;
   display: flex;
   border-radius: 20px;
   width: 345px;
@@ -105,6 +106,12 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   overflow: hidden;
   background-color: lightblue;
   position: relative;
+  span {
+    position: absolute;
+    background-color: #fff;
+    bottom: 70px;
+    left: 10px;
+  }
 `;
 
 const UserPostCover = styled(Link)`

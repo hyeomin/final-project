@@ -142,37 +142,4 @@ const updateLikedUsers = async (post: PostType) => {
   }
 };
 
-// 댓글 카운트
-const updateCommentCount = async () => {
-  try {
-    const postsQuery = query(collection(db, QUERY_KEYS.POSTS));
-    const postsSnapshot = await getDocs(postsQuery);
-
-    for (const postDoc of postsSnapshot.docs) {
-      const postId = postDoc.id;
-
-      const commentsQuery = query(collection(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS));
-      const commentsSnapshot = await getDocs(commentsQuery);
-
-      const commentCount = commentsSnapshot.size;
-      const postRef = doc(db, QUERY_KEYS.POSTS, postId);
-      await updateDoc(postRef, { commentCount });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// 댓글 수 업데이트하고 게시글 목록 가져오기
-const updateAndFetchPosts = async () => {
-  try {
-    await updateCommentCount();
-    const posts = await getPosts();
-    return posts;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
-
-export { getAdminHomeContents, getPosts, getTopRankingPosts, downloadImageURL, updateLikedUsers, updateAndFetchPosts };
+export { getAdminHomeContents, getPosts, getTopRankingPosts, downloadImageURL, updateLikedUsers };

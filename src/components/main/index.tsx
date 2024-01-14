@@ -151,6 +151,7 @@ function Main() {
                 const imageQuery = imageQueries[idx];
                 return (
                   <St.StyledSwiperSlide key={idx}>
+                    <span>댓글 수: {item?.commentCount}</span>
                     <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
                       {item.likedUsers?.includes(currentUser!) ? (
                         <>
