@@ -147,34 +147,38 @@ function Main() {
               }}
               className="slides"
             >
-              {userPosts!.map((item, idx) => {
-                const imageQuery = imageQueries[idx];
-                return (
-                  <St.StyledSwiperSlide key={idx}>
-                    <span>댓글 수: {item?.commentCount}</span>
-                    <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                      {item.likedUsers?.includes(currentUser!) ? (
-                        <>
-                          <St.HeartFillIcon />
-                          <p>{item.likedUsers?.length}</p>
-                        </>
-                      ) : (
-                        <>
-                          <p>{item.likedUsers?.length}</p>
-                          <St.HeartIcon />
-                        </>
-                      )}
-                    </St.LikeButton>
-                    <St.UserPostCover to={`/detail/${item.id}`}>
-                      {imageQuery.isLoading ? (
-                        <p>Loading image...</p>
-                      ) : (
-                        <img src={imageQuery.data || defaultCover} alt={item.title} />
-                      )}
-                    </St.UserPostCover>
-                  </St.StyledSwiperSlide>
-                );
-              })}
+              {userPosts &&
+                userPosts.map((item, idx) => {
+                  const imageQuery = imageQueries[idx];
+                  return (
+                    <St.StyledSwiperSlide key={idx}>
+                      <St.Count>
+                        <p>조회수: {item.viewCount}</p>
+                        <p>댓글수: {item.commentCount}</p>
+                      </St.Count>
+                      <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
+                        {item.likedUsers?.includes(currentUser!) ? (
+                          <>
+                            <St.HeartFillIcon />
+                            <p>{item.likedUsers?.length}</p>
+                          </>
+                        ) : (
+                          <>
+                            <p>{item.likedUsers?.length}</p>
+                            <St.HeartIcon />
+                          </>
+                        )}
+                      </St.LikeButton>
+                      <St.UserPostCover to={`/detail/${item.id}`}>
+                        {imageQuery.isLoading ? (
+                          <p>Loading image...</p>
+                        ) : (
+                          <img src={imageQuery.data || defaultCover} alt={item.title} />
+                        )}
+                      </St.UserPostCover>
+                    </St.StyledSwiperSlide>
+                  );
+                })}
             </Swiper>
           </St.ThumbnailsBox>
         </St.PostsSlide>

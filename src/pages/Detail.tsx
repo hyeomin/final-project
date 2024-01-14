@@ -45,10 +45,12 @@ function Detail() {
   });
 
   //조회수 업데이트
+  const [viewCount, setViewCount] = useState(post?.viewCount || 0);
   useEffect(() => {
     if (post && !sessionStorage.getItem(`viewed-${post.id}`)) {
       updatePostViewCount(post.id);
       sessionStorage.setItem(`viewed-${post.id}`, 'true');
+      setViewCount((prevCount) => prevCount + 1);
     }
   }, [post]);
 
@@ -96,7 +98,7 @@ function Detail() {
 
   return (
     <DetailPostContainer>
-      {post && <div>조회수: {post.viewCount}</div>}
+      {post && <div>조회수: {viewCount}</div>}
       {/* <CoverImage post={post!} /> */}
       <div>
         <button onClick={onClickPrevButton} type="button">
