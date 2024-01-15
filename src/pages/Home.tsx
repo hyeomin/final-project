@@ -1,7 +1,7 @@
-import Main from '../components/main/index';
+import MainBody from '../components/main/MainBody';
 
 function Home() {
-  return <Main />;
+  return <MainBody />;
 }
 
 export default Home;
