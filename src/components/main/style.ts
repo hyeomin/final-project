@@ -107,6 +107,27 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   background-color: lightblue;
   position: relative;
 `;
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  & div:nth-child(2) {
+    color: #fff;
+  }
+  & div:nth-child(1) {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+    color: #111;
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+`;
 
 const Count = styled.div`
   position: absolute;
@@ -159,6 +180,7 @@ export default {
   HeartIcon,
   HeartFillIcon,
   StyledSwiperSlide,
+  UserInfo,
   Count,
   TopTenContainer
 };
