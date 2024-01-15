@@ -3,42 +3,50 @@ import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
+import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoTasklist } from 'react-icons/go';
 import { getMyPosts } from '../../api/myPostAPI';
-import defaultImg from '../../assets/defaultImg.jpg';
 import { QUERY_KEYS } from '../../query/keys';
 import { auth, db, storage } from '../../shared/firebase';
 import HabitCalendar from './HabitCalendar';
 import LikesPosts from './LikesPosts';
 import MyPosts from './MyPosts';
 import St from './style';
-import { CiSettings } from 'react-icons/ci';
+import defaultImg from '../../assets/defaultImg.jpg';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
-  const [userObj, setUserObj] = useState({
-    displayName: '',
-    uid: '',
-    photoURL: ''
-  });
-
-  const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
+  const [newDisplayName, setNewDisPlayName] = useState('');
+  const [userObj, setUserObj] = useState({});
   const [imageUpload, setImageUpload] = useState<any>('');
-  // const [imageUpload, setImageUpload] = useState<File | null>(null);
-  // const [localImage, setLocalImage] = useState<string | null>(null);
-
   const [image, setImage] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [previousPhotoURL, setPreviousPhotoURL] = useState<string | null>(null);
   // const [editingTest, setEditingText] = useState('');
 
+  useEffect(() => {
+    setPreviousPhotoURL(auth.currentUser?.photoURL || null);
+  }, []);
+
+  const onCancelEdit = () => {
+    setImage(previousPhotoURL || '');
+    setIsEditing(false);
+    setNewDisPlayName(auth.currentUser?.displayName || '');
+    setPreviewImage(null);
+
+    if (fileRef.current) {
+      fileRef.current.value = '';
+      return;
+    }
+  };
   const onClickTabBtn = (name: string) => {
     setActiveTab(name);
   };
 
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewDisplayName(e.target.value);
+    setNewDisPlayName(e.target.value);
   };
 
   // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
@@ -65,14 +73,14 @@ function MyProfile() {
           photoURL: image
         });
         onAuthStateChanged(auth, (user) => {
-          // if (user) {
-          //   setUserObj({
-          //     // displayName: user.displayName,
-          //     // uid: user.uid,
-          //     // photoURL?: user.photoURL
-          //   });
-          //   setNewDisplayName(user.displayName || '');
-          // }
+          if (user) {
+            setUserObj({
+              displayName: user.displayName,
+              uid: user.uid,
+              photoURL: user.photoURL
+            });
+            setNewDisPlayName(user.displayName || '');
+          }
         });
 
         // getDoc으로 userDocRef users의 해당하는 현재 유저 uid를 가져온다
@@ -89,7 +97,8 @@ function MyProfile() {
             role: 'user'
           });
         }
-        setNewDisplayName(auth.currentUser?.displayName!);
+        setNewDisPlayName(auth.currentUser?.displayName!);
+        setIsEditing(false);
       }
     }
   };
@@ -101,7 +110,6 @@ function MyProfile() {
 
   //input을 클릭해서 파일 업로드
   //사진 미리보기
-  //blob url 리팩토링 하기
   const onChangeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
 
@@ -133,32 +141,20 @@ function MyProfile() {
     });
   }, [imageUpload]);
 
-  //프로필 수정 업데이트
-
-  useEffect(() => {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    const fetchUserData = async () => {
-      setUserObj({
-        displayName: user?.displayName as string,
-        uid: user?.uid as string,
-        photoURL: user?.photoURL as string
-      });
-      setNewDisplayName(user?.displayName!);
-    };
-
-    fetchUserData();
-  }, []);
-
-  console.log('현재유저', auth.currentUser);
   return (
     <St.Wrapper>
       <St.ProfileEditWrapper>
-        {/* <St.UserInfo> */}
-        {/* <St.MyImage src={auth.currentUser?.photoURL! || defaultImg} alt="defaultImg" /> */}
-        {/* <St.profileImg src={previewImage || defaultImg} alt="img" /> */}
-        <St.EmailAndName></St.EmailAndName>
+        <St.MyImage
+          //      onClick={() => {
+          //   fileRef.current?.click();
+          // }}
+          //   src={auth.currentUser?.photoURL==='' ? defaultImg : previewImage || auth.currentUser?.photoURL}
+          //  alt="defaultImg"
+
+          src={auth.currentUser?.photoURL === '' ? defaultImg : previewImage || auth.currentUser?.photoURL!}
+          alt="defaultImg"
+        />
+        {/* <St.EmailAndName></St.EmailAndName> */}
         <St.ProfileInfo>
           {isEditing ? (
             <St.DisplayNameModify autoFocus defaultValue={newDisplayName} onChange={onChangeDisplayName} />
@@ -180,14 +176,9 @@ function MyProfile() {
           <St.ModifyBox>
             {isEditing ? (
               <>
-                <St.FileInput
-                  style={{ border: '1px solid black' }}
-                  type="file"
-                  onChange={onChangeUpload}
-                  accept="image/*"
-                />
+                <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" />
                 {/* <St.FileImgUpload onClick={onClickUpload}>업로드</St.FileImgUpload> */}
-                <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
+                <St.ModifyButton onClick={onCancelEdit}>취소</St.ModifyButton>
                 <St.ModifyButton
                   onClick={onSubmitModifyProfile}
                   disabled={!newDisplayName && image === auth.currentUser?.photoURL}
