@@ -1,5 +1,6 @@
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
+import { QUERY_KEYS } from '../query/keys';
 import { db, storage } from '../shared/firebase';
 import { PostType2 } from '../types/Posts';
 
@@ -20,8 +21,17 @@ const addPost = async ({ newPost, coverImageList }: Props) => {
     }
     return postId;
   } catch (error) {
-    console.error('Error adding document: ', error);
+    console.error('Error adding post: ', error);
   }
 };
 
-export { addPost };
+const deletePost = async (postId: string) => {
+  try {
+    await deleteDoc(doc(db, QUERY_KEYS.POSTS, postId));
+    console.log('포스트 삭제완료');
+  } catch (error) {
+    console.log('포스트 삭제오류', error);
+  }
+};
+
+export { addPost, deletePost };

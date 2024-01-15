@@ -10,13 +10,12 @@ type Props = {
 };
 
 function DetailBody({ foundPost }: Props) {
-  // const [author, setAuthor] = useState<UserType | undefined>(undefined);
   const { data: userList } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
     queryFn: getAllUsers
   });
 
-  const author = userList?.find((user) => user.id === foundPost.uid);
+  const author = userList?.find((user) => user.uid === foundPost.uid);
 
   let authorImage = author?.profileImg;
   if (!authorImage) {
@@ -43,7 +42,7 @@ export default DetailBody;
 
 const BodyContainer = styled.div`
   width: 100%;
-  margin-top: 40px;
+  margin: 40px 0;
   border-bottom: 1px solid lightgray;
 `;
 
@@ -73,5 +72,6 @@ const PostInfo = styled.div`
 `;
 
 const ContentBody = styled.div`
+  color: #222222;
   padding: 40px 0;
 `;

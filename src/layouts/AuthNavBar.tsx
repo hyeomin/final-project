@@ -1,5 +1,4 @@
 import { signOut } from 'firebase/auth';
-import { useEffect, useState } from 'react';
 import { GoChevronDown } from 'react-icons/go';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -16,12 +15,6 @@ type Props = {
 };
 
 function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
-
-  useEffect(() => {
-    setIsLoggedIn(!!auth.currentUser);
-  }, [auth]);
-
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
 
@@ -29,7 +22,7 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
-    if (!isLoggedIn) {
+    if (!auth.currentUser) {
       const confirmation = window.confirm('로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?');
       if (confirmation) {
         navigate('/auth');
@@ -61,11 +54,7 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
       </NavLink>
       {auth.currentUser ? (
         <>
-          <NavLink to="/auth" onClick={onLogOutHandler} style={styledNav}>
-            로그아웃
-          </NavLink>
-          <NavLink to="/mypage">My Page</NavLink>
-          <UserInfo>
+          <UserInfo onClick={() => setIsAuthToggleOpen((prev) => !prev)}>
             <img src={auth.currentUser?.photoURL ?? defaultImg} alt="profile" />
             <span>{auth.currentUser?.displayName}</span>
             <span>
@@ -101,13 +90,13 @@ const AuthContainer = styled.div`
 const UserInfo = styled.div`
   display: flex;
   align-items: center;
-  column-gap: 5px;
-
+  column-gap: 10px;
   color: black;
   font-weight: bold;
+  cursor: pointer;
 
   & img {
-    width: 30px;
+    width: 25px;
     border-radius: 50%;
     object-fit: fill;
   }
