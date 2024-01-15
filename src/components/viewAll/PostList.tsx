@@ -5,10 +5,12 @@ import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { QUERY_KEYS } from '../../query/keys';
 import { getAllUsers } from '../../api/authApi';
-
+import defaultImg from '../../assets/defaultImg.jpg';
+import { FaHeart } from 'react-icons/fa';
+import { FaRegComment } from 'react-icons/fa';
 interface PostListProps {
   queryKey: QueryKey;
   queryFn: (
@@ -73,11 +75,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
   };
 
-  // 각각 게시물 클릭시 detail로 이동
-  const onClickMoveToDetail = (id: string) => {
-    navigate(`/detail/${id}`);
-  };
-
   //사용자 프로필 데이터
   const { data: userList } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
@@ -93,22 +90,35 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           {posts?.map((post, idx) => {
             const imageQuery = imageQueries[idx];
             return (
-              <St.Content key={post.id} onClick={() => onClickMoveToDetail(post.id)}>
+              <St.Content key={post.id}>
                 {imageQuery.isLoading ? (
                   <p>Loading image...</p>
                 ) : (
-                  <img src={imageQuery.data || defaultCover} alt={post.title} />
+                  <Link to={`/detail/${post.id}`}>
+                    <St.ContentImg src={imageQuery.data || defaultCover} alt={post.title} />
+                  </Link>
                 )}
                 <St.commentAndLikes>
-                  <p>💬5</p>
-                  <p>♥{post.likeCount}</p>
+                  <FaRegComment />
+                  <p>5</p>
+                  <p>
+                    <FaHeart size="15" />
+                  </p>
+                  <p>{post.likeCount}</p>
                 </St.commentAndLikes>
 
-                <div>
+                <St.UserProfile>
                   {userList && userList?.find((user) => user.uid === post.uid) && (
-                    <div>{userList.find((user) => user.uid === post.uid)?.displayName}</div>
+                    <>
+                      <St.ProfileImg
+                        src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultImg}
+                        alt="profile"
+                      />
+
+                      <div>{userList.find((user) => user.uid === post.uid)?.displayName}</div>
+                    </>
                   )}
-                </div>
+                </St.UserProfile>
 
                 <St.TitleAndContent>
                   <p>{post.title}</p>

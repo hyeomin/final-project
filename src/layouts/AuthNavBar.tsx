@@ -1,8 +1,10 @@
-import { signOut } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
+import { GoChevronDown } from 'react-icons/go';
 import { NavLink } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import defaultImg from '../assets/defaultImg.jpg';
 import { isSignUpState, roleState } from '../recoil/users';
 import { auth } from '../shared/firebase';
 
@@ -13,17 +15,19 @@ type Props = {
 };
 
 function AuthNavBar({ styledNav }: Props) {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!auth.currentUser);
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!auth.currentUser);
 
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
 
-  useEffect(() => {
-    if (!auth.currentUser) setIsLoggedIn(false);
-    if (!isLoggedIn) setRole('');
-  }, [isLoggedIn, auth.currentUser]);
-
-  console.log('이미지 찾자', auth);
+  // useEffect(() => {
+  //   if (auth.currentUser) {
+  //     setIsLoggedIn(true);
+  //   } else {
+  //     setIsLoggedIn(false);
+  //   }
+  //   if (!isLoggedIn) setRole('');
+  // }, [isLoggedIn, auth.currentUser]);
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     // event.preventDefault();
@@ -50,18 +54,28 @@ function AuthNavBar({ styledNav }: Props) {
     }
   };
 
+  const auth = getAuth();
+  console.log('auth', auth);
   return (
     <AuthContainer>
+      {/* useEffect에 넣기 */}
+      {/* {auth.currentUser ? '로그아웃' : '로그인'} */}
       <NavLink to="/write" onClick={onAuthCheckHandler} style={styledNav}>
-        Write
+        글쓰기
       </NavLink>
-      {isLoggedIn ? (
+      {auth.currentUser ? (
         <>
           <NavLink to="/auth" onClick={onLogOutHandler} style={styledNav}>
             로그아웃
           </NavLink>
           <NavLink to="/mypage">My Page</NavLink>
-          <div></div>
+          <UserInfo>
+            <img src={auth.currentUser?.photoURL ?? defaultImg} alt="profile" />
+            <span>{auth.currentUser?.displayName}</span>
+            <span>
+              <GoChevronDown />
+            </span>
+          </UserInfo>
         </>
       ) : (
         <>
@@ -81,7 +95,33 @@ export default AuthNavBar;
 
 const AuthContainer = styled.div`
   display: flex;
+  align-items: center;
   column-gap: 20px;
   color: #888;
   font-size: 14px;
+`;
+
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+
+  color: black;
+  font-weight: bold;
+
+  & img {
+    width: 30px;
+    object-fit: fill;
+  }
+  & button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0;
+  }
+
+  &:hover {
+    color: red;
+  }
 `;

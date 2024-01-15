@@ -28,37 +28,25 @@ const ButtonWrapper = styled.div`
   align-items: center;
 `;
 
-const Button = styled.button`
-  //sh
-  color: #888;
+const Button = styled.button<{ selected: boolean }>`
   font-family: Apple SD Gothic Neo;
   font-size: 17px;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-
-  //kim
-  cursor: pointer;
+  font-weight: ${({ selected }) => (selected ? 800 : 400)};
+  color: ${({ selected }) => (selected ? '#222' : '#888')};
   border: none;
+  border-bottom: ${({ selected }) => (selected ? '2px solid #ffa114' : 'none')};
+  line-height: normal;
+  outline: none;
+  cursor: pointer;
   background-color: transparent;
-
-  &:active,
-  &:focus {
-    color: #222;
-    text-align: center;
-    font-family: Apple SD Gothic Neo;
-    font-size: 17px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    border-bottom: 2px solid #ffa114;
-  }
 `;
 
 /*정렬*/
 const SortWrapper = styled.ul`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 20px;
 
   li a {
@@ -69,19 +57,11 @@ const SortWrapper = styled.ul`
     font-family: Apple SD Gothic Neo;
     font-size: 17px;
     font-style: normal;
-    font-weight: 400;
+  }
+  li a.selected {
+    font-weight: 700;
+    color: #222;
     line-height: normal;
-
-    &:active,
-    &:focus {
-      color: #222;
-      text-align: center;
-      font-family: Apple SD Gothic Neo;
-      font-size: 17px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
-    }
   }
 
   li:not(:last-child):after {
@@ -122,17 +102,17 @@ const Content = styled.li`
     width: 35%;
   }
 
-  img {
-    object-fit: cover;
-    width: 233px; //345 > 233 변경
-    height: 280px; //420 > 280 변경
-    flex-shrink: 0;
-    border-radius: 40px 40px 0px 0px;
-  }
-
   p {
     margin-bottom: 10px;
   }
+`;
+
+const ContentImg = styled.img`
+  object-fit: cover;
+  width: 233px; //345 > 233 변경
+  height: 280px; //420 > 280 변경
+  flex-shrink: 0;
+  border-radius: 40px 40px 0px 0px;
 `;
 
 const Row = styled.div`
@@ -159,6 +139,7 @@ const Row = styled.div`
 
 const commentAndLikes = styled.div`
   padding: 0 20px;
+  padding-top: 10px;
   display: flex;
   gap: 10px;
 `;
@@ -271,21 +252,48 @@ const AdminContent = styled.li`
 
 const AdminPostTitle = styled.p`
   color: #000;
-  font-family: Inter;
-  font-size: 26px;
+  //font-family: ${theme.font.pretendard};
+  font-size: 22px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   text-align: left;
 `;
 
+const AdminPostSpace = styled.div`
+  display: flex;
+  height: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
 const AdminPostContent = styled.div`
   color: #000;
-  font-family: Inter;
-  font-size: 17px;
+  //font-family: ${theme.font.pretendard};
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+`;
+
+const UserProfile = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 20px;
+`;
+
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+  /* img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  } */
 `;
 
 const NeedDelete = styled.div`
@@ -301,6 +309,7 @@ export default {
   ContentsWrapper,
   Contents,
   Content,
+  ContentImg,
   MainSubWrapper,
   MoreContentWrapper,
   MangoDiv,
@@ -310,10 +319,13 @@ export default {
   AdminContents,
   AdminContent,
   AdminPostTitle,
+  AdminPostSpace,
   AdminPostContent,
   CategoryWrapper,
   Row,
   TitleAndContent,
   commentAndLikes,
+  UserProfile,
+  ProfileImg,
   NeedDelete
 };
