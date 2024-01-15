@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { addPost } from '../../api/postApi';
+import { QUERY_KEYS } from '../../query/keys';
 import { contentState, coverImageState, hashtagState, titleState } from '../../recoil/posts';
 import theme from '../../styles/theme';
 import { PostType2 } from '../../types/Posts';
@@ -27,7 +28,7 @@ function SubmitButton({ newPost }: Props) {
   const addMutation = useMutation({
     mutationFn: () => addPost({ newPost, coverImageList }),
     onSuccess: (postId) => {
-      queryClient.invalidateQueries({ queryKey: ['addPost'] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
       setTitle('');
       setContent('');
       setHashtags([]);

@@ -6,7 +6,7 @@ type Props = {
   foundPost: PostType;
 };
 
-function CoverImage({ foundPost }: Props) {
+function DetailHeader({ foundPost }: Props) {
   const {
     data: imageURLList,
     isLoading,
@@ -26,19 +26,16 @@ function CoverImage({ foundPost }: Props) {
     return <div>Error loading image</div>;
   }
 
-  if (imageURLList && imageURLList.length === 0) {
+  if (!imageURLList) {
+    return <div>Image Loading ...</div>;
   }
 
   return (
     <CoverContainer style={{ width: '100vw' }}>
       <PostTitle>{foundPost.title}</PostTitle>
-      {imageURLList && imageURLList?.length > 0 ? (
+      {Array.isArray(imageURLList) && imageURLList?.length > 0 ? (
         imageURLList.map((image) => {
-          return (
-            <CoverImageContainer>
-              <PostCoverImage src={image} alt="Post Cover" />
-            </CoverImageContainer>
-          );
+          return <PostCoverImage src={image} alt="Post Cover" />;
         })
       ) : (
         <NoImage></NoImage>
@@ -47,27 +44,21 @@ function CoverImage({ foundPost }: Props) {
   );
 }
 
-export default CoverImage;
+export default DetailHeader;
 
 const CoverContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
   width: 100vw;
   position: relative;
   background-color: white;
 `;
 
-const CoverImageContainer = styled.div`
-  height: 400px;
-  width: 100%;
-`;
-
 const PostCoverImage = styled.img`
   object-fit: cover;
   width: 100%;
-  height: 100%;
+  height: 400px;
   z-index: auto;
 `;
 

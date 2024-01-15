@@ -27,6 +27,16 @@ function Write() {
     likedUsers: null,
     role
   };
+
+  // omit으로 타입 관리해야 함
+  const editingPost = {
+    category,
+    title,
+    content,
+    updatedAt: Date.now(),
+    hashtags
+  };
+
   return (
     <Container>
       <Header>
