@@ -63,7 +63,7 @@ const ModifyButton = styled.button`
 
 const UserInfoModify = styled.div``;
 const FileInput = styled.input`
-  border: 1px solid black;
+  /* border: 1px solid black; */
 `;
 
 const FileImgUpload = styled.button``;
@@ -191,7 +191,7 @@ const MySectionWrapper = styled.div`
   width: 100%;
   height: 600px;
   border-top: 1px solid #d9d9d9;
-  margin-bottom: 100px;
+  margin-bottom: 200px;
 `;
 
 const PostsWrapper = styled.div`

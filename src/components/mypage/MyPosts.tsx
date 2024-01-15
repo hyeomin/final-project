@@ -141,7 +141,7 @@ const MyPosts = () => {
           }
         })}
       </St.PostsBox>
-      <button style={{ width: '100px', height: '50px;' }}>more</button>;
+      <button style={{ width: '100px', height: '50px;' }}>more</button>
     </St.PostsWrapper>
   );
 };

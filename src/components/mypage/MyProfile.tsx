@@ -12,6 +12,7 @@ import HabitCalendar from './HabitCalendar';
 import LikesPosts from './LikesPosts';
 import MyPosts from './MyPosts';
 import St from './style';
+import defaultImg from '../../assets/defaultImg.jpg';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -22,8 +23,24 @@ function MyProfile() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [previousPhotoURL, setPreviousPhotoURL] = useState<string | null>(null);
   // const [editingTest, setEditingText] = useState('');
 
+  useEffect(() => {
+    setPreviousPhotoURL(auth.currentUser?.photoURL || null);
+  }, []);
+
+  const onCancelEdit = () => {
+    setImage(previousPhotoURL || '');
+    setIsEditing(false);
+    setNewDisPlayName(auth.currentUser?.displayName || '');
+    setPreviewImage(null);
+
+    if (fileRef.current) {
+      fileRef.current.value = '';
+      return;
+    }
+  };
   const onClickTabBtn = (name: string) => {
     setActiveTab(name);
   };
@@ -76,8 +93,8 @@ function MyProfile() {
           await updateDoc(userDocRef, {
             displayName: updateUser?.displayName,
             profileImg: updateUser?.photoURL,
-            uid: updateUser?.uid
-            // role: 'user'//???????????????????
+            uid: updateUser?.uid,
+            role: 'user'
           });
         }
         setNewDisPlayName(auth.currentUser?.displayName!);
@@ -128,10 +145,13 @@ function MyProfile() {
     <St.Wrapper>
       <St.ProfileEditWrapper>
         <St.MyImage
-          onClick={() => {
-            fileRef.current?.click();
-          }}
-          src={previewImage || auth.currentUser?.photoURL!}
+          //      onClick={() => {
+          //   fileRef.current?.click();
+          // }}
+          //   src={auth.currentUser?.photoURL==='' ? defaultImg : previewImage || auth.currentUser?.photoURL}
+          //  alt="defaultImg"
+
+          src={auth.currentUser?.photoURL === '' ? defaultImg : previewImage || auth.currentUser?.photoURL!}
           alt="defaultImg"
         />
         {/* <St.EmailAndName></St.EmailAndName> */}
@@ -156,14 +176,9 @@ function MyProfile() {
           <St.ModifyBox>
             {isEditing ? (
               <>
-                <St.FileInput
-                  style={{ border: '1px solid black' }}
-                  type="file"
-                  onChange={onChangeUpload}
-                  accept="image/*"
-                />
+                <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" />
                 {/* <St.FileImgUpload onClick={onClickUpload}>업로드</St.FileImgUpload> */}
-                <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
+                <St.ModifyButton onClick={onCancelEdit}>취소</St.ModifyButton>
                 <St.ModifyButton
                   onClick={onSubmitModifyProfile}
                   disabled={!newDisplayName && image === auth.currentUser?.photoURL}

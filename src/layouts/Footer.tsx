@@ -18,4 +18,8 @@ const FooterContainer = styled.div`
 
   row-gap: 10px;
   background-color: pink;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
 `;

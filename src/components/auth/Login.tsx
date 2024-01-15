@@ -74,10 +74,13 @@ function Login() {
 
   return (
     <St.authWrapper>
+      <St.SubTitle>건강한 친환경 습관 만들기</St.SubTitle>
+      <St.Logo>MANGO</St.Logo>
+      <St.SignUpTitle>로그인</St.SignUpTitle>
       <form onSubmit={handleSubmit(signIn)}>
-        <SingleInputContainer>
-          <span>아이디</span>
-          <input
+        <St.InputContainer>
+          <label htmlFor="email"></label>
+          <St.Input
             type="text"
             placeholder="아이디를 입력하세요."
             {...register('email', {
@@ -87,10 +90,10 @@ function Login() {
           />
           {errors?.email?.type === 'required' && <St.WarningMsg> 이메일을 입력해주세요</St.WarningMsg>}
           {errors?.email?.type === 'pattern' && <St.WarningMsg>이메일 양식에 맞게 입력해주세요</St.WarningMsg>}
-        </SingleInputContainer>
-        <SingleInputContainer>
-          <span>비밀번호</span>
-          <input
+        </St.InputContainer>
+        <St.InputContainer>
+          <label htmlFor="password"></label>
+          <St.Input
             type="password"
             placeholder="비밀번호를 입력하세요."
             {...register('password', {
@@ -102,20 +105,20 @@ function Login() {
           {errors?.password?.type === 'pattern' && (
             <St.WarningMsg> ⚠️ 비밀번호는 문자, 숫자 1개이상 포함, 8자리 이상입니다</St.WarningMsg>
           )}
-        </SingleInputContainer>
+        </St.InputContainer>
         <SingleInputContainer></SingleInputContainer>
-        <button type="submit">로그인</button>
+        <St.SignUpAndLoginBtn type="submit">로그인</St.SignUpAndLoginBtn>
         {/* <button onClick={logOut}>로그아웃</button> */}
 
         <SignUpNavigation>
-          <p>아직 회원이 아니신가요?</p>
-          <button
+          <p style={{ marginBottom: '30px' }}>아직 회원이 아니신가요?</p>
+          <span
             onClick={() => {
               setIsSignUp(true);
             }}
           >
             회원가입 하기
-          </button>
+          </span>
         </SignUpNavigation>
       </form>
     </St.authWrapper>
