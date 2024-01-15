@@ -1,18 +1,22 @@
 import React from 'react';
-import usePostsQuery from '../../query/usePostsQuery';
+import usePostsQuery from '../../../query/usePostsQuery';
 import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
-import { QUERY_KEYS } from '../../query/keys';
-import { getAllUsers } from '../../api/authApi';
-import { downloadImageURL, getPosts, getTopRankingPosts } from '../../api/homeApi';
-import { auth } from '../../shared/firebase';
+import { QUERY_KEYS } from '../../../query/keys';
+import { getAllUsers } from '../../../api/authApi';
+import { downloadImageURL, getPosts, getTopRankingPosts } from '../../../api/homeApi';
+import { auth } from '../../../shared/firebase';
 import { Link } from 'react-router-dom';
 import St from './style';
-import defaultCover from '../../assets/defaultCoverImg.jpeg';
-import defatutUserImage from '../../assets/defaultImg.jpg';
+import defaultCover from '../../../assets/defaultCoverImg.jpeg';
+import defatutUserImage from '../../../assets/defaultImg.jpg';
+import eye from '../../../assets/icons/eye.png';
+import heart from '../../../assets/icons/heart.png';
+import comment from '../../../assets/icons/comment.png';
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import './swiperStyle.css';
+import '../swiperStyle.css';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
 
@@ -30,11 +34,7 @@ const UserContents = () => {
   // 유저정보 가져오기(profileImg)
   const { data: users } = useQuery({
     queryKey: [QUERY_KEYS.USERPOSTS],
-    queryFn: getAllUsers,
-    select: (data) => {
-      const users = data.filter((user) => user.role === 'user');
-      return users;
-    }
+    queryFn: getAllUsers
   });
   // console.log('유저 목록===>', users);
 
@@ -73,12 +73,20 @@ const UserContents = () => {
     }
   };
 
+  const removeImageTags = (htmlContent: string) => {
+    return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
+  };
+
+  const reduceContent = (postContent: string, cnt: number) => {
+    return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
+  };
+
   return (
-    <St.userPostsPosts>
+    <St.UserContents>
       <St.TitleContainer>
         <h1>인기 게시물</h1>
         <St.SubTitle>
-          <p>망고에서 제일 인기 있는 게시물들을 둘러보세요</p>
+          <p>망고에서 제일 인기 있는 게시물들을 둘러보세요.</p>
           <Link to={'/viewAll'}>
             <button type="button">{'전체보기 >'}</button>
           </Link>
@@ -106,7 +114,7 @@ const UserContents = () => {
                 slidesPerView: 3,
                 spaceBetween: 10
               },
-              1080: {
+              1000: {
                 slidesPerView: 4,
                 spaceBetween: 10
               }
@@ -117,33 +125,6 @@ const UserContents = () => {
               const imageQuery = imageQueries[idx];
               return (
                 <St.StyledSwiperSlide key={idx}>
-                  <St.UserInfo>
-                    <div>
-                      <img
-                        src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
-                        alt="user profile image"
-                      />
-                    </div>
-                    <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
-                  </St.UserInfo>
-
-                  <St.Count>
-                    <p>조회수: {item.viewCount}</p>
-                    <p>댓글수: {item.commentCount}</p>
-                  </St.Count>
-                  <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                    {item.likedUsers?.includes(currentUser!) ? (
-                      <>
-                        <St.HeartFillIcon />
-                        <p>{item.likedUsers?.length}</p>
-                      </>
-                    ) : (
-                      <>
-                        <p>{item.likedUsers?.length}</p>
-                        <St.HeartIcon />
-                      </>
-                    )}
-                  </St.LikeButton>
                   <St.UserPostCover to={`/detail/${item.id}`}>
                     {imageQuery.isLoading ? (
                       <p>Loading image...</p>
@@ -151,13 +132,50 @@ const UserContents = () => {
                       <img src={imageQuery.data || defaultCover} alt={item.title} />
                     )}
                   </St.UserPostCover>
+                  <St.TextAndLikeButton>
+                    <St.InfoTop>
+                      <St.UserInfo>
+                        <div>
+                          <img
+                            src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
+                            alt="user profile image"
+                          />
+                        </div>
+                        <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
+                      </St.UserInfo>
+                      <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
+                        {item.likedUsers?.includes(currentUser!) ? <St.HeartFillIcon /> : <St.HeartIcon />}
+                      </St.LikeButton>
+                    </St.InfoTop>
+                    <St.InfoBottom>
+                      <St.BottomText>
+                        <div>{item.title}</div>
+                        <div>
+                          <p
+                            dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(item.content || ''), 20) }}
+                          />
+                        </div>
+                      </St.BottomText>
+                      <St.Count>
+                        <span>
+                          <img src={eye} alt="eyeImg" /> {item.viewCount?.toLocaleString() || 0}
+                        </span>
+                        <span>
+                          <img src={heart} alt="heartImg" /> {item.likeCount?.toLocaleString() || 0}
+                        </span>
+                        <span>
+                          <img src={comment} alt="commentImg" /> {item.commentCount?.toLocaleString() || 0}
+                        </span>
+                      </St.Count>
+                    </St.InfoBottom>
+                  </St.TextAndLikeButton>
                 </St.StyledSwiperSlide>
               );
             })}
           </Swiper>
         </St.ThumbnailsBox>
       </St.PostsSlide>
-    </St.userPostsPosts>
+    </St.UserContents>
   );
 };
 export default UserContents;

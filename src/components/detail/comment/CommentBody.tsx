@@ -6,7 +6,7 @@ type Props = {
   foundPost: PostType;
 };
 
-const Comment = ({ foundPost }: Props) => {
+const CommentBody = ({ foundPost }: Props) => {
   return (
     <Container>
       <AddCommentForm foundPost={foundPost} />
@@ -24,4 +24,4 @@ const Container = styled.section`
   border: 1px solid black;
 `;
 
-export default Comment;
+export default CommentBody;

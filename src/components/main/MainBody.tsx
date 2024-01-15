@@ -1,6 +1,6 @@
-import St from './style';
-import AdminContents from './AdminContents';
-import UserContents from './UserContents';
+import St from './admin/style';
+import AdminContents from './admin/AdminContents';
+import UserContents from './users/UserContents';
 
 function MainBody() {
   return (

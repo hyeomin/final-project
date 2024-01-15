@@ -1,8 +1,8 @@
 import React from 'react';
-import { auth } from '../../shared/firebase';
+import { auth } from '../../../shared/firebase';
 import { useQuery } from '@tanstack/react-query';
-import { QUERY_KEYS } from '../../query/keys';
-import { getAdminHomeContents } from '../../api/homeApi';
+import { QUERY_KEYS } from '../../../query/keys';
+import { getAdminHomeContents } from '../../../api/homeApi';
 import { Link } from 'react-router-dom';
 import St from './style';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -12,8 +12,6 @@ import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 
 const AdminContents = () => {
-  const currentUser = auth.currentUser?.uid;
-
   const { data: adminContents, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.ADMINPOSTS],
     queryFn: getAdminHomeContents
