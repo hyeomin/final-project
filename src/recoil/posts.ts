@@ -22,8 +22,8 @@ const categoryListState = atom({
     { id: 0, nameEng: 'noCategory', nameKor: '카테고리 없음', isAdmin: false },
     { id: 1, nameEng: 'recommendation', nameKor: '제품 추천', isAdmin: false },
     { id: 2, nameEng: 'knowHow', nameKor: '노하우 공유', isAdmin: false },
-    { id: 3, nameEng: 'sharing', nameKor: '물품 나눔', isAdmin: false },
-    { id: 4, nameEng: 'habit', nameKor: '습관 기록', isAdmin: false },
+    { id: 3, nameEng: 'sharing', nameKor: '제품 나눔', isAdmin: false },
+    { id: 4, nameEng: 'habit', nameKor: '습관 인증', isAdmin: false },
     { id: 5, nameEng: 'adminPost', nameKor: '관리자 게시물', isAdmin: true },
     { id: 6, nameEng: 'newsRoom', nameKor: '뉴스룸', isAdmin: true }
   ]
@@ -39,4 +39,9 @@ const coverImageState = atom<File[]>({
   default: []
 });
 
-export { categoryListState, categoryState, contentState, coverImageState, hashtagState, titleState };
+const foundPostState = atom<PostType | undefined>({
+  key: 'foundPost',
+  default: undefined
+});
+
+export { categoryListState, categoryState, contentState, coverImageState, foundPostState, hashtagState, titleState };
