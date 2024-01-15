@@ -53,6 +53,16 @@ const profileImg = styled.img`
   object-fit: cover;
 `;
 
+const ModifyBox = styled.div``;
+
+const ModifyButton = styled.button`
+  width: 80px;
+  height: 30px;
+  border-radius: 30px;
+  border: none;
+  font-size: 12px;
+`;
+
 const UserInfoModify = styled.div``;
 const FileInput = styled.input`
   border: 1px solid black;
@@ -150,7 +160,7 @@ const StyleCalendar = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 20px;
+    /* border-radius: 20px; */
   }
   .habitImage {
     margin-top: 5px;
@@ -288,5 +298,7 @@ export default {
   UserPostInfo,
   TabButton,
   TextBox,
-  PostImg
+  PostImg,
+  ModifyButton,
+  ModifyBox
 };
