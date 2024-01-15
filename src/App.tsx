@@ -9,11 +9,11 @@
 //   return <>{init ? <Router /> : <Loader />}</>;
 // }
 // export default App;
-import './App.css';
-import Router from './shared/Router';
+import { useContext } from 'react';
 import Loader from '../src/components/common/Loader';
 import { AuthContext } from '../src/context/AuthContext';
-import { useContext } from 'react';
+import './App.css';
+import Router from './shared/Router';
 
 function App() {
   const authContext = useContext(AuthContext);
