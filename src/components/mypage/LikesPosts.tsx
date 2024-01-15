@@ -4,8 +4,9 @@ import { useQueries, useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getLikePosts } from '../../api/myPostAPI';
 import { auth } from '../../shared/firebase';
-import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import { Link } from 'react-router-dom';
 
+import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
 const LikesPosts = () => {
   const { data: posts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
@@ -49,11 +50,13 @@ const LikesPosts = () => {
         {posts?.map((item, idx) => {
           const imageQuery = imageQueries[idx];
           return (
-            <St.TextBox>
-              <St.PostImg src={imageQuery.data!} />
-              <div>{item.title}</div>
-              <St.Contents dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
-            </St.TextBox>
+            <Link to={`/detail/${item.id}`}>
+              <St.TextBox>
+                <St.PostImg src={imageQuery.data!} />
+                <St.PostTitle>{item.title}</St.PostTitle>
+                <St.Contents dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
+              </St.TextBox>
+            </Link>
           );
         })}
       </St.PostsBox>

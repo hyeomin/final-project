@@ -193,6 +193,7 @@ const MySectionWrapper = styled.div`
   width: 100%;
   height: 600px;
   border-top: 1px solid #d9d9d9;
+  margin-bottom: 100px;
 `;
 
 const PostsWrapper = styled.div`
@@ -201,20 +202,15 @@ const PostsWrapper = styled.div`
   gap: 20px;
 `;
 
-const Contents = styled.div`
+const PostTitle = styled.div`
+  margin-bottom: 20px;
+`;
+
+const Contents = styled.p`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* 
-  img {
-    object-fit: cover;
-    width: 280px;
-    height: 300px;
-  }
-  p {
-    height: 15px;
-  } */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const PostsBox = styled.div`
   display: grid;
@@ -229,10 +225,11 @@ const PostImg = styled.img`
   object-fit: cover;
   border: 0.5px solid ${theme.color.gray};
   border-radius: 30px;
+  margin-bottom: 20px;
 `;
 
 const TextBox = styled.div`
-  width: 300px;
+  width: 290px;
   height: 300px;
 `;
 //--------------------------------------------
@@ -283,6 +280,7 @@ export default {
   CalendarWrapper,
   StyleCalendar,
   PostsWrapper,
+  PostTitle,
   Contents,
   PostsBox,
   // LikesWrapper,

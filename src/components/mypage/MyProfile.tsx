@@ -127,8 +127,14 @@ function MyProfile() {
   return (
     <St.Wrapper>
       <St.ProfileEditWrapper>
-        <St.MyImage src={previewImage || auth.currentUser?.photoURL!} alt="defaultImg" />
-        <St.EmailAndName></St.EmailAndName>
+        <St.MyImage
+          onClick={() => {
+            fileRef.current?.click();
+          }}
+          src={previewImage || auth.currentUser?.photoURL!}
+          alt="defaultImg"
+        />
+        {/* <St.EmailAndName></St.EmailAndName> */}
         <St.ProfileInfo>
           {isEditing ? (
             <St.DisplayNameModify autoFocus defaultValue={newDisplayName} onChange={onChangeDisplayName} />
