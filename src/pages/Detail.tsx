@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { downloadCoverImageURLs } from '../api/detailApi';
+import { downloadCoverImageURLs, updatePostViewCount } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
 import Comment from '../components/detail/comment/Index';
 import { QUERY_KEYS } from '../query/keys';
@@ -42,6 +42,16 @@ function Detail() {
     queryFn: () => downloadCoverImageURLs(post?.id!),
     enabled: !!post?.id
   });
+
+  //조회수 업데이트
+  const [viewCount, setViewCount] = useState(post?.viewCount || 0);
+  useEffect(() => {
+    if (post && !sessionStorage.getItem(`viewed-${post.id}`)) {
+      updatePostViewCount(post.id);
+      sessionStorage.setItem(`viewed-${post.id}`, 'true');
+      setViewCount((prevCount) => prevCount + 1);
+    }
+  }, [post]);
 
   // 현재 페이지 인덱스로 page 상태 변경
   useEffect(() => {
@@ -87,6 +97,7 @@ function Detail() {
 
   return (
     <DetailPostContainer>
+      {post && <div>조회수: {viewCount}</div>}
       {/* <CoverImage post={post!} /> */}
       <div>
         <button onClick={onClickPrevButton} type="button">

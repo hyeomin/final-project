@@ -1,4 +1,15 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  increment,
+  orderBy,
+  query,
+  updateDoc,
+  where
+} from 'firebase/firestore';
 import { auth, db } from '../shared/firebase';
 import { QUERY_KEYS } from '../query/keys';
 
@@ -12,17 +23,21 @@ const addComment = async ({ newComment, postId }: AddComment) => {
   try {
     const userId = auth.currentUser?.uid;
     if (!userId) return;
-    const commentRef = collection(db, 'posts', postId, 'comments');
+    const commentRef = collection(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS);
     await addDoc(commentRef, newComment);
+
+    //댓글 추가후 commentCount 업데이트/ 숫자값 늘리기
+    const postRef = doc(db, QUERY_KEYS.POSTS, postId);
+    await updateDoc(postRef, { commentCount: increment(1) });
   } catch (error) {
-    console.log('error',error);
+    console.log('error', error);
   }
 };
 
 //코멘트 READ
 const getComments = async (postId: string) => {
   try {
-    const commentRef = collection(db, QUERY_KEYS.POSTS, postId, 'comments');
+    const commentRef = collection(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS);
     const commentQuery = query(commentRef, orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(commentQuery);
 
@@ -49,9 +64,12 @@ type deleteType = {
 // //코멘트 DELETE
 const deleteComment = async ({ id, postId }: deleteType) => {
   if (!id || !postId) return;
-  const commentRef = doc(db, QUERY_KEYS.POSTS, postId, 'comments', id);
+  const commentRef = doc(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS, id);
   try {
     await deleteDoc(commentRef);
+
+    const postRef = doc(db, QUERY_KEYS.POSTS, postId);
+    await updateDoc(postRef, { commentCount: increment(-1) });
     console.log('삭제완료');
   } catch (error) {
     console.log('error', error);

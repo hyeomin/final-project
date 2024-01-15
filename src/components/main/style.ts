@@ -2,6 +2,7 @@ import { GoHeart, GoHeartFill } from 'react-icons/go';
 import styled from 'styled-components';
 import { SwiperSlide } from 'swiper/react';
 import theme from '../../styles/theme';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   /* background-color: #fcad92;  */
@@ -97,6 +98,7 @@ const ThumbnailsBox = styled.div`
 
 // Swiper 디자인
 const StyledSwiperSlide = styled(SwiperSlide)`
+  position: relative;
   display: flex;
   border-radius: 20px;
   width: 345px;
@@ -104,6 +106,19 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   overflow: hidden;
   background-color: lightblue;
   position: relative;
+`;
+
+const Count = styled.div`
+  position: absolute;
+  background-color: #fff;
+  bottom: 70px;
+  left: 10px;
+`;
+
+const UserPostCover = styled(Link)`
+  width: 100%;
+  height: 100%;
+  display: flex;
 `;
 
 const LikeButton = styled.button`
@@ -137,12 +152,13 @@ export default {
   userPostsPosts,
   TitleContainer,
   SubTitle,
-  // Nav,
   PostsSlide,
   ThumbnailsBox,
+  UserPostCover,
   LikeButton,
   HeartIcon,
   HeartFillIcon,
   StyledSwiperSlide,
+  Count,
   TopTenContainer
 };
