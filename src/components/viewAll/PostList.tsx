@@ -5,12 +5,13 @@ import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { QUERY_KEYS } from '../../query/keys';
 import { getAllUsers } from '../../api/authApi';
 import defaultImg from '../../assets/defaultImg.jpg';
 import { FaHeart } from 'react-icons/fa';
 import { FaRegComment } from 'react-icons/fa';
+import Loader from '../common/Loader';
 interface PostListProps {
   queryKey: QueryKey;
   queryFn: (
@@ -20,9 +21,11 @@ interface PostListProps {
 }
 
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
-  const navigate = useNavigate();
-
-  const { data: posts, fetchNextPage } = useInfiniteQuery({
+  const {
+    data: posts,
+    fetchNextPage,
+    isFetchingNextPage
+  } = useInfiniteQuery({
     queryKey,
     queryFn,
     initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
@@ -100,7 +103,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                 )}
                 <St.commentAndLikes>
                   <FaRegComment />
-                  <p>5</p>
+                  <p>{post.commentCount}</p>
                   <p>
                     <FaHeart size="15" />
                   </p>
@@ -124,10 +127,10 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                   <p>{post.title}</p>
                   <div dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }} />
                 </St.TitleAndContent>
-                <St.NeedDelete>
+                {/* <St.NeedDelete>
                   <p>삭제예정/ {post.category}</p>
                   <p>삭제예정/ {post.role}</p>
-                </St.NeedDelete>
+                </St.NeedDelete> */}
 
                 <St.Row>
                   <h3>{getFormattedDate_yymmdd(post.createdAt!)}</h3>
@@ -138,7 +141,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         </St.Contents>
       </St.ContentsWrapper>
       <St.MoreContentWrapper>
-        <button onClick={() => fetchNextPage()}>더 보기</button>
+        {isFetchingNextPage ? <Loader /> : <button onClick={() => fetchNextPage()}>더 보기</button>}
       </St.MoreContentWrapper>
     </St.MainSubWrapper>
   );

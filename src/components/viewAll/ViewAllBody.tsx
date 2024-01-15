@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import PostList from './PostList';
 import { QUERY_KEYS } from '../../query/keys';
 import PostListAdmin from './PostListAdmin';
+import Loader from '../common/Loader';
 
 export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit';
 export type SortList = 'popularity' | 'latest';

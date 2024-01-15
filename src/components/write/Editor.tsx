@@ -96,21 +96,18 @@ const WritingArea = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 15px;
-  background-color: white;
-
-  & select {
-    flex: 0;
-  }
 
   & input {
-    font-size: x-large;
-    padding: 10px;
+    font-size: 18px;
+    padding: 20px 10px;
+    border-radius: 10px;
+    border: 1px solid #888;
+    background: #f3f3f3;
   }
 `;
 
 const EditorContainer = styled.div`
-  overflow: hidden;
-
+  border-color: transparent;
   .ql-editor {
     font-size: 18px; // Set your desired default font size here
   }

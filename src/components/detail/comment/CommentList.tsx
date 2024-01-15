@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
-import { auth } from '../../../shared/firebase';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { getComments } from '../../../api/commentApi';
+import defaultUserProfile from '../../../assets/defaultImg.jpg';
 import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
-import styled from 'styled-components';
+import { auth } from '../../../shared/firebase';
+import theme from '../../../styles/theme';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
-import defaultUserProfile from '../../../assets/defaultImg.jpg';
 
 type Props = {
-  post: PostType;
+  foundPost: PostType;
 };
-const CommentList = ({ post }: Props) => {
+
+const CommentList = ({ foundPost }: Props) => {
   const queryClient = useQueryClient();
-  const postId = post?.id;
+  const postId = foundPost?.id;
 
   const [editingText, setEditingText] = useState('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
@@ -37,7 +39,7 @@ const CommentList = ({ post }: Props) => {
     const confirm = window.confirm('정말로 삭제하시겠습니까?');
     if (!confirm) return;
     deleteCommentMutate(
-      { id, postId: post.id },
+      { id, postId: foundPost.id },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
@@ -53,7 +55,7 @@ const CommentList = ({ post }: Props) => {
     const confirm = window.confirm('저장하시겠습니까?');
     if (!confirm) return;
     updateCommentMutate(
-      { postId: post.id, id, editingText },
+      { postId: foundPost.id, id, editingText },
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
@@ -76,95 +78,107 @@ const CommentList = ({ post }: Props) => {
   };
 
   return (
-    <List>
+    <CommentListContainer>
       {comments?.length === 0 ? (
         <div>첫번째 댓글의 주인공이 되어보세요!</div>
       ) : (
         comments?.map((comment) => {
           return (
-            <Card key={comment.id}>
+            <SingleComment key={comment.id}>
+              <img src={comment.photoURL || defaultUserProfile} alt="profile" />
               <CommentDetail>
-                <ProfileImg>
-                  <img src={comment.photoURL || defaultUserProfile} alt="profile" />
-                </ProfileImg>
                 <NameAndTime>
                   <span>{comment.displayName}</span>
-                  <span>{getFormattedDate(comment.createdAt)}</span>
+                  <Time>{getFormattedDate(comment.createdAt)}</Time>
                 </NameAndTime>
-                {currentUser?.uid === comment.uid && (
-                  <>
-                    {editingCommentId === comment.id ? (
-                      <Buttons>
-                        <button onClick={() => onClickUpdateButton(comment.id)}>저장</button>
-                        <button onClick={onClickCancelButton}>취소</button>
-                      </Buttons>
-                    ) : (
-                      <Buttons>
-                        <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
-                        <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
-                      </Buttons>
-                    )}
-                  </>
+                {editingCommentId === comment.id ? (
+                  <textarea defaultValue={comment.content} onChange={(e) => onChangeTextArea(e)} />
+                ) : (
+                  <Content>{comment.content}</Content>
                 )}
               </CommentDetail>
-              {editingCommentId === comment.id ? (
-                <textarea defaultValue={comment.content} onChange={(e) => onChangeTextArea(e)} />
-              ) : (
-                <Content>{comment.content}</Content>
+
+              {/* 유저 아이디가 달라서 버튼이 안보여요! */}
+              {currentUser?.uid === comment.uid && (
+                <>
+                  {editingCommentId === comment.id ? (
+                    <ButtonContainer>
+                      <button onClick={() => onClickUpdateButton(comment.id)}>저장</button>
+                      <button onClick={onClickCancelButton}>취소</button>
+                    </ButtonContainer>
+                  ) : (
+                    <ButtonContainer>
+                      <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
+                      <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
+                    </ButtonContainer>
+                  )}
+                </>
               )}
-            </Card>
+            </SingleComment>
           );
         })
       )}
-    </List>
+    </CommentListContainer>
   );
 };
 
-const ProfileImg = styled.div`
-  width: 40px;
-  height: 40px;
-  margin-right: 20px;
+const CommentListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-size: 14px;
+`;
+
+const SingleComment = styled.div`
+  display: flex;
+  column-gap: 20px;
+  border-bottom: 1px solid ${theme.color.lightgray};
+  padding: 40px 0;
+
+  /* 
+  &:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+  } */
+
   img {
-    width: 100%;
-    height: 100%;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
   }
 `;
 
-const List = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: aliceblue; // Detaill페이지 >PostContainer > &div 속성때문에 안먹는것.
-`;
-
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* background-color: red; */
-  width: 500px;
-  padding: 20px 10px 20px 10px;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid #ccc;
-  }
-`;
 const CommentDetail = styled.div`
   display: flex;
-  align-items: center;
-  /* background-color: cadetblue; */
-`;
-const NameAndTime = styled.div`
-  display: flex;
   flex-direction: column;
+  row-gap: 30px;
+
+  flex: 1;
 `;
 
-const Buttons = styled.div`
-  margin: 0 0 auto auto;
+const NameAndTime = styled.div`
+  display: flex;
+  column-gap: 20px;
+  font-weight: bold;
+`;
+
+const Time = styled.span`
+  color: ${theme.color.lightgray};
+  font-weight: normal;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: baseline;
+
+  & button {
+    background-color: transparent;
+    border-color: transparent;
+    color: ${theme.color.lightgray};
+  }
 `;
 
 const Content = styled.div`
   display: flex;
-  padding: 15px 0 0 10px;
 `;
 
 export default CommentList;

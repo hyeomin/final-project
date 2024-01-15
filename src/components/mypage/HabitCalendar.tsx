@@ -43,8 +43,8 @@ const HabitCalendar = ({ date }: any) => {
       ac[v] = (ac[v] || 0) + 1;
       return ac;
     }, {});
-  const dayCount = getElCount(dayList);
-  console.log('dayCount', dayCount);
+  const dayCount = getElCount(createdAtList);
+  // console.log('dayCount', dayCount);
 
   // 2023. 12. 12. :  1
   // 2023. 12. 25. :  1
@@ -67,16 +67,16 @@ const HabitCalendar = ({ date }: any) => {
           tileContent={({ date, view }) => {
             const formattedDate = moment(date).format('YYYY. MM. DD.');
 
-            if (dayList.find((x) => x === moment(date).format('YYYY. MM. DD.'))) {
+            if (createdAtList.find((x) => x === moment(date).format('YYYY. MM. DD.'))) {
               // postCount가 0으로만 나온다.
               // dayCount[formattedDate]가 값이 없으니까 => 0으로 된다?
               // dayCount에 문제가 있는지?
               // formattedDate에 문제가 있는지?
-              console.log({
-                formattedDate,
-                finded: createdAtList.find((x) => x === moment(date).format('YYYY. MM. DD.')),
-                일치하는지: formattedDate === dayList.find((x) => x === moment(date).format('YYYY. MM. DD.'))
-              });
+              // console.log({
+              //   formattedDate,
+              //   finded: createdAtList.find((x) => x === moment(date).format('YYYY. MM. DD.')),
+              //   일치하는지: formattedDate === createdAtList.find((x) => x === moment(date).format('YYYY. MM. DD.'))
+              // });
               const postCount = dayCount[formattedDate] || 0;
               return (
                 <>
