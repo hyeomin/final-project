@@ -1,6 +1,7 @@
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
-import { storage } from '../shared/firebase';
-
+import { db, storage } from '../shared/firebase';
+import { doc, increment, updateDoc } from 'firebase/firestore';
+import { QUERY_KEYS } from '../query/keys';
 
 const downloadCoverImageURLs = async (postId: string) => {
   try {
@@ -20,4 +21,11 @@ const downloadCoverImageURLs = async (postId: string) => {
   }
 };
 
-export { downloadCoverImageURLs };
+const updatePostViewCount = async (postId: string) => {
+  const postRef = doc(db, QUERY_KEYS.POSTS, postId);
+  await updateDoc(postRef, {
+    viewCount: increment(1)
+  });
+};
+
+export { downloadCoverImageURLs, updatePostViewCount };

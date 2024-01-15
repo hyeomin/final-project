@@ -1,5 +1,5 @@
 import { useQueries, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -17,7 +17,6 @@ function Main() {
   const currentUser = auth.currentUser?.uid;
 
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   const postQueries = useQueries({
     queries: [
@@ -68,19 +67,9 @@ function Main() {
     return <div>No data found</div>;
   }
 
-  // 각각 게시물 클릭시 detail로 이동
-  const onClickMoveToDetail = (id: string) => {
-    navigate(`/detail/${id}`);
-  };
-
-  const onClickViewAllButton = () => {
-    navigate('/viewAll');
-  };
-
   const onClickLikeButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string | undefined) => {
     e.stopPropagation();
     if (id) {
-      // 'id'만 있는 PostType 객체생성
       const postToUpdate: PostType = { id };
       updateMutate(postToUpdate, {
         onSuccess: () => {
@@ -110,8 +99,10 @@ function Main() {
         >
           {createdByMango?.map((item, idx) => {
             return (
-              <SwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
-                <img src={''} alt={`Slide ${idx}`} />
+              <SwiperSlide key={idx}>
+                <Link to={`/detail/${item.id}`}>
+                  <img src={''} alt={`Slide ${idx}`} />
+                </Link>
               </SwiperSlide>
             );
           })}
@@ -122,9 +113,9 @@ function Main() {
           <h1>인기 게시물</h1>
           <St.SubTitle>
             <p>망고에서 제일 인기 있는 게시물들을 둘러보세요</p>
-            <button type="button" onClick={onClickViewAllButton}>
-              {'전체보기 >'}
-            </button>
+            <Link to={'/viewAll'}>
+              <button type="button">{'전체보기 >'}</button>
+            </Link>
           </St.SubTitle>
         </St.TitleContainer>
         <St.PostsSlide>
@@ -156,31 +147,38 @@ function Main() {
               }}
               className="slides"
             >
-              {userPosts!.map((item, idx) => {
-                const imageQuery = imageQueries[idx];
-                return (
-                  <St.StyledSwiperSlide key={idx} onClick={() => onClickMoveToDetail(item.id!)}>
-                    <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                      {item.likedUsers?.includes(currentUser!) ? (
-                        <>
-                          <St.HeartFillIcon />
-                          <p>{item.likedUsers?.length}</p>
-                        </>
-                      ) : (
-                        <>
-                          <p>{item.likedUsers?.length}</p>
-                          <St.HeartIcon />
-                        </>
-                      )}
-                    </St.LikeButton>
-                    {imageQuery.isLoading ? (
-                      <p>Loading image...</p>
-                    ) : (
-                      <img src={imageQuery.data || defaultCover} alt={item.title} />
-                    )}
-                  </St.StyledSwiperSlide>
-                );
-              })}
+              {userPosts &&
+                userPosts.map((item, idx) => {
+                  const imageQuery = imageQueries[idx];
+                  return (
+                    <St.StyledSwiperSlide key={idx}>
+                      <St.Count>
+                        <p>조회수: {item.viewCount}</p>
+                        <p>댓글수: {item.commentCount}</p>
+                      </St.Count>
+                      <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
+                        {item.likedUsers?.includes(currentUser!) ? (
+                          <>
+                            <St.HeartFillIcon />
+                            <p>{item.likedUsers?.length}</p>
+                          </>
+                        ) : (
+                          <>
+                            <p>{item.likedUsers?.length}</p>
+                            <St.HeartIcon />
+                          </>
+                        )}
+                      </St.LikeButton>
+                      <St.UserPostCover to={`/detail/${item.id}`}>
+                        {imageQuery.isLoading ? (
+                          <p>Loading image...</p>
+                        ) : (
+                          <img src={imageQuery.data || defaultCover} alt={item.title} />
+                        )}
+                      </St.UserPostCover>
+                    </St.StyledSwiperSlide>
+                  );
+                })}
             </Swiper>
           </St.ThumbnailsBox>
         </St.PostsSlide>
