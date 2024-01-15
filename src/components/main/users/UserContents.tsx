@@ -61,7 +61,7 @@ const UserContents = () => {
 
   // 좋아요 버튼
   const onClickLikeButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string | undefined) => {
-    e.stopPropagation();
+    e.preventDefault();
     if (id) {
       const postToUpdate: PostType = { id };
       updateMutate(postToUpdate, {
