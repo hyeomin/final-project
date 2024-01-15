@@ -3,7 +3,6 @@ import { QUERY_KEYS } from '../query/keys';
 import { db } from '../shared/firebase';
 import { getAuth } from 'firebase/auth';
 import { useState } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
 
 // 로그인한 유저 uid 일치하는 posts 가져오기
 const getMyPosts = async () => {
@@ -45,7 +44,7 @@ const getLikePosts = async () => {
 // const getUpdatePostedDate = async () => {
 //   try {
 //     const auth = getAuth();
-//     const q = query(collection(db, QUERY_KEYS.POSTS), where('updatedAt', 'array-contains', auth.currentUser?.uid));
+//     const q = query(collection(db, QUERY_KEYS.POSTS), where('uid', '==', auth.currentUser?.uid));
 //     const querySnapshot = await getDocs(q);
 //     const posts: PostType[] = [];
 //     // 객체들을 forEach 사용해서 배열에 담기

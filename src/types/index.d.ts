@@ -13,7 +13,9 @@ type PostType = {
   likeCount?: number;
   likedUsers?: string[];
   isLike?: boolean;
-  role?: string;
+  role?: string; //kim 추가 24.01.11
+  commentCount?: number;
+  viewCount?: number;
 };
 
 type User = {
@@ -28,9 +30,9 @@ type User = {
 
 type CommentType = {
   id: string;
-  displayName: string;
+  displayName: string | null;
   uid: string;
-  profileImg: string;
+  photoURL: string | null;
   createdAt: number;
   content: string;
-}
+};

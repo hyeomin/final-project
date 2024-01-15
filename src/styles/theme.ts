@@ -3,8 +3,16 @@ const color = {
   mangoLight: '#FDF3C0',
   mangoYellow: '#FFD864',
   mangoNavy: '#01376B',
-  gray: '#999999',
-  lightgray: '#FAFAFA;'
+  gray: '#888888',
+  lightgray: '#888'
+};
+
+const font = {
+  mango: 'Milk Mango Regular',
+  agroBold: 'SBAggroB-bold',
+  agroLight: 'SBAggroB-light',
+  agroRegular: 'SBAggroB-regular',
+  pretendard: 'Pretendard-Regular'
 };
 
 const fontSize = {
@@ -15,9 +23,8 @@ const fontSize = {
 
 const theme = {
   color,
+  font,
   fontSize
 };
-
-const button = {};
 
 export default theme;

@@ -1,38 +1,34 @@
-.App {
-  text-align: center;
+@font-face {
+  font-family: 'Milk Mango Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Milk Mango Regular'), url('./fonts/MilkMango-z8vjG.woff') format('woff');
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@font-face {
+  font-family: 'SBAggroB-bold';
+  font-style: normal;
+  font-weight: bold;
+  src: url('./fonts/SBAggro/SB_OTF_B.otf') format('opentype');
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+@font-face {
+  font-family: 'SBAggroB-light';
+  font-style: normal;
+  font-weight: light;
+  src: url('./fonts/SBAggro/SB_OTF_L.otf') format('opentype');
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+@font-face {
+  font-family: 'SBAggroB-regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./fonts/SBAggro/SB_OTF_M.otf') format('opentype');
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
 }

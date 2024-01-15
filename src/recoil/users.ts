@@ -6,14 +6,9 @@ const roleState = atom({
   default: ''
 });
 
-const isLoggedInState = atom({
-  key: USER_INFO.IS_LOGGEDIN,
-  default: false
-});
-
 const isSignUpState = atom({
   key: USER_INFO.IS_SIGNUP,
   default: false
 });
 
-export { isLoggedInState, isSignUpState, roleState };
+export { isSignUpState, roleState };

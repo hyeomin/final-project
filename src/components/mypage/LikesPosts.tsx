@@ -4,14 +4,15 @@ import { useQueries, useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getLikePosts } from '../../api/myPostAPI';
 import { auth } from '../../shared/firebase';
-import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import { Link } from 'react-router-dom';
 
+import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
 const LikesPosts = () => {
   const { data: posts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getLikePosts
   });
-  console.log('이거이거이거 ===>', posts);
+  // console.log('이거이거이거 ===>', posts);
 
   const postQueries = useQueries({
     queries: [
@@ -44,51 +45,22 @@ const LikesPosts = () => {
   }
 
   return (
-    <div>
-      Likes Posts
-      {/* <St.LikesWrapper>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-        <St.MyLikes>
-          <St.LikesPostImg>Img</St.LikesPostImg>
-          <St.LikesPostText>text text</St.LikesPostText>
-        </St.MyLikes>
-      </St.LikesWrapper>
-      <St.MyPostsWrapper>
-        <St.MyPostTextBox> */}
-      {posts?.map((item, idx) => {
-        const imageQuery = imageQueries[idx];
-        return (
-          <St.PostText>
-            <>
-              <img src={imageQuery.data!} />
-              <div>{item.title}</div>
-              <St.MyPostImg dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
-            </>
-          </St.PostText>
-        );
-      })}
-      {/* </St.MyPostTextBox>
-      </St.MyPostsWrapper> */}
-    </div>
+    <St.PostsWrapper>
+      <St.PostsBox>
+        {posts?.map((item, idx) => {
+          const imageQuery = imageQueries[idx];
+          return (
+            <Link to={`/detail/${item.id}`}>
+              <St.TextBox>
+                <St.PostImg src={imageQuery.data!} />
+                <St.PostTitle>{item.title}</St.PostTitle>
+                <St.Contents dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
+              </St.TextBox>
+            </Link>
+          );
+        })}
+      </St.PostsBox>
+    </St.PostsWrapper>
   );
 };
 

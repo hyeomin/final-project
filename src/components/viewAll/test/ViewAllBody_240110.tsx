@@ -1,14 +1,7 @@
 import St from '../style';
 import defaultImg from '../../assets/defaultImg.jpg';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import {
-  getAdminPostList,
-  getCategoryPosts,
-  getHabitList,
-  getRecommendList,
-  getShareList,
-  getknowHowList
-} from '../../../api/pageListApi';
+import { getAdminPostList, getCategoryPosts } from '../../../api/pageListApi';
 import { QUERY_KEYS } from '../../../query/keys';
 import {
   DocumentData,
@@ -104,7 +97,7 @@ function ViewAllBody() {
   return (
     <>
       <St.MainSubWrapper>
-        <St.Button>콘텐츠 by Mango</St.Button>
+        <p>콘텐츠 by Mango</p>
 
         <St.ContentsWrapper>
           <St.Contents>

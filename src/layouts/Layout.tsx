@@ -16,6 +16,6 @@ function Layout({ children }: PropsWithChildren) {
 export default Layout;
 
 const MainWrapper = styled.div`
-  width: 1200px;
-  margin: 30px auto;
+  width: 1000px;
+  margin: auto;
 `;
