@@ -65,12 +65,12 @@ function Login() {
     }
   };
 
-  // 로그아웃
-  const logOut = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('logout');
-    await signOut(auth);
-  };
+  // // 로그아웃
+  // const logOut = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   console.log('logout');
+  //   await signOut(auth);
+  // };
 
   return (
     <St.authWrapper>
@@ -105,7 +105,7 @@ function Login() {
         </SingleInputContainer>
         <SingleInputContainer></SingleInputContainer>
         <button type="submit">로그인</button>
-        <button onClick={logOut}>로그아웃</button>
+        {/* <button onClick={logOut}>로그아웃</button> */}
 
         <SignUpNavigation>
           <p>아직 회원이 아니신가요?</p>

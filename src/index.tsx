@@ -5,6 +5,7 @@ import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyle from './styles/GlobalStyles';
+import AuthContextProvider from './context/AuthContext';
 
 const queryClient = new QueryClient();
 
@@ -12,8 +13,10 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <QueryClientProvider client={queryClient}>
     <RecoilRoot>
-      <App />
-      <GlobalStyle />
+      <AuthContextProvider>
+        <App />
+        <GlobalStyle />
+      </AuthContextProvider>
     </RecoilRoot>
   </QueryClientProvider>
 );

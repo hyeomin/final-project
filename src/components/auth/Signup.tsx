@@ -62,13 +62,13 @@ function Signup() {
     });
   }, [imageUpload]);
 
-  //회원가입
-  useEffect(() => {
-    //로그인이 되면 사용자의 정보를 가지고 온다
-    onAuthStateChanged(auth, (user) => {
-      console.log('user', user?.photoURL);
-    });
-  }, []);
+  // //회원가입
+  // useEffect(() => {
+  //   //로그인이 되면 사용자의 정보를 가지고 온다
+  //   onAuthStateChanged(auth, (user) => {
+  //     console.log('user', user?.photoURL);
+  //   });
+  // }, []);
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname }: Data) => {
     try {
