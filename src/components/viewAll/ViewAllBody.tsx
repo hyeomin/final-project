@@ -35,7 +35,7 @@ function ViewAllBody() {
         <St.CategoryWrapper>
           <St.ButtonWrapper>
             <St.Button onClick={() => setCategory('knowHow')} selected={category === 'knowHow'}>
-              친환경 노하우
+              노하우 공유
             </St.Button>
             <St.Button onClick={() => setCategory('recommendation')} selected={category === 'recommendation'}>
               제품 추천
