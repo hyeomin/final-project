@@ -19,7 +19,7 @@ const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  row-gap: 15px;
+  row-gap: 10px;
   /* max-width: 1200px; */
   width: 100%;
   padding: 20px 0;
@@ -74,7 +74,7 @@ const StyledSwiperSlide = styled(SwiperSlide)`
 `;
 
 const UserPostCover = styled(Link)`
-  /* position: absolute; */
+  position: absolute;
   width: 100%;
   height: 100%;
 `;
@@ -89,7 +89,6 @@ const TextAndLikeButton = styled.div`
   padding: 25px 20px;
 `;
 const InfoTop = styled.div`
-  /* position: absolute; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -111,7 +110,7 @@ const UserInfo = styled.div`
   & div:nth-child(1) {
     width: 25px;
     height: 25px;
-    margin-right: 10px;
+    margin-right: 5px;
     color: #111;
     img {
       width: 100%;
@@ -141,7 +140,6 @@ const HeartFillIcon = styled(GoHeartFill)`
 `;
 
 const InfoBottom = styled.div`
-  /* background-color: #fff; */
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -3,7 +3,7 @@ import usePostsQuery from '../../../query/usePostsQuery';
 import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../../query/keys';
 import { getAllUsers } from '../../../api/authApi';
-import { downloadImageURL, getPosts, getTopRankingPosts } from '../../../api/homeApi';
+import { downloadImageURL, getTopRankingPosts } from '../../../api/homeApi';
 import { auth } from '../../../shared/firebase';
 import { Link } from 'react-router-dom';
 import St from './style';
