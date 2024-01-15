@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import styled from 'styled-components';
 import { categoryListState, categoryState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
 
@@ -29,15 +30,21 @@ function SelectCategory() {
   };
 
   return (
-    <select value={displayCategory} onChange={onChangeSelectHandler}>
+    <Select value={displayCategory} onChange={onChangeSelectHandler}>
       <option value="" disabled hidden>
-        카테고리
+        카테고리를 선택하세요
       </option>
       {filteredCategoryList.map((item) => {
         return <option key={item.id}>{item.nameKor}</option>;
       })}
-    </select>
+    </Select>
   );
 }
 
 export default SelectCategory;
+
+const Select = styled.select`
+  height: 30px;
+  font-size: 16px;
+  border-color: transparent;
+`;

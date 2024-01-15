@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { downloadCoverImageURLs, updatePostViewCount } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
-import CoverImage from '../components/detail/CoverImage';
 import Comment from '../components/detail/comment/Index';
 import { QUERY_KEYS } from '../query/keys';
 

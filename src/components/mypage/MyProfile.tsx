@@ -3,17 +3,15 @@ import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
+import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoTasklist } from 'react-icons/go';
 import { getMyPosts } from '../../api/myPostAPI';
-import defaultImg from '../../assets/defaultImg.jpg';
 import { QUERY_KEYS } from '../../query/keys';
 import { auth, db, storage } from '../../shared/firebase';
 import HabitCalendar from './HabitCalendar';
 import LikesPosts from './LikesPosts';
 import MyPosts from './MyPosts';
 import St from './style';
-import { CiSettings } from 'react-icons/ci';
-import { displayName } from 'react-quill';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');

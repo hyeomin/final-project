@@ -30,30 +30,33 @@ function Write() {
   return (
     <Container>
       <Header>
-        <h3>글쓰기</h3>
         <SubmitButton newPost={newPost} />
       </Header>
       <Editor />
-      <ImageUpload />
+      <Spacer />
       <Hashtag />
+      <ImageUpload />
     </Container>
   );
 }
 
 export default Write;
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid black;
-  height: 50px;
-`;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+  margin: 50px 0;
+`;
 
-  background-color: pink;
+const Header = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  border-bottom: 1px solid black;
+  height: 50px;
+`;
+
+const Spacer = styled.div`
+  height: 30px;
 `;
