@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-
   row-gap: 80px;
 `;
 
@@ -52,6 +51,16 @@ const profileImg = styled.img`
   height: 150px;
   border-radius: 50%;
   object-fit: cover;
+`;
+
+const ModifyBox = styled.div``;
+
+const ModifyButton = styled.button`
+  width: 80px;
+  height: 30px;
+  border-radius: 30px;
+  border: none;
+  font-size: 12px;
 `;
 
 const UserInfoModify = styled.div``;
@@ -151,7 +160,7 @@ const StyleCalendar = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 20px;
+    /* border-radius: 20px; */
   }
   .habitImage {
     margin-top: 5px;
@@ -181,11 +190,8 @@ const MySectionWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
   height: 600px;
-  /* margin: 20px 20px 20px; */
-  /* padding: 20px; */
-
   border-top: 1px solid #d9d9d9;
 `;
 
@@ -292,5 +298,7 @@ export default {
   UserPostInfo,
   TabButton,
   TextBox,
-  PostImg
+  PostImg,
+  ModifyButton,
+  ModifyBox
 };
