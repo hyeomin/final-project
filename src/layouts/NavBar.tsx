@@ -54,7 +54,6 @@ const NavBarContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 120px;
-  padding: 0 120px;
   height: 60px;
   border-bottom: 1px solid lightgrey;
 
