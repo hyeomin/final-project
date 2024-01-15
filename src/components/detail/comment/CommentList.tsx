@@ -97,10 +97,6 @@ const CommentList = ({ foundPost }: Props) => {
                   <Content>{comment.content}</Content>
                 )}
               </CommentDetail>
-              <ButtonContainer>
-                <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
-                <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
-              </ButtonContainer>
 
               {/* 유저 아이디가 달라서 버튼이 안보여요! */}
               {currentUser?.uid === comment.uid && (
