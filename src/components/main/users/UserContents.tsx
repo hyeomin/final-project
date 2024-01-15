@@ -19,6 +19,7 @@ import 'swiper/css/pagination';
 import '../swiperStyle.css';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
+import styled from 'styled-components';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -126,49 +127,51 @@ const UserContents = () => {
               return (
                 <St.StyledSwiperSlide key={idx}>
                   <St.UserPostCover to={`/detail/${item.id}`}>
+                    <St.TextAndLikeButton>
+                      <St.InfoTop>
+                        <St.UserInfo>
+                          <div>
+                            <img
+                              src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
+                              alt="user profile image"
+                            />
+                          </div>
+                          <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
+                        </St.UserInfo>
+                        <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
+                          {item.likedUsers?.includes(currentUser!) ? <St.HeartFillIcon /> : <St.HeartIcon />}
+                        </St.LikeButton>
+                      </St.InfoTop>
+                      <St.InfoBottom>
+                        <St.BottomText>
+                          <div>{item.title}</div>
+                          <div>
+                            <p
+                              dangerouslySetInnerHTML={{
+                                __html: reduceContent(removeImageTags(item.content || ''), 20)
+                              }}
+                            />
+                          </div>
+                        </St.BottomText>
+                        <St.Count>
+                          <span>
+                            <img src={eye} alt="eyeImg" /> {item.viewCount?.toLocaleString() || 0}
+                          </span>
+                          <span>
+                            <img src={heart} alt="heartImg" /> {item.likeCount?.toLocaleString() || 0}
+                          </span>
+                          <span>
+                            <img src={comment} alt="commentImg" /> {item.commentCount?.toLocaleString() || 0}
+                          </span>
+                        </St.Count>
+                      </St.InfoBottom>
+                    </St.TextAndLikeButton>
                     {imageQuery.isLoading ? (
                       <p>Loading image...</p>
                     ) : (
                       <img src={imageQuery.data || defaultCover} alt={item.title} />
                     )}
                   </St.UserPostCover>
-                  <St.TextAndLikeButton>
-                    <St.InfoTop>
-                      <St.UserInfo>
-                        <div>
-                          <img
-                            src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
-                            alt="user profile image"
-                          />
-                        </div>
-                        <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
-                      </St.UserInfo>
-                      <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                        {item.likedUsers?.includes(currentUser!) ? <St.HeartFillIcon /> : <St.HeartIcon />}
-                      </St.LikeButton>
-                    </St.InfoTop>
-                    <St.InfoBottom>
-                      <St.BottomText>
-                        <div>{item.title}</div>
-                        <div>
-                          <p
-                            dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(item.content || ''), 20) }}
-                          />
-                        </div>
-                      </St.BottomText>
-                      <St.Count>
-                        <span>
-                          <img src={eye} alt="eyeImg" /> {item.viewCount?.toLocaleString() || 0}
-                        </span>
-                        <span>
-                          <img src={heart} alt="heartImg" /> {item.likeCount?.toLocaleString() || 0}
-                        </span>
-                        <span>
-                          <img src={comment} alt="commentImg" /> {item.commentCount?.toLocaleString() || 0}
-                        </span>
-                      </St.Count>
-                    </St.InfoBottom>
-                  </St.TextAndLikeButton>
                 </St.StyledSwiperSlide>
               );
             })}
@@ -178,4 +181,5 @@ const UserContents = () => {
     </St.UserContents>
   );
 };
+
 export default UserContents;
