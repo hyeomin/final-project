@@ -12,6 +12,8 @@ import HabitCalendar from './HabitCalendar';
 import LikesPosts from './LikesPosts';
 import MyPosts from './MyPosts';
 import St from './style';
+import { CiSettings } from 'react-icons/ci';
+import { displayName } from 'react-quill';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -21,6 +23,9 @@ function MyProfile() {
   const [image, setImage] = useState('');
   const fileRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  // const [editingTest, setEditingText] = useState('');
+
   const onClickTabBtn = (name: string) => {
     setActiveTab(name);
   };
@@ -28,18 +33,8 @@ function MyProfile() {
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewDisPlayName(e.target.value);
   };
+
   // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       setUserObj({
-  //         displayName: auth.currentUser?.displayName,
-  //         uid: auth.currentUser?.uid,
-  //         photoURL: auth.currentUser?.photoURL
-  //       });
-  //     }
-  //   });
-  // }, []);
 
   // 내 게시물 갯수 가져오기
   const { data: posts } = useQuery({
@@ -88,19 +83,24 @@ function MyProfile() {
           });
         }
         setNewDisPlayName(auth.currentUser?.displayName!);
+        setIsEditing(false);
       }
     }
   };
 
   //div를 클릭해도 input이 클릭되도록 하기
-  const onClickUpload = () => {
-    fileRef.current?.click();
-  };
+  // const onClickUpload = () => {
+  //   fileRef.current?.click();
+  // };
 
   //input을 클릭해서 파일 업로드
   //사진 미리보기
   const onChangeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = e.target.files?.[0];
+
+    if (uploadedFile?.size! > 1024 * 1024) {
+      return alert('최대 1MB까지 업로드 가능합니다');
+    }
 
     if (uploadedFile) {
       const reader = new FileReader();
@@ -129,30 +129,51 @@ function MyProfile() {
   return (
     <St.Wrapper>
       <St.ProfileEditWrapper>
-        {/* <St.UserInfo> */}
-        {/* <St.MyImage src={auth.currentUser?.photoURL! || defaultImg} alt="defaultImg" /> */}
-        <St.profileImg src={previewImage || defaultImg} alt="img" />
+        <St.MyImage src={previewImage || auth.currentUser?.photoURL!} alt="defaultImg" />
         <St.EmailAndName></St.EmailAndName>
         <St.ProfileInfo>
-          <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
+          {isEditing ? (
+            <St.DisplayNameModify autoFocus defaultValue={newDisplayName} onChange={onChangeDisplayName} />
+          ) : (
+            <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
+          )}
           <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>
-          {/* {previewImage && <img src={previewImage} alt="Preview" style={{ width: '100px', height: '100px' }} />} */}
           <St.UserPostInfo>
             <span>게시물: {posts?.length}</span>
             <span>등급: Lv.0</span>
           </St.UserPostInfo>
           <St.UserInfoModify>
-            <St.FileInput style={{ border: '1px solid black' }} type="file" onChange={onChangeUpload} />
-            <St.FileImgUpload onClick={onClickUpload}>업로드</St.FileImgUpload>
+            {/* <St.FileInput style={{ border: '1px solid black' }} type="file" onChange={onChangeUpload} />
+            <St.FileImgUpload onClick={onClickUpload}>업로드</St.FileImgUpload> */}
             <br />
-            <St.DisplayNameModify type="text" value={newDisplayName} onChange={onChangeDisplayName} />
-            <St.EditBtn onClick={onSubmitModifyProfile}>수정하기</St.EditBtn>
+            {/* <St.DisplayNameModify type="text" value={newDisplayName} onChange={onChangeDisplayName} /> */}
+            {/* <St.EditBtn onClick={onSubmitModifyProfile}>수정하기</St.EditBtn> */}
           </St.UserInfoModify>
+          <St.ModifyBox>
+            {isEditing ? (
+              <>
+                <St.FileInput
+                  style={{ border: '1px solid black' }}
+                  type="file"
+                  onChange={onChangeUpload}
+                  accept="image/*"
+                />
+                {/* <St.FileImgUpload onClick={onClickUpload}>업로드</St.FileImgUpload> */}
+                <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
+                <St.ModifyButton
+                  onClick={onSubmitModifyProfile}
+                  disabled={!newDisplayName && image === auth.currentUser?.photoURL}
+                >
+                  수정완료
+                </St.ModifyButton>
+              </>
+            ) : (
+              <CiSettings onClick={() => setIsEditing(true)}>수정</CiSettings>
+            )}
+          </St.ModifyBox>
         </St.ProfileInfo>
-        {/* </St.UserInfo> */}
       </St.ProfileEditWrapper>
       <St.MySectionWrapper>
-        {/* MySectionWrapper */}
         <St.TabButtonContainer>
           <St.TabButton
             onClick={() => {
