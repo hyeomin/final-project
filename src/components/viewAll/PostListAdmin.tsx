@@ -6,6 +6,7 @@ import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { getFormattedDate, getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
 import { Link, useNavigate } from 'react-router-dom';
+import Loader from '../common/Loader';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -17,7 +18,11 @@ interface PostListProps {
 
 function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
   const navigate = useNavigate();
-  const { data: posts, fetchNextPage } = useInfiniteQuery({
+  const {
+    data: posts,
+    fetchNextPage,
+    isFetchingNextPage
+  } = useInfiniteQuery({
     queryKey,
     queryFn,
     initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
@@ -48,11 +53,6 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
       return sortedPosts;
     }
   });
-
-  // 각각 게시물 클릭시 detail로 이동
-  const onClickMoveToDetail = (id: string) => {
-    navigate(`/detail/${id}`);
-  };
 
   // 이미지URL 불러오기
   const imageQueries = useQueries({
@@ -88,18 +88,19 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
                 <St.AdminPostSpace></St.AdminPostSpace>
                 <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} />
 
-                <St.NeedDelete>
+                {/* <St.NeedDelete>
                   <p>삭제예정/ {post.category}</p>
                   <p>삭제예정/ {post.role}</p>
                   <p>삭제예정/ {getFormattedDate_yymmdd(post.createdAt!)}</p>
-                </St.NeedDelete>
+                </St.NeedDelete> */}
               </St.AdminContent>
             );
           })}
         </St.AdminContents>
       </St.ContentsWrapper>
+
       <St.MoreContentWrapper>
-        <button onClick={() => fetchNextPage()}>더 보기 </button>
+        {isFetchingNextPage ? <Loader /> : <button onClick={() => fetchNextPage()}>더 보기 </button>}
       </St.MoreContentWrapper>
     </St.MainSubWrapper>
   );
