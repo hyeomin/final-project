@@ -17,11 +17,9 @@ const Wrapper = styled.div`
 const ProfileEditWrapper = styled.div`
   display: flex;
   column-gap: 30px;
-
   width: 100%;
   height: 250px;
   padding: 40px;
-
   background-color: ${theme.color.lightgray};
 `;
 

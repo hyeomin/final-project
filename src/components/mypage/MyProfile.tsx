@@ -76,8 +76,8 @@ function MyProfile() {
           await updateDoc(userDocRef, {
             displayName: updateUser?.displayName,
             profileImg: updateUser?.photoURL,
-            uid: updateUser?.uid,
-            role: 'user'
+            uid: updateUser?.uid
+            // role: 'user'//???????????????????
           });
         }
         setNewDisPlayName(auth.currentUser?.displayName!);
