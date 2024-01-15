@@ -5,7 +5,7 @@ import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { QUERY_KEYS } from '../../query/keys';
 import { getAllUsers } from '../../api/authApi';
 import defaultImg from '../../assets/defaultImg.jpg';
@@ -75,11 +75,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
   };
 
-  // 각각 게시물 클릭시 detail로 이동
-  const onClickMoveToDetail = (id: string) => {
-    navigate(`/detail/${id}`);
-  };
-
   //사용자 프로필 데이터
   const { data: userList } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
@@ -99,11 +94,9 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                 {imageQuery.isLoading ? (
                   <p>Loading image...</p>
                 ) : (
-                  <St.ContentImg
-                    onClick={() => onClickMoveToDetail(post.id)}
-                    src={imageQuery.data || defaultCover}
-                    alt={post.title}
-                  />
+                  <Link to={`/detail/${post.id}`}>
+                    <St.ContentImg src={imageQuery.data || defaultCover} alt={post.title} />
+                  </Link>
                 )}
                 <St.commentAndLikes>
                   <FaRegComment />
