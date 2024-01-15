@@ -28,37 +28,25 @@ const ButtonWrapper = styled.div`
   align-items: center;
 `;
 
-const Button = styled.button`
-  //sh
-  color: #888;
+const Button = styled.button<{ selected: boolean }>`
   font-family: Apple SD Gothic Neo;
   font-size: 17px;
   font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-
-  //kim
-  cursor: pointer;
+  font-weight: ${({ selected }) => (selected ? 800 : 400)};
+  color: ${({ selected }) => (selected ? '#222' : '#888')};
   border: none;
+  border-bottom: ${({ selected }) => (selected ? '2px solid #ffa114' : 'none')};
+  line-height: normal;
+  outline: none;
+  cursor: pointer;
   background-color: transparent;
-
-  &:active,
-  &:focus {
-    color: #222;
-    text-align: center;
-    font-family: Apple SD Gothic Neo;
-    font-size: 17px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    border-bottom: 2px solid #ffa114;
-  }
 `;
 
 /*정렬*/
 const SortWrapper = styled.ul`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 20px;
 
   li a {
@@ -69,19 +57,11 @@ const SortWrapper = styled.ul`
     font-family: Apple SD Gothic Neo;
     font-size: 17px;
     font-style: normal;
-    font-weight: 400;
+  }
+  li a.selected {
+    font-weight: 700;
+    color: #222;
     line-height: normal;
-
-    &:active,
-    &:focus {
-      color: #222;
-      text-align: center;
-      font-family: Apple SD Gothic Neo;
-      font-size: 17px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
-    }
   }
 
   li:not(:last-child):after {

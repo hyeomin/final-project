@@ -97,7 +97,7 @@ function ViewAllBody() {
   return (
     <>
       <St.MainSubWrapper>
-        <St.Button>콘텐츠 by Mango</St.Button>
+        <p>콘텐츠 by Mango</p>
 
         <St.ContentsWrapper>
           <St.Contents>
