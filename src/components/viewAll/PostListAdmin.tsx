@@ -5,7 +5,7 @@ import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { getFormattedDate, getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -79,11 +79,9 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
                 {imageQuery.isLoading ? (
                   <p>Loading image...</p>
                 ) : (
-                  <img
-                    onClick={() => onClickMoveToDetail(post.id)}
-                    src={imageQuery.data || defaultCover}
-                    alt={post.title}
-                  />
+                  <Link to={`/detail/${post.id}`}>
+                    <img src={imageQuery.data || defaultCover} alt={post.title} />
+                  </Link>
                 )}
 
                 <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
