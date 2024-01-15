@@ -5,7 +5,7 @@ import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { QUERY_KEYS } from '../../query/keys';
 import { getAllUsers } from '../../api/authApi';
 import defaultImg from '../../assets/defaultImg.jpg';
@@ -20,8 +20,6 @@ interface PostListProps {
 }
 
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
-  const navigate = useNavigate();
-
   const { data: posts, fetchNextPage } = useInfiniteQuery({
     queryKey,
     queryFn,
