@@ -21,8 +21,6 @@ interface PostListProps {
 }
 
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
-  const navigate = useNavigate();
-
   const {
     data: posts,
     fetchNextPage,
@@ -105,7 +103,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                 )}
                 <St.commentAndLikes>
                   <FaRegComment />
-                  <p>5</p>
+                  <p>{post.commentCount}</p>
                   <p>
                     <FaHeart size="15" />
                   </p>
