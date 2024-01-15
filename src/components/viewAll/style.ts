@@ -191,6 +191,7 @@ const MoreContentWrapper = styled.div`
 const MangoDiv = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 50px;
 `;
 
 const MangoWord = styled.p`
