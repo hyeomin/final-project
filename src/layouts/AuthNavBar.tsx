@@ -1,4 +1,3 @@
-import { signOut } from 'firebase/auth';
 import { GoChevronDown } from 'react-icons/go';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -30,19 +29,6 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
         navigate('/');
       }
     } else navigate('/write');
-  };
-
-  const onLogOutHandler = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await signOut(auth);
-      console.log('logout');
-
-      // 로그아웃 시 Recoil 전역 상태 업데이트
-      setRole('');
-    } catch (error) {
-      console.log('Logout Error', error);
-    }
   };
 
   return (
