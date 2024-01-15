@@ -113,7 +113,7 @@ const updateLikedUsers = async (post: PostType) => {
       // post.id 값에 해당하는 post 존재여부 확인
       if (postSnap.exists()) {
         const postData = postSnap.data();
-        let likedUsers: string[] = postData?.likedUsers;
+        let likedUsers: string[] = postData?.likedUsers || [];
         //해당 likedUser 배열에 currentUserId가 있는지 확인
         if (likedUsers.includes(currentUserId)) {
           likedUsers = likedUsers.filter((uid) => uid !== currentUserId);
