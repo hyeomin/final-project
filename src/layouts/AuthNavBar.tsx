@@ -1,7 +1,7 @@
 import { signOut } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { GoChevronDown } from 'react-icons/go';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import defaultImg from '../assets/defaultImg.jpg';
@@ -12,33 +12,31 @@ type Props = {
   styledNav: ({ isActive }: { isActive: boolean }) => {
     color: string;
   };
+  setIsAuthToggleOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function AuthNavBar({ styledNav }: Props) {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!auth.currentUser);
+function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
+
+  useEffect(() => {
+    setIsLoggedIn(!!auth.currentUser);
+  }, [auth]);
 
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
 
-  useEffect(() => {
-    if (auth.currentUser) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-    if (!isLoggedIn) setRole('');
-  }, [isLoggedIn, auth.currentUser]);
+  const navigate = useNavigate();
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    // event.preventDefault();
-    // if (!isLoggedIn) {
-    //   const confirmation = window.confirm('로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?');
-    //   if (confirmation) {
-    //     navigate('/auth');
-    //   } else {
-    //     navigate('/');
-    //   }
-    // } else navigate('/write');
+    event.preventDefault();
+    if (!isLoggedIn) {
+      const confirmation = window.confirm('로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?');
+      if (confirmation) {
+        navigate('/auth');
+      } else {
+        navigate('/');
+      }
+    } else navigate('/write');
   };
 
   const onLogOutHandler = async (e: React.FormEvent) => {
@@ -95,6 +93,7 @@ const AuthContainer = styled.div`
   column-gap: 20px;
   color: #888;
   font-size: 14px;
+  font-weight: bold;
 `;
 
 const UserInfo = styled.div`
@@ -107,6 +106,7 @@ const UserInfo = styled.div`
 
   & img {
     width: 30px;
+    border-radius: 50%;
     object-fit: fill;
   }
   & button {
@@ -115,9 +115,5 @@ const UserInfo = styled.div`
     background-color: transparent;
     border-color: transparent;
     padding: 0;
-  }
-
-  &:hover {
-    color: red;
   }
 `;

@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { downloadCoverImageURLs } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
-import CoverImage from '../components/detail/CoverImage';
 import Comment from '../components/detail/comment/Index';
 import { QUERY_KEYS } from '../query/keys';
 
@@ -88,7 +87,7 @@ function Detail() {
 
   return (
     <DetailPostContainer>
-      <CoverImage post={post!} />
+      {/* <CoverImage post={post!} /> */}
       <div>
         <button onClick={onClickPrevButton} type="button">
           이전 게시물

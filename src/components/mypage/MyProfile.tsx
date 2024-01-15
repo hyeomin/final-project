@@ -131,7 +131,7 @@ function MyProfile() {
       <St.ProfileEditWrapper>
         {/* <St.UserInfo> */}
         {/* <St.MyImage src={auth.currentUser?.photoURL! || defaultImg} alt="defaultImg" /> */}
-        <St.profileImg src={previewImage || defaultImg} alt="img" />
+        <St.profileImg src={auth.currentUser?.photoURL || defaultImg} alt="img" />
         <St.EmailAndName></St.EmailAndName>
         <St.ProfileInfo>
           <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
