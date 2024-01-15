@@ -3,7 +3,7 @@ import usePostsQuery from '../../query/usePostsQuery';
 import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getAllUsers } from '../../api/authApi';
-import { downloadImageURL, getPosts } from '../../api/homeApi';
+import { downloadImageURL, getPosts, getTopRankingPosts } from '../../api/homeApi';
 import { auth } from '../../shared/firebase';
 import { Link } from 'react-router-dom';
 import St from './style';
@@ -23,29 +23,20 @@ const UserContents = () => {
   // 유저 컨텐츠(인기순, 8개)
   const { data: userContents, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getPosts,
-    select: (data: PostType[]) => {
-      const userContents =
-        data &&
-        data
-          .filter((data) => data.role === 'user')
-          .sort((a, b) => b.likeCount! - a.likeCount!)
-          .slice(0, 8);
-      return userContents;
-    }
+    queryFn: getTopRankingPosts
   });
-  console.log('userContents===>', userContents);
+  // console.log('userContents===>', userContents);
 
   // 유저정보 가져오기(profileImg)
   const { data: users } = useQuery({
-    queryKey: [QUERY_KEYS.USERS],
+    queryKey: [QUERY_KEYS.USERPOSTS],
     queryFn: getAllUsers,
     select: (data) => {
       const users = data.filter((user) => user.role === 'user');
       return users;
     }
   });
-  console.log('유저 목록===>', users);
+  // console.log('유저 목록===>', users);
 
   // 이미지URL 불러오기
   const imageQueries = useQueries({

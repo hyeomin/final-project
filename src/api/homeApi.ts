@@ -53,7 +53,6 @@ const getAdminHomeContents = async () => {
     querySnapshot.forEach((doc) => {
       posts.push({ id: doc.id, ...doc.data() });
     });
-    // console.log('망고관리자 데이터가 왔어요.', posts)
     return posts;
   } catch (error) {
     console.log(error);
@@ -75,7 +74,6 @@ const getTopRankingPosts = async () => {
     querySnapshot.forEach((doc) => {
       posts.push({ id: doc.id, ...doc.data() });
     });
-    // console.log('인기 유저게시물 리스트===>', posts);
     return posts;
   } catch (error) {
     console.log(error);

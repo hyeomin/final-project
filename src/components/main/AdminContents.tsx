@@ -2,7 +2,7 @@ import React from 'react';
 import { auth } from '../../shared/firebase';
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../query/keys';
-import { getPosts } from '../../api/homeApi';
+import { getAdminHomeContents } from '../../api/homeApi';
 import { Link } from 'react-router-dom';
 import St from './style';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -15,19 +15,10 @@ const AdminContents = () => {
   const currentUser = auth.currentUser?.uid;
 
   const { data: adminContents, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getPosts,
-    select: (data: PostType[]) => {
-      const adminContents =
-        data &&
-        data
-          .filter((data) => data.role === 'admin')
-          .sort((a, b) => b.createdAt! - a.createdAt!)
-          .slice(0, 3);
-      return adminContents;
-    }
+    queryKey: [QUERY_KEYS.ADMINPOSTS],
+    queryFn: getAdminHomeContents
   });
-  console.log('adminContents===>', adminContents);
+  // console.log('adminContents===>', adminContents);
 
   // 망고 발행물 로딩
   if (isLoading) {
