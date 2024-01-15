@@ -2,26 +2,25 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
-  foundPost: PostType;
   postList: PostType[] | undefined;
-  id: string | undefined;
+  postId: string | undefined;
 };
 
-function PostShift({ postList, id }: Props) {
+function PostShift({ postList, postId }: Props) {
   const [postIndexNumber, setPostIndexNumber] = useState(0);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const postIndex = postList?.findIndex((post) => post.id === id);
+    const postIndex = postList?.findIndex((post) => post.id === postId);
     if (postIndex) setPostIndexNumber(postIndex); // 현재 post의 인덱스 설정
-  }, [postList, id]);
+  }, [postList, postId]);
 
   //prev 버튼
   const onClickPrevButton = () => {
     if (postList && postIndexNumber > 0) {
       const prevPostId = postList[postIndexNumber - 1].id;
-      navigate(`/detailtest/${prevPostId}`);
+      navigate(`/detail/${prevPostId}`);
       setPostIndexNumber(postIndexNumber - 1);
     } else {
       // 첫 페이지일 경우 얼럿
@@ -33,7 +32,7 @@ function PostShift({ postList, id }: Props) {
   const onClickNextButton = () => {
     if (postList && postIndexNumber < postList.length - 1) {
       const nextPostId = postList[postIndexNumber + 1].id;
-      navigate(`/detailtest/${nextPostId}`);
+      navigate(`/detail/${nextPostId}`);
       setPostIndexNumber(postIndexNumber + 1);
     } else {
       // 마지막 페이지일 경우 얼럿

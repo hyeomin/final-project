@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import AuthToggle from '../components/auth/AuthToggle';
+import useOutsideClick from '../hooks/useOutsideClick';
 import theme from '../styles/theme';
 import AuthNavBar from './AuthNavBar';
 
@@ -10,9 +12,17 @@ function NavBar() {
   };
 
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  // AuthToggle 밖 누르면 꺼지게 하기
+  useOutsideClick<HTMLDivElement>(navRef, () => {
+    if (isAuthToggleOpen) {
+      setIsAuthToggleOpen(false);
+    }
+  });
 
   return (
-    <NavContainer>
+    <NavContainer ref={navRef}>
       <NavBarContainer>
         <LeftNav>
           <Logo>Mango</Logo>
@@ -26,7 +36,7 @@ function NavBar() {
         </LeftNav>
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
       </NavBarContainer>
-      {/* <AuthToggle /> */}
+      {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}
     </NavContainer>
   );
 }
@@ -36,6 +46,7 @@ export default NavBar;
 const NavContainer = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
 const NavBarContainer = styled.div`

@@ -1,19 +1,16 @@
-import React from 'react';
 import styled from 'styled-components';
 import AddCommentForm from './AddComment';
 import CommentList from './CommentList';
 
-
 type Props = {
-  post: PostType;
+  foundPost: PostType;
 };
-const Comment = ({ post }: Props) => {
 
-
+const Comment = ({ foundPost }: Props) => {
   return (
     <Container>
-      <AddCommentForm post={post} />
-      <CommentList post={post} />
+      <AddCommentForm foundPost={foundPost} />
+      <CommentList foundPost={foundPost} />
     </Container>
   );
 };
