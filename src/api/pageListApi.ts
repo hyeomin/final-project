@@ -52,17 +52,3 @@ export const getCategoryPosts =
     const querySnapShot = await getDocs(q);
     return querySnapShot.docs;
   };
-
-//test
-export const sortPopularCategoryPosts =
-  (category: Category) =>
-  async ({
-    pageParam
-  }: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
-    const q = pageParam
-      ? query(collection(db, 'posts'), where('category', '==', category), startAfter(pageParam), limit(4))
-      : query(collection(db, 'posts'), where('category', '==', category), limit(4));
-
-    const querySnapShot = await getDocs(q);
-    return querySnapShot.docs;
-  };
