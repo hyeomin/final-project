@@ -1,8 +1,7 @@
-import { collection, query, where, getDocs, DocumentData } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
 import { db } from '../shared/firebase';
-import { getAuth } from 'firebase/auth';
-import { useState } from 'react';
 
 // 로그인한 유저 uid 일치하는 posts 가져오기
 const getMyPosts = async () => {
@@ -58,4 +57,4 @@ const getLikePosts = async () => {
 //   }
 // };
 
-export { getMyPosts, getLikePosts };
+export { getLikePosts, getMyPosts };

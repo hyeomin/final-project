@@ -1,13 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { hashtagState } from '../../recoil/posts';
+import { IsEditingProps } from '../../pages/Write';
+import { postState } from '../../recoil/posts';
 
-function Hashtag() {
+function Hashtag({ foundPost, isEditing }: IsEditingProps) {
   const HASHTAG = 'hashtag';
-  const [hashtags, setHashtags] = useRecoilState(hashtagState);
+  const [post, setPost] = useRecoilState(postState);
+  const { hashtags } = post;
   const [currentHashtag, setCurrentHashtag] = useState('');
 
+  // 수정 중이면 수정 중인 글의 해시태그로 업데이트
+  useEffect(() => {
+    if (foundPost?.hashtag) {
+      setPost({ ...post, hashtags: foundPost?.hashtag });
+    }
+  }, [isEditing, foundPost, post, setPost]);
+
+  // 새로운 해시태그 추가
   const onHashtagChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     let newHashtag = event.target.value;
 
@@ -17,15 +27,17 @@ function Hashtag() {
     setCurrentHashtag(newHashtag);
   };
 
+  // 엔터 누르면 해시태그 추가
   const onKeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && currentHashtag.length > 1) {
-      setHashtags([...hashtags, currentHashtag]);
+      setPost({ ...post, hashtags: [...hashtags, currentHashtag] });
       setCurrentHashtag('#');
     }
   };
 
+  // 해시태그 삭제
   const removeHashtag = (index: number) => {
-    setHashtags(hashtags.filter((_, idx) => idx !== index));
+    setPost({ ...post, hashtags: hashtags.filter((_, idx) => idx !== index) });
   };
 
   return (
