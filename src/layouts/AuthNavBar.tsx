@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { GoChevronDown } from 'react-icons/go';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -14,10 +15,17 @@ type Props = {
 };
 
 function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
+  const [userInfo, setUserInfo] = useState(auth.currentUser);
+
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
 
   const navigate = useNavigate();
+
+  // 바뀔때마다 업데이트
+  useEffect(() => {
+    setUserInfo(auth.currentUser);
+  }, [auth.currentUser]);
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -25,9 +33,7 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
       const confirmation = window.confirm('로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?');
       if (confirmation) {
         navigate('/auth');
-      } else {
-        navigate('/');
-      }
+      } else return;
     } else navigate('/write');
   };
 
@@ -35,9 +41,9 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
     <AuthContainer>
       {/* useEffect에 넣기 */}
       {/* {auth.currentUser ? '로그아웃' : '로그인'} */}
-      <NavLink to="/write" onClick={onAuthCheckHandler} style={styledNav}>
+      <StyledNavLnk to="/write" onClick={onAuthCheckHandler} style={styledNav}>
         글쓰기
-      </NavLink>
+      </StyledNavLnk>
       {auth.currentUser ? (
         <>
           <UserInfo onClick={() => setIsAuthToggleOpen((prev) => !prev)}>
@@ -50,12 +56,12 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
         </>
       ) : (
         <>
-          <NavLink to="/auth" onClick={() => setIsSignUp(false)} style={styledNav}>
+          <StyledNavLnk to="/auth" onClick={() => setIsSignUp(false)} style={styledNav}>
             로그인
-          </NavLink>
-          <NavLink to="/auth" onClick={() => setIsSignUp(true)}>
+          </StyledNavLnk>
+          <StyledNavLnk to="/auth" onClick={() => setIsSignUp(true)}>
             회원가입
-          </NavLink>
+          </StyledNavLnk>
         </>
       )}
     </AuthContainer>
@@ -70,7 +76,10 @@ const AuthContainer = styled.div`
   column-gap: 20px;
   color: #888;
   font-size: 14px;
-  font-weight: bold;
+`;
+
+const StyledNavLnk = styled(NavLink)`
+  font-weight: normal;
 `;
 
 const UserInfo = styled.div`

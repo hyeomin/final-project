@@ -40,9 +40,9 @@ const foundPostState = atom<PostType | undefined>({
   default: undefined
 });
 
-const hashtagsListState = atom({
+const commonHashtagsListState = atom({
   key: POST.CATEGORY_LIST,
   default: ['분리수거', '업사이클링', '채식', '텀블러', '건강', '에코', '탄소절감']
 });
 
-export { categoryListState, coverImageState, foundPostState, hashtagsListState, isEditingState, postState };
+export { categoryListState, commonHashtagsListState, coverImageState, foundPostState, isEditingState, postState };

@@ -122,7 +122,7 @@ const WritingArea = styled.div`
 
   & input {
     font-size: 18px;
-    padding: 20px 10px;
+    padding: 15px 10px;
     border-radius: 10px;
     border: 1px solid #888;
     background: #f3f3f3;

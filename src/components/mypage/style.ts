@@ -16,6 +16,7 @@ const Wrapper = styled.div`
 
 const ProfileEditWrapper = styled.div`
   display: flex;
+  align-items: center; // ashley 추가 24.01.16
   column-gap: 30px;
   width: 100%;
   height: 250px;
@@ -25,6 +26,32 @@ const ProfileEditWrapper = styled.div`
   border-radius: 10px;
   border: 1px solid lightgray;
   margin-top: 30px;
+`;
+
+const ProfileImageContainer = styled.div`
+  display: flex;
+  position: relative;
+
+  & img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+`;
+
+const PenWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 0.5px solid ${theme.color.lightgray};
+  background-color: white;
+  font-size: large;
 `;
 
 const ProfileInfo = styled.div`
@@ -93,6 +120,7 @@ const MyImage = styled.img`
   height: 150px;
   border-radius: 50%;
 `;
+
 const MyNickname = styled.h1`
   font-size: 20px;
 `;
@@ -254,7 +282,7 @@ const TextBox = styled.div`
 export default {
   ProfileEditWrapper,
   MySectionWrapper,
-  MyImage,
+  // MyImage,
   EmailAndName,
   MyNickname,
   MyEmail,
@@ -280,5 +308,8 @@ export default {
   PostImg,
   ModifyButton,
   CurrentDate,
-  PostCount
+  PostCount,
+  PenWrapper,
+  ProfileImageContainer,
+  MyImage
 };
