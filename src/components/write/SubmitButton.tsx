@@ -1,9 +1,8 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { getAllUsers } from '../../api/authApi';
 import { addPost } from '../../api/postApi';
 import { QUERY_KEYS } from '../../query/keys';
 import { coverImageState, postState } from '../../recoil/posts';
@@ -20,7 +19,7 @@ function SubmitButton() {
   const { title } = post;
 
   const [coverImageList, setCoverImageList] = useRecoilState(coverImageState);
-  const [newImageFileList, setNewImageFileList] = useState<File[]>([]);
+  const [imageFileforUpload, setImageFileforUpload] = useState<File[]>([]);
   const [role, setRole] = useRecoilState(roleState);
 
   const navigate = useNavigate();
@@ -35,27 +34,10 @@ function SubmitButton() {
     role
   };
 
-  // role이 비어있는 경우 다시 넣기
-  const { data: userList, refetch } = useQuery({
-    queryKey: [QUERY_KEYS.USERS],
-    queryFn: getAllUsers,
-    enabled: role === ''
-  });
-
-  useEffect(() => {
-    if (role === '') {
-      refetch();
-    }
-    const user = userList && userList.find((user) => user.uid === auth.currentUser?.uid);
-    if (user) {
-      setRole(user.role);
-    }
-  }, [role, refetch, setRole, userList]);
-
   // 게시물 추가
   const queryClient = useQueryClient();
   const addMutation = useMutation({
-    mutationFn: () => addPost({ newPost, newImageFileList }),
+    mutationFn: () => addPost({ newPost, imageFileforUpload }),
     onSuccess: (postId) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
 
@@ -80,8 +62,8 @@ function SubmitButton() {
       const confirmation = window.confirm('등록하시겠습니까?');
       if (!confirmation) return;
     }
-    const newImages = coverImageList.filter((image) => image.isNew && image.file).map((image) => image.file) as File[];
-    setNewImageFileList(newImages);
+    const newImages = coverImageList.filter((image) => image.file).map((image) => image.file) as File[];
+    setImageFileforUpload(newImages);
 
     addMutation.mutate();
   };
