@@ -43,7 +43,9 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
           <UserInfo onClick={() => setIsAuthToggleOpen((prev) => !prev)}>
             <img src={auth.currentUser?.photoURL ?? defaultImg} alt="profile" />
             <span>{auth.currentUser?.displayName}</span>
-            <GoChevronDown />
+            <span>
+              <GoChevronDown />
+            </span>
           </UserInfo>
         </>
       ) : (

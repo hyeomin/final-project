@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { ImageItem } from '../components/write/ImageUploadTest';
+import { ImageItem } from '../components/write/ImageUpload';
 import { POST } from './keys';
 
 const postState = atom({
@@ -40,4 +40,9 @@ const foundPostState = atom<PostType | undefined>({
   default: undefined
 });
 
-export { categoryListState, coverImageState, foundPostState, isEditingState, postState };
+const hashtagsListState = atom({
+  key: POST.CATEGORY_LIST,
+  default: ['분리수거', '업사이클링', '채식', '텀블러', '건강', '에코', '탄소절감']
+});
+
+export { categoryListState, coverImageState, foundPostState, hashtagsListState, isEditingState, postState };
