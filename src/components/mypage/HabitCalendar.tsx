@@ -87,14 +87,14 @@ const HabitCalendar = ({ date }: any) => {
                     src={mangoIcon}
                     alt={`habit-sticker-${formattedDate}`}
                   />
-                  x {postCount}
+                  <St.PostCount> x{postCount}</St.PostCount>
                 </>
               );
             }
             return null;
           }}
         />
-        현재 날짜 {moment(date).format('YYYY년 MM월 DD일')}
+        <St.CurrentDate>현재 날짜 {moment(date).format('YYYY년 MM월 DD일')}</St.CurrentDate>
       </St.StyleCalendar>
     </St.CalendarWrapper>
   );

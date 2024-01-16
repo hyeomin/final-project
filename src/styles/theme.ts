@@ -4,7 +4,8 @@ const color = {
   mangoYellow: '#FFD864',
   mangoNavy: '#01376B',
   gray: '#888888',
-  lightgray: '#888'
+  lightgray: '#888',
+  containerBorder: '#999'
 };
 
 const font = {
