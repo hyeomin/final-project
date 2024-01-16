@@ -20,7 +20,7 @@ export type Data = {
   password: string;
   passworkCheck: string;
   nickname?: string;
-  phoneNumber?: string;
+  phoneNumber: number;
   image?: string;
   defaultImg?: string;
   role?: string;
@@ -33,7 +33,7 @@ function Signup() {
   const [nickname, setNickname] = useState('');
   const [passworkCheck, SetPassworkCheck] = useState('');
 
-  const [phoneNum, setPhoneNum] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(0);
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
   const [image, setImage] = useState('');
@@ -54,7 +54,7 @@ function Signup() {
   // 정규식
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
-  const phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+  const phoneRegex = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
   // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
   // 폴더/파일
@@ -86,7 +86,7 @@ function Signup() {
   //   }
   // };
 
-  const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passworkCheck }: Data) => {
+  const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passworkCheck, phoneNumber }: Data) => {
     try {
       const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -103,7 +103,7 @@ function Signup() {
       setValue('password', '');
       setValue('nickname', '');
       setValue('passworkCheck', '');
-      setValue('phoneNumber', '');
+      setValue('phoneNumber', 0);
 
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
@@ -113,7 +113,7 @@ function Signup() {
           displayName: auth.currentUser?.displayName,
           profileImg: auth.currentUser?.photoURL,
           uid: auth.currentUser?.uid,
-          phoneNum: auth.currentUser?.phoneNumber,
+          phoneNumber: auth.currentUser?.phoneNumber,
           role: 'user'
         });
       }
@@ -216,33 +216,31 @@ function Signup() {
           )}
         </St.InputContainer>
 
-        <St.InputContainer>
-          {/* <span>휴대폰번호</span> */}
+        {/* <St.InputContainer>
           <St.AuthInput
             type="text"
             placeholder="phone number"
-            // {...register('phoneNum', {
-            //   required: true,
-            //   pattern: phoneRegex
-            // })}
+            {...register('phoneNumber', {
+              required: true,
+              pattern: phoneRegex
+            })}
           />
           <St.AuthBtn>인증번호 발송</St.AuthBtn>
 
-          {/* {errors?.phoneNum?.type === 'required' && (
+          {errors?.phoneNumber?.type === 'required' && (
             <St.WarningMsg> ⚠️ 정확한 휴대폰 양식을 입력해주세요</St.WarningMsg>
           )}
-          {errors?.phoneNum?.type === 'pattern' && (
+          {errors?.phoneNumber?.type === 'pattern' && (
             <St.WarningMsg>
-              {' '}
-              ⚠️ 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요,한글 초성 안됨
+               ⚠️ 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요,한글 초성 안됨 *
             </St.WarningMsg>
-          )} */}
-        </St.InputContainer>
+          )}
+        </St.InputContainer> */}
 
         <St.SignUpAndLoginBtn
           type="submit"
           onClick={() => {
-            signUp({ email, password, nickname, passworkCheck });
+            signUp({ email, password, nickname, passworkCheck, phoneNumber });
           }}
         >
           가입하기
