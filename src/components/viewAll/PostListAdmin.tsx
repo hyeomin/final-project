@@ -83,7 +83,8 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
               return (
                 <St.AdminContent key={post.id}>
                   {imageQuery.isLoading ? (
-                    <p>Loading image...</p>
+                    // <p>Loading image...</p>
+                    <Loader />
                   ) : (
                     <Link to={`/detail/${post.id}`}>
                       <img src={imageQuery.data || defaultCover} alt={post.title} />

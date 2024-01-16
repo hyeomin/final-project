@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 
-export const publicModal = atom({
-  key: 'PublicModal',
+export const publicModalState = atom({
+  key: 'publicModalState',
   default: {
     isUse: false,
     title: '',
