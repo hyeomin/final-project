@@ -1,45 +1,44 @@
 .swiper {
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
-  
-  .swiper-slide {
-    text-align: center;
-    font-size: 18px;
-    background: #fff;
-  
-    /* Center slide text vertically */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .swiper-slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  /* user contents 부분 */
-  .slides {
-    cursor: pointer;
-  }
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
 
-  /* 다음 버튼 스타일 */
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide text vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* user contents 부분 */
+.slides {
+  cursor: pointer;
+}
+
+/* 다음 버튼 스타일 */
 .swiper-button-next {
-  width: 50px; 
-  height: 50px; 
-  right: 10px; 
+  width: 50px;
+  height: 50px;
+  right: 10px;
   color: white;
-
 }
 
 /* 이전 버튼 스타일 */
 .swiper-button-prev {
-  width: 50px; 
+  width: 50px;
   height: 50px;
-  left: 10px; 
+  left: 10px;
   color: white;
 }

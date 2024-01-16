@@ -7,5 +7,6 @@ export const QUERY_KEYS = {
   SHARE: 'sharing',
   HABIT: 'habit',
   USERPOSTS: 'userPosts',
+  ADMINPOSTS: 'adminPosts',
   COMMENTS: 'comments'
 };

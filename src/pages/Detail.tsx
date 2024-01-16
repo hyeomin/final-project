@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { updatePostViewCount } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
 import DetailBody from '../components/detail/DetailBody';
 import DetailHeader from '../components/detail/DetailHeader';
@@ -11,13 +11,10 @@ import PostShift from '../components/detail/PostShift';
 import AddCommentForm from '../components/detail/comment/AddComment';
 import CommentList from '../components/detail/comment/CommentList';
 import { QUERY_KEYS } from '../query/keys';
-import { foundPostState } from '../recoil/posts';
 import { auth } from '../shared/firebase';
 
 function Detail() {
-  //인덱스 넘버로 페이지 관리
-
-  const [foundPost, setFoundPost] = useRecoilState<PostType | undefined>(foundPostState);
+  const [foundPost, setFoundPost] = useState<PostType | undefined>();
   const { id } = useParams();
 
   const { data: postList, isLoading } = useQuery({
@@ -31,6 +28,17 @@ function Detail() {
       setFoundPost(foundPost);
     }
   }, [postList, id, setFoundPost]);
+
+  //조회수 업데이트
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [viewCount, setViewCount] = useState(foundPost?.viewCount || 0);
+  useEffect(() => {
+    if (foundPost && !sessionStorage.getItem(`viewed-${foundPost.id}`)) {
+      updatePostViewCount(foundPost.id);
+      sessionStorage.setItem(`viewed-${foundPost.id}`, 'true');
+      setViewCount((prevCount) => prevCount + 1);
+    }
+  }, [postList, foundPost]);
 
   if (isLoading) {
     return <div>로딩 중...</div>;

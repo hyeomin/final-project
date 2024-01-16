@@ -8,7 +8,7 @@ type PostType = {
   content?: string;
   createdAt?: number;
   updatedAt?: number;
-  hashtag?: null;
+  hashtag?: string[] | null;
   uid?: string;
   likeCount?: number;
   likedUsers?: string[];
@@ -35,4 +35,12 @@ type CommentType = {
   photoURL: string | null;
   createdAt: number;
   content: string;
+};
+
+type EditingPostType = {
+  category: string;
+  title: string;
+  content: string;
+  updatedAt: number;
+  hashtags: string[];
 };

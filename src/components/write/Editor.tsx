@@ -1,8 +1,7 @@
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { contentState, titleState } from '../../recoil/posts';
 import SelectCategory from './SelectCategory';
 import imageHandler from './imageHandler';
 
@@ -10,16 +9,40 @@ import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
 
 import 'react-quill/dist/quill.snow.css';
+import { IsEditingProps } from '../../pages/Write';
+import { postState } from '../../recoil/posts';
 
-function Editor() {
+function Editor({ foundPost, isEditing }: IsEditingProps) {
   const TITLE = 'title';
 
-  const [title, setTitle] = useRecoilState(titleState);
-  const [content, setContent] = useRecoilState(contentState);
+  const [post, setPost] = useRecoilState(postState);
+  const { title, content } = post;
 
   const quillRef = useRef<ReactQuill>(null);
   Quill.register('modules/imageActions', ImageActions);
   Quill.register('modules/imageFormats', ImageFormats);
+
+  if (!ImageFormats.registered) {
+    ImageFormats.registered = true;
+  }
+
+  useEffect(() => {
+    if (isEditing && foundPost?.title && foundPost?.content) {
+      setPost({
+        ...post,
+        title: foundPost.title,
+        content: foundPost.content
+      });
+    }
+    if (!isEditing) {
+      setPost({
+        title: '',
+        content: '',
+        category: 'noCategory',
+        hashtags: []
+      });
+    }
+  }, [isEditing, foundPost]);
 
   const modules = useMemo(() => {
     return {
@@ -64,7 +87,7 @@ function Editor() {
     'width'
   ];
 
-  const editorStyle = { height: '600px', maxHeight: '800px' };
+  const editorStyle = { height: '400px', maxHeight: '800px' };
 
   return (
     <WritingArea>
@@ -72,7 +95,7 @@ function Editor() {
       <input
         name={TITLE}
         value={title}
-        onChange={(event) => setTitle(event.target.value)}
+        onChange={(event) => setPost({ ...post, title: event.target.value })}
         placeholder="제목을 입력하세요."
       />
       <EditorContainer>
@@ -80,7 +103,7 @@ function Editor() {
           style={editorStyle}
           theme="snow"
           value={content}
-          onChange={setContent}
+          onChange={(newContent) => setPost({ ...post, content: newContent })}
           modules={modules}
           formats={formats}
           ref={quillRef}
