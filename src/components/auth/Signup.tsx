@@ -86,7 +86,7 @@ function Signup() {
   //   }
   // };
 
-  const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passworkCheck }: Data) => {
+  const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passworkCheck, phoneNumber }: Data) => {
     try {
       const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
