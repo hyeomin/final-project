@@ -1,10 +1,11 @@
 import React from 'react';
 import { auth } from '../../../shared/firebase';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries, useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../../query/keys';
-import { getAdminHomeContents } from '../../../api/homeApi';
+import { downloadImageURL, getAdminHomeContents } from '../../../api/homeApi';
 import { Link } from 'react-router-dom';
 import St from './style';
+import defaultCover from '../../../assets/defaultCoverImg.jpeg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -18,6 +19,15 @@ const AdminContents = () => {
   });
   // console.log('adminContents===>', adminContents);
 
+  // 이미지URL 불러오기
+  const imageQueries = useQueries({
+    queries:
+      adminContents?.map((post) => ({
+        queryKey: ['imageURL', post.id],
+        queryFn: () => downloadImageURL(post.id as string)
+      })) || []
+  });
+
   // 망고 발행물 로딩
   if (isLoading) {
     return <div>Loading...</div>;
@@ -28,34 +38,37 @@ const AdminContents = () => {
   }
 
   return (
-    <section>
-      <St.AdminContentsSection>
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false
-          }}
-          pagination={{
-            clickable: true
-          }}
-          navigation={true}
-          modules={[Autoplay, Pagination, Navigation]}
-          className="swiper"
-        >
-          {adminContents?.map((item, idx) => {
-            return (
-              <SwiperSlide key={idx}>
-                <Link to={`/detail/${item.id}`}>
-                  <img src={''} alt={`Slide ${idx}`} />
-                </Link>
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
-      </St.AdminContentsSection>
-    </section>
+    <St.Container>
+      <Swiper
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false
+        }}
+        pagination={{
+          clickable: true
+        }}
+        navigation={true}
+        modules={[Autoplay, Pagination, Navigation]}
+        className="swiper"
+      >
+        {adminContents?.map((item, idx) => {
+          const imageQuery = imageQueries[idx];
+          return (
+            <SwiperSlide key={idx}>
+              <Link to={`/detail/${item.id}`}>
+                {imageQuery.isLoading ? (
+                  <p>Loading image...</p>
+                ) : (
+                  <img src={imageQuery.data || defaultCover} alt={`Slide ${idx}`} />
+                )}
+              </Link>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+    </St.Container>
   );
 };
 

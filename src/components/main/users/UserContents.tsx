@@ -12,14 +12,12 @@ import defatutUserImage from '../../../assets/defaultImg.jpg';
 import eye from '../../../assets/icons/eye.png';
 import heart from '../../../assets/icons/heart.png';
 import comment from '../../../assets/icons/comment.png';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import '../swiperStyle.css';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
-import styled from 'styled-components';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
