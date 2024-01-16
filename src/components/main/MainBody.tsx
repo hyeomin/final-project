@@ -2,12 +2,14 @@ import St from './admin/style';
 import AdminContents from './admin/AdminContents';
 import UserContents from './users/UserContents';
 import styled from 'styled-components';
+import UserRanking from './ranking/Ranking';
 
 function MainBody() {
   return (
     <Container>
       <AdminContents />
       <UserContents />
+      <UserRanking />
     </Container>
   );
 }

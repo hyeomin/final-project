@@ -17,6 +17,10 @@
   height: 100%;
   object-fit: cover;
 }
+/* .default-swiper .swiper-slide img {
+  filter: brightness(70%);
+  transition: filter 0.3s ease;
+} */
 
 /* 다음 버튼 스타일 */
 .default-swiper .swiper-button-next {
@@ -38,8 +42,8 @@
 
 .custom-swiper .swiper-button-next,
 .custom-swiper .swiper-button-prev {
-  width: 30px;
-  height: 30px;
+  width: 30px; /*  피그마 이미지 깨끗하지 않아서 사용하지 않음 */
+  height: 30px; /* 버튼 호버효과를 사용할때도 이미지 쓰지 않는게 나음*/
   border-radius: 50%;
   top: 470px; /* bottom이 안먹음 */
   border: none;

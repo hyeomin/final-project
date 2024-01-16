@@ -15,6 +15,7 @@ import {
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
 import { auth, db, storage } from '../shared/firebase';
+import { getAllUsers } from './authApi';
 
 type Ref = {
   folder: string;
@@ -81,26 +82,6 @@ const getTopRankingPosts = async () => {
   }
 };
 
-//이미지 가져오기
-const downloadImageURL = async (postId: string) => {
-  try {
-    const listRef = ref(storage, `posts/${postId}`);
-    const res = await listAll(listRef);
-
-    if (res.items.length > 0) {
-      const firstFileRef = res.items[0];
-      const url = await getDownloadURL(firstFileRef);
-      return url;
-    } else {
-      // console.log('No files found in the directory');
-      return '';
-    }
-  } catch (error) {
-    console.error('Error getting files: ', error);
-    return null;
-  }
-};
-
 // 좋아요 상태 변경
 const updateLikedUsers = async (post: PostType) => {
   const currentUserId = auth.currentUser?.uid;
@@ -140,4 +121,35 @@ const updateLikedUsers = async (post: PostType) => {
   }
 };
 
-export { downloadImageURL, getAdminHomeContents, getPosts, getTopRankingPosts, updateLikedUsers };
+// TOP10 user list
+const getTopRankedUsers = async () => {
+  try {
+    const querySnapshot = await getAllUsers();
+    console.log('스냅샷===>', querySnapshot);
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+//이미지 가져오기
+const downloadImageURL = async (postId: string) => {
+  try {
+    const listRef = ref(storage, `posts/${postId}`);
+    const res = await listAll(listRef);
+
+    if (res.items.length > 0) {
+      const firstFileRef = res.items[0];
+      const url = await getDownloadURL(firstFileRef);
+      return url;
+    } else {
+      // console.log('No files found in the directory');
+      return '';
+    }
+  } catch (error) {
+    console.error('Error getting files: ', error);
+    return null;
+  }
+};
+
+export { getAdminHomeContents, getPosts, getTopRankingPosts, updateLikedUsers, getTopRankedUsers, downloadImageURL };

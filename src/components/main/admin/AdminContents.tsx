@@ -51,22 +51,20 @@ const AdminContents = () => {
           type: 'fraction'
         }}
         navigation={true}
-        modules={[Pagination, Navigation]}
+        modules={[Autoplay, Pagination, Navigation]}
         className="custom-swiper"
       >
         {adminContents?.map((item, idx) => {
           const imageQuery = imageQueries[idx];
           return (
-            <>
-              <SwiperSlide key={idx}>
-                {imageQuery.isLoading ? (
-                  <p>Loading image...</p>
-                ) : (
-                  <img src={imageQuery.data || defaultCover} alt={`Slide ${idx}`} />
-                )}
-                <Button to={`/detail/${item.id}`}>자세히 보기</Button>
-              </SwiperSlide>
-            </>
+            <SwiperSlide key={idx}>
+              {imageQuery.isLoading ? (
+                <p>Loading image...</p>
+              ) : (
+                <img src={imageQuery.data || defaultCover} alt={`Slide ${idx}`} />
+              )}
+              <Button to={`/detail/${item.id}`}>자세히 보기</Button>
+            </SwiperSlide>
           );
         })}
       </Swiper>
@@ -89,10 +87,8 @@ const Button = styled(Link)`
   cursor: pointer;
   bottom: 150px;
   left: 240px;
-  transition: 0.3s ease;
   &:hover {
     background-color: #00000099;
-    transition: 0.3s ease;
   }
 `;
 
