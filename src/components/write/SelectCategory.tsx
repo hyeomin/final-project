@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { categoryListState, categoryState } from '../../recoil/posts';
+import { categoryListState, postState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
 
 function SelectCategory() {
   const [displayCategory, setDisplayCategory] = useState('');
-
-  const [category, setCategory] = useRecoilState(categoryState);
+  const [post, setPost] = useRecoilState(postState);
+  const { category } = post;
 
   const role = useRecoilValue(roleState);
   const categoryList = useRecoilValue(categoryListState);
@@ -26,7 +26,7 @@ function SelectCategory() {
     setDisplayCategory(selectedNameKor);
 
     const selectedName = filteredCategoryList.find((category) => category.nameKor === selectedNameKor);
-    setCategory(selectedName ? selectedName.nameEng : categoryList[0].nameEng);
+    setPost({ ...post, category: selectedName ? selectedName.nameEng : categoryList[0].nameEng });
   };
 
   return (

@@ -1,51 +1,41 @@
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Editor from '../components/write/Editor';
 import Hashtag from '../components/write/Hashtag';
-import ImageUpload from '../components/write/ImageUpload';
-import SubmitButton from '../components/write/SubmitButton';
-import { categoryState, contentState, hashtagState, titleState } from '../recoil/posts';
-import { roleState } from '../recoil/users';
-import { auth } from '../shared/firebase';
+import ImageUploadTest from '../components/write/ImageUploadTest';
+import Header from '../components/write/WriteHeader';
+import { foundPostState, isEditingState } from '../recoil/posts';
+
+export type IsEditingProps = {
+  foundPost: PostType | undefined;
+  isEditing: boolean;
+};
 
 function Write() {
-  const [category, setCategory] = useRecoilState(categoryState);
-  const [title, setTitle] = useRecoilState(titleState);
-  const [content, setContent] = useRecoilState(contentState);
-  const [hashtags, setHashtags] = useRecoilState(hashtagState);
-  const role = useRecoilValue(roleState);
+  const [isEditing, setIsEditing] = useRecoilState(isEditingState);
+  const [foundPost, setFoundPost] = useRecoilState<PostType | undefined>(foundPostState);
+  const [editingImageList, setEditingImageList] = useState<string[]>([]);
 
-  const newPost = {
-    category,
-    title,
-    content,
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
-    hashtags,
-    uid: auth.currentUser!.uid,
-    likeCount: 0,
-    likedUsers: null,
-    role
-  };
+  const { state } = useLocation();
 
-  // omit으로 타입 관리해야 함
-  const editingPost = {
-    category,
-    title,
-    content,
-    updatedAt: Date.now(),
-    hashtags
-  };
+  // isEditing인지 확인하고 state 변경
+  useEffect(() => {
+    if (state) {
+      setFoundPost(state.foundPost);
+      setIsEditing(true);
+    }
+  }, [state]);
 
   return (
     <Container>
-      <Header>
-        <SubmitButton newPost={newPost} />
-      </Header>
-      <Editor />
+      <Header />
+      <Editor foundPost={foundPost} isEditing={isEditing} />
       <Spacer />
-      <Hashtag />
-      <ImageUpload />
+      <Hashtag foundPost={foundPost} isEditing={isEditing} />
+      {/* <ImageUpload foundPost={foundPost} isEditing={isEditing} editingImageList={editingImageList} /> */}
+      <ImageUploadTest foundPost={foundPost} isEditing={isEditing} />
     </Container>
   );
 }
@@ -57,14 +47,6 @@ const Container = styled.div`
   flex-direction: column;
   row-gap: 20px;
   margin: 50px 0;
-`;
-
-const Header = styled.div`
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  border-bottom: 1px solid black;
-  height: 50px;
 `;
 
 const Spacer = styled.div`
