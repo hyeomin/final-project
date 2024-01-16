@@ -193,6 +193,7 @@ const BottomText = styled.div`
 `;
 const Count = styled.div`
   display: flex;
+  align-items: center;
   height: 16px;
   color: #fff;
   text-align: center;
@@ -200,14 +201,10 @@ const Count = styled.div`
   font-weight: 400;
   line-height: 150%; /* 21px */
   & span {
+    width: 14px;
     display: flex;
-    align-items: center;
+    justify-content: center;
     margin-right: 10px;
-    & img {
-      width: 16px;
-      height: 16px;
-      margin-right: 2px;
-    }
   }
 `;
 

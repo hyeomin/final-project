@@ -18,6 +18,7 @@ import usePostsQuery from '../../../query/usePostsQuery';
 import { auth } from '../../../shared/firebase';
 import '../swiperStyle.css';
 import St from './style';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -152,15 +153,12 @@ const UserContents = () => {
                           </div>
                         </St.BottomText>
                         <St.Count>
-                          <span>
-                            <img src={eye} alt="eyeImg" /> {item.viewCount?.toLocaleString() || 0}
-                          </span>
-                          <span>
-                            <img src={heart} alt="heartImg" /> {item.likeCount?.toLocaleString() || 0}
-                          </span>
-                          <span>
-                            <img src={comment} alt="commentImg" /> {item.commentCount?.toLocaleString() || 0}
-                          </span>
+                          <GoEye />
+                          <span>{item.viewCount?.toLocaleString() || 0}</span>
+                          <GoHeart />
+                          <span>{item.likeCount?.toLocaleString() || 0}</span>
+                          <GoComment />
+                          <span>{item.commentCount?.toLocaleString() || 0}</span>
                         </St.Count>
                       </St.InfoBottom>
                     </St.TextAndLikeButton>
