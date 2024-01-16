@@ -7,11 +7,21 @@ import { publicModalState } from '../../../recoil/useModal';
 function Modal() {
   const useModal = useRecoilValue(publicModalState);
   const { title, message, btnMsg, btnType, btnMsg2, btnType2 } = useModal;
+  const { handleCommit, handleExit, handleMoveAuth, handleconfirm, handleCancel } = usePublicHook();
 
-  const { handleCommit, handleExit, handleMoveAuth } = usePublicHook();
-  const btnFn = btnType === 'exit' ? handleExit : null;
-  let btnFn2;
+  let btnFn, btnFn2;
   //const btnFn = btnType === 'continue' ? handleCommit : null;
+  switch (btnType) {
+    case 'exit':
+      btnFn = handleExit;
+      break;
+
+    case 'cancel':
+      btnFn = handleCancel;
+      break;
+    default:
+      btnFn = null;
+  }
 
   switch (btnType2) {
     case 'continue':
@@ -20,6 +30,10 @@ function Modal() {
 
     case 'moveAuth':
       btnFn2 = handleMoveAuth;
+      break;
+
+    case 'confirm':
+      btnFn2 = handleconfirm;
       break;
 
     default:

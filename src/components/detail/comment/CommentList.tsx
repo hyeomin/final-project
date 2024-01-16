@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getComments } from '../../../api/commentApi';
 import defaultUserProfile from '../../../assets/defaultImg.jpg';
@@ -8,6 +8,14 @@ import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
+import { useRecoilState } from 'recoil';
+import {
+  buttonClickedState,
+  editingCommentIdState,
+  editingTextState,
+  publicModalState
+} from '../../../recoil/useModal';
+import Modal from '../../common/modal/Modal';
 
 type Props = {
   foundPost: PostType;
@@ -17,8 +25,14 @@ const CommentList = ({ foundPost }: Props) => {
   const queryClient = useQueryClient();
   const postId = foundPost?.id;
 
+  const [publicModal, setPublicModal] = useRecoilState(publicModalState);
+  const [buttonClicked, setButtonClicked] = useRecoilState(buttonClickedState);
+  console.log('buttonClicked (0)', buttonClicked);
+
   const [editingText, setEditingText] = useState('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+  // const [editingText, setEditingText] = useRecoilState(editingTextState);
+  //const [editingCommentId, setEditingCommentId] = useRecoilState<string>(editingCommentIdState);
 
   const currentUser = auth.currentUser;
 
@@ -50,21 +64,45 @@ const CommentList = ({ foundPost }: Props) => {
     );
   };
 
+  //modal
+  const openPublicModal = (title: string) => {
+    setPublicModal({
+      isUse: true,
+      title,
+      message: '',
+      btnMsg: '취소',
+      btnType: 'cancel',
+      btnMsg2: '확인',
+      btnType2: 'confirm'
+    });
+  };
   //댓글 수정완료
   const onClickUpdateButton = (id: string) => {
-    const confirm = window.confirm('저장하시겠습니까?');
-    if (!confirm) return;
-    updateCommentMutate(
-      { postId: foundPost.id, id, editingText },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.COMMENTS]
-          });
-        }
+    try {
+      openPublicModal('저장하시겠습니까?');
+      console.log('어떤 버튼이 눌렸는지?', buttonClicked); //1
+
+      if (buttonClicked) {
+        console.log('buttonClicked (2:true)', buttonClicked);
+        updateCommentMutate(
+          { postId: foundPost.id, id, editingText },
+          {
+            onSuccess: () => {
+              queryClient.invalidateQueries({
+                queryKey: [QUERY_KEYS.COMMENTS]
+              });
+            }
+          }
+        );
       }
-    );
-    setEditingCommentId(null);
+
+      setEditingCommentId(null);
+      //setButtonClicked(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setButtonClicked(false);
+    }
   };
 
   // 수정버튼 클릭 ==> 수정모드
@@ -79,6 +117,7 @@ const CommentList = ({ foundPost }: Props) => {
 
   return (
     <CommentListContainer>
+      {publicModal.isUse && <Modal />}
       {comments?.length === 0 ? (
         <div>첫번째 댓글의 주인공이 되어보세요!</div>
       ) : (

@@ -64,8 +64,8 @@ const ScButtonFirst = styled.button`
   font-weight: 500;
   cursor: pointer;
   &:hover {
-    border: 1px solid #888888;
-    box-shadow: rgba(57, 167, 255, 0.4) 0px 0px 0px 3px;
+    border: 1px solid #ffa114;
+    box-shadow: rgba(255, 161, 20, 0.4) 0px 0px 0px 3px;
   }
 `;
 const ScButtonSecond = styled.button`
@@ -78,9 +78,10 @@ const ScButtonSecond = styled.button`
   font-weight: 500;
   border: none;
   cursor: pointer;
+
   &:hover {
     border: 1px solid #ffa114;
-    box-shadow: rgba(57, 167, 255, 0.4) 0px 0px 0px 3px;
+    box-shadow: rgba(255, 161, 20, 0.4) 0px 0px 0px 3px;
   }
 `;
 

@@ -12,3 +12,18 @@ export const publicModalState = atom({
     btnType2: ''
   }
 });
+
+export const editingTextState = atom({
+  key: 'editingTextState',
+  default: ''
+});
+
+export const editingCommentIdState = atom({
+  key: 'editingCommentIdState',
+  default: ''
+});
+
+export const buttonClickedState = atom({
+  key: 'buttonClickedState',
+  default: false
+});

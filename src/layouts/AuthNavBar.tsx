@@ -19,6 +19,8 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
 
+  const navigate = useNavigate();
+
   //modal
   const [publicModal, setPublicModal] = useRecoilState(publicModalState);
   const openPublicModal = () => {
@@ -32,9 +34,6 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
       btnType2: 'moveAuth'
     });
   };
-
-  const navigate = useNavigate();
-
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     if (!auth.currentUser) {

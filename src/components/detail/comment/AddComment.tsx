@@ -5,6 +5,9 @@ import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
+import Modal from '../../common/modal/Modal';
+import { useRecoilState } from 'recoil';
+import { publicModalState } from '../../../recoil/useModal';
 
 type Props = {
   foundPost: PostType;
@@ -20,12 +23,26 @@ const AddCommentForm = ({ foundPost }: Props) => {
   // 이벤트 핸들러
   const onChangeContent = (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
 
+  //modal
+  const [publicModal, setPublicModal] = useRecoilState(publicModalState);
+  const openPublicModal = (title: string) => {
+    setPublicModal({
+      isUse: true,
+      title,
+      message: '',
+      btnMsg: '',
+      btnType: '',
+      btnMsg2: '확인',
+      btnType2: 'confirm'
+    });
+  };
+
   // 댓글 등록
   const onSubmitNewComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!currentUser) return;
     if (content.trim().length === 0) {
-      alert('내용을 입력해주세요.');
+      openPublicModal('내용을 입력해주세요.');
       return;
     }
     const newComment = {
@@ -47,11 +64,12 @@ const AddCommentForm = ({ foundPost }: Props) => {
       }
     );
     setContent('');
-    alert('등록되었습니다.');
+    openPublicModal('등록되었습니다');
   };
 
   return (
     <CommentSubmitForm onSubmit={onSubmitNewComment}>
+      {publicModal.isUse && <Modal />}
       <input value={content} onChange={onChangeContent} type="text" placeholder="댓글을 입력하세요." />
       <button type="submit">등록하기</button>
     </CommentSubmitForm>
