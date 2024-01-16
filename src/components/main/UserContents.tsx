@@ -57,7 +57,7 @@ const UserContents = () => {
       })) || []
   });
 
-  const { updateMutate } = usePostsQuery();
+  const { updateMutate } = usePostsQuery(); //////////혜민
 
   // 탑랭킹 로딩
   // if (isLoading) {

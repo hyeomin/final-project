@@ -103,7 +103,7 @@ const downloadImageURL = async (postId: string) => {
   }
 };
 
-// // 좋아요 상태 변경
+// // 좋아요 상태 변경 //혜민
 const updateLikedUsers = async (post: PostType) => {
   const currentUserId = auth.currentUser?.uid;
   try {

@@ -7,9 +7,9 @@ function Modal() {
   const useModal = useRecoilValue(publicModal);
   const { title, message, btnMsg, btnType, btnMsg2, btnType2 } = useModal;
 
-  // const { handleContinueWriting, handleExit } = PublicHook();
-  // const btnFn = btnType === 'continue' ? handleContinueWriting : null;
-  // const btnFn2 = btnType2 === 'exit' ? handleExit : null;
+  //   const { handleContinueWriting, handleExit } = PublicHook();
+  //   const btnFn = btnType === 'continue' ? handleContinueWriting : null;
+  //   const btnFn2 = btnType2 === 'exit' ? handleExit : null;
 
   return (
     <>
