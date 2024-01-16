@@ -4,7 +4,7 @@ import theme from '../../styles/theme';
 const authWrapper = styled.div`
   display: flex;
   flex-direction: column;
-
+  align-items: center;
   margin: 50px 0;
 `;
 
