@@ -11,6 +11,7 @@ import { isSignUpState, roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import { Data } from './Signup';
 import St from './style';
+import mangoLogo from '../../assets/mangoLogo.png';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -74,9 +75,15 @@ function Login() {
 
   return (
     <St.authWrapper>
-      <St.SubTitle>건강한 친환경 습관 만들기</St.SubTitle>
-      <St.Logo>MANGO</St.Logo>
-      <St.SignUpTitle>로그인</St.SignUpTitle>
+      <St.LogoContainer>
+        <St.SubTitle>건강한 친환경 습관 만들기</St.SubTitle>
+        <St.LogoBox>
+          <St.MangoLogo src={mangoLogo} />
+          <St.Logo>MANGO</St.Logo>
+        </St.LogoBox>
+        <St.SignUpTitle>로그인</St.SignUpTitle>
+      </St.LogoContainer>
+
       <form onSubmit={handleSubmit(signIn)}>
         <St.InputContainer>
           <label htmlFor="email"></label>
@@ -101,9 +108,9 @@ function Login() {
               pattern: passwordRegex
             })}
           />
-          {errors?.password?.type === 'required' && <St.WarningMsg> ⚠️ 비밀번호를 입력해주세요</St.WarningMsg>}
+          {errors?.password?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
           {errors?.password?.type === 'pattern' && (
-            <St.WarningMsg> ⚠️ 비밀번호는 문자, 숫자 1개이상 포함, 8자리 이상입니다</St.WarningMsg>
+            <St.WarningMsg>비밀번호는 문자, 숫자 1개이상 포함, 8자리 이상입니다</St.WarningMsg>
           )}
         </St.InputContainer>
         <SingleInputContainer></SingleInputContainer>
