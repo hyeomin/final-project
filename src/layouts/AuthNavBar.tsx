@@ -52,7 +52,8 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
     <AuthContainer>
       {/* useEffect에 넣기 */}
       {/* {auth.currentUser ? '로그아웃' : '로그인'} */}
-      {publicModal.isUse && <Modal />}
+      {/* // TODO: 모달 사용법 업데이트 */}
+      {/* {publicModal.isUse && <Modal />} */}
       <NavLink to="/write" onClick={onAuthCheckHandler} style={styledNav}>
         글쓰기
       </NavLink>

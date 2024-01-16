@@ -16,18 +16,23 @@ import {
   publicModalState
 } from '../../../recoil/useModal';
 import Modal from '../../common/modal/Modal';
+import { useModal } from '../../../hooks/useModal';
 
 type Props = {
   foundPost: PostType;
 };
 
 const CommentList = ({ foundPost }: Props) => {
+  const modal = useModal();
   const queryClient = useQueryClient();
   const postId = foundPost?.id;
 
   const [publicModal, setPublicModal] = useRecoilState(publicModalState);
   const [buttonClicked, setButtonClicked] = useRecoilState(buttonClickedState);
   console.log('buttonClicked (0)', buttonClicked);
+
+  //useEffect (댓글수정로직,[상태가 바뀔때 확인하는,ButtonClicked ])
+  //prev값을 넣어주기 (최근에 저장된 상태로 돌아가게)
 
   const [editingText, setEditingText] = useState('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
@@ -78,6 +83,20 @@ const CommentList = ({ foundPost }: Props) => {
   };
   //댓글 수정완료
   const onClickUpdateButton = (id: string) => {
+    const openModalParams: Parameters<typeof modal.open>[0] = {
+      title: '테스트 타이틀',
+      message: '테스트 메시지',
+      leftButtonLabel: '왼쪽 버튼',
+      onClickLeftButton: () => alert('왼쪽 버튼 눌렸어요~!'),
+      rightButtonLabel: '오른쪽 버튼',
+      onClickRightButton: () => {
+        alert('오른쪽 버튼 눌렸어요~!');
+        modal.close();
+      }
+    };
+    modal.open(openModalParams);
+
+    return;
     try {
       openPublicModal('저장하시겠습니까?');
       console.log('어떤 버튼이 눌렸는지?', buttonClicked); //1
@@ -117,7 +136,6 @@ const CommentList = ({ foundPost }: Props) => {
 
   return (
     <CommentListContainer>
-      {publicModal.isUse && <Modal />}
       {comments?.length === 0 ? (
         <div>첫번째 댓글의 주인공이 되어보세요!</div>
       ) : (

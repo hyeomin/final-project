@@ -69,7 +69,8 @@ const AddCommentForm = ({ foundPost }: Props) => {
 
   return (
     <CommentSubmitForm onSubmit={onSubmitNewComment}>
-      {publicModal.isUse && <Modal />}
+      {/* // TODO: Modal 사용법 업데이트 */}
+      {/* {publicModal.isUse && <Modal />} */}
       <input value={content} onChange={onChangeContent} type="text" placeholder="댓글을 입력하세요." />
       <button type="submit">등록하기</button>
     </CommentSubmitForm>

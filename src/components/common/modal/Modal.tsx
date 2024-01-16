@@ -2,43 +2,45 @@ import React from 'react';
 import St from '../modal/style';
 import { useRecoilValue } from 'recoil';
 import usePublicHook from '../../../hooks/usePublicHook';
+import { OpenModalParams } from '../../../hooks/useModal';
 import { publicModalState } from '../../../recoil/useModal';
 
-function Modal() {
-  const useModal = useRecoilValue(publicModalState);
-  const { title, message, btnMsg, btnType, btnMsg2, btnType2 } = useModal;
-  const { handleCommit, handleExit, handleMoveAuth, handleconfirm, handleCancel } = usePublicHook();
+type ModalProps = Exclude<OpenModalParams, 'closeButton'>;
 
-  let btnFn, btnFn2;
+function Modal(props: ModalProps) {
+  const { title, message, leftButtonLabel, onClickLeftButton, rightButtonLabel, onClickRightButton } = props;
+
+  // const { handleCommit, handleExit, handleMoveAuth, handleconfirm, handleCancel } = usePublicHook();
+
   //const btnFn = btnType === 'continue' ? handleCommit : null;
-  switch (btnType) {
-    case 'exit':
-      btnFn = handleExit;
-      break;
+  // switch (btnType) {
+  //   case 'exit':
+  //     btnFn = handleExit;
+  //     break;
 
-    case 'cancel':
-      btnFn = handleCancel;
-      break;
-    default:
-      btnFn = null;
-  }
+  //   case 'cancel':
+  //     btnFn = handleCancel;
+  //     break;
+  //   default:
+  //     btnFn = null;
+  // }
 
-  switch (btnType2) {
-    case 'continue':
-      btnFn2 = handleCommit;
-      break;
+  // switch (btnType2) {
+  //   case 'continue':
+  //     btnFn2 = handleCommit;
+  //     break;
 
-    case 'moveAuth':
-      btnFn2 = handleMoveAuth;
-      break;
+  //   case 'moveAuth':
+  //     btnFn2 = handleMoveAuth;
+  //     break;
 
-    case 'confirm':
-      btnFn2 = handleconfirm;
-      break;
+  //   case 'confirm':
+  //     btnFn2 = handleconfirm;
+  //     break;
 
-    default:
-      btnFn2 = null;
-  }
+  //   default:
+  //     btnFn2 = null;
+  // }
 
   return (
     <>
@@ -48,17 +50,10 @@ function Modal() {
             <h2>{title}</h2>
             <p>{message}</p>
           </St.ScDivTitleAndContent>
+
           <St.ScDivButton>
-            {btnMsg && (
-              <St.ScButtonFirst onClick={btnFn as React.MouseEventHandler<HTMLButtonElement>}>
-                {btnMsg}{' '}
-              </St.ScButtonFirst>
-            )}
-            {btnMsg2 && (
-              <St.ScButtonSecond onClick={btnFn2 as React.MouseEventHandler<HTMLButtonElement>}>
-                {btnMsg2}{' '}
-              </St.ScButtonSecond>
-            )}
+            {leftButtonLabel && <St.ScButtonFirst onClick={onClickLeftButton}>{leftButtonLabel}</St.ScButtonFirst>}
+            {rightButtonLabel && <St.ScButtonSecond onClick={onClickRightButton}>{rightButtonLabel}</St.ScButtonSecond>}
           </St.ScDivButton>
         </St.ScDivContainer>
       </St.ScDiv>
