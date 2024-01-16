@@ -41,52 +41,59 @@ const AdminContents = () => {
   return (
     <St.Container>
       <Swiper
-        spaceBetween={30}
         centeredSlides={true}
         autoplay={{
           delay: 5000,
           disableOnInteraction: false
         }}
         pagination={{
-          clickable: true
+          clickable: true,
+          type: 'fraction'
         }}
         navigation={true}
-        modules={[Autoplay, Pagination, Navigation]}
-        className="swiper"
+        modules={[Pagination, Navigation]}
+        className="custom-swiper"
       >
         {adminContents?.map((item, idx) => {
           const imageQuery = imageQueries[idx];
           return (
-            <SwiperSlide key={idx}>
-              <Link to={`/detail/${item.id}`}>
+            <>
+              <SwiperSlide key={idx}>
                 {imageQuery.isLoading ? (
                   <p>Loading image...</p>
                 ) : (
                   <img src={imageQuery.data || defaultCover} alt={`Slide ${idx}`} />
                 )}
-              </Link>
-            </SwiperSlide>
+                <Button to={`/detail/${item.id}`}>자세히 보기</Button>
+              </SwiperSlide>
+            </>
           );
         })}
       </Swiper>
-      <Button>버튼</Button>
     </St.Container>
   );
 };
 
-const Button = styled.button`
+const Button = styled(Link)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
-  width: 170px;
+  width: 120px; //170px
   height: 45px;
   border-radius: 10px;
-  background: #30982e;
+  background-color: #11111174;
   border: none;
-  color: #fff;
-  color: #fff;
-  text-align: center;
-  font-size: 20px;
+  font-size: 17px; //20px 너무큼
   font-weight: 400;
   cursor: pointer;
+  bottom: 150px;
+  left: 240px;
+  transition: 0.3s ease;
+  &:hover {
+    background-color: #00000099;
+    transition: 0.3s ease;
+  }
 `;
 
 export default AdminContents;

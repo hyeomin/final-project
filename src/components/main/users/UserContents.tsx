@@ -118,12 +118,12 @@ const UserContents = () => {
                 spaceBetween: 10
               }
             }}
-            className="slides"
+            className="default-swiper"
           >
             {userContents?.map((item, idx) => {
               const imageQuery = imageQueries[idx];
               return (
-                <St.StyledSwiperSlide key={idx}>
+                <St.StyledSwiperSlide key={idx} className="default-swiper">
                   <St.UserPostCover to={`/detail/${item.id}`}>
                     <St.TextAndLikeButton>
                       <St.InfoTop>

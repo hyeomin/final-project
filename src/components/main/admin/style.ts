@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 const Container = styled.section`
-  background-color: red;
+  position: relative;
   width: 100vw;
-  height: 450px; //580px
+  height: 580px;
   margin-bottom: 10px;
   & img {
     width: 100%;
