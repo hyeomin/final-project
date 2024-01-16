@@ -199,6 +199,24 @@ function Signup() {
           {errors?.passworkCheck && <St.WarningMsg>비밀번호가 일치하지 않습니다</St.WarningMsg>}
         </St.InputContainer>
         <St.InputContainer>
+          <label htmlFor="nickname"></label>
+          <St.AuthInput
+            type="text"
+            id="nickname"
+            placeholder="nickname"
+            {...register('nickname', {
+              required: true,
+              pattern: nicknameRegex
+            })}
+          />
+          <St.AuthBtn>닉네임 중복확인</St.AuthBtn>
+          {errors?.nickname?.type === 'required' && <St.WarningMsg>닉네임을 입력해주세요</St.WarningMsg>}
+          {errors?.nickname?.type === 'pattern' && (
+            <St.WarningMsg>닉네임은 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요</St.WarningMsg>
+          )}
+        </St.InputContainer>
+
+        <St.InputContainer>
           {/* <span>휴대폰번호</span> */}
           <St.AuthInput
             type="text"
