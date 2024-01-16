@@ -10,6 +10,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import Loader from '../common/Loader';
 
 const AdminContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -31,7 +32,8 @@ const AdminContents = () => {
 
   // 망고 발행물 로딩
   if (isLoading) {
-    return <div>Loading...</div>;
+    //return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (!adminContents || adminContents.length === 0) {

@@ -15,6 +15,7 @@ import 'swiper/css/pagination';
 import './swiperStyle.css';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
+import Loader from '../common/Loader';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -59,12 +60,13 @@ const UserContents = () => {
   const { updateMutate } = usePostsQuery();
 
   // 탑랭킹 로딩
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   if (!userContents || userContents.length === 0) {
-    return <div>No userPosts data found</div>;
+    //return <div>No userPosts data found</div>;
+    return <Loader />;
   }
 
   // 좋아요 버튼
@@ -93,79 +95,83 @@ const UserContents = () => {
           </Link>
         </St.SubTitle>
       </St.TitleContainer>
-      <St.PostsSlide>
-        <St.ThumbnailsBox>
-          <Swiper
-            spaceBetween={10}
-            slidesPerView={4}
-            pagination={{
-              clickable: true
-            }}
-            navigation={true}
-            modules={[Pagination, Navigation]}
-            breakpoints={{
-              0: {
-                slidesPerView: 1
-              },
-              600: {
-                slidesPerView: 2,
-                spaceBetween: 20
-              },
-              800: {
-                slidesPerView: 3,
-                spaceBetween: 10
-              },
-              1080: {
-                slidesPerView: 4,
-                spaceBetween: 10
-              }
-            }}
-            className="slides"
-          >
-            {userContents?.map((item, idx) => {
-              const imageQuery = imageQueries[idx];
-              return (
-                <St.StyledSwiperSlide key={idx}>
-                  <St.UserInfo>
-                    <div>
-                      <img
-                        src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
-                        alt="user profile image"
-                      />
-                    </div>
-                    <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
-                  </St.UserInfo>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <St.PostsSlide>
+          <St.ThumbnailsBox>
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={4}
+              pagination={{
+                clickable: true
+              }}
+              navigation={true}
+              modules={[Pagination, Navigation]}
+              breakpoints={{
+                0: {
+                  slidesPerView: 1
+                },
+                600: {
+                  slidesPerView: 2,
+                  spaceBetween: 20
+                },
+                800: {
+                  slidesPerView: 3,
+                  spaceBetween: 10
+                },
+                1080: {
+                  slidesPerView: 4,
+                  spaceBetween: 10
+                }
+              }}
+              className="slides"
+            >
+              {userContents?.map((item, idx) => {
+                const imageQuery = imageQueries[idx];
+                return (
+                  <St.StyledSwiperSlide key={idx}>
+                    <St.UserInfo>
+                      <div>
+                        <img
+                          src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
+                          alt="user profile image"
+                        />
+                      </div>
+                      <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
+                    </St.UserInfo>
 
-                  <St.Count>
-                    <p>조회수: {item.viewCount}</p>
-                    <p>댓글수: {item.commentCount}</p>
-                  </St.Count>
-                  <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                    {item.likedUsers?.includes(currentUser!) ? (
-                      <>
-                        <St.HeartFillIcon />
-                        <p>{item.likedUsers?.length}</p>
-                      </>
-                    ) : (
-                      <>
-                        <p>{item.likedUsers?.length}</p>
-                        <St.HeartIcon />
-                      </>
-                    )}
-                  </St.LikeButton>
-                  <St.UserPostCover to={`/detail/${item.id}`}>
-                    {imageQuery.isLoading ? (
-                      <p>Loading image...</p>
-                    ) : (
-                      <img src={imageQuery.data || defaultCover} alt={item.title} />
-                    )}
-                  </St.UserPostCover>
-                </St.StyledSwiperSlide>
-              );
-            })}
-          </Swiper>
-        </St.ThumbnailsBox>
-      </St.PostsSlide>
+                    <St.Count>
+                      <p>조회수: {item.viewCount}</p>
+                      <p>댓글수: {item.commentCount}</p>
+                    </St.Count>
+                    <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
+                      {item.likedUsers?.includes(currentUser!) ? (
+                        <>
+                          <St.HeartFillIcon />
+                          <p>{item.likedUsers?.length}</p>
+                        </>
+                      ) : (
+                        <>
+                          <p>{item.likedUsers?.length}</p>
+                          <St.HeartIcon />
+                        </>
+                      )}
+                    </St.LikeButton>
+                    <St.UserPostCover to={`/detail/${item.id}`}>
+                      {imageQuery.isLoading ? (
+                        <p>Loading image...</p>
+                      ) : (
+                        <img src={imageQuery.data || defaultCover} alt={item.title} />
+                      )}
+                    </St.UserPostCover>
+                  </St.StyledSwiperSlide>
+                );
+              })}
+            </Swiper>
+          </St.ThumbnailsBox>
+        </St.PostsSlide>
+      )}
     </St.userPostsPosts>
   );
 };
