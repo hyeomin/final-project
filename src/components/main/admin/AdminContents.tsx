@@ -11,6 +11,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import styled from 'styled-components';
 
 const AdminContents = () => {
   const { data: adminContents, isLoading } = useQuery({
@@ -68,8 +69,24 @@ const AdminContents = () => {
           );
         })}
       </Swiper>
+      <Button>버튼</Button>
     </St.Container>
   );
 };
+
+const Button = styled.button`
+  position: absolute;
+  width: 170px;
+  height: 45px;
+  border-radius: 10px;
+  background: #30982e;
+  border: none;
+  color: #fff;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+`;
 
 export default AdminContents;

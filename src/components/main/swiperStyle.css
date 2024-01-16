@@ -8,8 +8,6 @@
   text-align: center;
   font-size: 18px;
   background: #fff;
-
-  /* Center slide text vertically */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,18 +25,32 @@
   cursor: pointer;
 }
 
-/* 다음 버튼 스타일 */
+/* 네비게이션 버튼 스타일 */
 .swiper-button-next {
-  width: 50px;
-  height: 50px;
-  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--swiper-navigation-size);
+  height: var(--swiper-navigation-size);
   color: white;
+  border-radius: 50%;
+  background-color: #111;
+  left: 200px;
 }
 
-/* 이전 버튼 스타일 */
 .swiper-button-prev {
-  width: 50px;
-  height: 50px;
-  left: 10px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--swiper-navigation-size);
+  height: var(--swiper-navigation-size);
   color: white;
+  border-radius: 50%;
+  background-color: #111;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 17px;
 }
