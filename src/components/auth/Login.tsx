@@ -1,22 +1,31 @@
 import { useQuery } from '@tanstack/react-query';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, getAuth, signInWithPopup, updateProfile, GoogleAuthProvider } from 'firebase/auth';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import styled from 'styled-components';
 import { getAllUsers } from '../../api/authApi';
 import { QUERY_KEYS } from '../../query/keys';
 import { isSignUpState, roleState } from '../../recoil/users';
-import { auth } from '../../shared/firebase';
+import { auth, db } from '../../shared/firebase';
 import { Data } from './Signup';
 import St from './style';
 import mangoLogo from '../../assets/mangoLogo.png';
+import { doc, setDoc } from 'firebase/firestore';
+import googleLogo from '../../assets/icons/googleLogo.png';
+
+interface UserData {
+  uid: string;
+  displayName: string | null;
+  email: string | null;
+}
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [nickname, setNickname] = useState('');
 
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
 
@@ -65,13 +74,42 @@ function Login() {
     }
   };
 
-  // // 로그아웃
-  // const logOut = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   console.log('logout');
-  //   await signOut(auth);
-  // };
+  //구글 로그인
+  function handleGoogleLogin() {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider(); // provider를 구글로 설정
+    signInWithPopup(auth, provider) // popup을 이용한 signup
+      .then((data) => {
+        setUserData(data.user); // user data 설정
+        console.log('너누구냐', data);
+        // console로 들어온 데이터 표시
 
+        const user = data.user;
+        if (user !== null) {
+          updateProfile(user, {
+            displayName: nickname,
+            photoURL: ''
+          });
+        } else return;
+        // 회원가입 시, user 컬렉션에 값이 저장됨
+        const userId = auth.currentUser?.uid;
+        // 컬렉션에 있는 users 필드 정보 수정
+        if (userId) {
+          setDoc(doc(db, 'users', userId), {
+            displayName: auth.currentUser?.displayName,
+            profileImg: auth.currentUser?.photoURL,
+            uid: auth.currentUser?.uid,
+            phoneNum: auth.currentUser?.phoneNumber,
+            role: 'user'
+          });
+        }
+        navigate('/');
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <St.authWrapper>
       <St.LogoContainer>
@@ -112,11 +150,17 @@ function Login() {
             <St.WarningMsg>비밀번호는 문자, 숫자 1개이상 포함, 8자리 이상입니다</St.WarningMsg>
           )}
         </St.InputContainer>
-        <SingleInputContainer></SingleInputContainer>
-        <St.SignUpAndLoginBtn type="submit">로그인</St.SignUpAndLoginBtn>
+        <St.LoginContainer>
+          <St.SignUpAndLoginBtn type="submit">로그인</St.SignUpAndLoginBtn>
+          <St.GoogleLoginBtn onClick={handleGoogleLogin}>
+            <img src={googleLogo} alt="Google Icon" />
+            &nbsp;구글로그인
+          </St.GoogleLoginBtn>
+        </St.LoginContainer>
+
         {/* <button onClick={logOut}>로그아웃</button> */}
 
-        <SignUpNavigation>
+        <St.SignUpNavigation>
           <p style={{ marginBottom: '30px' }}>아직 회원이 아니신가요?</p>
           <span
             onClick={() => {
@@ -125,29 +169,10 @@ function Login() {
           >
             회원가입 하기
           </span>
-        </SignUpNavigation>
+        </St.SignUpNavigation>
       </form>
     </St.authWrapper>
   );
 }
 
 export default Login;
-
-const SignUpNavigation = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: 10px;
-`;
-
-const SingleInputContainer = styled.div`
-  display: flex;
-  & span {
-    background-color: lightblue;
-    width: 100px;
-  }
-
-  & input {
-    flex: 1;
-  }
-`;

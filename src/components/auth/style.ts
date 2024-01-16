@@ -89,15 +89,38 @@ const SignUpAndLoginBtn = styled.button`
   color: white;
   margin-top: 30px;
   border-radius: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-size: 22px;
   font-weight: 700;
 `;
+const GoogleLoginBtn = styled.button`
+  width: 480px;
+  height: 60px;
+  border-radius: 10px;
+  border: 1px solid #a9a9a9;
+  background-color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 30px;
 
+  color: #222;
+`;
 const WarningMsg = styled.p`
   color: red;
   font-size: 15px;
   margin-top: 10px;
+`;
+
+const SignUpNavigation = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 10px;
+`;
+
+const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export default {
@@ -113,5 +136,8 @@ export default {
   AuthInput,
   Input,
   AuthBtn,
-  SignUpAndLoginBtn
+  SignUpAndLoginBtn,
+  SignUpNavigation,
+  LoginContainer,
+  GoogleLoginBtn
 };

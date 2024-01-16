@@ -18,7 +18,7 @@ import mangoLogo from '../../assets/mangoLogo.png';
 export type Data = {
   email: string;
   password: string;
-  passworkCheck: string;
+  passworkCheck?: string;
   nickname?: string;
   phoneNumber?: string;
   image?: string;
@@ -33,7 +33,7 @@ function Signup() {
   const [nickname, setNickname] = useState('');
   const [passworkCheck, SetPassworkCheck] = useState('');
 
-  const [phoneNum, setPhoneNum] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
   const [image, setImage] = useState('');
@@ -46,7 +46,6 @@ function Signup() {
     handleSubmit,
     setValue,
     getValues,
-    watch,
     formState: { errors }
   } = useForm<Data>({ mode: 'onChange' });
 
@@ -118,7 +117,7 @@ function Signup() {
         });
       }
     } catch (error) {
-      console.error('에러입니다');
+      console.error(error);
     }
   };
 
@@ -179,7 +178,6 @@ function Signup() {
           )}
         </St.InputContainer>
         <St.InputContainer>
-          {/* <span>닉네임</span> */}
           <St.Input
             type="password"
             placeholder="Confirm Password"
@@ -216,27 +214,22 @@ function Signup() {
           )}
         </St.InputContainer>
 
-        <St.InputContainer>
-          {/* <St.AuthInput
+        {/* <St.InputContainer>
+          <St.AuthInput
             type="text"
             placeholder="phone number"
-            // {...register('phoneNum', {
-            //   required: true,
-            //   pattern: phoneRegex
-            // })}
+            {...register('phoneNumber', {
+              required: true,
+              pattern: phoneRegex
+            })}
           />
-          <St.AuthBtn>인증번호 발송</St.AuthBtn> */}
+          <St.AuthBtn>인증번호 발송</St.AuthBtn>
 
-          {/* {errors?.phoneNum?.type === 'required' && (
+          {errors?.phoneNumber?.type === 'required' && (
             <St.WarningMsg> ⚠️ 정확한 휴대폰 양식을 입력해주세요</St.WarningMsg>
           )}
-          {errors?.phoneNum?.type === 'pattern' && (
-            <St.WarningMsg>
-              {' '}
-              ⚠️ 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요,한글 초성 안됨
-            </St.WarningMsg>
-          )} */}
-        </St.InputContainer>
+          {errors?.phoneNumber?.type === 'pattern' && <St.WarningMsg></St.WarningMsg>}
+        </St.InputContainer> */}
 
         <St.SignUpAndLoginBtn
           type="submit"
