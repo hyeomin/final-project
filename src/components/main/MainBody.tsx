@@ -1,14 +1,23 @@
-import St from './style';
-import AdminContents from './AdminContents';
-import UserContents from './UserContents';
+import St from './admin/style';
+import AdminContents from './admin/AdminContents';
+import UserContents from './users/UserContents';
+import styled from 'styled-components';
 
 function MainBody() {
   return (
-    <St.Container>
+    <Container>
       <AdminContents />
       <UserContents />
-    </St.Container>
+    </Container>
   );
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+`;
 export default MainBody;
