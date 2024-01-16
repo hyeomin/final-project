@@ -1,8 +1,7 @@
-import { collection, query, where, getDocs, DocumentData, getDoc, doc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
 import { db } from '../shared/firebase';
-import { getAuth } from 'firebase/auth';
-import { useState } from 'react';
 
 // 로그인한 유저 uid 일치하는 posts 가져오기
 const getMyPosts = async () => {
@@ -41,33 +40,4 @@ const getLikePosts = async () => {
   }
 };
 
-// const getCurrentUser = async () => {
-//   try {
-//     const auth = getAuth();
-//     const user = auth.currentUser?.uid;
-//     if (user) {
-//       const docRef = doc(db, 'users', user);
-//       const docSnap = await getDoc(docRef);
-//       if (docSnap.exists()) {
-//         console.log('Document data:', docSnap.data());
-//       } else {
-//         // docSnap.data() will be undefined in this case
-//         console.log('No such document!');
-//       }
-//     }
-
-// const q = query(collection(db, QUERY_KEYS.USERS), where('uid', '==', auth.currentUser?.uid));
-// const querySnapshot = await getDocs(q);
-// const currnetUser: PostType[] = [];
-
-// querySnapshot.forEach((doc) => {
-//   posts.push({ id: doc.id, ...doc.data() });
-//   console.log('likedPosts', ' => ', doc.data());
-// });
-// return posts;
-//   } catch (error) {
-//     console.error('에러입니다');
-//   }
-// };
-
-export { getMyPosts, getLikePosts };
+export { getLikePosts, getMyPosts };

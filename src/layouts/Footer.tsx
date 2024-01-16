@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import theme from '../styles/theme';
 
 function Footer() {
   return (
@@ -17,5 +18,6 @@ const FooterContainer = styled.div`
   align-items: center;
 
   row-gap: 10px;
-  background-color: pink;
+  width: 100%;
+  border-top: 1px solid ${theme.color.lightgray};
 `;

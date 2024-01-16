@@ -17,24 +17,30 @@ const Wrapper = styled.div`
 const ProfileEditWrapper = styled.div`
   display: flex;
   column-gap: 30px;
-
   width: 100%;
   height: 250px;
-  padding: 40px;
-
-  background-color: ${theme.color.lightgray};
+  padding: 40px 80px;
+  /* background-color: ${theme.color.gray}; */
+  /* background-color: lightgray; */
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  margin-top: 30px;
 `;
 
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  gap: 20px;
   align-items: baseline;
+  margin-left: 30px;
 `;
 
 const UserPostInfo = styled.div`
   display: flex;
   column-gap: 20px;
+  font-size: 12px;
 `;
 
 const UserInfo = styled.div`
@@ -58,49 +64,58 @@ const profileImg = styled.div`
   }
 `;
 
-const ModifyBox = styled.div``;
-
 const ModifyButton = styled.button`
   width: 80px;
   height: 30px;
   border-radius: 30px;
   border: none;
   font-size: 12px;
+  margin-top: 15px;
+  margin-left: 5px;
+  background-color: ${theme.color.mangoYellow};
+  color: ${theme.color.mangoNavy};
+  font-weight: 600;
 `;
 
-const UserInfoModify = styled.div``;
+const UserInfoModify = styled.div`
+  /* background-color: red; */
+`;
 const FileInput = styled.input`
-  border: 1px solid black;
+  display: none;
+  /* border: 1px solid black; */
 `;
 
-const FileImgUpload = styled.button``;
-
-const DisplayNameModify = styled.input``;
+const DisplayNameModify = styled.input`
+  border-radius: 30px;
+  height: 25px;
+  border: 1px solid lightgray;
+  padding-left: 10px;
+  font-size: 13px;
+`;
 
 const MyImage = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
 `;
 const MyNickname = styled.h1`
   font-size: 20px;
 `;
 
-const MyEmail = styled.h4``;
+const MyEmail = styled.h4`
+  font-size: 15px;
+`;
 
 const EmailAndName = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const EditBtn = styled.button``;
-
 const Tabs = styled.div`
   width: 100%;
   height: 100%;
   margin: 20px;
   padding: 20px;
-  /* background-color: lightgray; */
 `;
 
 const TabButtonContainer = styled.div`
@@ -124,12 +139,6 @@ const TabButton = styled.button`
   }
 `;
 
-const CalendarBtn = styled.button``;
-
-const MyPostsBtn = styled.button``;
-
-const MyLikesBtn = styled.button``;
-
 //--------------------------------------------
 // Calendar
 
@@ -142,7 +151,8 @@ const StyleCalendar = styled.div`
   .react-calendar {
     width: 800px;
     border-radius: 0px 0px 30px 30px;
-    background-color: ${theme.color.lightgray};
+    /* background-color: ${theme.color.lightgray}; */
+    background-color: #ffffff;
     border: ${theme.color.lightgray};
     box-shadow: 3px 3px 3px 3px ${theme.color.gray};
   }
@@ -155,7 +165,6 @@ const StyleCalendar = styled.div`
     display: flex;
     justify-content: center;
     align-content: center;
-
     padding-bottom: 30px;
   }
 
@@ -165,7 +174,6 @@ const StyleCalendar = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* border-radius: 20px; */
   }
   .habitImage {
     margin-top: 5px;
@@ -188,6 +196,16 @@ const CalendarTitle = styled.div`
   font-size: 25px;
   font-family: ${theme.font.mango};
 `;
+
+const PostCount = styled.div`
+  background-color: ${theme.color.mangoMain};
+  border-radius: 50%;
+  font-size: 13px;
+`;
+
+const CurrentDate = styled.div`
+  margin-top: 30px;
+`;
 //--------------------------------------------
 // MyPosts
 
@@ -196,9 +214,9 @@ const MySectionWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: 600px;
-  border-top: 1px solid #d9d9d9;
-  margin-bottom: 100px;
+  /* height: 600px; */
+  border: 1px solid #d9d9d9;
+  margin-bottom: 300px;
 `;
 
 const PostsWrapper = styled.div`
@@ -237,35 +255,7 @@ const TextBox = styled.div`
   width: 290px;
   height: 300px;
 `;
-//--------------------------------------------
-// LikesPosts
 
-// const LikesWrapper = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(3, 1fr);
-//   justify-content: center;
-//   align-items: center;
-//   gap: 20px;
-// `;
-
-// const MyLikes = styled.div`
-//   display: grid;
-
-//   flex-direction: column;
-//   justify-content: center;
-// `;
-
-// const LikesPostImg = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   border: 1px solid white;
-//   width: 220px;
-//   height: 170px;
-//   /* margin-top: 20px; */
-// `;
-
-// const LikesPostText = styled.p``;
 export default {
   ProfileEditWrapper,
   MySectionWrapper,
@@ -275,26 +265,17 @@ export default {
   MyEmail,
   Wrapper,
   UserInfo,
-  EditBtn,
   Tabs,
   CalendarTitle,
   TabButtonContainer,
-  CalendarBtn,
-  MyPostsBtn,
-  MyLikesBtn,
   CalendarWrapper,
   StyleCalendar,
   PostsWrapper,
   PostTitle,
   Contents,
   PostsBox,
-  // LikesWrapper,
-  // MyLikes,
-  // LikesPostImg,
-  // LikesPostText,
   profileImg,
   FileInput,
-  FileImgUpload,
   DisplayNameModify,
   UserInfoModify,
   ProfileInfo,
@@ -303,5 +284,6 @@ export default {
   TextBox,
   PostImg,
   ModifyButton,
-  ModifyBox
+  CurrentDate,
+  PostCount
 };

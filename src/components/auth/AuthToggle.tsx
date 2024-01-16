@@ -136,4 +136,5 @@ const AuthButton = styled.button<AuthButtonProps>`
   border-radius: 10px;
   background-color: ${(props) => props.bgColor};
   border: 1px solid ${(props) => props.bdrColor};
+  cursor: pointer;
 `;

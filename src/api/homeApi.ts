@@ -1,16 +1,16 @@
 //게시물 추가
 import {
+  arrayRemove,
+  arrayUnion,
   collection,
+  doc,
   getDoc,
   getDocs,
   limit,
   orderBy,
   query,
-  where,
-  doc,
   updateDoc,
-  arrayUnion,
-  arrayRemove
+  where
 } from '@firebase/firestore';
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
@@ -53,7 +53,6 @@ const getAdminHomeContents = async () => {
     querySnapshot.forEach((doc) => {
       posts.push({ id: doc.id, ...doc.data() });
     });
-    // console.log('망고관리자 데이터가 왔어요.', posts)
     return posts;
   } catch (error) {
     console.log(error);
@@ -75,7 +74,6 @@ const getTopRankingPosts = async () => {
     querySnapshot.forEach((doc) => {
       posts.push({ id: doc.id, ...doc.data() });
     });
-    // console.log('인기 유저게시물 리스트===>', posts);
     return posts;
   } catch (error) {
     console.log(error);
@@ -103,7 +101,7 @@ const downloadImageURL = async (postId: string) => {
   }
 };
 
-// // 좋아요 상태 변경
+// 좋아요 상태 변경
 const updateLikedUsers = async (post: PostType) => {
   const currentUserId = auth.currentUser?.uid;
   try {
@@ -115,7 +113,7 @@ const updateLikedUsers = async (post: PostType) => {
       // post.id 값에 해당하는 post 존재여부 확인
       if (postSnap.exists()) {
         const postData = postSnap.data();
-        let likedUsers: string[] = postData?.likedUsers;
+        let likedUsers: string[] = postData?.likedUsers || [];
         //해당 likedUser 배열에 currentUserId가 있는지 확인
         if (likedUsers.includes(currentUserId)) {
           likedUsers = likedUsers.filter((uid) => uid !== currentUserId);
@@ -142,4 +140,4 @@ const updateLikedUsers = async (post: PostType) => {
   }
 };
 
-export { getAdminHomeContents, getPosts, getTopRankingPosts, downloadImageURL, updateLikedUsers };
+export { downloadImageURL, getAdminHomeContents, getPosts, getTopRankingPosts, updateLikedUsers };
