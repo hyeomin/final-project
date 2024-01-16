@@ -121,11 +121,45 @@ const updateLikedUsers = async (post: PostType) => {
   }
 };
 
+type UsersWithLikeCount = Pick<PostType, 'uid' | 'likeCount'>;
+type likeCountPerUserType = {
+  uid: string;
+  totalLikes: number;
+};
+
 // TOP10 user list
 const getTopRankedUsers = async () => {
   try {
-    const querySnapshot = await getAllUsers();
-    console.log('스냅샷===>', querySnapshot);
+    const postRef = collection(db, 'posts');
+    const querySnapshot = await getDocs(postRef);
+
+    const posts: UsersWithLikeCount[] = [];
+    querySnapshot.forEach((doc) => {
+      const docData = doc.data() as PostType;
+      const post = {
+        uid: docData.uid,
+        likeCount: docData.likeCount
+      };
+      posts.push(post);
+    });
+
+    // 좋아요 합계 계산
+    const likeCountPerUser = posts.reduce<Record<string, number>>((acc, post) => {
+      acc[post.uid!] = (acc[post.uid!] || 0) + post.likeCount!;
+      // if (!acc[post.uid!]) {
+      //   acc[post.uid!] = 0;
+      // }
+      // acc[post.uid!] += post.likeCount!;
+      return acc;
+    }, {});
+
+    // 객체를 배열로 변환
+    const usersWithLikeCounts = Object.entries(likeCountPerUser).map(([uid, totalLikes]) => ({
+      uid,
+      totalLikes
+    }));
+    const topUsers = usersWithLikeCounts.sort((a, b) => b.totalLikes - a.totalLikes).slice(0, 10);
+    // console.log('topUsers===>', topUsers);
   } catch (error) {
     console.log(error);
     return [];

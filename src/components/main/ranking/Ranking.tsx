@@ -12,10 +12,10 @@ import { getTopRankedUsers } from '../../../api/homeApi';
 
 const UserRanking = () => {
   // 유저정보 가져오기(profileImg)
-  // const { data: users } = useQuery({
-  //   queryKey: [QUERY_KEYS.USERPOSTS],
-  //   queryFn: getAllUsers
-  // });
+  const { data: users } = useQuery({
+    queryKey: [QUERY_KEYS.USERPOSTS],
+    queryFn: getAllUsers
+  });
   // console.log('유저 목록===>', users);
 
   const { data: topTenUsers } = useQuery({
