@@ -1,21 +1,21 @@
-import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
 import { db, storage } from '../shared/firebase';
 
-type Props = {
+type AddPostProps = {
   newPost: Omit<PostType, 'id'>;
-  newImageFileList: File[];
+  imageFileforUpload: File[];
 };
 
-const addPost = async ({ newPost, newImageFileList }: Props) => {
+const addPost = async ({ newPost, imageFileforUpload }: AddPostProps) => {
   try {
-    const docRef = await addDoc(collection(db, 'posts'), newPost);
+    const docRef = await addDoc(collection(db, QUERY_KEYS.POSTS), newPost);
     console.log('Document written with ID: ', docRef.id);
     const postId = docRef.id;
 
-    for (const file of newImageFileList) {
-      const imageRef = ref(storage, `posts/${docRef.id}/${file.name}`);
+    for (const file of imageFileforUpload) {
+      const imageRef = ref(storage, `${QUERY_KEYS.POSTS}/${docRef.id}/${file.name}`);
       await uploadBytes(imageRef, file);
     }
     return postId;
@@ -27,9 +27,43 @@ const addPost = async ({ newPost, newImageFileList }: Props) => {
 const deletePost = async (postId: string) => {
   try {
     await deleteDoc(doc(db, QUERY_KEYS.POSTS, postId));
-    console.log('포스트 삭제완료');
+    console.log('포스트 삭제 완료');
   } catch (error) {
-    console.log('포스트 삭제오류', error);
+    console.log('포스트 삭제 오류', error);
+  }
+};
+
+type uploadPostProps = {
+  editingPost: {
+    title: string;
+    content: string;
+    category: string;
+    hashtags: string[] | null;
+    updatedAt: number;
+  };
+  postId: string;
+  imageFileforUpload: File[];
+  imageUrltoDelete: string[];
+};
+
+const updatePost = async ({ editingPost, postId, imageFileforUpload, imageUrltoDelete }: uploadPostProps) => {
+  try {
+    const docRef = await updateDoc(doc(db, `${QUERY_KEYS.POSTS}/${postId}`), editingPost);
+    console.log('포스트 업데이트 성공');
+
+    // 새로운 이미지 업로드
+    for (const file of imageFileforUpload) {
+      const imageRef = ref(storage, `${QUERY_KEYS.POSTS}/${postId}/${file.name}`);
+      await uploadBytes(imageRef, file);
+    }
+
+    // 삭제된 이미지 Storage에서 삭제
+    for (const url of imageUrltoDelete) {
+      const imagehttpsReference = ref(storage, url);
+      await deleteObject(imagehttpsReference);
+    }
+  } catch (error) {
+    console.log('포스트 업데이트 오류', error);
   }
 };
 
@@ -64,4 +98,4 @@ const deleteImage = async (url: string) => {
   }
 };
 
-export { addPost, deleteImage, deletePost, uploadImages };
+export { addPost, deleteImage, deletePost, updatePost, uploadImages };

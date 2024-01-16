@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -15,10 +15,8 @@ export type ImageItem = {
   file?: File;
 };
 
-function ImageUploadTest({ foundPost, isEditing }: IsEditingProps) {
+function ImageUpload({ foundPost, isEditing }: IsEditingProps) {
   const [coverImages, setCoverImages] = useRecoilState(coverImageState);
-
-  const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const {
@@ -43,9 +41,9 @@ function ImageUploadTest({ foundPost, isEditing }: IsEditingProps) {
 
     if (selectedImages) {
       const filesArray = Array.from(selectedImages).map((file) => ({
-        url: URL.createObjectURL(file), // This creates a local URL to preview the file
-        isNew: true, // Marking the file as new
-        file: file // Storing the file object for later use, if needed
+        url: URL.createObjectURL(file),
+        isNew: true,
+        file: file
       }));
       const updatedImageList = [...coverImages, ...filesArray];
       setCoverImages(updatedImageList);
@@ -79,23 +77,21 @@ function ImageUploadTest({ foundPost, isEditing }: IsEditingProps) {
         <span>Maximum file size is 100MB</span>
       </DragNDropContainer>
       <PreviewContainer>
-        <div>
-          {coverImages.map(
-            (image, index) =>
-              !image.isDeleted && ( // Only display images that are not marked as deleted
-                <div key={index}>
-                  <img src={image.url} alt={`Cover ${index}`} />
-                  <button onClick={() => onDeleteImageHandler(index)}>Delete</button>
-                </div>
-              )
-          )}
-        </div>
+        {coverImages.map(
+          (image, index) =>
+            !image.isDeleted && (
+              <SinglePreview key={index}>
+                <img src={image.url} alt={`Cover ${index}`} />
+                <button onClick={() => onDeleteImageHandler(index)}>X</button>
+              </SinglePreview>
+            )
+        )}
       </PreviewContainer>
     </UploadContainer>
   );
 }
 
-export default ImageUploadTest;
+export default ImageUpload;
 
 const UploadContainer = styled.div`
   display: flex;
@@ -142,7 +138,7 @@ const UploadTextBox = styled.div`
 
 const PreviewContainer = styled.section`
   display: flex;
-  column-gap: 20px;
+  column-gap: 40px;
 `;
 
 const SinglePreview = styled.div`
