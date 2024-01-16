@@ -4,14 +4,8 @@ import theme from '../../styles/theme';
 const authWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
-  text-align: center;
-  align-content: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 50px 0;
 `;
 
 const SubTitle = styled.div`
