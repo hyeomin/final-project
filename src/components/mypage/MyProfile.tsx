@@ -12,6 +12,7 @@ import HabitCalendar from './HabitCalendar';
 import LikesPosts from './LikesPosts';
 import MyPosts from './MyPosts';
 import St from './style';
+import defaultImg from '../../assets/defaultImg.jpg';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -22,8 +23,24 @@ function MyProfile() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [previousPhotoURL, setPreviousPhotoURL] = useState<string | null>(null);
   // const [editingTest, setEditingText] = useState('');
 
+  useEffect(() => {
+    setPreviousPhotoURL(auth.currentUser?.photoURL || null);
+  }, []);
+
+  const onCancelEdit = () => {
+    setImage(previousPhotoURL || '');
+    setIsEditing(false);
+    setNewDisPlayName(auth.currentUser?.displayName || '');
+    setPreviewImage(null);
+
+    if (fileRef.current) {
+      fileRef.current.value = '';
+      return;
+    }
+  };
   const onClickTabBtn = (name: string) => {
     setActiveTab(name);
   };
@@ -76,10 +93,11 @@ function MyProfile() {
           await updateDoc(userDocRef, {
             displayName: updateUser?.displayName,
             profileImg: updateUser?.photoURL,
-            uid: updateUser?.uid,
-            role: 'user'
+            uid: updateUser?.uid
+            // role: 'user'
           });
         }
+        console.log('updateUser', updateUser);
         setNewDisPlayName(auth.currentUser?.displayName!);
         setIsEditing(false);
       }
@@ -87,9 +105,9 @@ function MyProfile() {
   };
 
   //div를 클릭해도 input이 클릭되도록 하기
-  // const onClickUpload = () => {
-  //   fileRef.current?.click();
-  // };
+  const onClickUpload = () => {
+    fileRef.current?.click();
+  };
 
   //input을 클릭해서 파일 업로드
   //사진 미리보기
@@ -112,6 +130,18 @@ function MyProfile() {
     }
   };
 
+  const userGrade = posts?.length;
+  let LevelOneGradeEmoji = '🌱';
+  let LevelTwoGradeEmoji = '☘️';
+  let LevelThreeGradeEmoji = '🌳';
+  let ddd = LevelOneGradeEmoji;
+  if (userGrade && userGrade < 2) {
+    ddd = LevelOneGradeEmoji;
+  } else if (userGrade && userGrade < 5) {
+    ddd = LevelTwoGradeEmoji;
+  } else if (userGrade && userGrade >= 5) {
+    ddd = LevelThreeGradeEmoji;
+  }
   // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
   // 폴더/파일
   useEffect(() => {
@@ -128,13 +158,10 @@ function MyProfile() {
     <St.Wrapper>
       <St.ProfileEditWrapper>
         <St.MyImage
-          onClick={() => {
-            fileRef.current?.click();
-          }}
-          src={previewImage || auth.currentUser?.photoURL!}
+          onClick={onClickUpload}
+          src={auth.currentUser?.photoURL === null ? defaultImg : previewImage || auth.currentUser?.photoURL!}
           alt="defaultImg"
         />
-        {/* <St.EmailAndName></St.EmailAndName> */}
         <St.ProfileInfo>
           {isEditing ? (
             <St.DisplayNameModify autoFocus defaultValue={newDisplayName} onChange={onChangeDisplayName} />
@@ -144,38 +171,27 @@ function MyProfile() {
           <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>
           <St.UserPostInfo>
             <span>게시물: {posts?.length}</span>
-            <span>등급: Lv.0</span>
+            <span>등급: {ddd} </span>
           </St.UserPostInfo>
-          <St.UserInfoModify>
-            {/* <St.FileInput style={{ border: '1px solid black' }} type="file" onChange={onChangeUpload} />
-            <St.FileImgUpload onClick={onClickUpload}>업로드</St.FileImgUpload> */}
-            <br />
-            {/* <St.DisplayNameModify type="text" value={newDisplayName} onChange={onChangeDisplayName} /> */}
-            {/* <St.EditBtn onClick={onSubmitModifyProfile}>수정하기</St.EditBtn> */}
-          </St.UserInfoModify>
-          <St.ModifyBox>
-            {isEditing ? (
-              <>
-                <St.FileInput
-                  style={{ border: '1px solid black' }}
-                  type="file"
-                  onChange={onChangeUpload}
-                  accept="image/*"
-                />
-                {/* <St.FileImgUpload onClick={onClickUpload}>업로드</St.FileImgUpload> */}
-                <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
-                <St.ModifyButton
-                  onClick={onSubmitModifyProfile}
-                  disabled={!newDisplayName && image === auth.currentUser?.photoURL}
-                >
-                  수정완료
-                </St.ModifyButton>
-              </>
-            ) : (
-              <CiSettings onClick={() => setIsEditing(true)}>수정</CiSettings>
-            )}
-          </St.ModifyBox>
         </St.ProfileInfo>
+        <St.UserInfoModify>
+          {isEditing ? (
+            <>
+              <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
+              <St.ModifyButton onClick={onCancelEdit}>취소</St.ModifyButton>
+              <St.ModifyButton
+                onClick={onSubmitModifyProfile}
+                disabled={!newDisplayName && image === auth.currentUser?.photoURL}
+              >
+                수정완료
+              </St.ModifyButton>
+            </>
+          ) : (
+            <CiSettings style={{ fontSize: '30px' }} onClick={() => setIsEditing(true)}>
+              수정
+            </CiSettings>
+          )}
+        </St.UserInfoModify>
       </St.ProfileEditWrapper>
       <St.MySectionWrapper>
         <St.TabButtonContainer>
