@@ -9,13 +9,13 @@ import 'swiper/css/pagination';
 import theme from '../../styles/theme';
 import YoutubeTest from './YoutubeTest';
 
-type Section = '이용안내' | '뉴스룸' | '지금 시작하기';
+const HOWTOUSE = '이용안내';
+const NEWSROOM = '뉴스룸';
+const GETSTARTED = '지금 시작하기';
+
+type Section = typeof HOWTOUSE | typeof NEWSROOM | typeof GETSTARTED;
 
 function AboutMain() {
-  const HOWTOUSE = '이용안내';
-  const NEWSROOM = '뉴스룸';
-  const GETSTARTED = '지금 시작하기';
-
   const [openSection, setOpenSection] = useState<Section>(HOWTOUSE);
 
   const onOpenToggleHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -31,9 +31,9 @@ function AboutMain() {
         <h3>ECO LIFESTYLE </h3>
       </Title>
       <NavBar>
-        <button onClick={onOpenToggleHandler}>이용안내</button>
-        <button onClick={onOpenToggleHandler}>뉴스룸</button>
-        <button onClick={onOpenToggleHandler}>지금 시작하기</button>
+        <button onClick={onOpenToggleHandler}>{HOWTOUSE}</button>
+        <button onClick={onOpenToggleHandler}>{NEWSROOM}</button>
+        <button onClick={onOpenToggleHandler}>{GETSTARTED}</button>
       </NavBar>
       {openSection === HOWTOUSE && <HowToUse />}
       {openSection === NEWSROOM && <YoutubeTest />}

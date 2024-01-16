@@ -1,18 +1,7 @@
-import { QueryFunctionContext, QueryKey } from '@tanstack/react-query';
 import { getAuth } from 'firebase/auth';
-import {
-  DocumentData,
-  QueryDocumentSnapshot,
-  collection,
-  getDocs,
-  limit,
-  query,
-  startAfter,
-  where
-} from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
-import { auth, db } from '../shared/firebase';
-import { Posts } from '../types/Posts';
+import { db } from '../shared/firebase';
 
 // 로그인한 유저 uid 일치하는 posts 가져오기
 const getMyPosts = async () => {

@@ -1,23 +1,23 @@
-import React from 'react';
-import usePostsQuery from '../../../query/usePostsQuery';
 import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
-import { QUERY_KEYS } from '../../../query/keys';
-import { getAllUsers } from '../../../api/authApi';
-import { downloadImageURL, getTopRankingPosts } from '../../../api/homeApi';
-import { auth } from '../../../shared/firebase';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import St from './style';
-import defaultCover from '../../../assets/defaultCoverImg.jpeg';
-import defatutUserImage from '../../../assets/defaultImg.jpg';
-import eye from '../../../assets/icons/eye.png';
-import heart from '../../../assets/icons/heart.png';
-import comment from '../../../assets/icons/comment.png';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import '../swiperStyle.css';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
+import { getAllUsers } from '../../../api/authApi';
+import { downloadImageURL, getTopRankingPosts } from '../../../api/homeApi';
+import defaultCover from '../../../assets/defaultCoverImg.jpeg';
+import defatutUserImage from '../../../assets/defaultImg.jpg';
+import comment from '../../../assets/icons/comment.png';
+import eye from '../../../assets/icons/eye.png';
+import heart from '../../../assets/icons/heart.png';
+import { QUERY_KEYS } from '../../../query/keys';
+import usePostsQuery from '../../../query/usePostsQuery';
+import { auth } from '../../../shared/firebase';
+import '../swiperStyle.css';
+import St from './style';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -46,7 +46,7 @@ const UserContents = () => {
       })) || []
   });
 
-  const { updateMutate } = usePostsQuery();
+  const { updateLikeMutate } = usePostsQuery();
 
   // 탑랭킹 로딩
   if (isLoading) {
@@ -62,7 +62,7 @@ const UserContents = () => {
     e.preventDefault();
     if (id) {
       const postToUpdate: PostType = { id };
-      updateMutate(postToUpdate, {
+      updateLikeMutate(postToUpdate, {
         onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEYS.POSTS]

@@ -1,23 +1,19 @@
 import { atom } from 'recoil';
-import { EDIT_INPUT } from './keys';
+import { ImageItem } from '../components/write/ImageUploadTest';
+import { POST } from './keys';
 
-const titleState = atom({
-  key: EDIT_INPUT.TITLE,
-  default: ''
-});
-
-const contentState = atom({
-  key: EDIT_INPUT.CONTENT,
-  default: ''
-});
-
-const categoryState = atom({
-  key: EDIT_INPUT.CATEGORY,
-  default: 'noCategory'
+const postState = atom({
+  key: POST.EDIT_INPUT,
+  default: {
+    title: '',
+    content: '',
+    category: 'noCategory',
+    hashtags: ['']
+  }
 });
 
 const categoryListState = atom({
-  key: EDIT_INPUT.CATEGORY_LIST,
+  key: POST.CATEGORY_LIST,
   default: [
     { id: 0, nameEng: 'noCategory', nameKor: '카테고리 없음', isAdmin: false },
     { id: 1, nameEng: 'recommendation', nameKor: '제품 추천', isAdmin: false },
@@ -29,19 +25,19 @@ const categoryListState = atom({
   ]
 });
 
-const hashtagState = atom<string[]>({
-  key: EDIT_INPUT.HASHTAGS,
+const coverImageState = atom<ImageItem[]>({
+  key: POST.COVER_IMAGE,
   default: []
 });
 
-const coverImageState = atom<File[]>({
-  key: EDIT_INPUT.COVER_IMAGE,
-  default: []
+const isEditingState = atom({
+  key: POST.IS_EDITING,
+  default: false
 });
 
 const foundPostState = atom<PostType | undefined>({
-  key: 'foundPost',
+  key: POST.FOUND_POST,
   default: undefined
 });
 
-export { categoryListState, categoryState, contentState, coverImageState, foundPostState, hashtagState, titleState };
+export { categoryListState, coverImageState, foundPostState, isEditingState, postState };

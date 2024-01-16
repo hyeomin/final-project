@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import React, { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -53,11 +53,10 @@ function Login() {
       console.log('userCredential', userCredential);
 
       // 로그인 성공 시 role의 recoil(전역상태) update
-      const user = userList && userList.find((user) => user.uid === userCredential.user.uid);
+      const user = userList && userList.find((user) => user.uid === auth.currentUser?.uid);
       if (user) {
         setRole(user.role);
       }
-
       // home으로 이동
       navigate('/');
     } catch (error) {

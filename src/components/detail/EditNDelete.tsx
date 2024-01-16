@@ -12,7 +12,9 @@ function EditNDelete({ foundPost }: Props) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const onEditPostHandler = () => {};
+  const onEditPostHandler = () => {
+    navigate('/write', { state: { foundPost: foundPost } });
+  };
 
   const deleteMutation = useMutation({
     mutationFn: deletePost,
