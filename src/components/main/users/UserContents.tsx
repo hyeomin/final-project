@@ -46,7 +46,7 @@ const UserContents = () => {
       })) || []
   });
 
-  const { updateMutate } = usePostsQuery();
+  const { updateLikeMutate } = usePostsQuery();
 
   // 탑랭킹 로딩
   if (isLoading) {
@@ -62,7 +62,7 @@ const UserContents = () => {
     e.preventDefault();
     if (id) {
       const postToUpdate: PostType = { id };
-      updateMutate(postToUpdate, {
+      updateLikeMutate(postToUpdate, {
         onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEYS.POSTS]
