@@ -82,17 +82,35 @@ const CommentList = ({ foundPost }: Props) => {
     });
   };
   //댓글 수정완료
+
   const onClickUpdateButton = (id: string) => {
+    const onClickCancel = () => {
+      modal.close();
+    };
+
+    const onClickSave = () => {
+      updateCommentMutate(
+        { postId: foundPost.id, id, editingText },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.COMMENTS]
+            });
+
+            modal.close();
+            setEditingCommentId(null);
+          }
+        }
+      );
+    };
+
     const openModalParams: Parameters<typeof modal.open>[0] = {
-      title: '테스트 타이틀',
-      message: '테스트 메시지',
-      leftButtonLabel: '왼쪽 버튼',
-      onClickLeftButton: () => alert('왼쪽 버튼 눌렸어요~!'),
-      rightButtonLabel: '오른쪽 버튼',
-      onClickRightButton: () => {
-        alert('오른쪽 버튼 눌렸어요~!');
-        modal.close();
-      }
+      title: '저장하시겠습니까?',
+      message: '',
+      leftButtonLabel: '취소',
+      onClickLeftButton: onClickCancel,
+      rightButtonLabel: '확인',
+      onClickRightButton: onClickSave
     };
     modal.open(openModalParams);
 

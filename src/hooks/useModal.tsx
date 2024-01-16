@@ -10,11 +10,11 @@ type ModalContextValue = {
 
 export type OpenModalParams = {
   title: string;
-  message: string;
-  leftButtonLabel: string;
-  onClickLeftButton: () => void;
-  rightButtonLabel: string;
-  onClickRightButton: () => void;
+  message?: string;
+  leftButtonLabel?: string;
+  onClickLeftButton?: () => void;
+  rightButtonLabel?: string;
+  onClickRightButton?: () => void;
 };
 
 const initialValue: ModalContextValue = {
