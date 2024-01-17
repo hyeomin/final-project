@@ -7,6 +7,7 @@ import { db } from '../shared/firebase';
 const getMyPosts = async () => {
   try {
     const auth = getAuth();
+    console.log('dd', auth.currentUser);
     const q = query(collection(db, QUERY_KEYS.POSTS), where('uid', '==', auth.currentUser?.uid));
     const querySnapshot = await getDocs(q);
     const posts: PostType[] = [];
@@ -17,7 +18,7 @@ const getMyPosts = async () => {
     });
     return posts;
   } catch (error) {
-    console.error('에러입니다');
+    console.error(error, '에러입니다');
   }
 };
 
