@@ -227,7 +227,7 @@ const CommentDetail = styled.div`
     resize: none;
     outline: none;
     height: 100px;
-    border: 1px solid lightgray;
+    border: 1px solid ${theme.color.lightgray};
     border-radius: 5px;
     padding: 10px;
   }
