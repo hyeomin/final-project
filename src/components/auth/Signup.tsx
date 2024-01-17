@@ -88,7 +88,7 @@ function Signup() {
       // 컬렉션에 있는 users 필드 정보 수정
       if (userId) {
         await setDoc(doc(db, 'users', userId), {
-          email: auth.currentUser?.email,
+          userEmail: auth.currentUser?.email,
           displayName: auth.currentUser?.displayName,
           profileImg: auth.currentUser?.photoURL,
           uid: auth.currentUser?.uid,
@@ -97,12 +97,11 @@ function Signup() {
         });
       }
     } catch (error) {
-      console.error(error);
+      setErrorMsg(error);
     }
   };
-  // console.log('errormsg', errorMsg);
 
-  // const checkEmailDuplication = async (email: string): Promise<void> => {
+  // const emailCheck = async (email: string): Promise<void> => {
   //   const auth = getAuth();
   //   const signInMethods = await fetchSignInMethodsForEmail(auth, email);
   //   try {
@@ -121,7 +120,7 @@ function Signup() {
 
   const emailCheck = async (email: string) => {
     const userRef = collection(db, 'users');
-    const q = query(userRef, where('email', '==', email));
+    const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.docs.length > 0) {
