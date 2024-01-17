@@ -126,7 +126,7 @@ function Login() {
           <label htmlFor="email"></label>
           <St.Input
             type="text"
-            placeholder="아이디를 입력하세요."
+            placeholder="Email"
             {...register('email', {
               required: true,
               pattern: emailRegex
@@ -139,7 +139,7 @@ function Login() {
           <label htmlFor="password"></label>
           <St.Input
             type="password"
-            placeholder="비밀번호를 입력하세요."
+            placeholder="Password"
             {...register('password', {
               required: true,
               pattern: passwordRegex
@@ -161,14 +161,14 @@ function Login() {
         {/* <button onClick={logOut}>로그아웃</button> */}
 
         <St.SignUpNavigation>
-          <p style={{ marginBottom: '30px' }}>아직 회원이 아니신가요?</p>
-          <span
+          <p style={{ marginBottom: '15px', fontSize: '15px' }}>아직 회원이 아니신가요?</p>
+          <St.ToggleLoginAndSignUp
             onClick={() => {
               setIsSignUp(true);
             }}
           >
             회원가입 하기
-          </span>
+          </St.ToggleLoginAndSignUp>
         </St.SignUpNavigation>
       </form>
     </St.authWrapper>

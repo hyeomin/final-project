@@ -181,7 +181,7 @@ const StyleCalendar = styled.div`
   }
 
   .react-calendar__tile--active {
-    background-color: ${theme.color.mangoYellow};
+    background-color: ${theme.color.mangoLight};
   }
 
   .react-calendar__navigation button {
