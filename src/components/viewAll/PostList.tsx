@@ -1,17 +1,17 @@
-import St from './style';
 import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { downloadImageURL } from '../../api/homeApi';
-import defaultCover from '../../assets/defaultCoverImg.jpeg';
-import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
-import { SortList } from './ViewAllBody';
+import { useEffect } from 'react';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { Link } from 'react-router-dom';
-import { QUERY_KEYS } from '../../query/keys';
 import { getAllUsers } from '../../api/authApi';
-import defaultImg from '../../assets/defaultImg.jpg';
-import { FaHeart } from 'react-icons/fa';
-import { FaRegComment } from 'react-icons/fa';
+import { downloadImageURL } from '../../api/homeApi';
+import defaultImage from '../../assets/defaultCoverImg.jpeg';
+import defaultProfile from '../../assets/defaultImg.jpg';
+import { QUERY_KEYS } from '../../query/keys';
+import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Loader from '../common/Loader';
+import { SortList } from './ViewAllBody';
+import St from './style';
 interface PostListProps {
   queryKey: QueryKey;
   queryFn: (
@@ -24,7 +24,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const {
     data: posts,
     fetchNextPage,
-    isFetchingNextPage
+    isFetchingNextPage,
+    isLoading
   } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -56,6 +57,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       return sortedPosts;
     }
   });
+
+  useEffect(() => {}, [posts]);
 
   // 이미지URL 불러오기
   const imageQueries = useQueries({
@@ -89,56 +92,73 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   return (
     <St.MainSubWrapper>
       <St.ContentsWrapper>
-        <St.Contents>
-          {posts?.map((post, idx) => {
-            const imageQuery = imageQueries[idx];
-            return (
-              <St.Content key={post.id}>
-                {imageQuery.isLoading ? (
-                  <p>Loading image...</p>
-                ) : (
-                  <Link to={`/detail/${post.id}`}>
-                    <St.ContentImg src={imageQuery.data || defaultCover} alt={post.title} />
-                  </Link>
-                )}
-                <St.commentAndLikes>
-                  <FaRegComment />
-                  <p>{post.commentCount}</p>
-                  <p>
-                    <FaHeart size="15" />
-                  </p>
-                  <p>{post.likeCount}</p>
-                </St.commentAndLikes>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <St.Contents>
+            {posts?.map((post, idx) => {
+              const imageQuery = imageQueries[idx];
+              return (
+                <St.Content key={post.id}>
+                  {imageQuery.isLoading ? (
+                    <p>Loading image...</p>
+                  ) : (
+                    <Link to={`/detail/${post.id}`}>
+                      <St.ContentImg src={imageQuery.data || defaultImage} alt={post.title} />
+                    </Link>
+                  )}
 
-                <St.UserProfile>
                   {userList && userList?.find((user) => user.uid === post.uid) && (
-                    <>
+                    <St.UserProfile>
                       <St.ProfileImg
-                        src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultImg}
+                        src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
                         alt="profile"
                       />
-
-                      <div>{userList.find((user) => user.uid === post.uid)?.displayName}</div>
-                    </>
+                      <St.Row>
+                        <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
+                        <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
+                      </St.Row>
+                    </St.UserProfile>
                   )}
-                </St.UserProfile>
 
-                <St.TitleAndContent>
-                  <p>{post.title}</p>
-                  <div dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }} />
-                </St.TitleAndContent>
-                {/* <St.NeedDelete>
+                  <St.PostInfoContainer>
+                    <St.TitleAndContent>
+                      <p>{post.title}</p>
+                      <div
+                        dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }}
+                      />
+                    </St.TitleAndContent>
+                    {/* <St.NeedDelete>
                   <p>삭제예정/ {post.category}</p>
                   <p>삭제예정/ {post.role}</p>
                 </St.NeedDelete> */}
 
-                <St.Row>
-                  <h3>{getFormattedDate_yymmdd(post.createdAt!)}</h3>
-                </St.Row>
-              </St.Content>
-            );
-          })}
-        </St.Contents>
+                    <St.CommentAndLikes>
+                      <span>
+                        <GoEye />
+                        {post.viewCount}
+                      </span>
+                      <span>
+                        <GoHeart />
+                        {post.likeCount}
+                      </span>
+                      <span>
+                        <GoComment />
+                        {post.commentCount ?? 0}
+                      </span>
+                      {/* <FaRegComment />
+                    <p>{post.commentCount}</p>
+                    <p>
+                      <FaHeart size="15" />
+                    </p>
+                    <p>{post.likeCount}</p> */}
+                    </St.CommentAndLikes>
+                  </St.PostInfoContainer>
+                </St.Content>
+              );
+            })}
+          </St.Contents>
+        )}
       </St.ContentsWrapper>
       <St.MoreContentWrapper>
         {isFetchingNextPage ? <Loader /> : <button onClick={() => fetchNextPage()}>더 보기</button>}

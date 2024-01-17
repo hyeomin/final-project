@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import AuthToggle from '../components/auth/AuthToggle';
 import useOutsideClick from '../hooks/useOutsideClick';
@@ -7,25 +7,27 @@ import theme from '../styles/theme';
 import AuthNavBar from './AuthNavBar';
 
 function NavBar() {
-  const styledNav = ({ isActive }: { isActive: boolean }) => {
-    return { color: isActive ? '#FFA114`' : '' };
-  };
-
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
-  // AuthToggle 밖 누르면 꺼지게 하기
+  // AuthToggle 밖 누르면 꺼지게
   useOutsideClick<HTMLDivElement>(navRef, () => {
     if (isAuthToggleOpen) {
       setIsAuthToggleOpen(false);
     }
   });
 
+  // 선택되면 노란색으로 NavBar 이름 스타일 바뀌게
+  const styledNav = ({ isActive }: { isActive: boolean }) => {
+    return { color: isActive ? '#FFA114' : '' };
+  };
+
   return (
     <NavContainer ref={navRef}>
       <NavBarContainer>
         <LeftNav>
-          <Logo>Mango</Logo>
+          <Logo onClick={() => navigate('/')}>Mango</Logo>
           <NavLink to="/">홈</NavLink>
           <NavLink to="/about" style={styledNav}>
             망고 소개
@@ -66,13 +68,14 @@ const Logo = styled.span`
   font-family: ${theme.font.mango};
   color: ${theme.color.mangoMain};
   font-size: 30px;
+  cursor: pointer;
 `;
 
 const LeftNav = styled.div`
   display: flex;
   align-items: center;
   column-gap: 40px;
-  color: #888888;
   font-size: 16px;
   font-weight: bold;
+  color: ${theme.color.lightgray};
 `;

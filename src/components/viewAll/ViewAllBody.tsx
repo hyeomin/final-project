@@ -6,7 +6,7 @@ import { QUERY_KEYS } from '../../query/keys';
 import PostListAdmin from './PostListAdmin';
 import Loader from '../common/Loader';
 
-export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit';
+export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory';
 export type SortList = 'popularity' | 'latest';
 function ViewAllBody() {
   const [category, setCategory] = useState<Category>('knowHow');
@@ -31,11 +31,13 @@ function ViewAllBody() {
         <PostListAdmin queryKey={[QUERY_KEYS.ADMIN]} queryFn={getAdminPostList('admin')} sortBy={sortBy} />
       </St.MainSubWrapper>
 
+      <St.AdminPostSpace></St.AdminPostSpace>
+
       <St.MainSubWrapper>
         <St.CategoryWrapper>
           <St.ButtonWrapper>
             <St.Button onClick={() => setCategory('knowHow')} selected={category === 'knowHow'}>
-              친환경 노하우
+              노하우 공유
             </St.Button>
             <St.Button onClick={() => setCategory('recommendation')} selected={category === 'recommendation'}>
               제품 추천
@@ -45,6 +47,9 @@ function ViewAllBody() {
             </St.Button>
             <St.Button onClick={() => setCategory('habit')} selected={category === 'habit'}>
               습관 인증
+            </St.Button>
+            <St.Button onClick={() => setCategory('noCategory')} selected={category === 'noCategory'}>
+              기타
             </St.Button>
           </St.ButtonWrapper>
 

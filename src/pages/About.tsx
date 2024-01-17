@@ -5,7 +5,9 @@ import WhyMango from '../components/about/WhyMango';
 function About() {
   return (
     <AboutContainer>
-      <Header>Header Image 요기 사진 들어갈 것</Header>
+      <Header muted autoPlay loop>
+        <source src={process.env.PUBLIC_URL + '/video/about-cover-video.mp4'} type="video/mp4" />
+      </Header>
       <WhyMango />
       <AboutMain />
       <Bottom>
@@ -24,10 +26,10 @@ const AboutContainer = styled.div`
   align-items: center;
 `;
 
-const Header = styled.div`
+const Header = styled.video`
   width: 100vw;
-  height: 400px;
-  background-color: pink;
+  height: 500px;
+  object-fit: cover;
 `;
 
 const Bottom = styled.div`

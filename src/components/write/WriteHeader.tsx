@@ -1,6 +1,7 @@
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { isEditingState } from '../../recoil/posts';
+import theme from '../../styles/theme';
 import SubmitButton, { CustomButton } from './SubmitButton';
 import IsEditingButton from './editPost/EditUploadButton';
 
@@ -23,11 +24,12 @@ const WriteHeader = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${theme.color.lightgray};
   height: 50px;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   column-gap: 10px;
+  font-weight: bold;
 `;

@@ -1,10 +1,4 @@
-import React from 'react';
-import St from './style';
-import { useInfiniteQuery, useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
-import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
-import { getMyPosts } from '../../api/myPostAPI';
-import { QUERY_KEYS } from '../../query/keys';
-import { auth } from '../../shared/firebase';
+import { useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query';
 import {
   DocumentData,
   QueryDocumentSnapshot,
@@ -15,25 +9,46 @@ import {
   startAfter,
   where
 } from 'firebase/firestore';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import { useNavigate } from 'react-router-dom';
 import { db } from '../../../src/shared/firebase';
+import { getAllUsers } from '../../api/authApi';
+import { downloadImageURL, getAdminContents, getUserContents } from '../../api/homeApi';
+import { getMyPosts } from '../../api/myPostAPI';
+import defaultImg from '../../assets/defaultCoverImg.jpeg';
+import { QUERY_KEYS } from '../../query/keys';
+import { auth } from '../../shared/firebase';
+import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
+import Cs from '../viewAll/style';
+import St from './style';
+
 // 내 게시물 가져오기
 const MyPosts = () => {
+  // 게시물 이동을 위해 Ashley 추가
+  const navigate = useNavigate();
+
+  //포스트 작가 정보 가져오기 위해 Ashley 추가
+  const { data: userList } = useQuery({
+    queryKey: [QUERY_KEYS.USERS],
+    queryFn: getAllUsers
+  });
+
   const { data: posts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getMyPosts,
     enabled: !!auth.currentUser
   });
-  // console.log('myPost ===>', posts);
+  console.log('myPost ===>', posts);
 
   const postQueries = useQueries({
     queries: [
       {
         queryKey: ['adminContents'],
-        queryFn: getAdminHomeContents
+        queryFn: getAdminContents
       },
       {
         queryKey: [QUERY_KEYS.USERPOSTS],
-        queryFn: getTopRankingPosts
+        queryFn: getUserContents
       }
     ]
   });
@@ -98,20 +113,51 @@ const MyPosts = () => {
 
   return (
     <St.PostsWrapper>
-      <St.PostsBox>
-        {posts?.map((item, idx) => {
+      <Cs.Contents>
+        {posts?.map((post, idx) => {
           const imageQuery = imageQueries[idx];
-          if (item.uid === auth.currentUser?.uid) {
+          if (post.uid === auth.currentUser?.uid) {
             return (
-              <St.TextBox>
-                <St.PostImg src={imageQuery.data!} />
-                <div>{item.title}</div>
-                <St.Contents dangerouslySetInnerHTML={{ __html: removeImageTags(item?.content || '') }} />
-              </St.TextBox>
+              <Cs.Content onClick={() => navigate(`/detail/${post.id}`)}>
+                <Cs.ContentImg src={imageQuery.data!} />
+                <Cs.UserProfile>
+                  <Cs.ProfileImg src={auth.currentUser?.photoURL ?? defaultImg} alt="profile" />
+                  <Cs.Row>
+                    <p>{userList?.find((user) => user.uid === post.uid)?.displayName}</p>
+                    <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
+                  </Cs.Row>
+                </Cs.UserProfile>
+                <Cs.PostInfoContainer>
+                  <Cs.TitleAndContent>
+                    <p>{post.title}</p>
+                    {/* <div
+                      dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }}
+                    /> */}
+                  </Cs.TitleAndContent>
+                  <Cs.CommentAndLikes>
+                    <span>
+                      <GoEye />
+                      {post.viewCount}
+                    </span>
+                    <span>
+                      <GoHeart />
+                      {post.likeCount}
+                    </span>
+                    <span>
+                      <GoComment />
+                      {post.commentCount ?? 0}
+                    </span>
+                  </Cs.CommentAndLikes>
+                </Cs.PostInfoContainer>
+                {/* <St.TextBox>
+                  <div>{post.title}</div>
+                  <St.Contents dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} />
+                </St.TextBox> */}
+              </Cs.Content>
             );
           }
         })}
-      </St.PostsBox>
+      </Cs.Contents>
       <button onClick={fetchMore} style={{ width: '100px', height: '50px;' }}>
         more
       </button>

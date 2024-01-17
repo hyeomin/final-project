@@ -13,10 +13,11 @@ function SelectCategory() {
   const role = useRecoilValue(roleState);
   const categoryList = useRecoilValue(categoryListState);
 
+  // 수정 중인 경우 원래 포스트의 카테고리로 보여지게
   useEffect(() => {
     if (isEditing && foundPost?.category) {
       const preSelectedCategory = categoryList.find((category) => category.nameEng === foundPost.category);
-      setDisplayCategory(preSelectedCategory?.nameKor ?? '');
+      setDisplayCategory(preSelectedCategory?.nameKor ?? 'aaa');
     }
   }, [foundPost, isEditing]);
 
@@ -37,13 +38,19 @@ function SelectCategory() {
     setPost({ ...post, category: selectedName ? selectedName.nameEng : categoryList[0].nameEng });
   };
 
+  console.log('categoryList-->', categoryList);
+
   return (
     <Select value={displayCategory} onChange={onChangeSelectHandler}>
       <option value="" disabled hidden>
         카테고리를 선택하세요
       </option>
-      {filteredCategoryList.map((item) => {
-        return <option key={item.id}>{item.nameKor}</option>;
+      {filteredCategoryList.map((item, idx) => {
+        return (
+          <option key={idx} value={item.nameEng}>
+            {item.nameKor}
+          </option>
+        );
       })}
     </Select>
   );

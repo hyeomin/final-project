@@ -4,15 +4,15 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
-import { GoCalendar, GoHeart, GoTasklist } from 'react-icons/go';
+import { GoCalendar, GoHeart, GoPencil, GoTasklist } from 'react-icons/go';
 import { getMyPosts } from '../../api/myPostAPI';
+import defaultImg from '../../assets/defaultImg.jpg';
 import { QUERY_KEYS } from '../../query/keys';
 import { auth, db, storage } from '../../shared/firebase';
 import HabitCalendar from './HabitCalendar';
 import LikesPosts from './LikesPosts';
 import MyPosts from './MyPosts';
 import St from './style';
-import defaultImg from '../../assets/defaultImg.jpg';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -55,7 +55,9 @@ function MyProfile() {
   const { data: posts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getMyPosts
+    // enabled: !!auth.currentUser
   });
+  console.log('myPost ===>', posts);
 
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
@@ -129,8 +131,10 @@ function MyProfile() {
       setImageUpload(uploadedFile);
     }
   };
-
+  //-------------여기 수정!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //왜 좋아요 게시물 수도 뜨는거냐
   const userGrade = posts?.length;
+  console.log('하우매니', posts?.length);
   let LevelOneGradeEmoji = '🌱';
   let LevelTwoGradeEmoji = '☘️';
   let LevelThreeGradeEmoji = '🌳';
@@ -157,11 +161,17 @@ function MyProfile() {
   return (
     <St.Wrapper>
       <St.ProfileEditWrapper>
-        <St.MyImage
-          onClick={onClickUpload}
-          src={auth.currentUser?.photoURL === null ? defaultImg : previewImage || auth.currentUser?.photoURL!}
-          alt="defaultImg"
-        />
+        <St.ProfileImageContainer>
+          {isEditing && (
+            <St.PenWrapper onClick={onClickUpload}>
+              <GoPencil />
+            </St.PenWrapper>
+          )}
+          <St.MyImage
+            src={auth.currentUser?.photoURL === null ? defaultImg : previewImage || auth.currentUser?.photoURL!}
+            alt="defaultImg"
+          />
+        </St.ProfileImageContainer>
         <St.ProfileInfo>
           {isEditing ? (
             <St.DisplayNameModify autoFocus defaultValue={newDisplayName} onChange={onChangeDisplayName} />

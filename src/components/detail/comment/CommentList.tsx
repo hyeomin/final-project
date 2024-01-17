@@ -3,17 +3,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { getComments } from '../../../api/commentApi';
 import defaultUserProfile from '../../../assets/defaultImg.jpg';
+import { FoundPostProps } from '../../../pages/Detail';
 import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
+import MangoLogo from '../../../assets/mangoLogo.png';
 
-type Props = {
-  foundPost: PostType;
-};
-
-const CommentList = ({ foundPost }: Props) => {
+const CommentList = ({ foundPost }: FoundPostProps) => {
   const queryClient = useQueryClient();
   const postId = foundPost?.id;
 
@@ -80,7 +78,10 @@ const CommentList = ({ foundPost }: Props) => {
   return (
     <CommentListContainer>
       {comments?.length === 0 ? (
-        <CommenPlaceHolder>아직 댓글이 없습니다. 첫 번째로 댓글을 남겨보세요!</CommenPlaceHolder>
+        <CommenPlaceHolder>
+          <img src={MangoLogo} alt="Mango logo" />
+          &nbsp;아직 댓글이 없습니다. 첫 번째로 댓글을 남겨보세요!
+        </CommenPlaceHolder>
       ) : (
         comments?.map((comment) => {
           return (
@@ -130,7 +131,7 @@ const CommentListContainer = styled.div`
 `;
 const CommenPlaceHolder = styled.div`
   width: 100%;
-  height: 80px;
+  height: 100px;
   /* background-color: red; */
   display: flex;
   align-items: center;
@@ -164,6 +165,7 @@ const CommentDetail = styled.div`
   & textarea {
     resize: none;
     outline: none;
+    height: 100px;
   }
 `;
 

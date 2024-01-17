@@ -2,7 +2,7 @@ import { ClipLoader } from 'react-spinners';
 import styled from 'styled-components';
 
 export default function Loader() {
-  return <Container>{<ClipLoader color="red" size={80} />}</Container>;
+  return <Container>{<ClipLoader color="#FFA114" size={80} />}</Container>;
 }
 const Container = styled.div`
   position: fixed;

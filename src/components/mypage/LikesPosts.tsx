@@ -6,23 +6,23 @@ import { getLikePosts } from '../../api/myPostAPI';
 import { auth } from '../../shared/firebase';
 import { Link } from 'react-router-dom';
 
-import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import { downloadImageURL, getAdminContents, getUserContents } from '../../api/homeApi';
 const LikesPosts = () => {
-  const { data: posts } = useQuery({
+  const { data: likePosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getLikePosts
   });
-  // console.log('이거이거이거 ===>', posts);
+  console.log('이거이거이거 ===>', likePosts);
 
   const postQueries = useQueries({
     queries: [
       {
         queryKey: ['adminContents'],
-        queryFn: getAdminHomeContents
+        queryFn: getAdminContents
       },
       {
         queryKey: [QUERY_KEYS.USERPOSTS],
-        queryFn: getTopRankingPosts
+        queryFn: getUserContents
       }
     ]
   });
@@ -34,7 +34,7 @@ const LikesPosts = () => {
   // 이미지URL 불러오기
   const imageQueries = useQueries({
     queries:
-      posts?.map((post) => ({
+      likePosts?.map((post) => ({
         queryKey: ['imageURL', post.id],
         queryFn: () => downloadImageURL(post.id as string)
       })) || []
@@ -47,7 +47,7 @@ const LikesPosts = () => {
   return (
     <St.PostsWrapper>
       <St.PostsBox>
-        {posts?.map((item, idx) => {
+        {likePosts?.map((item, idx) => {
           const imageQuery = imageQueries[idx];
           return (
             <Link to={`/detail/${item.id}`}>

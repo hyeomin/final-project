@@ -15,6 +15,7 @@ import {
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
 import { auth, db, storage } from '../shared/firebase';
+import { getAllUsers } from './authApi';
 
 type Ref = {
   folder: string;
@@ -39,7 +40,7 @@ const getPosts = async () => {
 };
 
 //created by Mango posts 가져오기
-const getAdminHomeContents = async () => {
+const getAdminContents = async () => {
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -61,7 +62,7 @@ const getAdminHomeContents = async () => {
 };
 
 // //created by Mango posts 가져오기
-const getTopRankingPosts = async () => {
+const getUserContents = async () => {
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -78,26 +79,6 @@ const getTopRankingPosts = async () => {
   } catch (error) {
     console.log(error);
     return [];
-  }
-};
-
-//이미지 가져오기
-const downloadImageURL = async (postId: string) => {
-  try {
-    const listRef = ref(storage, `posts/${postId}`);
-    const res = await listAll(listRef);
-
-    if (res.items.length > 0) {
-      const firstFileRef = res.items[0];
-      const url = await getDownloadURL(firstFileRef);
-      return url;
-    } else {
-      // console.log('No files found in the directory');
-      return '';
-    }
-  } catch (error) {
-    console.error('Error getting files: ', error);
-    return null;
   }
 };
 
@@ -140,4 +121,72 @@ const updateLikedUsers = async (post: PostType) => {
   }
 };
 
-export { downloadImageURL, getAdminHomeContents, getPosts, getTopRankingPosts, updateLikedUsers };
+type UsersWithLikeCount = Pick<PostType, 'uid' | 'likeCount'>;
+type likeCountPerUserType = {
+  uid: string;
+  totalLikes: number;
+};
+
+// TOP10 user list
+const getTopUsers = async () => {
+  try {
+    const postRef = collection(db, 'posts');
+    const querySnapshot = await getDocs(postRef);
+
+    const posts: UsersWithLikeCount[] = [];
+    querySnapshot.forEach((doc) => {
+      const docData = doc.data() as PostType;
+      const post = {
+        uid: docData.uid,
+        likeCount: docData.likeCount
+      };
+      posts.push(post);
+    });
+
+    // 좋아요 합계 계산
+    const likeCountPerUser = posts.reduce<Record<string, number>>((acc, post) => {
+      if (!acc[post.uid!]) {
+        acc[post.uid!] = 0;
+      }
+      acc[post.uid!] += post.likeCount!;
+      return acc;
+    }, {});
+    // console.log('likeCountPerUser===>', likeCountPerUser);
+
+    // 객체를 배열로 변환
+    const usersWithLikeCounts = Object.entries(likeCountPerUser).map(([uid, totalLikes]) => ({
+      uid,
+      totalLikes
+    }));
+    const topUsers: likeCountPerUserType[] = usersWithLikeCounts
+      .sort((a, b) => b.totalLikes - a.totalLikes)
+      .slice(0, 10);
+    // console.log('topUsers===>', topUsers);
+    return topUsers;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+//이미지 가져오기
+const downloadImageURL = async (postId: string) => {
+  try {
+    const listRef = ref(storage, `posts/${postId}`);
+    const res = await listAll(listRef);
+
+    if (res.items.length > 0) {
+      const firstFileRef = res.items[0];
+      const url = await getDownloadURL(firstFileRef);
+      return url;
+    } else {
+      // console.log('No files found in the directory');
+      return '';
+    }
+  } catch (error) {
+    console.error('Error getting files: ', error);
+    return null;
+  }
+};
+
+export { getAdminContents, getPosts, getUserContents, updateLikedUsers, getTopUsers, downloadImageURL };

@@ -1,20 +1,19 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { FoundPostProps } from '../../../pages/Detail';
 import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
 
-type Props = {
-  foundPost: PostType;
-};
-
-const AddCommentForm = ({ foundPost }: Props) => {
+const AddCommentForm = ({ foundPost }: FoundPostProps) => {
   const queryClient = useQueryClient();
   const currentUser = auth.currentUser;
 
   const [content, setContent] = useState('');
+  const navigate = useNavigate();
 
   const { addCommentMutate } = useCommentQuery();
   // 이벤트 핸들러
@@ -50,10 +49,24 @@ const AddCommentForm = ({ foundPost }: Props) => {
     alert('등록되었습니다.');
   };
 
+  // 로그인 여부 확인
+  const onAuthCheckHandler = () => {
+    if (!currentUser) {
+      const confirmation = window.confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?');
+      if (confirmation) navigate('/auth');
+    }
+  };
+
   return (
     <CommentSubmitForm onSubmit={onSubmitNewComment}>
-      <input value={content} onChange={onChangeContent} type="text" placeholder="댓글을 입력하세요." />
-      <button type="submit">등록하기</button>
+      <input
+        value={content}
+        onChange={onChangeContent}
+        onClick={onAuthCheckHandler}
+        type="text"
+        placeholder="댓글을 입력하세요."
+      />
+      <SubmitButton type="submit">등록하기</SubmitButton>
     </CommentSubmitForm>
   );
 };
@@ -75,18 +88,18 @@ const CommentSubmitForm = styled.form`
     font-size: 16px;
     padding: 0 20px;
   }
+`;
 
-  & button {
-    color: white;
-    border: 1px solid #888;
-    border-radius: 10px;
-    background-color: ${theme.color.mangoMain};
-    font-size: 16px;
-    font-weight: bold;
-    width: 100px;
-    &:hover {
-      background-color: #df8d11;
-      cursor: pointer;
-    }
+const SubmitButton = styled.button`
+  color: white;
+  border: 1px solid #888;
+  border: none;
+  border-radius: 10px;
+  background-color: ${theme.color.mangoMain};
+  font-size: 16px;
+  font-weight: bold;
+  width: 100px;
+  &:hover {
+    background-color: #df8d11;
   }
 `;
