@@ -40,7 +40,7 @@ const getPosts = async () => {
 };
 
 //created by Mango posts 가져오기
-const getAdminHomeContents = async () => {
+const getAdminContents = async () => {
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -62,7 +62,7 @@ const getAdminHomeContents = async () => {
 };
 
 // //created by Mango posts 가져오기
-const getTopRankingPosts = async () => {
+const getUserContents = async () => {
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -189,4 +189,4 @@ const downloadImageURL = async (postId: string) => {
   }
 };
 
-export { getAdminHomeContents, getPosts, getTopRankingPosts, updateLikedUsers, getTopUsers, downloadImageURL };
+export { getAdminContents, getPosts, getUserContents, updateLikedUsers, getTopUsers, downloadImageURL };

@@ -7,7 +7,7 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
 import { getAllUsers } from '../../../api/authApi';
-import { downloadImageURL, getTopRankingPosts } from '../../../api/homeApi';
+import { downloadImageURL, getUserContents } from '../../../api/homeApi';
 import defaultCover from '../../../assets/defaultCoverImg.jpeg';
 import defatutUserImage from '../../../assets/defaultImg.jpg';
 import comment from '../../../assets/icons/comment.png';
@@ -29,7 +29,7 @@ const UserContents = () => {
   // 유저 컨텐츠(인기순, 8개)
   const { data: userContents, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getTopRankingPosts
+    queryFn: getUserContents
   });
   // console.log('userContents===>', userContents);
 

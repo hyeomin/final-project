@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../../query/keys';
-import { downloadImageURL, getAdminHomeContents } from '../../../api/homeApi';
+import { downloadImageURL, getAdminContents } from '../../../api/homeApi';
 import defaultCover from '../../../assets/defaultCoverImg.jpeg';
 import St from './style';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -13,7 +13,7 @@ import 'swiper/css/pagination';
 const AdminContents = () => {
   const { data: adminContents, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.ADMINPOSTS],
-    queryFn: getAdminHomeContents
+    queryFn: getAdminContents
   });
   // console.log('adminContents===>', adminContents);
 
