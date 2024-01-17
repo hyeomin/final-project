@@ -55,7 +55,9 @@ function MyProfile() {
   const { data: posts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getMyPosts
+    // enabled: !!auth.currentUser
   });
+  console.log('myPost ===>', posts);
 
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
@@ -129,8 +131,10 @@ function MyProfile() {
       setImageUpload(uploadedFile);
     }
   };
-
+  //-------------여기 수정!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  //왜 좋아요 게시물 수도 뜨는거냐
   const userGrade = posts?.length;
+  console.log('하우매니', posts?.length);
   let LevelOneGradeEmoji = '🌱';
   let LevelTwoGradeEmoji = '☘️';
   let LevelThreeGradeEmoji = '🌳';
