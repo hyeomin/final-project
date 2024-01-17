@@ -6,8 +6,10 @@ import { updatePost } from '../../../api/postApi';
 import { QUERY_KEYS } from '../../../query/keys';
 import { coverImageState, foundPostState, postState } from '../../../recoil/posts';
 import { CustomButton } from '../SubmitButton';
+import { useModal } from '../../../hooks/useModal';
 
 function EditUploadButton() {
+  const modal = useModal();
   const [post, setPost] = useRecoilState(postState);
   const { title } = post;
 
@@ -48,25 +50,72 @@ function EditUploadButton() {
     }
 
     if (title.length === 0) {
-      window.alert('제목 입력은 필수입니다.');
-      return;
+      const onClickSave = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '제목 입력은 필수입니다.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
     } else {
-      const confirmation = window.confirm('수정하시겠습니까?');
-      if (!confirmation) return;
+      const onClickCancel = () => {
+        modal.close();
+      };
+
+      const onClickSave = () => {
+        const newImages = coverImages
+          .filter((image) => image.isNew && image.file && !image.isDeleted)
+          .map((image) => image.file) as File[];
+        setImageFileforUpload(newImages);
+
+        // 기존 업로드 되어 이미지 중 삭제된 것 정리
+        const imageUrltoDelete = coverImages
+          .filter((image) => !image.isNew && !image.file && image.isDeleted)
+          .map((image) => image.url) as string[];
+        setImageUrltoDelete(imageUrltoDelete);
+
+        updatePostMutation.mutate();
+
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '수정 하시겠습니까?',
+        message: '',
+        leftButtonLabel: '취소',
+        onClickLeftButton: onClickCancel,
+        rightButtonLabel: '수정',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
     }
+
+    // if (title.length === 0) {
+    //   window.alert('제목 입력은 필수입니다.');
+    //   return;
+    // } else {
+    //   const confirmation = window.confirm('수정하시겠습니까?');
+    //   if (!confirmation) return;
+    // }
     // 새로운 이미지 업데이트
-    const newImages = coverImages
-      .filter((image) => image.isNew && image.file && !image.isDeleted)
-      .map((image) => image.file) as File[];
-    setImageFileforUpload(newImages);
+    // const newImages = coverImages
+    //   .filter((image) => image.isNew && image.file && !image.isDeleted)
+    //   .map((image) => image.file) as File[];
+    // setImageFileforUpload(newImages);
 
-    // 기존 업로드 되어 이미지 중 삭제된 것 정리
-    const imageUrltoDelete = coverImages
-      .filter((image) => !image.isNew && !image.file && image.isDeleted)
-      .map((image) => image.url) as string[];
-    setImageUrltoDelete(imageUrltoDelete);
+    // // 기존 업로드 되어 이미지 중 삭제된 것 정리
+    // const imageUrltoDelete = coverImages
+    //   .filter((image) => !image.isNew && !image.file && image.isDeleted)
+    //   .map((image) => image.url) as string[];
+    // setImageUrltoDelete(imageUrltoDelete);
 
-    updatePostMutation.mutate();
+    // updatePostMutation.mutate();
   };
 
   return (

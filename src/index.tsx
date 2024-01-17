@@ -6,6 +6,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyle from './styles/GlobalStyles';
 import AuthContextProvider from './context/AuthContext';
+import { ModalProvider } from './hooks/useModal';
 
 const queryClient = new QueryClient();
 
@@ -14,7 +15,9 @@ root.render(
   <QueryClientProvider client={queryClient}>
     <RecoilRoot>
       <AuthContextProvider>
-        <App />
+        <ModalProvider>
+          <App />
+        </ModalProvider>
         <GlobalStyle />
       </AuthContextProvider>
     </RecoilRoot>
