@@ -6,8 +6,10 @@ import { deletePost } from '../../api/postApi';
 import editNdeleteToggleBox from '../../assets/editndeletetoggle.png';
 import { FoundPostProps } from '../../pages/Detail';
 import { QUERY_KEYS } from '../../query/keys';
+import { useModal } from '../../hooks/useModal';
 
 function EditNDeleteToggle({ foundPost }: FoundPostProps) {
+  const modal = useModal();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -24,11 +26,30 @@ function EditNDeleteToggle({ foundPost }: FoundPostProps) {
   });
 
   const onDeletePostHandler = () => {
-    const confirm = window.confirm('삭제하시겠습니까?');
-    if (!confirm) return;
-    if (foundPost) {
+    const onClickCancel = () => {
+      modal.close();
+    };
+
+    const onClickSave = () => {
       deleteMutation.mutate(foundPost.id);
-    }
+      modal.close();
+    };
+
+    const openModalParams: Parameters<typeof modal.open>[0] = {
+      title: '삭제하시겠습니까?',
+      message: '',
+      leftButtonLabel: '취소',
+      onClickLeftButton: onClickCancel,
+      rightButtonLabel: '확인',
+      onClickRightButton: onClickSave
+    };
+    modal.open(openModalParams);
+
+    // const confirm = window.confirm('삭제하시겠습니까?');
+    // if (!confirm) return;
+    // if (foundPost) {
+    //   deleteMutation.mutate(foundPost.id);
+    // }
   };
 
   return (

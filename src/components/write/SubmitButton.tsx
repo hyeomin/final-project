@@ -103,6 +103,10 @@ function SubmitButton() {
     //   const confirmation = window.confirm('등록하시겠습니까?');
     //   if (!confirmation) return;
     // }
+    // const newImages = coverImageList.filter((image) => image.isNew && image.file).map((image) => image.file) as File[];
+    // setNewImageFileList(newImages);
+
+    // addMutation.mutate();
   };
 
   return (
