@@ -6,7 +6,7 @@ import { getLikePosts } from '../../api/myPostAPI';
 import { auth } from '../../shared/firebase';
 import { Link } from 'react-router-dom';
 
-import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import { downloadImageURL, getAdminContents, getUserContents } from '../../api/homeApi';
 const LikesPosts = () => {
   const { data: likePosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
@@ -18,11 +18,11 @@ const LikesPosts = () => {
     queries: [
       {
         queryKey: ['adminContents'],
-        queryFn: getAdminHomeContents
+        queryFn: getAdminContents
       },
       {
         queryKey: [QUERY_KEYS.USERPOSTS],
-        queryFn: getTopRankingPosts
+        queryFn: getUserContents
       }
     ]
   });
