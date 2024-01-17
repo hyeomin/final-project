@@ -3,8 +3,8 @@ const color = {
   mangoLight: '#FDF3C0',
   mangoYellow: '#FFCB30',
   mangoNavy: '#01376B',
-  gray: '#888888',
-  lightgray: '#888',
+  gray: '#888',
+  lightgray: '#dedede',
   containerBorder: '#999'
 };
 

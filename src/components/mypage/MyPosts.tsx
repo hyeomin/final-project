@@ -120,19 +120,19 @@ const MyPosts = () => {
             return (
               <Cs.Content onClick={() => navigate(`/detail/${post.id}`)}>
                 <Cs.ContentImg src={imageQuery.data || defaultCover} />
-                <Cs.UserProfile>
-                  <div>
-                    <Cs.ProfileImg src={auth.currentUser?.photoURL || defaultProfile} alt="profile" />
-                    <Cs.Row>
-                      <p>{userList?.find((user) => user.uid === post.uid)?.displayName}</p>
-                      <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
-                    </Cs.Row>
-                  </div>
-                  <Cs.HeartClickButton>
-                    <GoHeart />
-                  </Cs.HeartClickButton>
-                </Cs.UserProfile>
                 <Cs.PostInfoContainer>
+                  <Cs.UserProfile>
+                    <div>
+                      <Cs.ProfileImg src={auth.currentUser?.photoURL || defaultProfile} alt="profile" />
+                      <Cs.Row>
+                        <p>{userList?.find((user) => user.uid === post.uid)?.displayName}</p>
+                        <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
+                      </Cs.Row>
+                    </div>
+                    <Cs.HeartClickButton>
+                      <GoHeart />
+                    </Cs.HeartClickButton>
+                  </Cs.UserProfile>
                   <Cs.TitleAndContent>
                     <p>{post.title}</p>
                     {/* <div
