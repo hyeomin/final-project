@@ -26,6 +26,7 @@ const HabitCalendar = ({ date }: any) => {
     queryFn: getMyPosts
   });
   const createdAtList = data ? data.map((data) => getFormattedDateCustom(data.createdAt!)) : [];
+  console.log('data', data);
   const dayList: string[] = [
     //테스트용
     '2023. 12. 12.',

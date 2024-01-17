@@ -23,7 +23,7 @@ const MyPosts = () => {
     queryFn: getMyPosts,
     enabled: !!auth.currentUser
   });
-  // console.log('myPost ===>', posts);
+  console.log('myPost ===>', posts);
 
   const postQueries = useQueries({
     queries: [
