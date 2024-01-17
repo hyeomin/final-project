@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import defaultImg from '../assets/defaultImg.jpg';
 import { isSignUpState, roleState } from '../recoil/users';
 import { auth } from '../shared/firebase';
+import { useModal } from '../hooks/useModal';
 
 type Props = {
   styledNav: ({ isActive }: { isActive: boolean }) => {
@@ -14,6 +15,7 @@ type Props = {
 };
 
 function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
+  const modal = useModal();
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
 
@@ -24,10 +26,30 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     if (!auth.currentUser) {
-      const confirmation = window.confirm('로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?');
-      if (confirmation) {
+      const onClickCancel = () => {
+        modal.close();
+        return;
+      };
+
+      const onClickSave = () => {
+        modal.close();
         navigate('/auth');
-      } else return;
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '로그인이 필요합니다.',
+        message: '로그인 창으로 이동하시겠습니까?',
+        leftButtonLabel: '취소',
+        onClickLeftButton: onClickCancel,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+
+      //const confirmation = window.confirm('로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?');
+      // if (confirmation) {
+      //   navigate('/auth');
+      // } else return;
     } else navigate('/write');
   };
 

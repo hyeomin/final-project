@@ -9,12 +9,14 @@ import { coverImageState, postState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import theme from '../../styles/theme';
+import { useModal } from '../../hooks/useModal';
 
 interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'save' | 'done';
 }
 
 function SubmitButton() {
+  const modal = useModal();
   const [post, setPost] = useRecoilState(postState);
   const { title } = post;
 
@@ -55,17 +57,52 @@ function SubmitButton() {
 
   const onSubmitPostHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (title.length === 0) {
-      window.alert('제목 입력은 필수입니다.');
-      return;
-    } else {
-      const confirmation = window.confirm('등록하시겠습니까?');
-      if (!confirmation) return;
-    }
-    const newImages = coverImageList.filter((image) => image.file).map((image) => image.file) as File[];
-    setImageFileforUpload(newImages);
 
-    addMutation.mutate();
+    if (title.length === 0) {
+      const onClickSave = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '제목 입력은 필수입니다.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    } else {
+      const onClickCancel = () => {
+        modal.close();
+      };
+
+      const onClickSave = () => {
+        const newImages = coverImageList.filter((image) => image.file).map((image) => image.file) as File[];
+        setImageFileforUpload(newImages);
+
+        addMutation.mutate();
+
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '등록하시겠습니까?',
+        message: '',
+        leftButtonLabel: '취소',
+        onClickLeftButton: onClickCancel,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    }
+    // if (title.length === 0) {
+    //   window.alert('제목 입력은 필수입니다.');
+    //   return;
+    // } else {
+    //   const confirmation = window.confirm('등록하시겠습니까?');
+    //   if (!confirmation) return;
+    // }
   };
 
   return (
