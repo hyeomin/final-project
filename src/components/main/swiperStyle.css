@@ -42,8 +42,8 @@
 
 .custom-swiper .swiper-button-next,
 .custom-swiper .swiper-button-prev {
-  width: 30px; /*  피그마 이미지 깨끗하지 않아서 사용하지 않음 */
-  height: 30px; /* 버튼 호버효과를 사용할때도 이미지 쓰지 않는게 나음*/
+  width: 40px; /*  피그마 이미지 깨끗하지 않아서 사용하지 않음 */
+  height: 40px; /* 버튼 호버효과를 사용할때도 이미지 쓰지 않는게 나음*/
   border-radius: 50%;
   top: 340px; /* bottom이 안먹음 */
   border: none;
@@ -58,13 +58,13 @@
 /* 네비게이션 버튼 스타일 */
 .custom-swiper .swiper-button-next {
   color: white;
-  left: 330px;
+  left: 345px; /* 자세히보기 left: 215px  + width: 170px  - 스와이퍼 버튼 width: 40px */
 }
 
 .custom-swiper .swiper-button-prev {
   color: white;
   border-radius: 50%;
-  left: 240px;
+  left: 215px; /*자세히보기 버튼의 위치 => left: 215  */
 
   /* font-size: 15px; */
 }
@@ -80,9 +80,9 @@
   justify-content: center;
   /* background-color: red; */
   position: absolute;
-  width: 60px;
+  width: 50px;
   bottom: 109px;
-  left: 270px;
+  left: 275px;
   display: flex;
   justify-self: start;
   color: #fff;

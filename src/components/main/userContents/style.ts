@@ -93,9 +93,6 @@ const TextAndLikeButton = styled.div`
   padding: 25px 20px;
 `;
 
-//커버이미지
-const CoverImg = styled.img``;
-
 const InfoTop = styled.div`
   display: flex;
   align-items: center;
@@ -229,6 +226,5 @@ export default {
   InfoBottom,
   BottomText,
   Count,
-  TopTenContainer,
-  CoverImg
+  TopTenContainer
 };

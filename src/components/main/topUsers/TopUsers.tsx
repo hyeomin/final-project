@@ -25,7 +25,7 @@ const TopUsers = () => {
     <Container>
       <Title>
         <h1>TOP 10</h1>
-        <h3>친환경 습관 만렙! 상위 랭킹 유저들의 노하우를 살펴보세요!</h3>
+        <h3>망고의 에코라이프 인플루언서들을 확인하세요!</h3>
       </Title>
       <UserList>
         {topUsers?.map((user, idx) => {
@@ -33,11 +33,13 @@ const TopUsers = () => {
             <UserCard key={idx}>
               <ImagegeWrapper>
                 <img src={users?.find((u) => u.uid === user.uid)?.profileImg || defaultImage} alt="profile" />
+              </ImagegeWrapper>
+              <UserName>
                 {idx === 0 && <img src={firstPlace} alt="firstPlace" />}
                 {idx === 1 && <img src={secondPlace} alt="secondPlace" />}
                 {idx === 2 && <img src={thirdPlace} alt="thirdPlace" />}
-              </ImagegeWrapper>
-              <p>{users?.find((u) => u.uid === user.uid)?.displayName}</p>
+                <p>{users?.find((u) => u.uid === user.uid)?.displayName}</p>
+              </UserName>
             </UserCard>
           );
         })}
@@ -54,7 +56,7 @@ const Container = styled.section`
   justify-content: center;
   align-items: center;
   gap: 40px;
-  margin-bottom: 333px;
+  margin: 40px 0 150px 0; // 333 -> 150
   & h1 {
     color: #000;
     font-size: 28px;
@@ -63,6 +65,7 @@ const Container = styled.section`
   & h3 {
     color: #ffa114;
     font-size: 17px;
+    font-weight: 600;
   }
 `;
 
@@ -76,46 +79,45 @@ const Title = styled.div`
 
 const UserList = styled.div`
   /* background-color: #4e9903; */
-  width: 100%; // 100%
+  width: 85%; // 100%
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto auto;
-  gap: 30px; // 40px
+  gap: 10px; // 40px
 `;
 
 const UserCard = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 200px;
   /* background-color: palegreen; */
-  & p {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    margin-top: 20px;
-  }
 `;
 
 const ImagegeWrapper = styled.div`
-  position: relative;
-  width: 120px; //200px
-  height: 120px; //200px
+  width: 100px; //200px
+  height: 100px; //200px
   border-radius: 50%;
   overflow: hidden;
-
-  //프로필
-  & img:nth-child(1) {
+  & img {
     width: 100%;
     height: 100%;
   }
-  // 메달
-  & img:nth-child(2) {
-    position: absolute;
-    width: 65px;
-    height: 65px;
-    right: 20px;
+`;
+
+const UserName = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 14px;
+  & img {
+    width: 30px;
+    height: 30px;
   }
 `;
+
 export default TopUsers;
