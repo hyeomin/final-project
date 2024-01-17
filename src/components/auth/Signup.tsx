@@ -104,18 +104,32 @@ function Signup() {
   const emailCheck = async (email: string): Promise<void> => {
     const auth = getAuth();
     const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+    const error = errorMsg;
     try {
       if (signInMethods.length > 0) {
         // 이메일이 데이터베이스에 이미 존재하는 경우
-        setErrorMsg('');
+        setErrorMsg(error);
       } else {
         // 이메일이 데이터베이스에 없는 경우
-        setErrorMsg('dddddd');
+        setErrorMsg(error);
       }
     } catch (error) {
       setErrorMsg(error);
     }
   };
+
+  // const emailCheck = async (email: string): Promise<void> => {
+  //   const auth = getAuth();
+  //   const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+  //   const error = errorMsg;
+  //   if (signInMethods.length > 0) {
+  //     // 이메일이 데이터베이스에 이미 존재하는 경우
+  //     setErrorMsg(error);
+  //   } else {
+  //     // 이메일이 데이터베이스에 없는 경우
+  //     setErrorMsg(error);
+  //   }
+  // };
 
   // 이메일 중복체크 (firestore)
   // const emailCheck = async (email: string) => {
