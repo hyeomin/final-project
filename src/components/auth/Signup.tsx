@@ -103,7 +103,7 @@ function Signup() {
   };
   // console.log('errormsg', errorMsg);
 
-  const checkEmailDuplication = async (email: string) => {
+  const checkEmailDuplication = async (email: string): Promise<void> => {
     const auth = getAuth();
     const signInMethods = await fetchSignInMethodsForEmail(auth, email);
     try {
