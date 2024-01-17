@@ -4,7 +4,6 @@ import firstPlace from '../../../assets/1stPlace.png';
 import secondPlace from '../../../assets/2ndPlace.png';
 import thirdPlace from '../../../assets/3rdPlace.png';
 import { styled } from 'styled-components';
-import style from '../admin/style';
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../../query/keys';
 import { getAllUsers } from '../../../api/authApi';
@@ -33,7 +32,7 @@ const UserRanking = () => {
         {topUsers?.map((user, idx) => {
           return (
             <UserCard key={idx}>
-              <img src={users?.find((u) => u.uid === user.uid)?.profileImg} alt="profile" />
+              <img src={users?.find((u) => u.uid === user.uid)?.profileImg || defaultImage} alt="profile" />
               {idx === 0 && <img src={firstPlace} alt="firstPlace" />}
               {idx === 1 && <img src={secondPlace} alt="secondPlace" />}
               {idx === 2 && <img src={thirdPlace} alt="thirdPlace" />}
@@ -75,7 +74,7 @@ const Title = styled.div`
 `;
 
 const UserList = styled.div`
-  width: 89%; // 100%
+  width: 100%; // 100%
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto auto;
@@ -91,8 +90,8 @@ const UserCard = styled.div`
   height: 230px;
   /* background-color: palegreen; */
   & img:nth-child(1) {
-    width: 150px; //200px
-    height: 150px; //200px
+    width: 175px; //200px
+    height: 175px; //200px
     background-color: #d3defc;
     border-radius: 20px;
   }
