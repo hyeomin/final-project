@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import theme from '../../styles/theme';
 
 type Props = {
   postList: PostType[] | undefined;
@@ -41,15 +43,35 @@ function PostShift({ postList, postId }: Props) {
   };
 
   return (
-    <div>
+    <ButtonContainer>
       <button onClick={onClickPrevButton} type="button">
-        이전 게시물
+        {'< 이전 게시물'}
       </button>
       <button onClick={onClickNextButton} type="button">
-        다음 게시물
+        {'다음 게시물  >'}
       </button>
-    </div>
+    </ButtonContainer>
   );
 }
 
 export default PostShift;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 40px 0;
+
+  & button {
+    padding: 15px 30px;
+    border-radius: 10px;
+    border: none;
+    /* border: 1px solid ${theme.color.mangoYellow}; */
+    background-color: ${theme.color.mangoLight};
+    font-size: 16px;
+
+    &:hover {
+      background-color: ${theme.color.mangoYellow};
+    }
+  }
+`;

@@ -84,7 +84,7 @@ function ImageUpload({ foundPost, isEditing }: IsEditingProps) {
         </UploadTextBox>
         <span>Maximum file size is 100MB</span>
       </DragNDropContainer>
-      <PreviewTitle>미리보기</PreviewTitle>
+      <PreviewTitle>커버 이미지 미리보기</PreviewTitle>
       <PreviewContainer>
         {coverImages.map(
           (image, index) =>
