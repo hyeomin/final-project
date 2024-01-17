@@ -8,8 +8,9 @@ import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../../query/keys';
 import { getAllUsers } from '../../../api/authApi';
 import { getTopUsers } from '../../../api/homeApi';
+import { GoHeart, GoHeartFill } from 'react-icons/go';
 
-const UserRanking = () => {
+const TopUsers = () => {
   // 유저정보 가져오기(profileImg)
   const { data: users } = useQuery({
     queryKey: [QUERY_KEYS.USERPOSTS],
@@ -32,10 +33,16 @@ const UserRanking = () => {
         {topUsers?.map((user, idx) => {
           return (
             <UserCard key={idx}>
-              <img src={users?.find((u) => u.uid === user.uid)?.profileImg || defaultImage} alt="profile" />
-              {idx === 0 && <img src={firstPlace} alt="firstPlace" />}
-              {idx === 1 && <img src={secondPlace} alt="secondPlace" />}
-              {idx === 2 && <img src={thirdPlace} alt="thirdPlace" />}
+              <div>
+                <img src={users?.find((u) => u.uid === user.uid)?.profileImg || defaultImage} alt="profile" />
+                {idx === 0 && <img src={firstPlace} alt="firstPlace" />}
+                {idx === 1 && <img src={secondPlace} alt="secondPlace" />}
+                {idx === 2 && <img src={thirdPlace} alt="thirdPlace" />}
+              </div>
+              <div>
+                <GoHeartFill />
+                <span>{user.totalLikes.toLocaleString()}</span>
+              </div>
               <p>{users?.find((u) => u.uid === user.uid)?.displayName}</p>
             </UserCard>
           );
@@ -104,5 +111,20 @@ const UserCard = styled.div`
   & p {
     margin-top: 10px;
   }
+  & div:nth-child(2) {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    justify-content: flex-start;
+    left: 10px;
+    /* background-color: red; */
+    color: #fff;
+    bottom: 60px;
+    & span {
+      width: 15px;
+      display: flex;
+      justify-content: center;
+    }
+  }
 `;
-export default UserRanking;
+export default TopUsers;

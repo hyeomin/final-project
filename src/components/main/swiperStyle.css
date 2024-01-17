@@ -45,7 +45,7 @@
   width: 30px; /*  피그마 이미지 깨끗하지 않아서 사용하지 않음 */
   height: 30px; /* 버튼 호버효과를 사용할때도 이미지 쓰지 않는게 나음*/
   border-radius: 50%;
-  top: 470px; /* bottom이 안먹음 */
+  top: 340px; /* bottom이 안먹음 */
   border: none;
   background-color: #11111174;
 }
