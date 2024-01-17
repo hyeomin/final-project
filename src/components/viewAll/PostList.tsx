@@ -12,6 +12,7 @@ import defaultImg from '../../assets/defaultImg.jpg';
 import { FaHeart } from 'react-icons/fa';
 import { FaRegComment } from 'react-icons/fa';
 import Loader from '../common/Loader';
+import { useEffect } from 'react';
 interface PostListProps {
   queryKey: QueryKey;
   queryFn: (
@@ -24,7 +25,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const {
     data: posts,
     fetchNextPage,
-    isFetchingNextPage
+    isFetchingNextPage,
+    isLoading
   } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -56,6 +58,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       return sortedPosts;
     }
   });
+
+  useEffect(() => {}, [posts]);
 
   // 이미지URL 불러오기
   const imageQueries = useQueries({
@@ -89,56 +93,62 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   return (
     <St.MainSubWrapper>
       <St.ContentsWrapper>
-        <St.Contents>
-          {posts?.map((post, idx) => {
-            const imageQuery = imageQueries[idx];
-            return (
-              <St.Content key={post.id}>
-                {imageQuery.isLoading ? (
-                  <p>Loading image...</p>
-                ) : (
-                  <Link to={`/detail/${post.id}`}>
-                    <St.ContentImg src={imageQuery.data || defaultCover} alt={post.title} />
-                  </Link>
-                )}
-                <St.commentAndLikes>
-                  <FaRegComment />
-                  <p>{post.commentCount}</p>
-                  <p>
-                    <FaHeart size="15" />
-                  </p>
-                  <p>{post.likeCount}</p>
-                </St.commentAndLikes>
-
-                <St.UserProfile>
-                  {userList && userList?.find((user) => user.uid === post.uid) && (
-                    <>
-                      <St.ProfileImg
-                        src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultImg}
-                        alt="profile"
-                      />
-
-                      <div>{userList.find((user) => user.uid === post.uid)?.displayName}</div>
-                    </>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <St.Contents>
+            {posts?.map((post, idx) => {
+              const imageQuery = imageQueries[idx];
+              return (
+                <St.Content key={post.id}>
+                  {imageQuery.isLoading ? (
+                    <p>Loading image...</p>
+                  ) : (
+                    <Link to={`/detail/${post.id}`}>
+                      <St.ContentImg src={imageQuery.data || defaultCover} alt={post.title} />
+                    </Link>
                   )}
-                </St.UserProfile>
+                  <St.commentAndLikes>
+                    <FaRegComment />
+                    <p>{post.commentCount}</p>
+                    <p>
+                      <FaHeart size="15" />
+                    </p>
+                    <p>{post.likeCount}</p>
+                  </St.commentAndLikes>
 
-                <St.TitleAndContent>
-                  <p>{post.title}</p>
-                  <div dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }} />
-                </St.TitleAndContent>
-                {/* <St.NeedDelete>
+                  <St.UserProfile>
+                    {userList && userList?.find((user) => user.uid === post.uid) && (
+                      <>
+                        <St.ProfileImg
+                          src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultImg}
+                          alt="profile"
+                        />
+
+                        <div>{userList.find((user) => user.uid === post.uid)?.displayName}</div>
+                      </>
+                    )}
+                  </St.UserProfile>
+
+                  <St.TitleAndContent>
+                    <p>{post.title}</p>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }}
+                    />
+                  </St.TitleAndContent>
+                  {/* <St.NeedDelete>
                   <p>삭제예정/ {post.category}</p>
                   <p>삭제예정/ {post.role}</p>
                 </St.NeedDelete> */}
 
-                <St.Row>
-                  <h3>{getFormattedDate_yymmdd(post.createdAt!)}</h3>
-                </St.Row>
-              </St.Content>
-            );
-          })}
-        </St.Contents>
+                  <St.Row>
+                    <h3>{getFormattedDate_yymmdd(post.createdAt!)}</h3>
+                  </St.Row>
+                </St.Content>
+              );
+            })}
+          </St.Contents>
+        )}
       </St.ContentsWrapper>
       <St.MoreContentWrapper>
         {isFetchingNextPage ? <Loader /> : <button onClick={() => fetchNextPage()}>더 보기</button>}

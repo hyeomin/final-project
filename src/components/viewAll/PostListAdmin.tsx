@@ -5,8 +5,9 @@ import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
 import { getFormattedDate, getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Loader from '../common/Loader';
+import { useEffect } from 'react';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -20,7 +21,8 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
   const {
     data: posts,
     fetchNextPage,
-    isFetchingNextPage
+    isFetchingNextPage,
+    isLoading
   } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -53,6 +55,8 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
+  useEffect(() => {}, [posts]);
+
   // 이미지URL 불러오기
   const imageQueries = useQueries({
     queries:
@@ -67,35 +71,46 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
   };
 
+  //내용 문자열 일정수 이상, 그 이상 문자열 ... 출력
+  //에디터 라이브러리 html에서 가져오는 거여서 기본적으로 <p></p><p>가 있음 => 10글자
+  //사용하고 싶은 길이 +10 글자 해야함
+  const reduceContent = (postContent: string, cnt: number) => {
+    return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
+  };
+
   return (
     <St.MainSubWrapper>
       <St.ContentsWrapper>
-        <St.AdminContents>
-          {posts?.map((post, idx) => {
-            const imageQuery = imageQueries[idx];
-            return (
-              <St.AdminContent key={post.id}>
-                {imageQuery.isLoading ? (
-                  <p>Loading image...</p>
-                ) : (
-                  <Link to={`/detail/${post.id}`}>
-                    <img src={imageQuery.data || defaultCover} alt={post.title} />
-                  </Link>
-                )}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <St.AdminContents>
+            {posts?.map((post, idx) => {
+              const imageQuery = imageQueries[idx];
+              return (
+                <St.AdminContent key={post.id}>
+                  {imageQuery.isLoading ? (
+                    <p>Loading image...</p>
+                  ) : (
+                    <Link to={`/detail/${post.id}`}>
+                      <img src={imageQuery.data || defaultCover} alt={post.title} />
+                    </Link>
+                  )}
 
-                <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
-                <St.AdminPostSpace></St.AdminPostSpace>
-                <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} />
+                  <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
 
-                {/* <St.NeedDelete>
+                  {/* <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} /> */}
+                  <div dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }} />
+                  {/* <St.NeedDelete>
                   <p>삭제예정/ {post.category}</p>
                   <p>삭제예정/ {post.role}</p>
                   <p>삭제예정/ {getFormattedDate_yymmdd(post.createdAt!)}</p>
                 </St.NeedDelete> */}
-              </St.AdminContent>
-            );
-          })}
-        </St.AdminContents>
+                </St.AdminContent>
+              );
+            })}
+          </St.AdminContents>
+        )}
       </St.ContentsWrapper>
 
       <St.MoreContentWrapper>
