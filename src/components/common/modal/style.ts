@@ -32,11 +32,11 @@ const ScDivTitleAndContent = styled.div`
   align-items: center;
   padding-top: 20px;
   padding-bottom: 20px;
-  gap: 10px;
+  gap: 3px;
   color: #222;
   & h2 {
     font-weight: 600;
-    font-size: 24px;
+    font-size: 22px;
     padding-bottom: 10px;
   }
   & p {
@@ -54,7 +54,7 @@ const ScDivButton = styled.div`
 `;
 
 const ScButtonFirst = styled.button`
-  width: calc(50% - 5px);
+  width: 100px;
   height: 40px;
   border: 1px solid #ddd;
   background-color: #ddd;
@@ -69,7 +69,7 @@ const ScButtonFirst = styled.button`
   }
 `;
 const ScButtonSecond = styled.button`
-  width: calc(50% - 5px);
+  width: 100px;
   height: 40px;
   background-color: #ffa114;
   color: #fff;
