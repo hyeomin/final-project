@@ -166,8 +166,8 @@ export const CommentAndLikes = styled.div`
   column-gap: 10px;
   color: ${theme.color.lightgray};
   font-size: 14px;
-  position: absolute;
-  bottom: 3%;
+  // position: absolute;
+  //bottom: 3%;
   & span {
     display: flex;
     column-gap: 3px;
