@@ -86,11 +86,11 @@ function EditUploadButton() {
       };
 
       const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '수정하시겠습니까?',
+        title: '수정 하시겠습니까?',
         message: '',
         leftButtonLabel: '취소',
         onClickLeftButton: onClickCancel,
-        rightButtonLabel: '확인',
+        rightButtonLabel: '수정',
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);

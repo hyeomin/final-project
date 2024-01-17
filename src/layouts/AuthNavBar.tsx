@@ -41,7 +41,7 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
         message: '로그인 창으로 이동하시겠습니까?',
         leftButtonLabel: '취소',
         onClickLeftButton: onClickCancel,
-        rightButtonLabel: '확인',
+        rightButtonLabel: '로그인',
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);

@@ -21,7 +21,7 @@ const ScDivContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #ffd864;
+  background-color: #fff;
   border-radius: 8px;
 `;
 
@@ -33,7 +33,7 @@ const ScDivTitleAndContent = styled.div`
   padding-top: 20px;
   padding-bottom: 20px;
   gap: 10px;
-  color: #fff;
+  color: #222;
   & h2 {
     font-weight: 600;
     font-size: 24px;
@@ -56,16 +56,16 @@ const ScDivButton = styled.div`
 const ScButtonFirst = styled.button`
   width: calc(50% - 5px);
   height: 40px;
-  border: 1px solid #fdf3c0;
-  background-color: #fdf3c0;
-  color: #888888;
+  border: 1px solid #ddd;
+  background-color: #ddd;
+  color: #fff;
   border-radius: 10px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
   &:hover {
-    border: 1px solid #ffa114;
-    box-shadow: rgba(255, 161, 20, 0.4) 0px 0px 0px 3px;
+    border: 1px solid #ddd;
+    box-shadow: rgba(221, 221, 221, 0.4) 0px 0px 0px 3px;
   }
 `;
 const ScButtonSecond = styled.button`

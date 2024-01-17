@@ -36,11 +36,11 @@ function EditNDeleteToggle({ foundPost }: FoundPostProps) {
     };
 
     const openModalParams: Parameters<typeof modal.open>[0] = {
-      title: '삭제하시겠습니까?',
+      title: '삭제 하시겠습니까?',
       message: '',
       leftButtonLabel: '취소',
       onClickLeftButton: onClickCancel,
-      rightButtonLabel: '확인',
+      rightButtonLabel: '삭제',
       onClickRightButton: onClickSave
     };
     modal.open(openModalParams);
