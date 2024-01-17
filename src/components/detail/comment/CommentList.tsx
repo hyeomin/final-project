@@ -189,7 +189,7 @@ const ButtonContainer = styled.div`
     &:hover {
       text-decoration: underline;
       cursor: pointer;
-      color: ${theme.color.mangoYellow};
+      color: ${theme.color.mangoMain};
     }
   }
 `;

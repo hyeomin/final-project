@@ -84,5 +84,9 @@ const CommentSubmitForm = styled.form`
     font-size: 16px;
     font-weight: bold;
     width: 100px;
+    &:hover {
+      background-color: #df8d11;
+      cursor: pointer;
+    }
   }
 `;
