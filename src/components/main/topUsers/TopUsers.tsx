@@ -9,6 +9,7 @@ import { QUERY_KEYS } from '../../../query/keys';
 import { getAllUsers } from '../../../api/authApi';
 import { getTopUsers } from '../../../api/homeApi';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
+import theme from '../../../styles/theme';
 
 const TopUsers = () => {
   // 유저정보 가져오기(profileImg)
@@ -33,16 +34,12 @@ const TopUsers = () => {
         {topUsers?.map((user, idx) => {
           return (
             <UserCard key={idx}>
-              <div>
+              <ImagegeWrapper>
                 <img src={users?.find((u) => u.uid === user.uid)?.profileImg || defaultImage} alt="profile" />
                 {idx === 0 && <img src={firstPlace} alt="firstPlace" />}
                 {idx === 1 && <img src={secondPlace} alt="secondPlace" />}
                 {idx === 2 && <img src={thirdPlace} alt="thirdPlace" />}
-              </div>
-              <div>
-                <GoHeartFill />
-                <span>{user.totalLikes.toLocaleString()}</span>
-              </div>
+              </ImagegeWrapper>
               <p>{users?.find((u) => u.uid === user.uid)?.displayName}</p>
             </UserCard>
           );
@@ -81,6 +78,7 @@ const Title = styled.div`
 `;
 
 const UserList = styled.div`
+  /* background-color: #4e9903; */
   width: 100%; // 100%
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -89,42 +87,38 @@ const UserList = styled.div`
 `;
 
 const UserCard = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 230px;
+  height: 200px;
   /* background-color: palegreen; */
-  & img:nth-child(1) {
-    width: 175px; //200px
-    height: 175px; //200px
-    background-color: #d3defc;
-    border-radius: 20px;
+  & p {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 20px;
   }
+`;
+
+const ImagegeWrapper = styled.div`
+  position: relative;
+  width: 175px; //200px
+  height: 175px; //200px
+  border-radius: 50%;
+  overflow: hidden;
+
+  //프로필
+  & img:nth-child(1) {
+    width: 100%;
+    height: 100%;
+  }
+  // 메달
   & img:nth-child(2) {
     position: absolute;
-    right: 0;
     width: 65px;
     height: 65px;
-  }
-  & p {
-    margin-top: 10px;
-  }
-  & div:nth-child(2) {
-    display: flex;
-    position: absolute;
-    width: 100%;
-    justify-content: flex-start;
-    left: 10px;
-    /* background-color: red; */
-    color: #fff;
-    bottom: 60px;
-    & span {
-      width: 15px;
-      display: flex;
-      justify-content: center;
-    }
+    right: 20px;
   }
 `;
 export default TopUsers;
