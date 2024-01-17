@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
+import { GoTrash } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { downloadCoverImageURLs } from '../../api/detailApi';
@@ -40,6 +41,13 @@ function ImageUpload({ foundPost, isEditing }: IsEditingProps) {
     const selectedImages = event.target.files;
 
     if (selectedImages) {
+      for (let i = 0; i < selectedImages?.length; i++) {
+        if (selectedImages[i].size > 100 * 1024 * 1024) {
+          alert('최대 100MB까지 업로드 가능합니다');
+          return;
+        }
+      }
+
       const filesArray = Array.from(selectedImages).map((file) => ({
         url: URL.createObjectURL(file),
         isNew: true,
@@ -76,13 +84,22 @@ function ImageUpload({ foundPost, isEditing }: IsEditingProps) {
         </UploadTextBox>
         <span>Maximum file size is 100MB</span>
       </DragNDropContainer>
+      <PreviewTitle>미리보기</PreviewTitle>
       <PreviewContainer>
         {coverImages.map(
           (image, index) =>
             !image.isDeleted && (
               <SinglePreview key={index}>
                 <img src={image.url} alt={`Cover ${index}`} />
-                <button onClick={() => onDeleteImageHandler(index)}>X</button>
+                <SinglePreviewInfo>
+                  <div>
+                    <p>{image.file?.name}</p>
+                    <span>Finished</span>
+                  </div>
+                  <button onClick={() => onDeleteImageHandler(index)}>
+                    <GoTrash />
+                  </button>
+                </SinglePreviewInfo>
               </SinglePreview>
             )
         )}
@@ -118,6 +135,7 @@ const DragNDropContainer = styled.div`
   & img {
     width: 80px;
     object-fit: contain;
+    color: pink;
   }
 `;
 
@@ -136,27 +154,56 @@ const UploadTextBox = styled.div`
   }
 `;
 
+const PreviewTitle = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+`;
+
 const PreviewContainer = styled.section`
   display: flex;
   column-gap: 40px;
 `;
 
 const SinglePreview = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
   position: relative;
 
   & img {
-    width: 200px;
+    width: 260px;
+    height: 160px;
     object-fit: contain;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #d9d9d9;
+  }
+
+  & div {
+    display: flex;
+  }
+`;
+
+const SinglePreviewInfo = styled.div`
+  display: flex;
+  justify-content: center;
+
+  & div {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    flex: 1;
+
+    & span {
+      color: ${theme.color.lightgray};
+    }
   }
 
   & button {
-    width: 25px;
-    height: 25px;
+    font-size: 14px;
+    width: 30px;
     border: none;
-    border-radius: 50%;
-    position: absolute;
-    top: -10px;
-    right: -10px;
+    background: none;
     cursor: pointer;
   }
 `;

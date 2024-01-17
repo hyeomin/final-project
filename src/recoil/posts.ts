@@ -15,13 +15,13 @@ const postState = atom({
 const categoryListState = atom({
   key: POST.CATEGORY_LIST,
   default: [
-    { id: 0, nameEng: 'noCategory', nameKor: '카테고리 없음', isAdmin: false },
-    { id: 1, nameEng: 'recommendation', nameKor: '제품 추천', isAdmin: false },
-    { id: 2, nameEng: 'knowHow', nameKor: '노하우 공유', isAdmin: false },
-    { id: 3, nameEng: 'sharing', nameKor: '제품 나눔', isAdmin: false },
-    { id: 4, nameEng: 'habit', nameKor: '습관 인증', isAdmin: false },
-    { id: 5, nameEng: 'adminPost', nameKor: '관리자 게시물', isAdmin: true },
-    { id: 6, nameEng: 'newsRoom', nameKor: '뉴스룸', isAdmin: true }
+    { nameEng: 'noCategory', nameKor: '카테고리 없음', isAdmin: false },
+    { nameEng: 'recommendation', nameKor: '제품 추천', isAdmin: false },
+    { nameEng: 'knowHow', nameKor: '노하우 공유', isAdmin: false },
+    { nameEng: 'sharing', nameKor: '제품 나눔', isAdmin: false },
+    { nameEng: 'habit', nameKor: '습관 인증', isAdmin: false },
+    { nameEng: 'adminPost', nameKor: '관리자 게시물', isAdmin: true },
+    { nameEng: 'newsRoom', nameKor: '뉴스룸', isAdmin: true }
   ]
 });
 
@@ -40,9 +40,9 @@ const foundPostState = atom<PostType | undefined>({
   default: undefined
 });
 
-const hashtagsListState = atom({
-  key: POST.CATEGORY_LIST,
+const commonHashtagsListState = atom({
+  key: POST.COMMON_HASHTAG_LIST,
   default: ['분리수거', '업사이클링', '채식', '텀블러', '건강', '에코', '탄소절감']
 });
 
-export { categoryListState, coverImageState, foundPostState, hashtagsListState, isEditingState, postState };
+export { categoryListState, commonHashtagsListState, coverImageState, foundPostState, isEditingState, postState };

@@ -6,12 +6,14 @@ import { updatePostViewCount } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
 import DetailBody from '../components/detail/DetailBody';
 import DetailHeader from '../components/detail/DetailHeader';
-import EditNDelete from '../components/detail/EditNDelete';
 import PostShift from '../components/detail/PostShift';
 import AddCommentForm from '../components/detail/comment/AddComment';
 import CommentList from '../components/detail/comment/CommentList';
 import { QUERY_KEYS } from '../query/keys';
-import { auth } from '../shared/firebase';
+
+export type FoundPostProps = {
+  foundPost: PostType;
+};
 
 function Detail() {
   const [foundPost, setFoundPost] = useState<PostType | undefined>();
@@ -30,7 +32,6 @@ function Detail() {
   }, [postList, id, setFoundPost]);
 
   //조회수 업데이트
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [viewCount, setViewCount] = useState(foundPost?.viewCount || 0);
   useEffect(() => {
     if (foundPost && !sessionStorage.getItem(`viewed-${foundPost.id}`)) {
@@ -53,7 +54,7 @@ function Detail() {
           <DetailBody foundPost={foundPost} />
           <AddCommentForm foundPost={foundPost} />
           <CommentList foundPost={foundPost} />
-          {foundPost.uid === auth.currentUser?.uid && <EditNDelete foundPost={foundPost} />}
+          {/* {foundPost.uid === auth.currentUser?.uid && <EditNDelete foundPost={foundPost} />} */}
         </>
       )}
       <DetailEmptyFooter></DetailEmptyFooter>
@@ -66,8 +67,7 @@ export default Detail;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  align-items: start;
 `;
 
 const DetailEmptyFooter = styled.div`
