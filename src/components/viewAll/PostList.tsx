@@ -103,7 +103,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
               return (
                 <St.Content key={post.id} onClick={() => navigate(`/detail/${post.id}`)}>
                   {imageQuery.isLoading ? (
-                    <p>Loading image...</p>
+                    // <p>Loading image...</p>
+                    <Loader />
                   ) : (
                     <St.ContentImg src={imageQuery.data || defaultImage} alt={post.title} />
                   )}
