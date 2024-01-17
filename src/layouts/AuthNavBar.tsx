@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { GoChevronDown } from 'react-icons/go';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -15,17 +14,12 @@ type Props = {
 };
 
 function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
-  const [userInfo, setUserInfo] = useState(auth.currentUser);
-
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
 
-  const navigate = useNavigate();
+  const currentUser = auth.currentUser;
 
-  // 바뀔때마다 업데이트
-  useEffect(() => {
-    setUserInfo(auth.currentUser);
-  }, [auth.currentUser]);
+  const navigate = useNavigate();
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -44,11 +38,11 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
       <StyledNavLnk to="/write" onClick={onAuthCheckHandler} style={styledNav}>
         글쓰기
       </StyledNavLnk>
-      {auth.currentUser ? (
+      {currentUser ? (
         <>
           <UserInfo onClick={() => setIsAuthToggleOpen((prev) => !prev)}>
-            <img src={auth.currentUser?.photoURL ?? defaultImg} alt="profile" />
-            <span>{auth.currentUser?.displayName}</span>
+            <img src={currentUser?.photoURL ?? defaultImg} alt="profile" />
+            <span>{currentUser?.displayName}</span>
             <span>
               <GoChevronDown />
             </span>
@@ -95,6 +89,7 @@ const UserInfo = styled.div`
     border-radius: 50%;
     object-fit: fill;
   }
+
   & button {
     display: flex;
     align-items: center;

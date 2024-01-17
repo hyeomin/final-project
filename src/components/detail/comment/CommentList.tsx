@@ -3,17 +3,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { getComments } from '../../../api/commentApi';
 import defaultUserProfile from '../../../assets/defaultImg.jpg';
+import { FoundPostProps } from '../../../pages/Detail';
 import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
 
-type Props = {
-  foundPost: PostType;
-};
-
-const CommentList = ({ foundPost }: Props) => {
+const CommentList = ({ foundPost }: FoundPostProps) => {
   const queryClient = useQueryClient();
   const postId = foundPost?.id;
 
@@ -80,7 +77,7 @@ const CommentList = ({ foundPost }: Props) => {
   return (
     <CommentListContainer>
       {comments?.length === 0 ? (
-        <div>첫번째 댓글의 주인공이 되어보세요!</div>
+        <NoComment>작성된 댓글이 없습니다. 첫번째 댓글의 주인공이 되어주세요!</NoComment>
       ) : (
         comments?.map((comment) => {
           return (
@@ -127,6 +124,14 @@ const CommentListContainer = styled.div`
   flex-direction: column;
   width: 100%;
   font-size: 14px;
+`;
+
+const NoComment = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
+  font-weight: bold;
 `;
 
 const SingleComment = styled.div`

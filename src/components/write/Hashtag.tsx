@@ -12,7 +12,7 @@ function Hashtag({ foundPost, isEditing }: IsEditingProps) {
   const [post, setPost] = useRecoilState(postState);
   const { hashtags } = post;
 
-  const [commonHashtagList, setCommonHashtagList] = useRecoilState(commonHashtagsListState);
+  const [commondiv, setCommondiv] = useRecoilState(commonHashtagsListState);
   const [currentHashtag, setCurrentHashtag] = useState('');
 
   const [selectedHashtags, setSelectedHashtags] = useState<string[]>([]);
@@ -40,8 +40,8 @@ function Hashtag({ foundPost, isEditing }: IsEditingProps) {
   // 선택된 해시태그 색깔 변경
   const onHandleSelectHashtag = (newHashtag: string) => {
     setPost({ ...post, hashtags: [...hashtags, newHashtag] });
-    if (commonHashtagList.includes(newHashtag)) {
-      setCommonHashtagList(commonHashtagList.filter((tag) => tag !== newHashtag));
+    if (commondiv.includes(newHashtag)) {
+      setCommondiv(commondiv.filter((tag) => tag !== newHashtag));
     }
   };
 
@@ -53,9 +53,9 @@ function Hashtag({ foundPost, isEditing }: IsEditingProps) {
   return (
     <HashtagArea>
       <h5>자주 사용된 해시태그입니다. 해시태그를 추가해보세요!</h5>
-      <HashtagList>
+      <div>
         <RecommendedTags>
-          {commonHashtagList.map((hashtag, idx) => {
+          {commondiv.map((hashtag, idx) => {
             return (
               <SingleHashtag key={idx} onClick={() => onHandleSelectHashtag(hashtag)}>
                 {hashtag}
@@ -72,7 +72,7 @@ function Hashtag({ foundPost, isEditing }: IsEditingProps) {
             </SingleHashtag>
           ))}
         </SelectedTagList>
-      </HashtagList>
+      </div>
       <HashtagInputContainer>
         <input
           name={HASHTAG}
@@ -98,16 +98,9 @@ const HashtagArea = styled.div`
   padding: 10px;
 `;
 
-const HashtagList = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-`;
-
 const RecommendedTags = styled.div`
   display: flex;
   column-gap: 10px;
-  row-gap: 20px;
   font-size: 16px;
 `;
 

@@ -57,15 +57,15 @@ function DetailHeader({ foundPost }: Props) {
 
   return (
     <CoverContainer>
-      <PostTitle>{foundPost.title}</PostTitle>
-
       {Array.isArray(imageURLList) && imageURLList?.length > 0 ? (
         <>
           <StyledSwiper onSwiper={setSwiperInstance} onSlideChange={handleSlideChange} className="mySwiper">
             {imageURLList.map((image, idx) => {
               return (
                 <SwiperSlide key={idx}>
-                  <img src={image} alt="Post Cover" />
+                  <img src={image} alt="Post-Cover" />
+                  <Gradient></Gradient>
+                  <PostTitle>{foundPost.title}</PostTitle>
                 </SwiperSlide>
               );
             })}
@@ -103,23 +103,33 @@ const StyledSwiper = styled(Swiper)`
   }
 `;
 
+const PostTitle = styled.h3`
+  color: white;
+  text-align: left;
+  position: absolute;
+  width: 100%;
+  /* left: 60px; */
+  bottom: 60px;
+  padding: 0 60px;
+  font-size: 40px;
+  cursor: initial;
+`;
+
+const Gradient = styled.div`
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 200px;
+  opacity: 0.6;
+  background: linear-gradient(rgba(0, 0, 0, 0) 20%, #000 100%);
+`;
+
 const NavigationButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 85vw;
   top: 140px;
   position: absolute;
-
-  & div {
-  }
-`;
-
-const PostTitle = styled.h3`
-  position: absolute;
-  left: 300px;
-  bottom: 60px;
-  font-size: 40px;
-  z-index: auto;
 `;
 
 const NoImage = styled.div`

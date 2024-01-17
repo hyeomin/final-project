@@ -31,12 +31,6 @@ const ProfileEditWrapper = styled.div`
 const ProfileImageContainer = styled.div`
   display: flex;
   position: relative;
-
-  & img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-  }
 `;
 
 const PenWrapper = styled.div`
@@ -44,14 +38,15 @@ const PenWrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   right: 5px;
   bottom: 5px;
   border-radius: 50%;
   border: 0.5px solid ${theme.color.lightgray};
   background-color: white;
-  font-size: large;
+  font-size: larger;
+  cursor: pointer;
 `;
 
 const ProfileInfo = styled.div`

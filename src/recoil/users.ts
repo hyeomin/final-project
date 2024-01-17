@@ -1,5 +1,11 @@
+import { User } from 'firebase/auth';
 import { atom } from 'recoil';
 import { USER_INFO } from './keys';
+
+const currentUserState = atom<User | null>({
+  key: USER_INFO.CURRENT_USER,
+  default: null
+});
 
 const roleState = atom({
   key: USER_INFO.ROLE,
@@ -11,4 +17,4 @@ const isSignUpState = atom({
   default: false
 });
 
-export { isSignUpState, roleState };
+export { currentUserState, isSignUpState, roleState };

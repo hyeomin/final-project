@@ -66,7 +66,7 @@ const Title = styled.div`
 
   & h3 {
     font-family: ${theme.font.agroBold};
-    font-size: 70px;
+    font-size: 60px;
   }
 `;
 
