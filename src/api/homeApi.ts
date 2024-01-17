@@ -15,7 +15,6 @@ import {
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
 import { auth, db, storage } from '../shared/firebase';
-import { getAllUsers } from './authApi';
 
 type Ref = {
   folder: string;

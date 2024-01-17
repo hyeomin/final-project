@@ -126,12 +126,12 @@ const CommentSubmitForm = styled.form`
 const SubmitButton = styled.button`
   color: white;
   border: 1px solid #888;
+  border: none;
   border-radius: 10px;
   background-color: ${theme.color.mangoMain};
   font-size: 16px;
   font-weight: bold;
   width: 100px;
-
   &:hover {
     background-color: #df8d11;
   }
