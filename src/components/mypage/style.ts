@@ -74,11 +74,16 @@ const UserInfo = styled.div`
   gap: 20px;
 `;
 
-const profileImg = styled.img`
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+const profileImg = styled.div`
+  /* width: 150px;
+  height: 150px; */
+  /* border-radius: 50%; */
   object-fit: cover;
+  img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+  }
 `;
 
 const ModifyButton = styled.button`
@@ -176,7 +181,7 @@ const StyleCalendar = styled.div`
   }
 
   .react-calendar__tile--active {
-    background-color: ${theme.color.mangoYellow};
+    background-color: ${theme.color.mangoLight};
   }
 
   .react-calendar__navigation button {
