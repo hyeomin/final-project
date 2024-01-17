@@ -20,4 +20,6 @@ const FooterContainer = styled.div`
 
   row-gap: 10px;
   width: 100%;
+  height: 100px;
+  padding: 30px 0;
 `;
