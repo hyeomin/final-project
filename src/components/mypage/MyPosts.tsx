@@ -13,7 +13,7 @@ import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../src/shared/firebase';
 import { getAllUsers } from '../../api/authApi';
-import { downloadImageURL, getAdminHomeContents, getTopRankingPosts } from '../../api/homeApi';
+import { downloadImageURL, getAdminContents, getUserContents } from '../../api/homeApi';
 import { getMyPosts } from '../../api/myPostAPI';
 import defaultImg from '../../assets/defaultCoverImg.jpeg';
 import { QUERY_KEYS } from '../../query/keys';
@@ -44,11 +44,11 @@ const MyPosts = () => {
     queries: [
       {
         queryKey: ['adminContents'],
-        queryFn: getAdminHomeContents
+        queryFn: getAdminContents
       },
       {
         queryKey: [QUERY_KEYS.USERPOSTS],
-        queryFn: getTopRankingPosts
+        queryFn: getUserContents
       }
     ]
   });

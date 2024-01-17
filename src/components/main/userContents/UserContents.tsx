@@ -7,7 +7,7 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
 import { getAllUsers } from '../../../api/authApi';
-import { downloadImageURL, getTopRankingPosts } from '../../../api/homeApi';
+import { downloadImageURL, getUserContents } from '../../../api/homeApi';
 import defaultCover from '../../../assets/defaultCoverImg.jpeg';
 import defatutUserImage from '../../../assets/defaultImg.jpg';
 import comment from '../../../assets/icons/comment.png';
@@ -18,7 +18,8 @@ import usePostsQuery from '../../../query/usePostsQuery';
 import { auth } from '../../../shared/firebase';
 import '../swiperStyle.css';
 import St from './style';
-import Loader from '../../common/Loader';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import styled from 'styled-components';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -28,7 +29,7 @@ const UserContents = () => {
   // 유저 컨텐츠(인기순, 8개)
   const { data: userContents, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getTopRankingPosts
+    queryFn: getUserContents
   });
   // console.log('userContents===>', userContents);
 
@@ -52,8 +53,7 @@ const UserContents = () => {
 
   // 탑랭킹 로딩
   if (isLoading) {
-    //return <div>Loading...</div>;
-    return <Loader />;
+    return <div>Loading...</div>;
   }
 
   if (!userContents || userContents.length === 0) {
@@ -127,12 +127,12 @@ const UserContents = () => {
                 spaceBetween: 10
               }
             }}
-            className="slides"
+            className="default-swiper"
           >
             {userContents?.map((item, idx) => {
               const imageQuery = imageQueries[idx];
               return (
-                <St.StyledSwiperSlide key={idx}>
+                <St.StyledSwiperSlide key={idx} className="default-swiper">
                   <St.UserPostCover to={`/detail/${item.id}`}>
                     <St.TextAndLikeButton>
                       <St.InfoTop>
@@ -161,23 +161,19 @@ const UserContents = () => {
                           </div>
                         </St.BottomText>
                         <St.Count>
-                          <span>
-                            <img src={eye} alt="eyeImg" /> {item.viewCount?.toLocaleString() || 0}
-                          </span>
-                          <span>
-                            <img src={heart} alt="heartImg" /> {item.likeCount?.toLocaleString() || 0}
-                          </span>
-                          <span>
-                            <img src={comment} alt="commentImg" /> {item.commentCount?.toLocaleString() || 0}
-                          </span>
+                          <GoEye />
+                          <span>{item.viewCount?.toLocaleString() || 0}</span>
+                          <GoHeart />
+                          <span>{item.likeCount?.toLocaleString() || 0}</span>
+                          <GoComment />
+                          <span>{item.commentCount?.toLocaleString() || 0}</span>
                         </St.Count>
                       </St.InfoBottom>
                     </St.TextAndLikeButton>
                     {imageQuery.isLoading ? (
-                      // <p>Loading image...</p>
-                      <Loader />
+                      <p>Loading image...</p>
                     ) : (
-                      <img src={imageQuery.data || defaultCover} alt={item.title} />
+                      <St.CoverImg src={imageQuery.data || defaultCover} alt={item.title} />
                     )}
                   </St.UserPostCover>
                 </St.StyledSwiperSlide>

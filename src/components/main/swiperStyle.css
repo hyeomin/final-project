@@ -7,12 +7,8 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
-  background: #fff;
-
-  /* Center slide text vertically */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  color: #fff;
+  cursor: default;
 }
 
 .swiper-slide img {
@@ -21,24 +17,73 @@
   height: 100%;
   object-fit: cover;
 }
-
-/* user contents 부분 */
-.slides {
-  cursor: pointer;
-}
+/* .default-swiper .swiper-slide img {
+  filter: brightness(70%);
+  transition: filter 0.3s ease;
+} */
 
 /* 다음 버튼 스타일 */
-.swiper-button-next {
+.default-swiper .swiper-button-next {
   width: 50px;
   height: 50px;
   right: 10px;
-  color: white;
+  color: #fff;
 }
 
 /* 이전 버튼 스타일 */
-.swiper-button-prev {
+.default-swiper .swiper-button-prev {
   width: 50px;
   height: 50px;
   left: 10px;
+  color: #fff;
+}
+
+/* 상단 */
+
+.custom-swiper .swiper-button-next,
+.custom-swiper .swiper-button-prev {
+  width: 30px; /*  피그마 이미지 깨끗하지 않아서 사용하지 않음 */
+  height: 30px; /* 버튼 호버효과를 사용할때도 이미지 쓰지 않는게 나음*/
+  border-radius: 50%;
+  top: 340px; /* bottom이 안먹음 */
+  border: none;
+  background-color: #11111174;
+}
+
+.custom-swiper .swiper-button-next:hover,
+.custom-swiper .swiper-button-prev:hover {
+  background-color: #00000099;
+}
+
+/* 네비게이션 버튼 스타일 */
+.custom-swiper .swiper-button-next {
   color: white;
+  left: 330px;
+}
+
+.custom-swiper .swiper-button-prev {
+  color: white;
+  border-radius: 50%;
+  left: 240px;
+
+  /* font-size: 15px; */
+}
+
+.custom-swiper .swiper-button-next::after,
+.custom-swiper .swiper-button-prev::after {
+  font-size: 15px;
+  pointer-events: auto;
+}
+
+.custom-swiper .swiper-pagination-fraction {
+  display: flex;
+  justify-content: center;
+  /* background-color: red; */
+  position: absolute;
+  width: 60px;
+  bottom: 109px;
+  left: 270px;
+  display: flex;
+  justify-self: start;
+  color: #fff;
 }
