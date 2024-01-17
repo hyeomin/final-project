@@ -1,18 +1,17 @@
-import St from './style';
 import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { useEffect } from 'react';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import { Link } from 'react-router-dom';
+import { getAllUsers } from '../../api/authApi';
 import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
-import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
-import { SortList } from './ViewAllBody';
-import { Link } from 'react-router-dom';
-import { QUERY_KEYS } from '../../query/keys';
-import { getAllUsers } from '../../api/authApi';
 import defaultImg from '../../assets/defaultImg.jpg';
-import { FaHeart } from 'react-icons/fa';
-import { FaRegComment } from 'react-icons/fa';
+import { QUERY_KEYS } from '../../query/keys';
+import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Loader from '../common/Loader';
-import { useEffect } from 'react';
+import { SortList } from './ViewAllBody';
+import St from './style';
 interface PostListProps {
   queryKey: QueryKey;
   queryFn: (
@@ -108,42 +107,53 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                       <St.ContentImg src={imageQuery.data || defaultCover} alt={post.title} />
                     </Link>
                   )}
-                  <St.commentAndLikes>
-                    <FaRegComment />
-                    <p>{post.commentCount}</p>
-                    <p>
-                      <FaHeart size="15" />
-                    </p>
-                    <p>{post.likeCount}</p>
-                  </St.commentAndLikes>
 
-                  <St.UserProfile>
-                    {userList && userList?.find((user) => user.uid === post.uid) && (
-                      <>
-                        <St.ProfileImg
-                          src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultImg}
-                          alt="profile"
-                        />
+                  {userList && userList?.find((user) => user.uid === post.uid) && (
+                    <St.UserProfile>
+                      <St.ProfileImg
+                        src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultImg}
+                        alt="profile"
+                      />
+                      <St.Row>
+                        <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
+                        <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
+                      </St.Row>
+                    </St.UserProfile>
+                  )}
 
-                        <div>{userList.find((user) => user.uid === post.uid)?.displayName}</div>
-                      </>
-                    )}
-                  </St.UserProfile>
-
-                  <St.TitleAndContent>
-                    <p>{post.title}</p>
-                    <div
-                      dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }}
-                    />
-                  </St.TitleAndContent>
-                  {/* <St.NeedDelete>
+                  <St.PostInfoContainer>
+                    <St.TitleAndContent>
+                      <p>{post.title}</p>
+                      <div
+                        dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }}
+                      />
+                    </St.TitleAndContent>
+                    {/* <St.NeedDelete>
                   <p>삭제예정/ {post.category}</p>
                   <p>삭제예정/ {post.role}</p>
                 </St.NeedDelete> */}
 
-                  <St.Row>
-                    <h3>{getFormattedDate_yymmdd(post.createdAt!)}</h3>
-                  </St.Row>
+                    <St.CommentAndLikes>
+                      <span>
+                        <GoEye />
+                        {post.viewCount}
+                      </span>
+                      <span>
+                        <GoHeart />
+                        {post.likeCount}
+                      </span>
+                      <span>
+                        <GoComment />
+                        {post.commentCount ?? 0}
+                      </span>
+                      {/* <FaRegComment />
+                    <p>{post.commentCount}</p>
+                    <p>
+                      <FaHeart size="15" />
+                    </p>
+                    <p>{post.likeCount}</p> */}
+                    </St.CommentAndLikes>
+                  </St.PostInfoContainer>
                 </St.Content>
               );
             })}

@@ -19,9 +19,9 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
   const location = useLocation();
   const prevPathname = useRef(location.pathname);
 
-  useEffect(() => {
-    setUserInfo(auth.currentUser);
-  }, [auth.currentUser]);
+  // useEffect(() => {
+  //   setUserInfo(auth.currentUser);
+  // }, [auth.currentUser]);
 
   // 주소가 바뀌면 토글 창 꺼지게
   useEffect(() => {
