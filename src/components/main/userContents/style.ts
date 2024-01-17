@@ -77,6 +77,10 @@ const UserPostCover = styled(Link)`
   position: absolute;
   width: 100%;
   height: 100%;
+  &:hover {
+    filter: brightness(80%);
+    transition: filter 0.3s ease;
+  }
 `;
 
 const TextAndLikeButton = styled.div`
@@ -88,6 +92,10 @@ const TextAndLikeButton = styled.div`
   height: 100%;
   padding: 25px 20px;
 `;
+
+//커버이미지
+const CoverImg = styled.img``;
+
 const InfoTop = styled.div`
   display: flex;
   align-items: center;
@@ -163,7 +171,7 @@ const BottomText = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 20px; // 줄여도 될듯/ 피그마엔 20임
+    margin-bottom: 15px; // 줄여도 될듯/ 피그마엔 20임
     /* background-color: red; */
   }
   & div:nth-child(2) {
@@ -185,6 +193,7 @@ const BottomText = styled.div`
 `;
 const Count = styled.div`
   display: flex;
+  align-items: center;
   height: 16px;
   color: #fff;
   text-align: center;
@@ -192,14 +201,10 @@ const Count = styled.div`
   font-weight: 400;
   line-height: 150%; /* 21px */
   & span {
+    width: 14px;
     display: flex;
-    align-items: center;
+    justify-content: center;
     margin-right: 10px;
-    & img {
-      width: 16px;
-      height: 16px;
-      margin-right: 2px;
-    }
   }
 `;
 
@@ -224,5 +229,6 @@ export default {
   InfoBottom,
   BottomText,
   Count,
-  TopTenContainer
+  TopTenContainer,
+  CoverImg
 };
