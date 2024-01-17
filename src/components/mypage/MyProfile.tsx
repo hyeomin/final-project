@@ -13,6 +13,8 @@ import HabitCalendar from './HabitCalendar';
 import LikesPosts from './LikesPosts';
 import MyPosts from './MyPosts';
 import St from './style';
+import postCountIcon from '../../assets/icons/postCountIcon.png';
+import rankingIcon from '../../assets/icons/rankingIcon.png';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -174,35 +176,65 @@ function MyProfile() {
           />
         </St.ProfileImageContainer>
         <St.ProfileInfo>
-          {isEditing ? (
-            <St.DisplayNameModify autoFocus defaultValue={newDisplayName} onChange={onChangeDisplayName} />
-          ) : (
-            <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
-          )}
+          <div style={{ display: 'flex' }}>
+            {isEditing ? (
+              <St.DisplayNameModify autoFocus defaultValue={newDisplayName} onChange={onChangeDisplayName} />
+            ) : (
+              // <St.MyNickname>{newDisplayName}</St.MyNickname>
+              <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
+            )}
+          </div>
           <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>
-          <St.UserPostInfo>
-            <span>게시물: {posts?.length}</span>
-            <span>등급: {ddd} </span>
-          </St.UserPostInfo>
-        </St.ProfileInfo>
-        <St.UserInfoModify>
-          {isEditing ? (
-            <>
-              <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
-              <St.ModifyButton onClick={onCancelEdit}>취소</St.ModifyButton>
-              <St.ModifyButton
-                onClick={onSubmitModifyProfile}
-                disabled={!newDisplayName && image === auth.currentUser?.photoURL}
+          <St.UserInfoModify>
+            {isEditing ? (
+              <>
+                <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
+                <St.ModifyButton onClick={onCancelEdit}>취소</St.ModifyButton>
+                <St.ModifyButton
+                  onClick={onSubmitModifyProfile}
+                  disabled={!newDisplayName && image === auth.currentUser?.photoURL}
+                >
+                  수정완료
+                </St.ModifyButton>
+              </>
+            ) : (
+              <CiSettings
+                style={{ fontSize: '25px', marginTop: '5px', color: '#888888' }}
+                onClick={() => setIsEditing(true)}
               >
-                수정완료
-              </St.ModifyButton>
-            </>
-          ) : (
-            <CiSettings style={{ fontSize: '30px' }} onClick={() => setIsEditing(true)}>
-              수정
-            </CiSettings>
-          )}
-        </St.UserInfoModify>
+                수정
+              </CiSettings>
+            )}
+          </St.UserInfoModify>
+        </St.ProfileInfo>
+        <St.UserPostInfoContainer>
+          <St.PostInfoBox>
+            게시물 수<br />
+            <div>
+              <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={postCountIcon} />
+              <span style={{ marginLeft: '10px' }}>{posts?.length}개</span>
+            </div>
+          </St.PostInfoBox>
+          <St.PostInfoBox>
+            <div>
+              <span style={{ marginBottom: '1px' }}>랭킹</span>
+              <br />
+              <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={rankingIcon} />
+              <span style={{ marginLeft: '10px' }}>1위</span>
+            </div>
+          </St.PostInfoBox>
+          <St.PostInfoBox>
+            <div>
+              등급
+              <br />
+              <div style={{ display: 'flex', width: '20px', marginTop: '27px' }}>
+                {/* <>{ddd} Lv.1</> */}
+                <div style={{ marginRight: '10px' }}>{ddd}</div>
+                <div>Lv.1</div>
+              </div>
+            </div>
+          </St.PostInfoBox>
+        </St.UserPostInfoContainer>
       </St.ProfileEditWrapper>
       <St.MySectionWrapper>
         <St.TabButtonContainer>

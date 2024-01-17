@@ -19,8 +19,8 @@ const ProfileEditWrapper = styled.div`
   align-items: center; // ashley 추가 24.01.16
   column-gap: 30px;
   width: 100%;
-  height: 250px;
-  padding: 40px 80px;
+  height: 230px;
+  padding: 40px 60px;
   /* background-color: ${theme.color.gray}; */
   /* background-color: lightgray; */
   border-radius: 10px;
@@ -54,15 +54,29 @@ const ProfileInfo = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 15px;
-  gap: 20px;
+  gap: 10px;
   align-items: baseline;
-  margin-left: 30px;
 `;
 
-const UserPostInfo = styled.div`
+const UserPostInfoContainer = styled.div`
   display: flex;
   column-gap: 20px;
-  font-size: 12px;
+  font-size: 15px;
+  /* margin-left: 80px; */
+
+  /* justify-content: center; */
+  /* margin-left: 10px; */
+`;
+
+const PostInfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 140px;
+  height: 100px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #fbfbfb;
 `;
 
 const UserInfo = styled.div`
@@ -92,15 +106,20 @@ const ModifyButton = styled.button`
   border-radius: 30px;
   border: none;
   font-size: 12px;
+  color: white;
   margin-top: 15px;
   margin-left: 5px;
-  background-color: ${theme.color.mangoYellow};
-  color: ${theme.color.mangoNavy};
+  background-color: ${theme.color.mangoMain};
   font-weight: 600;
 `;
 
 const UserInfoModify = styled.div`
   /* background-color: red; */
+  /* width: 180px; */
+  display: flex;
+  justify-content: left;
+  margin-right: 50px;
+  width: 170px;
 `;
 const FileInput = styled.input`
   display: none;
@@ -113,20 +132,24 @@ const DisplayNameModify = styled.input`
   border: 1px solid lightgray;
   padding-left: 10px;
   font-size: 13px;
+  width: 150px;
+  font-size: 12px;
 `;
 
 const MyImage = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 `;
 
 const MyNickname = styled.h1`
   font-size: 20px;
+  font-weight: 600;
 `;
 
 const MyEmail = styled.h4`
   font-size: 15px;
+  color: ${theme.color.mangoNavy};
 `;
 
 const EmailAndName = styled.div`
@@ -302,7 +325,8 @@ export default {
   DisplayNameModify,
   UserInfoModify,
   ProfileInfo,
-  UserPostInfo,
+  UserPostInfoContainer,
+  PostInfoBox,
   TabButton,
   TextBox,
   PostImg,
