@@ -10,6 +10,7 @@ import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
 import { useModal } from '../../../hooks/useModal';
+import MangoLogo from '../../../assets/mangoLogo.png';
 
 const CommentList = ({ foundPost }: FoundPostProps) => {
   const modal = useModal();
@@ -138,7 +139,10 @@ const CommentList = ({ foundPost }: FoundPostProps) => {
   return (
     <CommentListContainer>
       {comments?.length === 0 ? (
-        <div>첫번째 댓글의 주인공이 되어보세요!</div>
+        <CommenPlaceHolder>
+          <img src={MangoLogo} alt="Mango logo" />
+          &nbsp;아직 댓글이 없습니다. 첫 번째로 댓글을 남겨보세요!
+        </CommenPlaceHolder>
       ) : (
         comments?.map((comment) => {
           return (
@@ -186,6 +190,15 @@ const CommentListContainer = styled.div`
   width: 100%;
   font-size: 14px;
 `;
+const CommenPlaceHolder = styled.div`
+  width: 100%;
+  height: 100px;
+  /* background-color: red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+`;
 
 const SingleComment = styled.div`
   display: flex;
@@ -209,8 +222,15 @@ const CommentDetail = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 30px;
-
   flex: 1;
+  & textarea {
+    resize: none;
+    outline: none;
+    height: 100px;
+    border: 1px solid ${theme.color.lightgray};
+    border-radius: 5px;
+    padding: 10px;
+  }
 `;
 
 const NameAndTime = styled.div`
@@ -232,6 +252,11 @@ const ButtonContainer = styled.div`
     background-color: transparent;
     border-color: transparent;
     color: ${theme.color.lightgray};
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+      color: ${theme.color.mangoMain};
+    }
   }
 `;
 

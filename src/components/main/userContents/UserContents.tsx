@@ -176,7 +176,7 @@ const UserContents = () => {
                       // <p>Loading image...</p>
                       <Loader />
                     ) : (
-                      <St.CoverImg src={imageQuery.data || defaultCover} alt={item.title} />
+                      <img src={imageQuery.data || defaultCover} alt={item.title} />
                     )}
                   </St.UserPostCover>
                 </St.StyledSwiperSlide>
