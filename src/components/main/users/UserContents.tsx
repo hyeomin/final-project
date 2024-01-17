@@ -18,6 +18,7 @@ import usePostsQuery from '../../../query/usePostsQuery';
 import { auth } from '../../../shared/firebase';
 import '../swiperStyle.css';
 import St from './style';
+import Loader from '../../common/Loader';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -51,7 +52,8 @@ const UserContents = () => {
 
   // 탑랭킹 로딩
   if (isLoading) {
-    return <div>Loading...</div>;
+    //return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (!userContents || userContents.length === 0) {
@@ -172,7 +174,8 @@ const UserContents = () => {
                       </St.InfoBottom>
                     </St.TextAndLikeButton>
                     {imageQuery.isLoading ? (
-                      <p>Loading image...</p>
+                      // <p>Loading image...</p>
+                      <Loader />
                     ) : (
                       <img src={imageQuery.data || defaultCover} alt={item.title} />
                     )}

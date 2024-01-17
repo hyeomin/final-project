@@ -11,6 +11,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import Loader from '../../common/Loader';
 
 const AdminContents = () => {
   const { data: adminContents, isLoading } = useQuery({
@@ -30,7 +31,8 @@ const AdminContents = () => {
 
   // 망고 발행물 로딩
   if (isLoading) {
-    return <div>Loading...</div>;
+    //return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (!adminContents || adminContents.length === 0) {
@@ -59,7 +61,8 @@ const AdminContents = () => {
             <SwiperSlide key={idx}>
               <Link to={`/detail/${item.id}`}>
                 {imageQuery.isLoading ? (
-                  <p>Loading image...</p>
+                  // <p>Loading image...</p>
+                  <Loader />
                 ) : (
                   <img src={imageQuery.data || defaultCover} alt={`Slide ${idx}`} />
                 )}
