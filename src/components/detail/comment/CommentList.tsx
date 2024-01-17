@@ -80,7 +80,7 @@ const CommentList = ({ foundPost }: Props) => {
   return (
     <CommentListContainer>
       {comments?.length === 0 ? (
-        <div>첫번째 댓글의 주인공이 되어보세요!</div>
+        <CommenPlaceHolder>아직 댓글이 없습니다. 첫 번째로 댓글을 남겨보세요!</CommenPlaceHolder>
       ) : (
         comments?.map((comment) => {
           return (
@@ -128,6 +128,15 @@ const CommentListContainer = styled.div`
   width: 100%;
   font-size: 14px;
 `;
+const CommenPlaceHolder = styled.div`
+  width: 100%;
+  height: 80px;
+  /* background-color: red; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+`;
 
 const SingleComment = styled.div`
   display: flex;
@@ -151,8 +160,11 @@ const CommentDetail = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 30px;
-
   flex: 1;
+  & textarea {
+    resize: none;
+    outline: none;
+  }
 `;
 
 const NameAndTime = styled.div`
@@ -174,6 +186,11 @@ const ButtonContainer = styled.div`
     background-color: transparent;
     border-color: transparent;
     color: ${theme.color.lightgray};
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+      color: ${theme.color.mangoYellow};
+    }
   }
 `;
 
