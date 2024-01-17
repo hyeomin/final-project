@@ -4,8 +4,8 @@ import theme from '../../styles/theme';
 /*유저 등록 데이터 (친환경노하우~습관인증) */
 const MainSubWrapper = styled.div`
   width: 100%;
-  margin: auto;
-  margin-bottom: 58px;
+  /* margin: auto; */
+  margin-bottom: 150px; //58에서 변경
 `;
 
 const CategoryWrapper = styled.div`
@@ -67,8 +67,8 @@ const SortWrapper = styled.ul`
 /*게시물*/
 const ContentsWrapper = styled.div`
   width: 100%;
-  margin: auto;
-  margin-bottom: 70px;
+  /* margin: auto; */
+  margin-bottom: 60px;
   display: flex;
   gap: 20px;
 `;
@@ -107,7 +107,11 @@ const Content = styled.li`
   } */
 `;
 
-export const ContentImg = styled.img`
+const HeartClickButton = styled.span`
+  color: ${theme.color.lightgray};
+`;
+
+const ContentImg = styled.img`
   object-fit: cover;
   width: 100%; //345 > 233 변경 > HM 100% 변경
   height: 230px; //420 > 280 변경 > HM 230px 변경
@@ -118,6 +122,7 @@ export const ContentImg = styled.img`
 const Row = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: start;
   row-gap: 3px;
   /* align-items: start; */
   /* border-top: 1px solid #000000; */
@@ -177,7 +182,7 @@ export const CommentAndLikes = styled.div`
 export const TitleAndContent = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: start;
   color: #222;
   font-size: 14px;
   /* width: 100%; */
@@ -216,6 +221,10 @@ const MoreContentWrapper = styled.div`
     //font-family: Apple SD Gothic Neo;
     font-size: 20px;
     font-weight: 400;
+
+    &:hover {
+      background: #df8d11;
+    }
   }
 `;
 
@@ -303,9 +312,16 @@ const AdminPostContent = styled.div`
 const UserProfile = styled.div`
   display: flex;
   align-items: center;
-  column-gap: 10px;
+  justify-content: space-between;
+  /* position: relative; */
   /* justify-content: flex-start; */
-  padding: 0 10px; // 위아래 여백 content의 row gap으로 대체
+  padding: 0 15px;
+
+  & div {
+    display: flex;
+    column-gap: 10px;
+    justify-content: center;
+  }
 `;
 
 const ProfileImg = styled.img`
@@ -352,5 +368,6 @@ export default {
   UserProfile,
   ProfileImg,
   NeedDelete,
-  PostInfoContainer
+  PostInfoContainer,
+  HeartClickButton
 };

@@ -2,7 +2,7 @@ import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries, useQuery 
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useEffect } from 'react';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
 import { downloadImageURL } from '../../api/homeApi';
 import defaultImage from '../../assets/defaultCoverImg.jpeg';
@@ -21,6 +21,8 @@ interface PostListProps {
 }
 
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
+  const navigate = useNavigate();
+
   const {
     data: posts,
     fetchNextPage,
@@ -99,25 +101,29 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
             {posts?.map((post, idx) => {
               const imageQuery = imageQueries[idx];
               return (
-                <St.Content key={post.id}>
+                <St.Content key={post.id} onClick={() => navigate(`/detail/${post.id}`)}>
                   {imageQuery.isLoading ? (
                     <p>Loading image...</p>
                   ) : (
-                    <Link to={`/detail/${post.id}`}>
-                      <St.ContentImg src={imageQuery.data || defaultImage} alt={post.title} />
-                    </Link>
+                    <St.ContentImg src={imageQuery.data || defaultImage} alt={post.title} />
                   )}
 
                   {userList && userList?.find((user) => user.uid === post.uid) && (
                     <St.UserProfile>
-                      <St.ProfileImg
-                        src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
-                        alt="profile"
-                      />
-                      <St.Row>
-                        <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
-                        <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
-                      </St.Row>
+                      <div>
+                        <St.ProfileImg
+                          src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
+                          alt="profile"
+                        />
+                        <St.Row>
+                          <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
+                          <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
+                        </St.Row>
+                      </div>
+                      {/* 하트 클릭하는 버튼 */}
+                      <St.HeartClickButton>
+                        <GoHeart />
+                      </St.HeartClickButton>
                     </St.UserProfile>
                   )}
 
