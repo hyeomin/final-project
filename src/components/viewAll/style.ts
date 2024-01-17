@@ -5,7 +5,7 @@ import theme from '../../styles/theme';
 const MainSubWrapper = styled.div`
   width: 100%;
   margin: auto;
-  margin-bottom: 150px;
+  margin-bottom: 58px;
 `;
 
 const CategoryWrapper = styled.div`
@@ -26,7 +26,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const Button = styled.button<{ selected: boolean }>`
-  font-family: Apple SD Gothic Neo;
+  //font-family: Apple SD Gothic Neo;
   font-size: 17px;
   font-weight: ${({ selected }) => (selected ? 800 : 400)};
   color: ${({ selected }) => (selected ? '#222' : '#888')};
@@ -49,7 +49,7 @@ const SortWrapper = styled.ul`
 
     color: #888;
     text-align: center;
-    font-family: Apple SD Gothic Neo;
+    //font-family: Apple SD Gothic Neo;
     font-size: 17px;
   }
   li a.selected {
@@ -121,7 +121,7 @@ const Row = styled.div`
   h3 {
     margin-left: 15px;
     color: #222222;
-    font-family: SB AggroOTF;
+    //font-family: SB AggroOTF;
     font-size: 12px;
     font-weight: 400;
   }
@@ -142,7 +142,7 @@ const TitleAndContent = styled.div`
   p {
     margin-bottom: 10px;
     color: #222;
-    font-family: SB AggroOTF;
+    //font-family: SB AggroOTF;
     font-size: 12px;
     font-weight: 400;
   }
@@ -168,7 +168,7 @@ const MoreContentWrapper = styled.div`
 
     color: #fff;
     text-align: center;
-    font-family: Apple SD Gothic Neo;
+    //font-family: Apple SD Gothic Neo;
     font-size: 20px;
     font-weight: 400;
   }
@@ -189,7 +189,7 @@ const MangoWord = styled.p`
 
 const MangoOutWord = styled.p`
   color: #000;
-  font-family: Apple SD Gothic Neo;
+  //font-family: Apple SD Gothic Neo;
   font-size: 38px;
   font-weight: 700;
 `;
@@ -197,9 +197,11 @@ const MangoOutWord = styled.p`
 const MangoSUbWord = styled.p`
   color: #000;
   text-align: left;
-  font-family: Inter;
+  //font-family: Inter;
   font-size: 20px;
   font-weight: 500;
+  margin-top: 10px;
+  margin-bottom: 40px;
 `;
 
 const AdminContents = styled.ul`
@@ -237,14 +239,12 @@ const AdminPostTitle = styled.p`
   font-size: 22px;
   font-weight: 700;
   text-align: left;
+  margin-top: 20px;
 `;
 
 const AdminPostSpace = styled.div`
-  display: flex;
-  height: 20px;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
+  border: 1px solid #747474;
+  height: 1px;
 `;
 
 const AdminPostContent = styled.div`

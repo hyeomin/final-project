@@ -91,8 +91,8 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
                   )}
 
                   <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
-                  <St.AdminPostSpace></St.AdminPostSpace>
-                  <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} />
+                  {/* <St.AdminPostSpace></St.AdminPostSpace> */}
+                  {/* <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} /> */}
 
                   {/* <St.NeedDelete>
                   <p>삭제예정/ {post.category}</p>
