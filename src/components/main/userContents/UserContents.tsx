@@ -19,6 +19,7 @@ import { auth } from '../../../shared/firebase';
 import '../swiperStyle.css';
 import St from './style';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import styled from 'styled-components';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
