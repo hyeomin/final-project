@@ -9,8 +9,10 @@ import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
+import { useModal } from '../../../hooks/useModal';
 
 const CommentList = ({ foundPost }: FoundPostProps) => {
+  const modal = useModal();
   const queryClient = useQueryClient();
   const postId = foundPost?.id;
 
@@ -32,36 +34,95 @@ const CommentList = ({ foundPost }: FoundPostProps) => {
 
   //댓글 삭제
   const onClickDeleteButton = (id: string) => {
-    console.log('id==>', id);
-    const confirm = window.confirm('정말로 삭제하시겠습니까?');
-    if (!confirm) return;
-    deleteCommentMutate(
-      { id, postId: foundPost.id },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.COMMENTS]
-          });
+    const onClickCancel = () => {
+      modal.close();
+    };
+
+    const onClickSave = () => {
+      deleteCommentMutate(
+        { id, postId: foundPost.id },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.COMMENTS]
+            });
+            modal.close();
+          }
         }
-      }
-    );
+      );
+    };
+
+    const openModalParams: Parameters<typeof modal.open>[0] = {
+      title: '정말로 삭제하시겠습니까?',
+      message: '',
+      leftButtonLabel: '취소',
+      onClickLeftButton: onClickCancel,
+      rightButtonLabel: '확인',
+      onClickRightButton: onClickSave
+    };
+    modal.open(openModalParams);
+
+    // console.log('id==>', id);
+    // const confirm = window.confirm('정말로 삭제하시겠습니까?');
+    // if (!confirm) return;
+    // deleteCommentMutate(
+    //   { id, postId: foundPost.id },
+    //   {
+    //     onSuccess: () => {
+    //       queryClient.invalidateQueries({
+    //         queryKey: [QUERY_KEYS.COMMENTS]
+    //       });
+    //     }
+    //   }
+    // );
   };
 
   //댓글 수정완료
   const onClickUpdateButton = (id: string) => {
-    const confirm = window.confirm('저장하시겠습니까?');
-    if (!confirm) return;
-    updateCommentMutate(
-      { postId: foundPost.id, id, editingText },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.COMMENTS]
-          });
+    const onClickCancel = () => {
+      modal.close();
+    };
+
+    const onClickSave = () => {
+      updateCommentMutate(
+        { postId: foundPost.id, id, editingText },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.COMMENTS]
+            });
+
+            modal.close();
+            setEditingCommentId(null);
+          }
         }
-      }
-    );
-    setEditingCommentId(null);
+      );
+    };
+
+    const openModalParams: Parameters<typeof modal.open>[0] = {
+      title: '저장하시겠습니까?',
+      message: '',
+      leftButtonLabel: '취소',
+      onClickLeftButton: onClickCancel,
+      rightButtonLabel: '확인',
+      onClickRightButton: onClickSave
+    };
+    modal.open(openModalParams);
+
+    //const confirm = window.confirm('저장하시겠습니까?');
+    //if (!confirm) return;
+    // updateCommentMutate(
+    //   { postId: foundPost.id, id, editingText },
+    //   {
+    //     onSuccess: () => {
+    //       queryClient.invalidateQueries({
+    //         queryKey: [QUERY_KEYS.COMMENTS]
+    //       });
+    //     }
+    //   }
+    // );
+
+    //setEditingCommentId(null);
   };
 
   // 수정버튼 클릭 ==> 수정모드
