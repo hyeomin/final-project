@@ -73,78 +73,123 @@ const ContentsWrapper = styled.div`
   gap: 20px;
 `;
 
-const Contents = styled.ul`
-  display: flex;
-
+export const Contents = styled.ul`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+  /* display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: flex-start; */
   gap: 20px;
 `;
 
 const Content = styled.li`
-  position: relative;
-  width: 235px; //345 > 235 변경 *아래Row width도 같이 변경필요
-  height: 500px; //626 > 500 변경
-  flex-shrink: 0;
-  border-radius: 40px;
-  border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  /* position: relative; */
+  /* width: 235px; //345 > 235 변경 *아래Row width도 같이 변경필요 */
+  height: 390px; //626 > 500 변경 > HMM 390 변경
+  /* flex-shrink: 0; */
+  border-radius: 10px; // HM
+  border: 1px solid ${theme.color.lightgray};
   background: #fff;
+  overflow: hidden; // HM
 
-  li {
+  /* li {
     list-style: none;
     width: 35%;
-  }
+  } */
 
-  p {
+  /* p {
     margin-bottom: 10px;
-  }
+  } */
 `;
 
-const ContentImg = styled.img`
+export const ContentImg = styled.img`
   object-fit: cover;
-  width: 233px; //345 > 233 변경
-  height: 280px; //420 > 280 변경
-  flex-shrink: 0;
-  border-radius: 40px 40px 0px 0px;
+  width: 100%; //345 > 233 변경 > HM 100% 변경
+  height: 230px; //420 > 280 변경 > HM 230px 변경
+  /* flex-shrink: 0; */
+  /* border-radius: 40px 40px 0px 0px; */
 `;
 
 const Row = styled.div`
-  border-top: 1px solid #000000;
-  width: 200px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 3px;
+  /* align-items: start; */
+  /* border-top: 1px solid #000000; */
+  /* width: 200px; */
 
-  position: absolute; /* relative: St.Content */
-  bottom: 3%;
-  left: 5%;
+  /* position: absolute; */
+  /* relative: St.Content */
+  /* bottom: 3%;
+  left: 5%; */
 
-  padding-top: 8px;
+  /* padding-top: 8px; */
 
-  h3 {
-    margin-left: 15px;
-    color: #222222;
+  & p {
+    font-weight: bold;
+    font-size: 14px; // HM 망고망 16px
+  }
+
+  span {
+    /* margin-left: 15px; */
+    color: #bbb; // #222222에서 변경
     //font-family: SB AggroOTF;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 400;
   }
 `;
 
-const commentAndLikes = styled.div`
-  padding: 0 20px;
-  padding-top: 10px;
+export const PostInfoContainer = styled.div`
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 10px;
+  padding: 0 15px;
+
+  font-size: 16px;
 `;
 
-const TitleAndContent = styled.div`
-  padding: 0 20px;
-  width: 100%;
-  height: 80px;
-  flex-shrink: 0;
+export const CommentAndLikes = styled.div`
+  // 이름 pascal case 변경
+  display: flex;
+  justify-content: start;
+  column-gap: 10px;
+  color: ${theme.color.lightgray};
+  padding: 5px 0;
+  font-size: 14px;
+
+  & span {
+    display: flex;
+    column-gap: 3px;
+  }
+
+  /* padding: 0 20px;
+  padding-top: 10px;
+  display: flex;
+  gap: 10px; */
+`;
+
+export const TitleAndContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #222;
+  font-size: 14px;
+  /* width: 100%; */
+  /* padding: 0 20px; */
+  /* height: 80px; */
+  /* flex-shrink: 0; */
   p {
-    margin-bottom: 10px;
     color: #222;
-    //font-family: SB AggroOTF;
-    font-size: 12px;
     font-weight: 400;
+    /* margin-bottom: 10px; */
+    //font-family: SB AggroOTF;
+    /* font-size: 12px; */
   }
 `;
 
@@ -258,15 +303,16 @@ const AdminPostContent = styled.div`
 const UserProfile = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  padding: 10px 20px;
+  column-gap: 10px;
+  /* justify-content: flex-start; */
+  padding: 0 10px; // 위아래 여백 content의 row gap으로 대체
 `;
 
 const ProfileImg = styled.img`
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
+  width: 35px; //HM 40 > 35 변경
+  height: 35px; //HM 40 > 35 변경
   border-radius: 50%;
+  /* margin-right: 10px; */ // UserProfile column gap으로 대체
   /* img {
     width: 100%;
     height: 100%;
@@ -302,8 +348,9 @@ export default {
   CategoryWrapper,
   Row,
   TitleAndContent,
-  commentAndLikes,
+  CommentAndLikes,
   UserProfile,
   ProfileImg,
-  NeedDelete
+  NeedDelete,
+  PostInfoContainer
 };
