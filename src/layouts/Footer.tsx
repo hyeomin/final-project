@@ -16,8 +16,10 @@ const FooterContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: ${theme.color.mangoYellow};
 
   row-gap: 10px;
   width: 100%;
-  border-top: 1px solid ${theme.color.lightgray};
+  height: 100px;
+  padding: 30px 0;
 `;

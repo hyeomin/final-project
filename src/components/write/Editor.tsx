@@ -12,6 +12,9 @@ import 'react-quill/dist/quill.snow.css';
 import { IsEditingProps } from '../../pages/Write';
 import { postState } from '../../recoil/posts';
 
+Quill.register('modules/imageActions', ImageActions);
+Quill.register('modules/imageFormats', ImageFormats);
+
 function Editor({ foundPost, isEditing }: IsEditingProps) {
   const TITLE = 'title';
 
@@ -19,8 +22,6 @@ function Editor({ foundPost, isEditing }: IsEditingProps) {
   const { title, content } = post;
 
   const quillRef = useRef<ReactQuill>(null);
-  Quill.register('modules/imageActions', ImageActions);
-  Quill.register('modules/imageFormats', ImageFormats);
 
   if (!ImageFormats.registered) {
     ImageFormats.registered = true;
@@ -122,7 +123,7 @@ const WritingArea = styled.div`
 
   & input {
     font-size: 18px;
-    padding: 20px 10px;
+    padding: 15px 10px;
     border-radius: 10px;
     border: 1px solid #888;
     background: #f3f3f3;

@@ -89,5 +89,7 @@ export const CustomButton = styled.button<CustomButtonProps>`
     `
     color: black;
     background-color: white;
+    border:  1px solid lightgray;
+
   `}
 `;
