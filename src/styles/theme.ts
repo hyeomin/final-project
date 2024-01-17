@@ -1,7 +1,7 @@
 const color = {
   mangoMain: '#FFA114;',
   mangoLight: '#FDF3C0',
-  mangoYellow: '#FFD864',
+  mangoYellow: '#FFCB30',
   mangoNavy: '#01376B',
   gray: '#888888',
   lightgray: '#888',

@@ -1,7 +1,6 @@
 import { signOut } from 'firebase/auth';
-import { useEffect, useState } from 'react';
-import { GoPencil } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import defaultImg from '../../assets/defaultImg.jpg';
@@ -17,11 +16,21 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
   const [role, setRole] = useRecoilState(roleState);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const prevPathname = useRef(location.pathname);
 
   useEffect(() => {
     setUserInfo(auth.currentUser);
   }, [auth.currentUser]);
 
+  // 주소가 바뀌면 토글 창 꺼지게
+  useEffect(() => {
+    if (location.pathname !== prevPathname.current) {
+      setIsAuthToggleOpen(false);
+    }
+  }, [location.pathname]);
+
+  // 마이페이지로 이동 버튼
   const onNavigateMyPageHandler = () => {
     navigate('/mypage');
     setIsAuthToggleOpen(false);
@@ -46,9 +55,9 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
       <ToggleBox>
         <span>{userInfo?.email}</span>
         <ProfileImageContainer>
-          <PenWrapper>
+          {/* <PenWrapper>
             <GoPencil />
-          </PenWrapper>
+          </PenWrapper> */}
           <img src={userInfo?.photoURL ?? defaultImg} alt="profile" />
         </ProfileImageContainer>
         <span>{`안녕하세요, ${userInfo?.displayName}님`}</span>
@@ -112,8 +121,8 @@ const PenWrapper = styled.div`
   position: absolute;
   width: 25px;
   height: 25px;
-  right: 5px;
-  bottom: 5px;
+  right: 0px;
+  bottom: 0px;
   border-radius: 50%;
   background-color: white;
 `;

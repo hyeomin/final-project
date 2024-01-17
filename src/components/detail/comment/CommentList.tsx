@@ -3,17 +3,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { getComments } from '../../../api/commentApi';
 import defaultUserProfile from '../../../assets/defaultImg.jpg';
+import { FoundPostProps } from '../../../pages/Detail';
 import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
 
-type Props = {
-  foundPost: PostType;
-};
-
-const CommentList = ({ foundPost }: Props) => {
+const CommentList = ({ foundPost }: FoundPostProps) => {
   const queryClient = useQueryClient();
   const postId = foundPost?.id;
 
