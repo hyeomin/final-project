@@ -5,7 +5,7 @@ import theme from '../../styles/theme';
 const MainSubWrapper = styled.div`
   width: 100%;
   margin: auto;
-  margin-bottom: 58px;
+  //margin-bottom: 58px;
 `;
 
 const CategoryWrapper = styled.div`
@@ -50,7 +50,7 @@ const SortWrapper = styled.ul`
     color: #888;
     text-align: center;
     //font-family: Apple SD Gothic Neo;
-    font-size: 17px;
+    font-size: 15px;
   }
   li a.selected {
     font-weight: 700;
@@ -68,7 +68,7 @@ const SortWrapper = styled.ul`
 const ContentsWrapper = styled.div`
   width: 100%;
   margin: auto;
-  margin-bottom: 70px;
+  margin-bottom: 20px;
   display: flex;
   gap: 20px;
 `;
@@ -88,7 +88,7 @@ const Content = styled.li`
   display: flex;
   flex-direction: column;
   row-gap: 10px;
-  /* position: relative; */
+  position: relative;
   /* width: 235px; //345 > 235 변경 *아래Row width도 같이 변경필요 */
   height: 390px; //626 > 500 변경 > HMM 390 변경
   /* flex-shrink: 0; */
@@ -162,7 +162,8 @@ export const CommentAndLikes = styled.div`
   color: ${theme.color.lightgray};
   padding: 5px 0;
   font-size: 14px;
-
+  position: absolute;
+  bottom: 3%;
   & span {
     display: flex;
     column-gap: 3px;
@@ -200,12 +201,12 @@ const MoreContentWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
-  margin: 20px;
+  margin: 40px;
 
   button {
     //sh
-    width: 200px;
-    height: 45px;
+    width: 170px;
+    height: 35px;
     flex-shrink: 0;
     border-radius: 10px;
     background: #ffa114;
@@ -214,7 +215,7 @@ const MoreContentWrapper = styled.div`
     color: #fff;
     text-align: center;
     //font-family: Apple SD Gothic Neo;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 400;
   }
 `;
@@ -243,10 +244,10 @@ const MangoSUbWord = styled.p`
   color: #000;
   text-align: left;
   //font-family: Inter;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 500;
   margin-top: 10px;
-  margin-bottom: 40px;
+  // margin-bottom: 10px;
 `;
 
 const AdminContents = styled.ul`
@@ -271,7 +272,7 @@ const AdminContent = styled.li`
   img {
     object-fit: cover;
     width: 490px; //710 -> 550 (전체사이즈 1200)
-    height: 360px;
+    height: 300px;
     flex-shrink: 0;
     border-radius: 40px;
     background: #d9d9d9;
