@@ -10,7 +10,7 @@ import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
 import { useModal } from '../../../hooks/useModal';
-import MangoLogo from '../../../assets/mangoLogo.png';
+import MangoLogo from '../../../assets/mangoLogo(2).png';
 
 const CommentList = ({ foundPost }: FoundPostProps) => {
   const modal = useModal();
@@ -139,11 +139,18 @@ const CommentList = ({ foundPost }: FoundPostProps) => {
   return (
     <CommentListContainer>
       {comments?.length === 0 ? (
-        <CommenPlaceHolder>
-          <img src={MangoLogo} alt="Mango logo" />
-          &nbsp;아직 댓글이 없습니다. 첫 번째로 댓글을 남겨보세요!
-        </CommenPlaceHolder>
+        // <CommenPlaceHolder>
+        <SingleComment>
+          <img src={MangoLogo} alt="Mango Logo" />
+          <CommentDetail>
+            <NameAndTime>
+              <span>망고지기</span>
+            </NameAndTime>
+            <Content> &nbsp;아직 댓글이 없습니다. 첫 번째로 댓글을 남겨보세요!</Content>
+          </CommentDetail>
+        </SingleComment>
       ) : (
+        // </CommenPlaceHolder>
         comments?.map((comment) => {
           return (
             <SingleComment key={comment.id}>
@@ -215,6 +222,7 @@ const SingleComment = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    transform: rotate(340deg);
   }
 `;
 
