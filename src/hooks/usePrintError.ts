@@ -20,7 +20,7 @@ const usePrintError = (error: any): [string, (error: any) => void] => {
       case 'auth/wrong-password':
         return setErrMsg('비밀번호가 일치하지 않습니다.');
       case 'auth/email-already-in-use':
-        return setErrMsg('이미 사용하는 이메일입니다.');
+        return setErrMsg('이미 사용 중임.');
       case 'auth/weak-password':
         return setErrMsg('비밀번호를 6자 이상 입력해주세요');
       case 'auth/missing-password':

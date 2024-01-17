@@ -19,7 +19,7 @@ export type Data = {
   email: string;
   password: string;
   passworkCheck?: string;
-  nickname?: string;
+  nickname: string;
   phoneNumber: number;
   image?: string;
   defaultImg?: string;
@@ -101,34 +101,56 @@ function Signup() {
     }
   };
 
-  // const emailCheck = async (email: string): Promise<void> => {
-  //   const auth = getAuth();
-  //   const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-  //   try {
-  //     if (signInMethods.length > 0) {
-  //       console.log('dddd', signInMethods);
-  //       // 이메일이 데이터베이스에 이미 존재하는 경우
-  //       setErrorMsg('ddd');
-  //     } else {
-  //       // 이메일이 데이터베이스에 없는 경우
-  //       setErrorMsg('dddddd');
-  //     }
-  //   } catch (error) {
-  //     setErrorMsg(error);
+  const emailCheck = async (email: string): Promise<void> => {
+    const auth = getAuth();
+    const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+    try {
+      if (signInMethods.length > 0) {
+        // 이메일이 데이터베이스에 이미 존재하는 경우
+        setErrorMsg('');
+      } else {
+        // 이메일이 데이터베이스에 없는 경우
+        setErrorMsg('dddddd');
+      }
+    } catch (error) {
+      setErrorMsg(error);
+    }
+  };
+
+  // 이메일 중복체크 (firestore)
+  // const emailCheck = async (email: string) => {
+  //   const userRef = collection(db, 'users');
+  //   const q = query(userRef, where('userEmail', '==', email));
+  //   const querySnapshot = await getDocs(q);
+  //   console.log('email', email);
+  //   console.log('querySnapshot', querySnapshot);
+  //   console.log('querySnapshot.docs.length', querySnapshot.docs.length);
+
+  //   if (querySnapshot.docs.length > 0) {
+  //     alert('이미 존재하는 이메일입니다.');
+  //     return;
+  //   }
+  //   if (querySnapshot.docs.length === 0) {
+  //     alert('사용 가능한 이메일입니다.');
+  //     return;
   //   }
   // };
 
-  const emailCheck = async (email: string) => {
+  // 닉네임 중복체크
+  const nicknameCheck = async (nickname: string) => {
     const userRef = collection(db, 'users');
-    const q = query(userRef, where('userEmail', '==', email));
+    const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
+    console.log('nickname', nickname);
+    console.log('querySnapshot', querySnapshot);
+    console.log('querySnapshot.docs.length', querySnapshot.docs.length);
 
     if (querySnapshot.docs.length > 0) {
-      alert('이미 존재하는 이메일입니다.');
+      alert('이미 존재하는 닉네임입니다.');
       return;
     }
     if (querySnapshot.docs.length === 0) {
-      alert('사용 가능한 이메일입니다.');
+      alert('사용 가능한 닉네임입니다.');
       return;
     }
   };
@@ -153,12 +175,12 @@ function Signup() {
               required: true,
               pattern: emailRegex
             })}
-            // onChange={(e) => {
-            //   setEmail(e.target.value);
-            //   setErrorMsg('');
-            // }}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setErrorMsg('');
+            }}
           />
-          <St.AuthBtn onClick={() => emailCheck(email)}>이메일 중복확인</St.AuthBtn>
+          <St.AuthBtn onClick={() => emailCheck(getValues('email'))}>이메일 중복확인</St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
           {errors?.email?.type === 'pattern' && <St.WarningMsg>이메일 양식에 맞게 입력해주세요</St.WarningMsg>}
         </St.InputContainer>
@@ -208,8 +230,12 @@ function Signup() {
               required: true,
               pattern: nicknameRegex
             })}
+            onChange={(e) => {
+              setNickname(e.target.value);
+              setErrorMsg('');
+            }}
           />
-          <St.AuthBtn>닉네임 중복확인</St.AuthBtn>
+          <St.AuthBtn onClick={() => nicknameCheck(getValues('nickname'))}>닉네임 중복확인</St.AuthBtn>
           {errors?.nickname?.type === 'required' && <St.WarningMsg>닉네임을 입력해주세요</St.WarningMsg>}
           {errors?.nickname?.type === 'pattern' && (
             <St.WarningMsg>닉네임은 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요</St.WarningMsg>
