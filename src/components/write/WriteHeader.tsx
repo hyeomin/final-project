@@ -32,4 +32,5 @@ const ButtonContainer = styled.div`
   display: flex;
   column-gap: 10px;
   font-weight: bold;
+  padding: 20px 0;
 `;

@@ -15,12 +15,12 @@ import { db } from '../../../src/shared/firebase';
 import { getAllUsers } from '../../api/authApi';
 import { downloadImageURL, getAdminContents, getUserContents } from '../../api/homeApi';
 import { getMyPosts } from '../../api/myPostAPI';
-import defaultImg from '../../assets/defaultCoverImg.jpeg';
+import defaultCover from '../../assets/defaultCoverImg.jpeg';
+import defaultProfile from '../../assets/defaultImg.jpg';
 import { QUERY_KEYS } from '../../query/keys';
 import { auth } from '../../shared/firebase';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Cs from '../viewAll/style';
-import St from './style';
 
 // 내 게시물 가져오기
 const MyPosts = () => {
@@ -112,22 +112,27 @@ const MyPosts = () => {
   };
 
   return (
-    <St.PostsWrapper>
+    <>
       <Cs.Contents>
         {posts?.map((post, idx) => {
           const imageQuery = imageQueries[idx];
           if (post.uid === auth.currentUser?.uid) {
             return (
               <Cs.Content onClick={() => navigate(`/detail/${post.id}`)}>
-                <Cs.ContentImg src={imageQuery.data!} />
-                <Cs.UserProfile>
-                  <Cs.ProfileImg src={auth.currentUser?.photoURL ?? defaultImg} alt="profile" />
-                  <Cs.Row>
-                    <p>{userList?.find((user) => user.uid === post.uid)?.displayName}</p>
-                    <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
-                  </Cs.Row>
-                </Cs.UserProfile>
+                <Cs.ContentImg src={imageQuery.data || defaultCover} />
                 <Cs.PostInfoContainer>
+                  <Cs.UserProfile>
+                    <div>
+                      <Cs.ProfileImg src={auth.currentUser?.photoURL || defaultProfile} alt="profile" />
+                      <Cs.Row>
+                        <p>{userList?.find((user) => user.uid === post.uid)?.displayName}</p>
+                        <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
+                      </Cs.Row>
+                    </div>
+                    <Cs.HeartClickButton>
+                      <GoHeart />
+                    </Cs.HeartClickButton>
+                  </Cs.UserProfile>
                   <Cs.TitleAndContent>
                     <p>{post.title}</p>
                     {/* <div
@@ -161,7 +166,7 @@ const MyPosts = () => {
       <button onClick={fetchMore} style={{ width: '100px', height: '50px;' }}>
         more
       </button>
-    </St.PostsWrapper>
+    </>
   );
 };
 export default MyPosts;

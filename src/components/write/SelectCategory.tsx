@@ -31,14 +31,10 @@ function SelectCategory() {
 
   // category 선택 핸들러
   const onChangeSelectHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedNameKor = event.target.value;
-    setDisplayCategory(selectedNameKor);
-
-    const selectedName = filteredCategoryList.find((category) => category.nameKor === selectedNameKor);
-    setPost({ ...post, category: selectedName ? selectedName.nameEng : categoryList[0].nameEng });
+    const selectedCategoryValue = event.target.value;
+    const selectedCategory = selectedCategoryValue ?? categoryList[0].nameKor;
+    setPost({ ...post, category: selectedCategory });
   };
-
-  console.log('categoryList-->', categoryList);
 
   return (
     <Select value={displayCategory} onChange={onChangeSelectHandler}>
@@ -59,6 +55,7 @@ function SelectCategory() {
 export default SelectCategory;
 
 const Select = styled.select`
+  width: 200px;
   height: 30px;
   font-size: 16px;
   border-color: transparent;

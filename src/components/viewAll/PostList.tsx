@@ -2,7 +2,7 @@ import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries, useQuery 
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useEffect } from 'react';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
 import { downloadImageURL } from '../../api/homeApi';
 import defaultImage from '../../assets/defaultCoverImg.jpeg';
@@ -10,6 +10,7 @@ import defaultProfile from '../../assets/defaultImg.jpg';
 import { QUERY_KEYS } from '../../query/keys';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Loader from '../common/Loader';
+import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
 interface PostListProps {
@@ -21,6 +22,9 @@ interface PostListProps {
 }
 
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
+  const navigate = useNavigate();
+  // HM text 발라내기 위해 추가
+
   const {
     data: posts,
     fetchNextPage,
@@ -99,49 +103,48 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
             {posts?.map((post, idx) => {
               const imageQuery = imageQueries[idx];
               return (
-                <St.Content key={post.id}>
+                <St.Content key={post.id} onClick={() => navigate(`/detail/${post.id}`)}>
                   {imageQuery.isLoading ? (
                     // <p>Loading image...</p>
                     <Loader />
                   ) : (
-                    <Link to={`/detail/${post.id}`}>
-                      <St.ContentImg src={imageQuery.data || defaultImage} alt={post.title} />
-                    </Link>
-                  )}
-
-                  {userList && userList?.find((user) => user.uid === post.uid) && (
-                    <St.UserProfile>
-                      <St.ProfileImg
-                        src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
-                        alt="profile"
-                      />
-                      <St.Row>
-                        <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
-                        <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
-                      </St.Row>
-                    </St.UserProfile>
+                    <St.ContentImg src={imageQuery.data || defaultImage} alt={post.title} />
                   )}
 
                   <St.PostInfoContainer>
+                    {userList && userList?.find((user) => user.uid === post.uid) && (
+                      <St.UserProfile>
+                        <div>
+                          <St.ProfileImg
+                            src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
+                            alt="profile"
+                          />
+                          <St.Row>
+                            <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
+                            <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
+                          </St.Row>
+                        </div>
+                        {/* 하트 클릭하는 버튼 */}
+                        <St.HeartClickButton>
+                          <GoHeart />
+                        </St.HeartClickButton>
+                      </St.UserProfile>
+                    )}
                     <St.TitleAndContent>
                       <p>{post.title}</p>
-                      <div
+                      {post.content && <PostContentPreview postContent={post.content} />}
+                      {/* <div
                         dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }}
-                      />
+                      /> */}
                     </St.TitleAndContent>
-                    {/* <St.NeedDelete>
-                  <p>삭제예정/ {post.category}</p>
-                  <p>삭제예정/ {post.role}</p>
-                </St.NeedDelete> */}
-
                     <St.CommentAndLikes>
                       <span>
                         <GoEye />
-                        {post.viewCount}
+                        {post.viewCount ?? 0}
                       </span>
                       <span>
                         <GoHeart />
-                        {post.likeCount}
+                        {post.likeCount ?? 0}
                       </span>
                       <span>
                         <GoComment />
@@ -154,6 +157,10 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                     </p>
                     <p>{post.likeCount}</p> */}
                     </St.CommentAndLikes>
+                    {/* <St.NeedDelete>
+                  <p>삭제예정/ {post.category}</p>
+                  <p>삭제예정/ {post.role}</p>
+                </St.NeedDelete> */}
                   </St.PostInfoContainer>
                 </St.Content>
               );

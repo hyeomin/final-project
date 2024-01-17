@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { getAllUsers } from '../api/authApi';
 import Editor from '../components/write/Editor';
 import Hashtag from '../components/write/Hashtag';
-import ImageUploadTest from '../components/write/ImageUpload';
+import ImageUpload from '../components/write/ImageUpload';
 import Header from '../components/write/WriteHeader';
 import { QUERY_KEYS } from '../query/keys';
 import { foundPostState, isEditingState, postState } from '../recoil/posts';
@@ -74,7 +74,7 @@ function Write() {
       <Editor foundPost={foundPost} isEditing={isEditing} />
       <Spacer />
       <Hashtag foundPost={foundPost} isEditing={isEditing} />
-      <ImageUploadTest foundPost={foundPost} isEditing={isEditing} />
+      <ImageUpload foundPost={foundPost} isEditing={isEditing} />
     </Container>
   );
 }
