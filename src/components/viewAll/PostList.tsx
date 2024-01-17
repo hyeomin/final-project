@@ -5,8 +5,8 @@ import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { Link } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
 import { downloadImageURL } from '../../api/homeApi';
-import defaultCover from '../../assets/defaultCoverImg.jpeg';
-import defaultImg from '../../assets/defaultImg.jpg';
+import defaultImage from '../../assets/defaultCoverImg.jpeg';
+import defaultProfile from '../../assets/defaultImg.jpg';
 import { QUERY_KEYS } from '../../query/keys';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Loader from '../common/Loader';
@@ -104,14 +104,14 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                     <p>Loading image...</p>
                   ) : (
                     <Link to={`/detail/${post.id}`}>
-                      <St.ContentImg src={imageQuery.data || defaultCover} alt={post.title} />
+                      <St.ContentImg src={imageQuery.data || defaultImage} alt={post.title} />
                     </Link>
                   )}
 
                   {userList && userList?.find((user) => user.uid === post.uid) && (
                     <St.UserProfile>
                       <St.ProfileImg
-                        src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultImg}
+                        src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
                         alt="profile"
                       />
                       <St.Row>
