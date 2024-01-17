@@ -159,7 +159,7 @@ export const PostInfoContainer = styled.div`
   font-size: 16px;
 `;
 
-export const CommentAndLikes = styled.div`
+const CommentAndLikes = styled.div`
   // 이름 pascal case 변경
   display: flex;
   justify-content: start;
