@@ -240,6 +240,7 @@ const AdminPostTitle = styled.p`
   font-weight: 700;
   text-align: left;
   margin-top: 20px;
+  margin-bottom: 10px;
 `;
 
 const AdminPostSpace = styled.div`

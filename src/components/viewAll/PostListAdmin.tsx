@@ -71,6 +71,13 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
   };
 
+  //내용 문자열 일정수 이상, 그 이상 문자열 ... 출력
+  //에디터 라이브러리 html에서 가져오는 거여서 기본적으로 <p></p><p>가 있음 => 10글자
+  //사용하고 싶은 길이 +10 글자 해야함
+  const reduceContent = (postContent: string, cnt: number) => {
+    return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
+  };
+
   return (
     <St.MainSubWrapper>
       <St.ContentsWrapper>
@@ -91,9 +98,9 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
                   )}
 
                   <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
-                  {/* <St.AdminPostSpace></St.AdminPostSpace> */}
-                  {/* <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} /> */}
 
+                  {/* <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} /> */}
+                  <div dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }} />
                   {/* <St.NeedDelete>
                   <p>삭제예정/ {post.category}</p>
                   <p>삭제예정/ {post.role}</p>
