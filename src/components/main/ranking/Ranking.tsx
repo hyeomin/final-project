@@ -8,7 +8,7 @@ import style from '../admin/style';
 import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '../../../query/keys';
 import { getAllUsers } from '../../../api/authApi';
-import { getTopRankedUsers } from '../../../api/homeApi';
+import { getTopUsers } from '../../../api/homeApi';
 
 const UserRanking = () => {
   // 유저정보 가져오기(profileImg)
@@ -18,9 +18,9 @@ const UserRanking = () => {
   });
   // console.log('유저 목록===>', users);
 
-  const { data: topTenUsers } = useQuery({
-    queryKey: ['topTenUsers'],
-    queryFn: getTopRankedUsers
+  const { data: topUsers } = useQuery({
+    queryKey: ['topUsers'],
+    queryFn: getTopUsers
   });
 
   return (
@@ -30,48 +30,24 @@ const UserRanking = () => {
         <h3>친환경 습관 만렙! 상위 랭킹 유저들의 노하우를 살펴보세요!</h3>
       </Title>
       <UserList>
-        <UserCard>
-          <img src={defaultImage} alt="profile" />
-          <img src={firstPlace} alt="firstPlace" />
-          <p>유저닉네임</p>
-        </UserCard>
-        <UserCard>
-          <img src={defaultImage} alt="profile" />
-          <img src={secondPlace} alt="secondPlace" />
-          <p>유저닉네임</p>
-        </UserCard>
-        <UserCard>
-          <img src={defaultImage} alt="profile" />
-          <img src={thirdPlace} alt="thirdPlace" />
-          <p>유저닉네임</p>
-        </UserCard>
-        <UserCard>
-          <img src={defaultImage} alt="profile" />
-          <p>유저닉네임</p>
-        </UserCard>
-        <UserCard>
-          <img src={defaultImage} alt="profile" />
-          <p>유저닉네임</p>
-        </UserCard>
-        <UserCard>
-          <img src={defaultImage} alt="profile" />
-          <p>유저닉네임</p>
-        </UserCard>
-        <UserCard>
-          <img src={defaultImage} alt="profile" />
-          <p>유저닉네임</p>
-        </UserCard>
-        <UserCard>
-          <img src={defaultImage} alt="profile" />
-          <p>유저닉네임</p>
-        </UserCard>
+        {topUsers?.map((user, idx) => {
+          return (
+            <UserCard key={idx}>
+              <img src={users?.find((u) => u.uid === user.uid)?.profileImg} alt="profile" />
+              {idx === 0 && <img src={firstPlace} alt="firstPlace" />}
+              {idx === 1 && <img src={secondPlace} alt="secondPlace" />}
+              {idx === 2 && <img src={thirdPlace} alt="thirdPlace" />}
+              <p>{users?.find((u) => u.uid === user.uid)?.displayName}</p>
+            </UserCard>
+          );
+        })}
       </UserList>
     </Container>
   );
 };
 
 const Container = styled.section`
-  background-color: burlywood;
+  /* background-color: burlywood; */
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -113,11 +89,11 @@ const UserCard = styled.div`
   align-items: center;
   width: 100%;
   height: 230px;
-  background-color: palegreen;
+  /* background-color: palegreen; */
   & img:nth-child(1) {
     width: 150px; //200px
     height: 150px; //200px
-    background-color: #fff;
+    background-color: #d3defc;
     border-radius: 20px;
   }
   & img:nth-child(2) {

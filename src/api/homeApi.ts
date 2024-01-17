@@ -128,7 +128,7 @@ type likeCountPerUserType = {
 };
 
 // TOP10 user list
-const getTopRankedUsers = async () => {
+const getTopUsers = async () => {
   try {
     const postRef = collection(db, 'posts');
     const querySnapshot = await getDocs(postRef);
@@ -145,21 +145,24 @@ const getTopRankedUsers = async () => {
 
     // 좋아요 합계 계산
     const likeCountPerUser = posts.reduce<Record<string, number>>((acc, post) => {
-      acc[post.uid!] = (acc[post.uid!] || 0) + post.likeCount!;
-      // if (!acc[post.uid!]) {
-      //   acc[post.uid!] = 0;
-      // }
-      // acc[post.uid!] += post.likeCount!;
+      if (!acc[post.uid!]) {
+        acc[post.uid!] = 0;
+      }
+      acc[post.uid!] += post.likeCount!;
       return acc;
     }, {});
+    // console.log('likeCountPerUser===>', likeCountPerUser);
 
     // 객체를 배열로 변환
     const usersWithLikeCounts = Object.entries(likeCountPerUser).map(([uid, totalLikes]) => ({
       uid,
       totalLikes
     }));
-    const topUsers = usersWithLikeCounts.sort((a, b) => b.totalLikes - a.totalLikes).slice(0, 10);
+    const topUsers: likeCountPerUserType[] = usersWithLikeCounts
+      .sort((a, b) => b.totalLikes - a.totalLikes)
+      .slice(0, 10);
     // console.log('topUsers===>', topUsers);
+    return topUsers;
   } catch (error) {
     console.log(error);
     return [];
@@ -186,4 +189,4 @@ const downloadImageURL = async (postId: string) => {
   }
 };
 
-export { getAdminHomeContents, getPosts, getTopRankingPosts, updateLikedUsers, getTopRankedUsers, downloadImageURL };
+export { getAdminHomeContents, getPosts, getTopRankingPosts, updateLikedUsers, getTopUsers, downloadImageURL };
