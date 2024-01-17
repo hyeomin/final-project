@@ -5,7 +5,7 @@ import {
   fetchSignInMethodsForEmail,
   updateProfile
 } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -14,17 +14,16 @@ import { auth, db } from '../../shared/firebase';
 import St from './style';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import mangoLogo from '../../assets/mangoLogo.png';
-
+import usePrintError from '../../hooks/usePrintError';
 export type Data = {
   email: string;
   password: string;
   passworkCheck: string;
   nickname?: string;
-  phoneNumber?: string;
+  phoneNumber: number;
   image?: string;
   defaultImg?: string;
   role?: string;
-  // emailToCheck?:string;
 };
 
 function Signup() {
@@ -32,14 +31,12 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
   const [passworkCheck, SetPassworkCheck] = useState('');
-
-  const [phoneNum, setPhoneNum] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState(0);
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
   const [image, setImage] = useState('');
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
-  // const phoneNumber = getPhoneNumberFromUserInput();
-  // const appVerifier = window.recaptchaVerifier;
+  const [errorMsg, setErrorMsg] = usePrintError('');
 
   const {
     register,
@@ -54,7 +51,7 @@ function Signup() {
   // 정규식
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
-  const phoneRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+  const phoneRegex = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,16}$/;
   // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
   // 폴더/파일
@@ -68,25 +65,7 @@ function Signup() {
     });
   }, [imageUpload]);
 
-  // const checkDuplicateEmail = async ({ email }: Data) => {
-  //   try {
-  //     const auth = getAuth();
-
-  //     const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-  //     if (signInMethods.length > 0) {
-  //       // 이미 가입된 이메일입니다.
-  //       console.log('중복된 이메일입니다.');
-  //       return true;
-  //     } else {
-  //       console.log('사용 가능한 이메일입니다.');
-  //       return false;
-  //     }
-  //   } catch (error) {
-  //     console.error('이메일 중복 확인 중 오류 발생:', error);
-  //   }
-  // };
-
-  const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passworkCheck }: Data) => {
+  const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passworkCheck, phoneNumber }: Data) => {
     try {
       const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -103,38 +82,59 @@ function Signup() {
       setValue('password', '');
       setValue('nickname', '');
       setValue('passworkCheck', '');
-      setValue('phoneNumber', '');
+      // setValue('phoneNumber', 0);
 
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
       // 컬렉션에 있는 users 필드 정보 수정
       if (userId) {
         await setDoc(doc(db, 'users', userId), {
+          email: auth.currentUser?.email,
           displayName: auth.currentUser?.displayName,
           profileImg: auth.currentUser?.photoURL,
           uid: auth.currentUser?.uid,
-          phoneNum: auth.currentUser?.phoneNumber,
+          // phoneNumber: auth.currentUser?.phoneNumber,
           role: 'user'
         });
       }
-    } catch (error) {
-      console.error('에러입니다');
+    } catch (error: any) {
+      console.log('error', error);
+      setErrorMsg(error);
     }
   };
+  // console.log('errormsg', errorMsg);
 
-  // const onHandleEmailCheck = async ({ email }: Data) => {
-  //   const emailToCheck = email;
+  // const checkEmailDuplication = async (email: string): Promise<void> => {
+  //   const auth = getAuth();
+  //   const signInMethods = await fetchSignInMethodsForEmail(auth, email);
   //   try {
-  //     const isDuplicate = await checkDuplicateEmail({ email });
-  //     if (isDuplicate) {
-  //       // 이미 가입된 이메일입니다.
+  //     if (signInMethods.length > 0) {
+  //       console.log('dddd', signInMethods);
+  //       // 이메일이 데이터베이스에 이미 존재하는 경우
+  //       setErrorMsg('ddd');
   //     } else {
-  //       // 사용 가능한 이메일입니다.
+  //       // 이메일이 데이터베이스에 없는 경우
+  //       setErrorMsg('dddddd');
   //     }
   //   } catch (error) {
-  //     console.error('이메일 중복 체크 오류:', error);
+  //     setErrorMsg(error);
   //   }
   // };
+
+  const emailCheck = async (email: string) => {
+    const userRef = collection(db, 'users');
+    const q = query(userRef, where('email', '==', email));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.docs.length > 0) {
+      alert('이미 존재하는 이메일입니다.');
+      return;
+    }
+    if (querySnapshot.docs.length === 0) {
+      alert('사용 가능한 이메일입니다.');
+      return;
+    }
+  };
 
   return (
     <St.authWrapper>
@@ -156,8 +156,12 @@ function Signup() {
               required: true,
               pattern: emailRegex
             })}
+            // onChange={(e) => {
+            //   setEmail(e.target.value);
+            //   setErrorMsg('');
+            // }}
           />
-          <St.AuthBtn>이메일 중복확인</St.AuthBtn>
+          <St.AuthBtn onClick={() => emailCheck(email)}>이메일 중복확인</St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
           {errors?.email?.type === 'pattern' && <St.WarningMsg>이메일 양식에 맞게 입력해주세요</St.WarningMsg>}
         </St.InputContainer>
@@ -179,7 +183,6 @@ function Signup() {
           )}
         </St.InputContainer>
         <St.InputContainer>
-          {/* <span>닉네임</span> */}
           <St.Input
             type="password"
             placeholder="Confirm Password"
@@ -216,37 +219,36 @@ function Signup() {
           )}
         </St.InputContainer>
 
-        <St.InputContainer>
-          {/* <span>휴대폰번호</span> */}
+        {/* <St.InputContainer>
           <St.AuthInput
             type="text"
             placeholder="phone number"
-            // {...register('phoneNum', {
-            //   required: true,
-            //   pattern: phoneRegex
-            // })}
+            {...register('phoneNumber', {
+              required: true,
+              pattern: phoneRegex
+            })}
           />
           <St.AuthBtn>인증번호 발송</St.AuthBtn>
 
-          {/* {errors?.phoneNum?.type === 'required' && (
+          {errors?.phoneNumber?.type === 'required' && (
             <St.WarningMsg> ⚠️ 정확한 휴대폰 양식을 입력해주세요</St.WarningMsg>
           )}
-          {errors?.phoneNum?.type === 'pattern' && (
+          {errors?.phoneNumber?.type === 'pattern' && (
             <St.WarningMsg>
-              {' '}
-              ⚠️ 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요,한글 초성 안됨
+               ⚠️ 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요,한글 초성 안됨 *
             </St.WarningMsg>
-          )} */}
-        </St.InputContainer>
+          )}
+        </St.InputContainer> */}
 
         <St.SignUpAndLoginBtn
           type="submit"
           onClick={() => {
-            signUp({ email, password, nickname, passworkCheck });
+            signUp({ email, password, nickname, passworkCheck, phoneNumber });
           }}
         >
           가입하기
         </St.SignUpAndLoginBtn>
+        {errorMsg && <p>{errorMsg}</p>}
       </form>
       <span onClick={() => setIsSignUp(false)}>로그인으로 돌아가기</span>
     </St.authWrapper>
