@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { downloadCoverImageURLs } from '../../api/detailApi';
 
 type Props = {
@@ -31,12 +33,20 @@ function DetailHeader({ foundPost }: Props) {
   }
 
   return (
-    <CoverContainer style={{ width: '100vw' }}>
+    <CoverContainer>
       <PostTitle>{foundPost.title}</PostTitle>
       {Array.isArray(imageURLList) && imageURLList?.length > 0 ? (
-        imageURLList.map((image) => {
-          return <PostCoverImage src={image} alt="Post Cover" />;
-        })
+        <SiwperContainer>
+          {imageURLList.map((image, idx) => {
+            return (
+              <Swiper slidesPerView={1} navigation={true} modules={[Navigation]}>
+                <SwiperSlide>
+                  <PostCoverImage key={idx} src={image} alt="Post Cover" />
+                </SwiperSlide>
+              </Swiper>
+            );
+          })}
+        </SiwperContainer>
       ) : (
         <NoImage></NoImage>
       )}
@@ -50,15 +60,20 @@ const CoverContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   position: relative;
   background-color: white;
 `;
 
-const PostCoverImage = styled.img`
-  object-fit: cover;
+const SiwperContainer = styled.div`
   width: 100%;
   height: 400px;
+  overflow: hidden;
+`;
+
+const PostCoverImage = styled.img`
+  object-fit: cover;
+
   z-index: auto;
 `;
 
@@ -72,5 +87,5 @@ const PostTitle = styled.h3`
 
 const NoImage = styled.div`
   width: 100%;
-  height: 240px;
+  height: 140px;
 `;

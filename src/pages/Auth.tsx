@@ -6,6 +6,7 @@ import { isSignUpState } from '../recoil/users';
 
 function Auth() {
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
+
   return <>{isSignUp ? <Signup /> : <Login />}</>;
 }
 

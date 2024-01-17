@@ -1,16 +1,24 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { categoryListState, postState } from '../../recoil/posts';
+import { categoryListState, foundPostState, isEditingState, postState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
 
 function SelectCategory() {
+  const [isEditing, setIsEditing] = useRecoilState(isEditingState);
+  const [foundPost, setFoundPost] = useRecoilState<PostType | undefined>(foundPostState);
   const [displayCategory, setDisplayCategory] = useState('');
   const [post, setPost] = useRecoilState(postState);
-  const { category } = post;
 
   const role = useRecoilValue(roleState);
   const categoryList = useRecoilValue(categoryListState);
+
+  useEffect(() => {
+    if (isEditing && foundPost?.category) {
+      const preSelectedCategory = categoryList.find((category) => category.nameEng === foundPost.category);
+      setDisplayCategory(preSelectedCategory?.nameKor ?? '');
+    }
+  }, [foundPost, isEditing]);
 
   // 유저인 경우와 어드민 경우 구분 필요
   const filteredCategoryList = useMemo(() => {
