@@ -19,7 +19,8 @@ function App() {
   const authContext = useContext(AuthContext);
 
   if (!authContext) {
-    return <div>Loading...</div>;
+    //return <div>Loading...</div>;
+    return <Loader />;
   }
 
   const { init } = authContext;

@@ -7,8 +7,11 @@ import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
+import { useModal } from '../../../hooks/useModal';
 
 const AddCommentForm = ({ foundPost }: FoundPostProps) => {
+  const modal = useModal();
+
   const queryClient = useQueryClient();
   const currentUser = auth.currentUser;
 
@@ -23,30 +26,60 @@ const AddCommentForm = ({ foundPost }: FoundPostProps) => {
   const onSubmitNewComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!currentUser) return;
+    // if (content.trim().length === 0) {
+    //   alert('내용을 입력해주세요.');
+    //   return;
+    // }
     if (content.trim().length === 0) {
-      alert('내용을 입력해주세요.');
-      return;
-    }
-    const newComment = {
-      uid: currentUser.uid,
-      displayName: currentUser.displayName,
-      photoURL: currentUser.photoURL,
-      createdAt: Date.now(),
-      content
-    };
+      const onClickSave = () => {
+        modal.close();
+      };
 
-    addCommentMutate(
-      { newComment, postId: foundPost.id },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.COMMENTS]
-          });
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '내용을 입력해주세요.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    } else {
+      const newComment = {
+        uid: currentUser.uid,
+        displayName: currentUser.displayName,
+        photoURL: currentUser.photoURL,
+        createdAt: Date.now(),
+        content
+      };
+
+      addCommentMutate(
+        { newComment, postId: foundPost.id },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.COMMENTS]
+            });
+          }
         }
-      }
-    );
-    setContent('');
-    alert('등록되었습니다.');
+      );
+      setContent('');
+
+      //alert('등록되었습니다.');
+      const onClickSave = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '등록되었습니다.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    }
   };
 
   // 로그인 여부 확인

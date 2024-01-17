@@ -7,6 +7,7 @@ import swipeLeft from '../../assets/icons/swipeLeft.png';
 import swipeRight from '../../assets/icons/swipeRight.png';
 
 import 'swiper/css';
+import Loader from '../common/Loader';
 
 type Props = {
   foundPost: PostType;
@@ -44,7 +45,8 @@ function DetailHeader({ foundPost }: Props) {
 
   //커버이미지 로딩 ==> 추후 스피너 적용
   if (isLoading) {
-    return <div>Loading...</div>;
+    //return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (isError) {

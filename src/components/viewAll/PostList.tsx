@@ -101,7 +101,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
               return (
                 <St.Content key={post.id}>
                   {imageQuery.isLoading ? (
-                    <p>Loading image...</p>
+                    // <p>Loading image...</p>
+                    <Loader />
                   ) : (
                     <Link to={`/detail/${post.id}`}>
                       <St.ContentImg src={imageQuery.data || defaultImage} alt={post.title} />

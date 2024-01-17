@@ -20,6 +20,7 @@ import '../swiperStyle.css';
 import St from './style';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import styled from 'styled-components';
+import Loader from '../../common/Loader';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -53,7 +54,8 @@ const UserContents = () => {
 
   // 탑랭킹 로딩
   if (isLoading) {
-    return <div>Loading...</div>;
+    //return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (!userContents || userContents.length === 0) {
@@ -171,9 +173,10 @@ const UserContents = () => {
                       </St.InfoBottom>
                     </St.TextAndLikeButton>
                     {imageQuery.isLoading ? (
-                      <p>Loading image...</p>
+                      // <p>Loading image...</p>
+                      <Loader />
                     ) : (
-                      <St.CoverImg src={imageQuery.data || defaultCover} alt={item.title} />
+                      <img src={imageQuery.data || defaultCover} alt={item.title} />
                     )}
                   </St.UserPostCover>
                 </St.StyledSwiperSlide>
