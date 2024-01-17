@@ -1,15 +1,12 @@
-import React from 'react';
-import defaultImage from '../../../assets/defaultImg.jpg';
+import { useQuery } from '@tanstack/react-query';
+import { styled } from 'styled-components';
+import { getAllUsers } from '../../../api/authApi';
+import { getTopUsers } from '../../../api/homeApi';
 import firstPlace from '../../../assets/1stPlace.png';
 import secondPlace from '../../../assets/2ndPlace.png';
 import thirdPlace from '../../../assets/3rdPlace.png';
-import { styled } from 'styled-components';
-import { useQuery } from '@tanstack/react-query';
+import defaultImage from '../../../assets/defaultImg.jpg';
 import { QUERY_KEYS } from '../../../query/keys';
-import { getAllUsers } from '../../../api/authApi';
-import { getTopUsers } from '../../../api/homeApi';
-import { GoHeart, GoHeartFill } from 'react-icons/go';
-import theme from '../../../styles/theme';
 
 const TopUsers = () => {
   // 유저정보 가져오기(profileImg)
@@ -103,8 +100,8 @@ const UserCard = styled.div`
 
 const ImagegeWrapper = styled.div`
   position: relative;
-  width: 175px; //200px
-  height: 175px; //200px
+  width: 120px; //200px
+  height: 120px; //200px
   border-radius: 50%;
   overflow: hidden;
 

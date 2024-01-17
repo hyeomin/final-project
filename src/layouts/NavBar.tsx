@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import logo from '../assets/icons/mango-logo.png';
 import AuthToggle from '../components/auth/AuthToggle';
 import useOutsideClick from '../hooks/useOutsideClick';
 import theme from '../styles/theme';
@@ -27,7 +28,10 @@ function NavBar() {
     <NavContainer ref={navRef}>
       <NavBarContainer>
         <LeftNav>
-          <Logo onClick={() => navigate('/')}>Mango</Logo>
+          <LogoContainer>
+            <img src={logo} alt="logo" />
+            <Logo onClick={() => navigate('/')}>Mango</Logo>
+          </LogoContainer>
           <NavLink to="/">홈</NavLink>
           <NavLink to="/about" style={styledNav}>
             망고 소개
@@ -64,13 +68,6 @@ const NavBarContainer = styled.div`
   }
 `;
 
-const Logo = styled.span`
-  font-family: ${theme.font.mango};
-  color: ${theme.color.mangoMain};
-  font-size: 30px;
-  cursor: pointer;
-`;
-
 const LeftNav = styled.div`
   display: flex;
   align-items: center;
@@ -79,3 +76,23 @@ const LeftNav = styled.div`
   font-weight: bold;
   color: ${theme.color.lightgray};
 `;
+
+const LogoContainer = styled.div`
+  display: flex;
+
+  & img {
+    width: 27px;
+    height: 27px;
+    object-fit: contain;
+    transform: rotate(340deg);
+  }
+
+  & span {
+    font-family: ${theme.font.mango};
+    color: ${theme.color.mangoMain};
+    font-size: 30px;
+    cursor: pointer;
+  }
+`;
+
+const Logo = styled.span``;
