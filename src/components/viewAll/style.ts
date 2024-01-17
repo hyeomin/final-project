@@ -4,8 +4,8 @@ import theme from '../../styles/theme';
 /*유저 등록 데이터 (친환경노하우~습관인증) */
 const MainSubWrapper = styled.div`
   width: 100%;
-  margin: auto;
-  //margin-bottom: 58px;
+  /* margin: auto; */
+  margin-bottom: 150px; //58에서 변경
 `;
 
 const CategoryWrapper = styled.div`
@@ -67,8 +67,8 @@ const SortWrapper = styled.ul`
 /*게시물*/
 const ContentsWrapper = styled.div`
   width: 100%;
-  margin: auto;
-  margin-bottom: 20px;
+  /* margin: auto; */
+  margin-bottom: 60px;
   display: flex;
   gap: 20px;
 `;
@@ -87,14 +87,13 @@ export const Contents = styled.ul`
 const Content = styled.li`
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
-  position: relative;
+  /* position: relative; */
   /* width: 235px; //345 > 235 변경 *아래Row width도 같이 변경필요 */
-  height: 390px; //626 > 500 변경 > HMM 390 변경
+  height: 390px; //626 > 500 변경 > HM 390 변경
   /* flex-shrink: 0; */
   border-radius: 10px; // HM
   border: 1px solid ${theme.color.lightgray};
-  background: #fff;
+  background: white; // white로 변경
   overflow: hidden; // HM
 
   /* li {
@@ -107,10 +106,15 @@ const Content = styled.li`
   } */
 `;
 
-export const ContentImg = styled.img`
+const HeartClickButton = styled.span`
+  color: ${theme.color.lightgray};
+  font-size: 20px;
+`;
+
+const ContentImg = styled.img`
   object-fit: cover;
   width: 100%; //345 > 233 변경 > HM 100% 변경
-  height: 230px; //420 > 280 변경 > HM 230px 변경
+  height: 210px; //420 > 280 변경 > HM 230px 변경
   /* flex-shrink: 0; */
   /* border-radius: 40px 40px 0px 0px; */
 `;
@@ -118,7 +122,8 @@ export const ContentImg = styled.img`
 const Row = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 3px;
+  align-items: start;
+  row-gap: 5px;
   /* align-items: start; */
   /* border-top: 1px solid #000000; */
   /* width: 200px; */
@@ -139,7 +144,7 @@ const Row = styled.div`
     /* margin-left: 15px; */
     color: #bbb; // #222222에서 변경
     //font-family: SB AggroOTF;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 400;
   }
 `;
@@ -147,10 +152,10 @@ const Row = styled.div`
 export const PostInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  row-gap: 10px;
-  padding: 0 15px;
-
+  flex: 1;
+  /* justify-content: space-between; */
+  row-gap: 15px;
+  padding: 15px;
   font-size: 16px;
 `;
 
@@ -160,7 +165,6 @@ export const CommentAndLikes = styled.div`
   justify-content: start;
   column-gap: 10px;
   color: ${theme.color.lightgray};
-  padding: 5px 0;
   font-size: 14px;
   position: absolute;
   bottom: 3%;
@@ -178,19 +182,39 @@ export const CommentAndLikes = styled.div`
 export const TitleAndContent = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  color: #222;
-  font-size: 14px;
+  align-items: start;
+  flex: 1;
+  row-gap: 15px;
+  /* color: #222; */
+
+  padding: 5px;
   /* width: 100%; */
   /* padding: 0 20px; */
   /* height: 80px; */
   /* flex-shrink: 0; */
+
   p {
-    color: #222;
-    font-weight: 400;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  /* 아래 p에서 span으로 변경 */
+  span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* color: #222; */
+    font-weight: normal;
     /* margin-bottom: 10px; */
     //font-family: SB AggroOTF;
-    /* font-size: 12px; */
+    font-size: 14px;
   }
 `;
 
@@ -217,6 +241,10 @@ const MoreContentWrapper = styled.div`
     //font-family: Apple SD Gothic Neo;
     font-size: 16px;
     font-weight: 400;
+
+    &:hover {
+      background: #df8d11;
+    }
   }
 `;
 
@@ -241,7 +269,7 @@ const MangoOutWord = styled.p`
 `;
 
 const MangoSUbWord = styled.p`
-  color: #000;
+  /* color: #000; */
   text-align: left;
   //font-family: Inter;
   font-size: 17px;
@@ -304,14 +332,21 @@ const AdminPostContent = styled.div`
 const UserProfile = styled.div`
   display: flex;
   align-items: center;
-  column-gap: 10px;
+  justify-content: space-between;
+  /* position: relative; */
   /* justify-content: flex-start; */
-  padding: 0 10px; // 위아래 여백 content의 row gap으로 대체
+  /* padding: 0 15px; */
+
+  & div {
+    display: flex;
+    column-gap: 15px;
+    justify-content: center;
+  }
 `;
 
 const ProfileImg = styled.img`
-  width: 35px; //HM 40 > 35 변경
-  height: 35px; //HM 40 > 35 변경
+  width: 30px; //HM 40 > 35 변경
+  height: 30px; //HM 40 > 35 변경
   border-radius: 50%;
   /* margin-right: 10px; */ // UserProfile column gap으로 대체
   /* img {
@@ -353,5 +388,6 @@ export default {
   UserProfile,
   ProfileImg,
   NeedDelete,
-  PostInfoContainer
+  PostInfoContainer,
+  HeartClickButton
 };

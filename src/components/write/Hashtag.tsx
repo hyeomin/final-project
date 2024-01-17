@@ -53,26 +53,24 @@ function Hashtag({ foundPost, isEditing }: IsEditingProps) {
   return (
     <HashtagArea>
       <h5>자주 사용된 해시태그입니다. 해시태그를 추가해보세요!</h5>
-      <div>
-        <RecommendedTags>
-          {commondiv.map((hashtag, idx) => {
-            return (
-              <SingleHashtag key={idx} onClick={() => onHandleSelectHashtag(hashtag)}>
-                {hashtag}
-                <GoPlus />
-              </SingleHashtag>
-            );
-          })}
-        </RecommendedTags>
-        <SelectedTagList>
-          {hashtags.map((tag, idx) => (
-            <SingleHashtag key={idx} onClick={() => removeHashtag(tag)}>
-              {tag}
-              <GoX />
+      <RecommendedTags>
+        {commondiv.map((hashtag, idx) => {
+          return (
+            <SingleHashtag key={idx} onClick={() => onHandleSelectHashtag(hashtag)}>
+              {hashtag}
+              <GoPlus />
             </SingleHashtag>
-          ))}
-        </SelectedTagList>
-      </div>
+          );
+        })}
+      </RecommendedTags>
+      <SelectedTagList>
+        {hashtags.map((tag, idx) => (
+          <SingleHashtag key={idx} onClick={() => removeHashtag(tag)}>
+            {tag}
+            <GoX />
+          </SingleHashtag>
+        ))}
+      </SelectedTagList>
       <HashtagInputContainer>
         <input
           name={HASHTAG}
@@ -94,8 +92,12 @@ export default Hashtag;
 const HashtagArea = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 10px;
   padding: 10px;
+
+  & h5 {
+    padding: 5px 0;
+  }
 `;
 
 const RecommendedTags = styled.div`

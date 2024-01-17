@@ -238,8 +238,8 @@ const MySectionWrapper = styled.div`
 `;
 
 const PostsWrapper = styled.div`
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center;
+  align-items: center; */
   gap: 20px;
 `;
 

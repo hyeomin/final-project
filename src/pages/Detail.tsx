@@ -49,12 +49,11 @@ function Detail() {
     <Container>
       {foundPost && (
         <>
-          <PostShift postList={postList} postId={id} />
           <DetailHeader foundPost={foundPost} />
           <DetailBody foundPost={foundPost} />
           <AddCommentForm foundPost={foundPost} />
           <CommentList foundPost={foundPost} />
-          {/* {foundPost.uid === auth.currentUser?.uid && <EditNDelete foundPost={foundPost} />} */}
+          <PostShift postList={postList} postId={id} />
         </>
       )}
       <DetailEmptyFooter></DetailEmptyFooter>

@@ -11,6 +11,7 @@ import { ImageFormats } from '@xeger/quill-image-formats';
 import 'react-quill/dist/quill.snow.css';
 import { IsEditingProps } from '../../pages/Write';
 import { postState } from '../../recoil/posts';
+import theme from '../../styles/theme';
 
 Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
@@ -125,14 +126,13 @@ const WritingArea = styled.div`
     font-size: 18px;
     padding: 15px 10px;
     border-radius: 10px;
-    border: 1px solid #888;
+    border: 1px solid ${theme.color.lightgray};
     background: #f3f3f3;
   }
 `;
 
 const EditorContainer = styled.div`
-  border-color: transparent;
   .ql-editor {
-    font-size: 18px; // Set your desired default font size here
+    font-size: 18px;
   }
 `;
