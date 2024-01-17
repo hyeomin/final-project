@@ -61,6 +61,7 @@ const CommentList = ({ foundPost }: FoundPostProps) => {
         }
       }
     );
+
     setEditingCommentId(null);
   };
 
