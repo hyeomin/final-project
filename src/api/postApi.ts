@@ -48,7 +48,7 @@ type uploadPostProps = {
 
 const updatePost = async ({ editingPost, postId, imageFileforUpload, imageUrltoDelete }: uploadPostProps) => {
   try {
-    const docRef = await updateDoc(doc(db, `${QUERY_KEYS.POSTS}/${postId}`), editingPost);
+    await updateDoc(doc(db, `${QUERY_KEYS.POSTS}/${postId}`), editingPost);
     console.log('포스트 업데이트 성공');
 
     // 새로운 이미지 업로드

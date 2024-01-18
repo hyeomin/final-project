@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { updatePost } from '../../../api/postApi';
-import { QUERY_KEYS } from '../../../query/keys';
-import { coverImageState, foundPostState, postState } from '../../../recoil/posts';
-import { CustomButton } from '../SubmitButton';
 import { useModal } from '../../../hooks/useModal';
+import { QUERY_KEYS } from '../../../query/keys';
+import { coverImageState, foundPostState, isEditingPostState, postState } from '../../../recoil/posts';
+import { CustomButton } from '../SubmitButton';
 
 function EditUploadButton() {
   const modal = useModal();
@@ -14,7 +14,9 @@ function EditUploadButton() {
   const { title } = post;
 
   const [foundPost, setFoundPost] = useRecoilState<PostType | undefined>(foundPostState);
+  const [isEditingPost, setIsEditingPost] = useRecoilState(isEditingPostState);
   const [coverImages, setCoverImages] = useRecoilState(coverImageState);
+
   const [imageFileforUpload, setImageFileforUpload] = useState<File[]>([]);
   const [imageUrltoDelete, setImageUrltoDelete] = useState<string[]>([]);
 
@@ -39,6 +41,7 @@ function EditUploadButton() {
       });
       setCoverImages([]);
       setFoundPost(undefined);
+      setIsEditingPost(false);
       navigate(`/detail/${foundPost?.id}`);
     }
   });

@@ -7,14 +7,14 @@ import {
 } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
+import mangoLogo from '../../assets/mangoLogo.png';
+import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
 import St from './style';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import mangoLogo from '../../assets/mangoLogo.png';
-import usePrintError from '../../hooks/usePrintError';
 
 export type Data = {
   email: string;
@@ -83,6 +83,9 @@ function Signup() {
       setValue('nickname', '');
       setValue('passworkCheck', '');
       // setValue('phoneNumber', 0);
+
+      // 회원가입 state 업데이트 (Ashley)
+      setIsSignUp(false);
 
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
