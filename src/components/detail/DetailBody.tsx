@@ -122,15 +122,15 @@ const EditNDeleteContainer = styled.div`
 const ContentBody = styled.div`
   color: #222222;
   padding: 40px 0;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid ${theme.color.lightgray};
 `;
 
 const AdditionalInfoContainer = styled.div`
   display: flex;
   justify-content: start;
   column-gap: 10px;
-  color: ${theme.color.lightgray};
-  padding: 5px 0;
+  color: ${theme.color.gray};
+  padding: 10px 0;
   font-size: 16px;
 
   & span {

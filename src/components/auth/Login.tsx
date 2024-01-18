@@ -1,18 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
-import { signInWithEmailAndPassword, getAuth, signInWithPopup, updateProfile, GoogleAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider, getAuth, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getAllUsers } from '../../api/authApi';
+import googleLogo from '../../assets/icons/googleLogo.png';
+import mangoLogo from '../../assets/mangoLogo.png';
 import { QUERY_KEYS } from '../../query/keys';
 import { isSignUpState, roleState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
 import { Data } from './Signup';
 import St from './style';
-import mangoLogo from '../../assets/mangoLogo.png';
-import { doc, setDoc } from 'firebase/firestore';
-import googleLogo from '../../assets/icons/googleLogo.png';
 
 interface UserData {
   uid: string;
