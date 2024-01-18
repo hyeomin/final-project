@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
 import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -15,9 +17,11 @@ import MyPosts from './MyPosts';
 import St from './style';
 import postCountIcon from '../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../assets/icons/rankingIcon.png';
+import { Data } from '../auth/Signup';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
+  const [nickname, setNickname] = useState('');
   const [newDisplayName, setNewDisPlayName] = useState('');
   const [userObj, setUserObj] = useState({});
   const [imageUpload, setImageUpload] = useState<any>('');
@@ -26,8 +30,15 @@ function MyProfile() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [previousPhotoURL, setPreviousPhotoURL] = useState<string | null>(null);
-  // const [editingTest, setEditingText] = useState('');
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors }
+  } = useForm<Data>({ mode: 'onChange' });
 
+  const nicknameRegex = '';
   useEffect(() => {
     setPreviousPhotoURL(auth.currentUser?.photoURL || null);
   }, []);
@@ -44,12 +55,14 @@ function MyProfile() {
     }
   };
 
+  console.log('image', image);
   const onClickTabBtn = (name: string) => {
     setActiveTab(name);
   };
 
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewDisPlayName(e.target.value);
+    const value = e.target.value;
+    setNewDisPlayName(value);
   };
 
   // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
@@ -104,6 +117,7 @@ function MyProfile() {
         }
         console.log('updateUser', updateUser);
         setNewDisPlayName(auth.currentUser?.displayName!);
+        setNickname(auth.currentUser?.displayName!);
         setIsEditing(false);
       }
     }
@@ -178,9 +192,32 @@ function MyProfile() {
         <St.ProfileInfo>
           <div style={{ display: 'flex' }}>
             {isEditing ? (
-              <St.DisplayNameModify autoFocus defaultValue={newDisplayName} onChange={onChangeDisplayName} />
+              <St.DisplayNameModify
+                autoFocus
+                defaultValue={auth.currentUser?.displayName!}
+                onChange={onChangeDisplayName}
+              />
             ) : (
-              // <St.MyNickname>{newDisplayName}</St.MyNickname>
+              // <St.DisplayNameModify
+              // autoFocus
+              // defaultValue={auth.currentUser?.displayName!}
+              // onChange={onChangeDisplayName}
+
+              // type="text"
+              // id="nickname"
+              // defaultValue={auth.currentUser?.displayName!}
+              // placeholder="Nickname"
+              // {...register('newDisplayName', {
+              //   required: true
+              //   pattern: nicknameRegex
+              // })}
+              // onChange={(e) => {
+              //   setNickname(e.target.value);
+              //   setErrorMsg('');
+              // />
+              // {errors?.newDisplayName!.type === 'required' && <p>닉네임을 입력해주세요</p>}
+
+              // <St.DisplayNameModify autoFocus defaultValue={nickname} onChange={onChangeDisplayName} />
               <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
             )}
           </div>
@@ -192,10 +229,27 @@ function MyProfile() {
                 <St.ModifyButton onClick={onCancelEdit}>취소</St.ModifyButton>
                 <St.ModifyButton
                   onClick={onSubmitModifyProfile}
-                  disabled={!newDisplayName && image === auth.currentUser?.photoURL}
+                  disabled={
+                    // (!newDisplayName && !image) ||
+                    // (newDisplayName === auth.currentUser?.displayName && image === auth.currentUser?.photoURL)
+                    newDisplayName === auth.currentUser?.displayName &&
+                    newDisplayName === '' &&
+                    image == defaultImg &&
+                    image === auth.currentUser?.photoURL
+                  }
+                  // disabled={!newDisplayName || image === auth.currentUser?.photoURL}
+                  // disabled={!newDisplayName && image || (image === auth.currentUser?.photoURL)}
                 >
                   수정완료
                 </St.ModifyButton>
+                <div> {newDisplayName === '' && <div style={{ color: 'red' }}>닉네임을 입력해주세요</div>}</div>
+                {/* <div> {(!newDisplayName || !image) && <div style={{ color: 'red' }}>수정된 것이 없습니다.</div>}</div> */}
+                <div>
+                  {' '}
+                  {newDisplayName === auth.currentUser?.displayName && image === auth.currentUser?.photoURL && (
+                    <div style={{ color: 'red' }}>수정된 것이 없습니다.</div>
+                  )}
+                </div>
               </>
             ) : (
               <CiSettings
@@ -236,37 +290,37 @@ function MyProfile() {
           </St.PostInfoBox>
         </St.UserPostInfoContainer>
       </St.ProfileEditWrapper>
+      <St.TabButtonContainer>
+        <St.TabButton
+          onClick={() => {
+            onClickTabBtn('calendar');
+          }}
+        >
+          <div>
+            <GoCalendar style={{ marginTop: '3px' }} />
+            캘린더
+          </div>
+        </St.TabButton>
+        <St.TabButton
+          onClick={() => {
+            onClickTabBtn('myPosts');
+          }}
+        >
+          <div>
+            <GoTasklist style={{ marginTop: '3px' }} />내 게시물
+          </div>
+        </St.TabButton>
+        <St.TabButton
+          onClick={() => {
+            onClickTabBtn('likes');
+          }}
+        >
+          <div>
+            <GoHeart style={{ marginTop: '3px' }} /> 좋아요
+          </div>
+        </St.TabButton>
+      </St.TabButtonContainer>
       <St.MySectionWrapper>
-        <St.TabButtonContainer>
-          <St.TabButton
-            onClick={() => {
-              onClickTabBtn('calendar');
-            }}
-          >
-            <div>
-              <GoCalendar />
-              캘린더
-            </div>
-          </St.TabButton>
-          <St.TabButton
-            onClick={() => {
-              onClickTabBtn('myPosts');
-            }}
-          >
-            <div>
-              <GoTasklist />내 게시물
-            </div>
-          </St.TabButton>
-          <St.TabButton
-            onClick={() => {
-              onClickTabBtn('likes');
-            }}
-          >
-            <div>
-              <GoHeart /> 좋아요
-            </div>
-          </St.TabButton>
-        </St.TabButtonContainer>
         <St.Tabs>
           {activeTab === 'calendar' && <HabitCalendar />}
           {activeTab === 'myPosts' && <MyPosts />}
