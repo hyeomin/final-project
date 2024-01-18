@@ -1,26 +1,22 @@
-import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
+import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import { auth } from '../../../shared/firebase';
+import { getAllUsers } from '../../../api/authApi';
+import { downloadImageURL, getUserContents } from '../../../api/homeApi';
+import { QUERY_KEYS } from '../../../query/keys';
+import useLikeCountQuery from '../../../query/useLikeCountQuery';
+import St from './style';
+import Loader from '../../common/Loader';
+import defaultCover from '../../../assets/defaultCoverImg.jpeg';
+import defatutUserImage from '../../../assets/defaultImg.jpg';
+import { Swiper } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Navigation, Pagination } from 'swiper/modules';
-import { Swiper } from 'swiper/react';
-import { getAllUsers } from '../../../api/authApi';
-import { downloadImageURL, getUserContents } from '../../../api/homeApi';
-import defaultCover from '../../../assets/defaultCoverImg.jpeg';
-import defatutUserImage from '../../../assets/defaultImg.jpg';
-import comment from '../../../assets/icons/comment.png';
-import eye from '../../../assets/icons/eye.png';
-import heart from '../../../assets/icons/heart.png';
-import { QUERY_KEYS } from '../../../query/keys';
-import usePostsQuery from '../../../query/usePostsQuery';
-import { auth } from '../../../shared/firebase';
 import '../swiperStyle.css';
-import St from './style';
-import { GoComment, GoEye, GoHeart } from 'react-icons/go';
-import styled from 'styled-components';
-import Loader from '../../common/Loader';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -50,7 +46,7 @@ const UserContents = () => {
       })) || []
   });
 
-  const { updateLikeMutate } = usePostsQuery();
+  const { likeCountMutate } = useLikeCountQuery();
 
   // 탑랭킹 로딩
   if (isLoading) {
@@ -73,7 +69,7 @@ const UserContents = () => {
     // 포스트 아이디가 매개변수로 전달된 경우
     if (id) {
       const postToUpdate: PostType = { id };
-      updateLikeMutate(postToUpdate, {
+      likeCountMutate(postToUpdate, {
         onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: [QUERY_KEYS.POSTS]
