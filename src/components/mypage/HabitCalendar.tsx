@@ -7,7 +7,9 @@ import { QUERY_KEYS } from '../../query/keys';
 import { getMyPosts } from '../../api/myPostAPI';
 import { useQuery } from '@tanstack/react-query';
 // import mangoIcon from '../../assets/mangoIcon.png';
-import newMango from '../../assets/newMango.png';
+import realMango from '../../assets/realMango.png';
+import calendarSpring from '../../assets/calendarSpring.png';
+
 import { getFormattedDateCustom } from '../../util/formattedDateAndTime';
 type ValuePiece = Date | null;
 
@@ -58,7 +60,13 @@ const HabitCalendar = ({ date }: any) => {
   return (
     <St.CalendarWrapper>
       <St.StyleCalendar>
-        <St.CalendarTitle>CALENDAR</St.CalendarTitle>
+        <St.CalendarContainer>
+          <St.CalendarSpring1 src={calendarSpring} />
+          <St.CalendarSpring2 src={calendarSpring} />
+          <St.CalendarSpring3 src={calendarSpring} />
+          <St.CalendarSpring4 src={calendarSpring} />
+          <St.CalendarTitle>Calendar</St.CalendarTitle>
+        </St.CalendarContainer>
         <Calendar
           onChange={onChangeToday}
           value={today}
@@ -83,13 +91,32 @@ const HabitCalendar = ({ date }: any) => {
               return (
                 <>
                   <div className="habitDayContainer" key={formattedDate}></div>
-                  <img
-                    key={formattedDate}
-                    className="habitImage"
-                    src={newMango}
-                    alt={`habit-sticker-${formattedDate}`}
-                  />
-                  <St.PostCount> x{postCount}</St.PostCount>
+                  <St.CalendarContentsContainer>
+                    <div
+                      style={{
+                        width: '70px',
+                        height: '70px',
+                        borderRadius: '50px',
+                        backgroundColor: 'white',
+                        position: 'relative',
+                        zIndex: '1'
+                      }}
+                    />
+                    <img
+                      style={{
+                        transform: 'rotate(340deg)',
+                        position: 'absolute',
+                        zIndex: '2',
+                        top: '5px',
+                        right: '12px'
+                      }}
+                      key={formattedDate}
+                      className="habitImage"
+                      src={realMango}
+                      alt={`habit-sticker-${formattedDate}`}
+                    />
+                    <St.PostCount> x{postCount}</St.PostCount>
+                  </St.CalendarContentsContainer>
                 </>
               );
             }
