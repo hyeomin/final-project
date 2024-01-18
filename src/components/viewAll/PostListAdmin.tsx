@@ -3,7 +3,6 @@ import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries } from '@t
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
-import { getFormattedDate, getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import { SortList } from './ViewAllBody';
 import { Link } from 'react-router-dom';
 import Loader from '../common/Loader';
@@ -22,7 +21,8 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     data: posts,
     fetchNextPage,
     isFetchingNextPage,
-    isLoading
+    isLoading,
+    hasNextPage
   } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -115,7 +115,13 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
       </St.ContentsWrapper>
 
       <St.MoreContentWrapper>
-        {isFetchingNextPage ? <Loader /> : <button onClick={() => fetchNextPage()}>더 보기 </button>}
+        {isFetchingNextPage ? (
+          <Loader />
+        ) : hasNextPage ? (
+          <button onClick={() => fetchNextPage()}>더 보기</button>
+        ) : (
+          <p>모든 데이터를 가져왔습니다.</p>
+        )}
       </St.MoreContentWrapper>
     </St.MainSubWrapper>
   );

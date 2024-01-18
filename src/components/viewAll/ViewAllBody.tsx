@@ -12,8 +12,6 @@ function ViewAllBody() {
   const [category, setCategory] = useState<Category>('knowHow');
   const [sortBy, setSortBy] = useState<SortList>('latest');
 
-  console.log('sortBy', sortBy);
-
   useEffect(() => {
     setCategory('knowHow');
     setSortBy('latest');

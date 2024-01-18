@@ -13,6 +13,9 @@ import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
+import { useLikeButton } from '../../hooks/useLikeButton';
+import { auth } from '../../shared/firebase';
+
 interface PostListProps {
   queryKey: QueryKey;
   queryFn: (
@@ -25,11 +28,16 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const navigate = useNavigate();
   // HM text 발라내기 위해 추가
 
+  //좋아요
+  const currentUser = auth.currentUser?.uid;
+  const onClickLikeButton = useLikeButton();
+
   const {
     data: posts,
     fetchNextPage,
     isFetchingNextPage,
-    isLoading
+    isLoading,
+    hasNextPage
   } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -38,6 +46,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       if (lastPage.length === 0) {
         return undefined;
       }
+
       return lastPage[lastPage.length - 1];
     },
     select: (data) => {
@@ -58,11 +67,14 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           return createdAtB - createdAtA;
         });
       }
+
       return sortedPosts;
     }
   });
 
-  useEffect(() => {}, [posts]);
+  useEffect(() => {
+    console.log('useEffect');
+  }, [posts]);
 
   // 이미지URL 불러오기
   const imageQueries = useQueries({
@@ -91,7 +103,12 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     queryFn: getAllUsers
   });
 
-  console.log('사용자정보:', userList);
+  const fetchMore = () => {
+    if (!hasNextPage) {
+      alert('다음 게시물이 없습니다');
+    }
+    fetchNextPage();
+  };
 
   return (
     <St.MainSubWrapper>
@@ -102,13 +119,17 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           <St.Contents>
             {posts?.map((post, idx) => {
               const imageQuery = imageQueries[idx];
+
               return (
-                <St.Content key={post.id} onClick={() => navigate(`/detail/${post.id}`)}>
+                <St.Content key={post.id}>
                   {imageQuery.isLoading ? (
-                    // <p>Loading image...</p>
                     <Loader />
                   ) : (
-                    <St.ContentImg src={imageQuery.data || defaultImage} alt={post.title} />
+                    <St.ContentImg
+                      src={imageQuery.data || defaultImage}
+                      alt={post.title}
+                      onClick={() => navigate(`/detail/${post.id}`)}
+                    />
                   )}
 
                   <St.PostInfoContainer>
@@ -126,16 +147,14 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                         </div>
                         {/* 하트 클릭하는 버튼 */}
                         <St.HeartClickButton>
-                          <GoHeart />
+                          <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, post.id)} />
+                          {post.likedUsers?.includes(currentUser!) ? <St.HeartFillIcon /> : <St.HeartIcon />}
                         </St.HeartClickButton>
                       </St.UserProfile>
                     )}
                     <St.TitleAndContent>
                       <p>{post.title}</p>
                       {post.content && <PostContentPreview postContent={post.content} />}
-                      {/* <div
-                        dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }}
-                      /> */}
                     </St.TitleAndContent>
                     <St.CommentAndLikes>
                       <span>
@@ -150,17 +169,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                         <GoComment />
                         {post.commentCount ?? 0}
                       </span>
-                      {/* <FaRegComment />
-                    <p>{post.commentCount}</p>
-                    <p>
-                      <FaHeart size="15" />
-                    </p>
-                    <p>{post.likeCount}</p> */}
                     </St.CommentAndLikes>
-                    {/* <St.NeedDelete>
-                  <p>삭제예정/ {post.category}</p>
-                  <p>삭제예정/ {post.role}</p>
-                </St.NeedDelete> */}
                   </St.PostInfoContainer>
                 </St.Content>
               );
@@ -169,7 +178,13 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         )}
       </St.ContentsWrapper>
       <St.MoreContentWrapper>
-        {isFetchingNextPage ? <Loader /> : <button onClick={() => fetchNextPage()}>더 보기</button>}
+        {isFetchingNextPage ? (
+          <Loader />
+        ) : hasNextPage ? (
+          <button onClick={() => fetchNextPage()}>더 보기</button>
+        ) : (
+          <p>모든 데이터를 가져왔습니다.</p>
+        )}
       </St.MoreContentWrapper>
     </St.MainSubWrapper>
   );
