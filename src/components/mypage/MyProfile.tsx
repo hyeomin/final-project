@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
 import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -237,8 +236,6 @@ function MyProfile() {
                     image == defaultImg &&
                     image === auth.currentUser?.photoURL
                   }
-                  // disabled={!newDisplayName || image === auth.currentUser?.photoURL}
-                  // disabled={!newDisplayName && image || (image === auth.currentUser?.photoURL)}
                 >
                   수정완료
                 </St.ModifyButton>
