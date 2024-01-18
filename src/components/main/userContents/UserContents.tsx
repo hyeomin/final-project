@@ -6,7 +6,6 @@ import { auth } from '../../../shared/firebase';
 import { getAllUsers } from '../../../api/authApi';
 import { downloadImageURL, getUserContents } from '../../../api/homeApi';
 import { QUERY_KEYS } from '../../../query/keys';
-import useLikeCountQuery from '../../../query/useLikeCountQuery';
 import St from './style';
 import Loader from '../../common/Loader';
 import defaultCover from '../../../assets/defaultCoverImg.jpeg';
@@ -17,11 +16,10 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import '../swiperStyle.css';
+import { useLikeButton } from '../../../hooks/useLikeButton';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   // 유저 컨텐츠(인기순, 8개)
   const { data: userContents, isLoading } = useQuery({
@@ -46,7 +44,7 @@ const UserContents = () => {
       })) || []
   });
 
-  const { likeCountMutate } = useLikeCountQuery();
+  const onClickLikeButton = useLikeButton();
 
   // 탑랭킹 로딩
   if (isLoading) {
@@ -57,27 +55,6 @@ const UserContents = () => {
   if (!userContents || userContents.length === 0) {
     return <div>No userPosts data found</div>;
   }
-
-  // 좋아요 버튼
-  const onClickLikeButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string | undefined) => {
-    e.preventDefault();
-    // 로그인이 안되어있을 경우
-    if (!currentUser) {
-      const confirmation = window.confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?');
-      if (confirmation) navigate('/auth');
-    }
-    // 포스트 아이디가 매개변수로 전달된 경우
-    if (id) {
-      const postToUpdate: PostType = { id };
-      likeCountMutate(postToUpdate, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.POSTS]
-          });
-        }
-      });
-    }
-  };
 
   const removeImageTags = (htmlContent: string) => {
     return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
