@@ -1,12 +1,14 @@
 import { getAuth } from 'firebase/auth';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
-import { db } from '../shared/firebase';
+import { db, auth } from '../shared/firebase';
+// import auth from '../../src/shared/'
+// import { auth} from '../../shared/firebase';
 
 // 로그인한 유저 uid 일치하는 posts 가져오기
 const getMyPosts = async () => {
   try {
-    const auth = getAuth();
+    // const auth = getAuth();
     console.log('dd', auth.currentUser);
     const q = query(collection(db, QUERY_KEYS.POSTS), where('uid', '==', auth.currentUser?.uid));
     const querySnapshot = await getDocs(q);
@@ -25,7 +27,7 @@ const getMyPosts = async () => {
 //likeUsers에 로그인한 유저 uid가 있는 게시물 가져오기
 const getLikePosts = async () => {
   try {
-    const auth = getAuth();
+    // const auth = getAuth();
     const q = query(collection(db, QUERY_KEYS.POSTS), where('likedUsers', 'array-contains', auth.currentUser?.uid));
     const querySnapshot = await getDocs(q);
     const posts: PostType[] = [];

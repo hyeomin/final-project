@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth';
+import { updateProfile } from 'firebase/auth';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
@@ -16,7 +15,6 @@ import MyPosts from './MyPosts';
 import St from './style';
 import postCountIcon from '../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../assets/icons/rankingIcon.png';
-import { Data } from '../auth/Signup';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -24,28 +22,22 @@ function MyProfile() {
   const [newDisplayName, setNewDisPlayName] = useState('');
   const [userObj, setUserObj] = useState({});
   const [imageUpload, setImageUpload] = useState<any>('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(auth.currentUser?.photoURL);
+  const [isValid, setIsValid] = useState(true);
   const fileRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [previousPhotoURL, setPreviousPhotoURL] = useState<string | null>(null);
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    formState: { errors }
-  } = useForm<Data>({ mode: 'onChange' });
 
-  const nicknameRegex = '';
+  const nicknameRegex = /^[a-zA-Z가-힣0-9]{1,8}$|^[a-zA-Z0-9]{1,10}$/;
   useEffect(() => {
-    setPreviousPhotoURL(auth.currentUser?.photoURL || null);
-  }, []);
+    setPreviousPhotoURL(auth.currentUser?.photoURL!);
+  }, [image]);
 
   const onCancelEdit = () => {
-    setImage(previousPhotoURL || '');
+    setImage(previousPhotoURL!);
     setIsEditing(false);
-    setNewDisPlayName(auth.currentUser?.displayName || '');
+    setNewDisPlayName(auth.currentUser?.displayName!);
     setPreviewImage(null);
 
     if (fileRef.current) {
@@ -61,6 +53,15 @@ function MyProfile() {
 
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    if (nicknameRegex.test(value)) {
+      setIsValid(true);
+      setNewDisPlayName(value);
+    } else if (value === '') {
+      return;
+    } else {
+      setIsValid(false);
+      return;
+    }
     setNewDisPlayName(value);
   };
 
@@ -69,8 +70,8 @@ function MyProfile() {
   // 내 게시물 갯수 가져오기
   const { data: posts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getMyPosts
-    // enabled: !!auth.currentUser
+    queryFn: getMyPosts,
+    enabled: !!auth.currentUser
   });
   console.log('myPost ===>', posts);
 
@@ -78,7 +79,6 @@ function MyProfile() {
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     // auth 불러오기
-    const auth = getAuth();
     // 현재 유저 닉네임과 새로운 닉네임이 같지 않거나 현재 유저 사진Url과 업로드이미지가 같지 않으면!
     if (auth.currentUser?.displayName !== newDisplayName || auth.currentUser?.photoURL !== image) {
       // 현재 유저 uid 변수로 저장
@@ -88,16 +88,6 @@ function MyProfile() {
         await updateProfile(auth.currentUser!, {
           displayName: newDisplayName,
           photoURL: image
-        });
-        onAuthStateChanged(auth, (user) => {
-          if (user) {
-            setUserObj({
-              displayName: user.displayName,
-              uid: user.uid,
-              photoURL: user.photoURL
-            });
-            setNewDisPlayName(user.displayName || '');
-          }
         });
 
         // getDoc으로 userDocRef users의 해당하는 현재 유저 uid를 가져온다
@@ -111,12 +101,10 @@ function MyProfile() {
             displayName: updateUser?.displayName,
             profileImg: updateUser?.photoURL,
             uid: updateUser?.uid
-            // role: 'user'
           });
         }
         console.log('updateUser', updateUser);
         setNewDisPlayName(auth.currentUser?.displayName!);
-        setNickname(auth.currentUser?.displayName!);
         setIsEditing(false);
       }
     }
@@ -191,33 +179,17 @@ function MyProfile() {
         <St.ProfileInfo>
           <div style={{ display: 'flex' }}>
             {isEditing ? (
-              <St.DisplayNameModify
-                autoFocus
-                defaultValue={auth.currentUser?.displayName!}
-                onChange={onChangeDisplayName}
-              />
+              <>
+                <St.DisplayNameModify
+                  autoFocus
+                  defaultValue={auth.currentUser?.displayName!}
+                  // value={newDisplayName}
+                  onChange={onChangeDisplayName}
+                  style={{ borderColor: isValid ? 'black' : 'red' }}
+                />
+              </>
             ) : (
-              // <St.DisplayNameModify
-              // autoFocus
-              // defaultValue={auth.currentUser?.displayName!}
-              // onChange={onChangeDisplayName}
-
-              // type="text"
-              // id="nickname"
-              // defaultValue={auth.currentUser?.displayName!}
-              // placeholder="Nickname"
-              // {...register('newDisplayName', {
-              //   required: true
-              //   pattern: nicknameRegex
-              // })}
-              // onChange={(e) => {
-              //   setNickname(e.target.value);
-              //   setErrorMsg('');
-              // />
-              // {errors?.newDisplayName!.type === 'required' && <p>닉네임을 입력해주세요</p>}
-
-              // <St.DisplayNameModify autoFocus defaultValue={nickname} onChange={onChangeDisplayName} />
-              <St.MyNickname>{auth.currentUser?.displayName}</St.MyNickname>
+              <St.MyNickname>{auth.currentUser?.displayName!}</St.MyNickname>
             )}
           </div>
           <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>
@@ -227,34 +199,27 @@ function MyProfile() {
                 <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
                 <St.ModifyButton onClick={onCancelEdit}>취소</St.ModifyButton>
                 <St.ModifyButton
-                  onClick={onSubmitModifyProfile}
                   disabled={
-                    // (!newDisplayName && !image) ||
-                    // (newDisplayName === auth.currentUser?.displayName && image === auth.currentUser?.photoURL)
-                    newDisplayName === auth.currentUser?.displayName &&
-                    newDisplayName === '' &&
-                    image == defaultImg &&
-                    image === auth.currentUser?.photoURL
+                    newDisplayName === '' && !newDisplayName && image === auth.currentUser?.photoURL && !isValid
                   }
+                  onClick={onSubmitModifyProfile}
                 >
                   수정완료
                 </St.ModifyButton>
-                <div> {newDisplayName === '' && <div style={{ color: 'red' }}>닉네임을 입력해주세요</div>}</div>
-                {/* <div> {(!newDisplayName || !image) && <div style={{ color: 'red' }}>수정된 것이 없습니다.</div>}</div> */}
-                <div>
-                  {' '}
-                  {newDisplayName === auth.currentUser?.displayName && image === auth.currentUser?.photoURL && (
-                    <div style={{ color: 'red' }}>수정된 것이 없습니다.</div>
-                  )}
-                </div>
+                {newDisplayName === '' && <span style={{ color: 'red' }}>닉네임을 입력해주세요.</span>}
+                {newDisplayName === auth.currentUser?.displayName && image === auth.currentUser?.photoURL && (
+                  <span style={{ color: 'red' }}>변경된 게 없습니다.</span>
+                )}
               </>
             ) : (
-              <CiSettings
-                style={{ fontSize: '25px', marginTop: '5px', color: '#888888' }}
-                onClick={() => setIsEditing(true)}
-              >
-                수정
-              </CiSettings>
+              <>
+                <CiSettings
+                  style={{ fontSize: '25px', marginTop: '5px', color: '#888888' }}
+                  onClick={() => setIsEditing(true)}
+                >
+                  수정
+                </CiSettings>
+              </>
             )}
           </St.UserInfoModify>
         </St.ProfileInfo>
@@ -279,7 +244,6 @@ function MyProfile() {
               등급
               <br />
               <div style={{ display: 'flex', width: '20px', marginTop: '27px' }}>
-                {/* <>{ddd} Lv.1</> */}
                 <div style={{ marginRight: '10px' }}>{ddd}</div>
                 <div>Lv.1</div>
               </div>

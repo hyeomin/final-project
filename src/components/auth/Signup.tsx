@@ -1,6 +1,6 @@
 import {
   createUserWithEmailAndPassword,
-  getAuth,
+  // getAuth,
   signInWithPhoneNumber,
   fetchSignInMethodsForEmail,
   updateProfile
@@ -25,7 +25,6 @@ export type Data = {
   image?: string;
   defaultImg?: string;
   role?: string;
-  newDisplayName?: string;
 };
 
 function Signup() {
@@ -68,15 +67,15 @@ function Signup() {
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passworkCheck, phoneNumber }: Data) => {
     try {
-      const auth = getAuth();
+      // const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
       console.log('userCredential', userCredential);
       const user = userCredential.user;
       if (user !== null) {
         await updateProfile(user, {
-          displayName: nickname,
-          photoURL: ''
+          displayName: nickname
+          // photoURL: ''
         });
       } else return;
       setValue('email', '');
@@ -162,9 +161,9 @@ function Signup() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
-    console.log('nickname', nickname);
-    console.log('querySnapshot', querySnapshot);
-    console.log('querySnapshot.docs.length', querySnapshot.docs.length);
+    // console.log('nickname', nickname);
+    // console.log('querySnapshot', querySnapshot);
+    // console.log('querySnapshot.docs.length', querySnapshot.docs.length);
 
     if (querySnapshot.docs.length > 0) {
       alert('이미 존재하는 닉네임입니다.');
