@@ -85,12 +85,13 @@ function Login() {
         // console로 들어온 데이터 표시
 
         const user = data.user;
-        if (user !== null) {
-          updateProfile(user, {
-            displayName: nickname,
-            photoURL: ''
-          });
-        } else return;
+        // 구글로그인 null값으로 들어옴
+        // if (user !== null) {
+        //   updateProfile(user, {
+        //     displayName: nickname,
+        //     photoURL: ''
+        //   });
+        // } else return;
         // 회원가입 시, user 컬렉션에 값이 저장됨
         const userId = auth.currentUser?.uid;
         // 컬렉션에 있는 users 필드 정보 수정

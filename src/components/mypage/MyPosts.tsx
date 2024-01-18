@@ -21,6 +21,7 @@ import { QUERY_KEYS } from '../../query/keys';
 import { auth } from '../../shared/firebase';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Cs from '../viewAll/style';
+import React from 'react';
 
 // 내 게시물 가져오기
 const MyPosts = () => {
@@ -114,54 +115,59 @@ const MyPosts = () => {
   return (
     <>
       <Cs.Contents>
-        {posts?.map((post, idx) => {
-          const imageQuery = imageQueries[idx];
-          if (post.uid === auth.currentUser?.uid) {
-            return (
-              <Cs.Content onClick={() => navigate(`/detail/${post.id}`)}>
-                <Cs.ContentImg src={imageQuery.data || defaultCover} />
-                <Cs.PostInfoContainer>
-                  <Cs.UserProfile>
-                    <div>
-                      <Cs.ProfileImg src={auth.currentUser?.photoURL || defaultProfile} alt="profile" />
-                      <Cs.Row>
-                        <p>{userList?.find((user) => user.uid === post.uid)?.displayName}</p>
-                        <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
-                      </Cs.Row>
-                    </div>
-                    <Cs.HeartClickButton>
-                      <GoHeart />
-                    </Cs.HeartClickButton>
-                  </Cs.UserProfile>
-                  <Cs.TitleAndContent>
-                    <p>{post.title}</p>
-                    {/* <div
+        {posts?.length! > 0 ? (
+          posts?.map((post, idx) => {
+            const imageQuery = imageQueries[idx];
+            if (post.uid === auth.currentUser?.uid) {
+              return (
+                <Cs.Content onClick={() => navigate(`/detail/${post.id}`)}>
+                  <Cs.ContentImg src={imageQuery.data || defaultCover} />
+                  <Cs.PostInfoContainer>
+                    <Cs.UserProfile>
+                      <div>
+                        <Cs.ProfileImg src={auth.currentUser?.photoURL || defaultProfile} alt="profile" />
+                        <Cs.Row>
+                          <p>{userList?.find((user) => user.uid === post.uid)?.displayName}</p>
+                          <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
+                        </Cs.Row>
+                      </div>
+                      <Cs.HeartClickButton>
+                        <GoHeart />
+                      </Cs.HeartClickButton>
+                    </Cs.UserProfile>
+                    <Cs.TitleAndContent>
+                      <p>{post.title}</p>
+                      {/* <div
                       dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }}
                     /> */}
-                  </Cs.TitleAndContent>
-                  <Cs.CommentAndLikes>
-                    <span>
-                      <GoEye />
-                      {post.viewCount}
-                    </span>
-                    <span>
-                      <GoHeart />
-                      {post.likeCount}
-                    </span>
-                    <span>
-                      <GoComment />
-                      {post.commentCount ?? 0}
-                    </span>
-                  </Cs.CommentAndLikes>
-                </Cs.PostInfoContainer>
-                {/* <St.TextBox>
+                    </Cs.TitleAndContent>
+                    <Cs.CommentAndLikes>
+                      <span>
+                        <GoEye />
+                        {post.viewCount}
+                      </span>
+                      <span>
+                        <GoHeart />
+                        {post.likeCount}
+                      </span>
+                      <span>
+                        <GoComment />
+                        {post.commentCount ?? 0}
+                      </span>
+                    </Cs.CommentAndLikes>
+                  </Cs.PostInfoContainer>
+                  {/* <St.TextBox>
                   <div>{post.title}</div>
                   <St.Contents dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} />
                 </St.TextBox> */}
-              </Cs.Content>
-            );
-          }
-        })}
+                </Cs.Content>
+              );
+            }
+            return null;
+          })
+        ) : (
+          <p style={{ display: 'flex', justifyContent: 'center' }}>글이 없습니다.</p>
+        )}
       </Cs.Contents>
       <button onClick={fetchMore} style={{ width: '100px', height: '50px;' }}>
         more
