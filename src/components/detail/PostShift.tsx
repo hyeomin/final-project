@@ -68,7 +68,7 @@ const ButtonContainer = styled.div`
     border: none;
     /* border: 1px solid ${theme.color.mangoYellow}; */
     background-color: ${theme.color.mangoLight};
-    font-size: 16px;
+    font-size: 14px;
 
     &:hover {
       background-color: ${theme.color.mangoYellow};

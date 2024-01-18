@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { categoryListState, foundPostState, isEditingState, postState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
+import theme from '../../styles/theme';
 
 function SelectCategory() {
   const [isEditing, setIsEditing] = useRecoilState(isEditingState);
@@ -59,4 +60,10 @@ const Select = styled.select`
   height: 30px;
   font-size: 16px;
   border-color: transparent;
+  text-align: center;
+
+  // 디자인 테스트
+  /* background-color: ${theme.color.mangoLight};
+  border-radius: 10px;
+  padding: 5px 15px; */
 `;

@@ -3,9 +3,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import defaultImg from '../assets/defaultImg.jpg';
+import { useModal } from '../hooks/useModal';
 import { isSignUpState, roleState } from '../recoil/users';
 import { auth } from '../shared/firebase';
-import { useModal } from '../hooks/useModal';
 
 type Props = {
   styledNav: ({ isActive }: { isActive: boolean }) => {
@@ -20,6 +20,8 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
   const [role, setRole] = useRecoilState(roleState);
 
   const currentUser = auth.currentUser;
+
+  console.log('네브바 확인');
 
   const navigate = useNavigate();
 
@@ -75,7 +77,7 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
           <StyledNavLnk to="/auth" onClick={() => setIsSignUp(false)} style={styledNav}>
             로그인
           </StyledNavLnk>
-          <StyledNavLnk to="/auth" onClick={() => setIsSignUp(true)}>
+          <StyledNavLnk to="/auth" onClick={() => setIsSignUp(true)} style={styledNav}>
             회원가입
           </StyledNavLnk>
         </>

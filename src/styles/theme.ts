@@ -5,6 +5,7 @@ const color = {
   mangoNavy: '#01376B',
   gray: '#888',
   lightgray: '#dedede',
+  veryLightGray: '#ebebeb',
   containerBorder: '#999'
 };
 

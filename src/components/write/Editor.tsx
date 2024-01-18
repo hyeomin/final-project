@@ -28,6 +28,8 @@ function Editor({ foundPost, isEditing }: IsEditingProps) {
     ImageFormats.registered = true;
   }
 
+  console.log('에디터 isEditing', isEditing);
+
   useEffect(() => {
     if (isEditing && foundPost?.title && foundPost?.content) {
       setPost({
@@ -120,6 +122,7 @@ export default Editor;
 const WritingArea = styled.div`
   display: flex;
   flex-direction: column;
+  /* padding: 30px 0; */
   row-gap: 15px;
 
   & input {

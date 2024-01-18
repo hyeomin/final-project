@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deletePost } from '../../api/postApi';
 import editNdeleteToggleBox from '../../assets/editndeletetoggle.png';
+import { useModal } from '../../hooks/useModal';
 import { FoundPostProps } from '../../pages/Detail';
 import { QUERY_KEYS } from '../../query/keys';
-import { useModal } from '../../hooks/useModal';
+import theme from '../../styles/theme';
 
 function EditNDeleteToggle({ foundPost }: FoundPostProps) {
   const modal = useModal();
@@ -54,20 +55,19 @@ function EditNDeleteToggle({ foundPost }: FoundPostProps) {
 
   return (
     <ToggleContainer>
-      {/* <img src={editNdeleteToggleBox} alt="toggle-box" /> */}
       <ToggleContentContainer>
-        <span onClick={onEditPostHandler}>
+        <EditNDeleteSpan onClick={onEditPostHandler}>
           수정하기
           <div>
             <GoPencil />
           </div>
-        </span>
-        <span onClick={onDeletePostHandler}>
+        </EditNDeleteSpan>
+        <EditNDeleteSpan onClick={onDeletePostHandler}>
           삭제하기
           <div>
             <GoTrash />
           </div>
-        </span>
+        </EditNDeleteSpan>
       </ToggleContentContainer>
     </ToggleContainer>
   );
@@ -78,10 +78,11 @@ export default EditNDeleteToggle;
 const ToggleContainer = styled.div`
   background-image: url(${editNdeleteToggleBox});
   background-size: 100%;
+  background-repeat: no-repeat;
   background-color: transparent;
 
   position: absolute;
-  top: 50px;
+  top: 30px;
   width: 130px;
   height: 100px;
 `;
@@ -95,14 +96,17 @@ const ToggleContentContainer = styled.div`
   padding: 25px;
   row-gap: 10px;
   font-size: 14px;
+`;
 
-  /* background-color: pink; */
+const EditNDeleteSpan = styled.span`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  color: black;
+  font-weight: lighter;
 
-  & span {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    color: black;
-    font-weight: lighter;
+  &:hover {
+    color: ${theme.color.mangoMain};
+    cursor: pointer;
   }
 `;
