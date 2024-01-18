@@ -37,8 +37,8 @@ const PenWrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   right: 5px;
   bottom: 5px;
   border-radius: 50%;
@@ -115,6 +115,7 @@ const UserInfoModify = styled.div`
   justify-content: left;
   margin-right: 50px;
   width: 170px;
+  /* height: 200px; */
 `;
 const FileInput = styled.input`
   display: none;
@@ -175,23 +176,28 @@ const TabButton = styled.button`
   justify-content: center;
   align-items: center;
   background-color: #f6f6f6;
+  &:hover {
+    cursor: pointer;
+    background-color: white;
+    border: 2.5px solid #f6f6f6;
+    color: #ffa114;
+  }
   border-radius: 10px 10px 0px 0px;
   color: black;
   border-color: transparent;
-  border: none;
-  /* padding-left: 25px; */
-  width: 140px;
+
+  width: 120px;
   height: 40px;
   font-size: 14px;
-  & div {
+  /* gap: 7px; */
+  /* & div {
     display: flex;
     color: black;
-    column-gap: 7px;
-
-    &:hover {
-      color: #ffa114;
-      /* border-color: black; */
-    }
+    column-gap: 7px; */
+  &:hover {
+    cursor: pointer;
+    color: #ffa114;
+    /* } */
   }
 `;
 
@@ -293,6 +299,7 @@ const CalendarTitle = styled.div`
   width: 800px;
   height: 100px;
   /* border: 0.5px solid lightgray; */
+  margin-top: 60px;
   border: none;
   background-color: #ffd864;
   border-radius: 20px 20px 0px 0px;
