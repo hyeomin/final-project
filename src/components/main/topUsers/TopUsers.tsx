@@ -18,7 +18,11 @@ const TopUsers = () => {
 
   const { data: topUsers } = useQuery({
     queryKey: ['topUsers'],
-    queryFn: getTopUsers
+    queryFn: getTopUsers,
+    select: (data) => {
+      const sorted = data.slice(0, 10);
+      return sorted;
+    }
   });
 
   return (

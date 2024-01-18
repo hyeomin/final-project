@@ -1,6 +1,7 @@
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
+import { GoHeart, GoHeartFill } from 'react-icons/go';
 
 const Wrapper = styled.div`
   max-width: 1440px;
@@ -379,6 +380,25 @@ const TextBox = styled.div`
   height: 300px;
 `;
 
+const LikeButton = styled.button`
+  background-color: transparent;
+  border: none;
+  width: 25px;
+  height: 25px;
+`;
+
+const HeartIcon = styled(GoHeart)`
+  color: #888888;
+  font-size: 25px;
+  cursor: pointer;
+`;
+
+const HeartFillIcon = styled(GoHeartFill)`
+  color: red;
+  font-size: 26px;
+  cursor: pointer;
+`;
+
 export default {
   ProfileEditWrapper,
   MySectionWrapper,
@@ -418,5 +438,8 @@ export default {
   PostCount,
   PenWrapper,
   ProfileImageContainer,
-  MyImage
+  MyImage,
+  LikeButton,
+  HeartIcon,
+  HeartFillIcon
 };

@@ -12,7 +12,9 @@ import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import PostContentPreview from '../common/PostContentPreview';
 import Cs from '../viewAll/style';
 import St from './style';
+import { useLikeButton } from '../../hooks/useLikeButton';
 const LikesPosts = () => {
+  const currentUser = auth.currentUser?.uid;
   // 게시물 이동을 위해 Ashley 추가
   const navigate = useNavigate();
 
@@ -40,6 +42,9 @@ const LikesPosts = () => {
       }
     ]
   });
+
+  //좋아요
+  const onClickLikeButton = useLikeButton();
 
   //필터된 posts 목록 (망고관리자 게시물은 임시로 둔다.)
   // const createdByMango = postQueries[0].data || [];
@@ -89,9 +94,9 @@ const LikesPosts = () => {
                       <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
                     </Cs.Row>
                   </div>
-                  <Cs.HeartClickButton>
-                    <GoHeart />
-                  </Cs.HeartClickButton>
+                  <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
+                    {post.likedUsers?.includes(currentUser!) ? <St.HeartFillIcon /> : <St.HeartIcon />}
+                  </St.LikeButton>
                 </Cs.UserProfile>
                 <Cs.TitleAndContent>
                   <p>{post.title}</p>

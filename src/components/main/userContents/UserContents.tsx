@@ -44,6 +44,7 @@ const UserContents = () => {
       })) || []
   });
 
+  //좋아요
   const onClickLikeButton = useLikeButton();
 
   // 탑랭킹 로딩
