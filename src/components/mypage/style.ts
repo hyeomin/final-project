@@ -11,7 +11,6 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  row-gap: 80px;
 `;
 
 const ProfileEditWrapper = styled.div`
@@ -19,8 +18,8 @@ const ProfileEditWrapper = styled.div`
   align-items: center; // ashley 추가 24.01.16
   column-gap: 30px;
   width: 100%;
-  height: 250px;
-  padding: 40px 80px;
+  height: 230px;
+  padding: 40px 60px;
   /* background-color: ${theme.color.gray}; */
   /* background-color: lightgray; */
   border-radius: 10px;
@@ -54,15 +53,25 @@ const ProfileInfo = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 15px;
-  gap: 20px;
+  gap: 10px;
   align-items: baseline;
-  margin-left: 30px;
 `;
 
-const UserPostInfo = styled.div`
+const UserPostInfoContainer = styled.div`
   display: flex;
   column-gap: 20px;
-  font-size: 12px;
+  font-size: 15px;
+`;
+
+const PostInfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  width: 140px;
+  height: 100px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #fbfbfb;
 `;
 
 const UserInfo = styled.div`
@@ -92,15 +101,20 @@ const ModifyButton = styled.button`
   border-radius: 30px;
   border: none;
   font-size: 12px;
+  color: white;
   margin-top: 15px;
   margin-left: 5px;
-  background-color: ${theme.color.mangoYellow};
-  color: ${theme.color.mangoNavy};
+  background-color: ${theme.color.mangoMain};
   font-weight: 600;
 `;
 
 const UserInfoModify = styled.div`
   /* background-color: red; */
+  /* width: 180px; */
+  display: flex;
+  justify-content: left;
+  margin-right: 50px;
+  width: 170px;
 `;
 const FileInput = styled.input`
   display: none;
@@ -113,20 +127,24 @@ const DisplayNameModify = styled.input`
   border: 1px solid lightgray;
   padding-left: 10px;
   font-size: 13px;
+  width: 150px;
+  font-size: 12px;
 `;
 
 const MyImage = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 `;
 
 const MyNickname = styled.h1`
   font-size: 20px;
+  font-weight: 600;
 `;
 
 const MyEmail = styled.h4`
   font-size: 15px;
+  color: ${theme.color.mangoNavy};
 `;
 
 const EmailAndName = styled.div`
@@ -143,21 +161,36 @@ const Tabs = styled.div`
 
 const TabButtonContainer = styled.div`
   display: flex;
-  column-gap: 20px;
+  justify-content: left;
+  width: 100%;
+  column-gap: 5px;
+
+  margin-top: 80px;
+  /* column-gap: 20px; */
   font-size: 20px;
 `;
 
 const TabButton = styled.button`
-  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f6f6f6;
+  border-radius: 10px 10px 0px 0px;
+  color: black;
   border-color: transparent;
-
+  border: none;
+  /* padding-left: 25px; */
+  width: 140px;
+  height: 40px;
+  font-size: 14px;
   & div {
     display: flex;
-    color: lightgray;
+    color: black;
     column-gap: 7px;
 
     &:hover {
-      color: black;
+      color: #ffa114;
+      /* border-color: black; */
     }
   }
 `;
@@ -173,11 +206,11 @@ const CalendarWrapper = styled.div`
 const StyleCalendar = styled.div`
   .react-calendar {
     width: 800px;
-    border-radius: 0px 0px 30px 30px;
-    /* background-color: ${theme.color.lightgray}; */
-    background-color: #ffffff;
-    border: ${theme.color.lightgray};
-    box-shadow: 3px 3px 3px 3px ${theme.color.gray};
+    border-radius: 0px 0px 20px 20px;
+
+    /* background-color: #fffaeb; */
+    border: none;
+    box-shadow: 0px 0px 4px 0px ${theme.color.containerBorder};
   }
 
   .react-calendar__tile--active {
@@ -192,8 +225,8 @@ const StyleCalendar = styled.div`
   }
 
   .react-calendar button {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -203,32 +236,99 @@ const StyleCalendar = styled.div`
     width: 50px;
     height: 50px;
   }
+  .react-calendar__navigation__label {
+    /* background-color: red; */
+    width: 50px;
+  }
+  .react-calendar__navigation__label__labelText {
+    font-size: 17px;
+    font-weight: 400;
+    /* color: ${theme.color.gray}; */
+  }
+  .react-calendar__navigation__arrow {
+    font-size: 24px;
+    font-weight: 400;
+    color: ${theme.color.gray};
+  }
+  .react-calendar__month-view__weekdays__weekday {
+    height: 70px;
+    font-weight: 500;
+    margin-top: 30px;
+    /* text-decoration: none; */
+  }
+`;
+
+const CalendarContainer = styled.div`
+  position: relative;
+`;
+
+const CalendarSpring1 = styled.img`
+  position: absolute;
+  z-index: 2;
+  bottom: 60px;
+  left: 100px;
+`;
+const CalendarSpring2 = styled.img`
+  position: absolute;
+  z-index: 2;
+  bottom: 60px;
+  left: 200px;
+`;
+
+const CalendarSpring3 = styled.img`
+  position: absolute;
+  z-index: 2;
+  bottom: 60px;
+  right: 200px;
+`;
+
+const CalendarSpring4 = styled.img`
+  position: absolute;
+  z-index: 2;
+  bottom: 60px;
+  right: 100px;
 `;
 
 const CalendarTitle = styled.div`
   width: 800px;
-  height: 70px;
-  border: 0.5px solid lightgray;
-  background-color: ${theme.color.mangoYellow};
-  border-radius: 30px 30px 0px 0px;
-  box-shadow: 3px 3px 3px 3px ${theme.color.gray};
+  height: 100px;
+  /* border: 0.5px solid lightgray; */
+  border: none;
+  background-color: #ffd864;
+  border-radius: 20px 20px 0px 0px;
+  box-shadow: 0px 4px 8px 0px ${theme.color.gray};
   display: flex;
   align-items: center;
   justify-content: center;
   color: ${theme.color.mangoMain};
   font-size: 25px;
-  font-family: ${theme.font.mango};
+  font-family: ${theme.font.agroRegular};
+  position: relative;
+  z-index: 1;
+`;
+
+const CalendarContentsContainer = styled.div`
+  position: relative;
 `;
 
 const PostCount = styled.div`
-  background-color: ${theme.color.mangoMain};
+  background-color: #ffcb30;
   border-radius: 50%;
   font-size: 13px;
+  width: 20px;
+  height: 20px;
+  color: white;
+
+  position: absolute;
+  z-index: 3;
+  bottom: 5px;
+  left: 42px;
 `;
 
 const CurrentDate = styled.div`
   margin-top: 30px;
 `;
+
 //--------------------------------------------
 // MyPosts
 
@@ -289,6 +389,12 @@ export default {
   Wrapper,
   UserInfo,
   Tabs,
+  CalendarContainer,
+  CalendarSpring1,
+  CalendarSpring2,
+  CalendarSpring3,
+  CalendarSpring4,
+  CalendarContentsContainer,
   CalendarTitle,
   TabButtonContainer,
   CalendarWrapper,
@@ -302,7 +408,8 @@ export default {
   DisplayNameModify,
   UserInfoModify,
   ProfileInfo,
-  UserPostInfo,
+  UserPostInfoContainer,
+  PostInfoBox,
   TabButton,
   TextBox,
   PostImg,

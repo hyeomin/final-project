@@ -25,6 +25,7 @@ export type Data = {
   image?: string;
   defaultImg?: string;
   role?: string;
+  newDisplayName?: string;
 };
 
 function Signup() {
