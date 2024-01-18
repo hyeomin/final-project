@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
-
+import { GoHeart, GoHeartFill } from 'react-icons/go';
 /*유저 등록 데이터 (친환경노하우~습관인증) */
 const MainSubWrapper = styled.div`
   width: 100%;
@@ -241,7 +241,7 @@ const MoreContentWrapper = styled.div`
     //font-family: Apple SD Gothic Neo;
     font-size: 16px;
     font-weight: 400;
-
+    cursor: pointer;
     &:hover {
       background: #df8d11;
     }
@@ -361,6 +361,24 @@ const NeedDelete = styled.div`
     color: ${theme.color.mangoMain};
   }
 `;
+const LikeButton = styled.button`
+  background-color: transparent;
+  border: none;
+  width: 25px;
+  height: 25px;
+`;
+
+const HeartIcon = styled(GoHeart)`
+  color: #888888;
+  font-size: 25px;
+  cursor: pointer;
+`;
+
+const HeartFillIcon = styled(GoHeartFill)`
+  color: red;
+  font-size: 26px;
+  cursor: pointer;
+`;
 
 export default {
   Button,
@@ -389,5 +407,8 @@ export default {
   ProfileImg,
   NeedDelete,
   PostInfoContainer,
-  HeartClickButton
+  HeartClickButton,
+  LikeButton,
+  HeartIcon,
+  HeartFillIcon
 };
