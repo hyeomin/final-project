@@ -41,13 +41,13 @@ const useLikeCountQuery = () => {
       }
       return { previousPosts: previousPosts ?? [] };
     },
-    onError: (error: Error, variables: PostType, context: MutationContext | undefined): void => {
+    // error, variables, context
+    onError: (error: Error, _: PostType, context: MutationContext | undefined): void => {
       if (context?.previousPosts) {
         queryClient.setQueryData([QUERY_KEYS.POSTS], context.previousPosts);
       }
       console.log('onError: ', error);
       console.log('context: ', context);
-      queryClient.setQueryData([QUERY_KEYS.POSTS], context!.previousPosts);
     },
     onSettled: () => {
       console.log('onSettled');

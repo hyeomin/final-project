@@ -141,7 +141,7 @@ const CommentList = ({ foundPost }: FoundPostProps) => {
       {comments?.length === 0 ? (
         // <CommenPlaceHolder>
         <SingleComment>
-          <img src={MangoLogo} alt="Mango Logo" />
+          <Mango src={MangoLogo} alt="Mango Logo" />
           <CommentDetail>
             <NameAndTime>
               <span>망고지기</span>
@@ -213,16 +213,10 @@ const SingleComment = styled.div`
   border-bottom: 1px solid ${theme.color.lightgray};
   padding: 40px 0;
 
-  /* 
-  &:not(:last-child) {
-    border-bottom: 1px solid #ccc;
-  } */
-
   img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    transform: rotate(340deg);
   }
 `;
 
@@ -270,6 +264,13 @@ const ButtonContainer = styled.div`
 
 const Content = styled.div`
   display: flex;
+`;
+
+const Mango = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transform: rotate(340deg);
 `;
 
 export default CommentList;
