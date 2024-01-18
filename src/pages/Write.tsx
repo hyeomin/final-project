@@ -9,28 +9,28 @@ import Hashtag from '../components/write/Hashtag';
 import ImageUpload from '../components/write/ImageUpload';
 import Header from '../components/write/WriteHeader';
 import { QUERY_KEYS } from '../query/keys';
-import { foundPostState, isEditingState, postState } from '../recoil/posts';
+import { foundPostState, isEditingPostState, postState } from '../recoil/posts';
 import { roleState } from '../recoil/users';
 import { auth } from '../shared/firebase';
 
-export type IsEditingProps = {
+export type isEditingPostProps = {
   foundPost: PostType | undefined;
-  isEditing: boolean;
+  isEditingPost: boolean;
 };
 
 function Write() {
   const [post, setPost] = useRecoilState(postState);
-  const [isEditing, setIsEditing] = useRecoilState(isEditingState);
+  const [isEditingPost, setIsEditingPost] = useRecoilState(isEditingPostState);
   const [foundPost, setFoundPost] = useRecoilState<PostType | undefined>(foundPostState);
   const [role, setRole] = useRecoilState(roleState);
 
   const { state } = useLocation();
 
-  // isEditing인지 확인하고 state 변경
+  // isEditingPost인지 확인하고 state 변경
   useEffect(() => {
     if (state) {
       setFoundPost(state.foundPost);
-      setIsEditing(true);
+      setIsEditingPost(true);
     }
   }, [state]);
 
@@ -71,10 +71,10 @@ function Write() {
   return (
     <Container>
       <Header />
-      <Editor foundPost={foundPost} isEditing={isEditing} />
+      <Editor foundPost={foundPost} isEditingPost={isEditingPost} />
       <Spacer />
-      <Hashtag foundPost={foundPost} isEditing={isEditing} />
-      <ImageUpload foundPost={foundPost} isEditing={isEditing} />
+      <Hashtag foundPost={foundPost} isEditingPost={isEditingPost} />
+      <ImageUpload foundPost={foundPost} isEditingPost={isEditingPost} />
     </Container>
   );
 }

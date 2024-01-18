@@ -30,7 +30,7 @@ const coverImageState = atom<ImageItem[]>({
   default: []
 });
 
-const isEditingState = atom({
+const isEditingPostState = atom({
   key: POST.IS_EDITING,
   default: false
 });
@@ -45,4 +45,4 @@ const commonHashtagsListState = atom({
   default: ['분리수거', '업사이클링', '채식', '텀블러', '건강', '에코', '탄소절감']
 });
 
-export { categoryListState, commonHashtagsListState, coverImageState, foundPostState, isEditingState, postState };
+export { categoryListState, commonHashtagsListState, coverImageState, foundPostState, isEditingPostState, postState };

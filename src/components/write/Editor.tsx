@@ -9,14 +9,14 @@ import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
 
 import 'react-quill/dist/quill.snow.css';
-import { IsEditingProps } from '../../pages/Write';
+import { isEditingPostProps } from '../../pages/Write';
 import { postState } from '../../recoil/posts';
 import theme from '../../styles/theme';
 
 Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
 
-function Editor({ foundPost, isEditing }: IsEditingProps) {
+function Editor({ foundPost, isEditingPost }: isEditingPostProps) {
   const TITLE = 'title';
 
   const [post, setPost] = useRecoilState(postState);
@@ -28,17 +28,15 @@ function Editor({ foundPost, isEditing }: IsEditingProps) {
     ImageFormats.registered = true;
   }
 
-  console.log('에디터 isEditing', isEditing);
-
   useEffect(() => {
-    if (isEditing && foundPost?.title && foundPost?.content) {
+    if (isEditingPost && foundPost?.title && foundPost?.content) {
       setPost({
         ...post,
         title: foundPost.title,
         content: foundPost.content
       });
     }
-    if (!isEditing) {
+    if (!isEditingPost) {
       setPost({
         title: '',
         content: '',
@@ -46,7 +44,7 @@ function Editor({ foundPost, isEditing }: IsEditingProps) {
         hashtags: []
       });
     }
-  }, [isEditing, foundPost]);
+  }, [isEditingPost, foundPost]);
 
   const modules = useMemo(() => {
     return {
