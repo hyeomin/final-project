@@ -1,6 +1,6 @@
 import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
@@ -25,6 +25,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const navigate = useNavigate();
   // HM text 발라내기 위해 추가
 
+  let isLastPage = false;
+
   const {
     data: posts,
     fetchNextPage,
@@ -36,8 +38,10 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
     getNextPageParam: (lastPage) => {
       if (lastPage.length === 0) {
+        isLastPage = true;
         return undefined;
       }
+
       return lastPage[lastPage.length - 1];
     },
     select: (data) => {
@@ -58,6 +62,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           return createdAtB - createdAtA;
         });
       }
+
+      console.log('sortedPosts', sortedPosts);
       return sortedPosts;
     }
   });
@@ -91,8 +97,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     queryFn: getAllUsers
   });
 
-  console.log('사용자정보:', userList);
-
+  //  console.log('사용자정보:', userList);
+  console.log('isFetchingNextPage', isFetchingNextPage);
   return (
     <St.MainSubWrapper>
       <St.ContentsWrapper>
@@ -169,7 +175,13 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         )}
       </St.ContentsWrapper>
       <St.MoreContentWrapper>
-        {isFetchingNextPage ? <Loader /> : <button onClick={() => fetchNextPage()}>더 보기</button>}
+        {isFetchingNextPage ? (
+          <Loader />
+        ) : isLastPage ? (
+          <></>
+        ) : (
+          <button onClick={() => fetchNextPage()}>더 보기</button>
+        )}
       </St.MoreContentWrapper>
     </St.MainSubWrapper>
   );
