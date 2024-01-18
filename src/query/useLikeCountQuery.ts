@@ -12,7 +12,6 @@ const useLikeCountQuery = () => {
   const currentUserId = auth.currentUser?.uid;
   const queryClient = useQueryClient();
   const { mutate: likeCountMutate } = useMutation({
-    // mutationKey: [QUERY_KEYS.POSTS],
     mutationFn: updateLikedUsers,
     onMutate: async (post) => {
       await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS] });

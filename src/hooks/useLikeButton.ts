@@ -21,13 +21,7 @@ export const useLikeButton = () => {
     // 포스트 아이디가 매개변수로 전달된 경우
     if (id) {
       const postToUpdate: PostType = { id };
-      likeCountMutate(postToUpdate, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: [QUERY_KEYS.POSTS]
-          });
-        }
-      });
+      likeCountMutate(postToUpdate);
     }
   };
 
