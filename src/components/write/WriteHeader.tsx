@@ -8,6 +8,8 @@ import IsEditingButton from './editPost/EditUploadButton';
 function Header() {
   const [isEditing, setIsEditing] = useRecoilState(isEditingState);
 
+  console.log('헤더 isEditing', isEditing);
+
   return (
     <WriteHeader>
       <ButtonContainer>
@@ -24,13 +26,14 @@ const WriteHeader = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
+  padding: 20px 0;
   border-bottom: 1px solid ${theme.color.lightgray};
-  height: 50px;
+  /* height: 50px; */
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   column-gap: 10px;
   font-weight: bold;
-  padding: 20px 0;
+  /* padding: 20px 0; */
 `;
