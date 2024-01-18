@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import logo from '../assets/icons/mango-logo.png';
 import AuthToggle from '../components/auth/AuthToggle';
 import useOutsideClick from '../hooks/useOutsideClick';
-import { auth } from '../shared/firebase';
 import theme from '../styles/theme';
 import AuthNavBar from './AuthNavBar';
 
@@ -12,8 +11,6 @@ function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-
-  console.log('auth-->', auth);
 
   // AuthToggle 밖 누르면 꺼지게
   useOutsideClick<HTMLDivElement>(navRef, () => {
@@ -64,7 +61,7 @@ const NavBarContainer = styled.div`
   align-items: center;
   padding: 0 80px;
   height: 60px;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid ${theme.color.lightgray};
 
   & a {
     text-decoration: none;

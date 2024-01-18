@@ -17,8 +17,9 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
   const [role, setRole] = useRecoilState(roleState);
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const prevPathname = useRef(location.pathname);
+  const { pathname } = useLocation();
+
+  const prevPathname = useRef(pathname);
 
   // useEffect(() => {
   //   setUserInfo(auth.currentUser);
@@ -26,10 +27,10 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
 
   // 주소가 바뀌면 토글 창 꺼지게
   useEffect(() => {
-    if (location.pathname !== prevPathname.current) {
+    if (pathname !== prevPathname.current) {
       setIsAuthToggleOpen(false);
     }
-  }, [location.pathname]);
+  }, [pathname]);
 
   // 마이페이지로 이동 버튼
   const onNavigateMyPageHandler = () => {
@@ -39,6 +40,9 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
 
   const onLogOutHandler = async (e: React.FormEvent) => {
     e.preventDefault();
+    const confirmation = window.confirm('로그아웃하시겠습니까?');
+    if (!confirmation) return;
+
     try {
       await signOut(auth);
       console.log('logout');
@@ -47,6 +51,7 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
       setRole('');
       setIsAuthToggleOpen(false);
       // mypage거나 write면 홈으로 리다이렉팅 하면 홈으로 가기
+      if (pathname === '/mypage' || '/write') navigate('/');
     } catch (error) {
       console.log('Logout Error', error);
     }

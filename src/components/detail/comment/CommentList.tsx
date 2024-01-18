@@ -3,14 +3,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { getComments } from '../../../api/commentApi';
 import defaultUserProfile from '../../../assets/defaultImg.jpg';
+import MangoLogo from '../../../assets/mangoLogo(2).png';
+import { useModal } from '../../../hooks/useModal';
 import { FoundPostProps } from '../../../pages/Detail';
 import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
-import { useModal } from '../../../hooks/useModal';
-import MangoLogo from '../../../assets/mangoLogo(2).png';
 
 const CommentList = ({ foundPost }: FoundPostProps) => {
   const modal = useModal();
@@ -242,7 +242,7 @@ const NameAndTime = styled.div`
 `;
 
 const Time = styled.span`
-  color: ${theme.color.lightgray};
+  color: ${theme.color.gray};
   font-weight: normal;
 `;
 
@@ -253,7 +253,8 @@ const ButtonContainer = styled.div`
   & button {
     background-color: transparent;
     border-color: transparent;
-    color: ${theme.color.lightgray};
+    color: ${theme.color.gray};
+
     &:hover {
       text-decoration: underline;
       cursor: pointer;

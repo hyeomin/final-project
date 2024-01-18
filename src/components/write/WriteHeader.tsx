@@ -8,8 +8,6 @@ import IsEditingButton from './editPost/EditUploadButton';
 function Header() {
   const [isEditingPost, setIsEditingPost] = useRecoilState(isEditingPostState);
 
-  console.log('헤더 isEditing', isEditingPost);
-
   return (
     <WriteHeader>
       <ButtonContainer>

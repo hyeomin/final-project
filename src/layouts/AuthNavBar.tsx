@@ -21,8 +21,6 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
 
   const currentUser = auth.currentUser;
 
-  console.log('네브바 확인');
-
   const navigate = useNavigate();
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {

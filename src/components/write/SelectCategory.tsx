@@ -3,45 +3,37 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { categoryListState, foundPostState, isEditingPostState, postState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
-import theme from '../../styles/theme';
 
 function SelectCategory() {
-  const [isEditingPost, setIsEditingPost] = useRecoilState(isEditingPostState);
-  const [foundPost, setFoundPost] = useRecoilState<PostType | undefined>(foundPostState);
-  const [displayCategory, setDisplayCategory] = useState('');
-  const [post, setPost] = useRecoilState(postState);
-
+  const [isEditingPost] = useRecoilState(isEditingPostState);
+  const [foundPost] = useRecoilState<PostType | undefined>(foundPostState);
   const role = useRecoilValue(roleState);
   const categoryList = useRecoilValue(categoryListState);
+  const [post, setPost] = useRecoilState(postState);
 
-  // 수정 중인 경우 원래 포스트의 카테고리로 보여지게
+  // Determine the current display category
+  const displayCategoryEng = isEditingPost && foundPost?.category ? foundPost.category : categoryList[0].nameEng;
+
+  // const [displayCategoryEng, setDisplayCategoryEng] = useState();
+  const [selectedCategoryEng, setSelectedCategoryEng] = useState(displayCategoryEng);
+
   useEffect(() => {
-    if (isEditingPost && foundPost?.category) {
-      const preSelectedCategory = categoryList.find((category) => category.nameEng === foundPost.category);
-      setDisplayCategory(preSelectedCategory?.nameKor ?? 'aaa');
-    }
-  }, [foundPost, isEditingPost]);
+    setSelectedCategoryEng(displayCategoryEng);
+  }, [displayCategoryEng]);
 
-  // 유저인 경우와 어드민 경우 구분 필요
+  // Filtered category list based on role
   const filteredCategoryList = useMemo(() => {
-    if (role === 'user') {
-      return categoryList.filter((category) => !category.isAdmin);
-    }
-    return categoryList;
+    return role === 'user' ? categoryList.filter((category) => !category.isAdmin) : categoryList;
   }, [categoryList, role]);
 
-  // category 선택 핸들러
   const onChangeSelectHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedCategoryValue = event.target.value;
-    const selectedCategory = selectedCategoryValue ?? categoryList[0].nameKor;
-    setPost({ ...post, category: selectedCategory });
+    const newCategoryEng = event.target.value;
+    setSelectedCategoryEng(newCategoryEng); // Update the selected category
+    setPost({ ...post, category: newCategoryEng }); // Update the post state
   };
 
   return (
-    <Select value={displayCategory} onChange={onChangeSelectHandler}>
-      <option value="" disabled hidden>
-        카테고리를 선택하세요
-      </option>
+    <Select value={selectedCategoryEng} onChange={onChangeSelectHandler}>
       {filteredCategoryList.map((item, idx) => {
         return (
           <option key={idx} value={item.nameEng}>
@@ -61,9 +53,4 @@ const Select = styled.select`
   font-size: 16px;
   border-color: transparent;
   text-align: center;
-
-  // 디자인 테스트
-  /* background-color: ${theme.color.mangoLight};
-  border-radius: 10px;
-  padding: 5px 15px; */
 `;
