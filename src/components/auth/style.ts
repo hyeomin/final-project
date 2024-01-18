@@ -11,7 +11,7 @@ const authWrapper = styled.div`
 `;
 
 const SubTitle = styled.div`
-  color: ${theme.color.lightgray};
+  color: ${theme.color.gray};
   font-size: 12px;
   margin-bottom: 10px;
 `;

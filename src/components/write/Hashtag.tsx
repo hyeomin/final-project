@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { GoPlus, GoSearch, GoX } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { IsEditingProps } from '../../pages/Write';
+import { IsEditingPostProps } from '../../pages/Write';
 import { commonHashtagsListState, postState } from '../../recoil/posts';
 import theme from '../../styles/theme';
 
-function Hashtag({ foundPost, isEditing }: IsEditingProps) {
+function Hashtag({ foundPost, isEditingPost }: IsEditingPostProps) {
   const HASHTAG = 'hashtag';
 
   const [post, setPost] = useRecoilState(postState);
@@ -22,7 +22,7 @@ function Hashtag({ foundPost, isEditing }: IsEditingProps) {
     if (foundPost?.hashtag) {
       setPost({ ...post, hashtags: foundPost?.hashtag });
     }
-  }, [isEditing, foundPost, post, setPost]);
+  }, [isEditingPost, foundPost, post, setPost]);
 
   // 새로운 해시태그 추가
   const onHashtagChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
