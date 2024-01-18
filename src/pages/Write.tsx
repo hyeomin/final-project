@@ -13,7 +13,7 @@ import { foundPostState, isEditingPostState, postState } from '../recoil/posts';
 import { roleState } from '../recoil/users';
 import { auth } from '../shared/firebase';
 
-export type isEditingPostProps = {
+export type IsEditingPostProps = {
   foundPost: PostType | undefined;
   isEditingPost: boolean;
 };

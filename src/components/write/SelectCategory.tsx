@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { categoryListState, foundPostState, isEditingState, postState } from '../../recoil/posts';
+import { categoryListState, foundPostState, isEditingPostState, postState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
 import theme from '../../styles/theme';
 
 function SelectCategory() {
-  const [isEditing, setIsEditing] = useRecoilState(isEditingState);
+  const [isEditingPost, setIsEditingPost] = useRecoilState(isEditingPostState);
   const [foundPost, setFoundPost] = useRecoilState<PostType | undefined>(foundPostState);
   const [displayCategory, setDisplayCategory] = useState('');
   const [post, setPost] = useRecoilState(postState);
@@ -16,11 +16,11 @@ function SelectCategory() {
 
   // 수정 중인 경우 원래 포스트의 카테고리로 보여지게
   useEffect(() => {
-    if (isEditing && foundPost?.category) {
+    if (isEditingPost && foundPost?.category) {
       const preSelectedCategory = categoryList.find((category) => category.nameEng === foundPost.category);
       setDisplayCategory(preSelectedCategory?.nameKor ?? 'aaa');
     }
-  }, [foundPost, isEditing]);
+  }, [foundPost, isEditingPost]);
 
   // 유저인 경우와 어드민 경우 구분 필요
   const filteredCategoryList = useMemo(() => {

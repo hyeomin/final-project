@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { downloadCoverImageURLs } from '../../api/detailApi';
 import DragNDrop from '../../assets/icons/dragndrop.png';
-import { isEditingPostProps } from '../../pages/Write';
+import { IsEditingPostProps } from '../../pages/Write';
 import { coverImageState } from '../../recoil/posts';
 import theme from '../../styles/theme';
 
@@ -16,7 +16,7 @@ export type ImageItem = {
   file?: File;
 };
 
-function ImageUpload({ foundPost, isEditingPost }: isEditingPostProps) {
+function ImageUpload({ foundPost, isEditingPost }: IsEditingPostProps) {
   const [coverImages, setCoverImages] = useRecoilState(coverImageState);
   const fileInputRef = useRef<HTMLInputElement>(null);
 

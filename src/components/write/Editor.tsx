@@ -9,14 +9,14 @@ import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
 
 import 'react-quill/dist/quill.snow.css';
-import { isEditingPostProps } from '../../pages/Write';
+import { IsEditingPostProps } from '../../pages/Write';
 import { postState } from '../../recoil/posts';
 import theme from '../../styles/theme';
 
 Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
 
-function Editor({ foundPost, isEditingPost }: isEditingPostProps) {
+function Editor({ foundPost, isEditingPost }: IsEditingPostProps) {
   const TITLE = 'title';
 
   const [post, setPost] = useRecoilState(postState);

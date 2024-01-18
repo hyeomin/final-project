@@ -46,6 +46,7 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
       // 로그아웃 시 Recoil 전역 상태 업데이트
       setRole('');
       setIsAuthToggleOpen(false);
+      // mypage거나 write면 홈으로 리다이렉팅 하면 홈으로 가기
     } catch (error) {
       console.log('Logout Error', error);
     }
