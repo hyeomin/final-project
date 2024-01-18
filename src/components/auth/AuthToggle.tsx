@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import defaultImg from '../../assets/defaultImg.jpg';
 import { roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
+import theme from '../../styles/theme';
 
 type Props = {
   setIsAuthToggleOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -62,10 +63,10 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
         </ProfileImageContainer>
         <span>{`안녕하세요, ${userInfo?.displayName}님`}</span>
         <ButtonContainer>
-          <AuthButton onClick={onNavigateMyPageHandler} bgColor="#FFD864" bdrColor="#888888">
+          <AuthButton onClick={onNavigateMyPageHandler} bgcolor="#FFD864" bdrcolor="transparent">
             마이페이지
           </AuthButton>
-          <AuthButton onClick={onLogOutHandler} bgColor="transparent" bdrColor="#222222">
+          <AuthButton onClick={onLogOutHandler} bgcolor="#f6f6f6" bdrcolor={`${theme.color.gray}`}>
             로그아웃
           </AuthButton>
         </ButtonContainer>
@@ -81,8 +82,8 @@ const ToggleContainer = styled.div`
   justify-content: end;
   font-size: 14px;
   position: absolute;
-  top: 60px;
-  right: 120px;
+  top: 65px;
+  right: 60px;
   z-index: 100;
 `;
 
@@ -94,7 +95,8 @@ const ToggleBox = styled.div`
   row-gap: 20px;
   width: 320px;
   height: 320px;
-  background-color: #d9d9d9;
+  border-radius: 20px;
+  background-color: ${theme.color.veryLightGray};
 `;
 
 const ProfileImageContainer = styled.div`
@@ -114,19 +116,6 @@ const ProfileImageContainer = styled.div`
   }
 `;
 
-const PenWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  right: 0px;
-  bottom: 0px;
-  border-radius: 50%;
-  background-color: white;
-`;
-
 const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
@@ -134,8 +123,8 @@ const ButtonContainer = styled.div`
 `;
 
 interface AuthButtonProps {
-  bgColor: string;
-  bdrColor: string;
+  bgcolor: string;
+  bdrcolor: string;
 }
 
 const AuthButton = styled.button<AuthButtonProps>`
@@ -143,7 +132,7 @@ const AuthButton = styled.button<AuthButtonProps>`
   padding: 10px 5px;
   width: 120px;
   border-radius: 10px;
-  background-color: ${(props) => props.bgColor};
-  border: 1px solid ${(props) => props.bdrColor};
+  background-color: ${(props) => props.bgcolor};
+  border: 1px solid ${(props) => props.bdrcolor};
   cursor: pointer;
 `;

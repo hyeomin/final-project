@@ -5,15 +5,24 @@ import NavBar from './NavBar';
 
 function Layout({ children }: PropsWithChildren) {
   return (
-    <div>
-      <NavBar />
-      <MainWrapper>{children}</MainWrapper>
+    <LayoutContainer>
+      <div>
+        <NavBar />
+        <MainWrapper>{children}</MainWrapper>
+      </div>
       <Footer />
-    </div>
+    </LayoutContainer>
   );
 }
 
 export default Layout;
+
+const LayoutContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+`;
 
 const MainWrapper = styled.div`
   width: 1000px;

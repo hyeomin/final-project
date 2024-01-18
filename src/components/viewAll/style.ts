@@ -318,8 +318,8 @@ const AdminPostTitle = styled.p`
 `;
 
 const AdminPostSpace = styled.div`
-  border: 1px solid #747474;
-  height: 1px;
+  border-bottom: 0.25px solid ${theme.color.lightgray};
+  height: 10px;
 `;
 
 const AdminPostContent = styled.div`

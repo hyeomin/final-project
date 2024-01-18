@@ -9,6 +9,7 @@ import {
   startAfter,
   where
 } from 'firebase/firestore';
+import { useEffect } from 'react';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../src/shared/firebase';
@@ -20,6 +21,7 @@ import defaultProfile from '../../assets/defaultImg.jpg';
 import { QUERY_KEYS } from '../../query/keys';
 import { auth } from '../../shared/firebase';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
+import PostContentPreview from '../common/PostContentPreview';
 import Cs from '../viewAll/style';
 
 // 내 게시물 가져오기
@@ -74,6 +76,16 @@ const MyPosts = () => {
   }
 
   //useInfiniteQuery 더보기 구현
+
+  useEffect(() => {
+    console.log('어스');
+  }, [auth.currentUser]);
+  useEffect(() => {
+    console.log('포스트');
+  }, [posts]);
+  useEffect(() => {
+    console.log('이미지');
+  }, [imageQueries]);
 
   const {
     data: admin,
@@ -135,6 +147,7 @@ const MyPosts = () => {
                   </Cs.UserProfile>
                   <Cs.TitleAndContent>
                     <p>{post.title}</p>
+                    {post.content && <PostContentPreview postContent={post.content} />}
                     {/* <div
                       dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }}
                     /> */}

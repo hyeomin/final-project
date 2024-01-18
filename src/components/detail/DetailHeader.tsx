@@ -67,7 +67,7 @@ function DetailHeader({ foundPost }: Props) {
                 <SwiperSlide key={idx}>
                   <img src={image} alt="Post-Cover" />
                   <Gradient></Gradient>
-                  <PostTitle noImage={false}>{foundPost.title}</PostTitle>
+                  <PostTitle noimage="false">{foundPost.title}</PostTitle>
                 </SwiperSlide>
               );
             })}
@@ -79,7 +79,7 @@ function DetailHeader({ foundPost }: Props) {
         </>
       ) : (
         <NoImage>
-          <PostTitle noImage={true}>{foundPost.title}</PostTitle>
+          <PostTitle noimage="true">{foundPost.title}</PostTitle>
         </NoImage>
       )}
     </CoverContainer>
@@ -108,17 +108,17 @@ const StyledSwiper = styled(Swiper)`
 `;
 
 interface PostTitleProps {
-  noImage: boolean;
+  noimage: string;
 }
 
 const PostTitle = styled.h3<PostTitleProps>`
   /* color: white; */
-  color: ${(props) => (props.noImage ? 'black' : 'white')};
+  color: ${(props) => (props.noimage ? 'black' : 'white')};
   text-align: left;
   position: absolute;
   width: 100%;
-  bottom: ${(props) => (props.noImage ? '20px' : '60px')};
-  padding: ${(props) => (props.noImage ? '0 20px' : '0 60px')};
+  bottom: ${(props) => (props.noimage ? '20px' : '60px')};
+  padding: ${(props) => (props.noimage ? '0 20px' : '0 60px')};
   font-size: 40px;
   cursor: initial;
 `;
