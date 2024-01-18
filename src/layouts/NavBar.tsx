@@ -30,7 +30,7 @@ function NavBar() {
         <LeftNav>
           <LogoContainer>
             <img src={logo} alt="logo" />
-            <Logo onClick={() => navigate('/')}>Mango</Logo>
+            <span onClick={() => navigate('/')}>Mango</span>
           </LogoContainer>
           <NavLink to="/">홈</NavLink>
           <NavLink to="/about" style={styledNav}>
@@ -77,7 +77,7 @@ const LeftNav = styled.div`
   color: ${theme.color.gray};
 `;
 
-const LogoContainer = styled.div`
+export const LogoContainer = styled.div`
   display: flex;
 
   & img {
@@ -94,5 +94,3 @@ const LogoContainer = styled.div`
     cursor: pointer;
   }
 `;
-
-const Logo = styled.span``;
