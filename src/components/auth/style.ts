@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
-const authWrapper = styled.div`
+const AuthWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -161,7 +161,7 @@ export default {
   SubTitle,
   SignUpTitle,
   InputContainer,
-  authWrapper,
+  AuthWrapper,
   WarningMsg,
   LogoContainer,
   LogoBox,
