@@ -1,4 +1,4 @@
-import { useQueries, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { Link } from 'react-router-dom';
 import 'swiper/css';
@@ -7,7 +7,7 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
 import { getAllUsers } from '../../../api/authApi';
-import { downloadImageURL, getUserContents } from '../../../api/homeApi';
+import { getUserContents } from '../../../api/homeApi';
 import defaultCover from '../../../assets/defaultCoverImg.jpeg';
 import defatutUserImage from '../../../assets/defaultImg.jpg';
 import { useLikeButton } from '../../../hooks/useLikeButton';
@@ -35,13 +35,13 @@ const UserContents = () => {
   // console.log('유저 목록===>', users);
 
   // 이미지URL 불러오기
-  const imageQueries = useQueries({
-    queries:
-      userContents?.map((post) => ({
-        queryKey: ['imageURL', post.id],
-        queryFn: () => downloadImageURL(post.id as string)
-      })) || []
-  });
+  // const imageQueries = useQueries({
+  //   queries:
+  //     userContents?.map((post) => ({
+  //       queryKey: ['imageURL', post.id],
+  //       queryFn: () => downloadImageURL(post.id as string)
+  //     })) || []
+  // });
 
   const onClickLikeButton = useLikeButton();
 
@@ -104,7 +104,7 @@ const UserContents = () => {
             className="default-swiper"
           >
             {userContents?.map((item, idx) => {
-              const imageQuery = imageQueries[idx];
+              // const imageQuery = imageQueries[idx];
               return (
                 <St.StyledSwiperSlide key={idx} className="default-swiper">
                   <St.UserPostCover to={`/detail/${item.id}`}>
@@ -144,12 +144,13 @@ const UserContents = () => {
                         </St.Count>
                       </St.InfoBottom>
                     </St.TextAndLikeButton>
-                    {imageQuery.isLoading ? (
+                    <img src={defaultCover} alt={item.title} />
+                    {/* {imageQuery.isLoading ? (
                       // <p>Loading image...</p>
                       <Loader />
                     ) : (
                       <img src={imageQuery.data || defaultCover} alt={item.title} />
-                    )}
+                    )} */}
                   </St.UserPostCover>
                 </St.StyledSwiperSlide>
               );

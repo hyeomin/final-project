@@ -2,7 +2,7 @@ import { addDoc, collection, deleteDoc, doc, updateDoc } from 'firebase/firestor
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
 import { db, storage } from '../shared/firebase';
-import { EditPostStateType, PostType } from '../types/PostType';
+import { PostInputType, PostType } from '../types/PostType';
 
 type AddPostProps = {
   newPost: Omit<PostType, 'id'>;
@@ -31,30 +31,16 @@ const deletePost = async (postId: string) => {
 };
 
 type uploadPostProps = {
-  editingPost: EditPostStateType & {
+  editingPost: PostInputType & {
     updatedAt: number;
   };
   postId: string;
-  // imageFileforUpload: File[];
-  // imageUrltoDelete: string[];
 };
 
 const updatePost = async ({ editingPost, postId }: uploadPostProps) => {
   try {
     await updateDoc(doc(db, `${QUERY_KEYS.POSTS}/${postId}`), editingPost);
     console.log('포스트 업데이트 성공');
-
-    // 새로운 이미지 업로드
-    // for (const file of imageFileforUpload) {
-    //   const imageRef = ref(storage, `${QUERY_KEYS.POSTS}/${postId}/${file.name}`);
-    //   await uploadBytes(imageRef, file);
-    // }
-
-    // // 삭제된 이미지 Storage에서 삭제
-    // for (const url of imageUrltoDelete) {
-    //   const imagehttpsReference = ref(storage, url);
-    //   await deleteObject(imagehttpsReference);
-    // }
   } catch (error) {
     console.log('포스트 업데이트 오류', error);
   }
@@ -74,19 +60,6 @@ const uploadSingleImage = async ({ coverImage }: uploadImageProps) => {
   } catch (error) {
     console.log('이미지 업로드 실패', error);
   }
-
-  // try {
-  //   const uploadedImageUrls = []; // 업로드된 이미지 URL을 저장할 배열
-  //   for (const file of selectedImages) {
-  //     const imageRef = ref(storage, `images/${file.name}`);
-  //     const snapshot = await uploadBytes(imageRef, file);
-  //     const imageUrl = await getDownloadURL(snapshot.ref);
-  //     uploadedImageUrls.push(imageUrl); // 배열에 URL 추가
-  //   }
-  //   return uploadedImageUrls; // 업로드된 이미지 URL 배열 반환
-  // } catch (error) {
-  //   console.error('Error adding post: ', error);
-  // }
 };
 
 const deleteImage = async (url: string) => {

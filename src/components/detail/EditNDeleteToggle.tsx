@@ -8,7 +8,7 @@ import editNdeleteToggleBox from '../../assets/editndeletetoggle.png';
 import { useModal } from '../../hooks/useModal';
 // import { foundDetailPostProps } from '../../pages/Detail';
 import { QUERY_KEYS } from '../../query/keys';
-import { isEditingPostState } from '../../recoil/posts';
+import { isEditingPostState, postInputState } from '../../recoil/posts';
 import theme from '../../styles/theme';
 import { FoundDetailPostProps } from '../../types/PostType';
 
@@ -18,11 +18,19 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
   const navigate = useNavigate();
 
   const [isEditingPost, setisEditingPost] = useRecoilState(isEditingPostState);
+  const [postInput, setPostInput] = useRecoilState(postInputState);
 
   const onEditPostHandler = () => {
     setisEditingPost({
       foundPost: foundDetailPost,
       isEditing: true
+    });
+    setPostInput({
+      title: foundDetailPost.title,
+      content: foundDetailPost.content,
+      category: foundDetailPost.category,
+      hashtags: foundDetailPost.hashtags,
+      coverImages: foundDetailPost.coverImages
     });
     navigate('/write');
   };

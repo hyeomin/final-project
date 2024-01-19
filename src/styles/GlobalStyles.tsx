@@ -62,13 +62,6 @@ const GlobalStyle = createGlobalStyle`
         outline: none;         /* Removes outline on focus, can be customized */
     }
 
-    /* @font-face {
-  font-family: 'Pretendard-Regular';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-} */
 
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
 `;
 export default GlobalStyle;
