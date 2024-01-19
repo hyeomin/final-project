@@ -1,22 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
 import { updateProfile } from 'firebase/auth';
-
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
-import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
-import { getTopUsers } from '../../api/homeApi';
-import { getMyPosts } from '../../api/myPostAPI';
-import defaultImg from '../../assets/defaultImg.jpg';
-import postCountIcon from '../../assets/icons/postCountIcon.png';
-import rankingIcon from '../../assets/icons/rankingIcon.png';
-import { QUERY_KEYS } from '../../query/keys';
-import { auth, db, storage } from '../../shared/firebase';
-import HabitCalendar from './HabitCalendar';
-import LikesPosts from './LikesPosts';
-import MyPosts from './MyPosts';
+import { GoCalendar, GoHeart, GoPencil, GoTasklist } from 'react-icons/go';
+import { getMyPosts } from '../../../api/myPostAPI';
+import defaultImg from '../../../assets/defaultImg.jpg';
+import { QUERY_KEYS } from '../../../query/keys';
+import { auth, db, storage } from '../../../shared/firebase';
+import HabitCalendar from '../HabitCalendar/HabitCalendar';
+import LikesPosts from '../LikesPosts';
+import MyPosts from '../MyPosts';
 import St from './style';
+import postCountIcon from '../../../assets/icons/postCountIcon.png';
+import rankingIcon from '../../../assets/icons/rankingIcon.png';
+import { getTopUsers } from '../../../api/homeApi';
+import { GoQuestion } from 'react-icons/go';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -30,11 +30,17 @@ function MyProfile() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [previousPhotoURL, setPreviousPhotoURL] = useState<string | null>(null);
-  const nicknameRegex = /^[a-zA-Z가-힣0-9]{1,8}$|^[a-zA-Z0-9]{1,10}$/;
+  const [errorMsg, setErrorMsg] = useState('');
+  const [isClickedGuide, setIsClickedGuide] = useState(false);
+  const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
+  // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
+
+  // 프로필 이미지
   useEffect(() => {
     setPreviousPhotoURL(auth.currentUser?.photoURL!);
   }, [image]);
 
+  // 프로필 취소 버튼
   const onCancelEdit = () => {
     setImage(previousPhotoURL!);
     setIsEditing(false);
@@ -47,35 +53,21 @@ function MyProfile() {
     }
   };
 
-  // console.log('image', image);
-  const onClickTabBtn = (name: string) => {
-    setActiveTab(name);
-  };
-
-  const [isClickedGuide, setIsClickedGuide] = useState(false);
-
-  const handleToggle = () => {
-    setIsClickedGuide((prevState) => !prevState);
-  };
-
+  // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (nicknameRegex.test(value)) {
+    if (value !== '' && nicknameRegex.test(value)) {
       setIsValid(true);
       setNewDisPlayName(value);
-    } else if (value === '') {
-      return;
     } else {
       setIsValid(false);
-      return;
+      // 에러 메시지 표시
+      setErrorMsg('올바른 형식으로 입력해주세요.'); // 원하는 에러 메시지를 설정해주세요.
     }
-    setNewDisPlayName(value);
   };
 
-  // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
-
   // 내 게시물 갯수 가져오기
-  const { data: myposts } = useQuery({
+  const { data: myPosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getMyPosts,
     enabled: !!auth.currentUser,
@@ -83,7 +75,6 @@ function MyProfile() {
       return data?.filter((post) => post.uid === auth.currentUser?.uid!);
     }
   });
-  console.log('myPost ===>', myposts);
 
   // 랭킹순위
   const { data: topUsers } = useQuery({
@@ -91,7 +82,10 @@ function MyProfile() {
     queryFn: getTopUsers
   });
 
-  console.log('top ==> ', topUsers);
+  //div를 클릭해도 input이 클릭되도록 하기
+  const onClickUpload = () => {
+    fileRef.current?.click();
+  };
 
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
@@ -128,10 +122,17 @@ function MyProfile() {
     }
   };
 
-  //div를 클릭해도 input이 클릭되도록 하기 -> 연필 눌러야 input 클릭되게 하기 (by Ashley)
-  const onClickUpload = () => {
-    fileRef.current?.click();
-  };
+  // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
+  // 폴더/파일
+  useEffect(() => {
+    const imageRef = ref(storage, 'userProfile/' + `${auth.currentUser?.uid}`);
+    if (!imageUpload) return;
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImage(url);
+      });
+    });
+  }, [imageUpload]);
 
   //input을 클릭해서 파일 업로드
   //사진 미리보기
@@ -153,32 +154,38 @@ function MyProfile() {
       setImageUpload(uploadedFile);
     }
   };
-  //-------------여기 수정!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //왜 좋아요 게시물 수도 뜨는거냐
-  const userGrade = myposts?.length;
-  console.log('하우매니', myposts?.length);
+
+  // menuTab 버튼
+  const onClickTabBtn = (name: string) => {
+    setActiveTab(name);
+  };
+
+  // 등급 가이드 확인 버튼
+  const ClickedGuideToggleBtn = () => {
+    setIsClickedGuide((prevState) => !prevState);
+  };
+
+  const userGrade = myPosts?.length;
+  console.log('하우매니', myPosts?.length);
+  let levelOne = 1;
+  let levelTwo = 2;
+  let levelThree = 3;
+
   let LevelOneGradeEmoji = '🌱';
   let LevelTwoGradeEmoji = '☘️';
   let LevelThreeGradeEmoji = '🌳';
   let ddd = LevelOneGradeEmoji;
+  let aaa = levelOne;
   if (userGrade && userGrade < 2) {
     ddd = LevelOneGradeEmoji;
+    aaa = levelOne;
   } else if (userGrade && userGrade < 6) {
     ddd = LevelTwoGradeEmoji;
+    aaa = levelTwo;
   } else if (userGrade && userGrade >= 6) {
     ddd = LevelThreeGradeEmoji;
+    aaa = levelThree;
   }
-  // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
-  // 폴더/파일
-  useEffect(() => {
-    const imageRef = ref(storage, 'userProfile/' + `${auth.currentUser?.uid}`);
-    if (!imageUpload) return;
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImage(url);
-      });
-    });
-  }, [imageUpload]);
 
   return (
     <St.Wrapper>
@@ -224,17 +231,16 @@ function MyProfile() {
                 >
                   수정완료
                 </St.ModifyButton>
-                {newDisplayName === '' && <span style={{ color: 'red' }}>닉네임을 입력해주세요.</span>}
-                {newDisplayName === auth.currentUser?.displayName && image === auth.currentUser?.photoURL && (
-                  <span style={{ color: 'red' }}>변경된 게 없습니다.</span>
-                )}
+                <St.ErrorMsg>
+                  {!isValid && <span>{errorMsg}</span>}
+                  {newDisplayName === auth.currentUser?.displayName && image === auth.currentUser?.photoURL && (
+                    <span>변경된 게 없습니다.</span>
+                  )}
+                </St.ErrorMsg>
               </>
             ) : (
               <>
-                <CiSettings
-                  // style={{ fontSize: '25px', marginTop: '5px', color: '#888888' }}
-                  onClick={() => setIsEditing(true)}
-                >
+                <CiSettings style={{ cursor: 'pointer' }} onClick={() => setIsEditing(true)}>
                   수정
                 </CiSettings>
               </>
@@ -246,7 +252,7 @@ function MyProfile() {
             게시물 수<br />
             <div>
               <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={postCountIcon} />
-              <span style={{ marginLeft: '10px' }}>{myposts?.length}개</span>
+              <span style={{ marginLeft: '10px' }}>{myPosts?.length}개</span>
             </div>
           </St.PostInfoBox>
           <St.PostInfoBox>
@@ -261,11 +267,8 @@ function MyProfile() {
             <div>
               <div style={{ display: 'flex' }}>
                 <div>등급</div>
-                <div style={{ cursor: 'pointer' }} onClick={handleToggle}>
-                  <GoQuestion
-                    style={{ fontSize: '15px', marginLeft: '5px', cursor: 'pointer' }}
-                    // onClick={handleToggle}
-                  />
+                <div style={{ cursor: 'pointer' }} onClick={ClickedGuideToggleBtn}>
+                  <GoQuestion style={{ fontSize: '15px', marginLeft: '5px', cursor: 'pointer' }} />
                 </div>
               </div>
 
@@ -283,7 +286,7 @@ function MyProfile() {
               <br />
               <div style={{ display: 'flex', width: '20px', marginTop: '10px' }}>
                 <div style={{ marginRight: '10px' }}>{ddd}</div>
-                <div>Lv.1</div>
+                <div>Lv.{aaa}</div>
               </div>
             </div>
           </St.PostInfoBox>
