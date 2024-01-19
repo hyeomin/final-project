@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { categoryListState, foundPostState, isEditingPostState, postState } from '../../recoil/posts';
+import { foundPostState, isEditingPostState, postState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
+import { categoryList } from './common/Lists';
 
 function SelectCategory() {
   const [isEditingPost] = useRecoilState(isEditingPostState);
   const [foundPost] = useRecoilState<PostType | undefined>(foundPostState);
   const role = useRecoilValue(roleState);
-  const categoryList = useRecoilValue(categoryListState);
+  // const categoryList = useRecoilValue(categoryListState);
   const [post, setPost] = useRecoilState(postState);
 
   // Determine the current display category

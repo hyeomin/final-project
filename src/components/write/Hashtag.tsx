@@ -3,8 +3,9 @@ import { GoPlus, GoSearch, GoX } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { IsEditingPostProps } from '../../pages/Write';
-import { commonHashtagsListState, postState } from '../../recoil/posts';
+import { postState } from '../../recoil/posts';
 import theme from '../../styles/theme';
+import { commonHashtagsList } from './common/Lists';
 
 function Hashtag({ foundPost, isEditingPost }: IsEditingPostProps) {
   const HASHTAG = 'hashtag';
@@ -12,10 +13,8 @@ function Hashtag({ foundPost, isEditingPost }: IsEditingPostProps) {
   const [post, setPost] = useRecoilState(postState);
   const { hashtags } = post;
 
-  const [commondiv, setCommondiv] = useRecoilState(commonHashtagsListState);
+  const [commonHashtags, setCommonHashtags] = useState(commonHashtagsList);
   const [currentHashtag, setCurrentHashtag] = useState('');
-
-  const [selectedHashtags, setSelectedHashtags] = useState<string[]>([]);
 
   // 수정 중이면 수정 중인 글의 해시태그로 업데이트
   useEffect(() => {
@@ -40,8 +39,8 @@ function Hashtag({ foundPost, isEditingPost }: IsEditingPostProps) {
   // 선택된 해시태그 색깔 변경
   const onHandleSelectHashtag = (newHashtag: string) => {
     setPost({ ...post, hashtags: [...hashtags, newHashtag] });
-    if (commondiv.includes(newHashtag)) {
-      setCommondiv(commondiv.filter((tag) => tag !== newHashtag));
+    if (commonHashtags.includes(newHashtag)) {
+      setCommonHashtags(commonHashtags.filter((tag) => tag !== newHashtag));
     }
   };
 
@@ -54,7 +53,7 @@ function Hashtag({ foundPost, isEditingPost }: IsEditingPostProps) {
     <HashtagArea>
       <h5>자주 사용된 해시태그입니다. 해시태그를 추가해보세요!</h5>
       <RecommendedTags>
-        {commondiv.map((hashtag, idx) => {
+        {commonHashtags.map((hashtag, idx) => {
           return (
             <SingleHashtag key={idx} onClick={() => onHandleSelectHashtag(hashtag)}>
               {hashtag}

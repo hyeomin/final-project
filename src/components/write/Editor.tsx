@@ -135,5 +135,13 @@ const WritingArea = styled.div`
 const EditorContainer = styled.div`
   .ql-editor {
     font-size: 18px;
+
+    strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
   }
 `;
