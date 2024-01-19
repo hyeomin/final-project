@@ -1,22 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
 import { updateProfile } from 'firebase/auth';
+
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
-import { GoCalendar, GoHeart, GoPencil, GoTasklist } from 'react-icons/go';
+import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
+import { getTopUsers } from '../../api/homeApi';
 import { getMyPosts } from '../../api/myPostAPI';
 import defaultImg from '../../assets/defaultImg.jpg';
+import postCountIcon from '../../assets/icons/postCountIcon.png';
+import rankingIcon from '../../assets/icons/rankingIcon.png';
 import { QUERY_KEYS } from '../../query/keys';
 import { auth, db, storage } from '../../shared/firebase';
 import HabitCalendar from './HabitCalendar';
 import LikesPosts from './LikesPosts';
 import MyPosts from './MyPosts';
 import St from './style';
-import postCountIcon from '../../assets/icons/postCountIcon.png';
-import rankingIcon from '../../assets/icons/rankingIcon.png';
-import { getTopUsers } from '../../api/homeApi';
-import { GoQuestion } from 'react-icons/go';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -128,7 +128,7 @@ function MyProfile() {
     }
   };
 
-  //div를 클릭해도 input이 클릭되도록 하기
+  //div를 클릭해도 input이 클릭되도록 하기 -> 연필 눌러야 input 클릭되게 하기 (by Ashley)
   const onClickUpload = () => {
     fileRef.current?.click();
   };

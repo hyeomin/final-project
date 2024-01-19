@@ -1,12 +1,13 @@
-import St from './style';
 import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { downloadImageURL } from '../../api/homeApi';
 import defaultCover from '../../assets/defaultCoverImg.jpeg';
-import { SortList } from './ViewAllBody';
-import { Link } from 'react-router-dom';
+import { PostType } from '../../types/PostType';
 import Loader from '../common/Loader';
-import { useEffect } from 'react';
+import { SortList } from './ViewAllBody';
+import St from './style';
 
 interface PostListProps {
   queryKey: QueryKey;

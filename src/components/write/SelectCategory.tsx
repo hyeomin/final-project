@@ -1,18 +1,23 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { categoryListState, foundPostState, isEditingPostState, postState } from '../../recoil/posts';
+import { editPostState, isEditingPostState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
+import { categoryList } from './common/Lists';
 
 function SelectCategory() {
   const [isEditingPost] = useRecoilState(isEditingPostState);
-  const [foundPost] = useRecoilState<PostType | undefined>(foundPostState);
+  const { foundPost } = isEditingPost;
+  // const [foundPost] = useRecoilState(foundPostState);
   const role = useRecoilValue(roleState);
-  const categoryList = useRecoilValue(categoryListState);
-  const [post, setPost] = useRecoilState(postState);
+  // const categoryList = useRecoilValue(categoryListState);
+
+  // const [post, setEditPost] = useRecoilState(postState);
+  const [editPost, setEditPost] = useRecoilState(editPostState);
 
   // Determine the current display category
-  const displayCategoryEng = isEditingPost && foundPost?.category ? foundPost.category : categoryList[0].nameEng;
+  const displayCategoryEng =
+    isEditingPost.isEditing && foundPost?.category ? foundPost.category : categoryList[0].nameEng;
 
   // const [displayCategoryEng, setDisplayCategoryEng] = useState();
   const [selectedCategoryEng, setSelectedCategoryEng] = useState(displayCategoryEng);
@@ -29,7 +34,7 @@ function SelectCategory() {
   const onChangeSelectHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newCategoryEng = event.target.value;
     setSelectedCategoryEng(newCategoryEng); // Update the selected category
-    setPost({ ...post, category: newCategoryEng }); // Update the post state
+    setEditPost({ ...editPost, category: newCategoryEng }); // Update the post state
   };
 
   return (

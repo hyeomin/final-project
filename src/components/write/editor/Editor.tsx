@@ -1,26 +1,28 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import SelectCategory from './SelectCategory';
-import imageHandler from './imageHandler';
+import SelectCategory from '../SelectCategory';
+import imageHandler from '../imageHandler';
 
 import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
 
 import 'react-quill/dist/quill.snow.css';
-import { IsEditingPostProps } from '../../pages/Write';
-import { postState } from '../../recoil/posts';
-import theme from '../../styles/theme';
+import { editPostState, isEditingPostState } from '../../../recoil/posts';
+import theme from '../../../styles/theme';
 
 Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
 
-function Editor({ foundPost, isEditingPost }: IsEditingPostProps) {
+function Editor() {
   const TITLE = 'title';
 
-  const [post, setPost] = useRecoilState(postState);
-  const { title, content } = post;
+  const [editPost, setEditPost] = useRecoilState(editPostState);
+  const { title, content } = editPost;
+
+  const [isEditingPost, setisEditingPost] = useRecoilState(isEditingPostState);
+  const { foundPost, isEditing } = isEditingPost;
 
   const quillRef = useRef<ReactQuill>(null);
 
@@ -28,23 +30,24 @@ function Editor({ foundPost, isEditingPost }: IsEditingPostProps) {
     ImageFormats.registered = true;
   }
 
-  useEffect(() => {
-    if (isEditingPost && foundPost?.title && foundPost?.content) {
-      setPost({
-        ...post,
-        title: foundPost.title,
-        content: foundPost.content
-      });
-    }
-    if (!isEditingPost) {
-      setPost({
-        title: '',
-        content: '',
-        category: 'noCategory',
-        hashtags: []
-      });
-    }
-  }, [isEditingPost, foundPost]);
+  // useEffect(() => {
+  //   if (isEditing && foundPost) {
+  //     setEditPost({
+  //       ...editPost,
+  //       title: foundPost.title,
+  //       content: foundPost.content
+  //     });
+  //   }
+  //   if (!isEditing) {
+  //     setEditPost({
+  //       title: '',
+  //       content: '',
+  //       category: 'noCategory',
+  //       hashtags: [],
+  //       coverImages: []
+  //     });
+  //   }
+  // }, [isEditing, foundPost]);
 
   const modules = useMemo(() => {
     return {
@@ -97,7 +100,7 @@ function Editor({ foundPost, isEditingPost }: IsEditingPostProps) {
       <input
         name={TITLE}
         value={title}
-        onChange={(event) => setPost({ ...post, title: event.target.value })}
+        onChange={(event) => setEditPost({ ...editPost, title: event.target.value })}
         placeholder="제목을 입력하세요."
       />
       <EditorContainer>
@@ -105,7 +108,7 @@ function Editor({ foundPost, isEditingPost }: IsEditingPostProps) {
           style={editorStyle}
           theme="snow"
           value={content}
-          onChange={(newContent) => setPost({ ...post, content: newContent })}
+          onChange={(newContent) => setEditPost({ ...editPost, content: newContent })}
           modules={modules}
           formats={formats}
           ref={quillRef}
@@ -135,5 +138,13 @@ const WritingArea = styled.div`
 const EditorContainer = styled.div`
   .ql-editor {
     font-size: 18px;
+
+    strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
   }
 `;

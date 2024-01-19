@@ -1,8 +1,4 @@
-import St from '../style';
-import defaultImg from '../../assets/defaultImg.jpg';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { getAdminPostList, getCategoryPosts } from '../../../api/pageListApi';
-import { QUERY_KEYS } from '../../../query/keys';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import {
   DocumentData,
   QueryDocumentSnapshot,
@@ -13,8 +9,12 @@ import {
   startAfter,
   where
 } from 'firebase/firestore';
-import { db } from '../../../shared/firebase';
 import { useState } from 'react';
+import { QUERY_KEYS } from '../../../query/keys';
+import { db } from '../../../shared/firebase';
+import { PostType } from '../../../types/PostType';
+import defaultImg from '../../assets/defaultImg.jpg';
+import St from '../style';
 
 type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'admin';
 

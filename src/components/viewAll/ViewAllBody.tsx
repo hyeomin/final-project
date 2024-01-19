@@ -1,13 +1,13 @@
-import St from './style';
-import { getAdminPostList, getCategoryPosts } from '../../api/pageListApi';
 import { useEffect, useState } from 'react';
-import PostList from './PostList';
+import { getAdminPostList, getCategoryPosts } from '../../api/pageListApi';
 import { QUERY_KEYS } from '../../query/keys';
+import PostList from './PostList';
 import PostListAdmin from './PostListAdmin';
-import Loader from '../common/Loader';
+import St from './style';
 
 export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory';
 export type SortList = 'popularity' | 'latest';
+
 function ViewAllBody() {
   const [category, setCategory] = useState<Category>('knowHow');
   const [sortBy, setSortBy] = useState<SortList>('latest');

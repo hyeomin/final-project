@@ -1,7 +1,7 @@
-import { getAuth } from 'firebase/auth';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
-import { db, auth } from '../shared/firebase';
+import { auth, db } from '../shared/firebase';
+import { PostType } from '../types/PostType';
 // import auth from '../../src/shared/'
 // import { auth} from '../../shared/firebase';
 
@@ -15,8 +15,11 @@ const getMyPosts = async () => {
     const posts: PostType[] = [];
     // 객체들을 forEach 사용해서 배열에 담기
     querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      posts.push({ id: doc.id, ...data, isLiked: data.likedUsers.includes(auth.currentUser!.uid) });
+      // type 수정 Ashley
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      const isLiked = auth.currentUser ? postData.likedUsers.includes(auth.currentUser.uid) : false;
+      posts.push({ id: doc.id, ...postData, isLiked: isLiked });
+      // posts.push({ id: doc.id, ...postData, isLiked: postData.likedUsers.includes(auth.currentUser.uid) });
     });
     return posts;
   } catch (error) {
@@ -33,7 +36,9 @@ const getLikePosts = async () => {
     const posts: PostType[] = [];
     // 객체들을 forEach 사용해서 배열에 담기
     querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data(), isLiked: true });
+      // type 추가 Ashley
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      posts.push({ id: doc.id, ...postData, isLiked: true });
     });
     return posts;
   } catch (error) {

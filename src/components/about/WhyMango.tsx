@@ -46,12 +46,12 @@ const Title = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  row-gap: 80px;
+  row-gap: 60px;
+  margin: 80px 0;
 
   color: white;
   font-size: 60px;
   font-family: ${theme.font.mango};
-  height: 400px;
 `;
 
 const Mission = styled.div`
@@ -98,6 +98,6 @@ const Description = styled.div`
 
 const Fade = styled.div`
   width: 100vw;
-  height: 300px;
+  height: 200px;
   background: linear-gradient(to bottom, rgba(255, 161, 20, 1) 50%, rgba(255, 161, 20, 0) 100%);
 `;

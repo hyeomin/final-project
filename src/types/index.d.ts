@@ -1,7 +1,7 @@
 declare module '*.jpg';
 declare module '*.png';
 
-type PostType = {
+type PostTypeOutdated = {
   id: string;
   category?: string;
   title?: string;
