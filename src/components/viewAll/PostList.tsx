@@ -1,4 +1,5 @@
 import {
+  InfiniteData,
   QueryFunctionContext,
   QueryKey,
   useInfiniteQuery,
@@ -23,6 +24,8 @@ import { SortList } from './ViewAllBody';
 import St from './style';
 import { auth, db } from '../../shared/firebase';
 import { produce } from 'immer';
+import { useRecoilValue } from 'recoil';
+import { categoryListState } from '../../recoil/posts';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -38,6 +41,7 @@ interface PostCardProps {
 }
 
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
+  const category = useRecoilValue(categoryListState);
   const navigate = useNavigate();
   // HM text 발라내기 위해 추가
 
@@ -63,8 +67,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       return lastPage[lastPage.length - 1];
     },
     select: (data) => {
-      console.log('data', data);
-      console.log('data', data.pages);
+      // console.log('data', data);
+      // console.log('data', data.pages);
       let sortedPosts = data.pages.flat().map((doc) => {
         const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
         return { isLiked: postData.likedUsers?.includes(auth.currentUser!.uid), id: doc.id, ...postData } as PostType;
@@ -97,33 +101,47 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     mutationFn: async (params: PostCardProps) => {
       const { postId, postData } = params;
       const postRef = doc(db, 'posts', postId);
-
+      console.log('postRef', postRef);
       await updateDoc(postRef, {
         likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId)
       });
     },
     onMutate: async (params: PostCardProps) => {
       const { postId: selectedPostId } = params;
-      queryClient.setQueriesData<PostType[]>({ queryKey: ['knowHow'] }, (prevPosts) => {
-        if (!prevPosts) return [];
-        console.log(11111);
-        console.log('prevPosts', prevPosts);
-        const nextPosts = produce(prevPosts, (draftPosts) => {
-          console.log('draftPosts', draftPosts);
-          const post = draftPosts.find((post) => post.id === selectedPostId);
-          console.log(2222);
-          if (!post) return draftPosts;
 
-          post.isLiked = !post.isLiked;
+      queryClient.setQueriesData<InfiniteData<PostType[]> | undefined>({ queryKey: [category] }, (prevPosts) => {
+        if (!prevPosts) {
+          return {
+            pages: [],
+            pageParams: []
+          };
+        }
+        if (!prevPosts) {
+          return { pages: [], pageParams: [] };
+        }
 
-          return draftPosts;
-        });
+        // pages 배열 내의 모든 페이지를 펼칩니다.
+        const updatedPages = prevPosts.pages.map((posts) =>
+          posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
+        );
 
-        return nextPosts;
+        // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
+        return { ...prevPosts, pages: updatedPages };
+
+        // const nextPosts = produce(prevPosts, (draftPosts) => {
+        //   const post = draftPosts.find((post) => post.id === selectedPostId);
+        //   if (!post) return draftPosts;
+
+        //   post.isLiked = !post.isLiked;
+
+        //   return draftPosts;
+        // });
+
+        // return nextPosts;
       });
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['knowHow'] });
+      queryClient.invalidateQueries({ queryKey: [category] });
     }
   });
 
