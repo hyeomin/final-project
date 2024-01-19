@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { getComments } from '../../../api/commentApi';
@@ -23,6 +23,12 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
   const currentUser = auth.currentUser;
+
+  // const { data: comments, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
+  //   queryKey: ['comments', postId],
+  //   queryFn: () => getComments(postId),
+  //   getNextPageParam: () => {}
+  // });
 
   // 댓글목록 가져오기
   const { data: comments } = useQuery({
@@ -64,20 +70,6 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
       onClickRightButton: onClickSave
     };
     modal.open(openModalParams);
-
-    // console.log('id==>', id);
-    // const confirm = window.confirm('정말로 삭제하시겠습니까?');
-    // if (!confirm) return;
-    // deleteCommentMutate(
-    //   { id, postId: foundDetailPost.id },
-    //   {
-    //     onSuccess: () => {
-    //       queryClient.invalidateQueries({
-    //         queryKey: [QUERY_KEYS.COMMENTS]
-    //       });
-    //     }
-    //   }
-    // );
   };
 
   //댓글 수정완료
@@ -111,21 +103,6 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
       onClickRightButton: onClickSave
     };
     modal.open(openModalParams);
-
-    //const confirm = window.confirm('저장하시겠습니까?');
-    //if (!confirm) return;
-    // updateCommentMutate(
-    //   { postId: foundDetailPost.id, id, editingText },
-    //   {
-    //     onSuccess: () => {
-    //       queryClient.invalidateQueries({
-    //         queryKey: [QUERY_KEYS.COMMENTS]
-    //       });
-    //     }
-    //   }
-    // );
-
-    //setEditingCommentId(null);
   };
 
   // 수정버튼 클릭 ==> 수정모드
@@ -141,7 +118,6 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   return (
     <CommentListContainer>
       {comments?.length === 0 ? (
-        // <CommenPlaceHolder>
         <SingleComment>
           <Mango src={MangoLogo} alt="Mango Logo" />
           <CommentDetail>
@@ -152,7 +128,6 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
           </CommentDetail>
         </SingleComment>
       ) : (
-        // </CommenPlaceHolder>
         comments?.map((comment) => {
           return (
             <SingleComment key={comment.id}>
@@ -168,8 +143,6 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
                   <Content>{comment.content}</Content>
                 )}
               </CommentDetail>
-
-              {/* 유저 아이디가 달라서 버튼이 안보여요! */}
               {currentUser?.uid === comment.uid && (
                 <>
                   {editingCommentId === comment.id ? (
@@ -198,15 +171,6 @@ const CommentListContainer = styled.div`
   flex-direction: column;
   width: 100%;
   font-size: 14px;
-`;
-const CommenPlaceHolder = styled.div`
-  width: 100%;
-  height: 100px;
-  /* background-color: red; */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
 `;
 
 const SingleComment = styled.div`

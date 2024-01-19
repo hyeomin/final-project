@@ -27,10 +27,6 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
   const onSubmitNewComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!currentUser) return;
-    // if (content.trim().length === 0) {
-    //   alert('내용을 입력해주세요.');
-    //   return;
-    // }
     if (content.trim().length === 0) {
       const onClickSave = () => {
         modal.close();

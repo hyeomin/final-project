@@ -40,6 +40,8 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
 
   const onLogOutHandler = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    ////모달팝업 적용(혜민)
     const confirmation = window.confirm('로그아웃하시겠습니까?');
     if (!confirmation) return;
 

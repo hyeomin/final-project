@@ -4,12 +4,14 @@ import { QUERY_KEYS } from '../../query/keys';
 import PostList from './PostList';
 import PostListAdmin from './PostListAdmin';
 import St from './style';
+import { useRecoilState } from 'recoil';
+import { categoryListState } from '../../recoil/posts';
 
 export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory';
 export type SortList = 'popularity' | 'latest';
 
 function ViewAllBody() {
-  const [category, setCategory] = useState<Category>('knowHow');
+  const [category, setCategory] = useRecoilState<Category>(categoryListState);
   const [sortBy, setSortBy] = useState<SortList>('latest');
 
   useEffect(() => {

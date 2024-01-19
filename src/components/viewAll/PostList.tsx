@@ -1,19 +1,31 @@
-import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import {
+  InfiniteData,
+  QueryFunctionContext,
+  QueryKey,
+  useInfiniteQuery,
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient
+} from '@tanstack/react-query';
+import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
 import defaultProfile from '../../assets/defaultImg.jpg';
 import mangoCover from '../../assets/tentative-cover-image.jpg';
 import { useLikeButton } from '../../hooks/useLikeButton';
 import { QUERY_KEYS } from '../../query/keys';
-import { auth } from '../../shared/firebase';
 import { PostType } from '../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
+import { auth, db } from '../../shared/firebase';
+import { produce } from 'immer';
+import { useRecoilValue } from 'recoil';
+import { categoryListState } from '../../recoil/posts';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -23,13 +35,19 @@ interface PostListProps {
   sortBy: SortList;
 }
 
+interface PostCardProps {
+  postId: string;
+  postData: PostType;
+}
+
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
+  const category = useRecoilValue(categoryListState);
   const navigate = useNavigate();
   // HM text 발라내기 위해 추가
 
   //좋아요
-  const currentUser = auth.currentUser?.uid;
-  const onClickLikeButton = useLikeButton();
+  const currentUserId = auth.currentUser!.uid;
+  const queryClient = useQueryClient();
 
   const {
     data: posts,
@@ -49,8 +67,15 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       return lastPage[lastPage.length - 1];
     },
     select: (data) => {
-      let sortedPosts = data.pages.flat().map((doc) => ({ id: doc.id, ...doc.data() } as PostType));
-
+      // console.log('data', data);
+      // console.log('data', data.pages);
+      let sortedPosts = data.pages.flat().map((doc) => {
+        const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
+        return { isLiked: postData.likedUsers?.includes(auth.currentUser!.uid), id: doc.id, ...postData } as PostType;
+      });
+      // let sortedPosts = data.pages.flat().map((doc) => (
+      //   {isLiked: doc.likedUsers.includes(auth.currentUser!.uid) ,id: doc.id, ...doc.data() } as PostType));
+      // console.log('sortedPosts', sortedPosts);
       if (sortBy === 'popularity') {
         sortedPosts = sortedPosts.sort((a, b) => {
           const likeCountA = a.likeCount ?? 0; // 만약 likeCount가 없다면 0으로 처리
@@ -71,6 +96,68 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
+  //좋아요
+  const { mutateAsync: toggleLike } = useMutation({
+    mutationFn: async (params: PostCardProps) => {
+      const { postId, postData } = params;
+      const postRef = doc(db, 'posts', postId);
+      console.log('postRef', postRef);
+      await updateDoc(postRef, {
+        likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId)
+      });
+    },
+    onMutate: async (params: PostCardProps) => {
+      const { postId: selectedPostId } = params;
+
+      queryClient.setQueriesData<InfiniteData<PostType[]> | undefined>({ queryKey: [category] }, (prevPosts) => {
+        if (!prevPosts) {
+          return {
+            pages: [],
+            pageParams: []
+          };
+        }
+        if (!prevPosts) {
+          return { pages: [], pageParams: [] };
+        }
+
+        // pages 배열 내의 모든 페이지를 펼칩니다.
+        const updatedPages = prevPosts.pages.map((posts) =>
+          posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
+        );
+
+        // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
+        return { ...prevPosts, pages: updatedPages };
+
+        // const nextPosts = produce(prevPosts, (draftPosts) => {
+        //   const post = draftPosts.find((post) => post.id === selectedPostId);
+        //   if (!post) return draftPosts;
+
+        //   post.isLiked = !post.isLiked;
+
+        //   return draftPosts;
+        // });
+
+        // return nextPosts;
+      });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [category] });
+    }
+  });
+
+  const handleClickLikeButton = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string,
+    post: PostType
+  ) => {
+    //e.stopPropagation();
+    console.log('좋아요 버튼 클릭');
+    // console.log(id);
+    // console.log(post);
+    await toggleLike({ postId: id, postData: post });
+  };
+  //invalidate,, 시간 정해놓고 (쿼리에 기능.. 탑100,,staleTime...)
+  //새로고침시에만 새로운데이터 확인되도록.
   // useEffect(() => {
   //   console.log('useEffect');
   // }, [posts]);
@@ -101,13 +188,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     queryKey: [QUERY_KEYS.USERS],
     queryFn: getAllUsers
   });
-
-  const fetchMore = () => {
-    if (!hasNextPage) {
-      alert('다음 게시물이 없습니다');
-    }
-    fetchNextPage();
-  };
 
   return (
     <St.MainSubWrapper>
@@ -146,9 +226,11 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                           </St.Row>
                         </div>
                         {/* 하트 클릭하는 버튼 */}
-                        <St.HeartClickButton>
-                          <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, post.id)} />
-                          {post.likedUsers?.includes(currentUser!) ? <St.HeartFillIcon /> : <St.HeartIcon />}
+                        <St.HeartClickButton
+                          onClick={(e) => handleClickLikeButton(e, post.id, post)}
+                          $isLiked={!!post.isLiked}
+                        >
+                          {post.isLiked ? <GoHeartFill /> : <GoHeart />}
                         </St.HeartClickButton>
                       </St.UserProfile>
                     )}

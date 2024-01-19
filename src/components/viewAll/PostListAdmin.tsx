@@ -101,11 +101,6 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
 
                   {/* <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} /> */}
                   <div dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }} />
-                  {/* <St.NeedDelete>
-                  <p>삭제예정/ {post.category}</p>
-                  <p>삭제예정/ {post.role}</p>
-                  <p>삭제예정/ {getFormattedDate_yymmdd(post.createdAt!)}</p>
-                </St.NeedDelete> */}
                 </St.AdminContent>
               );
             })}
