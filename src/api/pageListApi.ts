@@ -39,7 +39,7 @@ export const getCategoryPosts =
   async ({
     pageParam
   }: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
-    console.log('pageParam', pageParam);
+    // console.log('pageParam', pageParam);
     const q = pageParam
       ? query(
           collection(db, 'posts'),

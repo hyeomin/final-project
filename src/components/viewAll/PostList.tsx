@@ -1,7 +1,15 @@
-import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import {
+  QueryFunctionContext,
+  QueryKey,
+  useInfiniteQuery,
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient
+} from '@tanstack/react-query';
+import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { useEffect } from 'react';
-import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
 import { downloadImageURL } from '../../api/homeApi';
@@ -14,7 +22,8 @@ import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
 import { useLikeButton } from '../../hooks/useLikeButton';
-import { auth } from '../../shared/firebase';
+import { auth, db } from '../../shared/firebase';
+import { produce } from 'immer';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -24,13 +33,18 @@ interface PostListProps {
   sortBy: SortList;
 }
 
+interface PostCardProps {
+  postId: string;
+  postData: PostType;
+}
+
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const navigate = useNavigate();
   // HM text 발라내기 위해 추가
 
   //좋아요
-  const currentUser = auth.currentUser?.uid;
-  const onClickLikeButton = useLikeButton();
+  const currentUserId = auth.currentUser!.uid;
+  const queryClient = useQueryClient();
 
   const {
     data: posts,
@@ -50,8 +64,15 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       return lastPage[lastPage.length - 1];
     },
     select: (data) => {
-      let sortedPosts = data.pages.flat().map((doc) => ({ id: doc.id, ...doc.data() } as PostType));
-
+      console.log('data', data);
+      console.log('data', data.pages);
+      let sortedPosts = data.pages.flat().map((doc) => {
+        const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
+        return { isLiked: postData.likedUsers?.includes(auth.currentUser!.uid), id: doc.id, ...postData } as PostType;
+      });
+      // let sortedPosts = data.pages.flat().map((doc) => (
+      //   {isLiked: doc.likedUsers.includes(auth.currentUser!.uid) ,id: doc.id, ...doc.data() } as PostType));
+      // console.log('sortedPosts', sortedPosts);
       if (sortBy === 'popularity') {
         sortedPosts = sortedPosts.sort((a, b) => {
           const likeCountA = a.likeCount ?? 0; // 만약 likeCount가 없다면 0으로 처리
@@ -72,9 +93,57 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
-  useEffect(() => {
-    console.log('useEffect');
-  }, [posts]);
+  //좋아요
+  const { mutateAsync: toggleLike } = useMutation({
+    mutationFn: async (params: PostCardProps) => {
+      const { postId, postData } = params;
+      const postRef = doc(db, 'posts', postId);
+
+      await updateDoc(postRef, {
+        likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId)
+      });
+    },
+    onMutate: async (params: PostCardProps) => {
+      const { postId: selectedPostId } = params;
+      queryClient.setQueriesData<PostType[]>({ queryKey: ['knowHow'] }, (prevPosts) => {
+        if (!prevPosts) return [];
+        console.log(11111);
+        console.log('prevPosts', prevPosts);
+        const nextPosts = produce(prevPosts, (draftPosts) => {
+          console.log('draftPosts', draftPosts);
+          const post = draftPosts.find((post) => post.id === selectedPostId);
+          console.log(2222);
+          if (!post) return draftPosts;
+
+          post.isLiked = !post.isLiked;
+
+          return draftPosts;
+        });
+
+        return nextPosts;
+      });
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['knowHow'] });
+    }
+  });
+
+  const handleClickLikeButton = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    id: string,
+    post: PostType
+  ) => {
+    //e.stopPropagation();
+    console.log('좋아요 버튼 클릭');
+    // console.log(id);
+    // console.log(post);
+    await toggleLike({ postId: id, postData: post });
+  };
+  //invalidate,, 시간 정해놓고 (쿼리에 기능.. 탑100,,staleTime...)
+  //새로고침시에만 새로운데이터 확인되도록.
+  // useEffect(() => {
+  //   console.log('useEffect');
+  // }, [posts]);
 
   // 이미지URL 불러오기
   const imageQueries = useQueries({
@@ -84,11 +153,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         queryFn: () => downloadImageURL(post.id as string)
       })) || []
   });
-
-  //
-  const removeImageTags = (htmlContent: string) => {
-    return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
-  };
 
   //내용 문자열 일정수 이상, 그 이상 문자열 ... 출력
   //에디터 라이브러리 html에서 가져오는 거여서 기본적으로 <p></p><p>가 있음 => 10글자
@@ -102,13 +166,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     queryKey: [QUERY_KEYS.USERS],
     queryFn: getAllUsers
   });
-
-  const fetchMore = () => {
-    if (!hasNextPage) {
-      alert('다음 게시물이 없습니다');
-    }
-    fetchNextPage();
-  };
 
   return (
     <St.MainSubWrapper>
@@ -146,9 +203,11 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                           </St.Row>
                         </div>
                         {/* 하트 클릭하는 버튼 */}
-                        <St.HeartClickButton>
-                          <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, post.id)} />
-                          {post.likedUsers?.includes(currentUser!) ? <St.HeartFillIcon /> : <St.HeartIcon />}
+                        <St.HeartClickButton
+                          onClick={(e) => handleClickLikeButton(e, post.id, post)}
+                          $isLiked={!!post.isLiked}
+                        >
+                          {post.isLiked ? <GoHeartFill /> : <GoHeart />}
                         </St.HeartClickButton>
                       </St.UserProfile>
                     )}
