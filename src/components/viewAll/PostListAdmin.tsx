@@ -1,9 +1,6 @@
-import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries } from '@tanstack/react-query';
+import { QueryFunctionContext, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { downloadImageURL } from '../../api/homeApi';
-import defaultCover from '../../assets/defaultCoverImg.jpeg';
+import mangoCover from '../../assets/tentative-cover-image.jpg';
 import { PostType } from '../../types/PostType';
 import Loader from '../common/Loader';
 import { SortList } from './ViewAllBody';
@@ -56,16 +53,16 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
-  useEffect(() => {}, [posts]);
+  // useEffect(() => {}, [posts]);
 
   // 이미지URL 불러오기
-  const imageQueries = useQueries({
-    queries:
-      posts?.map((post) => ({
-        queryKey: ['imageURL', post.id],
-        queryFn: () => downloadImageURL(post.id as string)
-      })) || []
-  });
+  // const imageQueries = useQueries({
+  //   queries:
+  //     posts?.map((post) => ({
+  //       queryKey: ['imageURL', post.id],
+  //       queryFn: () => downloadImageURL(post.id as string)
+  //     })) || []
+  // });
 
   //
   const removeImageTags = (htmlContent: string) => {
@@ -87,17 +84,18 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
         ) : (
           <St.AdminContents>
             {posts?.map((post, idx) => {
-              const imageQuery = imageQueries[idx];
+              // const imageQuery = imageQueries[idx];
               return (
                 <St.AdminContent key={post.id}>
-                  {imageQuery.isLoading ? (
+                  <img src={mangoCover} alt={post.title} />
+                  {/* {imageQuery.isLoading ? (
                     // <p>Loading image...</p>
                     <Loader />
                   ) : (
                     <Link to={`/detail/${post.id}`}>
                       <img src={imageQuery.data || defaultCover} alt={post.title} />
                     </Link>
-                  )}
+                  )} */}
 
                   <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
 

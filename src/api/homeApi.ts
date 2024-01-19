@@ -43,6 +43,7 @@ const getPosts = async () => {
 
 //created by Mango posts 가져오기
 const getAdminContents = async () => {
+  console.log('getAdminContents');
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -67,6 +68,7 @@ const getAdminContents = async () => {
 
 // //created by Mango posts 가져오기
 const getUserContents = async () => {
+  console.log('getUserContents');
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),

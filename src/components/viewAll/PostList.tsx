@@ -1,3 +1,6 @@
+import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import {
   InfiniteData,
   QueryFunctionContext,
@@ -12,9 +15,9 @@ import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, upda
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
-import { downloadImageURL } from '../../api/homeApi';
-import defaultImage from '../../assets/defaultCoverImg.jpeg';
 import defaultProfile from '../../assets/defaultImg.jpg';
+import mangoCover from '../../assets/tentative-cover-image.jpg';
+import { useLikeButton } from '../../hooks/useLikeButton';
 import { QUERY_KEYS } from '../../query/keys';
 import { PostType } from '../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
@@ -163,13 +166,18 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   // }, [posts]);
 
   // 이미지URL 불러오기
-  const imageQueries = useQueries({
-    queries:
-      posts?.map((post) => ({
-        queryKey: ['imageURL', post.id],
-        queryFn: () => downloadImageURL(post.id as string)
-      })) || []
-  });
+  // const imageQueries = useQueries({
+  //   queries:
+  //     posts?.map((post) => ({
+  //       queryKey: ['imageURL', post.id],
+  //       queryFn: () => downloadImageURL(post.id as string)
+  //     })) || []
+  // });
+
+  //
+  const removeImageTags = (htmlContent: string) => {
+    return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
+  };
 
   //내용 문자열 일정수 이상, 그 이상 문자열 ... 출력
   //에디터 라이브러리 html에서 가져오는 거여서 기본적으로 <p></p><p>가 있음 => 10글자
@@ -192,11 +200,12 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         ) : (
           <St.Contents>
             {posts?.map((post, idx) => {
-              const imageQuery = imageQueries[idx];
+              // const imageQuery = imageQueries[idx];
 
               return (
                 <St.Content key={post.id}>
-                  {imageQuery.isLoading ? (
+                  <St.ContentImg src={mangoCover} alt={post.title} onClick={() => navigate(`/detail/${post.id}`)} />
+                  {/* {imageQuery.isLoading ? (
                     <Loader />
                   ) : (
                     <St.ContentImg
@@ -204,7 +213,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                       alt={post.title}
                       onClick={() => navigate(`/detail/${post.id}`)}
                     />
-                  )}
+                  )} */}
 
                   <St.PostInfoContainer>
                     {userList && userList?.find((user) => user.uid === post.uid) && (

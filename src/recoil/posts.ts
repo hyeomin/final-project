@@ -1,9 +1,9 @@
 import { atom } from 'recoil';
-import { EditPostStateType, IsEditingPostProps } from '../types/PostType';
+import { IsEditingPostProps, PostInputType } from '../types/PostType';
 import { POST } from './keys';
 import { Category } from '../components/viewAll/ViewAllBody';
 
-const editPostState = atom<EditPostStateType>({
+const postInputState = atom<PostInputType>({
   key: POST.EDIT_INPUT,
   default: {
     title: '',
@@ -27,9 +27,4 @@ const categoryListState = atom<Category>({
   default: 'knowHow'
 });
 
-// const foundPostState = atom<PostTypeDummy | null>({
-//   key: POST.FOUND_POST,
-//   default: null
-// });
-
-export { editPostState, isEditingPostState, categoryListState };
+export { isEditingPostState, postInputState };
