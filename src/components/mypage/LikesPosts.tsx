@@ -5,8 +5,8 @@ import { getAllUsers } from '../../api/authApi';
 import { downloadImageURL, getAdminContents, getUserContents } from '../../api/homeApi';
 import { getLikePosts } from '../../api/myPostAPI';
 import Cs from '../viewAll/style';
-import PostCard from './PostCard/PostCard';
-
+//import PostCard from './PostCard/PostCard';
+import PostCard from '../mypage/PostCard/PostCard';
 const LikesPosts = () => {
   const { data: likePosts } = useQuery({
     queryKey: ['posts', { likedPosts: true }],
