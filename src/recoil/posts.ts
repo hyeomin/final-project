@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 import { IsEditingPostProps, PostInputType } from '../types/PostType';
 import { POST } from './keys';
+import { Category } from '../components/viewAll/ViewAllBody';
 
 const postInputState = atom<PostInputType>({
   key: POST.EDIT_INPUT,
@@ -21,4 +22,9 @@ const isEditingPostState = atom<IsEditingPostProps>({
   }
 });
 
-export { isEditingPostState, postInputState };
+const categoryListState = atom<Category>({
+  key: POST.CATEGORY_LIST,
+  default: 'knowHow'
+});
+
+export { isEditingPostState, postInputState, categoryListState };
