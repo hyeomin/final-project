@@ -26,6 +26,7 @@ import { auth, db } from '../../shared/firebase';
 import { useRecoilValue } from 'recoil';
 import { categoryListState } from '../../recoil/posts';
 import { useEffect } from 'react';
+import { useModal } from '../../hooks/useModal';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -46,8 +47,9 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   // HM text 발라내기 위해 추가
 
   //좋아요
-  const currentUserId = auth.currentUser!.uid;
+  const currentUserId = auth.currentUser?.uid;
   const queryClient = useQueryClient();
+  const modal = useModal();
 
   const {
     data: posts,
@@ -69,7 +71,11 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     select: (data) => {
       let sortedPosts = data.pages.flat().map((doc) => {
         const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
-        return { isLiked: postData.likedUsers?.includes(auth.currentUser!.uid), id: doc.id, ...postData } as PostType;
+        return {
+          isLiked: postData.likedUsers?.includes(auth.currentUser?.uid || ''),
+          id: doc.id,
+          ...postData
+        } as PostType;
       });
       // let sortedPosts = data.pages.flat().map((doc) => (
       //   {isLiked: doc.likedUsers.includes(auth.currentUser!.uid) ,id: doc.id, ...doc.data() } as PostType));
@@ -97,10 +103,14 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     mutationFn: async (params: PostCardProps) => {
       const { postId, postData } = params;
       const postRef = doc(db, 'posts', postId);
-      console.log('postRef', postRef);
-      await updateDoc(postRef, {
-        likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId)
-      });
+
+      if (postData.isLiked !== undefined && currentUserId !== undefined) {
+        await updateDoc(postRef, {
+          likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId)
+        });
+      } else {
+        return;
+      }
     },
     onMutate: async (params: PostCardProps) => {
       const { postId: selectedPostId } = params;
@@ -118,7 +128,11 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
 
         // pages 배열 내의 모든 페이지를 펼칩니다.
         const updatedPages = prevPosts.pages.map((posts) =>
-          posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
+          posts.map((post) =>
+            post.id === selectedPostId
+              ? { ...post, isLiked: !post.isLiked, likeCount: post.isLiked ? post.likeCount! - 1 : post.likeCount! + 1 }
+              : post
+          )
         );
 
         // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
@@ -135,12 +149,34 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     id: string,
     post: PostType
   ) => {
-    //e.stopPropagation();
-    console.log('좋아요 버튼 클릭');
-    // console.log(id);
-    // console.log(post);
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!currentUserId) {
+      const onClickCancel = () => {
+        modal.close();
+        return;
+      };
+
+      const onClickSave = () => {
+        modal.close();
+        navigate('/auth');
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '로그인이 필요합니다.',
+        message: '로그인 창으로 이동하시겠습니까?',
+        leftButtonLabel: '취소',
+        onClickLeftButton: onClickCancel,
+        rightButtonLabel: '로그인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    }
+
     await toggleLike({ postId: id, postData: post });
   };
+
   //invalidate,, 시간 정해놓고 (쿼리에 기능.. 탑100,,staleTime...)
   //새로고침시에만 새로운데이터 확인되도록.
 
