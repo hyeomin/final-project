@@ -1,14 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GoPencil, GoTrash } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { deletePost } from '../../api/postApi';
 import editNdeleteToggleBox from '../../assets/editndeletetoggle.png';
 import { useModal } from '../../hooks/useModal';
 // import { foundDetailPostProps } from '../../pages/Detail';
 import { QUERY_KEYS } from '../../query/keys';
-import { isEditingPostState, postInputState } from '../../recoil/posts';
 import theme from '../../styles/theme';
 import { FoundDetailPostProps } from '../../types/PostType';
 
@@ -17,22 +15,8 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const [isEditingPost, setisEditingPost] = useRecoilState(isEditingPostState);
-  const [postInput, setPostInput] = useRecoilState(postInputState);
-
   const onEditPostHandler = () => {
-    setisEditingPost({
-      foundPost: foundDetailPost,
-      isEditing: true
-    });
-    setPostInput({
-      title: foundDetailPost.title,
-      content: foundDetailPost.content,
-      category: foundDetailPost.category,
-      hashtags: foundDetailPost.hashtags,
-      coverImages: foundDetailPost.coverImages
-    });
-    navigate('/write');
+    navigate('/write', { state: { foundDetailPost } });
   };
 
   const deleteMutation = useMutation({

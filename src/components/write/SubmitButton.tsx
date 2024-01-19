@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { getAllUsers } from '../../api/authApi';
 import { addPost } from '../../api/postApi';
 import { useModal } from '../../hooks/useModal';
 import { QUERY_KEYS } from '../../query/keys';
-import { postInputState } from '../../recoil/posts';
+import { isEditingPostState, postInputState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import theme from '../../styles/theme';
@@ -20,6 +20,7 @@ interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
 function SubmitButton() {
   const modal = useModal();
 
+  const setisEditingPost = useSetRecoilState(isEditingPostState);
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { title } = postInput;
 
@@ -62,15 +63,24 @@ function SubmitButton() {
     onSuccess: (postId) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
 
-      // 내용 원상복구
-      setPostInput({
-        title: '',
-        content: '',
-        category: 'noCategory',
-        hashtags: [],
-        coverImages: []
-      });
-      navigate(`/detail/${postId}`);
+      if (postId) {
+        console.log('1');
+        // 내용 원상복구
+        setPostInput({
+          title: 'ㅇㅇㅇㅇ',
+          content: 'ㅇㅇㅇㅇ',
+          category: 'noCategory',
+          hashtags: [],
+          coverImages: []
+        });
+        console.log('2');
+        // 전역상태 원상복구
+        setisEditingPost({
+          foundPost: null,
+          isEditing: false
+        });
+        navigate(`/detail/${postId}`);
+      }
     }
   });
 
@@ -97,7 +107,7 @@ function SubmitButton() {
       };
 
       const onClickSave = () => {
-        addMutation.mutate();
+        addMutation.mutate(); //
         modal.close();
       };
 

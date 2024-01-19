@@ -1,6 +1,6 @@
+import { GoHeart, GoHeartFill } from 'react-icons/go';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
-import { GoHeart, GoHeartFill } from 'react-icons/go';
 /*유저 등록 데이터 (친환경노하우~습관인증) */
 const MainSubWrapper = styled.div`
   width: 100%;
@@ -74,6 +74,7 @@ const ContentsWrapper = styled.div`
 `;
 
 export const Contents = styled.ul`
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-content: center;

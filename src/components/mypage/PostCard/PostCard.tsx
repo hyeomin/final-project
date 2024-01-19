@@ -60,7 +60,7 @@ function PostCard({ post }: PostCardProps) {
 
   return (
     <Cs.Content onClick={() => navigate(`/detail/${post.id}`)}>
-      <Cs.ContentImg src={defaultCover} />
+      <Cs.ContentImg src={defaultCover} alt="cover" />
       {/* <Cs.ContentImg src={imageQuery.data || defaultCover} /> */}
       <Cs.PostInfoContainer>
         <Cs.UserProfile>
