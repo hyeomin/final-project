@@ -1,6 +1,3 @@
-import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import {
   InfiniteData,
   QueryFunctionContext,

@@ -27,4 +27,4 @@ const categoryListState = atom<Category>({
   default: 'knowHow'
 });
 
-export { isEditingPostState, postInputState };
+export { isEditingPostState, postInputState, categoryListState };
