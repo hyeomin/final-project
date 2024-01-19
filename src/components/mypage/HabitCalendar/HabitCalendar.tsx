@@ -3,16 +3,14 @@ import Calendar from 'react-calendar';
 import St from './style';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
-import { QUERY_KEYS } from '../../query/keys';
-import { getMyPosts } from '../../api/myPostAPI';
+import { QUERY_KEYS } from '../../../query/keys';
+import { getMyPosts } from '../../../api/myPostAPI';
 import { useQuery } from '@tanstack/react-query';
-// import mangoIcon from '../../assets/mangoIcon.png';
-import realMango from '../../assets/realMango.png';
-import calendarSpring from '../../assets/calendarSpring.png';
+import mangofavicon from '../../../assets/mango-favicon.png';
+import calendarSpring from '../../../assets/calendarSpring.png';
+import { getFormattedDateCustom } from '../../../util/formattedDateAndTime';
 
-import { getFormattedDateCustom } from '../../util/formattedDateAndTime';
 type ValuePiece = Date | null;
-
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const HabitCalendar = ({ date }: any) => {
@@ -30,17 +28,7 @@ const HabitCalendar = ({ date }: any) => {
   });
   const createdAtList = data ? data.map((data) => getFormattedDateCustom(data.createdAt!)) : [];
   console.log('data', data);
-  const dayList: string[] = [
-    //테스트용
-    '2023. 12. 12.',
-    '2023. 12. 25.',
-    '2024. 01. 01.',
-    '2024. 01. 05.',
-    '2024. 01. 07.',
-    '2024. 01. 07.',
-    '2024. 01. 12.'
-  ];
-  // console.log('포스트의 날짜 목록 가져오기', createdAtList);
+  const dayList: string[] = [];
 
   const getElCount = (arr: string[]): Record<string, number> =>
     arr.reduce((ac: Record<string, number>, v) => {
@@ -48,14 +36,6 @@ const HabitCalendar = ({ date }: any) => {
       return ac;
     }, {});
   const dayCount = getElCount(createdAtList);
-  // console.log('dayCount', dayCount);
-
-  // 2023. 12. 12. :  1
-  // 2023. 12. 25. :  1
-  // 2024. 01. 01. :  1
-  // 2024. 01. 05. :  1
-  // 2024. 01. 07. :  2
-  // 2024. 01. 12. :  1
 
   return (
     <St.CalendarWrapper>
@@ -92,27 +72,11 @@ const HabitCalendar = ({ date }: any) => {
                 <>
                   <div className="habitDayContainer" key={formattedDate}></div>
                   <St.CalendarContentsContainer>
-                    <div
-                      style={{
-                        width: '70px',
-                        height: '70px',
-                        borderRadius: '50px',
-                        backgroundColor: 'white',
-                        position: 'relative',
-                        zIndex: '1'
-                      }}
-                    />
+                    <div />
                     <img
-                      style={{
-                        transform: 'rotate(340deg)',
-                        position: 'absolute',
-                        zIndex: '2',
-                        top: '5px',
-                        right: '12px'
-                      }}
                       key={formattedDate}
                       className="habitImage"
-                      src={realMango}
+                      src={mangofavicon}
                       alt={`habit-sticker-${formattedDate}`}
                     />
                     <St.PostCount> x{postCount}</St.PostCount>

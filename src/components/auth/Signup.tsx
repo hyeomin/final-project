@@ -1,16 +1,11 @@
-import {
-  createUserWithEmailAndPassword,
-  // getAuth,
-  signInWithPhoneNumber,
-  fetchSignInMethodsForEmail,
-  updateProfile
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
-import mangoLogo from '../../assets/mangoLogo.png';
+import mangofavicon from '../../assets/mango-favicon.png';
 import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
@@ -39,7 +34,8 @@ function Signup() {
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [errorMsg, setErrorMsg] = usePrintError('');
   const [isFormValid, setIsFormValid] = useState(true);
-  const emailInputRef = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
+  // const emailInputRef = useRef<HTMLInputElement | null>(null);
   const {
     register,
     handleSubmit,
@@ -67,7 +63,6 @@ function Signup() {
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passworkCheck, phoneNumber }: Data) => {
     try {
-      // const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
       console.log('userCredential', userCredential);
@@ -75,7 +70,6 @@ function Signup() {
       if (user !== null) {
         await updateProfile(user, {
           displayName: nickname
-          // photoURL: ''
         });
       } else return;
       setValue('email', '');
@@ -86,6 +80,7 @@ function Signup() {
 
       // 회원가입 state 업데이트 (Ashley)
       setIsSignUp(false);
+      signOut(auth);
 
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
@@ -101,60 +96,27 @@ function Signup() {
         });
       }
     } catch (error) {
-      setErrorMsg(error);
+      // setErrorMsg(error);
     }
   };
-
-  // const emailCheck = async (email: string): Promise<void> => {
-  //   const auth = getAuth();
-  //   const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-  //   const error = errorMsg;
-  //   try {
-  //     if (signInMethods.length > 0) {
-  //       // 이메일이 데이터베이스에 이미 존재하는 경우
-  //       setErrorMsg(error);
-  //     } else {
-  //       // 이메일이 데이터베이스에 없는 경우
-  //       setErrorMsg(error);
-  //     }
-  //   } catch (error) {
-  //     setErrorMsg(error);
-  //   }
-  // };
-
-  // const emailCheck = async (email: string): Promise<void> => {
-  //   const auth = getAuth();
-  //   const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-  //   const error = errorMsg;
-  //   if (signInMethods.length > 0) {
-  //     // 이메일이 데이터베이스에 이미 존재하는 경우
-  //     setErrorMsg(error);
-  //   } else {
-  //     // 이메일이 데이터베이스에 없는 경우
-  //     setErrorMsg(error);
-  //   }
-  // };
 
   // 이메일 중복체크 (firestore)
   const emailCheck = async (email: string) => {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
-    console.log('email', email);
-    console.log('querySnapshot', querySnapshot);
-    console.log('querySnapshot.docs.length', querySnapshot.docs.length);
 
     if (querySnapshot.docs.length > 0) {
       alert('이미 존재하는 이메일입니다.');
       setIsFormValid(false);
       setValue('email', '');
-      // if (email === '') {
-      //   emailInputRef.current?.focus();
-      // }
 
       return;
+    } else if (email === '') {
+      alert('이메일을 입력해주세요');
+      return;
     } else if (querySnapshot.docs.length === 0) {
-      alert('사용 가능한 이메일입니다.');
+      alert('사용 가능한 메일입니다');
       setIsFormValid(true);
     }
   };
@@ -164,27 +126,27 @@ function Signup() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
-    // console.log('nickname', nickname);
-    // console.log('querySnapshot', querySnapshot);
-    // console.log('querySnapshot.docs.length', querySnapshot.docs.length);
 
     if (querySnapshot.docs.length > 0) {
       alert('이미 존재하는 닉네임입니다.');
       setValue('nickname', '');
       setIsFormValid(false);
-    }
-    if (querySnapshot.docs.length === 0) {
+      return;
+    } else if (nickname === '') {
+      alert('닉네임을 입력해주세요');
+      return;
+    } else if (querySnapshot.docs.length === 0) {
       alert('사용 가능한 닉네임입니다.');
       setIsFormValid(true);
     }
   };
 
   return (
-    <St.authWrapper>
+    <St.AuthWrapper>
       <St.LogoContainer>
         <St.SubTitle>건강한 친환경 습관 만들기</St.SubTitle>
         <St.LogoBox>
-          <St.MangoLogo src={mangoLogo} />
+          <St.MangoLogo src={mangofavicon} />
           <St.Logo>MANGO</St.Logo>
         </St.LogoBox>
         <St.SignUpTitle>회원가입</St.SignUpTitle>
@@ -199,10 +161,6 @@ function Signup() {
               required: true,
               pattern: emailRegex
             })}
-            // onChange={(e) => {
-            //   setEmail(e.target.value);
-            //   setErrorMsg('');
-            // }}
           />
           <St.AuthBtn onClick={() => emailCheck(getValues('email'))}>중복확인</St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
@@ -254,15 +212,14 @@ function Signup() {
               required: true,
               pattern: nicknameRegex
             })}
-            // onChange={(e) => {
-            //   setNickname(e.target.value);
-            //   setErrorMsg('');
-            // }}
           />
-          <St.AuthBtn onClick={() => nicknameCheck(getValues('nickname'))}>중복확인</St.AuthBtn>
+          <St.AuthBtn type="button" onClick={() => nicknameCheck(getValues('nickname'))}>
+            중복확인
+          </St.AuthBtn>
+
           {errors?.nickname?.type === 'required' && <St.WarningMsg>닉네임을 입력해주세요</St.WarningMsg>}
           {errors?.nickname?.type === 'pattern' && (
-            <St.WarningMsg>닉네임은 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요</St.WarningMsg>
+            <St.WarningMsg>닉네임은 2자 이상 8자 이하, 영어 또는 숫자 또는 한글로 입력해주세요</St.WarningMsg>
           )}
         </St.InputContainer>
 
@@ -289,17 +246,27 @@ function Signup() {
 
         <St.SignUpAndLoginBtn
           type="submit"
-          onClick={() => {
-            signUp({ email, password, nickname, passworkCheck, phoneNumber });
-          }}
-          disabled={!isFormValid}
+          // onClick={() => {
+          //   if (isFormValid) {
+          //     console.log('???');
+          //     // signUp({ email, password, nickname, passworkCheck, phoneNumber });
+          //     // navigate('/auth/login');
+          //   } else {
+          //     alert('다시 확인.');
+          //   }
+          // }}
+          // onClick={() => {
+          //   signUp({ email, password, nickname, passworkCheck, phoneNumber });
+          //   navigate('/auth/login');
+          // }}
+          disabled={!isFormValid && nickname === '' && email === '' && password === '' && passworkCheck === ''}
         >
           가입하기
         </St.SignUpAndLoginBtn>
         {errorMsg && <p>{errorMsg}</p>}
       </form>
       <St.ToggleLoginAndSignUp onClick={() => setIsSignUp(false)}>로그인으로 돌아가기</St.ToggleLoginAndSignUp>
-    </St.authWrapper>
+    </St.AuthWrapper>
   );
 }
 
