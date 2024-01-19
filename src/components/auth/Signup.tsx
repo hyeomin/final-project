@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useEffect, useRef, useState } from 'react';
@@ -11,6 +11,7 @@ import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
 
 import St from './style';
+import Auth from '../../pages/Auth';
 
 export type Data = {
   email: string;
@@ -81,21 +82,21 @@ function Signup() {
 
       // 회원가입 state 업데이트 (Ashley)
       setIsSignUp(false);
-      alert('가입 성공했습니다');
+      signOut(auth);
 
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
       // 컬렉션에 있는 users 필드 정보 수정
-      if (userId) {
-        await setDoc(doc(db, 'users', userId), {
-          userEmail: auth.currentUser?.email,
-          displayName: auth.currentUser?.displayName,
-          profileImg: auth.currentUser?.photoURL,
-          uid: auth.currentUser?.uid,
-          // phoneNumber: auth.currentUser?.phoneNumber,
-          role: 'user'
-        });
-      }
+      // if (userId) {
+      //   await setDoc(doc(db, 'users', userId), {
+      //     userEmail: auth.currentUser?.email,
+      //     displayName: auth.currentUser?.displayName,
+      //     profileImg: auth.currentUser?.photoURL,
+      //     uid: auth.currentUser?.uid,
+      //     // phoneNumber: auth.currentUser?.phoneNumber,
+      //     role: 'user'
+      //   });
+      // }
     } catch (error) {
       // setErrorMsg(error);
     }
@@ -144,10 +145,14 @@ function Signup() {
       alert('이미 존재하는 이메일입니다.');
       setIsFormValid(false);
       setValue('email', '');
+
+      return;
+    } else if (email === '') {
+      alert('이메일을 입력해주세요');
       return;
     } else if (querySnapshot.docs.length === 0) {
       alert('사용 가능한 메일입니다');
-      // setIsFormValid(true);
+      setIsFormValid(true);
     }
   };
 
@@ -162,9 +167,12 @@ function Signup() {
       setValue('nickname', '');
       setIsFormValid(false);
       return;
+    } else if (nickname === '') {
+      alert('닉네임을 입력해주세요');
+      return;
     } else if (querySnapshot.docs.length === 0) {
       alert('사용 가능한 닉네임입니다.');
-      // setIsFormValid(true);
+      setIsFormValid(true);
     }
   };
 
@@ -240,7 +248,10 @@ function Signup() {
               pattern: nicknameRegex
             })}
           />
-          <St.AuthBtn onClick={() => nicknameCheck(getValues('nickname'))}>중복확인</St.AuthBtn>
+          <St.AuthBtn type="button" onClick={() => nicknameCheck(getValues('nickname'))}>
+            중복확인
+          </St.AuthBtn>
+
           {errors?.nickname?.type === 'required' && <St.WarningMsg>닉네임을 입력해주세요</St.WarningMsg>}
           {errors?.nickname?.type === 'pattern' && (
             <St.WarningMsg>닉네임은 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요</St.WarningMsg>
@@ -270,11 +281,20 @@ function Signup() {
 
         <St.SignUpAndLoginBtn
           type="submit"
-          onClick={() => {
-            signUp({ email, password, nickname, passworkCheck, phoneNumber });
-            navigate('/auth/login');
-          }}
-          disabled={!isFormValid && auth.currentUser!.displayName === nickname && auth.currentUser!.email === email}
+          // onClick={() => {
+          //   if (isFormValid) {
+          //     console.log('???');
+          //     // signUp({ email, password, nickname, passworkCheck, phoneNumber });
+          //     // navigate('/auth/login');
+          //   } else {
+          //     alert('다시 확인.');
+          //   }
+          // }}
+          // onClick={() => {
+          //   signUp({ email, password, nickname, passworkCheck, phoneNumber });
+          //   navigate('/auth/login');
+          // }}
+          disabled={!isFormValid && nickname === '' && email === '' && password === '' && passworkCheck === ''}
         >
           가입하기
         </St.SignUpAndLoginBtn>

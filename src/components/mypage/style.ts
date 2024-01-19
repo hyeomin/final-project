@@ -12,7 +12,6 @@ import { GoHeart, GoHeartFill } from 'react-icons/go';
 //   justify-content: center;
 //   align-items: center;
 //   text-align: center;
-// `;
 
 // const ProfileEditWrapper = styled.div`
 //   display: flex;

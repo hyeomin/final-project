@@ -65,6 +65,12 @@ function Login() {
       // window.alert(error);
       setErrorMsg(error);
       console.log('error', error);
+      // const errorCode = error.code;
+      // console.log('에러코드', errorCode);
+      // const errorMessage = error.message;
+      // console.log('에러메세지', errorMessage);
+      throw error;
+
       // console.error(error);
     }
   };
