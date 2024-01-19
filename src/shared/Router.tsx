@@ -1,3 +1,4 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from '../layouts/Layout';
 import About from '../pages/About';
@@ -8,7 +9,6 @@ import MyPage from '../pages/MyPage';
 import ViewAll from '../pages/ViewAll';
 import Write from '../pages/Write';
 import ProtectedRoute from './ProtectedRoute';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Login from '../components/auth/Login';
 import Signup from '../components/auth/Signup';
 

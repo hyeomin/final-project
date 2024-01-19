@@ -1,4 +1,4 @@
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { isEditingPostState } from '../../recoil/posts';
 import theme from '../../styles/theme';
@@ -6,13 +6,13 @@ import SubmitButton, { CustomButton } from './SubmitButton';
 import IsEditingButton from './editPost/EditUploadButton';
 
 function Header() {
-  const [isEditingPost, setIsEditingPost] = useRecoilState(isEditingPostState);
+  const { isEditing } = useRecoilValue(isEditingPostState);
 
   return (
     <WriteHeader>
       <ButtonContainer>
         <CustomButton $variant="save">임시 저장</CustomButton>
-        {isEditingPost.isEditing ? <IsEditingButton /> : <SubmitButton />}
+        {isEditing ? <IsEditingButton /> : <SubmitButton />}
       </ButtonContainer>
     </WriteHeader>
   );

@@ -11,6 +11,9 @@ import { auth, db } from '../../../shared/firebase';
 import { PostType } from '../../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
 import PostContentPreview from '../../common/PostContentPreview';
+import { QUERY_KEYS } from '../../../query/keys';
+import { getAllUsers } from '../../../api/authApi';
+import { useQuery } from '@tanstack/react-query';
 
 interface PostCardProps {
   post: PostType;
@@ -20,6 +23,13 @@ function PostCard({ post }: PostCardProps) {
   const navigate = useNavigate();
   const currentUserId = auth.currentUser!.uid;
   const queryClient = useQueryClient();
+
+  const { data: userList } = useQuery({
+    queryKey: [QUERY_KEYS.USERS],
+    queryFn: getAllUsers
+  });
+
+  console.log('userlist', userList);
 
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (postId: string) => {
@@ -60,15 +70,18 @@ function PostCard({ post }: PostCardProps) {
 
   return (
     <Cs.Content onClick={() => navigate(`/detail/${post.id}`)}>
-      <Cs.ContentImg src={defaultCover} />
+      <Cs.ContentImg src={defaultCover} alt="cover" />
       {/* <Cs.ContentImg src={imageQuery.data || defaultCover} /> */}
       <Cs.PostInfoContainer>
         <Cs.UserProfile>
           <div>
-            <Cs.ProfileImg src={auth.currentUser?.photoURL || defaultProfile} alt="profile" />
+            <Cs.ProfileImg
+              src={(userList?.find((user) => post.uid === user.uid) as User | undefined)!.profileImg || defaultProfile}
+              alt="profile"
+            />
+
             <Cs.Row>
-              {/* <p>{userList?.find((user) => user.uid === post.uid)?.displayName}</p> */}
-              <p>김혜민</p>
+              <p>{userList?.find((user) => user.uid === post.uid)?.displayName}</p>
               <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
             </Cs.Row>
           </div>

@@ -87,16 +87,16 @@ function Signup() {
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
       // 컬렉션에 있는 users 필드 정보 수정
-      // if (userId) {
-      //   await setDoc(doc(db, 'users', userId), {
-      //     userEmail: auth.currentUser?.email,
-      //     displayName: auth.currentUser?.displayName,
-      //     profileImg: auth.currentUser?.photoURL,
-      //     uid: auth.currentUser?.uid,
-      //     // phoneNumber: auth.currentUser?.phoneNumber,
-      //     role: 'user'
-      //   });
-      // }
+      if (userId) {
+        await setDoc(doc(db, 'users', userId), {
+          userEmail: auth.currentUser?.email,
+          displayName: auth.currentUser?.displayName,
+          profileImg: auth.currentUser?.photoURL,
+          uid: auth.currentUser?.uid,
+          // phoneNumber: auth.currentUser?.phoneNumber,
+          role: 'user'
+        });
+      }
     } catch (error) {
       // setErrorMsg(error);
     }
