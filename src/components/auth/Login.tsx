@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { GoogleAuthProvider, getAuth, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -76,7 +76,7 @@ function Login() {
 
   //구글 로그인
   function handleGoogleLogin() {
-    const auth = getAuth();
+    // const auth = getAuth();
     const provider = new GoogleAuthProvider(); // provider를 구글로 설정
     signInWithPopup(auth, provider) // popup을 이용한 signup
       .then((data) => {
