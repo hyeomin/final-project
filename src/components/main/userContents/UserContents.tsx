@@ -1,22 +1,21 @@
-import React from 'react';
-import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Link, useNavigate } from 'react-router-dom';
+import { useQueries, useQuery } from '@tanstack/react-query';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
-import { auth } from '../../../shared/firebase';
-import { getAllUsers } from '../../../api/authApi';
-import { downloadImageURL, getUserContents } from '../../../api/homeApi';
-import { QUERY_KEYS } from '../../../query/keys';
-import St from './style';
-import Loader from '../../common/Loader';
-import defaultCover from '../../../assets/defaultCoverImg.jpeg';
-import defatutUserImage from '../../../assets/defaultImg.jpg';
-import { Swiper } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Link } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import '../swiperStyle.css';
+import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper } from 'swiper/react';
+import { getAllUsers } from '../../../api/authApi';
+import { downloadImageURL, getUserContents } from '../../../api/homeApi';
+import defaultCover from '../../../assets/defaultCoverImg.jpeg';
+import defatutUserImage from '../../../assets/defaultImg.jpg';
 import { useLikeButton } from '../../../hooks/useLikeButton';
+import { QUERY_KEYS } from '../../../query/keys';
+import { auth } from '../../../shared/firebase';
+import Loader from '../../common/Loader';
+import '../swiperStyle.css';
+import St from './style';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;

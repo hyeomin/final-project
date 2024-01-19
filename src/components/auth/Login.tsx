@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 import { getAllUsers } from '../../api/authApi';
 import googleLogo from '../../assets/icons/googleLogo.png';
 import mangofavicon from '../../assets/mango-favicon.png';
-
+import usePrintError from '../../hooks/usePrintError';
 import { QUERY_KEYS } from '../../query/keys';
 import { isSignUpState, roleState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
@@ -29,6 +29,7 @@ function Login() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
+  const [errorMsg, setErrorMsg] = usePrintError('');
 
   const {
     register,
@@ -70,8 +71,10 @@ function Login() {
       // home으로 이동
       navigate('/');
     } catch (error) {
-      window.alert(error);
-      console.error(error);
+      // window.alert(error);
+      setErrorMsg(error);
+      console.log('error', error);
+      // console.error(error);
     }
   };
 
@@ -153,14 +156,13 @@ function Login() {
           )}
         </St.InputContainer>
         <St.LoginContainer>
+          <p>{errorMsg}</p>
           <St.SignUpAndLoginBtn type="submit">로그인</St.SignUpAndLoginBtn>
           <St.GoogleLoginBtn onClick={handleGoogleLogin}>
             <img src={googleLogo} alt="Google Icon" />
             &nbsp;구글로그인
           </St.GoogleLoginBtn>
         </St.LoginContainer>
-
-        {/* <button onClick={logOut}>로그아웃</button> */}
 
         <St.SignUpNavigation>
           <p style={{ marginBottom: '15px', fontSize: '15px' }}>아직 회원이 아니신가요?</p>

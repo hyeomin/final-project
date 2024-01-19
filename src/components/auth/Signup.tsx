@@ -64,7 +64,6 @@ function Signup() {
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passworkCheck, phoneNumber }: Data) => {
     try {
-      // const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
       console.log('userCredential', userCredential);
@@ -72,7 +71,6 @@ function Signup() {
       if (user !== null) {
         await updateProfile(user, {
           displayName: nickname
-          // photoURL: ''
         });
       } else return;
       setValue('email', '');
@@ -83,6 +81,7 @@ function Signup() {
 
       // 회원가입 state 업데이트 (Ashley)
       setIsSignUp(false);
+      alert('가입 성공했습니다');
 
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
@@ -98,7 +97,7 @@ function Signup() {
         });
       }
     } catch (error) {
-      setErrorMsg(error);
+      // setErrorMsg(error);
     }
   };
 
@@ -137,19 +136,18 @@ function Signup() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
-    console.log('email', email);
-    console.log('querySnapshot', querySnapshot);
-    console.log('querySnapshot.docs.length', querySnapshot.docs.length);
+    // console.log('email', email);
+    // console.log('querySnapshot', querySnapshot);
+    // console.log('querySnapshot.docs.length', querySnapshot.docs.length);
 
     if (querySnapshot.docs.length > 0) {
       alert('이미 존재하는 이메일입니다.');
       setIsFormValid(false);
       setValue('email', '');
-
       return;
     } else if (querySnapshot.docs.length === 0) {
-      alert('사용 가능한 이메일입니다.');
-      setIsFormValid(true);
+      alert('사용 가능한 메일입니다');
+      // setIsFormValid(true);
     }
   };
 
@@ -163,10 +161,10 @@ function Signup() {
       alert('이미 존재하는 닉네임입니다.');
       setValue('nickname', '');
       setIsFormValid(false);
-    }
-    if (querySnapshot.docs.length === 0) {
+      return;
+    } else if (querySnapshot.docs.length === 0) {
       alert('사용 가능한 닉네임입니다.');
-      setIsFormValid(true);
+      // setIsFormValid(true);
     }
   };
 
@@ -276,7 +274,7 @@ function Signup() {
             signUp({ email, password, nickname, passworkCheck, phoneNumber });
             navigate('/auth/login');
           }}
-          disabled={!isFormValid}
+          disabled={!isFormValid && auth.currentUser!.displayName === nickname && auth.currentUser!.email === email}
         >
           가입하기
         </St.SignUpAndLoginBtn>

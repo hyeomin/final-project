@@ -1,15 +1,16 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { produce } from 'immer';
 import React from 'react';
 import Cs from './styled';
-import { useNavigate } from 'react-router-dom';
-import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
-import PostContentPreview from '../../common/PostContentPreview';
-import { auth, db } from '../../../shared/firebase';
-import defaultProfile from '../../../assets/defaultImg.jpg';
+import { useNavigate } from 'react-router-dom';
 import defaultCover from '../../../assets/defaultCoverImg.jpeg';
-import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { produce } from 'immer';
+import defaultProfile from '../../../assets/defaultImg.jpg';
+import { auth, db } from '../../../shared/firebase';
+import { PostType } from '../../../types/PostType';
+import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
+import PostContentPreview from '../../common/PostContentPreview';
 
 interface PostCardProps {
   post: PostType;

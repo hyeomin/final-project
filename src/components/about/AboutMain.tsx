@@ -1,13 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import HowToUse from './HowToUse';
-
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import theme from '../../styles/theme';
-import YoutubeTest from './YoutubeTest';
 
 const HOWTOUSE = '이용안내';
 const NEWSROOM = '뉴스룸';
@@ -30,14 +27,14 @@ function AboutMain() {
         <h3>WE MAKE</h3>
         <h3>ECO LIFESTYLE </h3>
       </Title>
-      <NavBar>
+      {/* <NavBar>
         <button onClick={onOpenToggleHandler}>{HOWTOUSE}</button>
         <button onClick={onOpenToggleHandler}>{NEWSROOM}</button>
         <button onClick={onOpenToggleHandler}>{GETSTARTED}</button>
       </NavBar>
       {openSection === HOWTOUSE && <HowToUse />}
       {openSection === NEWSROOM && <YoutubeTest />}
-      {openSection === GETSTARTED && <StartNow>지금 시작하기</StartNow>}
+      {openSection === GETSTARTED && <StartNow>지금 시작하기</StartNow>} */}
     </AboutMainContainer>
   );
 }
@@ -49,8 +46,7 @@ const AboutMainContainer = styled.div`
   flex-direction: column;
   align-items: center;
   row-gap: 10px;
-
-  background-color: pink;
+  margin: 200px 0;
 `;
 
 const Title = styled.div`

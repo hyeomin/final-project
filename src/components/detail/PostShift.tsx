@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
+import { PostType } from '../../types/PostType';
 
 type Props = {
   postList: PostType[] | undefined;
