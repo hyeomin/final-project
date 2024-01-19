@@ -1,33 +1,52 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { getAllUsers } from '../../api/authApi';
 import { addPost } from '../../api/postApi';
 import { useModal } from '../../hooks/useModal';
 import { QUERY_KEYS } from '../../query/keys';
-import { editPostState } from '../../recoil/posts';
+import { postInputState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import theme from '../../styles/theme';
 import { PostType } from '../../types/PostType';
 
 interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'save' | 'done';
+  $variant?: 'save' | 'done';
 }
 
 function SubmitButton() {
   const modal = useModal();
-  // const [post, setEditPost] = useRecoilState(editPostState);
-  const [editPost, setEditPost] = useRecoilState(editPostState);
-  const { title } = editPost;
 
-  // const [imageFileforUpload, setImageFileforUpload] = useState<File[]>([]);
+  const [postInput, setPostInput] = useRecoilState(postInputState);
+  const { title } = postInput;
+
   const [role, setRole] = useRecoilState(roleState);
+
+  // role이 비어있는 경우 다시 넣기
+  const { data: userList, refetch } = useQuery({
+    queryKey: [QUERY_KEYS.USERS],
+    queryFn: getAllUsers,
+    enabled: role === ''
+  });
+
+  useEffect(() => {
+    if (role === '') {
+      refetch();
+    }
+    const user = userList && userList.find((user) => user.uid === auth.currentUser?.uid);
+    if (user) {
+      setRole(user.role);
+    }
+  }, [role, refetch, setRole, userList]);
 
   const navigate = useNavigate();
 
+  // 작업 중인 포스트 정보
   const newPost: Omit<PostType, 'id'> = {
-    ...editPost,
+    ...postInput,
     createdAt: Date.now(),
     updatedAt: Date.now(),
     uid: auth.currentUser!.uid,
@@ -44,7 +63,7 @@ function SubmitButton() {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
 
       // 내용 원상복구
-      setEditPost({
+      setPostInput({
         title: '',
         content: '',
         category: 'noCategory',
@@ -78,11 +97,7 @@ function SubmitButton() {
       };
 
       const onClickSave = () => {
-        // const newImages = coverImageList.filter((image) => image.file).map((image) => image.file) as File[];
-        // setImageFileforUpload(newImages);
-
         addMutation.mutate();
-
         modal.close();
       };
 
@@ -96,21 +111,10 @@ function SubmitButton() {
       };
       modal.open(openModalParams);
     }
-    // if (title.length === 0) {
-    //   window.alert('제목 입력은 필수입니다.');
-    //   return;
-    // } else {
-    //   const confirmation = window.confirm('등록하시겠습니까?');
-    //   if (!confirmation) return;
-    // }
-    // const newImages = coverImageList.filter((image) => image.isNew && image.file).map((image) => image.file) as File[];
-    // setNewImageFileList(newImages);
-
-    // addMutation.mutate();
   };
 
   return (
-    <CustomButton variant="done" onClick={onSubmitPostHandler}>
+    <CustomButton $variant="done" onClick={onSubmitPostHandler}>
       완료
     </CustomButton>
   );
@@ -126,8 +130,8 @@ export const CustomButton = styled.button<CustomButtonProps>`
   padding: 10px 15px;
   cursor: pointer;
 
-  ${({ variant }) =>
-    variant === 'save' &&
+  ${({ $variant }) =>
+    $variant === 'save' &&
     `
     color: black;
     background-color: white;

@@ -9,7 +9,7 @@ import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
 
 import 'react-quill/dist/quill.snow.css';
-import { editPostState, isEditingPostState } from '../../../recoil/posts';
+import { postInputState } from '../../../recoil/posts';
 import theme from '../../../styles/theme';
 
 Quill.register('modules/imageActions', ImageActions);
@@ -18,36 +18,16 @@ Quill.register('modules/imageFormats', ImageFormats);
 function Editor() {
   const TITLE = 'title';
 
-  const [editPost, setEditPost] = useRecoilState(editPostState);
-  const { title, content } = editPost;
+  const [postInput, setPostInput] = useRecoilState(postInputState);
+  const { title, content } = postInput;
 
-  const [isEditingPost, setisEditingPost] = useRecoilState(isEditingPostState);
-  const { foundPost, isEditing } = isEditingPost;
+  console.log('content-->', content);
 
   const quillRef = useRef<ReactQuill>(null);
 
   if (!ImageFormats.registered) {
     ImageFormats.registered = true;
   }
-
-  // useEffect(() => {
-  //   if (isEditing && foundPost) {
-  //     setEditPost({
-  //       ...editPost,
-  //       title: foundPost.title,
-  //       content: foundPost.content
-  //     });
-  //   }
-  //   if (!isEditing) {
-  //     setEditPost({
-  //       title: '',
-  //       content: '',
-  //       category: 'noCategory',
-  //       hashtags: [],
-  //       coverImages: []
-  //     });
-  //   }
-  // }, [isEditing, foundPost]);
 
   const modules = useMemo(() => {
     return {
@@ -100,7 +80,7 @@ function Editor() {
       <input
         name={TITLE}
         value={title}
-        onChange={(event) => setEditPost({ ...editPost, title: event.target.value })}
+        onChange={(event) => setPostInput({ ...postInput, title: event.target.value })}
         placeholder="제목을 입력하세요."
       />
       <EditorContainer>
@@ -108,7 +88,7 @@ function Editor() {
           style={editorStyle}
           theme="snow"
           value={content}
-          onChange={(newContent) => setEditPost({ ...editPost, content: newContent })}
+          onChange={(newContent) => setPostInput({ ...postInput, content: newContent })}
           modules={modules}
           formats={formats}
           ref={quillRef}

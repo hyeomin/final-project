@@ -4,27 +4,14 @@ import { GoTrash } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
 import { uploadSingleImage } from '../../api/postApi';
 import DragNDrop from '../../assets/icons/dragndrop.png';
-import { editPostState, isEditingPostState } from '../../recoil/posts';
+import { postInputState } from '../../recoil/posts';
 import St from '../write/imageUpload/style';
 
 function ImageUploadTest() {
-  //   const [coverImages, setCoverImages] = useRecoilState(coverImageListState);
-  const [editPost, setEditPost] = useRecoilState(editPostState);
-  const { coverImages } = editPost;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [isEditingPost, setisEditingPost] = useRecoilState(isEditingPostState);
-  const { foundPost, isEditing } = isEditingPost;
-
-  // 수정 중이면 이미지 foundPost에서 가져오기
-  // useEffect(() => {
-  //   if (isEditing && foundPost?.coverImages) {
-  //     setEditPost({
-  //       ...editPost,
-  //       coverImages: foundPost.coverImages
-  //     });
-  //   }
-  // }, [foundPost, isEditing, editPost]);
+  const [postInput, setPostInput] = useRecoilState(postInputState);
+  const { coverImages } = postInput;
 
   const queryClient = useQueryClient();
 
@@ -35,8 +22,8 @@ function ImageUploadTest() {
       if (downloadedImage) {
         // 정상적으로 url을 반환 받았는지 확인
         queryClient.invalidateQueries();
-        setEditPost({
-          ...editPost,
+        setPostInput({
+          ...postInput,
           coverImages: [...coverImages, downloadedImage]
         });
       } else {
