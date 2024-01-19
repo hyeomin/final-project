@@ -118,7 +118,11 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
 
         // pages 배열 내의 모든 페이지를 펼칩니다.
         const updatedPages = prevPosts.pages.map((posts) =>
-          posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
+          posts.map((post) =>
+            post.id === selectedPostId
+              ? { ...post, isLiked: !post.isLiked, likeCount: post.isLiked ? post.likeCount! - 1 : post.likeCount! + 1 }
+              : post
+          )
         );
 
         // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
@@ -136,11 +140,12 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     post: PostType
   ) => {
     //e.stopPropagation();
-    console.log('좋아요 버튼 클릭');
-    // console.log(id);
-    // console.log(post);
+    e.preventDefault();
+    e.stopPropagation();
+
     await toggleLike({ postId: id, postData: post });
   };
+
   //invalidate,, 시간 정해놓고 (쿼리에 기능.. 탑100,,staleTime...)
   //새로고침시에만 새로운데이터 확인되도록.
 
