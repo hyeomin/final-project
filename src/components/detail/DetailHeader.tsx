@@ -7,13 +7,10 @@ import swipeLeft from '../../assets/icons/swipeLeft.png';
 import swipeRight from '../../assets/icons/swipeRight.png';
 
 import 'swiper/css';
+import { FoundDetailPostProps } from '../../types/PostType';
 import Loader from '../common/Loader';
 
-type Props = {
-  foundPost: PostType;
-};
-
-function DetailHeader({ foundPost }: Props) {
+function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0); // New state for current index
 
@@ -22,9 +19,9 @@ function DetailHeader({ foundPost }: Props) {
     isLoading,
     isError
   } = useQuery({
-    queryKey: ['imageURL', foundPost.id],
-    queryFn: () => downloadCoverImageURLs(foundPost?.id!),
-    enabled: !!foundPost?.id
+    queryKey: ['imageURL', foundDetailPost.id],
+    queryFn: () => downloadCoverImageURLs(foundDetailPost?.id!),
+    enabled: !!foundDetailPost?.id
   });
 
   const handleSlideChange = (swiper: SwiperClass) => {
@@ -67,7 +64,7 @@ function DetailHeader({ foundPost }: Props) {
                 <SwiperSlide key={idx}>
                   <img src={image} alt="Post-Cover" />
                   <Gradient></Gradient>
-                  <PostTitle noimage="false">{foundPost.title}</PostTitle>
+                  <PostTitle noimage="false">{foundDetailPost.title}</PostTitle>
                 </SwiperSlide>
               );
             })}
@@ -79,7 +76,7 @@ function DetailHeader({ foundPost }: Props) {
         </>
       ) : (
         <NoImage>
-          <PostTitle noimage="true">{foundPost.title}</PostTitle>
+          <PostTitle noimage="true">{foundDetailPost.title}</PostTitle>
         </NoImage>
       )}
     </CoverContainer>

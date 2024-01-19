@@ -1,47 +1,51 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { updatePost } from '../../../api/postApi';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
-import { coverImageState, foundPostState, isEditingPostState, postState } from '../../../recoil/posts';
+import { editPostState, isEditingPostState } from '../../../recoil/posts';
 import { CustomButton } from '../SubmitButton';
 
 function EditUploadButton() {
   const modal = useModal();
-  const [post, setPost] = useRecoilState(postState);
-  const { title } = post;
+  const [editPost, setEditPost] = useRecoilState(editPostState);
+  const { title } = editPost;
 
-  const [foundPost, setFoundPost] = useRecoilState<PostType | undefined>(foundPostState);
+  // const [foundPost, setFoundPost] = useRecoilState(foundPostState);
   const [isEditingPost, setIsEditingPost] = useRecoilState(isEditingPostState);
-  const [coverImages, setCoverImages] = useRecoilState(coverImageState);
+  const { foundPost } = isEditingPost;
+  // const [coverImages, setCoverImages] = useRecoilState(coverImageState);
 
-  const [imageFileforUpload, setImageFileforUpload] = useState<File[]>([]);
-  const [imageUrltoDelete, setImageUrltoDelete] = useState<string[]>([]);
+  // const [imageFileforUpload, setImageFileforUpload] = useState<File[]>([]);
+  // const [imageUrltoDelete, setImageUrltoDelete] = useState<string[]>([]);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const editingPost = {
-    ...post,
+    ...editPost,
     updatedAt: Date.now()
   };
 
   const updatePostMutation = useMutation({
-    mutationFn: () => updatePost({ editingPost, postId: foundPost!.id, imageFileforUpload, imageUrltoDelete }),
+    mutationFn: () => updatePost({ editingPost, postId: foundPost!.id }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
       // 내용 원상복구
-      setPost({
+      setEditPost({
         title: '',
         content: '',
         category: 'noCategory',
-        hashtags: []
+        hashtags: [],
+        coverImages: []
       });
-      setCoverImages([]);
-      setFoundPost(undefined);
-      setIsEditingPost(false);
+      // setCoverImages([]);
+      setIsEditingPost({
+        foundPost: null,
+        isEditing: false
+      });
+      // setIsEditingPost(false);
       navigate(`/detail/${foundPost?.id}`);
     }
   });
@@ -72,16 +76,16 @@ function EditUploadButton() {
       };
 
       const onClickSave = () => {
-        const newImages = coverImages
-          .filter((image) => image.isNew && image.file && !image.isDeleted)
-          .map((image) => image.file) as File[];
-        setImageFileforUpload(newImages);
+        // const newImages = coverImages
+        //   .filter((image) => image.isNew && image.file && !image.isDeleted)
+        //   .map((image) => image.file) as File[];
+        // setImageFileforUpload(newImages);
 
-        // 기존 업로드 되어 이미지 중 삭제된 것 정리
-        const imageUrltoDelete = coverImages
-          .filter((image) => !image.isNew && !image.file && image.isDeleted)
-          .map((image) => image.url) as string[];
-        setImageUrltoDelete(imageUrltoDelete);
+        // // 기존 업로드 되어 이미지 중 삭제된 것 정리
+        // const imageUrltoDelete = coverImages
+        //   .filter((image) => !image.isNew && !image.file && image.isDeleted)
+        //   .map((image) => image.url) as string[];
+        // setImageUrltoDelete(imageUrltoDelete);
 
         updatePostMutation.mutate();
 

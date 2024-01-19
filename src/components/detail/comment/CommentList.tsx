@@ -5,17 +5,19 @@ import { getComments } from '../../../api/commentApi';
 import defaultUserProfile from '../../../assets/defaultImg.jpg';
 import MangoLogo from '../../../assets/mangoLogo(2).png';
 import { useModal } from '../../../hooks/useModal';
-import { FoundPostProps } from '../../../pages/Detail';
+// import { foundDetailPostProps } from '../../../pages/Detail';
 import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
+// import { FoundDetailPostType } from '../../../types/PostType';
+import { FoundDetailPostProps } from '../../../types/PostType';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
 
-const CommentList = ({ foundPost }: FoundPostProps) => {
+const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const modal = useModal();
   const queryClient = useQueryClient();
-  const postId = foundPost?.id;
+  const postId = foundDetailPost?.id;
 
   const [editingText, setEditingText] = useState('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
@@ -41,7 +43,7 @@ const CommentList = ({ foundPost }: FoundPostProps) => {
 
     const onClickSave = () => {
       deleteCommentMutate(
-        { id, postId: foundPost.id },
+        { id, postId: foundDetailPost.id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({
@@ -67,7 +69,7 @@ const CommentList = ({ foundPost }: FoundPostProps) => {
     // const confirm = window.confirm('정말로 삭제하시겠습니까?');
     // if (!confirm) return;
     // deleteCommentMutate(
-    //   { id, postId: foundPost.id },
+    //   { id, postId: foundDetailPost.id },
     //   {
     //     onSuccess: () => {
     //       queryClient.invalidateQueries({
@@ -86,7 +88,7 @@ const CommentList = ({ foundPost }: FoundPostProps) => {
 
     const onClickSave = () => {
       updateCommentMutate(
-        { postId: foundPost.id, id, editingText },
+        { postId: foundDetailPost.id, id, editingText },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({
@@ -113,7 +115,7 @@ const CommentList = ({ foundPost }: FoundPostProps) => {
     //const confirm = window.confirm('저장하시겠습니까?');
     //if (!confirm) return;
     // updateCommentMutate(
-    //   { postId: foundPost.id, id, editingText },
+    //   { postId: foundDetailPost.id, id, editingText },
     //   {
     //     onSuccess: () => {
     //       queryClient.invalidateQueries({

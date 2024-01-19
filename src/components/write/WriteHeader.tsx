@@ -12,7 +12,7 @@ function Header() {
     <WriteHeader>
       <ButtonContainer>
         <CustomButton variant="save">임시 저장</CustomButton>
-        {isEditingPost ? <IsEditingButton /> : <SubmitButton />}
+        {isEditingPost.isEditing ? <IsEditingButton /> : <SubmitButton />}
       </ButtonContainer>
     </WriteHeader>
   );

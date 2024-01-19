@@ -10,13 +10,11 @@ import PostShift from '../components/detail/PostShift';
 import AddCommentForm from '../components/detail/comment/AddComment';
 import CommentList from '../components/detail/comment/CommentList';
 import { QUERY_KEYS } from '../query/keys';
-
-export type FoundPostProps = {
-  foundPost: PostType;
-};
+import { PostType } from '../types/PostType';
 
 function Detail() {
-  const [foundPost, setFoundPost] = useState<PostType | undefined>();
+  const [foundDetailPost, setFoundDetailPost] = useState<PostType | null>();
+
   const { id } = useParams();
 
   const { data: postList, isLoading } = useQuery({
@@ -26,20 +24,20 @@ function Detail() {
 
   useEffect(() => {
     if (postList) {
-      const foundPost = postList.find((post) => post.id === id);
-      setFoundPost(foundPost);
+      const foundDetailPost = postList.find((post) => post.id === id);
+      if (foundDetailPost) setFoundDetailPost(foundDetailPost);
     }
-  }, [postList, id, setFoundPost]);
+  }, [postList, id]);
 
   //조회수 업데이트
-  const [viewCount, setViewCount] = useState(foundPost?.viewCount || 0);
+  const [viewCount, setViewCount] = useState(foundDetailPost?.viewCount || 0);
   useEffect(() => {
-    if (foundPost && !sessionStorage.getItem(`viewed-${foundPost.id}`)) {
-      updatePostViewCount(foundPost.id);
-      sessionStorage.setItem(`viewed-${foundPost.id}`, 'true');
+    if (foundDetailPost && !sessionStorage.getItem(`viewed-${foundDetailPost.id}`)) {
+      updatePostViewCount(foundDetailPost.id);
+      sessionStorage.setItem(`viewed-${foundDetailPost.id}`, 'true');
       setViewCount((prevCount) => prevCount + 1);
     }
-  }, [postList, foundPost]);
+  }, [postList, foundDetailPost]);
 
   if (isLoading) {
     return <div>로딩 중...</div>;
@@ -47,12 +45,12 @@ function Detail() {
 
   return (
     <Container>
-      {foundPost && (
+      {foundDetailPost && (
         <>
-          <DetailHeader foundPost={foundPost} />
-          <DetailBody foundPost={foundPost} />
-          <AddCommentForm foundPost={foundPost} />
-          <CommentList foundPost={foundPost} />
+          <DetailHeader foundDetailPost={foundDetailPost} />
+          <DetailBody foundDetailPost={foundDetailPost} />
+          <AddCommentForm foundDetailPost={foundDetailPost} />
+          <CommentList foundDetailPost={foundDetailPost} />
           <PostShift postList={postList} postId={id} />
         </>
       )}

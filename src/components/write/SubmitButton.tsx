@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { addPost } from '../../api/postApi';
+import { useModal } from '../../hooks/useModal';
 import { QUERY_KEYS } from '../../query/keys';
-import { coverImageState, postState } from '../../recoil/posts';
+import { editPostState } from '../../recoil/posts';
 import { roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import theme from '../../styles/theme';
-import { useModal } from '../../hooks/useModal';
+import { PostType } from '../../types/PostType';
 
 interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'save' | 'done';
@@ -17,20 +17,20 @@ interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
 
 function SubmitButton() {
   const modal = useModal();
-  const [post, setPost] = useRecoilState(postState);
-  const { title } = post;
+  // const [post, setEditPost] = useRecoilState(editPostState);
+  const [editPost, setEditPost] = useRecoilState(editPostState);
+  const { title } = editPost;
 
-  const [coverImageList, setCoverImageList] = useRecoilState(coverImageState);
-  const [imageFileforUpload, setImageFileforUpload] = useState<File[]>([]);
+  // const [imageFileforUpload, setImageFileforUpload] = useState<File[]>([]);
   const [role, setRole] = useRecoilState(roleState);
 
   const navigate = useNavigate();
 
-  const newPost = {
-    ...post,
+  const newPost: Omit<PostType, 'id'> = {
+    ...editPost,
     createdAt: Date.now(),
     updatedAt: Date.now(),
-    uid: auth.currentUser?.uid,
+    uid: auth.currentUser!.uid,
     likeCount: 0,
     likedUsers: [],
     role
@@ -39,18 +39,18 @@ function SubmitButton() {
   // 게시물 추가
   const queryClient = useQueryClient();
   const addMutation = useMutation({
-    mutationFn: () => addPost({ newPost, imageFileforUpload }),
+    mutationFn: () => addPost({ newPost }),
     onSuccess: (postId) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
 
       // 내용 원상복구
-      setPost({
+      setEditPost({
         title: '',
         content: '',
         category: 'noCategory',
-        hashtags: []
+        hashtags: [],
+        coverImages: []
       });
-      setCoverImageList([]);
       navigate(`/detail/${postId}`);
     }
   });
@@ -78,8 +78,8 @@ function SubmitButton() {
       };
 
       const onClickSave = () => {
-        const newImages = coverImageList.filter((image) => image.file).map((image) => image.file) as File[];
-        setImageFileforUpload(newImages);
+        // const newImages = coverImageList.filter((image) => image.file).map((image) => image.file) as File[];
+        // setImageFileforUpload(newImages);
 
         addMutation.mutate();
 
@@ -124,6 +124,7 @@ export const CustomButton = styled.button<CustomButtonProps>`
   border: none;
   border-radius: 5px;
   padding: 10px 15px;
+  cursor: pointer;
 
   ${({ variant }) =>
     variant === 'save' &&

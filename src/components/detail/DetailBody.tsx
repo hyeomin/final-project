@@ -4,21 +4,22 @@ import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import styled from 'styled-components';
 import { getAllUsers } from '../../api/authApi';
 import defaultImage from '../../assets/defaultImg.jpg';
-import { FoundPostProps } from '../../pages/Detail';
 import { QUERY_KEYS } from '../../query/keys';
 import { auth } from '../../shared/firebase';
 import theme from '../../styles/theme';
+import { FoundDetailPostProps } from '../../types/PostType';
 import { getFormattedDate } from '../../util/formattedDateAndTime';
 import EditNDeleteToggle from './EditNDeleteToggle';
 
-function DetailBody({ foundPost }: FoundPostProps) {
+function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   const [isEditNDeleteToggleOpened, setIsEditNDeleteToggle] = useState(false);
+
   const { data: userList } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
     queryFn: getAllUsers
   });
 
-  const author = userList?.find((user) => user.uid === foundPost.uid);
+  const author = userList?.find((user) => user.uid === foundDetailPost.uid);
 
   let authorImage = author?.profileImg;
   if (!authorImage) {
@@ -34,29 +35,29 @@ function DetailBody({ foundPost }: FoundPostProps) {
           </div>
           <div>
             <p>{author?.displayName ?? '작성자 이름 없음'}</p>
-            <DateSpan>{getFormattedDate(foundPost.createdAt!) ?? '작성일이 없습니다'}</DateSpan>
+            <DateSpan>{getFormattedDate(foundDetailPost.createdAt!) ?? '작성일이 없습니다'}</DateSpan>
           </div>
         </PostInfo>
-        {auth.currentUser?.uid === foundPost.uid && (
+        {auth.currentUser?.uid === foundDetailPost.uid && (
           <EditNDeleteContainer>
             <button onClick={() => setIsEditNDeleteToggle((prev) => !prev)}>. . .</button>
-            {isEditNDeleteToggleOpened && <EditNDeleteToggle foundPost={foundPost} />}
+            {isEditNDeleteToggleOpened && <EditNDeleteToggle foundDetailPost={foundDetailPost} />}
           </EditNDeleteContainer>
         )}
       </BodyHeader>
-      <ContentBody dangerouslySetInnerHTML={{ __html: foundPost?.content as string }} />
+      <ContentBody dangerouslySetInnerHTML={{ __html: foundDetailPost?.content as string }} />
       <AdditionalInfoContainer>
         <span>
           <GoEye />
-          {foundPost.viewCount}
+          {foundDetailPost.viewCount}
         </span>
         <span>
           <GoHeart />
-          {foundPost.likeCount}
+          {foundDetailPost.likeCount}
         </span>
         <span>
           <GoComment />
-          {foundPost.commentCount ?? 0}
+          {foundDetailPost.commentCount ?? 0}
         </span>
       </AdditionalInfoContainer>
     </BodyContainer>

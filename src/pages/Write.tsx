@@ -1,38 +1,32 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { getAllUsers } from '../api/authApi';
-import Editor from '../components/write/Editor';
 import Hashtag from '../components/write/Hashtag';
-import ImageUpload from '../components/write/ImageUpload';
+import ImageUploadTest from '../components/write/ImageUploadTest';
 import Header from '../components/write/WriteHeader';
+import Editor from '../components/write/editor/Editor';
 import { QUERY_KEYS } from '../query/keys';
-import { foundPostState, isEditingPostState, postState } from '../recoil/posts';
+import { isEditingPostState } from '../recoil/posts';
 import { roleState } from '../recoil/users';
 import { auth } from '../shared/firebase';
 
-export type IsEditingPostProps = {
-  foundPost: PostType | undefined;
-  isEditingPost: boolean;
-};
-
 function Write() {
-  const [post, setPost] = useRecoilState(postState);
-  const [isEditingPost, setIsEditingPost] = useRecoilState(isEditingPostState);
-  const [foundPost, setFoundPost] = useRecoilState<PostType | undefined>(foundPostState);
+  const [isEditingPost, setisEditingPost] = useRecoilState(isEditingPostState);
+  const { foundPost, isEditing } = isEditingPost;
+  // const [foundPost, setFoundPost] = useRecoilState(foundPostState);
   const [role, setRole] = useRecoilState(roleState);
 
-  const { state } = useLocation();
+  // const { state } = useLocation();
 
-  // isEditingPost인지 확인하고 state 변경
-  useEffect(() => {
-    if (state) {
-      setFoundPost(state.foundPost);
-      setIsEditingPost(true);
-    }
-  }, [state]);
+  // // isEditing인지 확인하고 state 변경
+  // useEffect(() => {
+  //   if (state) {
+  //     setFoundPost(state.foundPost);
+  //     setisEditing(true);
+  //   }
+  // }, [state]);
 
   // role이 비어있는 경우 다시 넣기
   const { data: userList, refetch } = useQuery({
@@ -52,29 +46,29 @@ function Write() {
   }, [role, refetch, setRole, userList]);
 
   // 뒤로가기 버튼 누르면 내용 사라지게
-  useEffect(() => {
-    window.onbeforeunload = () => {
-      return '내용이 사라집니다. 진행하시겠습니까?';
-    };
+  // useEffect(() => {
+  //   window.onbeforeunload = () => {
+  //     return '내용이 사라집니다. 진행하시겠습니까?';
+  //   };
 
-    return () => {
-      window.onbeforeunload = null;
-      setPost({
-        title: '',
-        content: '',
-        category: 'noCategory',
-        hashtags: []
-      });
-    };
-  }, []);
+  //   return () => {
+  //     window.onbeforeunload = null;
+  //     setPost({
+  //       title: '',
+  //       content: '',
+  //       category: 'noCategory',
+  //       hashtags: []
+  //     });
+  //   };
+  // }, []);
 
   return (
     <Container>
       <Header />
-      <Editor foundPost={foundPost} isEditingPost={isEditingPost} />
+      <Editor />
       <Spacer />
-      <Hashtag foundPost={foundPost} isEditingPost={isEditingPost} />
-      <ImageUpload foundPost={foundPost} isEditingPost={isEditingPost} />
+      <Hashtag />
+      <ImageUploadTest />
     </Container>
   );
 }
