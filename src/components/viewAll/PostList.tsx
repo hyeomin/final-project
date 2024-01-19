@@ -67,8 +67,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       return lastPage[lastPage.length - 1];
     },
     select: (data) => {
-      //console.log('data', data);
-      console.log('sortBy', sortBy);
       let sortedPosts = data.pages.flat().map((doc) => {
         const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
         return { isLiked: postData.likedUsers?.includes(auth.currentUser!.uid), id: doc.id, ...postData } as PostType;
@@ -90,7 +88,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           return createdAtB - createdAtA;
         });
       }
-      console.log('sortedPosts', sortedPosts);
       return sortedPosts;
     }
   });
@@ -213,10 +210,10 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                       <p>{post.title}</p>
                       {post.content && <PostContentPreview postContent={post.content} />}
                     </St.TitleAndContent>
-                    <St.NeedDelete>
+                    {/* <St.NeedDelete>
                       <p>삭제/ {post.category}</p>
                       <p>삭제/ {getFormattedDate_yymmdd(post.createdAt!)}</p>
-                    </St.NeedDelete>
+                    </St.NeedDelete> */}
                     <St.CommentAndLikes>
                       <span>
                         <GoEye />
