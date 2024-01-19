@@ -5,6 +5,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import theme from '../../styles/theme';
+import HowToUse from './HowToUse';
 
 const HOWTOUSE = '이용안내';
 const NEWSROOM = '뉴스룸';
@@ -27,6 +28,7 @@ function AboutMain() {
         <h3>WE MAKE</h3>
         <h3>ECO LIFESTYLE </h3>
       </Title>
+      <HowToUse />
       {/* <NavBar>
         <button onClick={onOpenToggleHandler}>{HOWTOUSE}</button>
         <button onClick={onOpenToggleHandler}>{NEWSROOM}</button>
