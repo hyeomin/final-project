@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Hashtag from '../components/write/Hashtag';
 import ImageUploadTest from '../components/write/ImageUploadTest';
@@ -5,22 +6,9 @@ import Header from '../components/write/WriteHeader';
 import Editor from '../components/write/editor/Editor';
 
 function Write() {
-  // 뒤로가기 버튼 누르면 내용 사라지게
-  // useEffect(() => {
-  //   window.onbeforeunload = () => {
-  //     return '내용이 사라집니다. 진행하시겠습니까?';
-  //   };
-
-  //   return () => {
-  //     window.onbeforeunload = null;
-  //     setPost({
-  //       title: '',
-  //       content: '',
-  //       category: 'noCategory',
-  //       hashtags: []
-  //     });
-  //   };
-  // }, []);
+  const location = useLocation();
+  const { foundDetailPost } = location.state || {};
+  console.log('foundDetailPost', foundDetailPost);
 
   return (
     <Container>

@@ -2,6 +2,7 @@ import { QueryFunctionContext, QueryKey } from '@tanstack/react-query';
 import { db } from '../shared/firebase';
 import {
   DocumentData,
+  Query,
   QueryDocumentSnapshot,
   collection,
   getDocs,
@@ -39,16 +40,17 @@ export const getCategoryPosts =
   async ({
     pageParam
   }: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
-    // console.log('pageParam', pageParam);
-    const q = pageParam
-      ? query(
-          collection(db, 'posts'),
-          where('category', '==', category),
-          where('role', '==', 'user'),
-          startAfter(pageParam),
-          limit(4)
-        )
-      : query(collection(db, 'posts'), where('category', '==', category), where('role', '==', 'user'), limit(4));
+    let q: Query<DocumentData> = query(collection(db, 'posts'), where('role', '==', 'user'), limit(4));
+
+    if (category !== 'total') {
+      q = query(q, where('category', '==', category));
+    } else {
+      q = query(q, orderBy('createdAt', 'desc'));
+    }
+
+    if (pageParam) {
+      q = query(q, startAfter(pageParam));
+    }
 
     const querySnapShot = await getDocs(q);
     return querySnapShot.docs;

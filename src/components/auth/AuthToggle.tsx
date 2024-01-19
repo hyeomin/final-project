@@ -7,12 +7,14 @@ import defaultImg from '../../assets/defaultImg.jpg';
 import { roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import theme from '../../styles/theme';
+import { useModal } from '../../hooks/useModal';
 
 type Props = {
   setIsAuthToggleOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 function AuthToggle({ setIsAuthToggleOpen }: Props) {
+  const modal = useModal();
   const [userInfo, setUserInfo] = useState(auth.currentUser);
   const [role, setRole] = useRecoilState(roleState);
 
@@ -38,20 +40,40 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
     setIsAuthToggleOpen(false);
   };
 
-  const onLogOutHandler = async (e: React.FormEvent) => {
+  const onLogOutHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    ////모달팝업 적용(혜민)
-    const confirmation = window.confirm('로그아웃하시겠습니까?');
-    if (!confirmation) return;
+    // const confirmation = window.confirm('로그아웃하시겠습니까?');
+    // if (!confirmation) return;
 
     try {
-      await signOut(auth);
-      console.log('logout');
+      ////모달팝업 적용(혜민)
+      const onClickCancel = () => {
+        modal.close();
+        return;
+      };
 
-      // 로그아웃 시 Recoil 전역 상태 업데이트
-      setRole('');
-      setIsAuthToggleOpen(false);
+      const onClickSave = async () => {
+        modal.close();
+
+        await signOut(auth);
+        console.log('logout');
+
+        // 로그아웃 시 Recoil 전역 상태 업데이트
+        setRole('');
+        setIsAuthToggleOpen(false);
+        navigate('/home');
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '로그아웃하시겠습니까.',
+        message: '',
+        leftButtonLabel: '취소',
+        onClickLeftButton: onClickCancel,
+        rightButtonLabel: '로그아웃',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
     } catch (error) {
       console.log('Logout Error', error);
     }
