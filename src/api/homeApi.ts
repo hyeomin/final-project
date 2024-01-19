@@ -43,6 +43,7 @@ const getPosts = async () => {
 
 // 관리자게시물
 const getAdminContents = async () => {
+  console.log('getAdminContents');
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),

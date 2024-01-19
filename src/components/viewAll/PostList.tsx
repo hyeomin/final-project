@@ -1,12 +1,10 @@
-import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query';
+import { QueryFunctionContext, QueryKey, useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { useEffect } from 'react';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
-import { downloadImageURL } from '../../api/homeApi';
-import defaultImage from '../../assets/defaultCoverImg.jpeg';
 import defaultProfile from '../../assets/defaultImg.jpg';
+import mangoCover from '../../assets/tentative-cover-image.jpg';
 import { useLikeButton } from '../../hooks/useLikeButton';
 import { QUERY_KEYS } from '../../query/keys';
 import { auth } from '../../shared/firebase';
@@ -73,18 +71,18 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
-  useEffect(() => {
-    console.log('useEffect');
-  }, [posts]);
+  // useEffect(() => {
+  //   console.log('useEffect');
+  // }, [posts]);
 
   // 이미지URL 불러오기
-  const imageQueries = useQueries({
-    queries:
-      posts?.map((post) => ({
-        queryKey: ['imageURL', post.id],
-        queryFn: () => downloadImageURL(post.id as string)
-      })) || []
-  });
+  // const imageQueries = useQueries({
+  //   queries:
+  //     posts?.map((post) => ({
+  //       queryKey: ['imageURL', post.id],
+  //       queryFn: () => downloadImageURL(post.id as string)
+  //     })) || []
+  // });
 
   //
   const removeImageTags = (htmlContent: string) => {
@@ -119,11 +117,12 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         ) : (
           <St.Contents>
             {posts?.map((post, idx) => {
-              const imageQuery = imageQueries[idx];
+              // const imageQuery = imageQueries[idx];
 
               return (
                 <St.Content key={post.id}>
-                  {imageQuery.isLoading ? (
+                  <St.ContentImg src={mangoCover} alt={post.title} onClick={() => navigate(`/detail/${post.id}`)} />
+                  {/* {imageQuery.isLoading ? (
                     <Loader />
                   ) : (
                     <St.ContentImg
@@ -131,7 +130,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                       alt={post.title}
                       onClick={() => navigate(`/detail/${post.id}`)}
                     />
-                  )}
+                  )} */}
 
                   <St.PostInfoContainer>
                     {userList && userList?.find((user) => user.uid === post.uid) && (

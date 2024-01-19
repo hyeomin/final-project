@@ -9,7 +9,13 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { getAdminContents } from '../../../api/homeApi';
+import mangoCover from '../../../assets/tentative-cover-image.jpg';
+import { QUERY_KEYS } from '../../../query/keys';
 import Loader from '../../common/Loader';
+import St from './style';
 
 const AdminContents = () => {
   const { data: adminContents, isLoading } = useQuery({
