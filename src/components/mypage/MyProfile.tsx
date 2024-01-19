@@ -264,7 +264,7 @@ function MyProfile() {
                 <div style={{ cursor: 'pointer' }} onClick={handleToggle}>
                   <GoQuestion
                     style={{ fontSize: '15px', marginLeft: '5px', cursor: 'pointer' }}
-                    onClick={handleToggle}
+                    // onClick={handleToggle}
                   />
                 </div>
               </div>

@@ -170,13 +170,13 @@ const GuideGrade = styled.div`
   &:after {
     content: '';
     position: absolute;
-    left: -20%;
-    top: 20%;
+    left: -12%;
+    top: 35%;
     /* transform: translateY(-50%); */
-    border-top: 20px solid transparent;
-    border-left: 20px solid transparent; /* 변경된 부분 */
-    border-right: 20px solid ${theme.color.mangoLight}; /* 변경된 부분 */
-    border-bottom: 20px solid transparent;
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid ${theme.color.mangoLight};
+    border-bottom: 10px solid transparent;
   }
 `;
 

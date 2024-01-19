@@ -15,8 +15,8 @@ const getMyPosts = async () => {
     const posts: PostType[] = [];
     // 객체들을 forEach 사용해서 배열에 담기
     querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data() });
-      //   console.log('posts', ' => ', doc.data());
+      const data = doc.data();
+      posts.push({ id: doc.id, ...data, isLiked: data.likedUsers.includes(auth.currentUser!.uid) });
     });
     return posts;
   } catch (error) {
@@ -33,8 +33,7 @@ const getLikePosts = async () => {
     const posts: PostType[] = [];
     // 객체들을 forEach 사용해서 배열에 담기
     querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data() });
-      console.log('likedPosts', ' => ', doc.data());
+      posts.push({ id: doc.id, ...doc.data(), isLiked: true });
     });
     return posts;
   } catch (error) {
