@@ -112,7 +112,7 @@ function Login() {
       });
   }
   return (
-    <St.authWrapper>
+    <St.AuthWrapper>
       <St.LogoContainer>
         <St.SubTitle>건강한 친환경 습관 만들기</St.SubTitle>
         <St.LogoBox>
@@ -172,7 +172,7 @@ function Login() {
           </St.ToggleLoginAndSignUp>
         </St.SignUpNavigation>
       </form>
-    </St.authWrapper>
+    </St.AuthWrapper>
   );
 }
 
