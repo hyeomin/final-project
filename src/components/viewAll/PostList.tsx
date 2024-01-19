@@ -8,23 +8,19 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
 import { downloadImageURL } from '../../api/homeApi';
 import defaultImage from '../../assets/defaultCoverImg.jpeg';
 import defaultProfile from '../../assets/defaultImg.jpg';
-import { useLikeButton } from '../../hooks/useLikeButton';
 import { QUERY_KEYS } from '../../query/keys';
-import { auth } from '../../shared/firebase';
 import { PostType } from '../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
-import { useLikeButton } from '../../hooks/useLikeButton';
 import { auth, db } from '../../shared/firebase';
 import { produce } from 'immer';
 
