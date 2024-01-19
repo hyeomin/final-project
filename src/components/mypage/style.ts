@@ -1,6 +1,7 @@
 // import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
-// import theme from '../../styles/theme';
+import theme from '../../styles/theme';
+import { GoHeart, GoHeartFill } from 'react-icons/go';
 
 // const Wrapper = styled.div`
 //   max-width: 1440px;
