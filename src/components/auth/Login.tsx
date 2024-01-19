@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getAllUsers } from '../../api/authApi';
 import googleLogo from '../../assets/icons/googleLogo.png';
-import mangoLogo from '../../assets/mangoLogo.png';
+import mangofavicon from '../../assets/mango-favicon.png';
+
 import { QUERY_KEYS } from '../../query/keys';
 import { isSignUpState, roleState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
@@ -116,7 +117,7 @@ function Login() {
       <St.LogoContainer>
         <St.SubTitle>건강한 친환경 습관 만들기</St.SubTitle>
         <St.LogoBox>
-          <St.MangoLogo src={mangoLogo} />
+          <St.MangoLogo src={mangofavicon} />
           <St.Logo>MANGO</St.Logo>
         </St.LogoBox>
         <St.SignUpTitle>로그인</St.SignUpTitle>

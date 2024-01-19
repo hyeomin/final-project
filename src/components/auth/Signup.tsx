@@ -1,19 +1,15 @@
-import {
-  createUserWithEmailAndPassword,
-  // getAuth,
-  signInWithPhoneNumber,
-  fetchSignInMethodsForEmail,
-  updateProfile
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
-import mangoLogo from '../../assets/mangoLogo.png';
+import mangofavicon from '../../assets/mango-favicon.png';
 import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
+
 import St from './style';
 
 export type Data = {
@@ -39,7 +35,8 @@ function Signup() {
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [errorMsg, setErrorMsg] = usePrintError('');
   const [isFormValid, setIsFormValid] = useState(true);
-  const emailInputRef = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
+  // const emailInputRef = useRef<HTMLInputElement | null>(null);
   const {
     register,
     handleSubmit,
@@ -148,9 +145,6 @@ function Signup() {
       alert('이미 존재하는 이메일입니다.');
       setIsFormValid(false);
       setValue('email', '');
-      // if (email === '') {
-      //   emailInputRef.current?.focus();
-      // }
 
       return;
     } else if (querySnapshot.docs.length === 0) {
@@ -164,9 +158,6 @@ function Signup() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
-    // console.log('nickname', nickname);
-    // console.log('querySnapshot', querySnapshot);
-    // console.log('querySnapshot.docs.length', querySnapshot.docs.length);
 
     if (querySnapshot.docs.length > 0) {
       alert('이미 존재하는 닉네임입니다.');
@@ -184,7 +175,7 @@ function Signup() {
       <St.LogoContainer>
         <St.SubTitle>건강한 친환경 습관 만들기</St.SubTitle>
         <St.LogoBox>
-          <St.MangoLogo src={mangoLogo} />
+          <St.MangoLogo src={mangofavicon} />
           <St.Logo>MANGO</St.Logo>
         </St.LogoBox>
         <St.SignUpTitle>회원가입</St.SignUpTitle>
@@ -199,10 +190,6 @@ function Signup() {
               required: true,
               pattern: emailRegex
             })}
-            // onChange={(e) => {
-            //   setEmail(e.target.value);
-            //   setErrorMsg('');
-            // }}
           />
           <St.AuthBtn onClick={() => emailCheck(getValues('email'))}>중복확인</St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
@@ -254,10 +241,6 @@ function Signup() {
               required: true,
               pattern: nicknameRegex
             })}
-            // onChange={(e) => {
-            //   setNickname(e.target.value);
-            //   setErrorMsg('');
-            // }}
           />
           <St.AuthBtn onClick={() => nicknameCheck(getValues('nickname'))}>중복확인</St.AuthBtn>
           {errors?.nickname?.type === 'required' && <St.WarningMsg>닉네임을 입력해주세요</St.WarningMsg>}
@@ -291,6 +274,7 @@ function Signup() {
           type="submit"
           onClick={() => {
             signUp({ email, password, nickname, passworkCheck, phoneNumber });
+            navigate('/auth/login');
           }}
           disabled={!isFormValid}
         >

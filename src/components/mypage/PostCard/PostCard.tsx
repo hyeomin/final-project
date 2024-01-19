@@ -1,5 +1,5 @@
 import React from 'react';
-import Cs from './PostCard.styled';
+import Cs from './styled';
 import { useNavigate } from 'react-router-dom';
 import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';

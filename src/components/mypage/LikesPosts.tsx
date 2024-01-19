@@ -15,9 +15,13 @@ const LikesPosts = () => {
 
   return (
     <Cs.Contents>
-      {likePosts?.map((post) => {
-        return <PostCard key={post.id} post={post} />;
-      })}
+      {likePosts?.length! > 0 ? (
+        likePosts?.map((post) => {
+          return <PostCard key={post.id} post={post} />;
+        })
+      ) : (
+        <p style={{ display: 'flex', justifyContent: 'center' }}>좋아요 누른 게시물이 없습니다.</p>
+      )}
     </Cs.Contents>
   );
 };
