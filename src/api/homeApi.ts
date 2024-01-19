@@ -41,7 +41,7 @@ const getPosts = async () => {
   }
 };
 
-//created by Mango posts 가져오기
+// 관리자게시물
 const getAdminContents = async () => {
   console.log('getAdminContents');
   try {
@@ -65,10 +65,8 @@ const getAdminContents = async () => {
     return [];
   }
 };
-
-// //created by Mango posts 가져오기
-const getUserContents = async () => {
-  console.log('getUserContents');
+// 인기게시물
+const getPopularContents = async () => {
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -91,32 +89,31 @@ const getUserContents = async () => {
 };
 
 // 좋아요 상태 변경
-const updateLikedUsers = async (post: PostType) => {
+const updateLikedUsers = async (id: string) => {
   const currentUserId = auth.currentUser?.uid;
   try {
     //post.id와 현재 로그인 유저정보 존재여부 확인
-    if (post.id && currentUserId) {
-      const postRef = doc(db, QUERY_KEYS.POSTS, post.id);
+    if (id && currentUserId) {
+      const postRef = doc(db, QUERY_KEYS.POSTS, id);
       const postSnap = await getDoc(postRef);
 
       // post.id 값에 해당하는 post 존재여부 확인
       if (postSnap.exists()) {
         const postData = postSnap.data();
         let likedUsers: string[] = postData?.likedUsers || [];
-        //해당 likedUser 배열에 currentUserId가 있는지 확인
+
         if (likedUsers.includes(currentUserId)) {
           likedUsers = likedUsers.filter((uid) => uid !== currentUserId);
           await updateDoc(postRef, {
             likedUsers: arrayRemove(currentUserId)
           });
         } else {
-          // currentUserId가 likedUsers에 없으면 추가
           likedUsers = [...likedUsers, currentUserId];
           await updateDoc(postRef, {
             likedUsers: arrayUnion(currentUserId)
           });
         }
-        // likedUsers 배열의 길이를 likeCount로 설정
+
         await updateDoc(postRef, {
           likeCount: likedUsers.length // 배열의 길이를 likeCount로 설정
         });
@@ -159,7 +156,6 @@ const getTopUsers = async () => {
       acc[post.uid!] += post.likeCount!;
       return acc;
     }, {});
-    // console.log('likeCountPerUser===>', likeCountPerUser);
 
     // 객체를 배열로 변환
     const usersWithLikeCounts = Object.entries(likeCountPerUser).map(([uid, totalLikes]) => ({
@@ -167,8 +163,6 @@ const getTopUsers = async () => {
       totalLikes
     }));
     const topUsers: likeCountPerUserType[] = usersWithLikeCounts.sort((a, b) => b.totalLikes - a.totalLikes);
-    // .slice(0, 10);
-    // console.log('topUsers===>', topUsers);
     return topUsers;
   } catch (error) {
     console.log(error);
@@ -187,7 +181,6 @@ const downloadImageURL = async (postId: string) => {
       const url = await getDownloadURL(firstFileRef);
       return url;
     } else {
-      // console.log('No files found in the directory');
       return '';
     }
   } catch (error) {
@@ -196,4 +189,4 @@ const downloadImageURL = async (postId: string) => {
   }
 };
 
-export { downloadImageURL, getAdminContents, getPosts, getTopUsers, getUserContents, updateLikedUsers };
+export { getPosts, getAdminContents, getPopularContents, updateLikedUsers, getTopUsers, downloadImageURL };

@@ -1,26 +1,15 @@
 import AdminContents from './adminContents/AdminContents';
-import St from './adminContents/style';
+import PopularContents from './popularContents/PopularContents';
 import TopUsers from './topUsers/TopUsers';
-import styled from 'styled-components';
-import UserContents from './userContents/UserContents';
-
+import St from './style';
 function MainBody() {
   return (
-    <Container>
+    <St.Container>
       <AdminContents />
-      <UserContents />
+      <PopularContents />
       <TopUsers />
-    </Container>
+    </St.Container>
   );
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  gap: 50px;
-`;
 export default MainBody;
