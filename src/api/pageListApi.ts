@@ -44,6 +44,8 @@ export const getCategoryPosts =
 
     if (category !== 'total') {
       q = query(q, where('category', '==', category));
+    } else {
+      q = query(q, orderBy('createdAt', 'desc'));
     }
 
     if (pageParam) {
