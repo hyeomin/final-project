@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
-const authWrapper = styled.div`
+const AuthWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,7 +39,8 @@ const LogoBox = styled.div`
 
 const MangoLogo = styled.img`
   width: 35px;
-  height: 35px;
+  height: 40px;
+  margin-right: 5px;
 `;
 
 const Logo = styled.div`
@@ -88,6 +89,7 @@ const AuthBtn = styled.button`
   font-weight: 300;
   font-size: 10px;
   &:hover {
+    cursor: pointer;
     background-color: #f59004;
   }
 `;
@@ -160,7 +162,7 @@ export default {
   SubTitle,
   SignUpTitle,
   InputContainer,
-  authWrapper,
+  AuthWrapper,
   WarningMsg,
   LogoContainer,
   LogoBox,
