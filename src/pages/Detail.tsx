@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { updatePostViewCount } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
@@ -10,10 +11,14 @@ import PostShift from '../components/detail/PostShift';
 import AddCommentForm from '../components/detail/comment/AddComment';
 import CommentList from '../components/detail/comment/CommentList';
 import { QUERY_KEYS } from '../query/keys';
+import { postInputState } from '../recoil/posts';
 import { PostType } from '../types/PostType';
 
 function Detail() {
   const [foundDetailPost, setFoundDetailPost] = useState<PostType | null>();
+  const [postInput, setPostInput] = useRecoilState(postInputState);
+
+  console.log('postInput', postInput);
 
   const { id } = useParams();
 

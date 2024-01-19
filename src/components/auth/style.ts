@@ -39,7 +39,8 @@ const LogoBox = styled.div`
 
 const MangoLogo = styled.img`
   width: 35px;
-  height: 35px;
+  height: 40px;
+  margin-right: 5px;
 `;
 
 const Logo = styled.div`
@@ -88,6 +89,7 @@ const AuthBtn = styled.button`
   font-weight: 300;
   font-size: 10px;
   &:hover {
+    cursor: pointer;
     background-color: #f59004;
   }
 `;

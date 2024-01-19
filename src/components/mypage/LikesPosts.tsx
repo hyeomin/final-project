@@ -9,7 +9,6 @@ import Cs from '../viewAll/style';
 import PostCard from './PostCard/PostCard';
 import { QUERY_KEYS } from '../../query/keys';
 
-
 const LikesPosts = () => {
   const { data: likePosts } = useQuery({
     queryKey: ['posts', { likedPosts: true }],
@@ -49,9 +48,13 @@ const LikesPosts = () => {
 
   return (
     <Cs.Contents>
-      {likePosts?.map((post) => {
-        return <PostCard key={post.id} post={post} />;
-      })}
+      {likePosts?.length! > 0 ? (
+        likePosts?.map((post) => {
+          return <PostCard key={post.id} post={post} />;
+        })
+      ) : (
+        <p style={{ display: 'flex', justifyContent: 'center' }}>좋아요 누른 게시물이 없습니다.</p>
+      )}
     </Cs.Contents>
   );
 };

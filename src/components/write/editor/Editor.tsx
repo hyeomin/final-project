@@ -21,8 +21,6 @@ function Editor() {
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { title, content } = postInput;
 
-  console.log('content-->', content);
-
   const quillRef = useRef<ReactQuill>(null);
 
   if (!ImageFormats.registered) {
@@ -103,7 +101,6 @@ export default Editor;
 const WritingArea = styled.div`
   display: flex;
   flex-direction: column;
-  /* padding: 30px 0; */
   row-gap: 15px;
 
   & input {

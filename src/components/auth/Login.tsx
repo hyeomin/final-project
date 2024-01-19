@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getAllUsers } from '../../api/authApi';
 import googleLogo from '../../assets/icons/googleLogo.png';
-import mangoLogo from '../../assets/mangoLogo.png';
+import mangofavicon from '../../assets/mango-favicon.png';
+import usePrintError from '../../hooks/usePrintError';
 import { QUERY_KEYS } from '../../query/keys';
 import { isSignUpState, roleState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
@@ -28,24 +29,16 @@ function Login() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [role, setRole] = useRecoilState(roleState);
+  const [errorMsg, setErrorMsg] = usePrintError('');
 
   const {
     register,
     handleSubmit,
-    setValue,
-    getValues,
-    watch,
+
     formState: { errors }
   } = useForm<Data>({ mode: 'onChange' });
 
   const navigate = useNavigate();
-
-  // const onChangeEmailhandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setEmail(e.target.value);
-  // };
-  // const onChangePWhandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPassword(e.target.value);
-  // };
 
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
@@ -69,8 +62,16 @@ function Login() {
       // home으로 이동
       navigate('/');
     } catch (error) {
-      window.alert(error);
-      console.error(error);
+      // window.alert(error);
+      setErrorMsg(error);
+      console.log('error', error);
+      // const errorCode = error.code;
+      // console.log('에러코드', errorCode);
+      // const errorMessage = error.message;
+      // console.log('에러메세지', errorMessage);
+      throw error;
+
+      // console.error(error);
     }
   };
 
@@ -80,18 +81,8 @@ function Login() {
     const provider = new GoogleAuthProvider(); // provider를 구글로 설정
     signInWithPopup(auth, provider) // popup을 이용한 signup
       .then((data) => {
-        setUserData(data.user); // user data 설정
-        console.log('너누구냐', data);
-        // console로 들어온 데이터 표시
+        setUserData(data.user);
 
-        const user = data.user;
-        // 구글로그인 null값으로 들어옴
-        // if (user !== null) {
-        //   updateProfile(user, {
-        //     displayName: nickname,
-        //     photoURL: ''
-        //   });
-        // } else return;
         // 회원가입 시, user 컬렉션에 값이 저장됨
         const userId = auth.currentUser?.uid;
         // 컬렉션에 있는 users 필드 정보 수정
@@ -116,7 +107,7 @@ function Login() {
       <St.LogoContainer>
         <St.SubTitle>건강한 친환경 습관 만들기</St.SubTitle>
         <St.LogoBox>
-          <St.MangoLogo src={mangoLogo} />
+          <St.MangoLogo src={mangofavicon} />
           <St.Logo>MANGO</St.Logo>
         </St.LogoBox>
         <St.SignUpTitle>로그인</St.SignUpTitle>
@@ -152,14 +143,13 @@ function Login() {
           )}
         </St.InputContainer>
         <St.LoginContainer>
+          <p>{errorMsg}</p>
           <St.SignUpAndLoginBtn type="submit">로그인</St.SignUpAndLoginBtn>
           <St.GoogleLoginBtn onClick={handleGoogleLogin}>
             <img src={googleLogo} alt="Google Icon" />
             &nbsp;구글로그인
           </St.GoogleLoginBtn>
         </St.LoginContainer>
-
-        {/* <button onClick={logOut}>로그아웃</button> */}
 
         <St.SignUpNavigation>
           <p style={{ marginBottom: '15px', fontSize: '15px' }}>아직 회원이 아니신가요?</p>
