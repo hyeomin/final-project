@@ -1,11 +1,7 @@
 import React from 'react';
 import { useQueries, useQuery } from '@tanstack/react-query';
-import { QUERY_KEYS } from '../../../query/keys';
-import { getAdminContents } from '../../../api/homeApi';
 import defaultCover from '../../../assets/defaultCoverImg.jpeg';
 import St from './style';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -15,7 +11,6 @@ import { getAdminContents } from '../../../api/homeApi';
 import mangoCover from '../../../assets/tentative-cover-image.jpg';
 import { QUERY_KEYS } from '../../../query/keys';
 import Loader from '../../common/Loader';
-import St from './style';
 
 const AdminContents = () => {
   const { data: adminContents, isLoading } = useQuery({
