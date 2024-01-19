@@ -24,7 +24,7 @@ const isEditingPostState = atom<IsEditingPostProps>({
 
 const categoryListState = atom<Category>({
   key: POST.CATEGORY_LIST,
-  default: 'knowHow'
+  default: 'total'
 });
 
 export { isEditingPostState, postInputState, categoryListState };

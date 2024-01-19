@@ -23,7 +23,6 @@ import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
 import { auth, db } from '../../shared/firebase';
-import { produce } from 'immer';
 import { useRecoilValue } from 'recoil';
 import { categoryListState } from '../../recoil/posts';
 
@@ -67,15 +66,13 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       return lastPage[lastPage.length - 1];
     },
     select: (data) => {
-      // console.log('data', data);
-      // console.log('data', data.pages);
+      console.log('data', data);
       let sortedPosts = data.pages.flat().map((doc) => {
         const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
         return { isLiked: postData.likedUsers?.includes(auth.currentUser!.uid), id: doc.id, ...postData } as PostType;
       });
       // let sortedPosts = data.pages.flat().map((doc) => (
       //   {isLiked: doc.likedUsers.includes(auth.currentUser!.uid) ,id: doc.id, ...doc.data() } as PostType));
-      // console.log('sortedPosts', sortedPosts);
       if (sortBy === 'popularity') {
         sortedPosts = sortedPosts.sort((a, b) => {
           const likeCountA = a.likeCount ?? 0; // 만약 likeCount가 없다면 0으로 처리
@@ -127,17 +124,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
 
         // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
         return { ...prevPosts, pages: updatedPages };
-
-        // const nextPosts = produce(prevPosts, (draftPosts) => {
-        //   const post = draftPosts.find((post) => post.id === selectedPostId);
-        //   if (!post) return draftPosts;
-
-        //   post.isLiked = !post.isLiked;
-
-        //   return draftPosts;
-        // });
-
-        // return nextPosts;
       });
     },
     onSettled: () => {
@@ -158,20 +144,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   };
   //invalidate,, 시간 정해놓고 (쿼리에 기능.. 탑100,,staleTime...)
   //새로고침시에만 새로운데이터 확인되도록.
-  // useEffect(() => {
-  //   console.log('useEffect');
-  // }, [posts]);
 
-  // 이미지URL 불러오기
-  // const imageQueries = useQueries({
-  //   queries:
-  //     posts?.map((post) => ({
-  //       queryKey: ['imageURL', post.id],
-  //       queryFn: () => downloadImageURL(post.id as string)
-  //     })) || []
-  // });
-
-  //
   const removeImageTags = (htmlContent: string) => {
     return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
   };

@@ -7,7 +7,7 @@ import St from './style';
 import { useRecoilState } from 'recoil';
 import { categoryListState } from '../../recoil/posts';
 
-export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory';
+export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory' | 'total';
 export type SortList = 'popularity' | 'latest';
 
 function ViewAllBody() {
@@ -15,7 +15,7 @@ function ViewAllBody() {
   const [sortBy, setSortBy] = useState<SortList>('latest');
 
   useEffect(() => {
-    setCategory('knowHow');
+    setCategory('total');
     setSortBy('latest');
   }, []);
 
@@ -36,6 +36,9 @@ function ViewAllBody() {
       <St.MainSubWrapper>
         <St.CategoryWrapper>
           <St.ButtonWrapper>
+            <St.Button onClick={() => setCategory('total')} selected={category === 'total'}>
+              전체보기
+            </St.Button>
             <St.Button onClick={() => setCategory('knowHow')} selected={category === 'knowHow'}>
               노하우 공유
             </St.Button>
@@ -55,17 +58,13 @@ function ViewAllBody() {
 
           <St.SortWrapper>
             <li>
-              <a
-                href="#none"
-                onClick={() => setSortBy('popularity')}
-                className={sortBy === 'popularity' ? 'selected' : ''}
-              >
+              <a onClick={() => setSortBy('popularity')} className={sortBy === 'popularity' ? 'selected' : ''}>
                 인기순
               </a>
             </li>
 
             <li>
-              <a href="#none" onClick={() => setSortBy('latest')} className={sortBy === 'latest' ? 'selected' : ''}>
+              <a onClick={() => setSortBy('latest')} className={sortBy === 'latest' ? 'selected' : ''}>
                 최신순
               </a>
             </li>
