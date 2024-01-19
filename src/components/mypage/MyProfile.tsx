@@ -68,12 +68,11 @@ function MyProfile() {
   // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
 
   // 내 게시물 갯수 가져오기
-  const { data: posts } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS],
+  const { data: myPosts } = useQuery({
+    queryKey: ['posts', { isMyPosts: true }],
     queryFn: getMyPosts
     // enabled: !!auth.currentUser
   });
-  console.log('myPost ===>', posts);
 
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
@@ -150,8 +149,8 @@ function MyProfile() {
   };
   //-------------여기 수정!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //왜 좋아요 게시물 수도 뜨는거냐
-  const userGrade = posts?.length;
-  console.log('하우매니', posts?.length);
+  const userGrade = myPosts?.length;
+  console.log('하우매니', myPosts?.length);
   let LevelOneGradeEmoji = '🌱';
   let LevelTwoGradeEmoji = '☘️';
   let LevelThreeGradeEmoji = '🌳';
@@ -266,7 +265,7 @@ function MyProfile() {
             게시물 수<br />
             <div>
               <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={postCountIcon} />
-              <span style={{ marginLeft: '10px' }}>{posts?.length}개</span>
+              <span style={{ marginLeft: '10px' }}>{myPosts?.length}개</span>
             </div>
           </St.PostInfoBox>
           <St.PostInfoBox>

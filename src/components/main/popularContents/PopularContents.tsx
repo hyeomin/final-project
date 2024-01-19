@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { auth } from '../../../shared/firebase';
 import { getAllUsers } from '../../../api/authApi';
-import { downloadImageURL, getUserContents } from '../../../api/homeApi';
+import { downloadImageURL, getPopularContents } from '../../../api/homeApi';
 import { QUERY_KEYS } from '../../../query/keys';
 import St from './style';
 import Loader from '../../common/Loader';
@@ -21,27 +21,16 @@ import { useLikeButton } from '../../../hooks/useLikeButton';
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
 
-  // 유저 컨텐츠(인기순, 8개)
+  // 인기게시물
   const { data: userContents, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getUserContents
+    queryKey: ['posts'],
+    queryFn: getPopularContents
   });
-  // console.log('userContents===>', userContents);
 
   // 유저정보 가져오기(profileImg)
   const { data: users } = useQuery({
-    queryKey: [QUERY_KEYS.USERPOSTS],
+    queryKey: ['users'],
     queryFn: getAllUsers
-  });
-  // console.log('유저 목록===>', users);
-
-  // 이미지URL 불러오기
-  const imageQueries = useQueries({
-    queries:
-      userContents?.map((post) => ({
-        queryKey: ['imageURL', post.id],
-        queryFn: () => downloadImageURL(post.id as string)
-      })) || []
   });
 
   //좋아요
@@ -49,12 +38,11 @@ const UserContents = () => {
 
   // 탑랭킹 로딩
   if (isLoading) {
-    //return <div>Loading...</div>;
     return <Loader />;
   }
 
   if (!userContents || userContents.length === 0) {
-    return <div>No userPosts data found</div>;
+    return <div>인기 게시물 데이터를 찾을 수 없습니다.</div>;
   }
 
   const removeImageTags = (htmlContent: string) => {
@@ -106,7 +94,6 @@ const UserContents = () => {
             className="default-swiper"
           >
             {userContents?.map((item, idx) => {
-              const imageQuery = imageQueries[idx];
               return (
                 <St.StyledSwiperSlide key={idx} className="default-swiper">
                   <St.UserPostCover to={`/detail/${item.id}`}>
@@ -146,12 +133,8 @@ const UserContents = () => {
                         </St.Count>
                       </St.InfoBottom>
                     </St.TextAndLikeButton>
-                    {imageQuery.isLoading ? (
-                      // <p>Loading image...</p>
-                      <Loader />
-                    ) : (
-                      <img src={imageQuery.data || defaultCover} alt={item.title} />
-                    )}
+                    {/* item.coverUrl로 변경하기 */}
+                    {!item ? <Loader /> : <img src={defaultCover} alt={item.title} />}
                   </St.UserPostCover>
                 </St.StyledSwiperSlide>
               );

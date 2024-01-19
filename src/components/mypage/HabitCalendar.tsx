@@ -25,7 +25,7 @@ const HabitCalendar = ({ date }: any) => {
   };
 
   const { data } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS],
+    queryKey: ['posts', { isMyPosts: true }],
     queryFn: getMyPosts
   });
   const createdAtList = data ? data.map((data) => getFormattedDateCustom(data.createdAt!)) : [];
