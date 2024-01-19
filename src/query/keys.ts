@@ -8,5 +8,6 @@ export const QUERY_KEYS = {
   HABIT: 'habit',
   USERPOSTS: 'userPosts',
   ADMINPOSTS: 'adminPosts',
-  COMMENTS: 'comments'
+  COMMENTS: 'comments',
+  COVER_IMAGES: 'coverImages'
 };

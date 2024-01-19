@@ -15,6 +15,7 @@ import {
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
 import { auth, db, storage } from '../shared/firebase';
+import { PostType } from '../types/PostType';
 
 type Ref = {
   folder: string;
@@ -29,7 +30,9 @@ const getPosts = async () => {
 
     const posts: PostType[] = [];
     querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data() });
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      posts.push({ id: doc.id, ...postData });
+      // posts.push({ id: doc.id, ...doc.data() });
     });
     return posts;
   } catch (error) {
@@ -51,7 +54,9 @@ const getAdminContents = async () => {
 
     const posts: PostType[] = [];
     querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data() });
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      posts.push({ id: doc.id, ...postData });
+      // posts.push({ id: doc.id, ...doc.data() });
     });
     return posts;
   } catch (error) {
@@ -72,7 +77,9 @@ const getUserContents = async () => {
     const querySnapshot = await getDocs(q);
     const posts: PostType[] = [];
     querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data() });
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      posts.push({ id: doc.id, ...postData });
+      // posts.push({ id: doc.id, ...doc.data() });
     });
     return posts;
   } catch (error) {
@@ -157,9 +164,8 @@ const getTopUsers = async () => {
       uid,
       totalLikes
     }));
-    const topUsers: likeCountPerUserType[] = usersWithLikeCounts
-      .sort((a, b) => b.totalLikes - a.totalLikes)
-      .slice(0, 10);
+    const topUsers: likeCountPerUserType[] = usersWithLikeCounts.sort((a, b) => b.totalLikes - a.totalLikes);
+    // .slice(0, 10);
     // console.log('topUsers===>', topUsers);
     return topUsers;
   } catch (error) {
@@ -188,4 +194,4 @@ const downloadImageURL = async (postId: string) => {
   }
 };
 
-export { getAdminContents, getPosts, getUserContents, updateLikedUsers, getTopUsers, downloadImageURL };
+export { downloadImageURL, getAdminContents, getPosts, getTopUsers, getUserContents, updateLikedUsers };

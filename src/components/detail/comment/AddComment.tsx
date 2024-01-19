@@ -2,14 +2,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { FoundPostProps } from '../../../pages/Detail';
+// import { foundDetailPostProps } from '../../../pages/Detail';
+import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
 import useCommentQuery from '../../../query/useCommentQuery';
 import { auth } from '../../../shared/firebase';
 import theme from '../../../styles/theme';
-import { useModal } from '../../../hooks/useModal';
+import { FoundDetailPostProps } from '../../../types/PostType';
 
-const AddCommentForm = ({ foundPost }: FoundPostProps) => {
+const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
   const modal = useModal();
 
   const queryClient = useQueryClient();
@@ -54,7 +55,7 @@ const AddCommentForm = ({ foundPost }: FoundPostProps) => {
       };
 
       addCommentMutate(
-        { newComment, postId: foundPost.id },
+        { newComment, postId: foundDetailPost.id },
         {
           onSuccess: () => {
             queryClient.invalidateQueries({

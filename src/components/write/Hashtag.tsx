@@ -1,27 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { GoPlus, GoSearch, GoX } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { IsEditingPostProps } from '../../pages/Write';
-import { postState } from '../../recoil/posts';
+import { editPostState, isEditingPostState } from '../../recoil/posts';
 import theme from '../../styles/theme';
 import { commonHashtagsList } from './common/Lists';
 
-function Hashtag({ foundPost, isEditingPost }: IsEditingPostProps) {
+function Hashtag() {
   const HASHTAG = 'hashtag';
 
-  const [post, setPost] = useRecoilState(postState);
-  const { hashtags } = post;
+  const [isEditingPost, setisEditingPost] = useRecoilState(isEditingPostState);
+  const { foundPost, isEditing } = isEditingPost;
+
+  const [editPost, setEditPost] = useRecoilState(editPostState);
+  const { hashtags } = editPost;
 
   const [commonHashtags, setCommonHashtags] = useState(commonHashtagsList);
   const [currentHashtag, setCurrentHashtag] = useState('');
 
   // 수정 중이면 수정 중인 글의 해시태그로 업데이트
-  useEffect(() => {
-    if (foundPost?.hashtag) {
-      setPost({ ...post, hashtags: foundPost?.hashtag });
-    }
-  }, [isEditingPost, foundPost, post, setPost]);
+  // useEffect(() => {
+  //   if (isEditing && foundPost?.hashtags) {
+  //     setEditPost({ ...editPost, hashtags: foundPost?.hashtags });
+  //   }
+  // }, [isEditing, foundPost]);
 
   // 새로운 해시태그 추가
   const onHashtagChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +40,7 @@ function Hashtag({ foundPost, isEditingPost }: IsEditingPostProps) {
 
   // 선택된 해시태그 색깔 변경
   const onHandleSelectHashtag = (newHashtag: string) => {
-    setPost({ ...post, hashtags: [...hashtags, newHashtag] });
+    setEditPost({ ...editPost, hashtags: [...hashtags, newHashtag] });
     if (commonHashtags.includes(newHashtag)) {
       setCommonHashtags(commonHashtags.filter((tag) => tag !== newHashtag));
     }
@@ -46,7 +48,7 @@ function Hashtag({ foundPost, isEditingPost }: IsEditingPostProps) {
 
   // 해시태그 삭제
   const removeHashtag = (tagToRemove: string) => {
-    setPost({ ...post, hashtags: hashtags.filter((tag) => tag !== tagToRemove) });
+    setEditPost({ ...editPost, hashtags: hashtags.filter((tag) => tag !== tagToRemove) });
   };
 
   return (

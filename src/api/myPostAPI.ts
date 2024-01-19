@@ -1,20 +1,25 @@
-import { getAuth } from 'firebase/auth';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
-import { db } from '../shared/firebase';
+import { auth, db } from '../shared/firebase';
+import { PostType } from '../types/PostType';
+// import auth from '../../src/shared/'
+// import { auth} from '../../shared/firebase';
 
 // 로그인한 유저 uid 일치하는 posts 가져오기
 const getMyPosts = async () => {
   try {
-    const auth = getAuth();
+    // const auth = getAuth();
     console.log('dd', auth.currentUser);
     const q = query(collection(db, QUERY_KEYS.POSTS), where('uid', '==', auth.currentUser?.uid));
     const querySnapshot = await getDocs(q);
     const posts: PostType[] = [];
     // 객체들을 forEach 사용해서 배열에 담기
     querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      posts.push({ id: doc.id, ...data, isLiked: data.likedUsers.includes(auth.currentUser!.uid) });
+      // type 수정 Ashley
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      const isLiked = auth.currentUser ? postData.likedUsers.includes(auth.currentUser.uid) : false;
+      posts.push({ id: doc.id, ...postData, isLiked: isLiked });
+      // posts.push({ id: doc.id, ...postData, isLiked: postData.likedUsers.includes(auth.currentUser.uid) });
     });
     return posts;
   } catch (error) {
@@ -25,13 +30,15 @@ const getMyPosts = async () => {
 //likeUsers에 로그인한 유저 uid가 있는 게시물 가져오기
 const getLikePosts = async () => {
   try {
-    const auth = getAuth();
+    // const auth = getAuth();
     const q = query(collection(db, QUERY_KEYS.POSTS), where('likedUsers', 'array-contains', auth.currentUser?.uid));
     const querySnapshot = await getDocs(q);
     const posts: PostType[] = [];
     // 객체들을 forEach 사용해서 배열에 담기
     querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data(), isLiked: true });
+      // type 추가 Ashley
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      posts.push({ id: doc.id, ...postData, isLiked: true });
     });
     return posts;
   } catch (error) {
