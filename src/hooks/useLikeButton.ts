@@ -1,7 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { auth } from '../shared/firebase';
 import { useNavigate } from 'react-router-dom';
 import useLikeQuery from '../query/useLikeQuery';
+import { auth } from '../shared/firebase';
+import { PostType } from '../types/PostType';
 
 export const useLikeButton = () => {
   const currentUser = auth.currentUser?.uid;
@@ -17,11 +18,7 @@ export const useLikeButton = () => {
       if (confirmation) navigate('/auth');
     }
 
-    if (id) {
-      const postToUpdate: PostType = { id };
-      likeCountMutate(postToUpdate);
-    }
+    if (id) likeCountMutate(id);
   };
-
   return onClickLikeButton;
 };

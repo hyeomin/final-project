@@ -15,6 +15,7 @@ import {
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
 import { auth, db, storage } from '../shared/firebase';
+import { PostType } from '../types/PostType';
 
 type Ref = {
   folder: string;
@@ -29,7 +30,9 @@ const getPosts = async () => {
 
     const posts: PostType[] = [];
     querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data() });
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      posts.push({ id: doc.id, ...postData });
+      // posts.push({ id: doc.id, ...doc.data() });
     });
     return posts;
   } catch (error) {
@@ -51,7 +54,9 @@ const getAdminContents = async () => {
 
     const posts: PostType[] = [];
     querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data() });
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      posts.push({ id: doc.id, ...postData });
+      // posts.push({ id: doc.id, ...doc.data() });
     });
     return posts;
   } catch (error) {
@@ -71,7 +76,9 @@ const getPopularContents = async () => {
     const querySnapshot = await getDocs(q);
     const posts: PostType[] = [];
     querySnapshot.forEach((doc) => {
-      posts.push({ id: doc.id, ...doc.data() });
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      posts.push({ id: doc.id, ...postData });
+      // posts.push({ id: doc.id, ...doc.data() });
     });
     return posts;
   } catch (error) {
@@ -81,12 +88,12 @@ const getPopularContents = async () => {
 };
 
 // 좋아요 상태 변경
-const updateLikedUsers = async (post: PostType) => {
+const updateLikedUsers = async (id: string) => {
   const currentUserId = auth.currentUser?.uid;
   try {
     //post.id와 현재 로그인 유저정보 존재여부 확인
-    if (post.id && currentUserId) {
-      const postRef = doc(db, QUERY_KEYS.POSTS, post.id);
+    if (id && currentUserId) {
+      const postRef = doc(db, QUERY_KEYS.POSTS, id);
       const postSnap = await getDoc(postRef);
 
       // post.id 값에 해당하는 post 존재여부 확인

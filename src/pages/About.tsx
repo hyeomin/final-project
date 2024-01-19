@@ -10,10 +10,10 @@ function About() {
       </Header>
       <WhyMango />
       <AboutMain />
-      <Bottom>
+      {/* <Bottom>
         <div>Left</div>
         <div>Right</div>
-      </Bottom>
+      </Bottom> */}
     </AboutContainer>
   );
 }
@@ -28,7 +28,7 @@ const AboutContainer = styled.div`
 
 const Header = styled.video`
   width: 100vw;
-  height: 500px;
+  height: 450px;
   object-fit: cover;
 `;
 

@@ -1,21 +1,30 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GoPencil, GoTrash } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { deletePost } from '../../api/postApi';
 import editNdeleteToggleBox from '../../assets/editndeletetoggle.png';
 import { useModal } from '../../hooks/useModal';
-import { FoundPostProps } from '../../pages/Detail';
+// import { foundDetailPostProps } from '../../pages/Detail';
 import { QUERY_KEYS } from '../../query/keys';
+import { isEditingPostState } from '../../recoil/posts';
 import theme from '../../styles/theme';
+import { FoundDetailPostProps } from '../../types/PostType';
 
-function EditNDeleteToggle({ foundPost }: FoundPostProps) {
+function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  const [isEditingPost, setisEditingPost] = useRecoilState(isEditingPostState);
+
   const onEditPostHandler = () => {
-    navigate('/write', { state: { foundPost: foundPost } });
+    setisEditingPost({
+      foundPost: foundDetailPost,
+      isEditing: true
+    });
+    navigate('/write');
   };
 
   const deleteMutation = useMutation({
@@ -32,7 +41,7 @@ function EditNDeleteToggle({ foundPost }: FoundPostProps) {
     };
 
     const onClickSave = () => {
-      deleteMutation.mutate(foundPost.id);
+      deleteMutation.mutate(foundDetailPost.id);
       modal.close();
     };
 
@@ -48,8 +57,8 @@ function EditNDeleteToggle({ foundPost }: FoundPostProps) {
 
     // const confirm = window.confirm('삭제하시겠습니까?');
     // if (!confirm) return;
-    // if (foundPost) {
-    //   deleteMutation.mutate(foundPost.id);
+    // if (foundDetailPost) {
+    //   deleteMutation.mutate(foundDetailPost.id);
     // }
   };
 

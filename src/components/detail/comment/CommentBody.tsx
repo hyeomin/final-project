@@ -1,16 +1,13 @@
 import styled from 'styled-components';
+import { FoundDetailPostProps } from '../../../types/PostType';
 import AddCommentForm from './AddComment';
 import CommentList from './CommentList';
 
-type Props = {
-  foundPost: PostType;
-};
-
-const CommentBody = ({ foundPost }: Props) => {
+const CommentBody = ({ foundDetailPost }: FoundDetailPostProps) => {
   return (
     <Container>
-      <AddCommentForm foundPost={foundPost} />
-      <CommentList foundPost={foundPost} />
+      <AddCommentForm foundDetailPost={foundDetailPost} />
+      <CommentList foundDetailPost={foundDetailPost} />
     </Container>
   );
 };

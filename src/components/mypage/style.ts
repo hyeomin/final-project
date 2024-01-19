@@ -1,6 +1,7 @@
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
+import { After } from 'v8';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 
 const Wrapper = styled.div`
@@ -21,8 +22,6 @@ const ProfileEditWrapper = styled.div`
   width: 100%;
   height: 230px;
   padding: 40px 60px;
-  /* background-color: ${theme.color.gray}; */
-  /* background-color: lightgray; */
   border-radius: 10px;
   border: 1px solid lightgray;
   margin-top: 30px;
@@ -38,8 +37,8 @@ const PenWrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   right: 5px;
   bottom: 5px;
   border-radius: 50%;
@@ -116,6 +115,7 @@ const UserInfoModify = styled.div`
   justify-content: left;
   margin-right: 50px;
   width: 170px;
+  /* height: 200px; */
 `;
 const FileInput = styled.input`
   display: none;
@@ -153,6 +153,34 @@ const EmailAndName = styled.div`
   flex-direction: column;
 `;
 
+const GuideGradeWrapper = styled.div`
+  position: relative;
+`;
+
+const GuideGrade = styled.div`
+  width: 140px;
+  height: 60px;
+  padding: 15px;
+  font-size: 12px;
+  background-color: ${theme.color.mangoLight};
+  position: absolute;
+  left: 60%;
+  bottom: -20px;
+  border-radius: 10px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: -12%;
+    top: 35%;
+    /* transform: translateY(-50%); */
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid ${theme.color.mangoLight};
+    border-bottom: 10px solid transparent;
+  }
+`;
+
 const Tabs = styled.div`
   width: 100%;
   height: 100%;
@@ -176,23 +204,28 @@ const TabButton = styled.button`
   justify-content: center;
   align-items: center;
   background-color: #f6f6f6;
+  &:hover {
+    cursor: pointer;
+    background-color: white;
+    border: 2.5px solid #f6f6f6;
+    color: #ffa114;
+  }
   border-radius: 10px 10px 0px 0px;
   color: black;
   border-color: transparent;
-  border: none;
-  /* padding-left: 25px; */
-  width: 140px;
+
+  width: 120px;
   height: 40px;
   font-size: 14px;
-  & div {
+  /* gap: 7px; */
+  /* & div {
     display: flex;
     color: black;
-    column-gap: 7px;
-
-    &:hover {
-      color: #ffa114;
-      /* border-color: black; */
-    }
+    column-gap: 7px; */
+  &:hover {
+    cursor: pointer;
+    color: #ffa114;
+    /* } */
   }
 `;
 
@@ -294,6 +327,7 @@ const CalendarTitle = styled.div`
   width: 800px;
   height: 100px;
   /* border: 0.5px solid lightgray; */
+  margin-top: 60px;
   border: none;
   background-color: #ffd864;
   border-radius: 20px 20px 0px 0px;
@@ -380,25 +414,6 @@ const TextBox = styled.div`
   height: 300px;
 `;
 
-const LikeButton = styled.button`
-  background-color: transparent;
-  border: none;
-  width: 25px;
-  height: 25px;
-`;
-
-const HeartIcon = styled(GoHeart)`
-  color: #888888;
-  font-size: 25px;
-  cursor: pointer;
-`;
-
-const HeartFillIcon = styled(GoHeartFill)`
-  color: red;
-  font-size: 26px;
-  cursor: pointer;
-`;
-
 export default {
   ProfileEditWrapper,
   MySectionWrapper,
@@ -439,7 +454,6 @@ export default {
   PenWrapper,
   ProfileImageContainer,
   MyImage,
-  LikeButton,
-  HeartIcon,
-  HeartFillIcon
+  GuideGrade,
+  GuideGradeWrapper
 };
