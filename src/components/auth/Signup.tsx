@@ -9,9 +9,7 @@ import mangofavicon from '../../assets/mango-favicon.png';
 import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
-
 import St from './style';
-import Auth from '../../pages/Auth';
 
 export type Data = {
   email: string;
@@ -102,44 +100,11 @@ function Signup() {
     }
   };
 
-  // const emailCheck = async (email: string): Promise<void> => {
-  //   const auth = getAuth();
-  //   const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-  //   const error = errorMsg;
-  //   try {
-  //     if (signInMethods.length > 0) {
-  //       // 이메일이 데이터베이스에 이미 존재하는 경우
-  //       setErrorMsg(error);
-  //     } else {
-  //       // 이메일이 데이터베이스에 없는 경우
-  //       setErrorMsg(error);
-  //     }
-  //   } catch (error) {
-  //     setErrorMsg(error);
-  //   }
-  // };
-
-  // const emailCheck = async (email: string): Promise<void> => {
-  //   const auth = getAuth();
-  //   const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-  //   const error = errorMsg;
-  //   if (signInMethods.length > 0) {
-  //     // 이메일이 데이터베이스에 이미 존재하는 경우
-  //     setErrorMsg(error);
-  //   } else {
-  //     // 이메일이 데이터베이스에 없는 경우
-  //     setErrorMsg(error);
-  //   }
-  // };
-
   // 이메일 중복체크 (firestore)
   const emailCheck = async (email: string) => {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
-    // console.log('email', email);
-    // console.log('querySnapshot', querySnapshot);
-    // console.log('querySnapshot.docs.length', querySnapshot.docs.length);
 
     if (querySnapshot.docs.length > 0) {
       alert('이미 존재하는 이메일입니다.');
@@ -254,7 +219,7 @@ function Signup() {
 
           {errors?.nickname?.type === 'required' && <St.WarningMsg>닉네임을 입력해주세요</St.WarningMsg>}
           {errors?.nickname?.type === 'pattern' && (
-            <St.WarningMsg>닉네임은 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요</St.WarningMsg>
+            <St.WarningMsg>닉네임은 2자 이상 8자 이하, 영어 또는 숫자 또는 한글로 입력해주세요</St.WarningMsg>
           )}
         </St.InputContainer>
 

@@ -165,8 +165,6 @@ function MyProfile() {
     setIsClickedGuide((prevState) => !prevState);
   };
 
-  //-------------여기 수정!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  //왜 좋아요 게시물 수도 뜨는거냐
   const userGrade = myPosts?.length;
   console.log('하우매니', myPosts?.length);
   let levelOne = 1;

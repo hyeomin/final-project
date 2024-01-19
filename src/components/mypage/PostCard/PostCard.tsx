@@ -29,8 +29,6 @@ function PostCard({ post }: PostCardProps) {
     queryFn: getAllUsers
   });
 
-  console.log('userlist', userList);
-
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (postId: string) => {
       const postRef = doc(db, 'posts', postId);
