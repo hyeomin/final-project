@@ -10,7 +10,7 @@ export type PostType = {
   role: string; //kim 추가 24.01.11
   likeCount: number;
   likedUsers: string[];
-  coverImages: DownloadedImageType[] | [];
+  coverImages: DownloadedImageType[];
 
   // isLike?: boolean;
   commentCount?: number;
@@ -23,12 +23,12 @@ export type DownloadedImageType = {
   url: string;
 };
 
-export type EditPostStateType = {
+export type PostInputType = {
   title: string;
   content: string;
   category: string;
-  hashtags: string[] | [];
-  coverImages: DownloadedImageType[] | [];
+  hashtags: string[];
+  coverImages: DownloadedImageType[];
 };
 
 export type IsEditingPostProps = {

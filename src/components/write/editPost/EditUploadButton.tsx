@@ -4,27 +4,23 @@ import { useRecoilState } from 'recoil';
 import { updatePost } from '../../../api/postApi';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
-import { editPostState, isEditingPostState } from '../../../recoil/posts';
+import { isEditingPostState, postInputState } from '../../../recoil/posts';
 import { CustomButton } from '../SubmitButton';
 
 function EditUploadButton() {
   const modal = useModal();
-  const [editPost, setEditPost] = useRecoilState(editPostState);
-  const { title } = editPost;
 
-  // const [foundPost, setFoundPost] = useRecoilState(foundPostState);
+  const [postInput, setPostInput] = useRecoilState(postInputState);
+  const { title } = postInput;
+
   const [isEditingPost, setIsEditingPost] = useRecoilState(isEditingPostState);
   const { foundPost } = isEditingPost;
-  // const [coverImages, setCoverImages] = useRecoilState(coverImageState);
-
-  // const [imageFileforUpload, setImageFileforUpload] = useState<File[]>([]);
-  // const [imageUrltoDelete, setImageUrltoDelete] = useState<string[]>([]);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const editingPost = {
-    ...editPost,
+    ...postInput,
     updatedAt: Date.now()
   };
 
@@ -33,7 +29,7 @@ function EditUploadButton() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
       // 내용 원상복구
-      setEditPost({
+      setPostInput({
         title: '',
         content: '',
         category: 'noCategory',
@@ -126,7 +122,7 @@ function EditUploadButton() {
   };
 
   return (
-    <CustomButton variant="done" onClick={onUpdatePostHandler}>
+    <CustomButton $variant="done" onClick={onUpdatePostHandler}>
       수정
     </CustomButton>
   );

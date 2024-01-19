@@ -11,7 +11,7 @@ function Header() {
   return (
     <WriteHeader>
       <ButtonContainer>
-        <CustomButton variant="save">임시 저장</CustomButton>
+        <CustomButton $variant="save">임시 저장</CustomButton>
         {isEditingPost.isEditing ? <IsEditingButton /> : <SubmitButton />}
       </ButtonContainer>
     </WriteHeader>
