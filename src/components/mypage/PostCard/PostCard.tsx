@@ -32,8 +32,10 @@ function PostCard({ post }: PostCardProps) {
     onMutate: async (postId) => {
       queryClient.setQueriesData<PostType[]>({ queryKey: ['posts'] }, (prevPosts) => {
         if (!prevPosts) return [];
-
+        console.log(11111);
+        console.log('prevPosts', prevPosts);
         const nextPosts = produce(prevPosts, (draftPosts) => {
+          console.log('draftPosts', draftPosts);
           const post = draftPosts.find((post) => post.id === postId);
           if (!post) return draftPosts;
 

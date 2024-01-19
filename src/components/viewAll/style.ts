@@ -106,8 +106,9 @@ const Content = styled.li`
   } */
 `;
 
-const HeartClickButton = styled.span`
-  color: ${theme.color.lightgray};
+const HeartClickButton = styled.button<{ $isLiked: boolean }>`
+  all: unset;
+  color: ${({ $isLiked }) => ($isLiked ? 'red' : theme.color.lightgray)};
   font-size: 20px;
 `;
 
