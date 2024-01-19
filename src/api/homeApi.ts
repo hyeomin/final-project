@@ -157,9 +157,8 @@ const getTopUsers = async () => {
       uid,
       totalLikes
     }));
-    const topUsers: likeCountPerUserType[] = usersWithLikeCounts
-      .sort((a, b) => b.totalLikes - a.totalLikes)
-      .slice(0, 10);
+    const topUsers: likeCountPerUserType[] = usersWithLikeCounts.sort((a, b) => b.totalLikes - a.totalLikes);
+    // .slice(0, 10);
     // console.log('topUsers===>', topUsers);
     return topUsers;
   } catch (error) {

@@ -15,6 +15,8 @@ import MyPosts from './MyPosts';
 import St from './style';
 import postCountIcon from '../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../assets/icons/rankingIcon.png';
+import { getTopUsers } from '../../api/homeApi';
+import { GoQuestion } from 'react-icons/go';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -28,7 +30,6 @@ function MyProfile() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [previousPhotoURL, setPreviousPhotoURL] = useState<string | null>(null);
-
   const nicknameRegex = /^[a-zA-Z가-힣0-9]{1,8}$|^[a-zA-Z0-9]{1,10}$/;
   useEffect(() => {
     setPreviousPhotoURL(auth.currentUser?.photoURL!);
@@ -46,9 +47,15 @@ function MyProfile() {
     }
   };
 
-  console.log('image', image);
+  // console.log('image', image);
   const onClickTabBtn = (name: string) => {
     setActiveTab(name);
+  };
+
+  const [isClickedGuide, setIsClickedGuide] = useState(false);
+
+  const handleToggle = () => {
+    setIsClickedGuide((prevState) => !prevState);
   };
 
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,12 +75,23 @@ function MyProfile() {
   // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
 
   // 내 게시물 갯수 가져오기
-  const { data: posts } = useQuery({
+  const { data: myposts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getMyPosts,
-    enabled: !!auth.currentUser
+    enabled: !!auth.currentUser,
+    select: (data) => {
+      return data?.filter((post) => post.uid === auth.currentUser?.uid!);
+    }
   });
-  console.log('myPost ===>', posts);
+  console.log('myPost ===>', myposts);
+
+  // 랭킹순위
+  const { data: topUsers } = useQuery({
+    queryKey: ['topUsers'],
+    queryFn: getTopUsers
+  });
+
+  console.log('top ==> ', topUsers);
 
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
@@ -103,7 +121,7 @@ function MyProfile() {
             uid: updateUser?.uid
           });
         }
-        console.log('updateUser', updateUser);
+        // console.log('updateUser', updateUser);
         setNewDisPlayName(auth.currentUser?.displayName!);
         setIsEditing(false);
       }
@@ -137,17 +155,17 @@ function MyProfile() {
   };
   //-------------여기 수정!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   //왜 좋아요 게시물 수도 뜨는거냐
-  const userGrade = posts?.length;
-  console.log('하우매니', posts?.length);
+  const userGrade = myposts?.length;
+  console.log('하우매니', myposts?.length);
   let LevelOneGradeEmoji = '🌱';
   let LevelTwoGradeEmoji = '☘️';
   let LevelThreeGradeEmoji = '🌳';
   let ddd = LevelOneGradeEmoji;
   if (userGrade && userGrade < 2) {
     ddd = LevelOneGradeEmoji;
-  } else if (userGrade && userGrade < 5) {
+  } else if (userGrade && userGrade < 6) {
     ddd = LevelTwoGradeEmoji;
-  } else if (userGrade && userGrade >= 5) {
+  } else if (userGrade && userGrade >= 6) {
     ddd = LevelThreeGradeEmoji;
   }
   // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
@@ -214,7 +232,7 @@ function MyProfile() {
             ) : (
               <>
                 <CiSettings
-                  style={{ fontSize: '25px', marginTop: '5px', color: '#888888' }}
+                  // style={{ fontSize: '25px', marginTop: '5px', color: '#888888' }}
                   onClick={() => setIsEditing(true)}
                 >
                   수정
@@ -228,7 +246,7 @@ function MyProfile() {
             게시물 수<br />
             <div>
               <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={postCountIcon} />
-              <span style={{ marginLeft: '10px' }}>{posts?.length}개</span>
+              <span style={{ marginLeft: '10px' }}>{myposts?.length}개</span>
             </div>
           </St.PostInfoBox>
           <St.PostInfoBox>
@@ -236,14 +254,34 @@ function MyProfile() {
               <span style={{ marginBottom: '1px' }}>랭킹</span>
               <br />
               <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={rankingIcon} />
-              <span style={{ marginLeft: '10px' }}>1위</span>
+              <span style={{ marginLeft: '10px' }}>{topUsers?.length}위</span>
             </div>
           </St.PostInfoBox>
           <St.PostInfoBox>
             <div>
-              등급
+              <div style={{ display: 'flex' }}>
+                <div>등급</div>
+                <div style={{ cursor: 'pointer' }} onClick={handleToggle}>
+                  <GoQuestion
+                    style={{ fontSize: '15px', marginLeft: '5px', cursor: 'pointer' }}
+                    onClick={handleToggle}
+                  />
+                </div>
+              </div>
+
+              {isClickedGuide ? (
+                <div>
+                  <St.GuideGradeWrapper>
+                    <St.GuideGrade>
+                      0-2개 : 새싹등급🌱 <br />
+                      3-5개: 클로버등급☘️ <br />
+                      6개이상: 나무등급🌳
+                    </St.GuideGrade>
+                  </St.GuideGradeWrapper>
+                </div>
+              ) : null}
               <br />
-              <div style={{ display: 'flex', width: '20px', marginTop: '27px' }}>
+              <div style={{ display: 'flex', width: '20px', marginTop: '10px' }}>
                 <div style={{ marginRight: '10px' }}>{ddd}</div>
                 <div>Lv.1</div>
               </div>

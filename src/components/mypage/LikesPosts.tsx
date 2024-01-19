@@ -26,7 +26,7 @@ const LikesPosts = () => {
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getLikePosts
   });
-  console.log('이거이거이거 ===>', likePosts);
+  // console.log('이거이거이거 ===>', likePosts);
 
   const postQueries = useQueries({
     queries: [

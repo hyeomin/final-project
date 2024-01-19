@@ -1,6 +1,7 @@
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
+import { After } from 'v8';
 
 const Wrapper = styled.div`
   max-width: 1440px;
@@ -20,8 +21,6 @@ const ProfileEditWrapper = styled.div`
   width: 100%;
   height: 230px;
   padding: 40px 60px;
-  /* background-color: ${theme.color.gray}; */
-  /* background-color: lightgray; */
   border-radius: 10px;
   border: 1px solid lightgray;
   margin-top: 30px;
@@ -151,6 +150,34 @@ const MyEmail = styled.h4`
 const EmailAndName = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const GuideGradeWrapper = styled.div`
+  position: relative;
+`;
+
+const GuideGrade = styled.div`
+  width: 140px;
+  height: 60px;
+  padding: 15px;
+  font-size: 12px;
+  background-color: ${theme.color.mangoLight};
+  position: absolute;
+  left: 60%;
+  bottom: -20px;
+  border-radius: 10px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: -20%;
+    top: 20%;
+    /* transform: translateY(-50%); */
+    border-top: 20px solid transparent;
+    border-left: 20px solid transparent; /* 변경된 부분 */
+    border-right: 20px solid ${theme.color.mangoLight}; /* 변경된 부분 */
+    border-bottom: 20px solid transparent;
+  }
 `;
 
 const Tabs = styled.div`
@@ -425,5 +452,7 @@ export default {
   PostCount,
   PenWrapper,
   ProfileImageContainer,
-  MyImage
+  MyImage,
+  GuideGrade,
+  GuideGradeWrapper
 };
