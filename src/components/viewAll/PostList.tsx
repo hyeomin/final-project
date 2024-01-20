@@ -4,7 +4,6 @@ import {
   QueryKey,
   useInfiniteQuery,
   useMutation,
-  useQueries,
   useQuery,
   useQueryClient
 } from '@tanstack/react-query';
@@ -14,10 +13,9 @@ import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
 import defaultProfile from '../../assets/defaultImg.jpg';
 import mangoCover from '../../assets/tentative-cover-image.jpg';
-import { useLikeButton } from '../../hooks/useLikeButton';
 import { QUERY_KEYS } from '../../query/keys';
 import { PostType } from '../../types/PostType';
-import { getFormattedDate, getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
+import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
@@ -25,7 +23,6 @@ import St from './style';
 import { auth, db } from '../../shared/firebase';
 import { useRecoilValue } from 'recoil';
 import { categoryListState } from '../../recoil/posts';
-import { useEffect } from 'react';
 import { useModal } from '../../hooks/useModal';
 
 interface PostListProps {
@@ -44,7 +41,6 @@ interface PostCardProps {
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const category = useRecoilValue(categoryListState);
   const navigate = useNavigate();
-  // HM text 발라내기 위해 추가
 
   //좋아요
   const currentUserId = auth.currentUser?.uid;
@@ -133,9 +129,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
             pageParams: []
           };
         }
-        if (!prevPosts) {
-          return { pages: [], pageParams: [] };
-        }
 
         // pages 배열 내의 모든 페이지를 펼칩니다.
         const updatedPages = prevPosts.pages.map((posts) =>
@@ -148,6 +141,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         return { ...prevPosts, pages: updatedPages };
       });
     },
+    onError: () => {},
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [category] });
     }
@@ -255,10 +249,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                       <p>{post.title}</p>
                       {post.content && <PostContentPreview postContent={post.content} />}
                     </St.TitleAndContent>
-                    {/* <St.NeedDelete>
-                      <p>삭제/ {post.category}</p>
-                      <p>삭제/ {getFormattedDate_yymmdd(post.createdAt!)}</p>
-                    </St.NeedDelete> */}
+
                     <St.CommentAndLikes>
                       <span>
                         <GoEye />

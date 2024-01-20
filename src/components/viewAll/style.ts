@@ -51,6 +51,7 @@ const SortWrapper = styled.ul`
     text-align: center;
     //font-family: Apple SD Gothic Neo;
     font-size: 15px;
+    cursor: pointer;
   }
   li a.selected {
     font-weight: 700;
