@@ -61,8 +61,9 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     queryKey,
     queryFn,
     initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage, lastPageParam) => {
       if (lastPage.length === 0) {
+        console.log('lastPageParam', lastPageParam[0].length);
         return undefined;
       }
 
@@ -105,8 +106,18 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       const postRef = doc(db, 'posts', postId);
 
       if (postData.isLiked !== undefined && currentUserId !== undefined) {
+        let newLikeCount;
+        if (postData.isLiked) {
+          //이미 좋아요한 경우
+          newLikeCount = postData.likeCount ? postData.likeCount - 1 : 0;
+        } else {
+          //좋아요 안 한 경우
+          newLikeCount = postData.likeCount != undefined ? postData.likeCount + 1 : 1;
+        }
+
         await updateDoc(postRef, {
-          likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId)
+          likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId),
+          likeCount: newLikeCount
         });
       } else {
         return;
@@ -128,12 +139,10 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
 
         // pages 배열 내의 모든 페이지를 펼칩니다.
         const updatedPages = prevPosts.pages.map((posts) =>
-          posts.map((post) =>
-            post.id === selectedPostId
-              ? { ...post, isLiked: !post.isLiked, likeCount: post.isLiked ? post.likeCount! - 1 : post.likeCount! + 1 }
-              : post
-          )
+          posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
         );
+
+        console.log('updatedPages', updatedPages);
 
         // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
         return { ...prevPosts, pages: updatedPages };
@@ -274,7 +283,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       <St.MoreContentWrapper>
         {isFetchingNextPage ? (
           <Loader />
-        ) : hasNextPage ? (
+        ) : hasNextPage && posts?.length === 4 ? (
           <button onClick={() => fetchNextPage()}>더 보기</button>
         ) : (
           <p>모든 데이터를 가져왔습니다.</p>
