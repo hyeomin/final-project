@@ -122,6 +122,11 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     onMutate: async (params: PostCardProps) => {
       const { postId: selectedPostId } = params;
 
+      await queryClient.cancelQueries({ queryKey: [category] });
+
+      //이전 데이터 저장
+      const previousPosts = queryClient.getQueriesData<InfiniteData<PostType[]> | undefined>({ queryKey: [category] });
+
       queryClient.setQueriesData<InfiniteData<PostType[]> | undefined>({ queryKey: [category] }, (prevPosts) => {
         if (!prevPosts) {
           return {
@@ -135,13 +140,18 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
         );
 
-        console.log('updatedPages', updatedPages);
-
         // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
         return { ...prevPosts, pages: updatedPages };
       });
+
+      //context에 이전 데이터 저장
+      return { previousPosts };
     },
-    onError: () => {},
+    onError: (Error, _, context) => {
+      if (context?.previousPosts) {
+        queryClient.setQueryData([QUERY_KEYS.POSTS], context.previousPosts);
+      }
+    },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [category] });
     }
