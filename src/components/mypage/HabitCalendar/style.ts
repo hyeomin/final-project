@@ -92,7 +92,7 @@ const CalendarSpring4 = styled.img`
 const CalendarTitle = styled.div`
   width: 800px;
   height: 100px;
-  margin-top: 60px;
+  margin-top: 150px;
   border: none;
   background-color: #ffd864;
   border-radius: 20px 20px 0px 0px;
