@@ -68,8 +68,8 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   position: relative;
   display: flex;
   border-radius: 20px;
-  /* width: 285px;
-  height: 408.462px; */
+  width: 285px;
+  height: 408.462px;
   overflow: hidden;
   /* background-color: lightblue; */
 `;
