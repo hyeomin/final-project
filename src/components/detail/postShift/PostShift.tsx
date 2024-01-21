@@ -24,9 +24,6 @@ function PostShift({ postList, postId }: Props) {
       const prevPostId = postList[postIndexNumber - 1].id;
       navigate(`/detail/${prevPostId}`);
       setPostIndexNumber(postIndexNumber - 1);
-    } else {
-      // 첫 페이지일 경우 얼럿
-      alert('이미 첫 번째 게시물입니다.');
     }
   };
 
@@ -36,9 +33,6 @@ function PostShift({ postList, postId }: Props) {
       const nextPostId = postList[postIndexNumber + 1].id;
       navigate(`/detail/${nextPostId}`);
       setPostIndexNumber(postIndexNumber + 1);
-    } else {
-      // 마지막 페이지일 경우 얼럿
-      alert('마지막 게시물입니다.');
     }
   };
 
