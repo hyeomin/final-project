@@ -22,7 +22,7 @@ const StyledSwiper = styled(Swiper)`
 `;
 
 interface PostTitleProps {
-  noimage: boolean;
+  noimage: string;
 }
 
 const PostTitle = styled.h3<PostTitleProps>`
