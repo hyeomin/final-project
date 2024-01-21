@@ -42,7 +42,6 @@ const AdminContents = () => {
           adminContents?.map((item, idx) => {
             return (
               <SwiperSlide key={idx}>
-                {/* item.coverImages로 변경하기 */}
                 {!item ? <Loader /> : <img src={defaultCover} alt={`Slide ${idx}`} />}
                 <St.Button to={`/detail/${item.id}`}>자세히 보기</St.Button>
               </SwiperSlide>
