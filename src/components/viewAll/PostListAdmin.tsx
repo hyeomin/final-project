@@ -5,6 +5,7 @@ import { PostType } from '../../types/PostType';
 import Loader from '../common/Loader';
 import { SortList } from './ViewAllBody';
 import St from './style';
+import { useNavigate } from 'react-router-dom';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -15,6 +16,7 @@ interface PostListProps {
 }
 
 function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
+  const navigate = useNavigate();
   const {
     data: posts,
     fetchNextPage,
@@ -87,7 +89,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
               // const imageQuery = imageQueries[idx];
               return (
                 <St.AdminContent key={post.id}>
-                  <img src={mangoCover} alt={post.title} />
+                  <img src={mangoCover} alt={post.title} onClick={() => navigate(`/detail/${post.id}`)} />
                   {/* {imageQuery.isLoading ? (
                     // <p>Loading image...</p>
                     <Loader />
@@ -111,7 +113,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
       <St.MoreContentWrapper>
         {isFetchingNextPage ? (
           <Loader />
-        ) : hasNextPage ? (
+        ) : hasNextPage && posts?.length === 2 ? (
           <button onClick={() => fetchNextPage()}>더 보기</button>
         ) : (
           <p>모든 데이터를 가져왔습니다.</p>
