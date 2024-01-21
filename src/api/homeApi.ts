@@ -12,15 +12,9 @@ import {
   updateDoc,
   where
 } from '@firebase/firestore';
-import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
-import { auth, db, storage } from '../shared/firebase';
+import { auth, db } from '../shared/firebase';
 import { PostType } from '../types/PostType';
-
-type Ref = {
-  folder: string;
-  imageName: string;
-};
 
 // 전체 게시물 가져오기
 const getPosts = async () => {
@@ -32,7 +26,6 @@ const getPosts = async () => {
     querySnapshot.forEach((doc) => {
       const postData = doc.data() as Omit<PostType, 'id'>;
       posts.push({ id: doc.id, ...postData });
-      // posts.push({ id: doc.id, ...doc.data() });
     });
     return posts;
   } catch (error) {
@@ -126,7 +119,7 @@ const updateLikedUsers = async (id: string) => {
   }
 };
 
-type UsersWithLikeCount = Pick<PostType, 'uid' | 'likeCount'>;
+type UsersWithLikeCount = Pick<PostType, 'uid' | 'likeCount' | 'viewCount'>;
 type likeCountPerUserType = {
   uid: string;
   totalLikes: number;
@@ -143,27 +136,37 @@ const getTopUsers = async () => {
       const docData = doc.data() as PostType;
       const post = {
         uid: docData.uid,
-        likeCount: docData.likeCount
+        likeCount: docData.likeCount,
+        viewCount: docData.viewCount
       };
       posts.push(post);
     });
 
     // 좋아요 합계 계산
-    const likeCountPerUser = posts.reduce<Record<string, number>>((acc, post) => {
+    const countPerUser = posts.reduce<Record<string, { totalLikes: number; totalViews: number }>>((acc, post) => {
       if (!acc[post.uid!]) {
-        acc[post.uid!] = 0;
+        acc[post.uid!] = { totalLikes: 0, totalViews: 0 };
       }
-      acc[post.uid!] += post.likeCount!;
+      acc[post.uid!].totalLikes += post.likeCount!;
+      acc[post.uid!].totalViews += post.viewCount!;
       return acc;
     }, {});
 
     // 객체를 배열로 변환
-    const usersWithLikeCounts = Object.entries(likeCountPerUser).map(([uid, totalLikes]) => ({
+    const usersWithCounts = Object.entries(countPerUser).map(([uid, counts]) => ({
       uid,
-      totalLikes
+      totalLikes: counts.totalLikes,
+      totalViews: counts.totalViews
     }));
-    const topUsers: likeCountPerUserType[] = usersWithLikeCounts
-      .sort((a, b) => b.totalLikes - a.totalLikes)
+
+    const topUsers: likeCountPerUserType[] = usersWithCounts
+      .sort((a, b) => {
+        const sortedByLikes = b.totalLikes - a.totalLikes;
+        if (sortedByLikes === 0) {
+          return b.totalViews - a.totalViews;
+        }
+        return sortedByLikes;
+      })
       .slice(0, 9);
     return topUsers;
   } catch (error) {
@@ -171,24 +174,5 @@ const getTopUsers = async () => {
     return [];
   }
 };
-
-//이미지 가져오기
-// const downloadImageURL = async (postId: string) => {
-//   try {
-//     const listRef = ref(storage, `posts/${postId}`);
-//     const res = await listAll(listRef);
-
-//     if (res.items.length > 0) {
-//       const firstFileRef = res.items[0];
-//       const url = await getDownloadURL(firstFileRef);
-//       return url;
-//     } else {
-//       return '';
-//     }
-//   } catch (error) {
-//     console.error('Error getting files: ', error);
-//     return null;
-//   }
-// };
 
 export { getPosts, getAdminPosts, getPopularPosts, updateLikedUsers, getTopUsers };
