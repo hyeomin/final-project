@@ -77,10 +77,11 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
   };
 
   // 로그인 여부 확인
-  const onAuthCheckHandler = () => {
+  const onAuthCheckHandler = (e: React.MouseEvent<HTMLInputElement>) => {
     if (!currentUser) {
       const confirmation = window.confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?');
       if (confirmation) navigate('/auth');
+      e.currentTarget.blur();
     }
   };
 
@@ -93,6 +94,7 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
         type="text"
         placeholder="댓글을 입력하세요.(최대 1,000자)"
         maxLength={1000}
+        tabIndex={currentUser ? 0 : -1}
       />
       <St.SubmitButton type="submit">등록하기</St.SubmitButton>
     </St.CommentSubmitForm>

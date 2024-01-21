@@ -2,6 +2,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
 import { auth, db } from '../shared/firebase';
 import { PostType } from '../types/PostType';
+import { UsersWithLikeCount, likeCountPerUserType } from './homeApi';
 // import auth from '../../src/shared/'
 // import { auth} from '../../shared/firebase';
 
@@ -46,4 +47,55 @@ const getLikePosts = async () => {
   }
 };
 
-export { getLikePosts, getMyPosts };
+//user Ranking
+const getUserRanking = async () => {
+  try {
+    const postRef = collection(db, 'posts');
+    const querySnapshot = await getDocs(postRef);
+
+    const posts: UsersWithLikeCount[] = [];
+    querySnapshot.forEach((doc) => {
+      const docData = doc.data() as PostType;
+      const post = {
+        uid: docData.uid,
+        likeCount: docData.likeCount,
+        viewCount: docData.viewCount
+      };
+      posts.push(post);
+    });
+
+    // 좋아요 합계 계산
+    const countPerUser = posts.reduce<Record<string, { totalLikes: number; totalViews: number }>>((acc, post) => {
+      if (!acc[post.uid!]) {
+        acc[post.uid!] = { totalLikes: 0, totalViews: 0 };
+      }
+      acc[post.uid!].totalLikes += post.likeCount!;
+      acc[post.uid!].totalViews += post.viewCount!;
+      return acc;
+    }, {});
+
+    // 객체를 배열로 변환
+    const usersWithCounts = Object.entries(countPerUser).map(([uid, counts]) => ({
+      uid,
+      totalLikes: counts.totalLikes,
+      totalViews: counts.totalViews
+    }));
+
+    //좋아요가 0인 유저 필터링
+    const filteredUsers = usersWithCounts.filter((user) => user.totalLikes > 0);
+
+    const topUsers: likeCountPerUserType[] = filteredUsers.sort((a, b) => {
+      const sortedByLikes = b.totalLikes - a.totalLikes;
+      if (sortedByLikes === 0) {
+        return b.totalViews - a.totalViews;
+      }
+      return sortedByLikes;
+    });
+    return topUsers;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export { getLikePosts, getMyPosts, getUserRanking };

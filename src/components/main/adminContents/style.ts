@@ -18,16 +18,16 @@ const Button = styled(Link)`
   align-items: center;
   justify-content: center;
   position: absolute;
-  width: 170px; //170px
+  width: 170px;
   height: 45px;
   border-radius: 10px;
   background-color: #11111174;
   border: none;
-  font-size: 17px; //20px
+  font-size: 17px;
   font-weight: 400;
   cursor: pointer;
   bottom: 150px;
-  left: 215px; //버튼사이즈 변경시 같이 조절
+  left: 215px;
   &:hover {
     background-color: #00000099;
   }

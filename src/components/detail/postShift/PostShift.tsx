@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import theme from '../../styles/theme';
-import { PostType } from '../../types/PostType';
+import { PostType } from '../../../types/PostType';
+import St from './style';
 
 type Props = {
   postList: PostType[] | undefined;
@@ -25,9 +24,6 @@ function PostShift({ postList, postId }: Props) {
       const prevPostId = postList[postIndexNumber - 1].id;
       navigate(`/detail/${prevPostId}`);
       setPostIndexNumber(postIndexNumber - 1);
-    } else {
-      // 첫 페이지일 경우 얼럿
-      alert('이미 첫 번째 게시물입니다.');
     }
   };
 
@@ -37,42 +33,19 @@ function PostShift({ postList, postId }: Props) {
       const nextPostId = postList[postIndexNumber + 1].id;
       navigate(`/detail/${nextPostId}`);
       setPostIndexNumber(postIndexNumber + 1);
-    } else {
-      // 마지막 페이지일 경우 얼럿
-      alert('마지막 게시물입니다.');
     }
   };
 
   return (
-    <ButtonContainer>
-      <button onClick={onClickPrevButton} type="button">
+    <St.ButtonContainer>
+      <button onClick={onClickPrevButton} type="button" disabled={postIndexNumber <= 0}>
         {'< 이전 게시물'}
       </button>
-      <button onClick={onClickNextButton} type="button">
+      <button onClick={onClickNextButton} type="button" disabled={!postList || postIndexNumber >= postList.length - 1}>
         {'다음 게시물  >'}
       </button>
-    </ButtonContainer>
+    </St.ButtonContainer>
   );
 }
 
 export default PostShift;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 40px 0;
-
-  & button {
-    padding: 15px 30px;
-    border-radius: 10px;
-    border: none;
-    /* border: 1px solid ${theme.color.mangoYellow}; */
-    background-color: ${theme.color.mangoLight};
-    font-size: 14px;
-
-    &:hover {
-      background-color: ${theme.color.mangoYellow};
-    }
-  }
-`;
