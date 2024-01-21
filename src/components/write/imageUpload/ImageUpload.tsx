@@ -2,12 +2,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { GoTrash } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
-import { deleteImage, uploadSingleImage } from '../../api/postApi';
-import DragNDrop from '../../assets/icons/dragndrop.png';
-import { postInputState } from '../../recoil/posts';
-import St from '../write/imageUpload/style';
+import { deleteImage, uploadSingleImage } from '../../../api/postApi';
+import DragNDrop from '../../../assets/icons/dragndrop.png';
+import { postInputState } from '../../../recoil/posts';
+import St from './style';
 
-function ImageUploadTest() {
+function ImageUpload() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
@@ -130,4 +130,4 @@ function ImageUploadTest() {
   );
 }
 
-export default ImageUploadTest;
+export default ImageUpload;

@@ -22,7 +22,6 @@ import St from '../style';
 
 function MyProfileTest() {
   const [activeTab, setActiveTab] = useState('calendar');
-
   const [isValid, setIsValid] = useState(true);
   const fileRef = useRef<HTMLInputElement>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -59,7 +58,7 @@ function MyProfileTest() {
   const { data: myPosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getMyPosts,
-    enabled: !!authCurrentUser,
+    // enabled: !!authCurrentUser,
     select: (data) => {
       return data?.filter((post) => post.uid === authCurrentUser?.uid!);
     }
@@ -126,7 +125,6 @@ function MyProfileTest() {
     if (selectedFile?.size! > 1024 * 1024) {
       return alert('최대 1MB까지 업로드 가능합니다');
     }
-
     if (authCurrentUser && selectedFile) {
       profileImageUploadMutation.mutate({ authCurrentUser, profileImage: selectedFile });
     }

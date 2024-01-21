@@ -72,17 +72,6 @@ function EditUploadButton() {
       };
 
       const onClickSave = () => {
-        // const newImages = coverImages
-        //   .filter((image) => image.isNew && image.file && !image.isDeleted)
-        //   .map((image) => image.file) as File[];
-        // setImageFileforUpload(newImages);
-
-        // // 기존 업로드 되어 이미지 중 삭제된 것 정리
-        // const imageUrltoDelete = coverImages
-        //   .filter((image) => !image.isNew && !image.file && image.isDeleted)
-        //   .map((image) => image.url) as string[];
-        // setImageUrltoDelete(imageUrltoDelete);
-
         updatePostMutation.mutate();
 
         modal.close();
