@@ -21,9 +21,10 @@ import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
 import { auth, db } from '../../shared/firebase';
-import { useRecoilValue } from 'recoil';
+import { produce } from 'immer';
 import { categoryListState } from '../../recoil/posts';
 import { useModal } from '../../hooks/useModal';
+import { useRecoilValue } from 'recoil';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -31,6 +32,11 @@ interface PostListProps {
     context: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>
   ) => Promise<QueryDocumentSnapshot<DocumentData, DocumentData>[]>;
   sortBy: SortList;
+}
+
+interface PostCardProps {
+  postId: string;
+  postData: PostType;
 }
 
 interface PostCardProps {
