@@ -79,8 +79,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           ...postData
         } as PostType;
       });
-      // let sortedPosts = data.pages.flat().map((doc) => (
-      //   {isLiked: doc.likedUsers.includes(auth.currentUser!.uid) ,id: doc.id, ...doc.data() } as PostType));
       if (sortBy === 'popularity') {
         sortedPosts = sortedPosts.sort((a, b) => {
           const likeCountA = a.likeCount ?? 0; // 만약 likeCount가 없다면 0으로 처리
