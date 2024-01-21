@@ -10,11 +10,12 @@ import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
 import St from './style';
+import { error } from 'console';
 
 export type Data = {
   email: string;
   password: string;
-  passworkCheck?: string;
+  passwordCheck?: string;
   nickname: string;
   phoneNumber: number;
   image?: string;
@@ -26,7 +27,7 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
-  const [passworkCheck, SetPassworkCheck] = useState('');
+  const [passwordCheck, SetPasswordCheck] = useState('');
   const [phoneNumber, setPhoneNumber] = useState(0);
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
@@ -34,8 +35,10 @@ function Signup() {
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [errorMsg, setErrorMsg] = usePrintError('');
   const [isFormValid, setIsFormValid] = useState(true);
+  const [isEmailChecked, setIsEmailChecked] = useState(false);
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+
   const navigate = useNavigate();
-  // const emailInputRef = useRef<HTMLInputElement | null>(null);
   const {
     register,
     handleSubmit,
@@ -61,8 +64,12 @@ function Signup() {
     });
   }, [imageUpload]);
 
-  const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passworkCheck, phoneNumber }: Data) => {
+  const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passwordCheck }: Data) => {
     try {
+      // if (!isEmailChecked && !isNicknameChecked) {
+      //   alert('내용입력해주세요');
+      //   return;
+      // }
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
       console.log('userCredential', userCredential);
@@ -75,8 +82,7 @@ function Signup() {
       setValue('email', '');
       setValue('password', '');
       setValue('nickname', '');
-      setValue('passworkCheck', '');
-      // setValue('phoneNumber', 0);
+      setValue('passwordCheck', '');
 
       // 회원가입 state 업데이트 (Ashley)
       setIsSignUp(false);
@@ -91,12 +97,11 @@ function Signup() {
           displayName: auth.currentUser?.displayName,
           profileImg: auth.currentUser?.photoURL,
           uid: auth.currentUser?.uid,
-          // phoneNumber: auth.currentUser?.phoneNumber,
           role: 'user'
         });
       }
     } catch (error) {
-      // setErrorMsg(error);
+      setErrorMsg(error);
     }
   };
 
@@ -105,6 +110,7 @@ function Signup() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
+    setIsEmailChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       alert('이미 존재하는 이메일입니다.');
@@ -138,6 +144,7 @@ function Signup() {
     } else if (querySnapshot.docs.length === 0) {
       alert('사용 가능한 닉네임입니다.');
       setIsFormValid(true);
+      // setIsNicknameChecked(true);
     }
   };
 
@@ -162,7 +169,9 @@ function Signup() {
               pattern: emailRegex
             })}
           />
-          <St.AuthBtn onClick={() => emailCheck(getValues('email'))}>중복확인</St.AuthBtn>
+          <St.AuthBtn type="button" onClick={() => emailCheck(getValues('email'))}>
+            중복확인
+          </St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
           {errors?.email?.type === 'pattern' && <St.WarningMsg>이메일 양식에 맞게 입력해주세요</St.WarningMsg>}
         </St.InputContainer>
@@ -176,7 +185,14 @@ function Signup() {
               required: true,
               pattern: passwordRegex
             })}
+            disabled={!isEmailChecked}
+            onClick={() => {
+              if (!isEmailChecked) {
+                alert('중복확인을 먼저 해주세요.');
+              }
+            }}
           />
+          {/* {!isEmailChecked && <St.WarningMsg>중복확인을 먼저 해주세요.</St.WarningMsg>} */}
 
           {errors?.password?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
           {errors?.password?.type === 'pattern' && (
@@ -187,7 +203,7 @@ function Signup() {
           <St.Input
             type="password"
             placeholder="Confirm Password"
-            {...register('passworkCheck', {
+            {...register('passwordCheck', {
               required: true,
               validate: {
                 check: (val) => {
@@ -199,8 +215,8 @@ function Signup() {
             })}
           />
 
-          {errors?.passworkCheck?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
-          {errors?.passworkCheck && <St.WarningMsg>비밀번호가 일치하지 않습니다</St.WarningMsg>}
+          {errors?.passwordCheck?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
+          {errors?.passwordCheck && <St.WarningMsg>비밀번호가 일치하지 않습니다</St.WarningMsg>}
         </St.InputContainer>
         <St.InputContainer>
           <label htmlFor="nickname"></label>
@@ -223,47 +239,28 @@ function Signup() {
           )}
         </St.InputContainer>
 
-        {/* <St.InputContainer>
-          <St.AuthInput
-            type="text"
-            placeholder="phone number"
-            {...register('phoneNumber', {
-              required: true,
-              pattern: phoneRegex
-            })}
-          />
-          <St.AuthBtn>인증번호 발송</St.AuthBtn>
-
-          {errors?.phoneNumber?.type === 'required' && (
-            <St.WarningMsg> ⚠️ 정확한 휴대폰 양식을 입력해주세요</St.WarningMsg>
-          )}
-          {errors?.phoneNumber?.type === 'pattern' && (
-            <St.WarningMsg>
-               ⚠️ 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 입력해주세요,한글 초성 안됨 *
-            </St.WarningMsg>
-          )}
-        </St.InputContainer> */}
-
         <St.SignUpAndLoginBtn
           type="submit"
-          // onClick={() => {
-          //   if (isFormValid) {
-          //     console.log('???');
-          //     // signUp({ email, password, nickname, passworkCheck, phoneNumber });
-          //     // navigate('/auth/login');
-          //   } else {
-          //     alert('다시 확인.');
-          //   }
-          // }}
-          // onClick={() => {
-          //   signUp({ email, password, nickname, passworkCheck, phoneNumber });
-          //   navigate('/auth/login');
-          // }}
-          disabled={!isFormValid && nickname === '' && email === '' && password === '' && passworkCheck === ''}
+          onClick={() => {
+            console.log('nnnnnnnn');
+            if (isFormValid) {
+              signUp({ email, password, nickname, passwordCheck, phoneNumber });
+
+              navigate('/auth/login');
+              alert('가입성공');
+            } else if (!isFormValid) {
+              console.log('fdgdfg');
+              alert('다시 확인.');
+            }
+          }}
+          disabled={
+            // !isNicknameChecked ||
+            // !isFormValid ||
+            nickname === '' || email === '' || password === '' || passwordCheck === '' || password !== passwordCheck
+          }
         >
           가입하기
         </St.SignUpAndLoginBtn>
-        {errorMsg && <p>{errorMsg}</p>}
       </form>
       <St.ToggleLoginAndSignUp onClick={() => setIsSignUp(false)}>로그인으로 돌아가기</St.ToggleLoginAndSignUp>
     </St.AuthWrapper>
