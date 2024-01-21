@@ -49,7 +49,6 @@ const getAdminPosts = async () => {
     querySnapshot.forEach((doc) => {
       const postData = doc.data() as Omit<PostType, 'id'>;
       posts.push({ id: doc.id, ...postData });
-      // posts.push({ id: doc.id, ...doc.data() });
     });
     return posts;
   } catch (error) {
@@ -72,7 +71,6 @@ const getPopularPosts = async () => {
     querySnapshot.forEach((doc) => {
       const postData = doc.data() as Omit<PostType, 'id'>;
       posts.push({ id: doc.id, ...postData });
-      // posts.push({ id: doc.id, ...doc.data() });
     });
     return posts;
   } catch (error) {

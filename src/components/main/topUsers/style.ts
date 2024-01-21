@@ -1,14 +1,13 @@
 import styled from 'styled-components';
 
 const Container = styled.section`
-  /* background-color: burlywood; */
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 40px;
-  margin: 40px 0 150px 0; // 333 -> 150
+  margin: 40px 0 150px 0;
   & h1 {
     color: #000;
     font-size: 28px;
@@ -30,12 +29,11 @@ const Title = styled.div`
 `;
 
 const UserList = styled.div`
-  /* background-color: #4e9903; */
-  width: 85%; // 100%
+  width: 85%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto auto;
-  gap: 10px; // 40px
+  gap: 10px;
 `;
 
 const UserInfo = styled.div`
@@ -45,12 +43,11 @@ const UserInfo = styled.div`
   align-items: center;
   width: 100%;
   height: 200px;
-  /* background-color: palegreen; */
 `;
 
 const ProfileImage = styled.div`
-  width: 100px; //200px
-  height: 100px; //200px
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   overflow: hidden;
   & img {
@@ -60,7 +57,6 @@ const ProfileImage = styled.div`
 `;
 
 const UserName = styled.div`
-  /* background-color: red; */
   display: flex;
   width: 100%;
   height: 32px;

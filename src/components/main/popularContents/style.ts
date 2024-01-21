@@ -98,20 +98,18 @@ const InfoTop = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  /* background-color: green; */
   height: 30px;
   align-self: flex-start;
 `;
 const UserInfo = styled.div`
   display: flex;
-  // 닉네임
   & div:nth-child(2) {
     color: #fff;
     font-size: 16px;
     font-weight: 500;
-    line-height: 150%; /* 24px */
+    line-height: 150%;
   }
-  //프사
+
   & div:nth-child(1) {
     width: 25px;
     height: 25px;
