@@ -28,6 +28,7 @@ const SubmitButton = styled.button`
   width: 100px;
   &:hover {
     background-color: #df8d11;
+    cursor: pointer;
   }
 `;
 export default {
