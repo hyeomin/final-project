@@ -16,6 +16,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import '../swiperStyle.css';
 import { useLikeButton } from '../../../hooks/useLikeButton';
+import PostContentPreview from '../../common/PostContentPreview';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -69,27 +70,10 @@ const UserContents = () => {
             }}
             navigation={true}
             modules={[Pagination, Navigation]}
-            breakpoints={{
-              0: {
-                slidesPerView: 1
-              },
-              600: {
-                slidesPerView: 2,
-                spaceBetween: 20
-              },
-              800: {
-                slidesPerView: 3,
-                spaceBetween: 10
-              },
-              1000: {
-                slidesPerView: 4,
-                spaceBetween: 10
-              }
-            }}
             className="default-swiper"
           >
             {popularPosts?.length === 0 ? (
-              <div>인기 게시물 데이터를 찾을 수 없습니다.</div>
+              <div>인기 게시물 데이터 없습니다.</div>
             ) : (
               popularPosts?.map((item, idx) => {
                 return (
@@ -114,11 +98,7 @@ const UserContents = () => {
                           <St.BottomText>
                             <div>{item.title}</div>
                             <div>
-                              <p
-                                dangerouslySetInnerHTML={{
-                                  __html: reduceContent(removeImageTags(item.content || ''), 20)
-                                }}
-                              />
+                              <PostContentPreview postContent={item.content || ''} />
                             </div>
                           </St.BottomText>
                           <St.Count>
