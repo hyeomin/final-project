@@ -4,7 +4,6 @@ import {
   QueryKey,
   useInfiniteQuery,
   useMutation,
-  useQueries,
   useQuery,
   useQueryClient
 } from '@tanstack/react-query';
@@ -14,10 +13,9 @@ import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
 import defaultProfile from '../../assets/defaultImg.jpg';
 import mangoCover from '../../assets/tentative-cover-image.jpg';
-import { useLikeButton } from '../../hooks/useLikeButton';
 import { QUERY_KEYS } from '../../query/keys';
 import { PostType } from '../../types/PostType';
-import { getFormattedDate, getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
+import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
@@ -25,7 +23,7 @@ import St from './style';
 import { auth, db } from '../../shared/firebase';
 import { useRecoilValue } from 'recoil';
 import { categoryListState } from '../../recoil/posts';
-import { useEffect } from 'react';
+import { useModal } from '../../hooks/useModal';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -43,11 +41,11 @@ interface PostCardProps {
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const category = useRecoilValue(categoryListState);
   const navigate = useNavigate();
-  // HM text 발라내기 위해 추가
 
   //좋아요
-  const currentUserId = auth.currentUser!.uid;
+  const currentUserId = auth.currentUser?.uid;
   const queryClient = useQueryClient();
+  const modal = useModal();
 
   const {
     data: posts,
@@ -59,8 +57,9 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     queryKey,
     queryFn,
     initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage, lastPageParam) => {
       if (lastPage.length === 0) {
+        console.log('lastPageParam', lastPageParam[0].length);
         return undefined;
       }
 
@@ -69,7 +68,11 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     select: (data) => {
       let sortedPosts = data.pages.flat().map((doc) => {
         const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
-        return { isLiked: postData.likedUsers?.includes(auth.currentUser!.uid), id: doc.id, ...postData } as PostType;
+        return {
+          isLiked: postData.likedUsers?.includes(auth.currentUser?.uid || ''),
+          id: doc.id,
+          ...postData
+        } as PostType;
       });
       // let sortedPosts = data.pages.flat().map((doc) => (
       //   {isLiked: doc.likedUsers.includes(auth.currentUser!.uid) ,id: doc.id, ...doc.data() } as PostType));
@@ -97,13 +100,32 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     mutationFn: async (params: PostCardProps) => {
       const { postId, postData } = params;
       const postRef = doc(db, 'posts', postId);
-      console.log('postRef', postRef);
-      await updateDoc(postRef, {
-        likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId)
-      });
+
+      if (postData.isLiked !== undefined && currentUserId !== undefined) {
+        let newLikeCount;
+        if (postData.isLiked) {
+          //이미 좋아요한 경우
+          newLikeCount = postData.likeCount ? postData.likeCount - 1 : 0;
+        } else {
+          //좋아요 안 한 경우
+          newLikeCount = postData.likeCount != undefined ? postData.likeCount + 1 : 1;
+        }
+
+        await updateDoc(postRef, {
+          likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId),
+          likeCount: newLikeCount
+        });
+      } else {
+        return;
+      }
     },
     onMutate: async (params: PostCardProps) => {
       const { postId: selectedPostId } = params;
+
+      await queryClient.cancelQueries({ queryKey: [category] });
+
+      //이전 데이터 저장
+      const previousPosts = queryClient.getQueriesData<InfiniteData<PostType[]> | undefined>({ queryKey: [category] });
 
       queryClient.setQueriesData<InfiniteData<PostType[]> | undefined>({ queryKey: [category] }, (prevPosts) => {
         if (!prevPosts) {
@@ -111,9 +133,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
             pages: [],
             pageParams: []
           };
-        }
-        if (!prevPosts) {
-          return { pages: [], pageParams: [] };
         }
 
         // pages 배열 내의 모든 페이지를 펼칩니다.
@@ -124,6 +143,14 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
         return { ...prevPosts, pages: updatedPages };
       });
+
+      //context에 이전 데이터 저장
+      return { previousPosts };
+    },
+    onError: (Error, _, context) => {
+      if (context?.previousPosts) {
+        queryClient.setQueryData([QUERY_KEYS.POSTS], context.previousPosts);
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [category] });
@@ -135,12 +162,34 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     id: string,
     post: PostType
   ) => {
-    //e.stopPropagation();
-    console.log('좋아요 버튼 클릭');
-    // console.log(id);
-    // console.log(post);
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!currentUserId) {
+      const onClickCancel = () => {
+        modal.close();
+        return;
+      };
+
+      const onClickSave = () => {
+        modal.close();
+        navigate('/auth');
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '로그인이 필요합니다.',
+        message: '로그인 창으로 이동하시겠습니까?',
+        leftButtonLabel: '취소',
+        onClickLeftButton: onClickCancel,
+        rightButtonLabel: '로그인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    }
+
     await toggleLike({ postId: id, postData: post });
   };
+
   //invalidate,, 시간 정해놓고 (쿼리에 기능.. 탑100,,staleTime...)
   //새로고침시에만 새로운데이터 확인되도록.
 
@@ -210,10 +259,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                       <p>{post.title}</p>
                       {post.content && <PostContentPreview postContent={post.content} />}
                     </St.TitleAndContent>
-                    {/* <St.NeedDelete>
-                      <p>삭제/ {post.category}</p>
-                      <p>삭제/ {getFormattedDate_yymmdd(post.createdAt!)}</p>
-                    </St.NeedDelete> */}
+
                     <St.CommentAndLikes>
                       <span>
                         <GoEye />
@@ -238,7 +284,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       <St.MoreContentWrapper>
         {isFetchingNextPage ? (
           <Loader />
-        ) : hasNextPage ? (
+        ) : hasNextPage && posts?.length === 4 ? (
           <button onClick={() => fetchNextPage()}>더 보기</button>
         ) : (
           <p>모든 데이터를 가져왔습니다.</p>
