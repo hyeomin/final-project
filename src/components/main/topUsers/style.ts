@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 const Container = styled.section`
   /* background-color: burlywood; */
-  width: 100%;
+  /* width: 100%; */
+  width: 1000px;
   display: flex;
   flex-direction: column;
   justify-content: center;
