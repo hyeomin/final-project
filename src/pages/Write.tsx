@@ -28,6 +28,7 @@ const Container = styled.div`
   flex-direction: column;
   row-gap: 20px;
   margin: 50px 0;
+  width: 900px;
 `;
 
 const Spacer = styled.div`
