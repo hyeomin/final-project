@@ -41,6 +41,11 @@ const HabitCalendar = ({ date }: any) => {
     <St.CalendarWrapper>
       <St.StyleCalendar>
         <St.CalendarContainer>
+          <St.CalendarIntroduce>
+            오늘도 지구를 지키기 위해 노력하셨군요
+            <br />
+            글을 쓰면 망고스티커를 드려요!
+          </St.CalendarIntroduce>
           <St.CalendarSpring1 src={calendarSpring} />
           <St.CalendarSpring2 src={calendarSpring} />
           <St.CalendarSpring3 src={calendarSpring} />

@@ -21,13 +21,13 @@ export default function Router() {
           <Route path="/viewAll" element={<ViewAll />} />
           <Route path="/auth" element={<Auth />} />
           {/* <Route path="/auth/login" element={<Login />} /> */}
+          <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/signup" element={<Signup />} />
 
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/about" element={<About />} />
           <Route path="*" element={<Navigate replace to="/" />} />
           <Route element={<ProtectedRoute />}>
-            <Route path="/auth/login" element={<Login />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/write" element={<Write />} />
           </Route>

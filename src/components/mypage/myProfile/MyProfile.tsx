@@ -220,7 +220,7 @@ function MyProfile() {
           <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>
           <St.UserInfoModify>
             {isEditing ? (
-              <>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                 <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
                 <St.ModifyButton onClick={onCancelEdit}>취소</St.ModifyButton>
                 <St.ModifyButton
@@ -231,13 +231,14 @@ function MyProfile() {
                 >
                   수정완료
                 </St.ModifyButton>
+
                 <St.ErrorMsg>
                   {!isValid && <span>{errorMsg}</span>}
                   {newDisplayName === auth.currentUser?.displayName && image === auth.currentUser?.photoURL && (
                     <span>변경된 게 없습니다.</span>
                   )}
                 </St.ErrorMsg>
-              </>
+              </div>
             ) : (
               <>
                 <CiSettings style={{ cursor: 'pointer' }} onClick={() => setIsEditing(true)}>
