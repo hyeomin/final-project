@@ -105,7 +105,6 @@ const UserContents = () => {
                           </St.Count>
                         </St.InfoBottom>
                       </St.TextAndLikeButton>
-                      {/* item.coverImages로 변경하기 */}
                       {!item ? (
                         <Loader />
                       ) : (

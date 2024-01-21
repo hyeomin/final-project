@@ -96,6 +96,7 @@ function Login() {
       })
 
       .catch((err) => {
+        alert(setErrorMsg(err));
         setErrorMsg(err);
       });
   }

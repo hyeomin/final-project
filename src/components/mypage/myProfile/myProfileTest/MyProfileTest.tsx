@@ -9,6 +9,7 @@ import {
   updateProfileInfo,
   updateProfileInfoProps
 } from '../../../../api/authApi';
+import { getTopUsers } from '../../../../api/homeApi';
 import { getMyPosts, getUserRanking } from '../../../../api/myPostAPI';
 import defaultImg from '../../../../assets/defaultImg.jpg';
 import postCountIcon from '../../../../assets/icons/postCountIcon.png';
@@ -35,6 +36,9 @@ function MyProfileTest() {
 
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
+
+  //솔
+  const currentUserId = auth.currentUser?.uid;
 
   const [updateProfileSuccess, setUpdateProfileSuccess] = useState<boolean>(false);
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
@@ -64,8 +68,8 @@ function MyProfileTest() {
   });
 
   // 랭킹순위
-  const { data: topUsers } = useQuery({
-    queryKey: ['topUsers'],
+  const { data: userRanking } = useQuery({
+    queryKey: ['userRanking'],
     queryFn: getUserRanking
   });
 
@@ -248,7 +252,11 @@ function MyProfileTest() {
               <span style={{ marginBottom: '1px' }}>랭킹</span>
               <br />
               <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={rankingIcon} />
-              {/* <span style={{ marginLeft: '10px' }}>{topUsers.}위</span> */}
+              <span style={{ marginLeft: '10px' }}>
+                {userRanking?.findIndex((r) => r.uid === currentUserId) !== -1
+                  ? `${currentUserId && userRanking && userRanking?.findIndex((r) => r.uid === currentUserId) + 1}위`
+                  : '순위 없음'}
+              </span>
             </div>
           </St.PostInfoBox>
           <St.PostInfoBox>
