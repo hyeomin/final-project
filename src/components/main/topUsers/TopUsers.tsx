@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { styled } from 'styled-components';
 import { getAllUsers } from '../../../api/authApi';
 import { getTopUsers } from '../../../api/homeApi';
 import firstPlace from '../../../assets/1stPlace.png';

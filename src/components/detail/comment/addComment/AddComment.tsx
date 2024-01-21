@@ -91,8 +91,8 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
         onChange={onChangeContent}
         onClick={onAuthCheckHandler}
         type="text"
-        placeholder="댓글을 입력하세요.(최대 300자)"
-        maxLength={300}
+        placeholder="댓글을 입력하세요.(최대 1,000자)"
+        maxLength={1000}
       />
       <St.SubmitButton type="submit">등록하기</St.SubmitButton>
     </St.CommentSubmitForm>
