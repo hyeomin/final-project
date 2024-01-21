@@ -40,18 +40,28 @@ export const getCategoryPosts =
   async ({
     pageParam
   }: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
-    let q: Query<DocumentData> = query(collection(db, 'posts'), where('role', '==', 'user'), limit(4));
+    let q: Query<DocumentData> = query(
+      collection(db, 'posts'),
+      ///where('createdAt', '!=', null),
+      where('role', '==', 'user')
+    );
 
     if (category !== 'total') {
       q = query(q, where('category', '==', category));
-    } else {
-      q = query(q, orderBy('createdAt', 'desc'));
     }
 
+    // //정렬 되는 코드 + 총 8개만 나옴 + 색인 추가
     if (pageParam) {
-      q = query(q, startAfter(pageParam));
+      q = query(q, orderBy('createdAt', 'desc'), startAfter(pageParam), limit(4));
+    } else {
+      q = query(q, orderBy('createdAt', 'desc'), limit(4));
     }
 
-    const querySnapShot = await getDocs(q);
-    return querySnapShot.docs;
+    try {
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.docs;
+    } catch (error) {
+      console.error('Error getting documents:', error);
+      throw error;
+    }
   };
