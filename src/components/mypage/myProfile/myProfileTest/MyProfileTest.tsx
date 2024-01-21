@@ -9,8 +9,7 @@ import {
   updateProfileInfo,
   updateProfileInfoProps
 } from '../../../../api/authApi';
-import { getTopUsers } from '../../../../api/homeApi';
-import { getMyPosts } from '../../../../api/myPostAPI';
+import { getMyPosts, getUserRanking } from '../../../../api/myPostAPI';
 import defaultImg from '../../../../assets/defaultImg.jpg';
 import postCountIcon from '../../../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../../../assets/icons/rankingIcon.png';
@@ -67,7 +66,7 @@ function MyProfileTest() {
   // 랭킹순위
   const { data: topUsers } = useQuery({
     queryKey: ['topUsers'],
-    queryFn: getTopUsers
+    queryFn: getUserRanking
   });
 
   //div를 클릭해도 input이 클릭되도록 하기
@@ -246,10 +245,10 @@ function MyProfileTest() {
           </St.PostInfoBox>
           <St.PostInfoBox>
             <div>
-              <span style={{ marginBottom: '1px' }}>랭킹1</span>
+              <span style={{ marginBottom: '1px' }}>랭킹</span>
               <br />
               <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={rankingIcon} />
-              <span style={{ marginLeft: '10px' }}>{topUsers?.length}위</span>
+              {/* <span style={{ marginLeft: '10px' }}>{topUsers.}위</span> */}
             </div>
           </St.PostInfoBox>
           <St.PostInfoBox>
