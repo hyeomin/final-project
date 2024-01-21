@@ -29,7 +29,7 @@ const LogoContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 30px;
-  width: 100%;
+  width: 300px;
   border-bottom: 1px solid #d9d9d9;
 `;
 
