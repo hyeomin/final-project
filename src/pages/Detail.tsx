@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { updatePostViewCount } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
 import DetailBody from '../components/detail/DetailBody';
-import PostShift from '../components/detail/PostShift';
+import PostShift from '../components/detail/postShift/PostShift';
 import AddCommentForm from '../components/detail/comment/addComment/AddComment';
 import CommentList from '../components/detail/comment/commentList/CommentList';
 import DetailHeader from '../components/detail/detailHeader/DetailHeader';

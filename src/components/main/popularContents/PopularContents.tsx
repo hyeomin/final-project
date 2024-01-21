@@ -11,6 +11,7 @@ import { getPopularPosts } from '../../../api/homeApi';
 import defatutUserImage from '../../../assets/defaultImg.jpg';
 import mangoCover from '../../../assets/tentative-cover-image.jpg';
 import { useLikeButton } from '../../../hooks/useLikeButton';
+import PostContentPreview from '../../common/PostContentPreview';
 import { auth } from '../../../shared/firebase';
 import Loader from '../../common/Loader';
 import '../swiperStyle.css';
@@ -38,15 +39,6 @@ const UserContents = () => {
     return <Loader />;
   }
 
-  // TODO: 애슐리님 업뎃하신 코드로 변경하기
-  const removeImageTags = (htmlContent: string) => {
-    return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
-  };
-
-  const reduceContent = (postContent: string, cnt: number) => {
-    return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
-  };
-
   return (
     <St.UserContents>
       <St.TitleContainer>
@@ -68,27 +60,10 @@ const UserContents = () => {
             }}
             navigation={true}
             modules={[Pagination, Navigation]}
-            breakpoints={{
-              0: {
-                slidesPerView: 1
-              },
-              600: {
-                slidesPerView: 2,
-                spaceBetween: 20
-              },
-              800: {
-                slidesPerView: 3,
-                spaceBetween: 10
-              },
-              1000: {
-                slidesPerView: 4,
-                spaceBetween: 10
-              }
-            }}
             className="default-swiper"
           >
             {popularPosts?.length === 0 ? (
-              <div>인기 게시물 데이터를 찾을 수 없습니다.</div>
+              <div>인기 게시물 데이터 없습니다.</div>
             ) : (
               popularPosts?.map((item, idx) => {
                 return (
@@ -106,18 +81,18 @@ const UserContents = () => {
                             <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
                           </St.UserInfo>
                           <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                            {item.likedUsers?.includes(currentUser!) ? <St.HeartFillIcon /> : <St.HeartIcon />}
+                            {currentUser && item.likedUsers?.includes(currentUser) ? (
+                              <St.HeartFillIcon />
+                            ) : (
+                              <St.HeartIcon />
+                            )}
                           </St.LikeButton>
                         </St.InfoTop>
                         <St.InfoBottom>
                           <St.BottomText>
                             <div>{item.title}</div>
                             <div>
-                              <p
-                                dangerouslySetInnerHTML={{
-                                  __html: reduceContent(removeImageTags(item.content || ''), 20)
-                                }}
-                              />
+                              <PostContentPreview postContent={item.content || ''} />
                             </div>
                           </St.BottomText>
                           <St.Count>
