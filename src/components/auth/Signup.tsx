@@ -1,23 +1,22 @@
-import { createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import mangofavicon from '../../assets/mango-favicon.png';
 import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
+
 import St from './style';
-import { error } from 'console';
 
 export type Data = {
   email: string;
   password: string;
   passwordCheck?: string;
   nickname: string;
-  phoneNumber: number;
   image?: string;
   defaultImg?: string;
   role?: string;
@@ -28,7 +27,6 @@ function Signup() {
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
   const [passwordCheck, SetPasswordCheck] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState(0);
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
   const [image, setImage] = useState('');
@@ -36,9 +34,10 @@ function Signup() {
   const [errorMsg, setErrorMsg] = usePrintError('');
   const [isFormValid, setIsFormValid] = useState(true);
   const [isEmailChecked, setIsEmailChecked] = useState(false);
-  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+  // const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
   const navigate = useNavigate();
+  // const emailInputRef = useRef<HTMLInputElement | null>(null);
   const {
     register,
     handleSubmit,
@@ -50,7 +49,6 @@ function Signup() {
   // 정규식
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
-  const phoneRegex = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/;
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
   // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
   // 폴더/파일
@@ -66,10 +64,10 @@ function Signup() {
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passwordCheck }: Data) => {
     try {
-      // if (!isEmailChecked && !isNicknameChecked) {
-      //   alert('내용입력해주세요');
-      //   return;
-      // }
+      if (!isEmailChecked) {
+        alert('중복확인해주세요');
+        return;
+      }
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
       console.log('userCredential', userCredential);
@@ -83,11 +81,7 @@ function Signup() {
       setValue('password', '');
       setValue('nickname', '');
       setValue('passwordCheck', '');
-
-      // 회원가입 state 업데이트 (Ashley)
-      setIsSignUp(false);
-      signOut(auth);
-
+      alert('가입성공');
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
       // 컬렉션에 있는 users 필드 정보 수정
@@ -102,7 +96,12 @@ function Signup() {
       }
     } catch (error) {
       setErrorMsg(error);
+      return;
     }
+
+    // 회원가입 state 업데이트 (Ashley)
+    setIsSignUp(false);
+    signOut(auth);
   };
 
   // 이메일 중복체크 (firestore)
@@ -132,6 +131,8 @@ function Signup() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
+    // setIsNicknameChecked(true);
+    setIsEmailChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       alert('이미 존재하는 닉네임입니다.');
@@ -144,7 +145,6 @@ function Signup() {
     } else if (querySnapshot.docs.length === 0) {
       alert('사용 가능한 닉네임입니다.');
       setIsFormValid(true);
-      // setIsNicknameChecked(true);
     }
   };
 
@@ -169,9 +169,7 @@ function Signup() {
               pattern: emailRegex
             })}
           />
-          <St.AuthBtn type="button" onClick={() => emailCheck(getValues('email'))}>
-            중복확인
-          </St.AuthBtn>
+          <St.AuthBtn onClick={() => emailCheck(getValues('email'))}>중복확인</St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
           {errors?.email?.type === 'pattern' && <St.WarningMsg>이메일 양식에 맞게 입력해주세요</St.WarningMsg>}
         </St.InputContainer>
@@ -186,13 +184,7 @@ function Signup() {
               pattern: passwordRegex
             })}
             disabled={!isEmailChecked}
-            onClick={() => {
-              if (!isEmailChecked) {
-                alert('중복확인을 먼저 해주세요.');
-              }
-            }}
           />
-          {/* {!isEmailChecked && <St.WarningMsg>중복확인을 먼저 해주세요.</St.WarningMsg>} */}
 
           {errors?.password?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
           {errors?.password?.type === 'pattern' && (
@@ -213,6 +205,7 @@ function Signup() {
                 }
               }
             })}
+            disabled={!isEmailChecked}
           />
 
           {errors?.passwordCheck?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
@@ -241,26 +234,34 @@ function Signup() {
 
         <St.SignUpAndLoginBtn
           type="submit"
-          onClick={() => {
-            console.log('nnnnnnnn');
-            if (isFormValid) {
-              signUp({ email, password, nickname, passwordCheck, phoneNumber });
-
-              navigate('/auth/login');
-              alert('가입성공');
-            } else if (!isFormValid) {
-              console.log('fdgdfg');
-              alert('다시 확인.');
-            }
-          }}
+          // onClick={() => {
+          //   if (isFormValid) {
+          //     console.log('???');
+          //     // signUp({ email, password, nickname, passworkCheck, phoneNumber });
+          //     // navigate('/auth/login');
+          //   } else {
+          //     alert('다시 확인.');
+          //   }
+          // }}
+          // onClick={() => {
+          //   signUp({ email, password, nickname, passwordCheck });
+          //   alert('가입성공');
+          //   navigate('/auth/login');
+          // }}
           disabled={
-            // !isNicknameChecked ||
-            // !isFormValid ||
-            nickname === '' || email === '' || password === '' || passwordCheck === '' || password !== passwordCheck
+            // !isNicknameChecked &&
+
+            !isFormValid &&
+            nickname === '' &&
+            email === '' &&
+            password === '' &&
+            passwordCheck === '' &&
+            password !== passwordCheck
           }
         >
           가입하기
         </St.SignUpAndLoginBtn>
+        {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
       </form>
       <St.ToggleLoginAndSignUp onClick={() => setIsSignUp(false)}>로그인으로 돌아가기</St.ToggleLoginAndSignUp>
     </St.AuthWrapper>

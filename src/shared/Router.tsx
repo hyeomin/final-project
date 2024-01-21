@@ -37,30 +37,3 @@ export default function Router() {
     </BrowserRouter>
   );
 }
-
-// export default function Router() {
-//   return (
-//     <BrowserRouter>
-//       <Layout>
-//         <Routes>
-//           <Route path="/" element={<Home />} />
-//           <Route path="/viewAll" element={<ViewAll />} />
-//           <Route path="/auth" element={<ProtectedRoute />} />
-
-//           <Route path="/auth/login" element={<ProtectedRoute />} />
-//           <Route path="/auth/signup" element={<ProtectedRoute />} />
-
-//           <Route path="/detail/:id" element={<Detail />} />
-//           <Route path="/about" element={<About />} />
-//           <Route path="*" element={<Navigate replace to="/" />} />
-
-//           <Route element={<ProtectedRoute />}>
-//             <Route path="/mypage" element={<MyPage />} />
-//             <Route path="/write" element={<Write />} />
-//           </Route>
-//         </Routes>
-//       </Layout>
-//       <ReactQueryDevtools />
-//     </BrowserRouter>
-//   );
-// }
