@@ -31,7 +31,7 @@ const LikesPosts = () => {
 
   //필터된 posts 목록 (망고관리자 게시물은 임시로 둔다.)
   // const createdByMango = postQueries[0].data || [];
-  const myPosts = postQueries[1].data || [];
+  // const myPosts = postQueries[1].data || [];
 
   // 이미지URL 불러오기
   // const imageQueries = useQueries({
@@ -42,9 +42,9 @@ const LikesPosts = () => {
   //     })) || []
   // });
 
-  function removeImageTags(htmlContent: string) {
-    return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
-  }
+  // function removeImageTags(htmlContent: string) {
+  //   return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
+  // }
 
   return (
     <Cs.Contents>
