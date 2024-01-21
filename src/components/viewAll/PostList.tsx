@@ -65,7 +65,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
     getNextPageParam: (lastPage, lastPageParam) => {
       if (lastPage.length === 0) {
-        console.log('lastPageParam', lastPageParam[0].length);
+        console.log('lastPageParam', lastPageParam);
         return undefined;
       }
 
@@ -290,11 +290,24 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       <St.MoreContentWrapper>
         {isFetchingNextPage ? (
           <Loader />
-        ) : hasNextPage && posts?.length === 4 ? (
+        ) : hasNextPage ? (
           <button onClick={() => fetchNextPage()}>더 보기</button>
         ) : (
           <p>모든 데이터를 가져왔습니다.</p>
         )}
+        {/*
+        
+        //전체length === 보여준 length 같을때 ==> 더보기 안보이게 처리
+        {isFetchingNextPage ? (
+          <Loader />
+        ) : hasNextPage ? (
+          <>
+            <button onClick={() => fetchNextPage()}>더 보기</button>
+            <p>{hasNextPage}</p>
+          </>
+        ) : (
+          <p>모든 데이터를 가져왔습니다.</p>
+        )} */}
       </St.MoreContentWrapper>
     </St.MainSubWrapper>
   );
