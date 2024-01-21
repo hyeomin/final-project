@@ -28,11 +28,10 @@ function NavBar() {
     <NavContainer ref={navRef}>
       <NavBarContainer>
         <LeftNav>
-          <LogoContainer>
+          <LogoContainer onClick={() => navigate('/')}>
             <img src={logo} alt="logo" />
-            <span onClick={() => navigate('/')}>Mango</span>
+            <span>Mango</span>
           </LogoContainer>
-          <NavLink to="/">홈</NavLink>
           <NavLink to="/about" style={styledNav}>
             망고 소개
           </NavLink>
@@ -79,6 +78,7 @@ const LeftNav = styled.div`
 
 export const LogoContainer = styled.div`
   display: flex;
+  cursor: pointer;
 
   & img {
     width: 27px;
@@ -91,6 +91,5 @@ export const LogoContainer = styled.div`
     font-family: ${theme.font.mango};
     color: ${theme.color.mangoMain};
     font-size: 30px;
-    cursor: pointer;
   }
 `;

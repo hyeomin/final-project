@@ -4,8 +4,8 @@ import whyMango from './../../assets/about-why-mango.png';
 
 function WhyMango() {
   return (
-    <>
-      <WhyContainer>
+    <WhyContainer>
+      <div>
         <Title>
           <h5>WHY MANGO?</h5>
           <p>⌄</p>
@@ -24,9 +24,8 @@ function WhyMango() {
             </Description>
           </Textbox>
         </Mission>
-      </WhyContainer>
-      <Fade></Fade>
-    </>
+      </div>
+    </WhyContainer>
   );
 }
 
@@ -36,9 +35,19 @@ const WhyContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   width: 100vw;
-  background-color: ${theme.color.mangoMain};
+  position: relative;
+
+  & div {
+    background-color: ${theme.color.mangoMain};
+  }
+
+  &::after {
+    content: '';
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(to bottom, rgba(255, 161, 20, 1) 50%, rgba(255, 161, 20, 0) 100%);
+  }
 `;
 
 const Title = styled.div`
@@ -94,10 +103,4 @@ const Description = styled.div`
   & span {
     font-family: ${theme.font.agroBold};
   }
-`;
-
-const Fade = styled.div`
-  width: 100vw;
-  height: 200px;
-  background: linear-gradient(to bottom, rgba(255, 161, 20, 1) 50%, rgba(255, 161, 20, 0) 100%);
 `;

@@ -6,7 +6,6 @@ import { PostInputType, PostType } from '../types/PostType';
 
 type AddPostProps = {
   newPost: Omit<PostType, 'id'>;
-  // imageFileforUpload: File[];
 };
 
 const addPost = async ({ newPost }: AddPostProps) => {
