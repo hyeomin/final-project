@@ -80,8 +80,6 @@ function Signup() {
           onClickRightButton: onClickSave
         };
         modal.open(openModalParams);
-        // alert('중복확인해주세요');
-        // return;
       }
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -97,14 +95,13 @@ function Signup() {
       setValue('nickname', '');
       setValue('passwordCheck', '');
 
-      //alert('가입성공');
       const onClickSave = () => {
         modal.close();
       };
 
       const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '가입성공',
-        message: '',
+        title: '가입 성공하였습니다.',
+        message: '반가워요!',
         leftButtonLabel: '',
         onClickLeftButton: undefined,
         rightButtonLabel: '확인',
@@ -142,8 +139,6 @@ function Signup() {
     setIsChecked(true);
 
     if (querySnapshot.docs.length > 0) {
-      //alert('이미 존재하는 이메일입니다.');
-
       const onClickSave = () => {
         modal.close();
       };
@@ -163,8 +158,6 @@ function Signup() {
 
       return;
     } else if (email === '') {
-      // alert('이메일을 입력해주세요');
-
       const onClickSave = () => {
         modal.close();
       };
@@ -181,7 +174,6 @@ function Signup() {
 
       return;
     } else if (querySnapshot.docs.length === 0) {
-      //alert('사용 가능한 메일입니다');
       const onClickSave = () => {
         modal.close();
       };
@@ -222,12 +214,11 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
-      //alert('이미 존재하는 닉네임입니다.');
+
       setValue('nickname', '');
       setIsFormValid(false);
       return;
     } else if (nickname === '') {
-      // alert('닉네임을 입력해주세요');
       const onClickSave = () => {
         modal.close();
       };
@@ -243,7 +234,6 @@ function Signup() {
       modal.open(openModalParams);
       return;
     } else if (querySnapshot.docs.length === 0) {
-      //alert('사용 가능한 닉네임입니다.');
       const onClickSave = () => {
         modal.close();
       };

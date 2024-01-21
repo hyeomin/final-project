@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Hashtag from '../components/write/Hashtag';
 import Header from '../components/write/WriteHeader';
 import Editor from '../components/write/editor/Editor';
 import ImageUpload from '../components/write/imageUpload/ImageUpload';
-import { postInputState } from '../recoil/posts';
+import { initialPostInputState, isEditingPostState, postInputState } from '../recoil/posts';
 
 function Write() {
   const location = useLocation();
@@ -14,6 +14,7 @@ function Write() {
   console.log('foundDetailPost', foundDetailPost);
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
+  const setIsEditingPost = useSetRecoilState(isEditingPostState);
 
   console.log('postInput-->', postInput);
 
@@ -26,14 +27,12 @@ function Write() {
         hashtags: foundDetailPost.hashtags,
         coverImages: foundDetailPost.coverImages
       });
-    } else {
-      setPostInput({
-        title: '',
-        content: '',
-        category: '',
-        hashtags: [],
-        coverImages: []
+      setIsEditingPost({
+        foundPost: foundDetailPost,
+        isEditing: true
       });
+    } else {
+      setPostInput(initialPostInputState);
     }
     console.log('write page');
   }, []);

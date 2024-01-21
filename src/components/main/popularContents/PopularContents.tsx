@@ -18,7 +18,6 @@ import '../swiperStyle.css';
 import St from './style';
 
 const UserContents = () => {
-  console.log('usercontents');
   const currentUser = auth.currentUser?.uid;
 
   // 인기게시물
@@ -76,7 +75,7 @@ const UserContents = () => {
                             <div>
                               <img
                                 src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
-                                alt="user profile image"
+                                alt="user profile"
                               />
                             </div>
                             <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>

@@ -1,17 +1,19 @@
 import { atom } from 'recoil';
+import { Category } from '../components/viewAll/ViewAllBody';
 import { IsEditingPostProps, PostInputType } from '../types/PostType';
 import { POST } from './keys';
-import { Category } from '../components/viewAll/ViewAllBody';
+
+export const initialPostInputState = {
+  title: '',
+  content: '',
+  category: 'noCategory',
+  hashtags: [],
+  coverImages: []
+};
 
 const postInputState = atom<PostInputType>({
   key: POST.EDIT_INPUT,
-  default: {
-    title: '',
-    content: '',
-    category: 'noCategory',
-    hashtags: [],
-    coverImages: []
-  }
+  default: initialPostInputState
 });
 
 const isEditingPostState = atom<IsEditingPostProps>({
@@ -27,4 +29,4 @@ const categoryListState = atom<Category>({
   default: 'total'
 });
 
-export { isEditingPostState, postInputState, categoryListState };
+export { categoryListState, isEditingPostState, postInputState };

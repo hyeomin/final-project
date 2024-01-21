@@ -13,6 +13,7 @@ import defaultImg from '../../../../assets/defaultImg.jpg';
 import postCountIcon from '../../../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../../../assets/icons/rankingIcon.png';
 import { AuthContext } from '../../../../context/AuthContext';
+import { useModal } from '../../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../../query/keys';
 import { auth } from '../../../../shared/firebase';
 import HabitCalendar from '../../HabitCalendar/HabitCalendar';
@@ -21,6 +22,7 @@ import MyPosts from '../../MyPosts';
 import St from '../style';
 
 function MyProfileTest() {
+  const modal = useModal();
   const [activeTab, setActiveTab] = useState('calendar');
   const [isValid, setIsValid] = useState(true);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -88,12 +90,38 @@ function MyProfileTest() {
         authContext?.updateCurrentUserInContext(updatedUser);
       }
       setIsEditing(false);
-      alert('프로필이 수정되었습니다.');
+
+      const onClickSave = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '프로필이 수정되었습니다.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
     },
     onError: (error) => {
       console.error('Error updating profile', error);
       setIsEditing(false);
-      alert('프로필 업데이트에 문제가 발생했습니다.');
+
+      const onClickSave = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '프로필 업데이트에 문제가 발생했습니다.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
     }
   });
 
@@ -123,9 +151,21 @@ function MyProfileTest() {
     const selectedFile = e.target.files?.[0];
 
     if (selectedFile?.size! > 1024 * 1024) {
-      return alert('최대 1MB까지 업로드 가능합니다');
-    }
-    if (authCurrentUser && selectedFile) {
+      const onClickSave = () => {
+        modal.close();
+        return;
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '[알림]',
+        message: '최대 1MB까지 업로드 가능합니다',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    } else if (authCurrentUser && selectedFile) {
       profileImageUploadMutation.mutate({ authCurrentUser, profileImage: selectedFile });
     }
   };

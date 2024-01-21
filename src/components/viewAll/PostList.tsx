@@ -44,8 +44,6 @@ interface PostCardProps {
 }
 
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
-  console.log('postList');
-
   const category = useRecoilValue(categoryListState);
   const navigate = useNavigate();
 

@@ -17,7 +17,6 @@ interface PostListProps {
 }
 
 function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
-  console.log('postListadmin');
   const navigate = useNavigate();
   const {
     data: posts,
