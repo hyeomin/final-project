@@ -33,7 +33,7 @@ function Signup() {
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
   const [errorMsg, setErrorMsg] = usePrintError('');
   const [isFormValid, setIsFormValid] = useState(true);
-  const [isEmailChecked, setIsEmailChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   // const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ function Signup() {
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passwordCheck }: Data) => {
     try {
-      if (!isEmailChecked) {
+      if (!isChecked) {
         alert('중복확인해주세요');
         return;
       }
@@ -109,7 +109,7 @@ function Signup() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
-    setIsEmailChecked(true);
+    setIsChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       alert('이미 존재하는 이메일입니다.');
@@ -132,7 +132,7 @@ function Signup() {
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
     // setIsNicknameChecked(true);
-    setIsEmailChecked(true);
+    setIsChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       alert('이미 존재하는 닉네임입니다.');
@@ -183,7 +183,7 @@ function Signup() {
               required: true,
               pattern: passwordRegex
             })}
-            disabled={!isEmailChecked}
+            disabled={!isChecked}
           />
 
           {errors?.password?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
@@ -205,7 +205,7 @@ function Signup() {
                 }
               }
             })}
-            disabled={!isEmailChecked}
+            disabled={!isChecked}
           />
 
           {errors?.passwordCheck?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
@@ -221,6 +221,7 @@ function Signup() {
               required: true,
               pattern: nicknameRegex
             })}
+            disabled={!isChecked}
           />
           <St.AuthBtn type="button" onClick={() => nicknameCheck(getValues('nickname'))}>
             중복확인
@@ -234,23 +235,7 @@ function Signup() {
 
         <St.SignUpAndLoginBtn
           type="submit"
-          // onClick={() => {
-          //   if (isFormValid) {
-          //     console.log('???');
-          //     // signUp({ email, password, nickname, passworkCheck, phoneNumber });
-          //     // navigate('/auth/login');
-          //   } else {
-          //     alert('다시 확인.');
-          //   }
-          // }}
-          // onClick={() => {
-          //   signUp({ email, password, nickname, passwordCheck });
-          //   alert('가입성공');
-          //   navigate('/auth/login');
-          // }}
           disabled={
-            // !isNicknameChecked &&
-
             !isFormValid &&
             nickname === '' &&
             email === '' &&
