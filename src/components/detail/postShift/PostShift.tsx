@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import theme from '../../styles/theme';
-import { PostType } from '../../types/PostType';
+import { PostType } from '../../../types/PostType';
+import St from './style';
 
 type Props = {
   postList: PostType[] | undefined;
@@ -44,35 +43,15 @@ function PostShift({ postList, postId }: Props) {
   };
 
   return (
-    <ButtonContainer>
-      <button onClick={onClickPrevButton} type="button">
+    <St.ButtonContainer>
+      <button onClick={onClickPrevButton} type="button" disabled={postIndexNumber <= 0}>
         {'< 이전 게시물'}
       </button>
-      <button onClick={onClickNextButton} type="button">
+      <button onClick={onClickNextButton} type="button" disabled={!postList || postIndexNumber >= postList.length - 1}>
         {'다음 게시물  >'}
       </button>
-    </ButtonContainer>
+    </St.ButtonContainer>
   );
 }
 
 export default PostShift;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 40px 0;
-
-  & button {
-    padding: 15px 30px;
-    border-radius: 10px;
-    border: none;
-    /* border: 1px solid ${theme.color.mangoYellow}; */
-    background-color: ${theme.color.mangoLight};
-    font-size: 14px;
-
-    &:hover {
-      background-color: ${theme.color.mangoYellow};
-    }
-  }
-`;
