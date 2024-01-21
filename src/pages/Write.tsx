@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Hashtag from '../components/write/Hashtag';
 import ImageUploadTest from '../components/write/ImageUploadTest';
@@ -12,26 +13,28 @@ function Write() {
   const { foundDetailPost } = location.state || {};
   console.log('foundDetailPost', foundDetailPost);
 
-  const [postInput, setPostInput] = useRecoilState(postInputState);
+  const setPostInput = useSetRecoilState(postInputState);
   const isEditing = useRecoilValue(isEditingPostState);
 
-  if (isEditing && foundDetailPost) {
-    setPostInput({
-      title: foundDetailPost.title,
-      content: foundDetailPost.content,
-      category: foundDetailPost.category,
-      hashtags: foundDetailPost.hashtags,
-      coverImages: foundDetailPost.coverImages
-    });
-  } else {
-    setPostInput({
-      title: '',
-      content: '',
-      category: '',
-      hashtags: [],
-      coverImages: []
-    });
-  }
+  useEffect(() => {
+    if (isEditing && foundDetailPost) {
+      setPostInput({
+        title: foundDetailPost.title,
+        content: foundDetailPost.content,
+        category: foundDetailPost.category,
+        hashtags: foundDetailPost.hashtags,
+        coverImages: foundDetailPost.coverImages
+      });
+    } else {
+      setPostInput({
+        title: '',
+        content: '',
+        category: '',
+        hashtags: [],
+        coverImages: []
+      });
+    }
+  }, []);
 
   return (
     <Container>
