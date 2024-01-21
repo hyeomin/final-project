@@ -42,8 +42,8 @@ const getPosts = async () => {
 };
 
 // 관리자게시물
-const getAdminContents = async () => {
-  console.log('getAdminContents');
+const getAdminPosts = async () => {
+  console.log('getAdminPosts');
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -66,7 +66,7 @@ const getAdminContents = async () => {
   }
 };
 // 인기게시물
-const getPopularContents = async () => {
+const getPopularPosts = async () => {
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -171,22 +171,22 @@ const getTopUsers = async () => {
 };
 
 //이미지 가져오기
-const downloadImageURL = async (postId: string) => {
-  try {
-    const listRef = ref(storage, `posts/${postId}`);
-    const res = await listAll(listRef);
+// const downloadImageURL = async (postId: string) => {
+//   try {
+//     const listRef = ref(storage, `posts/${postId}`);
+//     const res = await listAll(listRef);
 
-    if (res.items.length > 0) {
-      const firstFileRef = res.items[0];
-      const url = await getDownloadURL(firstFileRef);
-      return url;
-    } else {
-      return '';
-    }
-  } catch (error) {
-    console.error('Error getting files: ', error);
-    return null;
-  }
-};
+//     if (res.items.length > 0) {
+//       const firstFileRef = res.items[0];
+//       const url = await getDownloadURL(firstFileRef);
+//       return url;
+//     } else {
+//       return '';
+//     }
+//   } catch (error) {
+//     console.error('Error getting files: ', error);
+//     return null;
+//   }
+// };
 
-export { getPosts, getAdminContents, getPopularContents, updateLikedUsers, getTopUsers, downloadImageURL };
+export { getPosts, getAdminPosts, getPopularPosts, updateLikedUsers, getTopUsers };

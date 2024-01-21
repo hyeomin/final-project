@@ -1,18 +1,15 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { getComments } from '../../../api/commentApi';
+import { getComments } from '../../../../api/commentApi';
 import defaultUserProfile from '../../../assets/defaultImg.jpg';
 import MangoLogo from '../../../assets/mangoLogo(2).png';
-import { useModal } from '../../../hooks/useModal';
-// import { foundDetailPostProps } from '../../../pages/Detail';
-import { QUERY_KEYS } from '../../../query/keys';
-import useCommentQuery from '../../../query/useCommentQuery';
-import { auth } from '../../../shared/firebase';
-import theme from '../../../styles/theme';
-// import { FoundDetailPostType } from '../../../types/PostType';
-import { FoundDetailPostProps } from '../../../types/PostType';
-import { getFormattedDate } from '../../../util/formattedDateAndTime';
+import { useModal } from '../../../../hooks/useModal';
+import { QUERY_KEYS } from '../../../../query/keys';
+import useCommentQuery from '../../../../query/useCommentQuery';
+import { auth } from '../../../../shared/firebase';
+import { FoundDetailPostProps } from '../../../../types/PostType';
+import { getFormattedDate } from '../../../../util/formattedDateAndTime';
+import St from './style';
 
 const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const modal = useModal();
@@ -116,128 +113,54 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   };
 
   return (
-    <CommentListContainer>
+    <St.CommentListContainer>
       {comments?.length === 0 ? (
-        <SingleComment>
-          <Mango src={MangoLogo} alt="Mango Logo" />
-          <CommentDetail>
-            <NameAndTime>
+        <St.SingleComment>
+          <St.Mango src={MangoLogo} alt="Mango Logo" />
+          <St.CommentDetail>
+            <St.NameAndTime>
               <span>망고지기</span>
-            </NameAndTime>
-            <Content> &nbsp;아직 댓글이 없습니다. 첫 번째로 댓글을 남겨보세요!</Content>
-          </CommentDetail>
-        </SingleComment>
+            </St.NameAndTime>
+            <St.Content> &nbsp;아직 댓글이 없습니다. 첫 번째로 댓글을 남겨보세요!</St.Content>
+          </St.CommentDetail>
+        </St.SingleComment>
       ) : (
         comments?.map((comment) => {
           return (
-            <SingleComment key={comment.id}>
+            <St.SingleComment key={comment.id}>
               <img src={comment.photoURL || defaultUserProfile} alt="profile" />
-              <CommentDetail>
-                <NameAndTime>
+              <St.CommentDetail>
+                <St.NameAndTime>
                   <span>{comment.displayName}</span>
-                  <Time>{getFormattedDate(comment.createdAt)}</Time>
-                </NameAndTime>
+                  <St.Time>{getFormattedDate(comment.createdAt)}</St.Time>
+                </St.NameAndTime>
                 {editingCommentId === comment.id ? (
                   <textarea defaultValue={comment.content} onChange={(e) => onChangeTextArea(e)} />
                 ) : (
-                  <Content>{comment.content}</Content>
+                  <St.Content>{comment.content}</St.Content>
                 )}
-              </CommentDetail>
+              </St.CommentDetail>
               {currentUser?.uid === comment.uid && (
                 <>
                   {editingCommentId === comment.id ? (
-                    <ButtonContainer>
+                    <St.ButtonContainer>
                       <button onClick={() => onClickUpdateButton(comment.id)}>저장</button>
                       <button onClick={onClickCancelButton}>취소</button>
-                    </ButtonContainer>
+                    </St.ButtonContainer>
                   ) : (
-                    <ButtonContainer>
+                    <St.ButtonContainer>
                       <button onClick={() => onClickEditModeButton(comment.id)}>수정</button>
                       <button onClick={() => onClickDeleteButton(comment.id)}>삭제</button>
-                    </ButtonContainer>
+                    </St.ButtonContainer>
                   )}
                 </>
               )}
-            </SingleComment>
+            </St.SingleComment>
           );
         })
       )}
-    </CommentListContainer>
+    </St.CommentListContainer>
   );
 };
-
-const CommentListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  font-size: 14px;
-`;
-
-const SingleComment = styled.div`
-  display: flex;
-  column-gap: 20px;
-  border-bottom: 1px solid ${theme.color.lightgray};
-  padding: 40px 0;
-
-  img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-`;
-
-const CommentDetail = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 30px;
-  flex: 1;
-  & textarea {
-    resize: none;
-    outline: none;
-    height: 100px;
-    border: 1px solid ${theme.color.lightgray};
-    border-radius: 5px;
-    padding: 10px;
-  }
-`;
-
-const NameAndTime = styled.div`
-  display: flex;
-  column-gap: 20px;
-  font-weight: bold;
-`;
-
-const Time = styled.span`
-  color: ${theme.color.gray};
-  font-weight: normal;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  align-items: baseline;
-
-  & button {
-    background-color: transparent;
-    border-color: transparent;
-    color: ${theme.color.gray};
-
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-      color: ${theme.color.mangoMain};
-    }
-  }
-`;
-
-const Content = styled.div`
-  display: flex;
-`;
-
-const Mango = styled.img`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  transform: rotate(340deg);
-`;
 
 export default CommentList;

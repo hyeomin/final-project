@@ -61,7 +61,7 @@ type deleteType = {
   postId: string;
 };
 
-// //코멘트 DELETE
+//코멘트 DELETE
 const deleteComment = async ({ id, postId }: deleteType) => {
   if (!id || !postId) return;
   const commentRef = doc(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS, id);
@@ -70,7 +70,6 @@ const deleteComment = async ({ id, postId }: deleteType) => {
 
     const postRef = doc(db, QUERY_KEYS.POSTS, postId);
     await updateDoc(postRef, { commentCount: increment(-1) });
-    console.log('삭제완료');
   } catch (error) {
     console.log('error', error);
   }
@@ -81,13 +80,12 @@ type UpdateComment = {
   editingText: string;
   postId: string;
 };
-// // 게시물 UPDATE
+// 게시물 UPDATE
 const updateComment = async ({ postId, id, editingText: content }: UpdateComment) => {
   try {
     const postRef = doc(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS, id);
     const createdAt = Date.now();
-    const resp = await updateDoc(postRef, { content, createdAt });
-    console.log('수정완료==>', resp);
+    await updateDoc(postRef, { content, createdAt });
   } catch (error) {
     console.log('error', error);
   }

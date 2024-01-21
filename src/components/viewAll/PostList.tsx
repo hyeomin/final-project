@@ -26,7 +26,6 @@ import { auth, db } from '../../shared/firebase';
 import { produce } from 'immer';
 import { categoryListState } from '../../recoil/posts';
 import { useRecoilValue } from 'recoil';
-import { useEffect } from 'react';
 
 interface PostListProps {
   queryKey: QueryKey;
