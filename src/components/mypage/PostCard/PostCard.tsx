@@ -1,19 +1,18 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { produce } from 'immer';
 import React from 'react';
-import Cs from './styled';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
+import { getAllUsers } from '../../../api/authApi';
 import defaultCover from '../../../assets/defaultCoverImg.jpeg';
 import defaultProfile from '../../../assets/defaultImg.jpg';
+import { QUERY_KEYS } from '../../../query/keys';
 import { auth, db } from '../../../shared/firebase';
 import { PostType } from '../../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
 import PostContentPreview from '../../common/PostContentPreview';
-import { QUERY_KEYS } from '../../../query/keys';
-import { getAllUsers } from '../../../api/authApi';
-import { useQuery } from '@tanstack/react-query';
+import Cs from './styled';
 
 interface PostCardProps {
   post: PostType;
@@ -40,7 +39,7 @@ function PostCard({ post }: PostCardProps) {
     onMutate: async (postId) => {
       queryClient.setQueriesData<PostType[]>({ queryKey: ['posts'] }, (prevPosts) => {
         if (!prevPosts) return [];
-        console.log(11111);
+        // console.log(11111);
         console.log('prevPosts', prevPosts);
         const nextPosts = produce(prevPosts, (draftPosts) => {
           console.log('draftPosts', draftPosts);

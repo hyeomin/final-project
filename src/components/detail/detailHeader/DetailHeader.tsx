@@ -8,7 +8,7 @@ import St from './style';
 
 function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0); // New state for current index
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const coverImages = foundDetailPost.coverImages;
 
