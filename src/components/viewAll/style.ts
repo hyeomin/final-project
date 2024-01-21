@@ -266,7 +266,7 @@ const MoreContentWrapper = styled.div`
 const MangoDiv = styled.div`
   display: flex;
   align-items: center;
-  width: 1000px;
+  /* width: 1000px; */
   margin-top: 50px;
 `;
 
