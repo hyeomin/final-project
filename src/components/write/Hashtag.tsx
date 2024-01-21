@@ -25,6 +25,7 @@ function Hashtag() {
   const onKeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && currentHashtag.length > 1) {
       onHandleSelectHashtag(currentHashtag);
+      setCurrentHashtag('');
     }
   };
 
