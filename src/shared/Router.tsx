@@ -10,7 +10,7 @@ import ViewAll from '../pages/ViewAll';
 import Write from '../pages/Write';
 import ProtectedRoute from './ProtectedRoute';
 import Login from '../components/auth/Login';
-import Signup from '../components/auth/Signup.1';
+import Signup from '../components/auth/Signup';
 
 export default function Router() {
   return (
