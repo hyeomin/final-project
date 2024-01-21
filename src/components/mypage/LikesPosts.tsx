@@ -2,7 +2,7 @@ import { useQueries, useQuery } from '@tanstack/react-query';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../api/authApi';
-import { downloadImageURL, getAdminContents, getPopularContents } from '../../api/homeApi';
+import { getAdminPosts, getPopularPosts } from '../../api/homeApi';
 import { getLikePosts } from '../../api/myPostAPI';
 import Cs from '../viewAll/style';
 
@@ -20,11 +20,11 @@ const LikesPosts = () => {
     queries: [
       {
         queryKey: ['adminContents'],
-        queryFn: getAdminContents
+        queryFn: getAdminPosts
       },
       {
         queryKey: [QUERY_KEYS.USERPOSTS],
-        queryFn: getPopularContents
+        queryFn: getPopularPosts
       }
     ]
   });
@@ -34,13 +34,13 @@ const LikesPosts = () => {
   const myPosts = postQueries[1].data || [];
 
   // 이미지URL 불러오기
-  const imageQueries = useQueries({
-    queries:
-      likePosts?.map((post) => ({
-        queryKey: ['imageURL', post.id],
-        queryFn: () => downloadImageURL(post.id as string)
-      })) || []
-  });
+  // const imageQueries = useQueries({
+  //   queries:
+  //     likePosts?.map((post) => ({
+  //       queryKey: ['imageURL', post.id],
+  //       queryFn: () => downloadImageURL(post.id as string)
+  //     })) || []
+  // });
 
   function removeImageTags(htmlContent: string) {
     return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
