@@ -34,7 +34,7 @@ function Write() {
         coverImages: []
       });
     }
-  }, []);
+  }, [isEditing]);
 
   return (
     <Container>

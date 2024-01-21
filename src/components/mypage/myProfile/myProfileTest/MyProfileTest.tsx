@@ -1,5 +1,4 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import React, { useContext, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
@@ -9,14 +8,13 @@ import {
   updateProfileInfo,
   updateProfileInfoProps
 } from '../../../../api/authApi';
-import { getTopUsers } from '../../../../api/homeApi';
 import { getMyPosts, getUserRanking } from '../../../../api/myPostAPI';
 import defaultImg from '../../../../assets/defaultImg.jpg';
 import postCountIcon from '../../../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../../../assets/icons/rankingIcon.png';
 import { AuthContext } from '../../../../context/AuthContext';
 import { QUERY_KEYS } from '../../../../query/keys';
-import { auth, db } from '../../../../shared/firebase';
+import { auth } from '../../../../shared/firebase';
 import HabitCalendar from '../../HabitCalendar/HabitCalendar';
 import LikesPosts from '../../LikesPosts';
 import MyPosts from '../../MyPosts';
@@ -106,20 +104,6 @@ function MyProfileTest() {
     if (authCurrentUser) {
       if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
         userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
-      }
-    }
-
-    if (updateProfileSuccess && authCurrentUser) {
-      const userDocRef = doc(db, 'users', authCurrentUser.uid);
-      const userDocSnapshot = await getDoc(userDocRef);
-
-      if (userDocSnapshot) {
-        // 컬렉션에 있는 users 필드 정보 수정
-        await updateDoc(userDocRef, {
-          displayName: authCurrentUser?.displayName,
-          profileImg: authCurrentUser?.photoURL,
-          uid: authCurrentUser?.uid
-        });
       }
     }
   };
