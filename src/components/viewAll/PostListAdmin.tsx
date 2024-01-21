@@ -92,7 +92,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
               return (
                 <St.AdminContent key={post.id}>
                   <img
-                    src={post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
+                    src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
                     alt={post.title}
                     onClick={() => navigate(`/detail/${post.id}`)}
                   />

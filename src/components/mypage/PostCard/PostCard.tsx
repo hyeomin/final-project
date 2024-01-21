@@ -67,7 +67,10 @@ function PostCard({ post }: PostCardProps) {
 
   return (
     <Cs.Content onClick={() => navigate(`/detail/${post.id}`)}>
-      <Cs.ContentImg src={post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover} alt="cover" />
+      <Cs.ContentImg
+        src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
+        alt="cover"
+      />
       <Cs.PostInfoContainer>
         <Cs.UserProfile>
           <div>
