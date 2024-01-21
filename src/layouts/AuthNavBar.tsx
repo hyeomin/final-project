@@ -1,10 +1,10 @@
 import { GoChevronDown } from 'react-icons/go';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import defaultImg from '../assets/defaultImg.jpg';
 import { useModal } from '../hooks/useModal';
-import { isSignUpState, roleState } from '../recoil/users';
+import { isSignUpState } from '../recoil/users';
 import { auth } from '../shared/firebase';
 
 type Props = {
@@ -16,8 +16,7 @@ type Props = {
 
 function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
   const modal = useModal();
-  const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
-  const [role, setRole] = useRecoilState(roleState);
+  const setIsSignUp = useSetRecoilState(isSignUpState);
 
   const currentUser = auth.currentUser;
 

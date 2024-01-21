@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { GoTrash } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
-import { uploadSingleImage } from '../../api/postApi';
+import { deleteImage, uploadSingleImage } from '../../api/postApi';
 import DragNDrop from '../../assets/icons/dragndrop.png';
 import { postInputState } from '../../recoil/posts';
 import St from '../write/imageUpload/style';
@@ -77,8 +77,23 @@ function ImageUploadTest() {
     fileInputRef.current?.click();
   };
 
+  const deletePostMutation = useMutation({
+    mutationFn: (url: string) => deleteImage(url),
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    }
+  });
+
   // 이미지 삭제
-  const onDeleteImageHandler = (url: string) => {};
+  const onDeleteImageHandler = (url: string) => {
+    alert('삭제하시겠습니까?');
+    const deleteImages = coverImages.filter((image) => image.url !== url);
+    setPostInput({
+      ...postInput,
+      coverImages: deleteImages
+    });
+    deletePostMutation.mutate(url);
+  };
 
   return (
     <St.UploadContainer>

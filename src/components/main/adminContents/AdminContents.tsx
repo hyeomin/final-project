@@ -1,14 +1,13 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import defaultCover from '../../../assets/defaultCoverImg.jpeg';
-import St from './style';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { getAdminPosts } from '../../../api/homeApi';
+import defaultIllustration from '../../../assets/home/AdminPostIllustration.png';
 import Loader from '../../common/Loader';
+import St from './style';
 
 const AdminContents = () => {
   const { data: adminContents, isLoading } = useQuery({
@@ -43,7 +42,7 @@ const AdminContents = () => {
             return (
               <SwiperSlide key={idx}>
                 {/* item.coverImages로 변경하기 */}
-                {!item ? <Loader /> : <img src={defaultCover} alt={`Slide ${idx}`} />}
+                {!item ? <Loader /> : <img src={defaultIllustration} alt={`Slide ${idx}`} />}
                 <St.Button to={`/detail/${item.id}`}>자세히 보기</St.Button>
               </SwiperSlide>
             );
