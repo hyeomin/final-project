@@ -5,8 +5,8 @@ import React from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../../api/authApi';
-import defaultCover from '../../../assets/defaultCoverImg.jpeg';
 import defaultProfile from '../../../assets/defaultImg.jpg';
+import mangoCover from '../../../assets/tentative-cover-image.jpg';
 import { QUERY_KEYS } from '../../../query/keys';
 import { auth, db } from '../../../shared/firebase';
 import { PostType } from '../../../types/PostType';
@@ -67,8 +67,10 @@ function PostCard({ post }: PostCardProps) {
 
   return (
     <Cs.Content onClick={() => navigate(`/detail/${post.id}`)}>
-      <Cs.ContentImg src={defaultCover} alt="cover" />
-      {/* <Cs.ContentImg src={imageQuery.data || defaultCover} /> */}
+      <Cs.ContentImg
+        src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
+        alt="cover"
+      />
       <Cs.PostInfoContainer>
         <Cs.UserProfile>
           <div>

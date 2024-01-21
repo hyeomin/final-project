@@ -1,22 +1,21 @@
-import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
-import { auth } from '../../../shared/firebase';
-import { getAllUsers } from '../../../api/authApi';
-import { getPopularPosts } from '../../../api/homeApi';
-import St from './style';
-import Loader from '../../common/Loader';
-import defaultCover from '../../../assets/defaultCoverImg.jpeg';
-import defatutUserImage from '../../../assets/defaultImg.jpg';
-import { Swiper } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Link } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import '../swiperStyle.css';
+import { Navigation, Pagination } from 'swiper/modules';
+import { Swiper } from 'swiper/react';
+import { getAllUsers } from '../../../api/authApi';
+import { getPopularPosts } from '../../../api/homeApi';
+import defatutUserImage from '../../../assets/defaultImg.jpg';
+import mangoCover from '../../../assets/tentative-cover-image.jpg';
 import { useLikeButton } from '../../../hooks/useLikeButton';
 import PostContentPreview from '../../common/PostContentPreview';
+import { auth } from '../../../shared/firebase';
+import Loader from '../../common/Loader';
+import '../swiperStyle.css';
+import St from './style';
 
 const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
@@ -107,7 +106,14 @@ const UserContents = () => {
                         </St.InfoBottom>
                       </St.TextAndLikeButton>
                       {/* item.coverImages로 변경하기 */}
-                      {!item ? <Loader /> : <img src={defaultCover} alt={item.title} />}
+                      {!item ? (
+                        <Loader />
+                      ) : (
+                        <img
+                          src={item.coverImages && item.coverImages.length > 0 ? item.coverImages[0].url : mangoCover}
+                          alt={item.title}
+                        />
+                      )}
                     </St.UserPostCover>
                   </St.StyledSwiperSlide>
                 );
