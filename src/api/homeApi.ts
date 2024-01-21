@@ -93,7 +93,7 @@ const updateLikedUsers = async (id: string) => {
         const postData = postSnap.data();
         let likedUsers: string[] = postData?.likedUsers || [];
 
-        if (likedUsers.includes(currentUserId)) {
+        if (currentUserId && likedUsers.includes(currentUserId)) {
           likedUsers = likedUsers.filter((uid) => uid !== currentUserId);
           await updateDoc(postRef, {
             likedUsers: arrayRemove(currentUserId)
@@ -117,8 +117,8 @@ const updateLikedUsers = async (id: string) => {
   }
 };
 
-type UsersWithLikeCount = Pick<PostType, 'uid' | 'likeCount' | 'viewCount'>;
-type likeCountPerUserType = {
+export type UsersWithLikeCount = Pick<PostType, 'uid' | 'likeCount' | 'viewCount'>;
+export type likeCountPerUserType = {
   uid: string;
   totalLikes: number;
 };
