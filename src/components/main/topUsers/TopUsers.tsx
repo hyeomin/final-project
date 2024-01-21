@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { styled } from 'styled-components';
 import { getAllUsers } from '../../../api/authApi';
 import { getTopUsers } from '../../../api/homeApi';
 import firstPlace from '../../../assets/1stPlace.png';
@@ -16,11 +15,7 @@ const TopUsers = () => {
 
   const { data: topUsers } = useQuery({
     queryKey: ['topUsers'],
-    queryFn: getTopUsers,
-    select: (data) => {
-      const sortedUsers = data.slice(0, 10);
-      return sortedUsers;
-    }
+    queryFn: getTopUsers
   });
 
   return (
@@ -30,21 +25,25 @@ const TopUsers = () => {
         <h3>망고의 에코라이프 인플루언서들을 확인하세요!</h3>
       </St.Title>
       <St.UserList>
-        {topUsers?.map((user, idx) => {
-          return (
-            <St.UserInfo key={idx}>
-              <St.ProfileImage>
-                <img src={users?.find((u) => u.uid === user.uid)?.profileImg || defaultImage} alt="profile" />
-              </St.ProfileImage>
-              <St.UserName>
-                {idx === 0 && <img src={firstPlace} alt="firstPlace" />}
-                {idx === 1 && <img src={secondPlace} alt="secondPlace" />}
-                {idx === 2 && <img src={thirdPlace} alt="thirdPlace" />}
-                <p>{users?.find((u) => u.uid === user.uid)?.displayName}</p>
-              </St.UserName>
-            </St.UserInfo>
-          );
-        })}
+        {topUsers?.length === 0 ? (
+          <div>TOP10 데이터를 찾을 수 없습니다.</div>
+        ) : (
+          topUsers?.map((user, idx) => {
+            return (
+              <St.UserInfo key={idx}>
+                <St.ProfileImage>
+                  <img src={users?.find((u) => u.uid === user.uid)?.profileImg || defaultImage} alt="profile" />
+                </St.ProfileImage>
+                <St.UserName>
+                  {idx === 0 && <img src={firstPlace} alt="firstPlace" />}
+                  {idx === 1 && <img src={secondPlace} alt="secondPlace" />}
+                  {idx === 2 && <img src={thirdPlace} alt="thirdPlace" />}
+                  <p>{users?.find((u) => u.uid === user.uid)?.displayName}</p>
+                </St.UserName>
+              </St.UserInfo>
+            );
+          })
+        )}
       </St.UserList>
     </St.Container>
   );

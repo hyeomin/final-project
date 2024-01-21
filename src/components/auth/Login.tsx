@@ -62,16 +62,7 @@ function Login() {
       // home으로 이동
       navigate('/');
     } catch (error) {
-      // window.alert(error);
       setErrorMsg(error);
-      console.log('error', error);
-      // const errorCode = error.code;
-      // console.log('에러코드', errorCode);
-      // const errorMessage = error.message;
-      // console.log('에러메세지', errorMessage);
-      throw error;
-
-      // console.error(error);
     }
   };
 
@@ -99,7 +90,7 @@ function Login() {
       })
 
       .catch((err) => {
-        console.log(err);
+        setErrorMsg(err);
       });
   }
   return (
@@ -143,7 +134,7 @@ function Login() {
           )}
         </St.InputContainer>
         <St.LoginContainer>
-          <p>{errorMsg}</p>
+          <p style={{ color: 'red', marginTop: '10px' }}>{errorMsg}</p>
           <St.SignUpAndLoginBtn type="submit">로그인</St.SignUpAndLoginBtn>
           <St.GoogleLoginBtn onClick={handleGoogleLogin}>
             <img src={googleLogo} alt="Google Icon" />

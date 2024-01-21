@@ -45,11 +45,6 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
-
-      //const confirmation = window.confirm('로그인이 필요합니다. 로그인 창으로 이동하시겠습니까?');
-      // if (confirmation) {
-      //   navigate('/auth');
-      // } else return;
     } else navigate('/write');
   };
 

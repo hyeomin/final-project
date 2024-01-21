@@ -1,24 +1,15 @@
-import styled from 'styled-components';
 import { FoundDetailPostProps } from '../../../types/PostType';
-import AddCommentForm from './AddComment';
-import CommentList from './CommentList';
+import AddCommentForm from './addComment/AddComment';
+import CommentList from './commentList/CommentList';
+import St from './style';
 
 const CommentBody = ({ foundDetailPost }: FoundDetailPostProps) => {
   return (
-    <Container>
+    <St.Container>
       <AddCommentForm foundDetailPost={foundDetailPost} />
       <CommentList foundDetailPost={foundDetailPost} />
-    </Container>
+    </St.Container>
   );
 };
-
-const Container = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  margin: 20px;
-  border: 1px solid black;
-`;
 
 export default CommentBody;

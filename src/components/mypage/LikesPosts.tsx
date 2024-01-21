@@ -1,8 +1,8 @@
 import { useQueries, useQuery } from '@tanstack/react-query';
-// import { GoComment, GoEye, GoHeart } from 'react-icons/go';
-// import { useNavigate } from 'react-router-dom';
-// import { getAllUsers } from '../../api/authApi';
-import { getAdminContents, getPopularContents } from '../../api/homeApi';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import { useNavigate } from 'react-router-dom';
+import { getAllUsers } from '../../api/authApi';
+import { getAdminPosts, getPopularPosts } from '../../api/homeApi';
 import { getLikePosts } from '../../api/myPostAPI';
 import Cs from '../viewAll/style';
 
@@ -20,11 +20,11 @@ const LikesPosts = () => {
     queries: [
       {
         queryKey: ['adminContents'],
-        queryFn: getAdminContents
+        queryFn: getAdminPosts
       },
       {
         queryKey: [QUERY_KEYS.USERPOSTS],
-        queryFn: getPopularContents
+        queryFn: getPopularPosts
       }
     ]
   });

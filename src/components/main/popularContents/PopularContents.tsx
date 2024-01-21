@@ -1,11 +1,10 @@
 import React from 'react';
-import { useQueries, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Link, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { auth } from '../../../shared/firebase';
 import { getAllUsers } from '../../../api/authApi';
-import { downloadImageURL, getPopularContents } from '../../../api/homeApi';
-import { QUERY_KEYS } from '../../../query/keys';
+import { getPopularPosts } from '../../../api/homeApi';
 import St from './style';
 import Loader from '../../common/Loader';
 import defaultCover from '../../../assets/defaultCoverImg.jpeg';
@@ -22,9 +21,9 @@ const UserContents = () => {
   const currentUser = auth.currentUser?.uid;
 
   // 인기게시물
-  const { data: userContents, isLoading } = useQuery({
-    queryKey: ['posts'],
-    queryFn: getPopularContents
+  const { data: popularPosts, isLoading } = useQuery({
+    queryKey: ['popularPosts'],
+    queryFn: getPopularPosts
   });
 
   // 유저정보 가져오기(profileImg)
@@ -36,15 +35,11 @@ const UserContents = () => {
   //좋아요
   const onClickLikeButton = useLikeButton();
 
-  // 탑랭킹 로딩
   if (isLoading) {
     return <Loader />;
   }
 
-  if (!userContents || userContents.length === 0) {
-    return <div>인기 게시물 데이터를 찾을 수 없습니다.</div>;
-  }
-
+  // TODO: 애슐리님 업뎃하신 코드로 변경하기
   const removeImageTags = (htmlContent: string) => {
     return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
   };
@@ -93,52 +88,56 @@ const UserContents = () => {
             }}
             className="default-swiper"
           >
-            {userContents?.map((item, idx) => {
-              return (
-                <St.StyledSwiperSlide key={idx} className="default-swiper">
-                  <St.UserPostCover to={`/detail/${item.id}`}>
-                    <St.TextAndLikeButton>
-                      <St.InfoTop>
-                        <St.UserInfo>
-                          <div>
-                            <img
-                              src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
-                              alt="user profile image"
-                            />
-                          </div>
-                          <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
-                        </St.UserInfo>
-                        <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                          {item.likedUsers?.includes(currentUser!) ? <St.HeartFillIcon /> : <St.HeartIcon />}
-                        </St.LikeButton>
-                      </St.InfoTop>
-                      <St.InfoBottom>
-                        <St.BottomText>
-                          <div>{item.title}</div>
-                          <div>
-                            <p
-                              dangerouslySetInnerHTML={{
-                                __html: reduceContent(removeImageTags(item.content || ''), 20)
-                              }}
-                            />
-                          </div>
-                        </St.BottomText>
-                        <St.Count>
-                          <GoEye />
-                          <span>{item.viewCount?.toLocaleString() || 0}</span>
-                          <GoHeart />
-                          <span>{item.likeCount?.toLocaleString() || 0}</span>
-                          <GoComment />
-                          <span>{item.commentCount?.toLocaleString() || 0}</span>
-                        </St.Count>
-                      </St.InfoBottom>
-                    </St.TextAndLikeButton>
-                    {/* item.coverUrl로 변경하기 */}
-                    {!item ? <Loader /> : <img src={defaultCover} alt={item.title} />}
-                  </St.UserPostCover>
-                </St.StyledSwiperSlide>
-              );
-            })}
+            {popularPosts?.length === 0 ? (
+              <div>인기 게시물 데이터를 찾을 수 없습니다.</div>
+            ) : (
+              popularPosts?.map((item, idx) => {
+                return (
+                  <St.StyledSwiperSlide key={idx} className="default-swiper">
+                    <St.UserPostCover to={`/detail/${item.id}`}>
+                      <St.TextAndLikeButton>
+                        <St.InfoTop>
+                          <St.UserInfo>
+                            <div>
+                              <img
+                                src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
+                                alt="user profile image"
+                              />
+                            </div>
+                            <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
+                          </St.UserInfo>
+                          <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
+                            {item.likedUsers?.includes(currentUser!) ? <St.HeartFillIcon /> : <St.HeartIcon />}
+                          </St.LikeButton>
+                        </St.InfoTop>
+                        <St.InfoBottom>
+                          <St.BottomText>
+                            <div>{item.title}</div>
+                            <div>
+                              <p
+                                dangerouslySetInnerHTML={{
+                                  __html: reduceContent(removeImageTags(item.content || ''), 20)
+                                }}
+                              />
+                            </div>
+                          </St.BottomText>
+                          <St.Count>
+                            <GoEye />
+                            <span>{item.viewCount?.toLocaleString() || 0}</span>
+                            <GoHeart />
+                            <span>{item.likeCount?.toLocaleString() || 0}</span>
+                            <GoComment />
+                            <span>{item.commentCount?.toLocaleString() || 0}</span>
+                          </St.Count>
+                        </St.InfoBottom>
+                      </St.TextAndLikeButton>
+                      {/* item.coverImages로 변경하기 */}
+                      {!item ? <Loader /> : <img src={defaultCover} alt={item.title} />}
+                    </St.UserPostCover>
+                  </St.StyledSwiperSlide>
+                );
+              })
+            )}
           </Swiper>
         </St.ThumbnailsBox>
       </St.PostsSlide>
