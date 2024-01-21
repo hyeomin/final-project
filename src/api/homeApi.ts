@@ -36,7 +36,6 @@ const getPosts = async () => {
 
 // 관리자게시물
 const getAdminPosts = async () => {
-  console.log('getAdminPosts');
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -65,6 +64,7 @@ const getPopularPosts = async () => {
       collection(db, QUERY_KEYS.POSTS),
       where('role', '==', 'user'),
       orderBy('likeCount', 'desc'),
+      orderBy('viewCount', 'desc'),
       limit(8)
     );
     const querySnapshot = await getDocs(q);
@@ -159,7 +159,10 @@ const getTopUsers = async () => {
       totalViews: counts.totalViews
     }));
 
-    const topUsers: likeCountPerUserType[] = usersWithCounts
+    //좋아요가 0인 유저 필터링
+    const filteredUsers = usersWithCounts.filter((user) => user.totalLikes > 0);
+
+    const topUsers: likeCountPerUserType[] = filteredUsers
       .sort((a, b) => {
         const sortedByLikes = b.totalLikes - a.totalLikes;
         if (sortedByLikes === 0) {
@@ -167,7 +170,7 @@ const getTopUsers = async () => {
         }
         return sortedByLikes;
       })
-      .slice(0, 9);
+      .slice(0, 10);
     return topUsers;
   } catch (error) {
     console.log(error);
