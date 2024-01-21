@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { getAdminPostList, getCategoryPosts } from '../../api/pageListApi';
 import { QUERY_KEYS } from '../../query/keys';
+import { categoryListState } from '../../recoil/posts';
 import PostList from './PostList';
 import PostListAdmin from './PostListAdmin';
 import St from './style';
-import { useRecoilState } from 'recoil';
-import { categoryListState } from '../../recoil/posts';
 
 export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory' | 'total';
 export type SortList = 'popularity' | 'latest';
@@ -20,7 +20,7 @@ function ViewAllBody() {
   }, []);
 
   return (
-    <>
+    <St.ViewAllContainer>
       <St.MangoDiv>
         <St.MangoWord>Mango</St.MangoWord>
         <St.MangoOutWord>의 컨텐츠</St.MangoOutWord>
@@ -72,7 +72,7 @@ function ViewAllBody() {
         </St.CategoryWrapper>
         <PostList queryKey={[category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} />
       </St.MainSubWrapper>
-    </>
+    </St.ViewAllContainer>
   );
 }
 export default ViewAllBody;

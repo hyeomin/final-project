@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { getAllUsers } from '../../api/authApi';
 import googleLogo from '../../assets/icons/googleLogo.png';
 import mangofavicon from '../../assets/mango-favicon.png';
+import { AuthContext } from '../../context/AuthContext';
 import usePrintError from '../../hooks/usePrintError';
 import { QUERY_KEYS } from '../../query/keys';
 import { isSignUpState, roleState } from '../../recoil/users';
@@ -22,14 +23,18 @@ interface UserData {
 }
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [nickname, setNickname] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [nickname, setNickname] = useState('');
 
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);
-  const [role, setRole] = useRecoilState(roleState);
   const [errorMsg, setErrorMsg] = usePrintError('');
+
+  const setIsSignUp = useSetRecoilState(isSignUpState);
+  const setRole = useSetRecoilState(roleState); // Set으로 변경
+
+  const authContext = useContext(AuthContext);
+  const authCurrentUser = authContext?.currentUser;
 
   const {
     register,
@@ -54,9 +59,9 @@ function Login() {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
       console.log('userCredential', userCredential);
 
-      // 로그인 성공 시 role의 recoil(전역상태) update
-      const user = userList && userList.find((user) => user.uid === auth.currentUser?.uid);
-      if (user) {
+      // 로그인 성공 시 role, authCurrentUser의 recoil(전역상태) update
+      const user = userList && userList.find((user) => user.uid === authCurrentUser?.uid);
+      if (user && auth) {
         setRole(user.role);
       }
       // home으로 이동
@@ -75,14 +80,15 @@ function Login() {
         setUserData(data.user);
 
         // 회원가입 시, user 컬렉션에 값이 저장됨
-        const userId = auth.currentUser?.uid;
+        const userId = authCurrentUser?.uid;
+
         // 컬렉션에 있는 users 필드 정보 수정
         if (userId) {
           setDoc(doc(db, 'users', userId), {
-            displayName: auth.currentUser?.displayName,
-            profileImg: auth.currentUser?.photoURL,
-            uid: auth.currentUser?.uid,
-            phoneNum: auth.currentUser?.phoneNumber,
+            displayName: authCurrentUser?.displayName,
+            profileImg: authCurrentUser?.photoURL,
+            uid: authCurrentUser?.uid,
+            phoneNum: authCurrentUser?.phoneNumber,
             role: 'user'
           });
         }

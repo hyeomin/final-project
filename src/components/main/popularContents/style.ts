@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { SwiperSlide } from 'swiper/react';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { SwiperSlide } from 'swiper/react';
 import theme from '../../../styles/theme';
 
 const UserContents = styled.section`
@@ -10,7 +10,8 @@ const UserContents = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
+  width: 1000px;
   /* height: 50%; */
   margin-bottom: 10px;
 `;
@@ -67,10 +68,10 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   position: relative;
   display: flex;
   border-radius: 20px;
-  width: 285px;
-  height: 408.462px;
+  /* width: 285px;
+  height: 408.462px; */
   overflow: hidden;
-  background-color: lightblue;
+  /* background-color: lightblue; */
 `;
 
 const UserPostCover = styled(Link)`
