@@ -6,10 +6,10 @@ import styled from 'styled-components';
 import { updatePostViewCount } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
 import DetailBody from '../components/detail/DetailBody';
-import DetailHeader from '../components/detail/DetailHeader';
 import PostShift from '../components/detail/PostShift';
 import AddCommentForm from '../components/detail/comment/AddComment';
 import CommentList from '../components/detail/comment/CommentList';
+import DetailHeader from '../components/detail/detailHeader/DetailHeader';
 import { QUERY_KEYS } from '../query/keys';
 import { postInputState } from '../recoil/posts';
 import { PostType } from '../types/PostType';
@@ -47,6 +47,16 @@ function Detail() {
   if (isLoading) {
     return <div>로딩 중...</div>;
   }
+
+  // 포스트 존재 여부 검사
+  // if (posts) {
+  // 해당 아이디를 가진 post가 존재하는지 확인
+  // const validatePostId = posts.some((post) => post.id === id);
+  // if (!id || !validatePostId) {
+  //   alert('존재하지 않는 게시물입니다.');
+  //   navigate('/'); // 홈으로 이동
+  //   return;
+  // }
 
   return (
     <Container>

@@ -73,7 +73,7 @@ const ContentsWrapper = styled.div`
   gap: 20px;
 `;
 
-export const Contents = styled.ul`
+const Contents = styled.ul`
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;

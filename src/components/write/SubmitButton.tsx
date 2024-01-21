@@ -64,16 +64,14 @@ function SubmitButton() {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
 
       if (postId) {
-        console.log('1');
         // 내용 원상복구
         setPostInput({
-          title: 'ㅇㅇㅇㅇ',
-          content: 'ㅇㅇㅇㅇ',
+          title: '',
+          content: '',
           category: 'noCategory',
           hashtags: [],
           coverImages: []
         });
-        console.log('2');
         // 전역상태 원상복구
         setisEditingPost({
           foundPost: null,
