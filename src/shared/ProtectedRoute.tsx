@@ -8,6 +8,11 @@ const ProtectedRoute = () => {
   console.log('로그인상태=====>', auth?.isAuth);
   if (!auth?.isAuth) return <Navigate to={'/'} replace />;
   return <Outlet />;
+  // if (auth?.isAuth) {
+  //   return <Outlet />;
+  // } else {
+  //   return <Navigate to={'/'} replace />;
+  // }
 };
 
 export default ProtectedRoute;

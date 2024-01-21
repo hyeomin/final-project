@@ -18,13 +18,12 @@ const MySectionWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
-  /* height: 600px; */
   border: 1px solid #d9d9d9;
   margin-bottom: 300px;
 `;
 const ProfileEditWrapper = styled.div`
   display: flex;
-  align-items: center; // ashley 추가 24.01.16
+  align-items: center;
   column-gap: 30px;
   width: 100%;
   height: 230px;
@@ -91,9 +90,6 @@ const UserInfo = styled.div`
 `;
 
 const profileImg = styled.div`
-  /* width: 150px;
-  height: 150px; */
-  /* border-radius: 50%; */
   object-fit: cover;
   img {
     border-radius: 50%;
@@ -116,17 +112,13 @@ const ModifyButton = styled.button`
 `;
 
 const UserInfoModify = styled.div`
-  /* background-color: red; */
-  /* width: 180px; */
   display: flex;
   justify-content: left;
   margin-right: 50px;
-  width: 170px;
-  /* height: 200px; */
+  width: 200px;
 `;
 const FileInput = styled.input`
   display: none;
-  /* border: 1px solid black; */
 `;
 
 const DisplayNameModify = styled.input`

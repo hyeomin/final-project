@@ -62,6 +62,11 @@ const CalendarContainer = styled.div`
   position: relative;
 `;
 
+const CalendarIntroduce = styled.div`
+  font-size: 15px;
+  line-height: 1.5rem;
+`;
+
 const CalendarSpring1 = styled.img`
   position: absolute;
   z-index: 2;
@@ -92,7 +97,7 @@ const CalendarSpring4 = styled.img`
 const CalendarTitle = styled.div`
   width: 800px;
   height: 100px;
-  margin-top: 60px;
+  margin-top: 80px;
   border: none;
   background-color: #ffd864;
   border-radius: 20px 20px 0px 0px;
@@ -147,5 +152,6 @@ export default {
   CalendarWrapper,
   StyleCalendar,
   PostCount,
-  CurrentDate
+  CurrentDate,
+  CalendarIntroduce
 };
