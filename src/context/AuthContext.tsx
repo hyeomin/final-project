@@ -1,6 +1,6 @@
 // AuthContext.tsx
-import { createContext, useCallback, useEffect, useState, ReactNode } from 'react';
-import { onAuthStateChanged, User } from 'firebase/auth';
+import { User, onAuthStateChanged } from 'firebase/auth';
+import { ReactNode, createContext, useCallback, useEffect, useState } from 'react';
 import { auth } from '../../src/shared/firebase';
 
 interface AuthContextProps {
@@ -9,6 +9,7 @@ interface AuthContextProps {
   currentUser: User | null;
   setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
   logout: () => void;
+  updateCurrentUserInContext: (user: User) => void;
 }
 
 export const AuthContext = createContext<AuthContextProps | null>(null);
@@ -25,6 +26,11 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
   const logout = useCallback(() => {
     setCurrentUser(null);
     setIsAuth(false);
+  }, []);
+
+  const updateCurrentUserInContext = useCallback((user: User) => {
+    setCurrentUser(user);
+    setIsAuth(!!user);
   }, []);
 
   useEffect(() => {
@@ -45,7 +51,7 @@ function AuthContextProvider({ children }: AuthContextProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ init, isAuth, currentUser, setCurrentUser, logout }}>
+    <AuthContext.Provider value={{ init, isAuth, currentUser, setCurrentUser, logout, updateCurrentUserInContext }}>
       {children}
     </AuthContext.Provider>
   );

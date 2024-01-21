@@ -1,13 +1,14 @@
 import { signOut } from 'firebase/auth';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import defaultImg from '../../assets/defaultImg.jpg';
+import { AuthContext } from '../../context/AuthContext';
+import { useModal } from '../../hooks/useModal';
 import { roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import theme from '../../styles/theme';
-import { useModal } from '../../hooks/useModal';
 
 type Props = {
   setIsAuthToggleOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,17 +16,16 @@ type Props = {
 
 function AuthToggle({ setIsAuthToggleOpen }: Props) {
   const modal = useModal();
-  const [userInfo, setUserInfo] = useState(auth.currentUser);
-  const [role, setRole] = useRecoilState(roleState);
+  const setRole = useSetRecoilState(roleState);
+  const authContext = useContext(AuthContext);
+  const authCurrentUser = authContext?.currentUser;
 
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
+  const { pathname } = useLocation();
   const prevPathname = useRef(pathname);
 
-  // useEffect(() => {
-  //   setUserInfo(auth.currentUser);
-  // }, [auth.currentUser]);
+  // const userInfo = auth.currentUser;
 
   // 주소가 바뀌면 토글 창 꺼지게
   useEffect(() => {
@@ -43,9 +43,6 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
   const onLogOutHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // const confirmation = window.confirm('로그아웃하시겠습니까?');
-    // if (!confirmation) return;
-
     try {
       ////모달팝업 적용(혜민)
       const onClickCancel = () => {
@@ -56,8 +53,12 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
       const onClickSave = async () => {
         modal.close();
 
-        await signOut(auth);
-        console.log('logout');
+        try {
+          await signOut(auth);
+          console.log('logout');
+        } catch (error) {
+          console.log('error');
+        }
 
         // 로그아웃 시 Recoil 전역 상태 업데이트
         setRole('');
@@ -79,17 +80,18 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
     }
   };
 
+  if (!authContext) {
+    return <div>사용자 정보가 없습니다.</div>;
+  }
+
   return (
     <ToggleContainer>
       <ToggleBox>
-        <span>{userInfo?.email}</span>
+        <span>{authCurrentUser?.email}</span>
         <ProfileImageContainer>
-          {/* <PenWrapper>
-            <GoPencil />
-          </PenWrapper> */}
-          <img src={userInfo?.photoURL ?? defaultImg} alt="profile" />
+          <img src={authCurrentUser?.photoURL ?? defaultImg} alt="profile" />
         </ProfileImageContainer>
-        <span>{`안녕하세요, ${userInfo?.displayName}님`}</span>
+        <span>{`안녕하세요, ${authCurrentUser?.displayName}님`}</span>
         <ButtonContainer>
           <AuthButton onClick={onNavigateMyPageHandler} bgcolor="#FFD864" bdrcolor="transparent">
             마이페이지

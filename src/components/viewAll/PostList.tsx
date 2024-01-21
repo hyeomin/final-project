@@ -10,21 +10,20 @@ import {
 import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { getAllUsers } from '../../api/authApi';
 import defaultProfile from '../../assets/defaultImg.jpg';
 import mangoCover from '../../assets/tentative-cover-image.jpg';
+import { useModal } from '../../hooks/useModal';
 import { QUERY_KEYS } from '../../query/keys';
+import { categoryListState } from '../../recoil/posts';
+import { auth, db } from '../../shared/firebase';
 import { PostType } from '../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
 import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
-import { auth, db } from '../../shared/firebase';
-import { produce } from 'immer';
-import { categoryListState } from '../../recoil/posts';
-import { useModal } from '../../hooks/useModal';
-import { useRecoilValue } from 'recoil';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -80,8 +79,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           ...postData
         } as PostType;
       });
-      // let sortedPosts = data.pages.flat().map((doc) => (
-      //   {isLiked: doc.likedUsers.includes(auth.currentUser!.uid) ,id: doc.id, ...doc.data() } as PostType));
       if (sortBy === 'popularity') {
         sortedPosts = sortedPosts.sort((a, b) => {
           const likeCountA = a.likeCount ?? 0; // 만약 likeCount가 없다면 0으로 처리
@@ -228,17 +225,11 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
 
               return (
                 <St.Content key={post.id}>
-                  <St.ContentImg src={mangoCover} alt={post.title} onClick={() => navigate(`/detail/${post.id}`)} />
-                  {/* {imageQuery.isLoading ? (
-                    <Loader />
-                  ) : (
-                    <St.ContentImg
-                      src={imageQuery.data || defaultImage}
-                      alt={post.title}
-                      onClick={() => navigate(`/detail/${post.id}`)}
-                    />
-                  )} */}
-
+                  <St.ContentImg
+                    src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
+                    alt={post.title}
+                    onClick={() => navigate(`/detail/${post.id}`)}
+                  />
                   <St.PostInfoContainer>
                     {userList && userList?.find((user) => user.uid === post.uid) && (
                       <St.UserProfile>

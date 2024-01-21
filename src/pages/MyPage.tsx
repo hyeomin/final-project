@@ -1,7 +1,7 @@
-import MyProfile from '../components/mypage/myProfile/MyProfile';
+import MyProfileTest from '../components/mypage/myProfile/myProfileTest/MyProfileTest';
 
 function MyPage() {
-  return <MyProfile />;
+  return <MyProfileTest />;
 }
 
 export default MyPage;
