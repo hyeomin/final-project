@@ -1,9 +1,9 @@
-import { createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import mangofavicon from '../../assets/mango-favicon.png';
 import usePrintError from '../../hooks/usePrintError';
@@ -78,10 +78,6 @@ function Signup() {
       setValue('passworkCheck', '');
       // setValue('phoneNumber', 0);
 
-      // 회원가입 state 업데이트 (Ashley)
-      setIsSignUp(false);
-      signOut(auth);
-
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
       // 컬렉션에 있는 users 필드 정보 수정
@@ -98,6 +94,10 @@ function Signup() {
     } catch (error) {
       // setErrorMsg(error);
     }
+
+    // 회원가입 state 업데이트 (Ashley)
+    setIsSignUp(false);
+    signOut(auth);
   };
 
   // 이메일 중복체크 (firestore)

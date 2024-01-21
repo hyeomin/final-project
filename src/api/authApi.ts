@@ -1,8 +1,10 @@
 // Ashley가 만든 페이지입니다. 혹시 authApi 파일이 필요하시면 합치거나 제가 별도로 만들게요! (@Hailey)
 
+import { User, updateProfile } from 'firebase/auth';
 import { collection, getDocs, query } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
-import { db } from '../shared/firebase';
+import { db, storage } from '../shared/firebase';
 import { UserType } from '../types/UserType';
 
 // user 콜렉션 전부 가져오기
@@ -25,4 +27,42 @@ const getAllUsers = async () => {
   }
 };
 
-export { getAllUsers };
+// 프로필 수정
+
+export type updateProfileInfoProps = {
+  authCurrentUser: User;
+  displayName: string | null;
+  profileImage: string | null;
+};
+
+const updateProfileInfo = async ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) => {
+  try {
+    await updateProfile(authCurrentUser!, {
+      displayName: displayName,
+      photoURL: profileImage
+    });
+    const updatedUser = {
+      ...authCurrentUser
+    };
+    console.log('프로필 업데이트 성공', updatedUser);
+    return updatedUser;
+  } catch (error) {
+    console.log(error);
+    console.log('프로필 업데이트 실패');
+    throw error;
+  }
+};
+
+export type updateProfileImageProps = {
+  authCurrentUser: User;
+  profileImage: File;
+};
+
+const updateProfileImage = async ({ authCurrentUser, profileImage }: updateProfileImageProps) => {
+  const imageRef = ref(storage, `userProfile/${authCurrentUser?.uid}`);
+  const snapshot = await uploadBytes(imageRef, profileImage);
+  const profileImageURL = await getDownloadURL(snapshot.ref);
+  return profileImageURL;
+};
+
+export { getAllUsers, updateProfileImage, updateProfileInfo };

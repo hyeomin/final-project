@@ -1,68 +1,52 @@
-import { useQuery } from '@tanstack/react-query';
-import { updateProfile } from 'firebase/auth';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
-import { getTopUsers } from '../../../api/homeApi';
-import { getMyPosts } from '../../../api/myPostAPI';
-import defaultImg from '../../../assets/defaultImg.jpg';
-import postCountIcon from '../../../assets/icons/postCountIcon.png';
-import rankingIcon from '../../../assets/icons/rankingIcon.png';
-import { AuthContext } from '../../../context/AuthContext';
-import { QUERY_KEYS } from '../../../query/keys';
-import { auth, db, storage } from '../../../shared/firebase';
-import HabitCalendar from '../HabitCalendar/HabitCalendar';
-import LikesPosts from '../LikesPosts';
-import MyPosts from '../MyPosts';
-import St from './style';
+import {
+  updateProfileImage,
+  updateProfileImageProps,
+  updateProfileInfo,
+  updateProfileInfoProps
+} from '../../../../api/authApi';
+import { getTopUsers } from '../../../../api/homeApi';
+import { getMyPosts } from '../../../../api/myPostAPI';
+import defaultImg from '../../../../assets/defaultImg.jpg';
+import postCountIcon from '../../../../assets/icons/postCountIcon.png';
+import rankingIcon from '../../../../assets/icons/rankingIcon.png';
+import { AuthContext } from '../../../../context/AuthContext';
+import { QUERY_KEYS } from '../../../../query/keys';
+import { auth, db } from '../../../../shared/firebase';
+import HabitCalendar from '../../HabitCalendar/HabitCalendar';
+import LikesPosts from '../../LikesPosts';
+import MyPosts from '../../MyPosts';
+import St from '../style';
 
-function MyProfile() {
+function MyProfileTest() {
   const [activeTab, setActiveTab] = useState('calendar');
-  const [nickname, setNickname] = useState('');
-  const [newDisplayName, setNewDisPlayName] = useState('');
-  const [userObj, setUserObj] = useState({});
-  const [imageUpload, setImageUpload] = useState<any>('');
-  const [image, setImage] = useState<string | null>(auth.currentUser?.photoURL || '');
-  // Ashley type 수정
+
   const [isValid, setIsValid] = useState(true);
   const fileRef = useRef<HTMLInputElement>(null);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [previousPhotoURL, setPreviousPhotoURL] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
   const [isClickedGuide, setIsClickedGuide] = useState(false);
+
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
   // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
 
   const authContext = useContext(AuthContext);
-  const updateCurrentUserInContext = authContext?.updateCurrentUserInContext;
+  const authCurrentUser = authContext?.currentUser;
 
-  // 프로필 이미지
-  useEffect(() => {
-    setPreviousPhotoURL(auth.currentUser?.photoURL!);
-  }, [image]);
-
-  // 프로필 취소 버튼
-  const onCancelEdit = () => {
-    setImage(previousPhotoURL!);
-    setIsEditing(false);
-    setNewDisPlayName(auth.currentUser?.displayName!);
-    setPreviewImage(null);
-
-    if (fileRef.current) {
-      fileRef.current.value = '';
-      return;
-    }
-  };
+  const [updateProfileSuccess, setUpdateProfileSuccess] = useState<boolean>(false);
+  const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
+  const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
 
   // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (value !== '' && nicknameRegex.test(value)) {
       setIsValid(true);
-      setNewDisPlayName(value);
+      setDisplayName(value);
     } else {
       setIsValid(false);
       // 에러 메시지 표시
@@ -74,9 +58,9 @@ function MyProfile() {
   const { data: myPosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getMyPosts,
-    enabled: !!auth.currentUser,
+    enabled: !!authCurrentUser,
     select: (data) => {
-      return data?.filter((post) => post.uid === auth.currentUser?.uid!);
+      return data?.filter((post) => post.uid === authCurrentUser?.uid!);
     }
   });
 
@@ -91,71 +75,73 @@ function MyProfile() {
     fileRef.current?.click();
   };
 
+  const queryClient = useQueryClient();
+
+  // 프로필 정보 Firebase 업데이트
+  const userProfileUpdateMutation = useMutation({
+    mutationFn: ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) =>
+      updateProfileInfo({ authCurrentUser, displayName, profileImage }),
+    onSuccess: (updatedUser) => {
+      queryClient.invalidateQueries();
+      setUpdateProfileSuccess(true);
+      if (updatedUser) {
+        authContext?.updateCurrentUserInContext(updatedUser);
+      }
+      setIsEditing(false);
+      alert('프로필이 수정되었습니다.');
+    },
+    onError: (error) => {
+      console.error('Error updating profile', error);
+      setIsEditing(false);
+      alert('프로필 업데이트에 문제가 발생했습니다.');
+    }
+  });
+
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    // auth 불러오기
-    // 현재 유저 닉네임과 새로운 닉네임이 같지 않거나 현재 유저 사진Url과 업로드이미지가 같지 않으면!
-    if (auth.currentUser?.displayName !== newDisplayName || auth.currentUser?.photoURL !== image) {
-      // 현재 유저 uid 변수로 저장
-      const userUid = auth.currentUser?.uid;
-      if (userUid) {
-        //  auth 객체에 있는 정보 업데이트
-        await updateProfile(auth.currentUser!, {
-          displayName: newDisplayName,
-          photoURL: image
-        });
+    if (authCurrentUser) {
+      if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
+        userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+      }
+    }
 
-        // getDoc으로 userDocRef users의 해당하는 현재 유저 uid를 가져온다
-        const userDocRef = doc(db, 'users', userUid);
-        const userDocSnapshot = await getDoc(userDocRef);
-        const updateUser = auth.currentUser;
-        // userDocRef users의 해당하는 현재 유저 uid가 있다면
-        if (userDocSnapshot) {
-          // 컬렉션에 있는 users 필드 정보 수정
-          await updateDoc(userDocRef, {
-            displayName: updateUser?.displayName,
-            profileImg: updateUser?.photoURL,
-            uid: updateUser?.uid
-          });
-        }
-        // console.log('updateUser', updateUser);
-        setNewDisPlayName(auth.currentUser?.displayName!);
-        setIsEditing(false);
+    if (updateProfileSuccess && authCurrentUser) {
+      const userDocRef = doc(db, 'users', authCurrentUser.uid);
+      const userDocSnapshot = await getDoc(userDocRef);
+
+      if (userDocSnapshot) {
+        // 컬렉션에 있는 users 필드 정보 수정
+        await updateDoc(userDocRef, {
+          displayName: authCurrentUser?.displayName,
+          profileImg: authCurrentUser?.photoURL,
+          uid: authCurrentUser?.uid
+        });
       }
     }
   };
 
-  // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
-  // 폴더/파일
-  useEffect(() => {
-    const imageRef = ref(storage, 'userProfile/' + `${auth.currentUser?.uid}`);
-    if (!imageUpload) return;
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        setImage(url);
-      });
-    });
-  }, [imageUpload]);
+  // 프로필 이미지를 Firebase에 업로드
+  const profileImageUploadMutation = useMutation({
+    mutationFn: ({ authCurrentUser, profileImage }: updateProfileImageProps) =>
+      updateProfileImage({ authCurrentUser, profileImage }),
+    onSuccess: (url) => {
+      queryClient.invalidateQueries();
+      // 성공 시 이미지 state 업로드해서 사진 미리보기
+      setProfileImage(url);
+    }
+  });
 
   //input을 클릭해서 파일 업로드
-  //사진 미리보기
   const onChangeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const uploadedFile = e.target.files?.[0];
+    const selectedFile = e.target.files?.[0];
 
-    if (uploadedFile?.size! > 1024 * 1024) {
+    if (selectedFile?.size! > 1024 * 1024) {
       return alert('최대 1MB까지 업로드 가능합니다');
     }
 
-    if (uploadedFile) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        setPreviewImage(reader.result as string);
-      };
-
-      reader.readAsDataURL(uploadedFile);
-      setImageUpload(uploadedFile);
+    if (authCurrentUser && selectedFile) {
+      profileImageUploadMutation.mutate({ authCurrentUser, profileImage: selectedFile });
     }
   };
 
@@ -170,7 +156,6 @@ function MyProfile() {
   };
 
   const userGrade = myPosts?.length;
-  console.log('하우매니', myPosts?.length);
   let levelOne = 1;
   let levelTwo = 2;
   let levelThree = 3;
@@ -195,15 +180,16 @@ function MyProfile() {
     <St.Wrapper>
       <St.ProfileEditWrapper>
         <St.ProfileImageContainer>
-          {isEditing && (
-            <St.PenWrapper onClick={onClickUpload}>
-              <GoPencil />
-            </St.PenWrapper>
+          {isEditing ? (
+            <>
+              <St.PenWrapper onClick={onClickUpload}>
+                <GoPencil />
+              </St.PenWrapper>
+              <St.MyImage src={profileImage} alt="defaultImg" />
+            </>
+          ) : (
+            <St.MyImage src={authCurrentUser?.photoURL || defaultImg} alt="defaultImg" />
           )}
-          <St.MyImage
-            src={auth.currentUser?.photoURL === null ? defaultImg : previewImage || auth.currentUser?.photoURL!}
-            alt="defaultImg"
-          />
         </St.ProfileImageContainer>
         <St.ProfileInfo>
           <div style={{ display: 'flex' }}>
@@ -211,34 +197,33 @@ function MyProfile() {
               <>
                 <St.DisplayNameModify
                   autoFocus
-                  defaultValue={auth.currentUser?.displayName!}
-                  // value={newDisplayName}
+                  defaultValue={authCurrentUser?.displayName ?? ''}
                   onChange={onChangeDisplayName}
                   style={{ borderColor: isValid ? 'black' : 'red' }}
                 />
               </>
             ) : (
-              <St.MyNickname>{auth.currentUser?.displayName!}</St.MyNickname>
+              <St.MyNickname>{authCurrentUser?.displayName || ''}</St.MyNickname>
             )}
           </div>
-          <St.MyEmail>{auth.currentUser?.email}</St.MyEmail>
+          <St.MyEmail>{authCurrentUser?.email}</St.MyEmail>
           <St.UserInfoModify>
             {isEditing ? (
               <>
                 <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
-                <St.ModifyButton onClick={onCancelEdit}>취소</St.ModifyButton>
+                <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
                 <St.ModifyButton
-                  disabled={
-                    newDisplayName === '' && !newDisplayName && image === auth.currentUser?.photoURL && !isValid
-                  }
+                  // disabled={
+                  //   displayName === '' && !displayName && profileImage === authCurrentUser?.photoURL && !isValid
+                  // }
                   onClick={onSubmitModifyProfile}
                 >
                   수정완료
                 </St.ModifyButton>
                 <St.ErrorMsg>
                   {!isValid && <span>{errorMsg}</span>}
-                  {newDisplayName === auth.currentUser?.displayName && image === auth.currentUser?.photoURL && (
-                    <span>변경된 게 없습니다.</span>
+                  {displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL && (
+                    <span>변경된 내용이 없습니다.</span>
                   )}
                 </St.ErrorMsg>
               </>
@@ -261,7 +246,7 @@ function MyProfile() {
           </St.PostInfoBox>
           <St.PostInfoBox>
             <div>
-              <span style={{ marginBottom: '1px' }}>랭킹</span>
+              <span style={{ marginBottom: '1px' }}>랭킹1</span>
               <br />
               <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={rankingIcon} />
               <span style={{ marginLeft: '10px' }}>{topUsers?.length}위</span>
@@ -337,4 +322,4 @@ function MyProfile() {
   );
 }
 
-export default MyProfile;
+export default MyProfileTest;

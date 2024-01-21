@@ -44,8 +44,9 @@ const GlobalStyle = createGlobalStyle`
         border-collapse: collapse;
         border-spacing: 0;
     }
+
     *{
-        box-sizing:border-box;
+        box-sizing: border-box;
     }
     body {
         margin: 0;

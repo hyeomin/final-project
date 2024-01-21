@@ -1,7 +1,8 @@
 import AdminContents from './adminContents/AdminContents';
 import PopularContents from './popularContents/PopularContents';
-import TopUsers from './topUsers/TopUsers';
 import St from './style';
+import TopUsers from './topUsers/TopUsers';
+
 function MainBody() {
   return (
     <St.Container>

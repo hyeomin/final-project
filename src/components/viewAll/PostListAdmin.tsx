@@ -1,11 +1,12 @@
 import { QueryFunctionContext, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 import mangoCover from '../../assets/tentative-cover-image.jpg';
 import { PostType } from '../../types/PostType';
 import Loader from '../common/Loader';
+import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
-import { useNavigate } from 'react-router-dom';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -78,6 +79,8 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
   };
 
+  console.log(posts);
+
   return (
     <St.MainSubWrapper>
       <St.ContentsWrapper>
@@ -86,23 +89,15 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
         ) : (
           <St.AdminContents>
             {posts?.map((post, idx) => {
-              // const imageQuery = imageQueries[idx];
               return (
                 <St.AdminContent key={post.id}>
-                  <img src={mangoCover} alt={post.title} onClick={() => navigate(`/detail/${post.id}`)} />
-                  {/* {imageQuery.isLoading ? (
-                    // <p>Loading image...</p>
-                    <Loader />
-                  ) : (
-                    <Link to={`/detail/${post.id}`}>
-                      <img src={imageQuery.data || defaultCover} alt={post.title} />
-                    </Link>
-                  )} */}
-
+                  <img
+                    src={post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
+                    alt={post.title}
+                    onClick={() => navigate(`/detail/${post.id}`)}
+                  />
                   <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
-
-                  {/* <St.AdminPostContent dangerouslySetInnerHTML={{ __html: removeImageTags(post?.content || '') }} /> */}
-                  <div dangerouslySetInnerHTML={{ __html: reduceContent(removeImageTags(post?.content || ''), 41) }} />
+                  {post.content && <PostContentPreview postContent={post.content} />}
                 </St.AdminContent>
               );
             })}

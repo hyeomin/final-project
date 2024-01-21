@@ -1,6 +1,11 @@
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
+
+const ViewAllContainer = styled.div`
+  width: 1000px;
+`;
+
 /*유저 등록 데이터 (친환경노하우~습관인증) */
 const MainSubWrapper = styled.div`
   width: 100%;
@@ -261,6 +266,7 @@ const MoreContentWrapper = styled.div`
 const MangoDiv = styled.div`
   display: flex;
   align-items: center;
+  width: 1000px;
   margin-top: 50px;
 `;
 
@@ -423,5 +429,6 @@ export default {
   HeartClickButton,
   LikeButton,
   HeartIcon,
-  HeartFillIcon
+  HeartFillIcon,
+  ViewAllContainer
 };
