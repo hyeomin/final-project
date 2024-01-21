@@ -51,6 +51,7 @@ const SortWrapper = styled.ul`
     text-align: center;
     //font-family: Apple SD Gothic Neo;
     font-size: 15px;
+    cursor: pointer;
   }
   li a.selected {
     font-weight: 700;
@@ -111,6 +112,9 @@ const HeartClickButton = styled.button<{ $isLiked: boolean }>`
   all: unset;
   color: ${({ $isLiked }) => ($isLiked ? 'red' : theme.color.lightgray)};
   font-size: 20px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const ContentImg = styled.img`
@@ -119,6 +123,9 @@ const ContentImg = styled.img`
   height: 210px; //420 > 280 변경 > HM 230px 변경
   /* flex-shrink: 0; */
   /* border-radius: 40px 40px 0px 0px; */
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Row = styled.div`
@@ -243,9 +250,10 @@ const MoreContentWrapper = styled.div`
     //font-family: Apple SD Gothic Neo;
     font-size: 16px;
     font-weight: 400;
-    cursor: pointer;
+
     &:hover {
       background: #df8d11;
+      cursor: pointer;
     }
   }
 `;
@@ -306,6 +314,9 @@ const AdminContent = styled.li`
     flex-shrink: 0;
     border-radius: 40px;
     background: #d9d9d9;
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 

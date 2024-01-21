@@ -113,7 +113,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
       <St.MoreContentWrapper>
         {isFetchingNextPage ? (
           <Loader />
-        ) : hasNextPage ? (
+        ) : hasNextPage && posts?.length === 2 ? (
           <button onClick={() => fetchNextPage()}>더 보기</button>
         ) : (
           <p>모든 데이터를 가져왔습니다.</p>
