@@ -73,7 +73,7 @@ const SinglePreview = styled.div`
   position: relative;
 
   & img {
-    height: 160px;
+    height: 180px;
     object-fit: contain;
     border-radius: 10px;
     overflow: hidden;

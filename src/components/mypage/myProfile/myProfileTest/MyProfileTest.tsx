@@ -13,18 +13,17 @@ import defaultImg from '../../../../assets/defaultImg.jpg';
 import postCountIcon from '../../../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../../../assets/icons/rankingIcon.png';
 import { AuthContext } from '../../../../context/AuthContext';
+import { useModal } from '../../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../../query/keys';
 import { auth } from '../../../../shared/firebase';
 import HabitCalendar from '../../HabitCalendar/HabitCalendar';
 import LikesPosts from '../../LikesPosts';
 import MyPosts from '../../MyPosts';
 import St from '../style';
-import { useModal } from '../../../../hooks/useModal';
 
 function MyProfileTest() {
   const modal = useModal();
   const [activeTab, setActiveTab] = useState('calendar');
-
   const [isValid, setIsValid] = useState(true);
   const fileRef = useRef<HTMLInputElement>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -61,7 +60,7 @@ function MyProfileTest() {
   const { data: myPosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getMyPosts,
-    enabled: !!authCurrentUser,
+    // enabled: !!authCurrentUser,
     select: (data) => {
       return data?.filter((post) => post.uid === authCurrentUser?.uid!);
     }
@@ -143,7 +142,7 @@ function MyProfileTest() {
     onSuccess: (url) => {
       queryClient.invalidateQueries();
       // 성공 시 이미지 state 업로드해서 사진 미리보기
-      setProfileImage(url);
+      if (url) setProfileImage(url);
     }
   });
 

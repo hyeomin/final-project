@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { postInputState } from '../../recoil/posts';
@@ -11,7 +11,7 @@ function SelectCategory() {
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { category } = postInput;
 
-  const [selectedCategoryEng, setSelectedCategoryEng] = useState(category ?? categoryList[0].nameEng);
+  // const [selectedCategoryEng, setSelectedCategoryEng] = useState(category ?? categoryList[0].nameEng);
 
   // Filtered category list based on role
   const filteredCategoryList = useMemo(() => {
@@ -20,12 +20,14 @@ function SelectCategory() {
 
   const onChangeSelectHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newCategory = event.target.value;
-    setSelectedCategoryEng(newCategory);
-    setPostInput({ ...postInput, category: newCategory });
+    setPostInput({
+      ...postInput,
+      category: newCategory
+    });
   };
 
   return (
-    <Select value={selectedCategoryEng} onChange={onChangeSelectHandler}>
+    <Select value={category} onChange={onChangeSelectHandler}>
       {filteredCategoryList.map((item, idx) => {
         return (
           <option key={idx} value={item.nameEng}>

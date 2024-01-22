@@ -73,7 +73,7 @@ function MyProfile() {
   const { data: myPosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getMyPosts,
-    enabled: !!auth.currentUser,
+    // enabled: !!auth.currentUser,
     select: (data) => {
       return data?.filter((post) => post.uid === auth.currentUser?.uid!);
     }
