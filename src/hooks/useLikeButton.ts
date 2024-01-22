@@ -37,7 +37,11 @@ export const useLikeButton = () => {
       rightButtonLabel: '로그인',
       onClickRightButton: onClickSave
     };
-    modal.open(openModalParams);
+
+    if (!currentUser) {
+      modal.open(openModalParams);
+    }
+
     if (id) likeCountMutate(id);
   };
   return onClickLikeButton;
