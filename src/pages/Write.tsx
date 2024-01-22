@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import Hashtag from '../components/write/Hashtag';
-import Header from '../components/write/WriteHeader';
 import Editor from '../components/write/editor/Editor';
+import Hashtag from '../components/write/hashtag/Hashtag';
+import Header from '../components/write/header/WriteHeader';
 import ImageUpload from '../components/write/imageUpload/ImageUpload';
 import { initialPostInputState, isEditingPostState, postInputState } from '../recoil/posts';
 

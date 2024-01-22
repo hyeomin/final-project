@@ -1,16 +1,15 @@
 import { useMemo, useRef } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import { useRecoilState } from 'recoil';
-import styled from 'styled-components';
-import SelectCategory from '../SelectCategory';
-import imageHandler from '../imageHandler';
+import imageHandler from '../imageUpload/imageHandler';
+import SelectCategory from './SelectCategory';
 
 import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
 
 import 'react-quill/dist/quill.snow.css';
 import { postInputState } from '../../../recoil/posts';
-import theme from '../../../styles/theme';
+import St from './style';
 
 Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
@@ -73,7 +72,7 @@ function Editor() {
   const editorStyle = { height: '400px', maxHeight: '800px' };
 
   return (
-    <WritingArea>
+    <St.WritingArea>
       <SelectCategory />
       <input
         name={TITLE}
@@ -81,7 +80,7 @@ function Editor() {
         onChange={(event) => setPostInput({ ...postInput, title: event.target.value })}
         placeholder="제목을 입력하세요."
       />
-      <EditorContainer>
+      <St.EditorContainer>
         <ReactQuill
           style={editorStyle}
           theme="snow"
@@ -91,37 +90,9 @@ function Editor() {
           formats={formats}
           ref={quillRef}
         />
-      </EditorContainer>
-    </WritingArea>
+      </St.EditorContainer>
+    </St.WritingArea>
   );
 }
 
 export default Editor;
-
-const WritingArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 15px;
-
-  & input {
-    font-size: 18px;
-    padding: 15px 10px;
-    border-radius: 10px;
-    border: 1px solid ${theme.color.lightgray};
-    background: #f3f3f3;
-  }
-`;
-
-const EditorContainer = styled.div`
-  .ql-editor {
-    font-size: 18px;
-
-    strong {
-      font-weight: bold;
-    }
-
-    em {
-      font-style: italic;
-    }
-  }
-`;

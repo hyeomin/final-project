@@ -5,7 +5,7 @@ import { updatePost } from '../../../api/postApi';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
 import { initialPostInputState, isEditingPostState, postInputState } from '../../../recoil/posts';
-import { CustomButton } from '../SubmitButton';
+import { CustomButton } from './styles';
 
 function EditUploadButton() {
   const modal = useModal();

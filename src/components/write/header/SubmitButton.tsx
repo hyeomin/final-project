@@ -2,20 +2,15 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
-import { getAllUsers } from '../../api/authApi';
-import { addPost } from '../../api/postApi';
-import { useModal } from '../../hooks/useModal';
-import { QUERY_KEYS } from '../../query/keys';
-import { isEditingPostState, postInputState } from '../../recoil/posts';
-import { roleState } from '../../recoil/users';
-import { auth } from '../../shared/firebase';
-import theme from '../../styles/theme';
-import { PostType } from '../../types/PostType';
-
-interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  $variant?: 'save' | 'done';
-}
+import { getAllUsers } from '../../../api/authApi';
+import { addPost } from '../../../api/postApi';
+import { useModal } from '../../../hooks/useModal';
+import { QUERY_KEYS } from '../../../query/keys';
+import { isEditingPostState, postInputState } from '../../../recoil/posts';
+import { roleState } from '../../../recoil/users';
+import { auth } from '../../../shared/firebase';
+import { PostType } from '../../../types/PostType';
+import { CustomButton } from './styles';
 
 function SubmitButton() {
   const modal = useModal();
@@ -129,21 +124,3 @@ function SubmitButton() {
 }
 
 export default SubmitButton;
-
-export const CustomButton = styled.button<CustomButtonProps>`
-  color: white;
-  background-color: ${theme.color.mangoMain};
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  cursor: pointer;
-
-  ${({ $variant }) =>
-    $variant === 'save' &&
-    `
-    color: black;
-    background-color: white;
-    border:  1px solid lightgray;
-
-  `}
-`;

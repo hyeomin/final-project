@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { GoPlus, GoSearch, GoX } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
-import styled from 'styled-components';
-import { postInputState } from '../../recoil/posts';
-import theme from '../../styles/theme';
-import { commonHashtagsList } from './common/Lists';
+import { postInputState } from '../../../recoil/posts';
+import { commonHashtagsList } from '../common/lists';
+import St from './style';
 
 function Hashtag() {
   const HASHTAG = 'hashtag';
@@ -43,27 +42,27 @@ function Hashtag() {
   };
 
   return (
-    <HashtagArea>
+    <St.HashtagArea>
       <h5>자주 사용된 해시태그입니다. 해시태그를 추가해보세요!</h5>
-      <RecommendedTags>
+      <St.RecommendedTags>
         {commonHashtags.map((hashtag, idx) => {
           return (
-            <SingleHashtag key={idx} onClick={() => onHandleSelectHashtag(hashtag)}>
+            <St.SingleHashtag key={idx} onClick={() => onHandleSelectHashtag(hashtag)}>
               {hashtag}
               <GoPlus />
-            </SingleHashtag>
+            </St.SingleHashtag>
           );
         })}
-      </RecommendedTags>
-      <SelectedTagList>
+      </St.RecommendedTags>
+      <St.SelectedTagList>
         {hashtags.map((tag, idx) => (
-          <SingleHashtag key={idx} onClick={() => removeHashtag(tag)}>
+          <St.SingleHashtag key={idx} onClick={() => removeHashtag(tag)}>
             {tag}
             <GoX />
-          </SingleHashtag>
+          </St.SingleHashtag>
         ))}
-      </SelectedTagList>
-      <HashtagInputContainer>
+      </St.SelectedTagList>
+      <St.HashtagInputContainer>
         <input
           name={HASHTAG}
           value={currentHashtag}
@@ -71,83 +70,12 @@ function Hashtag() {
           onKeyPress={onKeyPressHandler}
           placeholder="해시태그 + Enter"
         />
-        <SearchIcon>
+        <St.SearchIcon>
           <GoSearch />
-        </SearchIcon>
-      </HashtagInputContainer>
-    </HashtagArea>
+        </St.SearchIcon>
+      </St.HashtagInputContainer>
+    </St.HashtagArea>
   );
 }
 
 export default Hashtag;
-
-const HashtagArea = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 10px;
-  padding: 10px;
-
-  & h5 {
-    padding: 5px 0;
-  }
-`;
-
-const RecommendedTags = styled.div`
-  display: flex;
-  column-gap: 10px;
-  font-size: 16px;
-`;
-
-const SingleHashtag = styled.span`
-  display: flex;
-  justify-content: center;
-  column-gap: 5px;
-
-  background-color: ${theme.color.mangoLight};
-  border: 1px solid transparent;
-  border-radius: 5px;
-  padding: 5px 8px;
-  font-size: 14px;
-  color: #444;
-
-  &:hover {
-    cursor: pointer;
-    border: 1px solid ${theme.color.mangoMain};
-  }
-`;
-
-const HashtagInputContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 10px;
-  border: 1px solid ${theme.color.mangoMain};
-
-  font-size: 14px;
-  column-gap: 10px;
-  overflow: hidden;
-
-  & input {
-    display: flex;
-    border-radius: 10px;
-    width: 100%;
-    height: 35px;
-    padding: 0 20px;
-    border: none;
-  }
-`;
-
-const SearchIcon = styled.div`
-  padding: 0 20px;
-  border-left: 1px solid ${theme.color.lightgray};
-`;
-
-const SelectedTagList = styled.div`
-  display: flex;
-  column-gap: 10px;
-
-  & span {
-    border: 1px solid ${theme.color.mangoMain};
-  }
-`;

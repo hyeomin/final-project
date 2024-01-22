@@ -1,13 +1,10 @@
 import { useQueries, useQuery } from '@tanstack/react-query';
-import { GoComment, GoEye, GoHeart } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
-import { getAllUsers } from '../../api/authApi';
 import { getAdminPosts, getPopularPosts } from '../../api/homeApi';
 import { getLikePosts } from '../../api/myPostAPI';
 import Cs from '../viewAll/style';
 
-import PostCard from './PostCard/PostCard';
 import { QUERY_KEYS } from '../../query/keys';
+import PostCard from './PostCard/PostCard';
 
 const LikesPosts = () => {
   const { data: likePosts } = useQuery({
