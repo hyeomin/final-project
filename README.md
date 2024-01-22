@@ -55,7 +55,7 @@
 
 첫 화면에서 어드민이 작성하여 홍보하고 싶은 메인 게시글 몇 가지와, 하단에 좋아요 수 기준으로 정렬된 인기 게시물, 그리고 인기 유저들을 확인할 수 있습니다. 게시글은 조회 수, 좋아요 수, 댓글 수 등을 확인할 수 있습니다.
 
-<img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F457d2ba3-559d-441c-ad2f-bf019c7cecf6%2Fb6f44bb3-45ec-4de9-a265-cad55d41740b%2FUntitled.png?table=block&id=fbb6db1b-7889-426e-b6a2-fe9d9b3d640b&spaceId=457d2ba3-559d-441c-ad2f-bf019c7cecf6&width=1760&userId=075cff0c-eee6-41db-acc0-a9e19d382b31&cache=v2"></br>
+<img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F457d2ba3-559d-441c-ad2f-bf019c7cecf6%2Fb6f44bb3-45ec-4de9-a265-cad55d41740b%2FUntitled.png?table=block&id=fbb6db1b-7889-426e-b6a2-fe9d9b3d640b&spaceId=457d2ba3-559d-441c-ad2f-bf019c7cecf6&width=1760&userId=075cff0c-eee6-41db-acc0-a9e19d382b31&cache=v2">
 
 <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F457d2ba3-559d-441c-ad2f-bf019c7cecf6%2F35851987-8c80-499d-b45d-2bfa97e3c7fb%2FUntitled.png?table=block&id=b8011682-7ad0-4ab8-8632-c08b18834b56&spaceId=457d2ba3-559d-441c-ad2f-bf019c7cecf6&width=1760&userId=075cff0c-eee6-41db-acc0-a9e19d382b31&cache=v2"></br>
 
