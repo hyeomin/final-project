@@ -68,6 +68,7 @@ function Login() {
       navigate('/');
     } catch (error) {
       setErrorMsg(error);
+      alert(errorMsg);
     }
   };
 
@@ -96,7 +97,6 @@ function Login() {
       })
 
       .catch((err) => {
-        alert(setErrorMsg(err));
         setErrorMsg(err);
       });
   }
@@ -136,12 +136,11 @@ function Login() {
             })}
           />
           {errors?.password?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
-          {errors?.password?.type === 'pattern' && (
+          {/* {errors?.password?.type === 'pattern' && (
             <St.WarningMsg>비밀번호는 문자, 숫자 1개이상 포함, 8자리 이상입니다</St.WarningMsg>
-          )}
+          )} */}
         </St.InputContainer>
         <St.LoginContainer>
-          <p style={{ color: 'red', marginTop: '10px' }}>{errorMsg}</p>
           <St.SignUpAndLoginBtn type="submit">로그인</St.SignUpAndLoginBtn>
           <St.GoogleLoginBtn onClick={handleGoogleLogin}>
             <img src={googleLogo} alt="Google Icon" />
