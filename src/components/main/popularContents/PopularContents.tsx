@@ -11,9 +11,9 @@ import { getPopularPosts } from '../../../api/homeApi';
 import defatutUserImage from '../../../assets/defaultImg.jpg';
 import mangoCover from '../../../assets/tentative-cover-image.jpg';
 import { useLikeButton } from '../../../hooks/useLikeButton';
-import PostContentPreview from '../../common/PostContentPreview';
 import { auth } from '../../../shared/firebase';
 import Loader from '../../common/Loader';
+import PostContentPreview from '../../common/PostContentPreview';
 import '../swiperStyle.css';
 import St from './style';
 
@@ -75,7 +75,7 @@ const UserContents = () => {
                             <div>
                               <img
                                 src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
-                                alt="user profile image"
+                                alt="user profile"
                               />
                             </div>
                             <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>

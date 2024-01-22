@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { updatePost } from '../../../api/postApi';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
-import { isEditingPostState, postInputState } from '../../../recoil/posts';
+import { initialPostInputState, isEditingPostState, postInputState } from '../../../recoil/posts';
 import { CustomButton } from '../SubmitButton';
 
 function EditUploadButton() {
@@ -13,7 +13,7 @@ function EditUploadButton() {
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { title } = postInput;
 
-  const [isEditingPost, setIsEditingPost] = useRecoilState(isEditingPostState);
+  const isEditingPost = useRecoilValue(isEditingPostState);
   const { foundPost } = isEditingPost;
 
   const navigate = useNavigate();
@@ -29,19 +29,7 @@ function EditUploadButton() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
       // 내용 원상복구
-      setPostInput({
-        title: '',
-        content: '',
-        category: 'noCategory',
-        hashtags: [],
-        coverImages: []
-      });
-      // setCoverImages([]);
-      setIsEditingPost({
-        foundPost: null,
-        isEditing: false
-      });
-      // setIsEditingPost(false);
+      setPostInput(initialPostInputState);
       navigate(`/detail/${foundPost?.id}`);
     }
   });
@@ -72,17 +60,6 @@ function EditUploadButton() {
       };
 
       const onClickSave = () => {
-        // const newImages = coverImages
-        //   .filter((image) => image.isNew && image.file && !image.isDeleted)
-        //   .map((image) => image.file) as File[];
-        // setImageFileforUpload(newImages);
-
-        // // 기존 업로드 되어 이미지 중 삭제된 것 정리
-        // const imageUrltoDelete = coverImages
-        //   .filter((image) => !image.isNew && !image.file && image.isDeleted)
-        //   .map((image) => image.url) as string[];
-        // setImageUrltoDelete(imageUrltoDelete);
-
         updatePostMutation.mutate();
 
         modal.close();
