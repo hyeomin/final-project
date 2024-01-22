@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import AboutMain from '../components/about/AboutMain';
 import WhyMango from '../components/about/WhyMango';
+import TopButton from '../components/about/TopButton';
 
 function About() {
   return (
@@ -14,6 +15,7 @@ function About() {
         <div>Left</div>
         <div>Right</div>
       </Bottom> */}
+      <TopButton />
     </>
   );
 }
