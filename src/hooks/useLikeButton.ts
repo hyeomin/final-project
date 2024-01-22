@@ -18,26 +18,27 @@ export const useLikeButton = () => {
     //   const confirmation = window.confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?');
     //   if (confirmation) navigate('/auth');
     // }
+    if (!currentUser) {
+      const onClickCancel = () => {
+        modal.close();
+        return;
+      };
 
-    const onClickCancel = () => {
-      modal.close();
-      return;
-    };
+      const onClickSave = () => {
+        modal.close();
+        navigate('/auth');
+      };
 
-    const onClickSave = () => {
-      modal.close();
-      navigate('/auth');
-    };
-
-    const openModalParams: Parameters<typeof modal.open>[0] = {
-      title: '로그인이 필요합니다.',
-      message: '로그인 창으로 이동하시겠습니까?',
-      leftButtonLabel: '취소',
-      onClickLeftButton: onClickCancel,
-      rightButtonLabel: '로그인',
-      onClickRightButton: onClickSave
-    };
-    modal.open(openModalParams);
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '로그인이 필요합니다.',
+        message: '로그인 창으로 이동하시겠습니까?',
+        leftButtonLabel: '취소',
+        onClickLeftButton: onClickCancel,
+        rightButtonLabel: '로그인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    }
     if (id) likeCountMutate(id);
   };
   return onClickLikeButton;
