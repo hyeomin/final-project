@@ -61,8 +61,7 @@ const updateProfileInfo = async ({ authCurrentUser, displayName, profileImage }:
 
     return updatedUser;
   } catch (error) {
-    console.log(error);
-    console.log('프로필 업데이트 실패');
+    console.log('프로필 업데이트 실패', error);
     throw error;
   }
 };
@@ -73,10 +72,15 @@ export type updateProfileImageProps = {
 };
 
 const updateProfileImage = async ({ authCurrentUser, profileImage }: updateProfileImageProps) => {
-  const imageRef = ref(storage, `userProfile/${authCurrentUser?.uid}`);
-  const snapshot = await uploadBytes(imageRef, profileImage);
-  const profileImageURL = await getDownloadURL(snapshot.ref);
-  return profileImageURL;
+  try {
+    const imageRef = ref(storage, `userProfile/${authCurrentUser?.uid}`);
+    const snapshot = await uploadBytes(imageRef, profileImage);
+    const profileImageURL = await getDownloadURL(snapshot.ref);
+    console.log('프로필 이미지 업로드 성공');
+    return profileImageURL;
+  } catch (error) {
+    console.log('프로필 이미지 업로드 실패', error);
+  }
 };
 
 export { getAllUsers, updateProfileImage, updateProfileInfo };

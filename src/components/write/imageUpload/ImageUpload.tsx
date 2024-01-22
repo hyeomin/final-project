@@ -2,14 +2,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { GoTrash } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
-import { deleteImage, uploadSingleImage } from '../../api/postApi';
-import DragNDrop from '../../assets/icons/dragndrop.png';
-import { postInputState } from '../../recoil/posts';
-import St from '../write/imageUpload/style';
-import { useModal } from '../../hooks/useModal';
+import { deleteImage, uploadSingleImage } from '../../../api/postApi';
+import DragNDrop from '../../../assets/icons/dragndrop.png';
+import { postInputState } from '../../../recoil/posts';
+import St from './style';
 
-function ImageUploadTest() {
-  const modal = useModal();
+function ImageUpload() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
@@ -60,20 +58,7 @@ function ImageUploadTest() {
     // 업로드 가능한 이미지 개수 제한
     const totalImages = selectedImageFiles.length + (coverImages ? coverImages.length : 0);
     if (totalImages > 3) {
-      const onClickSave = () => {
-        modal.close();
-      };
-
-      const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '[알림]',
-        message: '최대 업로드 가능한 개수는 3개입니다.',
-        leftButtonLabel: '',
-        onClickLeftButton: undefined,
-        rightButtonLabel: '확인',
-        onClickRightButton: onClickSave
-      };
-      modal.open(openModalParams);
-
+      alert('최대 업로드 가능한 개수는 3개입니다.');
       return;
     }
     // 업로드 가능한 이미지 파일 크기 하나씩 확인하면서 제한
@@ -101,20 +86,7 @@ function ImageUploadTest() {
 
   // 이미지 삭제
   const onDeleteImageHandler = (url: string) => {
-    const onClickSave = () => {
-      modal.close();
-    };
-
-    const openModalParams: Parameters<typeof modal.open>[0] = {
-      title: '삭제하시겠습니까?',
-      message: '',
-      leftButtonLabel: '',
-      onClickLeftButton: undefined,
-      rightButtonLabel: '확인',
-      onClickRightButton: onClickSave
-    };
-    modal.open(openModalParams);
-
+    alert('삭제하시겠습니까?');
     const deleteImages = coverImages.filter((image) => image.url !== url);
     setPostInput({
       ...postInput,
@@ -158,4 +130,4 @@ function ImageUploadTest() {
   );
 }
 
-export default ImageUploadTest;
+export default ImageUpload;
