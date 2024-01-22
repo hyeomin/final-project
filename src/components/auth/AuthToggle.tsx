@@ -67,7 +67,7 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
       };
 
       const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '로그아웃하시겠습니까.',
+        title: '로그아웃 하시겠습니까?',
         message: '',
         leftButtonLabel: '취소',
         onClickLeftButton: onClickCancel,
