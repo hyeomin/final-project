@@ -176,4 +176,4 @@ const getTopUsers = async () => {
   }
 };
 
-export { getPosts, getAdminPosts, getPopularPosts, updateLikedUsers, getTopUsers };
+export { getAdminPosts, getPopularPosts, getPosts, getTopUsers, updateLikedUsers };

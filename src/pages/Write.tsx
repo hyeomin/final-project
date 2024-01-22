@@ -1,23 +1,25 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Hashtag from '../components/write/Hashtag';
-import ImageUploadTest from '../components/write/ImageUploadTest';
 import Header from '../components/write/WriteHeader';
 import Editor from '../components/write/editor/Editor';
-import { isEditingPostState, postInputState } from '../recoil/posts';
+import ImageUpload from '../components/write/imageUpload/ImageUpload';
+import { initialPostInputState, isEditingPostState, postInputState } from '../recoil/posts';
 
 function Write() {
   const location = useLocation();
   const { foundDetailPost } = location.state || {};
   console.log('foundDetailPost', foundDetailPost);
 
-  const setPostInput = useSetRecoilState(postInputState);
-  const isEditing = useRecoilValue(isEditingPostState);
+  const [postInput, setPostInput] = useRecoilState(postInputState);
+  const setIsEditingPost = useSetRecoilState(isEditingPostState);
+
+  console.log('postInput-->', postInput);
 
   useEffect(() => {
-    if (isEditing && foundDetailPost) {
+    if (foundDetailPost) {
       setPostInput({
         title: foundDetailPost.title,
         content: foundDetailPost.content,
@@ -25,24 +27,23 @@ function Write() {
         hashtags: foundDetailPost.hashtags,
         coverImages: foundDetailPost.coverImages
       });
-    } else {
-      setPostInput({
-        title: '',
-        content: '',
-        category: '',
-        hashtags: [],
-        coverImages: []
+      setIsEditingPost({
+        foundPost: foundDetailPost,
+        isEditing: true
       });
+    } else {
+      setPostInput(initialPostInputState);
     }
-  }, [isEditing]);
+    console.log('write page');
+  }, []);
 
   return (
     <Container>
-      <Header />
+      <Header isEditing={!!foundDetailPost} />
       <Editor />
       <Spacer />
       <Hashtag />
-      <ImageUploadTest />
+      <ImageUpload />
     </Container>
   );
 }

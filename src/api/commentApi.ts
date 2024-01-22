@@ -1,17 +1,6 @@
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  increment,
-  orderBy,
-  query,
-  updateDoc,
-  where
-} from 'firebase/firestore';
-import { auth, db } from '../shared/firebase';
+import { addDoc, collection, deleteDoc, doc, getDocs, increment, orderBy, query, updateDoc } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
+import { auth, db } from '../shared/firebase';
 
 type AddComment = {
   newComment: Omit<CommentType, 'id'>;
@@ -91,4 +80,4 @@ const updateComment = async ({ postId, id, editingText: content }: UpdateComment
   }
 };
 
-export { addComment, getComments, deleteComment, updateComment };
+export { addComment, deleteComment, getComments, updateComment };
