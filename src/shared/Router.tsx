@@ -33,7 +33,7 @@ export default function Router() {
           </Route>
         </Routes>
       </Layout>
-      <ReactQueryDevtools />
+      {/* <ReactQueryDevtools /> */}
     </BrowserRouter>
   );
 }

@@ -100,6 +100,7 @@ const UserInfo = styled.div`
 
   & img {
     width: 25px;
+    height: 25px;
     border-radius: 50%;
     object-fit: fill;
   }
