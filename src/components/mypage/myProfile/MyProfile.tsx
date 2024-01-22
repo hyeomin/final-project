@@ -5,8 +5,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
-import { getTopUsers } from '../../../api/homeApi';
-import { getMyPosts } from '../../../api/myPostAPI';
+import { getMyPosts, getUserRanking } from '../../../api/myPostAPI';
 import defaultImg from '../../../assets/defaultImg.jpg';
 import postCountIcon from '../../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../../assets/icons/rankingIcon.png';
@@ -83,7 +82,7 @@ function MyProfile() {
   // 랭킹순위
   const { data: topUsers } = useQuery({
     queryKey: ['topUsers'],
-    queryFn: getTopUsers
+    queryFn: getUserRanking
   });
 
   //div를 클릭해도 input이 클릭되도록 하기
