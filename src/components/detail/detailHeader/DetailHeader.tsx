@@ -35,13 +35,11 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
           <St.StyledSwiper onSwiper={setSwiperInstance} onSlideChange={handleSlideChange} className="mySwiper">
             {coverImages.map((image, idx) => {
               return (
-                <div>
-                  <SwiperSlide key={idx}>
-                    <img src={image.url} alt="cover" />
-                    <St.Gradient></St.Gradient>
-                    <St.PostTitle noimage={false}>{foundDetailPost.title}</St.PostTitle>
-                  </SwiperSlide>
-                </div>
+                <SwiperSlide key={idx}>
+                  <img src={image.url} alt="cover" />
+                  <St.Gradient></St.Gradient>
+                  <St.PostTitle $noimage={false}>{foundDetailPost.title}</St.PostTitle>
+                </SwiperSlide>
               );
             })}
           </St.StyledSwiper>
@@ -52,7 +50,7 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
         </>
       ) : (
         <St.NoImage>
-          <St.PostTitle noimage={true}>{foundDetailPost.title}</St.PostTitle>
+          <St.PostTitle $noimage={true}>{foundDetailPost.title}</St.PostTitle>
         </St.NoImage>
       )}
     </St.CoverContainer>

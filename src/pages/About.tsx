@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 import AboutMain from '../components/about/AboutMain';
 import WhyMango from '../components/about/WhyMango';
+import TopButton from '../components/about/TopButton';
 
 function About() {
   return (
-    <AboutContainer>
+    <>
       <Header muted autoPlay loop>
         <source src={process.env.PUBLIC_URL + '/video/about-cover-video.mp4'} type="video/mp4" />
       </Header>
@@ -14,20 +15,15 @@ function About() {
         <div>Left</div>
         <div>Right</div>
       </Bottom> */}
-    </AboutContainer>
+      <TopButton />
+    </>
   );
 }
 
 export default About;
 
-const AboutContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 const Header = styled.video`
-  width: 100vw;
+  width: 100%;
   height: 450px;
   object-fit: cover;
 `;

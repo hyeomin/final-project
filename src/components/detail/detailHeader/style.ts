@@ -22,16 +22,16 @@ const StyledSwiper = styled(Swiper)`
 `;
 
 interface PostTitleProps {
-  noimage: boolean;
+  $noimage: boolean;
 }
 
 const PostTitle = styled.h3<PostTitleProps>`
-  color: ${(props) => (props.noimage ? 'black' : 'white')};
+  color: ${(props) => (props.$noimage ? 'black' : 'white')};
   text-align: left;
   position: absolute;
   width: 100%;
-  bottom: ${(props) => (props.noimage ? '20px' : '60px')};
-  padding: ${(props) => (props.noimage ? '0 20px' : '0 60px')};
+  bottom: ${(props) => (props.$noimage ? '20px' : '60px')};
+  padding: ${(props) => (props.$noimage ? '0 20px' : '0 60px')};
   font-size: 40px;
   cursor: initial;
 `;

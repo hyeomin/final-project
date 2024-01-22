@@ -1,24 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { updatePostViewCount } from '../api/detailApi';
 import { getPosts } from '../api/homeApi';
 import DetailBody from '../components/detail/DetailBody';
-import PostShift from '../components/detail/PostShift';
 import AddCommentForm from '../components/detail/comment/addComment/AddComment';
 import CommentList from '../components/detail/comment/commentList/CommentList';
 import DetailHeader from '../components/detail/detailHeader/DetailHeader';
+import PostShift from '../components/detail/postShift/PostShift';
 import { QUERY_KEYS } from '../query/keys';
-import { postInputState } from '../recoil/posts';
 import { PostType } from '../types/PostType';
 
 function Detail() {
   const [foundDetailPost, setFoundDetailPost] = useState<PostType | null>();
-  const [postInput, setPostInput] = useRecoilState(postInputState);
-
-  console.log('postInput', postInput);
 
   const { id } = useParams();
 
@@ -80,6 +75,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
+  width: 1000px;
 `;
 
 const DetailEmptyFooter = styled.div`

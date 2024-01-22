@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { SwiperSlide } from 'swiper/react';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { SwiperSlide } from 'swiper/react';
 import theme from '../../../styles/theme';
 
 const UserContents = styled.section`
@@ -10,7 +10,8 @@ const UserContents = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
+  width: 1000px;
   /* height: 50%; */
   margin-bottom: 10px;
 `;
@@ -70,7 +71,7 @@ const StyledSwiperSlide = styled(SwiperSlide)`
   width: 285px;
   height: 408.462px;
   overflow: hidden;
-  background-color: lightblue;
+  /* background-color: lightblue; */
 `;
 
 const UserPostCover = styled(Link)`
@@ -98,20 +99,18 @@ const InfoTop = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  /* background-color: green; */
   height: 30px;
   align-self: flex-start;
 `;
 const UserInfo = styled.div`
   display: flex;
-  // 닉네임
   & div:nth-child(2) {
     color: #fff;
     font-size: 16px;
     font-weight: 500;
-    line-height: 150%; /* 24px */
+    line-height: 150%;
   }
-  //프사
+
   & div:nth-child(1) {
     width: 25px;
     height: 25px;
@@ -167,12 +166,9 @@ const BottomText = styled.div`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 15px; // 줄여도 될듯/ 피그마엔 20임
-    /* background-color: red; */
+    margin-bottom: 15px;
   }
   & div:nth-child(2) {
-    display: flex;
     width: 100%;
     height: 16px;
     flex-direction: column;
@@ -185,7 +181,6 @@ const BottomText = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 10px;
-    /* background-color: red; */
   }
 `;
 const Count = styled.div`
@@ -196,7 +191,7 @@ const Count = styled.div`
   text-align: center;
   font-size: 14px;
   font-weight: 400;
-  line-height: 150%; /* 21px */
+  line-height: 150%;
   & span {
     width: 14px;
     display: flex;
