@@ -235,7 +235,7 @@ function MyProfileTest() {
           <St.MyEmail>{authCurrentUser?.email}</St.MyEmail>
           <St.UserInfoModify>
             {isEditing ? (
-              <>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                 <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
                 <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
                 <St.ModifyButton
@@ -252,7 +252,7 @@ function MyProfileTest() {
                     <span>변경된 내용이 없습니다.</span>
                   )}
                 </St.ErrorMsg>
-              </>
+              </div>
             ) : (
               <>
                 <CiSettings style={{ cursor: 'pointer' }} onClick={() => setIsEditing(true)}>
