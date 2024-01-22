@@ -1,5 +1,4 @@
 import { QueryFunctionContext, QueryKey } from '@tanstack/react-query';
-import { db } from '../shared/firebase';
 import {
   DocumentData,
   Query,
@@ -13,6 +12,7 @@ import {
   where
 } from 'firebase/firestore';
 import { Category } from '../components/viewAll/ViewAllBody';
+import { db } from '../shared/firebase';
 
 //관리자 (콘텐츠 by Mango)
 export const getAdminPostList =

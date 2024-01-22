@@ -38,7 +38,7 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
                 <SwiperSlide key={idx}>
                   <img src={image.url} alt="cover" />
                   <St.Gradient></St.Gradient>
-                  <St.PostTitle noimage={false.toString()}>{foundDetailPost.title}</St.PostTitle>
+                  <St.PostTitle $noimage={false}>{foundDetailPost.title}</St.PostTitle>
                 </SwiperSlide>
               );
             })}
@@ -50,7 +50,7 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
         </>
       ) : (
         <St.NoImage>
-          <St.PostTitle noimage={true.toString()}>{foundDetailPost.title}</St.PostTitle>
+          <St.PostTitle $noimage={true}>{foundDetailPost.title}</St.PostTitle>
         </St.NoImage>
       )}
     </St.CoverContainer>
