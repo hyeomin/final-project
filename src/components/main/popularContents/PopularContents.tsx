@@ -8,7 +8,7 @@ import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
 import { getAllUsers } from '../../../api/authApi';
 import { getPopularPosts } from '../../../api/homeApi';
-import defatutUserImage from '../../../assets/defaultImg.jpg';
+import defaultUserImage from '../../../assets/defaultImg.jpg';
 import mangoCover from '../../../assets/tentative-cover-image.jpg';
 import { useLikeButton } from '../../../hooks/useLikeButton';
 import { auth } from '../../../shared/firebase';
@@ -74,8 +74,8 @@ const UserContents = () => {
                           <St.UserInfo>
                             <div>
                               <img
-                                src={users?.find((user) => user.uid === item.uid)?.profileImg || defatutUserImage}
-                                alt="user profile"
+                                src={users?.find((user) => user.uid === item.uid)?.profileImg || defaultUserImage}
+                                alt="user profile image"
                               />
                             </div>
                             <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
@@ -112,6 +112,7 @@ const UserContents = () => {
                           src={item.coverImages && item.coverImages.length > 0 ? item.coverImages[0].url : mangoCover}
                           alt={item.title}
                         />
+                        // <img src={mangoCover} alt={item.title} />
                       )}
                     </St.UserPostCover>
                   </St.StyledSwiperSlide>
