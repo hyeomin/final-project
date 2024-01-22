@@ -56,6 +56,7 @@
 첫 화면에서 어드민이 작성하여 홍보하고 싶은 메인 게시글 몇 가지와, 하단에 좋아요 수 기준으로 정렬된 인기 게시물, 그리고 인기 유저들을 확인할 수 있습니다. 게시글은 조회 수, 좋아요 수, 댓글 수 등을 확인할 수 있습니다.
 
 <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F457d2ba3-559d-441c-ad2f-bf019c7cecf6%2Fb6f44bb3-45ec-4de9-a265-cad55d41740b%2FUntitled.png?table=block&id=fbb6db1b-7889-426e-b6a2-fe9d9b3d640b&spaceId=457d2ba3-559d-441c-ad2f-bf019c7cecf6&width=1760&userId=075cff0c-eee6-41db-acc0-a9e19d382b31&cache=v2"></br>
+
 <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F457d2ba3-559d-441c-ad2f-bf019c7cecf6%2F35851987-8c80-499d-b45d-2bfa97e3c7fb%2FUntitled.png?table=block&id=b8011682-7ad0-4ab8-8632-c08b18834b56&spaceId=457d2ba3-559d-441c-ad2f-bf019c7cecf6&width=1760&userId=075cff0c-eee6-41db-acc0-a9e19d382b31&cache=v2"></br>
 
 게시물은 오른쪽 상단 하트 버튼을 눌러 ‘좋아요’ 기능을 활용할 수 있으며, 로그인이 안된 상태에서는 커스텀으로 만든 모달을 띄워 실행을 막아놨기 때문에 로그인을 유도할 수 있습니다.
@@ -67,6 +68,7 @@
 전체보기 탭으로 넘어가면 관리자가 작성하는 콘텐츠와 유저들이 작성한 콘텐츠를 각각 볼 수 있으며, 더보기 기능을 활용하여 보여지는 게시물 수를 조절합니다.
 
 <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F457d2ba3-559d-441c-ad2f-bf019c7cecf6%2F0070bbbf-f25c-4d40-b812-ff97b32caf6e%2FUntitled.png?table=block&id=3e852c6f-8ebb-4a5e-a3c0-97397ea0481d&spaceId=457d2ba3-559d-441c-ad2f-bf019c7cecf6&width=1760&userId=075cff0c-eee6-41db-acc0-a9e19d382b31&cache=v2"></br>
+
 <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F457d2ba3-559d-441c-ad2f-bf019c7cecf6%2F6a4e0f66-40cf-4eca-9078-a92af0daafaf%2FUntitled.png?table=block&id=d11a2540-fd75-475b-96fb-9b996228e582&spaceId=457d2ba3-559d-441c-ad2f-bf019c7cecf6&width=1760&userId=075cff0c-eee6-41db-acc0-a9e19d382b31&cache=v2"></br>
 
 ### 글쓰기
@@ -74,6 +76,7 @@
 글쓰기 탭에서는 React-Quill을 활용한 에디터 기능을 사용할 수 있습니다. 게시글 작성 시 카테고리 선택, 해시태그 선택, 그리고 커버 이미지를 선택할 수 있습니다.
 
 <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F457d2ba3-559d-441c-ad2f-bf019c7cecf6%2F7e938847-0531-416d-8a43-05caa64b111d%2FUntitled.png?table=block&id=8e15d574-49ab-46d5-8315-2b192cdf9c13&spaceId=457d2ba3-559d-441c-ad2f-bf019c7cecf6&width=1760&userId=075cff0c-eee6-41db-acc0-a9e19d382b31&cache=v2"></br>
+
 <img src="https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F457d2ba3-559d-441c-ad2f-bf019c7cecf6%2F34ecd6f7-2464-44c6-9098-5ed1e65b350a%2FUntitled.png?table=block&id=9dd184a0-4a4a-44dc-840f-881f09b58086&spaceId=457d2ba3-559d-441c-ad2f-bf019c7cecf6&width=1760&userId=075cff0c-eee6-41db-acc0-a9e19d382b31&cache=v2"></br>
 
 ### 게시글 상세페이지
