@@ -80,15 +80,15 @@ function Login() {
         setUserData(data.user);
 
         // 회원가입 시, user 컬렉션에 값이 저장됨
-        const userId = authCurrentUser?.uid;
+        const userId = auth.currentUser?.uid;
         console.log('userId-->', userId);
         // 컬렉션에 있는 users 필드 정보 수정
         if (userId) {
           setDoc(doc(db, 'users', userId), {
-            displayName: authCurrentUser?.displayName,
-            profileImg: authCurrentUser?.photoURL,
-            uid: authCurrentUser?.uid,
-            phoneNum: authCurrentUser?.phoneNumber,
+            displayName: auth.currentUser?.displayName,
+            profileImg: auth.currentUser?.photoURL,
+            uid: auth.currentUser?.uid,
+            phoneNum: auth.currentUser?.phoneNumber,
             role: 'user'
           });
         }
