@@ -19,6 +19,7 @@ const MySectionWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
+  border-radius: 10px;
   border: 1px solid #d9d9d9;
   margin-bottom: 300px;
 `;
@@ -27,7 +28,7 @@ const ProfileEditWrapper = styled.div`
   align-items: center;
   column-gap: 30px;
   width: 100%;
-  height: 230px;
+  height: 200px;
   padding: 40px 60px;
   border-radius: 10px;
   border: 1px solid lightgray;
@@ -132,6 +133,14 @@ const DisplayNameModify = styled.input`
   font-size: 12px;
 `;
 
+const DisplayNameCheckBtn = styled.button`
+  border-radius: 20px;
+  margin-left: 10px;
+  font-size: 10px;
+  border: 1px solid ${theme.color.gray};
+  color: ${theme.color.gray};
+`;
+
 const MyImage = styled.img`
   width: 100px;
   height: 100px;
@@ -153,20 +162,23 @@ const GuideGradeWrapper = styled.div`
 `;
 
 const GuideGrade = styled.div`
-  width: 140px;
-  height: 60px;
-  padding: 15px;
+  display: flex;
+  align-items: center;
+  /* column-gap: px; */
+  width: 180px;
+  height: 50px;
+  padding: 12px;
   font-size: 12px;
   background-color: ${theme.color.mangoLight};
   position: absolute;
   left: 60%;
-  bottom: -20px;
+  bottom: -10px;
   border-radius: 10px;
 
   &:after {
     content: '';
     position: absolute;
-    left: -12%;
+    left: -10%;
     top: 35%;
     border-top: 10px solid transparent;
     border-left: 10px solid transparent;
@@ -187,7 +199,7 @@ const TabButtonContainer = styled.div`
   justify-content: left;
   width: 100%;
   column-gap: 5px;
-
+  /* gap:10px; */
   margin-top: 80px;
   font-size: 20px;
 `;
@@ -219,6 +231,8 @@ const TabButton = styled.button`
 
 const ErrorMsg = styled.div`
   color: red;
+  font-size: 12px;
+  margin-left: 10px;
 `;
 export default {
   ProfileEditWrapper,
@@ -244,5 +258,6 @@ export default {
   MyImage,
   GuideGrade,
   GuideGradeWrapper,
-  ErrorMsg
+  ErrorMsg,
+  DisplayNameCheckBtn
 };

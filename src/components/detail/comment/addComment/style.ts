@@ -1,19 +1,22 @@
-import theme from '../../../../styles/theme';
 import styled from 'styled-components';
+import theme from '../../../../styles/theme';
 
 const CommentSubmitForm = styled.form`
   display: flex;
   width: 100%;
-  height: 60px;
+  height: 120px;
   column-gap: 10px;
-  & input {
+
+  & textarea {
     flex: 1;
+    height: 100%;
     color: ${theme.color.gray};
     border: 1px solid #888;
     border-radius: 10px;
     background-color: #f6f6f6;
     font-size: 16px;
-    padding: 0 20px;
+    padding: 20px;
+    resize: none;
   }
 `;
 

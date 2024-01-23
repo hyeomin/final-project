@@ -2,27 +2,23 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
-import { getAllUsers } from '../../api/authApi';
-import { addPost } from '../../api/postApi';
-import { useModal } from '../../hooks/useModal';
-import { QUERY_KEYS } from '../../query/keys';
-import { isEditingPostState, postInputState } from '../../recoil/posts';
-import { roleState } from '../../recoil/users';
-import { auth } from '../../shared/firebase';
-import theme from '../../styles/theme';
-import { PostType } from '../../types/PostType';
-
-interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  $variant?: 'save' | 'done';
-}
+import { getAllUsers } from '../../../api/authApi';
+import { addPost } from '../../../api/postApi';
+import { useModal } from '../../../hooks/useModal';
+import { QUERY_KEYS } from '../../../query/keys';
+import { isEditingPostState, postInputState } from '../../../recoil/posts';
+import { roleState } from '../../../recoil/users';
+import { auth } from '../../../shared/firebase';
+import { PostType } from '../../../types/PostType';
+import { stripHtml } from '../../../util/extractContentText';
+import { CustomButton } from './styles';
 
 function SubmitButton() {
   const modal = useModal();
 
   const setisEditingPost = useSetRecoilState(isEditingPostState);
   const [postInput, setPostInput] = useRecoilState(postInputState);
-  const { title } = postInput;
+  const { title, content } = postInput;
 
   const [role, setRole] = useRecoilState(roleState);
 
@@ -85,13 +81,13 @@ function SubmitButton() {
   const onSubmitPostHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (title.length === 0) {
+    if (title.length === 0 || stripHtml(content).trim().length === 0) {
       const onClickSave = () => {
         modal.close();
       };
 
       const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '제목 입력은 필수입니다.',
+        title: '제목과 내용 입력은 필수입니다.',
         message: '',
         leftButtonLabel: '',
         onClickLeftButton: undefined,
@@ -129,21 +125,3 @@ function SubmitButton() {
 }
 
 export default SubmitButton;
-
-export const CustomButton = styled.button<CustomButtonProps>`
-  color: white;
-  background-color: ${theme.color.mangoMain};
-  border: none;
-  border-radius: 5px;
-  padding: 10px 15px;
-  cursor: pointer;
-
-  ${({ $variant }) =>
-    $variant === 'save' &&
-    `
-    color: black;
-    background-color: white;
-    border:  1px solid lightgray;
-
-  `}
-`;

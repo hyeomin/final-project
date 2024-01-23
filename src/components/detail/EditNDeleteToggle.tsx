@@ -6,7 +6,9 @@ import { deletePost } from '../../api/postApi';
 import editNdeleteToggleBox from '../../assets/editndeletetoggle.png';
 import { useModal } from '../../hooks/useModal';
 // import { foundDetailPostProps } from '../../pages/Detail';
+import { useSetRecoilState } from 'recoil';
 import { QUERY_KEYS } from '../../query/keys';
+import { isEditingPostState, postInputState } from '../../recoil/posts';
 import theme from '../../styles/theme';
 import { FoundDetailPostProps } from '../../types/PostType';
 
@@ -15,7 +17,21 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+  const setPostInput = useSetRecoilState(postInputState);
+  const setIsEditingPost = useSetRecoilState(isEditingPostState);
+
   const onEditPostHandler = () => {
+    setPostInput({
+      title: foundDetailPost.title,
+      content: foundDetailPost.content,
+      category: foundDetailPost.category,
+      hashtags: foundDetailPost.hashtags,
+      coverImages: foundDetailPost.coverImages
+    });
+    setIsEditingPost({
+      foundPost: foundDetailPost,
+      isEditing: true
+    });
     navigate('/write', { state: { foundDetailPost } });
   };
 
@@ -33,7 +49,9 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
     };
 
     const onClickSave = () => {
-      deleteMutation.mutate(foundDetailPost.id);
+      if (foundDetailPost) {
+        deleteMutation.mutate(foundDetailPost.id);
+      }
       modal.close();
     };
 

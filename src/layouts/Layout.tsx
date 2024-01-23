@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import styled from 'styled-components';
-import Footer from './Footer';
-import NavBar from './NavBar';
+import Footer from './footer/Footer';
+import NavBar from './navbar/NavBar';
 
 function Layout({ children }: PropsWithChildren) {
   return (
