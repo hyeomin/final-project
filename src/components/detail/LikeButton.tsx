@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import produce from 'immer';
+import { produce } from 'immer';
 import { useContext } from 'react';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 import styled from 'styled-components';
