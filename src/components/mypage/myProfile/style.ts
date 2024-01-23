@@ -132,6 +132,8 @@ const DisplayNameModify = styled.input`
   font-size: 12px;
 `;
 
+const DisplayNameCheckBtn = styled.button``;
+
 const MyImage = styled.img`
   width: 100px;
   height: 100px;
@@ -244,5 +246,6 @@ export default {
   MyImage,
   GuideGrade,
   GuideGradeWrapper,
-  ErrorMsg
+  ErrorMsg,
+  DisplayNameCheckBtn
 };

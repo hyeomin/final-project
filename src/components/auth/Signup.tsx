@@ -122,7 +122,12 @@ function Signup() {
         });
       }
     } catch (error) {
+      // console.error(errorMsg);
+      // 왜 처음에 빈 값으로 뜰까?
+
       setErrorMsg(error);
+      alert(errorMsg);
+
       return;
     }
 

@@ -15,11 +15,12 @@ import rankingIcon from '../../../../assets/icons/rankingIcon.png';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useModal } from '../../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../../query/keys';
-import { auth } from '../../../../shared/firebase';
+import { auth, db } from '../../../../shared/firebase';
 import HabitCalendar from '../../HabitCalendar/HabitCalendar';
 import LikesPosts from '../../LikesPosts';
 import MyPosts from '../../MyPosts';
 import St from '../style';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 function MyProfileTest() {
   const modal = useModal();
@@ -29,6 +30,8 @@ function MyProfileTest() {
   const [isEditing, setIsEditing] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isClickedGuide, setIsClickedGuide] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
 
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
   // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
@@ -52,7 +55,7 @@ function MyProfileTest() {
     } else {
       setIsValid(false);
       // 에러 메시지 표시
-      setErrorMsg('올바른 형식으로 입력해주세요.'); // 원하는 에러 메시지를 설정해주세요.
+      setErrorMsg('닉네임을 입력해주세요.'); // 원하는 에러 메시지를 설정해주세요.
     }
   };
 
@@ -170,6 +173,61 @@ function MyProfileTest() {
     }
   };
 
+  const nicknameCheck = async (nickname: string) => {
+    const userRef = collection(db, 'users');
+    const q = query(userRef, where('displayName', '==', nickname));
+    const querySnapshot = await getDocs(q);
+    setIsChecked(true);
+
+    if (querySnapshot.docs.length > 0) {
+      const onClickSave = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '이미 존재하는 닉네임입니다.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+      setIsFormValid(false);
+      return;
+    } else if (nickname === '') {
+      const onClickSave = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '닉네임을 입력해주세요.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+      return;
+    } else if (querySnapshot.docs.length === 0) {
+      const onClickSave = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '사용 가능한 닉네임입니다.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+      setIsFormValid(true);
+    }
+  };
+
   // menuTab 버튼
   const onClickTabBtn = (name: string) => {
     setActiveTab(name);
@@ -226,6 +284,12 @@ function MyProfileTest() {
                   onChange={onChangeDisplayName}
                   style={{ borderColor: isValid ? 'black' : 'red' }}
                 />
+                <St.DisplayNameCheckBtn
+                  onClick={() => nicknameCheck(displayName)}
+                  disabled={displayName == '' || displayName == authCurrentUser?.displayName}
+                >
+                  중복확인
+                </St.DisplayNameCheckBtn>
               </>
             ) : (
               <St.MyNickname>{authCurrentUser?.displayName || ''}</St.MyNickname>
