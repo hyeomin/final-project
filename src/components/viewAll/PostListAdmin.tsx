@@ -1,6 +1,6 @@
 import { QueryFunctionContext, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import mangoCover from '../../assets/tentative-cover-image.jpg';
 import { PostType } from '../../types/PostType';
 import Loader from '../common/Loader';
@@ -18,6 +18,9 @@ interface PostListProps {
 
 function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  //console.log('searchParams', searchParams.toString()); //category=total
+
   const {
     data: posts,
     fetchNextPage,
@@ -79,7 +82,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
   };
 
-  console.log(posts);
+  // console.log(posts);
 
   return (
     <St.MainSubWrapper>
