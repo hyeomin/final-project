@@ -15,6 +15,7 @@ import { isSignUpState, roleState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
 import { Data } from './Signup';
 import St from './style';
+import { useModal } from '../../hooks/useModal';
 
 interface UserData {
   uid: string;
@@ -26,7 +27,7 @@ function Login() {
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
   // const [nickname, setNickname] = useState('');
-
+  const modal = useModal();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [errorMsg, setErrorMsg] = usePrintError('');
 
@@ -68,7 +69,21 @@ function Login() {
       navigate('/');
     } catch (error) {
       setErrorMsg(error);
-      alert(errorMsg);
+
+      const onClickSave = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '[로그인 오류]',
+        message: errorMsg,
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+      //alert(errorMsg);
     }
   };
 

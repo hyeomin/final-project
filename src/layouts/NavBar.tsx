@@ -12,7 +12,7 @@ function NavBar() {
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  console.log('navbar');
+  //console.log('navbar');
 
   // AuthToggle 밖 누르면 꺼지게
   useOutsideClick<HTMLDivElement>(navRef, () => {

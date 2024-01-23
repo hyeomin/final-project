@@ -33,7 +33,9 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
     };
 
     const onClickSave = () => {
-      deleteMutation.mutate(foundDetailPost.id);
+      if (foundDetailPost) {
+        deleteMutation.mutate(foundDetailPost.id);
+      }
       modal.close();
     };
 
