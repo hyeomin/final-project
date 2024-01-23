@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -12,7 +12,6 @@ import { auth, db } from '../../shared/firebase';
 
 import St from './style';
 import { useModal } from '../../hooks/useModal';
-import MyProfileTest from '../mypage/myProfile/myProfileTest/MyProfileTest';
 
 export type Data = {
   email: string;
@@ -37,7 +36,7 @@ function Signup() {
   const [errorMsg, setErrorMsg] = usePrintError('');
   const [isFormValid, setIsFormValid] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
-  // const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
   const navigate = useNavigate();
   // const emailInputRef = useRef<HTMLInputElement | null>(null);
@@ -67,13 +66,18 @@ function Signup() {
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passwordCheck }: Data) => {
     try {
+      if (!isChecked || !isFormValid) {
+        // isChecked 상태가 false이거나 isFormValid 상태가 false일 때는 함수를 종료
+        return;
+      }
       if (!isChecked) {
         const onClickSave = () => {
           modal.close();
+          return;
         };
 
         const openModalParams: Parameters<typeof modal.open>[0] = {
-          title: '중복확인해주세요.',
+          title: '중복확인을 해주세요.',
           message: '',
           leftButtonLabel: '',
           onClickLeftButton: undefined,
@@ -140,6 +144,7 @@ function Signup() {
   // 이메일 중복체크 (firestore)
   const emailCheck = async (email: string) => {
     const userRef = collection(db, 'users');
+
     const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
 
@@ -159,8 +164,7 @@ function Signup() {
       modal.open(openModalParams);
 
       setIsFormValid(false);
-      setValue('email', '');
-
+      setValue('email', email);
       return;
     } else if (email === '') {
       const onClickSave = () => {
@@ -200,9 +204,10 @@ function Signup() {
   // 닉네임 중복체크
   const nicknameCheck = async (nickname: string) => {
     const userRef = collection(db, 'users');
+
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
-    // setIsNicknameChecked(true);
+    // setIsChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
@@ -219,8 +224,10 @@ function Signup() {
       };
       modal.open(openModalParams);
 
-      setValue('nickname', '');
+      setValue('nickname', nickname);
+      // setIsChecked(false);
       setIsFormValid(false);
+      // setIsChecked(false);
       return;
     } else if (nickname === '') {
       const onClickSave = () => {

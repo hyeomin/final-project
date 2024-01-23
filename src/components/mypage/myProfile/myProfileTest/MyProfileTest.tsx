@@ -49,6 +49,7 @@ function MyProfileTest() {
   // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    setIsChecked(false);
     if (value !== '' && nicknameRegex.test(value)) {
       setIsValid(true);
       setDisplayName(value);
@@ -193,6 +194,7 @@ function MyProfileTest() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsChecked(false);
       setIsFormValid(false);
       return;
     } else if (nickname === '') {
@@ -302,10 +304,13 @@ function MyProfileTest() {
                 <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
                 <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
                 <St.ModifyButton
-                  // disabled={
-                  //   displayName === '' && !displayName && profileImage === authCurrentUser?.photoURL && !isValid
-                  // }
                   onClick={onSubmitModifyProfile}
+                  disabled={
+                    !displayName ||
+                    (profileImage === authCurrentUser?.photoURL && displayName === authCurrentUser.displayName) ||
+                    !isValid ||
+                    !isChecked
+                  }
                 >
                   수정완료
                 </St.ModifyButton>
