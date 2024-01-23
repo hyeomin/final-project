@@ -3,30 +3,42 @@ import theme from '../../../styles/theme';
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   width: 100%;
   padding: 40px 0;
+`;
 
-  & button {
-    padding: 15px 30px;
-    border-radius: 10px;
-    border: none;
-    /* border: 1px solid ${theme.color.mangoYellow}; */
-    background-color: ${theme.color.mangoLight};
-    font-size: 14px;
+interface ShiftButtonProps {
+  $side: string;
+}
+
+const ShiftButton = styled.button<ShiftButtonProps>`
+  display: flex;
+  flex: 1;
+  justify-content: ${(props) => (props.$side === 'left' ? 'start' : 'flex-end')};
+  column-gap: 5px;
+  color: '#222';
+  border: none;
+  /* background-color: ${theme.color.mangoLight}; */
+  background-color: transparent;
+  font-size: 16px;
+
+  & span {
+    color: ${theme.color.gray};
 
     &:hover {
-      background-color: ${theme.color.mangoYellow};
-      cursor: pointer;
+      color: black;
     }
+  }
 
-    &:disabled {
-      cursor: default;
-      &:hover {
-        background-color: ${theme.color.mangoLight};
-      }
-    }
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    cursor: default;
+    color: transparent;
   }
 `;
 
-export default { ButtonContainer };
+export default { ButtonContainer, ShiftButton };

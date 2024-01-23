@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import styled from 'styled-components';
-import { postInputState } from '../../recoil/posts';
-import { roleState } from '../../recoil/users';
-import { categoryList } from './common/Lists';
+import { postInputState } from '../../../recoil/posts';
+import { roleState } from '../../../recoil/users';
+import { categoryList } from '../common/lists';
+import St from './style';
 
 function SelectCategory() {
   const role = useRecoilValue(roleState);
@@ -27,7 +27,7 @@ function SelectCategory() {
   };
 
   return (
-    <Select value={category} onChange={onChangeSelectHandler}>
+    <St.Select value={category} onChange={onChangeSelectHandler}>
       {filteredCategoryList.map((item, idx) => {
         return (
           <option key={idx} value={item.nameEng}>
@@ -35,16 +35,8 @@ function SelectCategory() {
           </option>
         );
       })}
-    </Select>
+    </St.Select>
   );
 }
 
 export default SelectCategory;
-
-const Select = styled.select`
-  width: 200px;
-  height: 30px;
-  font-size: 16px;
-  border-color: transparent;
-  text-align: center;
-`;

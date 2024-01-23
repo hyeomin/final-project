@@ -18,7 +18,7 @@ function WhyMango() {
               <p>환경을 아끼는 라이프스타일</p>
             </SubTitle>
             <Description>
-              <span>망고는 망해가는 지구를 함께 고쳐나가자는 미션을 가지고 있습니다.</span>
+              <p>망고는 망해가는 지구를 함께 고쳐나가자는 미션을 가지고 있습니다.</p>
               <p>지구 온난화, 환경 오염, 식량난 등 다양한 환경 문제가 대두되고 있는 지금,</p>
               <p>친환경 라이프스타일이 재미있고 즐거운 일상으로 자리 잡을 수 있도록 돕는 서비스입니다.</p>
             </Description>
@@ -36,7 +36,6 @@ const WhyContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  position: relative;
 
   & div {
     background-color: ${theme.color.mangoMain};
@@ -57,6 +56,7 @@ const Title = styled.div`
   align-items: center;
   row-gap: 60px;
   margin: 80px 0;
+  height: 800px;
 
   color: white;
   font-size: 60px;
@@ -67,10 +67,11 @@ const Mission = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  column-gap: 40px;
+  column-gap: 100px;
+  height: 600px;
 
   & img {
-    width: 320px;
+    width: 390px;
   }
 `;
 
@@ -87,7 +88,7 @@ const SubTitle = styled.div`
   row-gap: 10px;
 
   color: white;
-  font-size: 26px;
+  font-size: 36px;
   font-family: ${theme.font.agroBold};
   opacity: 80%;
 `;
@@ -97,8 +98,7 @@ const Description = styled.div`
   flex-direction: column;
   row-gap: 10px;
   color: #222222cc;
-  font-family: ${theme.font.agroLight};
-  font-size: 15px;
+  font-size: 18px;
 
   & span {
     font-family: ${theme.font.agroBold};

@@ -1,11 +1,11 @@
 import { GoChevronDown } from 'react-icons/go';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
-import defaultImg from '../assets/defaultImg.jpg';
-import { useModal } from '../hooks/useModal';
-import { isSignUpState } from '../recoil/users';
-import { auth } from '../shared/firebase';
+import defaultImg from '../../assets/defaultImg.jpg';
+import { useModal } from '../../hooks/useModal';
+import { isSignUpState } from '../../recoil/users';
+import { auth } from '../../shared/firebase';
+import St from './style';
 
 type Props = {
   styledNav: ({ isActive }: { isActive: boolean }) => {
@@ -48,68 +48,32 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
   };
 
   return (
-    <AuthContainer>
-      <StyledNavLnk to="/write" onClick={onAuthCheckHandler} style={styledNav}>
+    <St.AuthContainer>
+      <St.StyledNavLnk to="/write" onClick={onAuthCheckHandler} style={styledNav}>
         글쓰기
-      </StyledNavLnk>
+      </St.StyledNavLnk>
       {currentUser ? (
         <>
-          <UserInfo onClick={() => setIsAuthToggleOpen((prev) => !prev)}>
+          <St.UserInfo onClick={() => setIsAuthToggleOpen((prev) => !prev)}>
             <img src={currentUser?.photoURL ?? defaultImg} alt="profile" />
             <span>{currentUser?.displayName}</span>
             <span>
               <GoChevronDown />
             </span>
-          </UserInfo>
+          </St.UserInfo>
         </>
       ) : (
         <>
-          <StyledNavLnk to="/auth" onClick={() => setIsSignUp(false)} style={styledNav}>
+          <St.StyledNavLnk to="/auth" onClick={() => setIsSignUp(false)} style={styledNav}>
             로그인
-          </StyledNavLnk>
-          <StyledNavLnk to="/auth" onClick={() => setIsSignUp(true)} style={styledNav}>
+          </St.StyledNavLnk>
+          <St.StyledNavLnk to="/auth" onClick={() => setIsSignUp(true)} style={styledNav}>
             회원가입
-          </StyledNavLnk>
+          </St.StyledNavLnk>
         </>
       )}
-    </AuthContainer>
+    </St.AuthContainer>
   );
 }
 
 export default AuthNavBar;
-
-const AuthContainer = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 20px;
-  color: #888;
-  font-size: 14px;
-`;
-
-const StyledNavLnk = styled(NavLink)`
-  font-weight: normal;
-`;
-
-const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 10px;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-
-  & img {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    object-fit: fill;
-  }
-
-  & button {
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    border-color: transparent;
-    padding: 0;
-  }
-`;
