@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -9,10 +9,8 @@ import mangofavicon from '../../assets/mango-favicon.png';
 import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
-
 import St from './style';
 import { useModal } from '../../hooks/useModal';
-import MyProfileTest from '../mypage/myProfile/myProfileTest/MyProfileTest';
 
 export type Data = {
   email: string;
@@ -73,7 +71,7 @@ function Signup() {
         };
 
         const openModalParams: Parameters<typeof modal.open>[0] = {
-          title: '중복확인해주세요.',
+          title: '중복확인 해주세요.',
           message: '',
           leftButtonLabel: '',
           onClickLeftButton: undefined,
@@ -159,7 +157,7 @@ function Signup() {
       modal.open(openModalParams);
 
       setIsFormValid(false);
-      setValue('email', '');
+      setValue('email', email);
 
       return;
     } else if (email === '') {
@@ -202,7 +200,6 @@ function Signup() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
-    // setIsNicknameChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
@@ -219,7 +216,7 @@ function Signup() {
       };
       modal.open(openModalParams);
 
-      setValue('nickname', '');
+      setValue('nickname', nickname);
       setIsFormValid(false);
       return;
     } else if (nickname === '') {

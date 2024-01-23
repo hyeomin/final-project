@@ -21,6 +21,7 @@ import LikesPosts from '../../LikesPosts';
 import MyPosts from '../../MyPosts';
 import St from '../style';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+import { factory } from 'typescript';
 
 function MyProfileTest() {
   const modal = useModal();
@@ -128,16 +129,6 @@ function MyProfileTest() {
     }
   });
 
-  //프로필 수정 업데이트
-  const onSubmitModifyProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (authCurrentUser) {
-      if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
-        userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
-      }
-    }
-  };
-
   // 프로필 이미지를 Firebase에 업로드
   const profileImageUploadMutation = useMutation({
     mutationFn: ({ authCurrentUser, profileImage }: updateProfileImageProps) =>
@@ -177,7 +168,6 @@ function MyProfileTest() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
-    setIsChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
@@ -194,6 +184,7 @@ function MyProfileTest() {
       };
       modal.open(openModalParams);
       setIsFormValid(false);
+      setIsChecked(false);
       return;
     } else if (nickname === '') {
       const onClickSave = () => {
@@ -225,6 +216,17 @@ function MyProfileTest() {
       };
       modal.open(openModalParams);
       setIsFormValid(true);
+      setIsChecked(true);
+    }
+  };
+
+  //프로필 수정 업데이트
+  const onSubmitModifyProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (authCurrentUser) {
+      if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
+        userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+      }
     }
   };
 
@@ -280,13 +282,13 @@ function MyProfileTest() {
               <>
                 <St.DisplayNameModify
                   autoFocus
-                  defaultValue={authCurrentUser?.displayName ?? ''}
+                  defaultValue={authCurrentUser!.displayName ?? ''}
                   onChange={onChangeDisplayName}
                   style={{ borderColor: isValid ? 'black' : 'red' }}
                 />
                 <St.DisplayNameCheckBtn
                   onClick={() => nicknameCheck(displayName)}
-                  disabled={displayName == '' || displayName == authCurrentUser?.displayName}
+                  disabled={displayName === '' || displayName === authCurrentUser!.displayName || !isChecked}
                 >
                   중복확인
                 </St.DisplayNameCheckBtn>
@@ -302,9 +304,13 @@ function MyProfileTest() {
                 <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
                 <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
                 <St.ModifyButton
-                  // disabled={
-                  //   displayName === '' && !displayName && profileImage === authCurrentUser?.photoURL && !isValid
-                  // }
+                  disabled={
+                    displayName === '' ||
+                    !displayName ||
+                    profileImage === authCurrentUser?.photoURL ||
+                    !isValid ||
+                    !isChecked
+                  }
                   onClick={onSubmitModifyProfile}
                 >
                   수정완료
