@@ -3,42 +3,51 @@ import 'swiper/css';
 import { SwiperClass, SwiperSlide } from 'swiper/react';
 import swipeLeft from '../../../assets/icons/swipeLeft.png';
 import swipeRight from '../../../assets/icons/swipeRight.png';
+import useSwiperNavigation from '../../../hooks/useSwiperNavigation';
 import { FoundDetailPostProps } from '../../../types/PostType';
+import { convertToKor } from '../../write/common/lists';
 import St from './style';
 
 function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // const [currentIndex, setCurrentIndex] = useState(0);
 
   const coverImages = foundDetailPost.coverImages;
 
-  const handleSlideChange = (swiper: SwiperClass) => {
-    setCurrentIndex(swiper.activeIndex);
-  };
+  const { currentIndex, goNext, goPrev } = useSwiperNavigation(swiperInstance, coverImages.length - 1);
 
-  const goNext = () => {
-    if (swiperInstance) {
-      swiperInstance.slideNext();
-    }
-  };
+  console.log(typeof swiperInstance);
 
-  const goPrev = () => {
-    if (swiperInstance) {
-      swiperInstance.slidePrev();
-    }
-  };
+  // const handleSlideChange = (swiper: SwiperClass) => {
+  //   setCurrentIndex(swiper.activeIndex);
+  // };
+
+  // const goNext = () => {
+  //   if (swiperInstance) {
+  //     swiperInstance.slideNext();
+  //   }
+  // };
+
+  // const goPrev = () => {
+  //   if (swiperInstance) {
+  //     swiperInstance.slidePrev();
+  //   }
+  // };
 
   return (
     <St.CoverContainer>
       {coverImages.length > 0 ? (
         <>
-          <St.StyledSwiper onSwiper={setSwiperInstance} onSlideChange={handleSlideChange} className="mySwiper">
+          <St.StyledSwiper onSwiper={setSwiperInstance} className="mySwiper">
             {coverImages.map((image, idx) => {
               return (
                 <SwiperSlide key={idx}>
                   <img src={image.url} alt="cover" />
                   <St.Gradient></St.Gradient>
-                  <St.PostTitle $noimage={false}>{foundDetailPost.title}</St.PostTitle>
+                  <St.PostHeaderInfo $noimage={false}>
+                    <span>{convertToKor(foundDetailPost.category)}</span>
+                    <h2>{foundDetailPost.title}</h2>
+                  </St.PostHeaderInfo>
                 </SwiperSlide>
               );
             })}
@@ -50,7 +59,7 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
         </>
       ) : (
         <St.NoImage>
-          <St.PostTitle $noimage={true}>{foundDetailPost.title}</St.PostTitle>
+          <St.PostHeaderInfo $noimage={true}>{foundDetailPost.title}</St.PostHeaderInfo>
         </St.NoImage>
       )}
     </St.CoverContainer>

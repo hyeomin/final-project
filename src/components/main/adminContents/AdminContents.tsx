@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { getAdminPosts } from '../../../api/homeApi';
-import defaultIllustration from '../../../assets/home/AdminPostIllustration.png';
 import Loader from '../../common/Loader';
-import St from './style';
 
 const AdminContents = () => {
   const { data: adminContents, isLoading } = useQuery({
@@ -20,7 +20,7 @@ const AdminContents = () => {
   }
 
   return (
-    <St.Container>
+    <Container>
       <Swiper
         centeredSlides={true}
         autoplay={{
@@ -40,17 +40,47 @@ const AdminContents = () => {
         ) : (
           adminContents?.map((item, idx) => {
             return (
-              <SwiperSlide key={idx}>
+              <StyledSwiperSlide key={idx} className="mySwiper">
+                <div>
+                  요기
+                  <Button to={`/detail/${item.id}`}>자세히 보기</Button>
+                </div>
                 {/* item.coverImages로 변경하기 */}
-                {!item ? <Loader /> : <img src={defaultIllustration} alt={`Slide ${idx}`} />}
-                <St.Button to={`/detail/${item.id}`}>자세히 보기</St.Button>
-              </SwiperSlide>
+                {/* {!item ? <Loader /> : <img src={defaultIllustration} alt={`Slide ${idx}`} />} */}
+              </StyledSwiperSlide>
             );
           })
         )}
       </Swiper>
-    </St.Container>
+    </Container>
   );
 };
 
 export default AdminContents;
+
+const StyledSwiperSlide = styled(SwiperSlide)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  & img {
+    width: 100%;
+    height: 100%;
+  }
+
+  & div {
+    width: 1000px;
+    background-color: red;
+  }
+`;
+
+const Button = styled(Link)`
+  position: absolute;
+`;
+
+const Container = styled.div`
+  width: 100%;
+  height: 450px;
+  margin-bottom: 10px;
+`;

@@ -1,11 +1,10 @@
 import { useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import logo from '../assets/icons/mango-logo.png';
-import AuthToggle from '../components/auth/AuthToggle';
-import useOutsideClick from '../hooks/useOutsideClick';
-import theme from '../styles/theme';
+import logo from '../../assets/icons/mango-logo.png';
+import AuthToggle from '../../components/auth/AuthToggle';
+import useOutsideClick from '../../hooks/useOutsideClick';
 import AuthNavBar from './AuthNavBar';
+import St, { LogoContainer } from './style';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
@@ -27,9 +26,9 @@ function NavBar() {
   };
 
   return (
-    <NavContainer ref={navRef}>
-      <NavBarContainer>
-        <LeftNav>
+    <St.NavContainer ref={navRef}>
+      <St.NavBarContainer>
+        <St.LeftNav>
           <LogoContainer onClick={() => navigate('/')}>
             <img src={logo} alt="logo" />
             <span>Mango</span>
@@ -40,58 +39,12 @@ function NavBar() {
           <NavLink to="/viewAll" style={styledNav}>
             게시물 보기
           </NavLink>
-        </LeftNav>
+        </St.LeftNav>
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
-      </NavBarContainer>
+      </St.NavBarContainer>
       {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}
-    </NavContainer>
+    </St.NavContainer>
   );
 }
 
 export default NavBar;
-
-const NavContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-`;
-
-const NavBarContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 80px;
-  height: 60px;
-  border-bottom: 1px solid ${theme.color.lightgray};
-
-  & a {
-    text-decoration: none;
-  }
-`;
-
-const LeftNav = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: 40px;
-  font-size: 16px;
-  font-weight: bold;
-  color: ${theme.color.gray};
-`;
-
-export const LogoContainer = styled.div`
-  display: flex;
-  cursor: pointer;
-
-  & img {
-    width: 27px;
-    height: 27px;
-    object-fit: contain;
-    transform: rotate(340deg);
-  }
-
-  & span {
-    font-family: ${theme.font.mango};
-    color: ${theme.color.mangoMain};
-    font-size: 30px;
-  }
-`;

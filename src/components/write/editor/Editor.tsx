@@ -69,22 +69,22 @@ function Editor() {
     'width'
   ];
 
-  const editorStyle = { height: '400px', maxHeight: '800px' };
+  const editorStyle = { height: '600px', maxHeight: '800px' };
 
   return (
     <St.WritingArea>
       <SelectCategory />
       <input
         name={TITLE}
-        value={title}
+        defaultValue={title}
         onChange={(event) => setPostInput({ ...postInput, title: event.target.value })}
         placeholder="제목을 입력하세요."
       />
-      <St.EditorContainer>
+      <St.EditorContainer className="editor-container">
         <ReactQuill
           style={editorStyle}
           theme="snow"
-          value={content}
+          defaultValue={content}
           onChange={(newContent) => setPostInput({ ...postInput, content: newContent })}
           modules={modules}
           formats={formats}

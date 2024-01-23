@@ -1,5 +1,6 @@
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Login from '../components/auth/Login';
+import Signup from '../components/auth/Signup';
 import Layout from '../layouts/Layout';
 import About from '../pages/About';
 import Auth from '../pages/Auth';
@@ -9,8 +10,6 @@ import MyPage from '../pages/MyPage';
 import ViewAll from '../pages/ViewAll';
 import Write from '../pages/Write';
 import ProtectedRoute from './ProtectedRoute';
-import Login from '../components/auth/Login';
-import Signup from '../components/auth/Signup';
 
 export default function Router() {
   return (
@@ -29,7 +28,7 @@ export default function Router() {
           <Route path="*" element={<Navigate replace to="/" />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/mypage" element={<MyPage />} />
-            <Route path="/write" element={<Write />} />
+            <Route path="/write" element={<Write key={new Date().getTime()} />} />
           </Route>
         </Routes>
       </Layout>

@@ -18,24 +18,45 @@ function Write() {
 
   console.log('postInput-->', postInput);
 
+  console.log('location-->', location);
+
+  // 임시저장된 데이터 불러올지
   useEffect(() => {
-    if (foundDetailPost) {
-      setPostInput({
-        title: foundDetailPost.title,
-        content: foundDetailPost.content,
-        category: foundDetailPost.category,
-        hashtags: foundDetailPost.hashtags,
-        coverImages: foundDetailPost.coverImages
-      });
-      setIsEditingPost({
-        foundPost: foundDetailPost,
-        isEditing: true
-      });
-    } else {
-      setPostInput(initialPostInputState);
-    }
-    console.log('write page');
+    setTimeout(() => {
+      const savedData = sessionStorage.getItem('savedData');
+      if (savedData) {
+        const confirmLoadSavedData = window.confirm('임시저장된 데이터가 있습니다. 불러오시겠습니까?');
+        if (confirmLoadSavedData) {
+          setPostInput(JSON.parse(savedData));
+        } else {
+          setPostInput(initialPostInputState);
+          return;
+        }
+      }
+    }, 700);
   }, []);
+
+  // 새로고침 핸들러
+  useEffect(() => {
+    if (
+      (postInput.title === '' && postInput.content === '' && postInput.category === 'noCategory',
+      postInput.hashtags.length === 0 && postInput.coverImages.length === 0)
+    )
+      return;
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      return (e.returnValue = '');
+    };
+
+    // beforeunload 이벤트 리스너 등록
+    window.addEventListener('beforeunload', handleBeforeUnload, { capture: true });
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload, { capture: true });
+    };
+  }, [postInput]);
 
   return (
     <Container>

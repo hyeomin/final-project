@@ -10,6 +10,7 @@ import { isEditingPostState, postInputState } from '../../../recoil/posts';
 import { roleState } from '../../../recoil/users';
 import { auth } from '../../../shared/firebase';
 import { PostType } from '../../../types/PostType';
+import { stripHtml } from '../../../util/extractContentText';
 import { CustomButton } from './styles';
 
 function SubmitButton() {
@@ -17,7 +18,7 @@ function SubmitButton() {
 
   const setisEditingPost = useSetRecoilState(isEditingPostState);
   const [postInput, setPostInput] = useRecoilState(postInputState);
-  const { title } = postInput;
+  const { title, content } = postInput;
 
   const [role, setRole] = useRecoilState(roleState);
 
@@ -80,13 +81,13 @@ function SubmitButton() {
   const onSubmitPostHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (title.length === 0) {
+    if (title.length === 0 || stripHtml(content).trim().length === 0) {
       const onClickSave = () => {
         modal.close();
       };
 
       const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '제목 입력은 필수입니다.',
+        title: '제목과 내용 입력은 필수입니다.',
         message: '',
         leftButtonLabel: '',
         onClickLeftButton: undefined,

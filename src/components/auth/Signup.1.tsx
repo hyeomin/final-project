@@ -9,8 +9,8 @@ import mangofavicon from '../../assets/mango-favicon.png';
 import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
-import St from './style';
 import { Data } from './Signup';
+import St from './style';
 
 export function Signup() {
   const [email, setEmail] = useState('');
@@ -70,7 +70,7 @@ export function Signup() {
       setValue('password', '');
       setValue('nickname', '');
       setValue('passwordCheck', '');
-      alert('가입성공');
+      alert('가입 성공');
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
       // 컬렉션에 있는 users 필드 정보 수정

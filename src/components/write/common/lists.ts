@@ -9,3 +9,7 @@ export const categoryList = [
   { nameEng: 'adminPost', nameKor: '관리자 게시물', isAdmin: true },
   { nameEng: 'newsRoom', nameKor: '뉴스룸', isAdmin: true }
 ];
+
+export const convertToKor = (categoryEng: string) => {
+  return categoryList.find((c) => c.nameEng === categoryEng)?.nameKor;
+};
