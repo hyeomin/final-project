@@ -78,6 +78,7 @@ const UserPostCover = styled(Link)`
   position: absolute;
   width: 100%;
   height: 100%;
+
   &:hover {
     filter: brightness(80%);
     transition: filter 0.3s ease;

@@ -12,7 +12,8 @@ const CoverContainer = styled.div`
 
 const StyledSwiper = styled(Swiper)`
   width: 100%;
-  height: 400px;
+  height: 440px;
+  border-radius: 10px;
   overflow: hidden;
 
   & img {
@@ -21,19 +22,27 @@ const StyledSwiper = styled(Swiper)`
   }
 `;
 
-interface PostTitleProps {
+interface PostHeaderInfoProps {
   $noimage: boolean;
 }
 
-const PostTitle = styled.h3<PostTitleProps>`
+const PostHeaderInfo = styled.div<PostHeaderInfoProps>`
   color: ${(props) => (props.$noimage ? 'black' : 'white')};
   text-align: left;
   position: absolute;
   width: 100%;
-  bottom: ${(props) => (props.$noimage ? '20px' : '60px')};
+  bottom: ${(props) => (props.$noimage ? '20px' : '40px')};
   padding: ${(props) => (props.$noimage ? '0 20px' : '0 60px')};
-  font-size: 40px;
   cursor: initial;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  font-size: 40px;
+
+  & span {
+    font-size: 20px;
+  }
 `;
 
 const Gradient = styled.div`
@@ -55,7 +64,14 @@ const NavigationButtonContainer = styled.div`
 
 const NoImage = styled.div`
   width: 100%;
-  height: 100px;
+  height: 120px;
 `;
 
-export default { CoverContainer, StyledSwiper, PostTitle, Gradient, NavigationButtonContainer, NoImage };
+export default {
+  CoverContainer,
+  StyledSwiper,
+  Gradient,
+  NavigationButtonContainer,
+  NoImage,
+  PostHeaderInfo
+};

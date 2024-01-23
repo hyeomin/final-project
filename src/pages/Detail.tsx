@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { updatePostViewCount } from '../api/detailApi';
-import { getPosts } from '../api/homeApi';
-import DetailBody from '../components/detail/DetailBody';
+import { getPostsDummy } from '../api/dummyApi';
 import AddCommentForm from '../components/detail/comment/addComment/AddComment';
 import CommentList from '../components/detail/comment/commentList/CommentList';
+import DetailBody from '../components/detail/detailBody/DetailBody';
 import DetailHeader from '../components/detail/detailHeader/DetailHeader';
 import PostShift from '../components/detail/postShift/PostShift';
 import { QUERY_KEYS } from '../query/keys';
+import theme from '../styles/theme';
 import { PostType } from '../types/PostType';
 
 function Detail() {
@@ -19,8 +20,9 @@ function Detail() {
 
   const { data: postList, isLoading } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getPosts
+    queryFn: getPostsDummy
   });
+  // 수정 필요
 
   useEffect(() => {
     if (postList) {
@@ -55,6 +57,7 @@ function Detail() {
 
   return (
     <Container>
+      <DetailTitle>상세페이지</DetailTitle>
       {foundDetailPost && (
         <>
           <DetailHeader foundDetailPost={foundDetailPost} />
@@ -75,7 +78,14 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  width: 1000px;
+  width: 1200px;
+  padding: 30px 0;
+`;
+
+const DetailTitle = styled.h3`
+  color: ${theme.color.gray};
+  font-size: 18px;
+  padding: 30px 0;
 `;
 
 const DetailEmptyFooter = styled.div`

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Container = styled.section`
-  position: relative;
+  /* position: relative; */
   /* width: 100vw; */
   width: 100%;
   height: 450px;

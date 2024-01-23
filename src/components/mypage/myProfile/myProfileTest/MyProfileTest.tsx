@@ -87,7 +87,7 @@ function MyProfileTest() {
     mutationFn: ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) =>
       updateProfileInfo({ authCurrentUser, displayName, profileImage }),
     onSuccess: (updatedUser) => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: [`${QUERY_KEYS.USERS}`] });
       setUpdateProfileSuccess(true);
       if (updatedUser) {
         authContext?.updateCurrentUserInContext(updatedUser);
@@ -109,7 +109,7 @@ function MyProfileTest() {
       modal.open(openModalParams);
     },
     onError: (error) => {
-      console.error('Error updating profile', error);
+      console.error('프로필 업데이트에 문제가 발생했습니다.', error);
       setIsEditing(false);
 
       const onClickSave = () => {
