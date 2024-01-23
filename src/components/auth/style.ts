@@ -104,11 +104,18 @@ const SignUpAndLoginBtn = styled.button`
   margin-bottom: 10px;
   font-size: 12px;
   font-weight: 500;
+
   &:hover {
     background-color: #f59004;
+    cursor: pointer;
   }
 `;
 const GoogleLoginBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 2px;
+
   width: 280px;
   height: 35px;
   border-radius: 10px;
@@ -118,8 +125,15 @@ const GoogleLoginBtn = styled.button`
   font-weight: 500;
   margin-bottom: 30px;
   color: #222;
+
   &:hover {
     background-color: #f5f5f5;
+    cursor: pointer;
+  }
+
+  & img {
+    width: 13px;
+    height: 13px;
   }
 `;
 const WarningMsg = styled.p`

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { PostType } from '../../../types/PostType';
 import St from './style';
@@ -38,12 +39,19 @@ function PostShift({ postList, postId }: Props) {
 
   return (
     <St.ButtonContainer>
-      <button onClick={onClickPrevButton} type="button" disabled={postIndexNumber <= 0}>
-        {'< 이전 게시물'}
-      </button>
-      <button onClick={onClickNextButton} type="button" disabled={!postList || postIndexNumber >= postList.length - 1}>
-        {'다음 게시물  >'}
-      </button>
+      {/* 아예 안 보이게 바꿨어요! Ashley */}
+      {postIndexNumber > 0 && (
+        <St.ShiftButton $side={'left'} onClick={onClickPrevButton} type="button">
+          <GoChevronLeft />
+          <span>이전 글 보기</span>
+        </St.ShiftButton>
+      )}
+      {postList && postIndexNumber < postList.length - 1 && (
+        <St.ShiftButton $side={'right'} onClick={onClickNextButton} type="button">
+          <span>다음 글 보기</span>
+          <GoChevronRight />
+        </St.ShiftButton>
+      )}
     </St.ButtonContainer>
   );
 }

@@ -5,13 +5,14 @@ import { updatePost } from '../../../api/postApi';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
 import { initialPostInputState, isEditingPostState, postInputState } from '../../../recoil/posts';
-import { CustomButton } from '../SubmitButton';
+import { stripHtml } from '../../../util/extractContentText';
+import { CustomButton } from './styles';
 
 function EditUploadButton() {
   const modal = useModal();
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
-  const { title } = postInput;
+  const { title, content } = postInput;
 
   const isEditingPost = useRecoilValue(isEditingPostState);
   const { foundPost } = isEditingPost;
@@ -40,13 +41,14 @@ function EditUploadButton() {
       return;
     }
 
-    if (title.length === 0) {
+    // 유효성 검사 (content에서 텍스트만 발라냄)
+    if (title.length === 0 || stripHtml(content).trim().length === 0) {
       const onClickSave = () => {
         modal.close();
       };
 
       const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '제목 입력은 필수입니다.',
+        title: '제목과 내용 입력은 필수입니다.',
         message: '',
         leftButtonLabel: '',
         onClickLeftButton: undefined,
@@ -61,7 +63,6 @@ function EditUploadButton() {
 
       const onClickSave = () => {
         updatePostMutation.mutate();
-
         modal.close();
       };
 
@@ -75,27 +76,6 @@ function EditUploadButton() {
       };
       modal.open(openModalParams);
     }
-
-    // if (title.length === 0) {
-    //   window.alert('제목 입력은 필수입니다.');
-    //   return;
-    // } else {
-    //   const confirmation = window.confirm('수정하시겠습니까?');
-    //   if (!confirmation) return;
-    // }
-    // 새로운 이미지 업데이트
-    // const newImages = coverImages
-    //   .filter((image) => image.isNew && image.file && !image.isDeleted)
-    //   .map((image) => image.file) as File[];
-    // setImageFileforUpload(newImages);
-
-    // // 기존 업로드 되어 이미지 중 삭제된 것 정리
-    // const imageUrltoDelete = coverImages
-    //   .filter((image) => !image.isNew && !image.file && image.isDeleted)
-    //   .map((image) => image.url) as string[];
-    // setImageUrltoDelete(imageUrltoDelete);
-
-    // updatePostMutation.mutate();
   };
 
   return (

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { extractFirst50Words } from '../../util/postContentPreview';
+import { extractFirst50Words } from '../../util/extractContentText';
 
 type Props = {
   postContent: string;

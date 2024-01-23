@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 
 import 'swiper/css';
@@ -14,12 +13,12 @@ const GETSTARTED = '지금 시작하기';
 type Section = typeof HOWTOUSE | typeof NEWSROOM | typeof GETSTARTED;
 
 function AboutMain() {
-  const [openSection, setOpenSection] = useState<Section>(HOWTOUSE);
+  // const [openSection, setOpenSection] = useState<Section>(HOWTOUSE);
 
-  const onOpenToggleHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const buttonName = event.currentTarget.textContent as Section;
-    setOpenSection(buttonName);
-  };
+  // const onOpenToggleHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   const buttonName = event.currentTarget.textContent as Section;
+  //   setOpenSection(buttonName);
+  // };
 
   return (
     <AboutMainContainer>
@@ -46,17 +45,19 @@ export default AboutMain;
 const AboutMainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   row-gap: 10px;
-  margin: 200px 0;
+  height: 1600px;
+  margin: 180px 0;
 `;
 
 const Title = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   row-gap: 20px;
   font-family: ${theme.font.agroRegular};
+  height: 35%;
 
   & p {
     font-size: 20px;
