@@ -8,7 +8,7 @@ import { useCallback, useState } from 'react';
 // const [문자열, 함수] = 임시함수(); // ['1', 내부함수];
 
 const usePrintError = (error: any): [string, (error: any) => void] => {
-  const [errMsg, setErrMsg] = useState('');
+  const [errMsg, setErrMsg] = useState(error);
 
   const printErr = useCallback((error: any) => {
     // if (error.code === 'auth/email-already-in-use') {
