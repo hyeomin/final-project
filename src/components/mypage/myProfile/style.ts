@@ -162,20 +162,23 @@ const GuideGradeWrapper = styled.div`
 `;
 
 const GuideGrade = styled.div`
-  width: 140px;
-  height: 60px;
-  padding: 15px;
+  display: flex;
+  align-items: center;
+  /* column-gap: px; */
+  width: 180px;
+  height: 50px;
+  padding: 12px;
   font-size: 12px;
   background-color: ${theme.color.mangoLight};
   position: absolute;
   left: 60%;
-  bottom: -20px;
+  bottom: -10px;
   border-radius: 10px;
 
   &:after {
     content: '';
     position: absolute;
-    left: -12%;
+    left: -10%;
     top: 35%;
     border-top: 10px solid transparent;
     border-left: 10px solid transparent;

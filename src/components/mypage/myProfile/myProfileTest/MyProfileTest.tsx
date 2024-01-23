@@ -358,9 +358,9 @@ function MyProfileTest() {
                 <div>
                   <St.GuideGradeWrapper>
                     <St.GuideGrade>
-                      0-2개 : 새싹등급🌱 <br />
-                      3-5개: 클로버등급☘️ <br />
-                      6개이상: 나무등급🌳
+                      Lv1 - 0-15개 : 새싹등급🌱 <br />
+                      Lv2 - 16-30개 : 클로버등급☘️ <br />
+                      Lv3 - 30개 이상 : 나무등급🌳
                     </St.GuideGrade>
                   </St.GuideGradeWrapper>
                 </div>
