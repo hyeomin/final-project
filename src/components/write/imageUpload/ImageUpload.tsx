@@ -77,6 +77,7 @@ function ImageUpload() {
     fileInputRef.current?.click();
   };
 
+  // 이미지 삭제 Mutation
   const deletePostMutation = useMutation({
     mutationFn: (url: string) => deleteImage(url),
     onSuccess: () => {

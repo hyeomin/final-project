@@ -4,7 +4,7 @@ import { User, updateProfile } from 'firebase/auth';
 import { collection, doc, getDoc, getDocs, query, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { QUERY_KEYS } from '../query/keys';
-import { db, storage } from '../shared/firebase';
+import { auth, db, storage } from '../shared/firebase';
 import { UserType } from '../types/UserType';
 
 // user 콜렉션 전부 가져오기
@@ -41,9 +41,9 @@ const updateProfileInfo = async ({ authCurrentUser, displayName, profileImage }:
       displayName: displayName,
       photoURL: profileImage
     });
-    const updatedUser = {
-      ...authCurrentUser
-    };
+    await authCurrentUser.reload();
+    const updatedUser = auth.currentUser;
+
     console.log('프로필 업데이트 성공', updatedUser);
 
     if (updatedUser) {

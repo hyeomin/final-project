@@ -14,5 +14,6 @@ export const POST = {
   CATEGORY_LIST: 'categoryList',
   IS_EDITING: 'isEditing',
   COVER_IMAGE: 'coverImage',
-  COMMON_HASHTAG_LIST: 'commonHashtagList'
+  COMMON_HASHTAG_LIST: 'commonHashtagList',
+  UNSAVED_CHANGES: 'unsavedChanges'
 };

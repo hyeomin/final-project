@@ -1,4 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -43,7 +45,7 @@ const AdminContents = () => {
               <SwiperSlide key={idx}>
                 {/* item.coverImages로 변경하기 */}
                 {!item ? <Loader /> : <img src={defaultIllustration} alt={`Slide ${idx}`} />}
-                <St.Button to={`/detail/${item.id}`}>자세히 보기</St.Button>
+                <Button to={`/detail/${item.id}`}>자세히 보기</Button>
               </SwiperSlide>
             );
           })
@@ -54,3 +56,13 @@ const AdminContents = () => {
 };
 
 export default AdminContents;
+
+const StyledSwiperSlide = styled(SwiperSlide)`
+  width: 1000px;
+  position: absolute;
+  top: 0;
+  background-color: pink;
+  opacity: 30%;
+`;
+
+const Button = styled(Link)``;

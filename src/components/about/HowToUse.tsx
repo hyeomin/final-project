@@ -9,12 +9,6 @@ import bubbleThree from '../../assets/about/howtouse-bubble(3).png';
 function HowToUse() {
   return (
     <Container>
-      {/* <UsageExplanation>
-        <div>oo의시작 ! 작은 것부터 실천하자!</div>
-        <div>사람들이 친환경 습관을 관리하고 자신의 친환경 습관과 노하우를 사람들과 공유할 수 있는 커뮤니티</div>
-      </UsageExplanation>
-      <div>이용 설명 요기</div>
-      <UsageExplanation>이용안내 이미지 요기</UsageExplanation> */}
       <UsageExplanation>
         <img src={imageOne} alt="about-image1" />
 
@@ -36,7 +30,10 @@ function HowToUse() {
         <Bubble>
           <img src={bubbleTwo} alt="about-bubble2" />
           <TextInBubble $left={true}>
-            <h5>재미있고 즐거운 친환경 라이프스타일을 함께 공유해요</h5>
+            <h5>
+              재미있고 즐거운 친환경!
+              <br /> 라이프스타일을 공유해요
+            </h5>
             <p>라이프스타일 노하우, 제품 추천, 제품 나눔 등 타인에게 도움이 될만한 내용을 공유할 수 있어요!</p>
           </TextInBubble>
         </Bubble>
@@ -64,7 +61,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  justify-content: center;
   padding: 10px;
 `;
 
@@ -72,7 +69,8 @@ const UsageExplanation = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  column-gap: 30px;
+  column-gap: 120px;
+  padding: 20px 0;
 
   & img {
     width: 280px;
@@ -95,22 +93,27 @@ type StyleProps = {
 };
 
 const TextInBubble = styled.div<StyleProps>`
+  position: absolute;
+  top: ${(props) => (props.$left ? '26%' : '12%')};
+  left: ${(props) => (props.$left ? '21%' : '20%')};
+  color: ${(props) => (props.$left ? 'white' : 'black')};
+  width: 300px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 25px;
+
   h5 {
-    color: ${(props) => (props.$left ? 'white' : 'black')};
     font-weight: bold;
     font-size: 19px;
+    line-height: 120%;
     width: 220px;
-    position: absolute;
-    top: ${(props) => (props.$left ? '43%' : '38%')};
-    left: ${(props) => (props.$left ? '34%' : '33%')};
   }
 
   & p {
     font-size: 14px;
-    width: 300px;
-    position: absolute;
-    top: ${(props) => (props.$left ? '57%' : '52%')};
-    left: 20%;
+    width: 100%;
     line-height: 150%;
   }
 `;
