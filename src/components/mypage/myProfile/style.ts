@@ -19,6 +19,7 @@ const MySectionWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
+  border-radius: 10px;
   border: 1px solid #d9d9d9;
   margin-bottom: 300px;
 `;
@@ -27,7 +28,7 @@ const ProfileEditWrapper = styled.div`
   align-items: center;
   column-gap: 30px;
   width: 100%;
-  height: 230px;
+  height: 200px;
   padding: 40px 60px;
   border-radius: 10px;
   border: 1px solid lightgray;
@@ -132,7 +133,13 @@ const DisplayNameModify = styled.input`
   font-size: 12px;
 `;
 
-const DisplayNameCheckBtn = styled.button``;
+const DisplayNameCheckBtn = styled.button`
+  border-radius: 20px;
+  margin-left: 10px;
+  font-size: 10px;
+  border: 1px solid ${theme.color.gray};
+  color: ${theme.color.gray};
+`;
 
 const MyImage = styled.img`
   width: 100px;
@@ -189,7 +196,7 @@ const TabButtonContainer = styled.div`
   justify-content: left;
   width: 100%;
   column-gap: 5px;
-
+  /* gap:10px; */
   margin-top: 80px;
   font-size: 20px;
 `;
@@ -221,6 +228,8 @@ const TabButton = styled.button`
 
 const ErrorMsg = styled.div`
   color: red;
+  font-size: 12px;
+  margin-left: 10px;
 `;
 export default {
   ProfileEditWrapper,
