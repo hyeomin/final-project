@@ -8,37 +8,16 @@ import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper } from 'swiper/react';
 import { getAllUsers } from '../../../api/authApi';
 import { getPopularPosts } from '../../../api/homeApi';
-import defaultUserImage from '../../../assets/defaultImg.jpg';
-import mangoCover from '../../../assets/tentative-cover-image.jpg';
+
 import { useLikeButton } from '../../../hooks/useLikeButton';
 import { auth } from '../../../shared/firebase';
 import Loader from '../../common/Loader';
 import PostContentPreview from '../../common/PostContentPreview';
 import '../swiperStyle.css';
 import St from './style';
+import Carousel from './Carousel';
 
 const UserContents = () => {
-  const currentUser = auth.currentUser?.uid;
-
-  // 인기게시물
-  const { data: popularPosts, isLoading } = useQuery({
-    queryKey: ['popularPosts'],
-    queryFn: getPopularPosts
-  });
-
-  // 유저정보 가져오기(profileImg)
-  const { data: users } = useQuery({
-    queryKey: ['users'],
-    queryFn: getAllUsers
-  });
-
-  //좋아요
-  const onClickLikeButton = useLikeButton();
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
   return (
     <St.UserContents>
       <St.TitleContainer>
@@ -50,80 +29,79 @@ const UserContents = () => {
           </Link>
         </St.SubTitle>
       </St.TitleContainer>
-      <St.PostsSlide>
-        <St.ThumbnailsBox>
-          <Swiper
-            spaceBetween={10}
-            slidesPerView={4}
-            pagination={{
-              clickable: true
-            }}
-            navigation={true}
-            modules={[Pagination, Navigation]}
-            className="default-swiper"
-          >
-            {popularPosts?.length === 0 ? (
-              <div>인기 게시물 데이터 없습니다.</div>
-            ) : (
-              popularPosts?.map((item, idx) => {
-                return (
-                  <St.StyledSwiperSlide key={idx} className="default-swiper">
-                    <St.UserPostCover to={`/detail/${item.id}`}>
-                      <St.TextAndLikeButton>
-                        <St.InfoTop>
-                          <St.UserInfo>
-                            <div>
-                              <img
-                                src={users?.find((user) => user.uid === item.uid)?.profileImg || defaultUserImage}
-                                alt="user profile image"
-                              />
-                            </div>
-                            <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
-                          </St.UserInfo>
-                          <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
-                            {currentUser && item.likedUsers?.includes(currentUser) ? (
-                              <St.HeartFillIcon />
-                            ) : (
-                              <St.HeartIcon />
-                            )}
-                          </St.LikeButton>
-                        </St.InfoTop>
-                        <St.InfoBottom>
-                          <St.BottomText>
-                            <div>{item.title}</div>
-                            <div>
-                              <PostContentPreview postContent={item.content || ''} />
-                            </div>
-                          </St.BottomText>
-                          <St.Count>
-                            <GoEye />
-                            <span>{item.viewCount?.toLocaleString() || 0}</span>
-                            <GoHeart />
-                            <span>{item.likeCount?.toLocaleString() || 0}</span>
-                            <GoComment />
-                            <span>{item.commentCount?.toLocaleString() || 0}</span>
-                          </St.Count>
-                        </St.InfoBottom>
-                      </St.TextAndLikeButton>
-                      {!item ? (
-                        <Loader />
-                      ) : (
-                        <img
-                          src={item.coverImages && item.coverImages.length > 0 ? item.coverImages[0].url : mangoCover}
-                          alt={item.title}
-                        />
-                        // <img src={mangoCover} alt={item.title} />
-                      )}
-                    </St.UserPostCover>
-                  </St.StyledSwiperSlide>
-                );
-              })
-            )}
-          </Swiper>
-        </St.ThumbnailsBox>
-      </St.PostsSlide>
+      <Carousel />
     </St.UserContents>
   );
 };
+{
+  /* <St.PostsSlide>
+  <St.ThumbnailsBox>
+    <Swiper
+      spaceBetween={10}
+      slidesPerView={4}
+      pagination={{
+        clickable: true
+      }}
+      navigation={true}
+      modules={[Pagination, Navigation]}
+      className="default-swiper"
+    >
+      {popularPosts?.length === 0 ? (
+        <div>인기 게시물 데이터 없습니다.</div>
+      ) : (
+        popularPosts?.map((item, idx) => {
+          return (
+            <St.StyledSwiperSlide key={idx} className="default-swiper">
+              <St.UserPostCover to={`/detail/${item.id}`}>
+                <St.TextAndLikeButton>
+                  <St.InfoTop>
+                    <St.UserInfo>
+                      <div>
+                        <img
+                          src={users?.find((user) => user.uid === item.uid)?.profileImg || defaultUserImage}
+                          alt="user profile image"
+                        />
+                      </div>
+                      <div>{users?.find((user) => user.uid === item.uid)?.displayName}</div>
+                    </St.UserInfo>
+                    <St.LikeButton type="button" onClick={(e) => onClickLikeButton(e, item.id)}>
+                      {currentUser && item.likedUsers?.includes(currentUser) ? <St.HeartFillIcon /> : <St.HeartIcon />}
+                    </St.LikeButton>
+                  </St.InfoTop>
+                  <St.InfoBottom>
+                    <St.BottomText>
+                      <div>{item.title}</div>
+                      <div>
+                        <PostContentPreview postContent={item.content || ''} />
+                      </div>
+                    </St.BottomText>
+                    <St.Count>
+                      <GoEye />
+                      <span>{item.viewCount?.toLocaleString() || 0}</span>
+                      <GoHeart />
+                      <span>{item.likeCount?.toLocaleString() || 0}</span>
+                      <GoComment />
+                      <span>{item.commentCount?.toLocaleString() || 0}</span>
+                    </St.Count>
+                  </St.InfoBottom>
+                </St.TextAndLikeButton>
+                {!item ? (
+                  <Loader />
+                ) : (
+                  <img
+                    src={item.coverImages && item.coverImages.length > 0 ? item.coverImages[0].url : mangoCover}
+                    alt={item.title}
+                  />
+                  // <img src={mangoCover} alt={item.title} />
+                )}
+              </St.UserPostCover>
+            </St.StyledSwiperSlide>
+          );
+        })
+      )}
+    </Swiper>
+  </St.ThumbnailsBox>
+</St.PostsSlide>; */
+}
 
 export default UserContents;
