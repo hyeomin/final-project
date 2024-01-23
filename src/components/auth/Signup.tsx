@@ -12,6 +12,7 @@ import { auth, db } from '../../shared/firebase';
 
 import St from './style';
 import { useModal } from '../../hooks/useModal';
+import MyProfileTest from '../mypage/myProfile/myProfileTest/MyProfileTest';
 
 export type Data = {
   email: string;
@@ -122,7 +123,12 @@ function Signup() {
         });
       }
     } catch (error) {
+      // console.error(errorMsg);
+      // 왜 처음에 빈 값으로 뜰까?
+
       setErrorMsg(error);
+      alert(errorMsg);
+
       return;
     }
 
@@ -136,7 +142,6 @@ function Signup() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
-    setIsChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
@@ -187,7 +192,7 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
-
+      setIsChecked(true);
       setIsFormValid(true);
     }
   };
@@ -198,7 +203,6 @@ function Signup() {
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
     // setIsNicknameChecked(true);
-    setIsChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
@@ -247,6 +251,7 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsChecked(true);
       setIsFormValid(true);
     }
   };
