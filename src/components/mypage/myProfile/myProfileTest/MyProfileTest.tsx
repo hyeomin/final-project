@@ -246,17 +246,17 @@ function MyProfileTest() {
   let LevelOneGradeEmoji = '🌱';
   let LevelTwoGradeEmoji = '☘️';
   let LevelThreeGradeEmoji = '🌳';
-  let ddd = LevelOneGradeEmoji;
-  let aaa = levelOne;
+  let levelEmoji = LevelOneGradeEmoji;
+  let level = levelOne;
   if (userGrade && userGrade < 2) {
-    ddd = LevelOneGradeEmoji;
-    aaa = levelOne;
+    levelEmoji = LevelOneGradeEmoji;
+    level = levelOne;
   } else if (userGrade && userGrade < 6) {
-    ddd = LevelTwoGradeEmoji;
-    aaa = levelTwo;
+    levelEmoji = LevelTwoGradeEmoji;
+    level = levelTwo;
   } else if (userGrade && userGrade >= 6) {
-    ddd = LevelThreeGradeEmoji;
-    aaa = levelThree;
+    levelEmoji = LevelThreeGradeEmoji;
+    level = levelThree;
   }
 
   return (
@@ -367,8 +367,8 @@ function MyProfileTest() {
               ) : null}
               <br />
               <div style={{ display: 'flex', width: '20px', marginTop: '10px' }}>
-                <div style={{ marginRight: '10px' }}>{ddd}</div>
-                <div>Lv.{aaa}</div>
+                <div style={{ marginRight: '10px' }}>{levelEmoji}</div>
+                <div>Lv.{level}</div>
               </div>
             </div>
           </St.PostInfoBox>
