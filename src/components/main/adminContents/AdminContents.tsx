@@ -7,7 +7,9 @@ import 'swiper/css/pagination';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { getAdminPosts } from '../../../api/homeApi';
+import defaultIllustration from '../../../assets/home/AdminPostIllustration.png';
 import Loader from '../../common/Loader';
+import St from './style';
 
 const AdminContents = () => {
   const { data: adminContents, isLoading } = useQuery({
@@ -20,7 +22,7 @@ const AdminContents = () => {
   }
 
   return (
-    <Container>
+    <St.Container>
       <Swiper
         centeredSlides={true}
         autoplay={{
@@ -40,47 +42,27 @@ const AdminContents = () => {
         ) : (
           adminContents?.map((item, idx) => {
             return (
-              <StyledSwiperSlide key={idx} className="mySwiper">
-                <div>
-                  요기
-                  <Button to={`/detail/${item.id}`}>자세히 보기</Button>
-                </div>
+              <SwiperSlide key={idx}>
                 {/* item.coverImages로 변경하기 */}
-                {/* {!item ? <Loader /> : <img src={defaultIllustration} alt={`Slide ${idx}`} />} */}
-              </StyledSwiperSlide>
+                {!item ? <Loader /> : <img src={defaultIllustration} alt={`Slide ${idx}`} />}
+                <Button to={`/detail/${item.id}`}>자세히 보기</Button>
+              </SwiperSlide>
             );
           })
         )}
       </Swiper>
-    </Container>
+    </St.Container>
   );
 };
 
 export default AdminContents;
 
 const StyledSwiperSlide = styled(SwiperSlide)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-
-  & img {
-    width: 100%;
-    height: 100%;
-  }
-
-  & div {
-    width: 1000px;
-    background-color: red;
-  }
-`;
-
-const Button = styled(Link)`
+  width: 1000px;
   position: absolute;
+  top: 0;
+  background-color: pink;
+  opacity: 30%;
 `;
 
-const Container = styled.div`
-  width: 100%;
-  height: 450px;
-  margin-bottom: 10px;
-`;
+const Button = styled(Link)``;
