@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { getAllUsers } from '../../api/authApi';
 import defaultProfile from '../../assets/defaultImg.jpg';
@@ -46,10 +46,6 @@ interface PostCardProps {
 function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const category = useRecoilValue(categoryListState);
   const navigate = useNavigate();
-
-  //쿼리스트링
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log('PostList/ searchParams:', searchParams.toString()); //category=total
 
   //좋아요
   const currentUserId = auth.currentUser?.uid;

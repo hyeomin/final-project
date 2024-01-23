@@ -19,7 +19,7 @@ function ViewAllBody() {
   const validSortOptions: SortList[] = ['popularity', 'latest'];
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const updateStateFromUrl = () => {
     // URL 쿼리 파라미터에서 category와 sort 값을 가져옵니다.
     const urlCategory = searchParams.get('category');
     const urlSortBy = searchParams.get('sort');
@@ -37,6 +37,11 @@ function ViewAllBody() {
     } else {
       setSortBy('latest');
     }
+  };
+
+  //URL에서 상태 읽어오는 useEffect
+  useEffect(() => {
+    updateStateFromUrl();
   }, [searchParams]);
 
   //쿼리스트링 : 카테고리+정렬
@@ -51,6 +56,13 @@ function ViewAllBody() {
 
     navigate(`/viewAll/?${newSearchParams.toString()}`);
   };
+
+  //초기 마운트 실행시
+  useEffect(() => {
+    if (searchParams.get('category') === null || searchParams.get('sort') === null) {
+      updateSortOption(category, sortBy);
+    }
+  }, []);
 
   return (
     <St.ViewAllContainer>
