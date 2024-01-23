@@ -67,10 +67,13 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         console.log('lastPageParam', lastPageParam);
         return undefined;
       }
-
       return lastPage[lastPage.length - 1];
     },
     select: (data) => {
+      let loadedPostsLastPage = data.pages[data.pages.length - 1];
+      let loadedPosts = loadedPostsLastPage.length;
+      console.log('loadedPosts', loadedPosts);
+
       let sortedPosts = data.pages.flat().map((doc) => {
         const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
         return {

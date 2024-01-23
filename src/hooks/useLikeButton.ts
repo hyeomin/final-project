@@ -19,10 +19,12 @@ export const useLikeButton = () => {
         modal.close();
         return;
       };
+
       const onClickSave = () => {
         modal.close();
         navigate('/auth');
       };
+
       const openModalParams: Parameters<typeof modal.open>[0] = {
         title: '로그인이 필요합니다.',
         message: '로그인 창으로 이동하시겠습니까?',
