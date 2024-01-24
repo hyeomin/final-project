@@ -10,9 +10,9 @@ import {
   updateProfileInfoProps
 } from '../../../api/authApi';
 import { getMyPosts, getUserRanking } from '../../../api/myPostAPI';
-import defaultImg from '../../../../assets/defaultImg.jpg';
-import postCountIcon from '../../../../assets/icons/postCountIcon.png';
-import rankingIcon from '../../../../assets/icons/rankingIcon.png';
+import defaultImg from '../../../assets/defaultImg.jpg';
+import postCountIcon from '../../../assets/icons/postCountIcon.png';
+import rankingIcon from '../../../assets/icons/rankingIcon.png';
 import { AuthContext } from '../../../context/AuthContext';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
