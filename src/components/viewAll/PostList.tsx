@@ -54,9 +54,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const queryClient = useQueryClient();
   const modal = useModal();
 
-  //카카오톡 공유
-  const { handleShareKakaoClick } = useKaKaoShare();
-
   //더보기
   const {
     data: posts,
@@ -276,15 +273,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                         {post.commentCount ?? 0}
                       </span>
                     </St.CommentAndLikes>
-                    <div>
-                      <button
-                        onClick={() => {
-                          handleShareKakaoClick(post.title);
-                        }}
-                      >
-                        카카오
-                      </button>
-                    </div>
                   </St.PostInfoContainer>
                 </St.Content>
               );
