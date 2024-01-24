@@ -24,10 +24,10 @@ export type Data = {
 
 function Signup() {
   const modal = useModal();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [passwordCheck, SetPasswordCheck] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [nickname, setNickname] = useState('');
+  // const [passwordCheck, SetPasswordCheck] = useState('');
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
   const [image, setImage] = useState('');
@@ -35,10 +35,9 @@ function Signup() {
   const [errorMsg, setErrorMsg] = usePrintError('');
   const [isFormValid, setIsFormValid] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
-  // const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
   const navigate = useNavigate();
-  // const emailInputRef = useRef<HTMLInputElement | null>(null);
   const {
     register,
     handleSubmit,
@@ -64,10 +63,16 @@ function Signup() {
   }, [imageUpload]);
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passwordCheck }: Data) => {
+    console.log('찍히나');
     try {
+      if (!isChecked || !isNicknameChecked) {
+        // isChecked 상태가 false이거나 isFormValid 상태가 false일 때는 함수를 종료
+        return;
+      }
       if (!isChecked) {
         const onClickSave = () => {
           modal.close();
+          return;
         };
 
         const openModalParams: Parameters<typeof modal.open>[0] = {
@@ -121,12 +126,7 @@ function Signup() {
         });
       }
     } catch (error) {
-      // console.error(errorMsg);
-      // 왜 처음에 빈 값으로 뜰까?
-
       setErrorMsg(error);
-      alert(errorMsg);
-
       return;
     }
 
@@ -157,6 +157,7 @@ function Signup() {
       modal.open(openModalParams);
 
       setIsFormValid(false);
+      setIsChecked(false);
       setValue('email', email);
 
       return;
@@ -192,6 +193,7 @@ function Signup() {
       modal.open(openModalParams);
       setIsChecked(true);
       setIsFormValid(true);
+      console.log('ddddddddddd');
     }
   };
 
@@ -217,6 +219,8 @@ function Signup() {
       modal.open(openModalParams);
 
       setValue('nickname', nickname);
+      // setIsChecked(false);
+      setIsNicknameChecked(false);
       setIsFormValid(false);
       return;
     } else if (nickname === '') {
@@ -248,8 +252,11 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
-      setIsChecked(true);
+      // setIsChecked(true);
+      setIsNicknameChecked(true);
       setIsFormValid(true);
+
+      console.log('닉넴');
     }
   };
 
@@ -274,7 +281,9 @@ function Signup() {
               pattern: emailRegex
             })}
           />
-          <St.AuthBtn onClick={() => emailCheck(getValues('email'))}>중복확인</St.AuthBtn>
+          <St.AuthBtn onClick={() => emailCheck(getValues('email'))} disabled={!!errors?.email}>
+            중복확인
+          </St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
           {errors?.email?.type === 'pattern' && <St.WarningMsg>이메일 양식에 맞게 입력해주세요</St.WarningMsg>}
         </St.InputContainer>
@@ -338,17 +347,7 @@ function Signup() {
           )}
         </St.InputContainer>
 
-        <St.SignUpAndLoginBtn
-          type="submit"
-          disabled={
-            !isFormValid &&
-            nickname === '' &&
-            email === '' &&
-            password === '' &&
-            passwordCheck === '' &&
-            password !== passwordCheck
-          }
-        >
+        <St.SignUpAndLoginBtn type="submit" disabled={!isChecked || !isNicknameChecked}>
           가입하기
         </St.SignUpAndLoginBtn>
         {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
