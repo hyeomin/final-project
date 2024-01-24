@@ -45,3 +45,7 @@ type EditingPostType = {
   updatedAt: number;
   hashtags: string[];
 };
+
+interface Window {
+  Kakao: any;
+}
