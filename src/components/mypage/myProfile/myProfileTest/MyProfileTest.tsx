@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useContext, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
@@ -20,7 +21,6 @@ import HabitCalendar from '../../HabitCalendar/HabitCalendar';
 import LikesPosts from '../../LikesPosts';
 import MyPosts from '../../MyPosts';
 import St from '../style';
-import { collection, getDocs, query, where } from 'firebase/firestore';
 
 function MyProfileTest() {
   const modal = useModal();
@@ -42,7 +42,6 @@ function MyProfileTest() {
   //솔
   const currentUserId = auth.currentUser?.uid;
 
-  const [updateProfileSuccess, setUpdateProfileSuccess] = useState<boolean>(false);
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
 
@@ -91,7 +90,6 @@ function MyProfileTest() {
       updateProfileInfo({ authCurrentUser, displayName, profileImage }),
     onSuccess: (updatedUser) => {
       queryClient.invalidateQueries({ queryKey: [`${QUERY_KEYS.USERS}`] });
-      setUpdateProfileSuccess(true);
       if (updatedUser) {
         authContext?.updateCurrentUserInContext(updatedUser);
       }
