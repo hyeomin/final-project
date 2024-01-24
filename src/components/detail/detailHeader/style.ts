@@ -23,16 +23,16 @@ const StyledSwiper = styled(Swiper)`
 `;
 
 interface PostHeaderInfoProps {
-  $noimage: boolean;
+  $noImage: boolean;
 }
 
 const PostHeaderInfo = styled.div<PostHeaderInfoProps>`
-  color: ${(props) => (props.$noimage ? 'black' : 'white')};
+  color: ${(props) => (props.$noImage ? 'black' : 'white')};
   text-align: left;
   position: absolute;
   width: 100%;
-  bottom: ${(props) => (props.$noimage ? '20px' : '40px')};
-  padding: ${(props) => (props.$noimage ? '0 20px' : '0 60px')};
+  bottom: ${(props) => (props.$noImage ? '20px' : '40px')};
+  padding: ${(props) => (props.$noImage ? '0 20px' : '0 60px')};
   cursor: initial;
 
   display: flex;
@@ -57,8 +57,8 @@ const Gradient = styled.div`
 const NavigationButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 85vw;
-  top: 140px;
+  width: 95vw;
+  top: 170px;
   position: absolute;
 `;
 

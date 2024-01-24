@@ -39,10 +39,14 @@ function Write() {
   // 새로고침 핸들러
   useEffect(() => {
     if (
-      (postInput.title === '' && postInput.content === '' && postInput.category === 'noCategory',
-      postInput.hashtags.length === 0 && postInput.coverImages.length === 0)
-    )
+      postInput.title === '' &&
+      postInput.content === '' &&
+      postInput.category === 'noCategory' &&
+      postInput.hashtags.length === 0 &&
+      postInput.coverImages.length === 0
+    ) {
       return;
+    }
 
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
