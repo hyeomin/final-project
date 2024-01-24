@@ -32,7 +32,6 @@ function MyProfileTest() {
   const [isClickedGuide, setIsClickedGuide] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
-  // const [previousPhotoURL, setPreviousPhotoURL] = useState<string | null>(null);
 
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
   // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
@@ -46,11 +45,6 @@ function MyProfileTest() {
   const [updateProfileSuccess, setUpdateProfileSuccess] = useState<boolean>(false);
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
-
-  // 프로필 이미지
-  // useEffect(() => {
-  //   setPreviousPhotoURL(auth.currentUser?.photoURL!);
-  // }, []);
 
   // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
