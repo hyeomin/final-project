@@ -5,6 +5,7 @@ import AuthToggle from '../../components/auth/AuthToggle';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import AuthNavBar from './AuthNavBar';
 import St, { LogoContainer } from './style';
+import Search from '../../search/Search';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
@@ -40,6 +41,7 @@ function NavBar() {
             게시물 보기
           </NavLink>
         </St.LeftNav>
+        <Search />
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
       </St.NavBarContainer>
       {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}

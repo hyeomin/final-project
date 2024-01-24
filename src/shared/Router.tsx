@@ -10,6 +10,7 @@ import MyPage from '../pages/MyPage';
 import ViewAll from '../pages/ViewAll';
 import Write from '../pages/Write';
 import ProtectedRoute from './ProtectedRoute';
+import SearchPage from '../pages/SearchPage';
 
 export default function Router() {
   return (
@@ -22,6 +23,7 @@ export default function Router() {
           {/* <Route path="/auth/login" element={<Login />} /> */}
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/signup" element={<Signup />} />
+          <Route path="/searchPage" element={<SearchPage />} />
 
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/about" element={<About />} />
