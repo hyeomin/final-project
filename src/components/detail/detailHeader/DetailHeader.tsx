@@ -10,13 +10,16 @@ import St from './style';
 
 function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
-  // const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const coverImages = foundDetailPost.coverImages;
 
-  const { currentIndex, goNext, goPrev } = useSwiperNavigation(swiperInstance, coverImages.length - 1);
-
-  console.log(typeof swiperInstance);
+  const { goNext, goPrev } = useSwiperNavigation({
+    swiperInstance,
+    currentIndex,
+    setCurrentIndex,
+    maxIndex: coverImages.length - 1
+  });
 
   // const handleSlideChange = (swiper: SwiperClass) => {
   //   setCurrentIndex(swiper.activeIndex);
@@ -44,7 +47,7 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
                 <SwiperSlide key={idx}>
                   <img src={image.url} alt="cover" />
                   <St.Gradient></St.Gradient>
-                  <St.PostHeaderInfo $noimage={false}>
+                  <St.PostHeaderInfo $noImage={false}>
                     <span>{convertToKor(foundDetailPost.category)}</span>
                     <h2>{foundDetailPost.title}</h2>
                   </St.PostHeaderInfo>
@@ -59,7 +62,7 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
         </>
       ) : (
         <St.NoImage>
-          <St.PostHeaderInfo $noimage={true}>{foundDetailPost.title}</St.PostHeaderInfo>
+          <St.PostHeaderInfo $noImage={true}>{foundDetailPost.title}</St.PostHeaderInfo>
         </St.NoImage>
       )}
     </St.CoverContainer>

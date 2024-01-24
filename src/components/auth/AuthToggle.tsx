@@ -56,14 +56,14 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
         try {
           await signOut(auth);
           console.log('logout');
+
+          // 로그아웃 시 Recoil 전역 상태 업데이트
+          setRole('');
+          setIsAuthToggleOpen(false);
+          navigate('/home');
         } catch (error) {
           console.log('error');
         }
-
-        // 로그아웃 시 Recoil 전역 상태 업데이트
-        setRole('');
-        setIsAuthToggleOpen(false);
-        navigate('/home');
       };
 
       const openModalParams: Parameters<typeof modal.open>[0] = {
@@ -93,10 +93,10 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
         </ProfileImageContainer>
         <span>{`안녕하세요, ${authCurrentUser?.displayName}님`}</span>
         <ButtonContainer>
-          <AuthButton onClick={onNavigateMyPageHandler} bgcolor="#FFD864" bdrcolor="transparent">
+          <AuthButton onClick={onNavigateMyPageHandler} $bgcolor="#FFD864" bdrcolor="transparent">
             마이페이지
           </AuthButton>
-          <AuthButton onClick={onLogOutHandler} bgcolor="#f6f6f6" bdrcolor={`${theme.color.gray}`}>
+          <AuthButton onClick={onLogOutHandler} $bgcolor="#f6f6f6" bdrcolor={`${theme.color.gray}`}>
             로그아웃
           </AuthButton>
         </ButtonContainer>
@@ -154,7 +154,7 @@ const ButtonContainer = styled.div`
 `;
 
 interface AuthButtonProps {
-  bgcolor: string;
+  $bgcolor: string;
   bdrcolor: string;
 }
 
@@ -163,7 +163,7 @@ const AuthButton = styled.button<AuthButtonProps>`
   padding: 10px 5px;
   width: 120px;
   border-radius: 10px;
-  background-color: ${(props) => props.bgcolor};
+  background-color: ${(props) => props.$bgcolor};
   border: 1px solid ${(props) => props.bdrcolor};
   cursor: pointer;
 `;
