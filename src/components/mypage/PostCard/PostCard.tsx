@@ -75,7 +75,7 @@ function PostCard({ post }: PostCardProps) {
         <Cs.UserProfile>
           <div>
             <Cs.ProfileImg
-              src={(userList?.find((user) => post.uid === user.uid) as User | undefined)!.profileImg || defaultProfile}
+              src={(userList?.find((user) => post.uid === user.uid) as User | undefined)?.profileImg || defaultProfile}
               alt="profile"
             />
 

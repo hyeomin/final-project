@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
 import {
@@ -32,6 +32,7 @@ function MyProfileTest() {
   const [isClickedGuide, setIsClickedGuide] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
+  // const [previousPhotoURL, setPreviousPhotoURL] = useState<string | null>(null);
 
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
   // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
@@ -46,6 +47,11 @@ function MyProfileTest() {
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
 
+  // 프로필 이미지
+  // useEffect(() => {
+  //   setPreviousPhotoURL(auth.currentUser?.photoURL!);
+  // }, []);
+
   // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -56,7 +62,7 @@ function MyProfileTest() {
     } else {
       setIsValid(false);
       // 에러 메시지 표시
-      setErrorMsg('닉네임을 입력해주세요.'); // 원하는 에러 메시지를 설정해주세요.
+      setErrorMsg('올바른 형식으로 입력하세요. \n (2자 이상 8자 이하, 영어 또는 숫자 또는 한글)'); // 원하는 에러 메시지를 설정해주세요.
     }
   };
 
@@ -132,9 +138,13 @@ function MyProfileTest() {
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('제출state', profileImage);
+    console.log('지금유저', authCurrentUser?.photoURL);
+
     if (authCurrentUser) {
       if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
         userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+        setIsEditing(false);
       }
     }
   };
@@ -174,11 +184,11 @@ function MyProfileTest() {
     }
   };
 
+  // 닉네임 중복확인
   const nicknameCheck = async (nickname: string) => {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
-    setIsChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
@@ -227,6 +237,7 @@ function MyProfileTest() {
       };
       modal.open(openModalParams);
       setIsFormValid(true);
+      setIsChecked(true);
     }
   };
 
@@ -307,7 +318,7 @@ function MyProfileTest() {
                   onClick={onSubmitModifyProfile}
                   disabled={
                     !displayName ||
-                    (profileImage === authCurrentUser?.photoURL && displayName === authCurrentUser.displayName) ||
+                    (displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL) ||
                     !isValid ||
                     !isChecked
                   }
@@ -315,7 +326,7 @@ function MyProfileTest() {
                   수정완료
                 </St.ModifyButton>
                 <St.ErrorMsg>
-                  {!isValid && <span>{errorMsg}</span>}
+                  {!isValid && errorMsg !== '변경된 내용이 없습니다.' && <span>{errorMsg}</span>}
                   {displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL && (
                     <span>변경된 내용이 없습니다.</span>
                   )}
@@ -386,7 +397,7 @@ function MyProfileTest() {
           }}
         >
           <div>
-            <GoCalendar style={{ marginTop: '3px' }} />
+            <GoCalendar style={{ marginTop: '3px', marginRight: '6px' }} />
             캘린더
           </div>
         </St.TabButton>
@@ -396,7 +407,7 @@ function MyProfileTest() {
           }}
         >
           <div>
-            <GoTasklist style={{ marginTop: '3px' }} />내 게시물
+            <GoTasklist style={{ marginTop: '3px', marginRight: '6px' }} />내 게시물
           </div>
         </St.TabButton>
         <St.TabButton
@@ -405,7 +416,7 @@ function MyProfileTest() {
           }}
         >
           <div>
-            <GoHeart style={{ marginTop: '3px' }} /> 좋아요
+            <GoHeart style={{ marginTop: '3px', marginRight: '6px' }} /> 좋아요
           </div>
         </St.TabButton>
       </St.TabButtonContainer>
