@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
 import {
@@ -48,8 +48,10 @@ function MyProfileTest() {
 
   // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     const value = e.target.value;
     setIsChecked(false);
+
     if (value !== '' && nicknameRegex.test(value)) {
       setIsValid(true);
       setDisplayName(value);
@@ -314,7 +316,7 @@ function MyProfileTest() {
                     !displayName ||
                     (displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL) ||
                     !isValid ||
-                    !isChecked
+                    (displayName !== authCurrentUser?.displayName && !isChecked)
                   }
                 >
                   수정완료
