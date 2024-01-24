@@ -1,31 +1,31 @@
 import { GoHeart, GoHeartFill } from 'react-icons/go';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Container = styled.div`
   position: relative;
-  width: 100%;
+  width: 1300px;
   /* background-color: #f4bdbd; */
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 0;
 `;
 
 const SlideWrapper = styled.div`
   display: flex;
-  width: 90%;
+  width: 1200px;
   height: 406px;
-  gap: 10px;
+  margin: 0 35px;
+  gap: 20px;
   /* background-color: #b5b5f7; */
 `;
 
 const Slide = styled.div`
   position: relative;
   //TODO: 이미지 로딩중일때 background가 보이는 문제 수정하기
-  min-width: 200px;
-  max-width: 285px;
-  width: 263px;
+  /* min-width: 200px;
+  max-width: 285px; */
+  width: 285px;
   height: 100%;
   border-radius: 20px;
   display: flex;
@@ -179,17 +179,14 @@ const InteractionInfo = styled.div`
   }
 `;
 
-// TODO: 버튼 통합하기
-// 버튼 두개 div에 넣어서 absolute으로 양쪽에 배치
-// props로 visibility 나누기
-const PrevButton = styled.button`
-  position: absolute;
+type ButtonProps = {
+  $buttonType: 'prev' | 'next';
+};
+const Button = styled.button<ButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   all: unset;
-  left: 10px;
-  margin-right: 10px;
   /* background-color: #addddd; */
   font-size: 35px;
   color: #ededed;
@@ -197,23 +194,22 @@ const PrevButton = styled.button`
   &:hover {
     color: #e3e3e3;
   }
+
+  ${(props) =>
+    props.$buttonType === 'prev' &&
+    css`
+      position: absolute;
+      left: 0;
+    `}
+
+  ${(props) =>
+    props.$buttonType === 'next' &&
+    css`
+      position: absolute;
+      right: 0;
+    `}
 `;
-const NextButton = styled.button`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  all: unset;
-  right: 10px;
-  margin-left: 10px;
-  /* background-color: #addddd; */
-  font-size: 35px;
-  color: #ededed;
-  cursor: pointer;
-  &:hover {
-    color: #e3e3e3;
-  }
-`;
+
 export default {
   Container,
   SlideWrapper,
@@ -226,6 +222,5 @@ export default {
   InteractionInfo,
   HeartIcon,
   HeartFillIcon,
-  PrevButton,
-  NextButton
+  Button
 };

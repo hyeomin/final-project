@@ -31,14 +31,15 @@ const Carousel = () => {
   const onClickLikeButton = useLikeButton();
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
+  console.log('현재 슬라이드==>', currentSlide);
 
   return (
     <St.Container>
-      {/* {currentSlide > 0 && ( */}
-      <St.PrevButton type="button" onClick={handlePrev}>
-        <SlArrowLeft />
-      </St.PrevButton>
-      {/* )} */}
+      {currentSlide > 0 && (
+        <St.Button type="button" onClick={handlePrev} $buttonType="prev">
+          <SlArrowLeft />
+        </St.Button>
+      )}
       <St.SlideWrapper>
         {isLoading ? (
           <Loader />
@@ -53,21 +54,23 @@ const Carousel = () => {
                     {!post ? (
                       <Loader />
                     ) : (
-                      <img
-                        src={
-                          post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : defaultCoverImage
-                        }
-                        alt={post.title}
-                      />
+                      <img src={defaultCoverImage} alt={post.title} />
+                      // <img
+                      //   src={
+                      //     post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : defaultCoverImage
+                      //   }
+                      //   alt={post.title}
+                      // />
                     )}
                   </St.CoverImage>
                   <St.SlideHeader>
                     <div>
                       <St.UserProfileImage>
-                        <img
+                        {/* <img
                           src={users?.find((user) => user.uid === post.uid)?.profileImg || defaultProfileImage}
                           alt="user profile image"
-                        />
+                        /> */}
+                        <img src={defaultProfileImage} alt="user profile image" />
                       </St.UserProfileImage>
                       <span>{users?.find((user) => user.uid === post.uid)?.displayName}</span>
                     </div>
@@ -103,11 +106,11 @@ const Carousel = () => {
           })
         )}
       </St.SlideWrapper>
-      {/* {popularPosts && currentSlide < popularPosts.length - 4 && ( */}
-      <St.NextButton type="button" onClick={handleNext}>
-        <SlArrowRight />
-      </St.NextButton>
-      {/* )} */}
+      {popularPosts && currentSlide < popularPosts.length - 4 && (
+        <St.Button type="button" onClick={handleNext} $buttonType="next">
+          <SlArrowRight />
+        </St.Button>
+      )}
     </St.Container>
   );
 };
