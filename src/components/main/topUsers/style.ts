@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Container = styled.section`
   /* background-color: burlywood; */
   /* width: 100%; */
-  width: 1000px;
+  width: 1200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,8 +67,8 @@ const UserName = styled.div`
   margin-top: 20px;
   font-size: 14px;
   & img {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
   }
 `;
 

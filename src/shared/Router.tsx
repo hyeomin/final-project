@@ -10,6 +10,7 @@ import MyPage from '../pages/MyPage';
 import ViewAll from '../pages/ViewAll';
 import Write from '../pages/Write';
 import ProtectedRoute from './ProtectedRoute';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export default function Router() {
   return (
@@ -32,7 +33,7 @@ export default function Router() {
           </Route>
         </Routes>
       </Layout>
-      {/* <ReactQueryDevtools /> */}
+      <ReactQueryDevtools />
     </BrowserRouter>
   );
 }
