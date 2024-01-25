@@ -76,7 +76,7 @@ function Signup() {
         };
 
         const openModalParams: Parameters<typeof modal.open>[0] = {
-          title: '중복확인 해주세요.',
+          title: '중복확인을 해주세요.',
           message: '',
           leftButtonLabel: '',
           onClickLeftButton: undefined,
@@ -138,6 +138,7 @@ function Signup() {
   // 이메일 중복체크 (firestore)
   const emailCheck = async (email: string) => {
     const userRef = collection(db, 'users');
+
     const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
 
@@ -200,6 +201,7 @@ function Signup() {
   // 닉네임 중복체크
   const nicknameCheck = async (nickname: string) => {
     const userRef = collection(db, 'users');
+
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
 
@@ -222,6 +224,7 @@ function Signup() {
       // setIsChecked(false);
       setIsNicknameChecked(false);
       setIsFormValid(false);
+      // setIsChecked(false);
       return;
     } else if (nickname === '') {
       const onClickSave = () => {
