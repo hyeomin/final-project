@@ -63,8 +63,26 @@ const CalendarContainer = styled.div`
 `;
 
 const CalendarIntroduce = styled.div`
-  font-size: 15px;
-  line-height: 1.5rem;
+  & span {
+    color: ${theme.color.mangoMain};
+    font-size: 20px;
+    font-weight: 600;
+    padding-left: 5px;
+  }
+  & img {
+    width: 20x;
+    height: 25px;
+  }
+
+  & div {
+    margin-top: 20px;
+  }
+
+  & p {
+    font-size: 15px;
+    line-height: 0.5rem;
+    color: ${theme.color.gray};
+  }
 `;
 
 const CalendarSpring1 = styled.img`
@@ -115,11 +133,11 @@ const CalendarTitle = styled.div`
 const CalendarContentsContainer = styled.div`
   position: relative;
 
-  &img {
+  & img {
     position: absolute;
     z-index: 2;
     top: 5px;
-    right: 12px;
+    right: -20px;
   }
 `;
 
@@ -133,8 +151,8 @@ const PostCount = styled.div`
 
   position: absolute;
   z-index: 3;
-  bottom: 5px;
-  left: 42px;
+  top: 45px;
+  left: 12px;
 `;
 
 const CurrentDate = styled.div`

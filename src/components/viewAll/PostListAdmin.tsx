@@ -59,28 +59,17 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
-  // useEffect(() => {}, [posts]);
-
-  // 이미지URL 불러오기
-  // const imageQueries = useQueries({
-  //   queries:
-  //     posts?.map((post) => ({
-  //       queryKey: ['imageURL', post.id],
-  //       queryFn: () => downloadImageURL(post.id as string)
-  //     })) || []
-  // });
-
   //
-  const removeImageTags = (htmlContent: string) => {
-    return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
-  };
+  // const removeImageTags = (htmlContent: string) => {
+  //   return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
+  // };
 
   //내용 문자열 일정수 이상, 그 이상 문자열 ... 출력
   //에디터 라이브러리 html에서 가져오는 거여서 기본적으로 <p></p><p>가 있음 => 10글자
   //사용하고 싶은 길이 +10 글자 해야함
-  const reduceContent = (postContent: string, cnt: number) => {
-    return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
-  };
+  // const reduceContent = (postContent: string, cnt: number) => {
+  //   return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
+  // };
 
   // console.log(posts);
 

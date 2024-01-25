@@ -115,7 +115,7 @@ const Content = styled.li`
 
 const HeartClickButton = styled.button<{ $isLiked: boolean }>`
   all: unset;
-  color: ${({ $isLiked }) => ($isLiked ? 'red' : theme.color.lightgray)};
+  color: ${({ $isLiked }) => ($isLiked ? '#FF0000' : theme.color.lightgray)};
   font-size: 20px;
   &:hover {
     cursor: pointer;
@@ -224,11 +224,10 @@ export const TitleAndContent = styled.div`
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    /* color: #222; */
     font-weight: normal;
-    /* margin-bottom: 10px; */
-    //font-family: SB AggroOTF;
     font-size: 14px;
+    line-height: normal;
+    color: ${theme.color.gray};
   }
 `;
 
@@ -303,15 +302,28 @@ const AdminContents = styled.ul`
 
   //sh
   gap: 20px;
+
+  // ashley 추가 01.24
+  & span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: normal;
+    color: ${theme.color.gray};
+    line-height: normal;
+  }
 `;
 
 const AdminContent = styled.li`
   width: 490px;
-  margin-bottom: 40px;
-  li {
+  /* margin-bottom: 40px; */
+
+  /* li {
     list-style: none;
     width: 35%;
-  }
+  } */
 
   img {
     object-fit: cover;
@@ -319,7 +331,7 @@ const AdminContent = styled.li`
     height: 300px;
     flex-shrink: 0;
     border-radius: 40px;
-    background: #d9d9d9;
+    /* background: #d9d9d9; */
     &:hover {
       cursor: pointer;
     }

@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/icons/mango-logo.png';
 import AuthToggle from '../../components/auth/AuthToggle';
 import useOutsideClick from '../../hooks/useOutsideClick';
+import usePreviousPathname from '../../util/usePreviousPathname';
 import AuthNavBar from './AuthNavBar';
 import St, { LogoContainer } from './style';
 import Search from '../../search/Search';
@@ -12,7 +13,7 @@ function NavBar() {
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  //console.log('navbar');
+  const prevPathName = usePreviousPathname();
 
   // AuthToggle 밖 누르면 꺼지게
   useOutsideClick<HTMLDivElement>(navRef, () => {
@@ -25,6 +26,12 @@ function NavBar() {
   const styledNav = ({ isActive }: { isActive: boolean }) => {
     return { color: isActive ? '#FFA114' : '' };
   };
+
+  // useEffect(() => {
+  //   if (prevPathName === '/write') {
+  //     window.location.reload();
+  //   }
+  // }, [prevPathName]);
 
   return (
     <St.NavContainer ref={navRef}>

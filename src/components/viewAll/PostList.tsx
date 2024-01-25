@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { getAllUsers } from '../../api/authApi';
 import defaultProfile from '../../assets/defaultImg.jpg';
@@ -24,6 +24,8 @@ import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
+import { useState } from 'react';
+import useKaKaoShare from '../../hooks/useKaKaoShare';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -47,15 +49,12 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const category = useRecoilValue(categoryListState);
   const navigate = useNavigate();
 
-  //쿼리스트링
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log('PostList/ searchParams:', searchParams.toString()); //category=total
-
   //좋아요
   const currentUserId = auth.currentUser?.uid;
   const queryClient = useQueryClient();
   const modal = useModal();
 
+  //더보기
   const {
     data: posts,
     fetchNextPage,
@@ -66,18 +65,13 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     queryKey,
     queryFn,
     initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
-    getNextPageParam: (lastPage, lastPageParam) => {
-      if (lastPage.length === 0) {
-        //console.log('lastPageParam', lastPageParam);
+    getNextPageParam: (lastPage) => {
+      if (lastPage.length === 0 || lastPage.length < 4) {
         return undefined;
       }
       return lastPage[lastPage.length - 1];
     },
     select: (data) => {
-      let loadedPostsLastPage = data.pages[data.pages.length - 1];
-      let loadedPosts = loadedPostsLastPage.length;
-      //console.log('loadedPosts', loadedPosts);
-
       let sortedPosts = data.pages.flat().map((doc) => {
         const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
         return {
@@ -105,7 +99,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
-  //좋아요
+  //좋아요 토글 + 좋아요 수
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (params: PostCardProps) => {
       const { postId, postData } = params;
@@ -167,6 +161,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
+  //좋아요 버튼 이벤트핸들러
   const handleClickLikeButton = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     id: string,
@@ -298,7 +293,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         //전체length === 보여준 length 같을때 ==> 더보기 안보이게 처리
         {isFetchingNextPage ? (
           <Loader />
-        ) : hasNextPage ? (
+        ) : hasNextPage ? (z
           <>
             <button onClick={() => fetchNextPage()}>더 보기</button>
             <p>{hasNextPage}</p>

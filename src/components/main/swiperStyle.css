@@ -22,28 +22,10 @@
   transition: filter 0.3s ease;
 } */
 
-/* 다음 버튼 스타일 */
-.default-swiper .swiper-button-next {
-  width: 50px;
-  height: 50px;
-  right: 10px;
-  color: #fff;
-}
-
-/* 이전 버튼 스타일 */
-.default-swiper .swiper-button-prev {
-  width: 50px;
-  height: 50px;
-  left: 10px;
-  color: #fff;
-}
-
-/* 상단 */
-
 .custom-swiper .swiper-button-next,
 .custom-swiper .swiper-button-prev {
-  width: 40px; /*  피그마 이미지 깨끗하지 않아서 사용하지 않음 */
-  height: 40px; /* 버튼 호버효과를 사용할때도 이미지 쓰지 않는게 나음*/
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   top: 340px; /* bottom이 안먹음 */
   border: none;
@@ -58,14 +40,13 @@
 /* 네비게이션 버튼 스타일 */
 .custom-swiper .swiper-button-next {
   color: white;
-  left: 345px; /* 자세히보기 left: 215px  + width: 170px  - 스와이퍼 버튼 width: 40px */
+  left: 345px;
 }
 
 .custom-swiper .swiper-button-prev {
   color: white;
   border-radius: 50%;
-  left: 215px; /*자세히보기 버튼의 위치 => left: 215  */
-
+  left: 215px;
   /* font-size: 15px; */
 }
 
