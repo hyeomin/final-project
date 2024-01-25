@@ -6,6 +6,10 @@ import useOutsideClick from '../../hooks/useOutsideClick';
 import usePreviousPathname from '../../util/usePreviousPathname';
 import AuthNavBar from './AuthNavBar';
 import St, { LogoContainer } from './style';
+import { useQueryClient } from '@tanstack/react-query';
+import { getAdminPostList } from '../../api/pageListApi';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { QUERY_KEYS } from '../../query/keys';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
@@ -26,6 +30,42 @@ function NavBar() {
     return { color: isActive ? '#FFA114' : '' };
   };
 
+  // hover 시 prefetch 함수
+  const queryClient = useQueryClient(); // queryClient 사용
+
+  //잘작동 (admin 한정)
+  const handleHover = async () => {
+    queryClient.prefetchInfiniteQuery({
+      queryKey: [QUERY_KEYS.ADMIN],
+      queryFn: getAdminPostList,
+      initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
+      staleTime: 60000
+    });
+  };
+
+  // const handleHover = async () => {
+  //   const queriesToPrefetch = [
+  //     { queryKey: QUERY_KEYS.ADMIN, queryFn: getAdminPostList },
+  //     { queryKey: QUERY_KEYS.KNOWHOW, queryFn: getCategoryPosts('knowHow') },
+  //     { queryKey: QUERY_KEYS.RECOMMEND, queryFn: getCategoryPosts('recommendation') },
+  //     { queryKey: QUERY_KEYS.SHARE, queryFn: getCategoryPosts('sharing') },
+  //     { queryKey: QUERY_KEYS.HABIT, queryFn: getCategoryPosts('habit') },
+  //     { queryKey: QUERY_KEYS.TOTAL, queryFn: getCategoryPosts('total') },
+  //     { queryKey: QUERY_KEYS.NOCATEGORY, queryFn: getCategoryPosts('noCategory') }
+
+  //     // 다른 queryKey와 queryFn을 추가할 수 있습니다.
+  //   ];
+
+  //   for (const { queryKey, queryFn } of queriesToPrefetch) {
+  //     await queryClient.prefetchInfiniteQuery({
+  //       queryKey: [queryKey],
+  //       queryFn: queryFn,
+  //       initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
+  //       staleTime: 60000
+  //     });
+  //   }
+  // };
+
   // useEffect(() => {
   //   if (prevPathName === '/write') {
   //     window.location.reload();
@@ -43,7 +83,8 @@ function NavBar() {
           <NavLink to="/about" style={styledNav}>
             망고 소개
           </NavLink>
-          <NavLink to="/viewAll" style={styledNav}>
+
+          <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
             게시물 보기
           </NavLink>
         </St.LeftNav>
