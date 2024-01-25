@@ -15,24 +15,33 @@ import { Category } from '../components/viewAll/ViewAllBody';
 import { db } from '../shared/firebase';
 
 //관리자 (콘텐츠 by Mango)
-export const getAdminPostList =
-  (category: string) =>
-  async ({
-    pageParam
-  }: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
-    const q = pageParam
-      ? query(
-          collection(db, 'posts'),
-          where('role', '==', 'admin'),
-          orderBy('createdAt', 'desc'),
-          startAfter(pageParam),
-          limit(2)
-        )
-      : query(collection(db, 'posts'), where('role', '==', 'admin'), orderBy('createdAt', 'desc'), limit(2));
+// export const getAdminPostList =
+//   (category: string) =>
+//   async ({
+//     pageParam
+//   }: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
 
-    const querySnapShot = await getDocs(q);
-    return querySnapShot.docs;
-  };
+export const getAdminPostList = async (context: {
+  //queryKey: string[];
+  //signal: AbortSignal;
+  pageParam: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
+  //direction: FetchDirection;
+  //meta: Record<string, unknown> | undefined;
+}) => {
+  const { pageParam } = context;
+  const q = pageParam
+    ? query(
+        collection(db, 'posts'),
+        where('role', '==', 'admin'),
+        orderBy('createdAt', 'desc'),
+        startAfter(pageParam),
+        limit(2)
+      )
+    : query(collection(db, 'posts'), where('role', '==', 'admin'), orderBy('createdAt', 'desc'), limit(2));
+
+  const querySnapShot = await getDocs(q);
+  return querySnapShot.docs;
+};
 
 // 사용자 (카테고리별)
 export const getCategoryPosts =
