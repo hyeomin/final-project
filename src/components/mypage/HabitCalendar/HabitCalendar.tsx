@@ -27,7 +27,7 @@ const HabitCalendar = ({ date }: any) => {
     queryFn: getMyPosts
   });
   const createdAtList = data ? data.map((data) => getFormattedDateCustom(data.createdAt!)) : [];
-  console.log('data', data);
+  // console.log('data', data);
   const dayList: string[] = [];
 
   const getElCount = (arr: string[]): Record<string, number> =>
@@ -42,9 +42,14 @@ const HabitCalendar = ({ date }: any) => {
       <St.StyleCalendar>
         <St.CalendarContainer>
           <St.CalendarIntroduce>
-            오늘도 지구를 지키기 위해 노력하셨군요
+            <img src={mangofavicon} alt="mago-Logo" />
+            <span>망고 달력</span>
             <br />
-            글을 쓰면 망고스티커를 드려요!
+            <div>
+              <p>오늘도 지구를 지키기 위해 노력하셨군요</p>
+              <br />
+              <p>글을 쓰면 망고스티커를 드려요!</p>
+            </div>
           </St.CalendarIntroduce>
           <St.CalendarSpring1 src={calendarSpring} />
           <St.CalendarSpring2 src={calendarSpring} />
