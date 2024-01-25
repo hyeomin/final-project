@@ -10,7 +10,7 @@ import { UsersWithLikeCount, likeCountPerUserType } from './homeApi';
 const getMyPosts = async () => {
   try {
     // const auth = getAuth();
-    console.log('dd', auth.currentUser);
+    // console.log('dd', auth.currentUser);
     const q = query(collection(db, QUERY_KEYS.POSTS), where('uid', '==', auth.currentUser?.uid));
     const querySnapshot = await getDocs(q);
     const posts: PostType[] = [];
@@ -24,7 +24,7 @@ const getMyPosts = async () => {
     });
     return posts;
   } catch (error) {
-    console.error(error, '에러입니다');
+    // console.error(error, '에러입니다');
   }
 };
 
@@ -43,7 +43,7 @@ const getLikePosts = async () => {
     });
     return posts;
   } catch (error) {
-    console.error('에러입니다');
+    // console.error('에러입니다');
   }
 };
 
@@ -93,7 +93,7 @@ const getUserRanking = async () => {
     });
     return topUsers;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return [];
   }
 };

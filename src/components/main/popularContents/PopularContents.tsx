@@ -15,7 +15,7 @@ import Loader from '../../common/Loader';
 import PostContentPreview from '../../common/PostContentPreview';
 import '../swiperStyle.css';
 import St from './style';
-import Carousel from './Carousel';
+import Carousel from './carousel/Carousel';
 
 const UserContents = () => {
   return (

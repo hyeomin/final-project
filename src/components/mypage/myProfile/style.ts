@@ -1,5 +1,5 @@
 import 'react-calendar/dist/Calendar.css';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import theme from '../../../styles/theme';
 
 const Wrapper = styled.div`
@@ -111,6 +111,9 @@ const ModifyButton = styled.button`
   margin-left: 5px;
   background-color: ${theme.color.mangoMain};
   font-weight: 600;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const UserInfoModify = styled.div`
@@ -139,6 +142,9 @@ const DisplayNameCheckBtn = styled.button`
   font-size: 10px;
   border: 1px solid ${theme.color.gray};
   color: ${theme.color.gray};
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const MyImage = styled.img`
@@ -209,6 +215,7 @@ const TabButton = styled.button`
   justify-content: center;
   align-items: center;
   background-color: #f6f6f6;
+
   &:hover {
     cursor: pointer;
     background-color: white;

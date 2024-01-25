@@ -8,19 +8,19 @@ import {
   updateProfileImageProps,
   updateProfileInfo,
   updateProfileInfoProps
-} from '../../../../api/authApi';
-import { getMyPosts, getUserRanking } from '../../../../api/myPostAPI';
-import defaultImg from '../../../../assets/defaultImg.jpg';
-import postCountIcon from '../../../../assets/icons/postCountIcon.png';
-import rankingIcon from '../../../../assets/icons/rankingIcon.png';
-import { AuthContext } from '../../../../context/AuthContext';
-import { useModal } from '../../../../hooks/useModal';
-import { QUERY_KEYS } from '../../../../query/keys';
-import { auth, db } from '../../../../shared/firebase';
-import HabitCalendar from '../../HabitCalendar/HabitCalendar';
-import LikesPosts from '../../LikesPosts';
-import MyPosts from '../../MyPosts';
-import St from '../style';
+} from '../../../api/authApi';
+import { getMyPosts, getUserRanking } from '../../../api/myPostAPI';
+import defaultImg from '../../../assets/defaultImg.jpg';
+import postCountIcon from '../../../assets/icons/postCountIcon.png';
+import rankingIcon from '../../../assets/icons/rankingIcon.png';
+import { AuthContext } from '../../../context/AuthContext';
+import { useModal } from '../../../hooks/useModal';
+import { QUERY_KEYS } from '../../../query/keys';
+import { auth, db } from '../../../shared/firebase';
+import HabitCalendar from '../HabitCalendar/HabitCalendar';
+import LikesPosts from '../LikesPosts';
+import MyPosts from '../MyPosts';
+import St from './style';
 
 function MyProfileTest() {
   const modal = useModal();
@@ -47,14 +47,17 @@ function MyProfileTest() {
 
   // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     const value = e.target.value;
+    setIsChecked(false);
+
     if (value !== '' && nicknameRegex.test(value)) {
       setIsValid(true);
       setDisplayName(value);
     } else {
       setIsValid(false);
       // 에러 메시지 표시
-      setErrorMsg('닉네임을 입력해주세요.'); // 원하는 에러 메시지를 설정해주세요.
+      setErrorMsg('올바른 형식으로 입력하세요. \n (2자 이상 8자 이하, 영어 또는 숫자 또는 한글)'); // 원하는 에러 메시지를 설정해주세요.
     }
   };
 
@@ -126,6 +129,20 @@ function MyProfileTest() {
     }
   });
 
+  //프로필 수정 업데이트
+  const onSubmitModifyProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('제출state', profileImage);
+    console.log('지금유저', authCurrentUser?.photoURL);
+
+    if (authCurrentUser) {
+      if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
+        userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+        setIsEditing(false);
+      }
+    }
+  };
+
   // 프로필 이미지를 Firebase에 업로드
   const profileImageUploadMutation = useMutation({
     mutationFn: ({ authCurrentUser, profileImage }: updateProfileImageProps) =>
@@ -161,6 +178,7 @@ function MyProfileTest() {
     }
   };
 
+  // 닉네임 중복확인
   const nicknameCheck = async (nickname: string) => {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('displayName', '==', nickname));
@@ -180,8 +198,8 @@ function MyProfileTest() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
-      setIsFormValid(false);
       setIsChecked(false);
+      setIsFormValid(false);
       return;
     } else if (nickname === '') {
       const onClickSave = () => {
@@ -217,16 +235,6 @@ function MyProfileTest() {
     }
   };
 
-  //프로필 수정 업데이트
-  const onSubmitModifyProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (authCurrentUser) {
-      if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
-        userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
-      }
-    }
-  };
-
   // menuTab 버튼
   const onClickTabBtn = (name: string) => {
     setActiveTab(name);
@@ -245,17 +253,17 @@ function MyProfileTest() {
   let LevelOneGradeEmoji = '🌱';
   let LevelTwoGradeEmoji = '☘️';
   let LevelThreeGradeEmoji = '🌳';
-  let ddd = LevelOneGradeEmoji;
-  let aaa = levelOne;
+  let levelEmoji = LevelOneGradeEmoji;
+  let level = levelOne;
   if (userGrade && userGrade < 2) {
-    ddd = LevelOneGradeEmoji;
-    aaa = levelOne;
+    levelEmoji = LevelOneGradeEmoji;
+    level = levelOne;
   } else if (userGrade && userGrade < 6) {
-    ddd = LevelTwoGradeEmoji;
-    aaa = levelTwo;
+    levelEmoji = LevelTwoGradeEmoji;
+    level = levelTwo;
   } else if (userGrade && userGrade >= 6) {
-    ddd = LevelThreeGradeEmoji;
-    aaa = levelThree;
+    levelEmoji = LevelThreeGradeEmoji;
+    level = levelThree;
   }
 
   return (
@@ -279,13 +287,13 @@ function MyProfileTest() {
               <>
                 <St.DisplayNameModify
                   autoFocus
-                  defaultValue={authCurrentUser!.displayName ?? ''}
+                  defaultValue={authCurrentUser?.displayName ?? ''}
                   onChange={onChangeDisplayName}
                   style={{ borderColor: isValid ? 'black' : 'red' }}
                 />
                 <St.DisplayNameCheckBtn
                   onClick={() => nicknameCheck(displayName)}
-                  disabled={displayName === '' || displayName === authCurrentUser!.displayName || !isChecked}
+                  disabled={displayName == '' || displayName == authCurrentUser?.displayName}
                 >
                   중복확인
                 </St.DisplayNameCheckBtn>
@@ -301,19 +309,18 @@ function MyProfileTest() {
                 <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
                 <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
                 <St.ModifyButton
-                  disabled={
-                    displayName === '' ||
-                    !displayName ||
-                    profileImage === authCurrentUser?.photoURL ||
-                    !isValid ||
-                    !isChecked
-                  }
                   onClick={onSubmitModifyProfile}
+                  disabled={
+                    !displayName ||
+                    (displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL) ||
+                    !isValid ||
+                    (displayName !== authCurrentUser?.displayName && !isChecked)
+                  }
                 >
                   수정완료
                 </St.ModifyButton>
                 <St.ErrorMsg>
-                  {!isValid && <span>{errorMsg}</span>}
+                  {!isValid && errorMsg !== '변경된 내용이 없습니다.' && <span>{errorMsg}</span>}
                   {displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL && (
                     <span>변경된 내용이 없습니다.</span>
                   )}
@@ -370,8 +377,8 @@ function MyProfileTest() {
               ) : null}
               <br />
               <div style={{ display: 'flex', width: '20px', marginTop: '10px' }}>
-                <div style={{ marginRight: '10px' }}>{ddd}</div>
-                <div>Lv.{aaa}</div>
+                <div style={{ marginRight: '10px' }}>{levelEmoji}</div>
+                <div>Lv.{level}</div>
               </div>
             </div>
           </St.PostInfoBox>
@@ -384,7 +391,7 @@ function MyProfileTest() {
           }}
         >
           <div>
-            <GoCalendar style={{ marginTop: '3px' }} />
+            <GoCalendar style={{ marginTop: '3px', marginRight: '6px' }} />
             캘린더
           </div>
         </St.TabButton>
@@ -394,7 +401,7 @@ function MyProfileTest() {
           }}
         >
           <div>
-            <GoTasklist style={{ marginTop: '3px' }} />내 게시물
+            <GoTasklist style={{ marginTop: '3px', marginRight: '6px' }} />내 게시물
           </div>
         </St.TabButton>
         <St.TabButton
@@ -403,7 +410,7 @@ function MyProfileTest() {
           }}
         >
           <div>
-            <GoHeart style={{ marginTop: '3px' }} /> 좋아요
+            <GoHeart style={{ marginTop: '3px', marginRight: '6px' }} /> 좋아요
           </div>
         </St.TabButton>
       </St.TabButtonContainer>
