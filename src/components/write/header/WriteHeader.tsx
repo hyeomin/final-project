@@ -17,16 +17,10 @@ function Header({ isEditing }: Props) {
     alert('저장되었습니다.');
   };
 
-  // 임시저장된 데이터 삭제할 수 있게
-  const onDeleteTempSaveHandler = () => {
-    sessionStorage.removeItem('savedData');
-    alert('삭제되었습니다.');
-  };
-
   return (
     <St.WriteHeader>
       <St.ButtonContainer>
-        <button onClick={onDeleteTempSaveHandler}>임시저장 삭제</button>
+        {/* <button onClick={onDeleteTempSaveHandler}>임시저장 삭제</button> */}
         <CustomButton $variant="save" onClick={onTempSaveHandler}>
           임시 저장
         </CustomButton>
