@@ -50,9 +50,6 @@ const UploadTextBox = styled.div`
     font-weight: lighter;
     color: ${theme.color.gray};
   }
-
-  & span {
-  }
 `;
 
 const PreviewTitle = styled.div`
@@ -67,21 +64,17 @@ const PreviewContainer = styled.section`
 `;
 
 const SinglePreview = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
   row-gap: 10px;
   position: relative;
 
   & img {
-    height: 180px;
+    width: 100%;
+    height: 200px;
     object-fit: contain;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     overflow: hidden;
-    background-color: #d9d9d9;
-  }
-
-  & div {
-    display: flex;
+    background-color: ${theme.color.lightgray};
   }
 `;
 
@@ -101,6 +94,7 @@ const SinglePreviewInfo = styled.div`
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
+      line-height: normal;
     }
 
     & span {

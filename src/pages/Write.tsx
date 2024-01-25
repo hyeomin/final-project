@@ -1,57 +1,67 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Editor from '../components/write/editor/Editor';
 import Hashtag from '../components/write/hashtag/Hashtag';
 import Header from '../components/write/header/WriteHeader';
 import ImageUpload from '../components/write/imageUpload/ImageUpload';
-import { initialPostInputState, isEditingPostState, postInputState } from '../recoil/posts';
+import { initialPostInputState, postInputState } from '../recoil/posts';
 
 function Write() {
   const location = useLocation();
   const { foundDetailPost } = location.state || {};
-  console.log('foundDetailPost', foundDetailPost);
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
-  const setIsEditingPost = useSetRecoilState(isEditingPostState);
+  const { pathname } = useLocation();
+  const prevPathname = useRef(pathname);
 
-  console.log('postInput-->', postInput);
+  // 주소가 바뀌면 내용 날라가게
 
-  console.log('location-->', location);
-
-  // 임시저장된 데이터 불러올지
+  // 임시저장된 데이터 불러올지; 취소하면 날라가게
   useEffect(() => {
     setTimeout(() => {
       const savedData = sessionStorage.getItem('savedData');
       if (savedData) {
         const confirmLoadSavedData = window.confirm('임시저장된 데이터가 있습니다. 불러오시겠습니까?');
+        // 취소하면 날라갑니다.
         if (confirmLoadSavedData) {
           setPostInput(JSON.parse(savedData));
         } else {
           setPostInput(initialPostInputState);
+          onDeleteTempSaveHandler();
           return;
         }
       }
     }, 700);
   }, []);
 
+  // 임시저장된 데이터 삭제
+  const onDeleteTempSaveHandler = () => {
+    sessionStorage.removeItem('savedData');
+    alert('삭제되었습니다.');
+  };
+
   // 새로고침 핸들러
   useEffect(() => {
     if (
-      (postInput.title === '' && postInput.content === '' && postInput.category === 'noCategory',
-      postInput.hashtags.length === 0 && postInput.coverImages.length === 0)
-    )
+      postInput.title === '' &&
+      postInput.content === '' &&
+      postInput.category === 'noCategory' &&
+      postInput.hashtags.length === 0 &&
+      postInput.coverImages.length === 0
+    ) {
       return;
+    }
 
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
+      // setPostInput(initialPostInputState);
       return (e.returnValue = '');
     };
 
     // beforeunload 이벤트 리스너 등록
     window.addEventListener('beforeunload', handleBeforeUnload, { capture: true });
-
     // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload, { capture: true });
@@ -65,6 +75,7 @@ function Write() {
       <Spacer />
       <Hashtag />
       <ImageUpload />
+      {/* <ImageUploadTest /> */}
     </Container>
   );
 }

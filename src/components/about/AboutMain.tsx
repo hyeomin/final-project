@@ -5,6 +5,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import theme from '../../styles/theme';
 import HowToUse from './HowToUse';
+import YoutubeTest from './YoutubeTest';
 
 const HOWTOUSE = '이용안내';
 const NEWSROOM = '뉴스룸';
@@ -28,6 +29,7 @@ function AboutMain() {
         <h3>ECO LIFESTYLE </h3>
       </Title>
       <HowToUse />
+      <YoutubeTest />
       {/* <NavBar>
         <button onClick={onOpenToggleHandler}>{HOWTOUSE}</button>
         <button onClick={onOpenToggleHandler}>{NEWSROOM}</button>

@@ -1,9 +1,13 @@
-import { useState } from 'react';
 import { SwiperClass } from 'swiper/react';
 
-const useSwiperNavigation = (swiperInstance: SwiperClass | null, maxIndex: number) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+type Props = {
+  swiperInstance: SwiperClass | null;
+  currentIndex: number;
+  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  maxIndex: number;
+};
 
+const useSwiperNavigation = ({ swiperInstance, currentIndex, setCurrentIndex, maxIndex }: Props) => {
   const goNext = () => {
     if (swiperInstance && currentIndex < maxIndex) {
       swiperInstance.slideNext();
@@ -18,7 +22,7 @@ const useSwiperNavigation = (swiperInstance: SwiperClass | null, maxIndex: numbe
     }
   };
 
-  return { currentIndex, goNext, goPrev };
+  return { goNext, goPrev };
 };
 
 export default useSwiperNavigation;
