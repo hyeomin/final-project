@@ -337,22 +337,21 @@ function MyProfileTest() {
         </St.ProfileInfo>
         <St.UserPostInfoContainer>
           <St.PostInfoBox>
-            게시물 수<br />
-            <div>
-              <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={postCountIcon} />
-              <span style={{ marginLeft: '10px' }}>{myPosts?.length}개</span>
+            <div>게시물 수</div>
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
+              <img src={postCountIcon} />
+              <div>{myPosts?.length}개</div>
             </div>
           </St.PostInfoBox>
           <St.PostInfoBox>
-            <div>
-              <span style={{ marginBottom: '1px' }}>랭킹</span>
-              <br />
-              <img style={{ width: '20px', height: '20px', marginTop: '20px' }} src={rankingIcon} />
-              <span style={{ marginLeft: '10px' }}>
+            <div>랭킹</div>
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
+              <img src={rankingIcon} />
+              <div>
                 {userRanking?.findIndex((r) => r.uid === currentUserId) !== -1
                   ? `${currentUserId && userRanking && userRanking?.findIndex((r) => r.uid === currentUserId) + 1}위`
                   : '순위 없음'}
-              </span>
+              </div>
             </div>
           </St.PostInfoBox>
           <St.PostInfoBox>
@@ -376,9 +375,9 @@ function MyProfileTest() {
                 </div>
               ) : null}
               <br />
-              <div style={{ display: 'flex', width: '20px', marginTop: '10px' }}>
-                <div style={{ marginRight: '10px' }}>{levelEmoji}</div>
-                <div>Lv.{level}</div>
+              <div style={{ display: 'flex', width: '20px', marginTop: '10px', gap: '5px' }}>
+                <span>{levelEmoji}</span>
+                <span>Lv.{level}</span>
               </div>
             </div>
           </St.PostInfoBox>
@@ -386,6 +385,11 @@ function MyProfileTest() {
       </St.ProfileEditWrapper>
       <St.TabButtonContainer>
         <St.TabButton
+          style={{
+            backgroundColor: activeTab === 'calendar' ? 'white' : '#f6f6f6',
+            color: activeTab === 'calendar' ? '#ffa114' : 'black',
+            border: activeTab === 'calendar' ? '1px solid lightgrey' : '1px solid none'
+          }}
           onClick={() => {
             onClickTabBtn('calendar');
           }}
@@ -396,6 +400,11 @@ function MyProfileTest() {
           </div>
         </St.TabButton>
         <St.TabButton
+          style={{
+            backgroundColor: activeTab === 'myPosts' ? 'white' : '#f6f6f6',
+            color: activeTab === 'myPosts' ? '#ffa114' : 'black',
+            border: activeTab === 'myPosts' ? '1px solid lightgrey' : '2px solid none'
+          }}
           onClick={() => {
             onClickTabBtn('myPosts');
           }}
@@ -405,6 +414,11 @@ function MyProfileTest() {
           </div>
         </St.TabButton>
         <St.TabButton
+          style={{
+            backgroundColor: activeTab === 'likes' ? 'white' : '#f6f6f6',
+            color: activeTab === 'likes' ? '#ffa114' : 'black',
+            border: activeTab === 'likes' ? '1px solid lightgrey' : '2px solid none'
+          }}
           onClick={() => {
             onClickTabBtn('likes');
           }}

@@ -42,8 +42,11 @@ const HabitCalendar = ({ date }: any) => {
       <St.StyleCalendar>
         <St.CalendarContainer>
           <St.CalendarIntroduce>
-            <img src={mangofavicon} alt="mago-Logo" />
-            <span>망고 달력</span>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <img src={mangofavicon} alt="mago-Logo" />
+              <span>망고 달력</span>
+            </div>
+
             <br />
             <div>
               <p>오늘도 지구를 지키기 위해 노력하셨군요</p>
