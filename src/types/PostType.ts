@@ -21,6 +21,7 @@ export type PostType = {
 export type DownloadedImageType = {
   name: string;
   url: string;
+  isLocal?: boolean;
 };
 
 export type PostInputType = {
