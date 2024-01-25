@@ -7,7 +7,6 @@ type Props = {
 
 const useKaKaoShare = () => {
   const handleShareKakaoClick = ({ title, detailURL, imageUrl, description }: Props) => {
-    console.log('imageUrl===>', imageUrl);
     if (window.Kakao) {
       window.Kakao.Share.sendDefault({
         objectType: 'feed',

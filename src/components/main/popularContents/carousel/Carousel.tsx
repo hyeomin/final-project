@@ -51,22 +51,22 @@ const Carousel = () => {
                 <St.Slide>
                   <St.CoverImage>
                     {/* TODO 이미지가 늦게 로드되는 문제 해결해야함 */}
-                    {/* <img
+                    <img
                       src={
                         post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : defaultCoverImage
                       }
                       alt={post.title}
-                    /> */}
-                    <img src={defaultCoverImage} alt={post.title} />
+                    />
+                    {/* <img src={defaultCoverImage} alt={post.title} /> */}
                   </St.CoverImage>
                   <St.SlideHeader>
                     <div>
                       <St.UserProfileImage>
-                        {/* <img
+                        <img
                           src={users?.find((user) => user.uid === post.uid)?.profileImg || defaultProfileImage}
                           alt="user profile image"
-                        /> */}
-                        <img src={defaultProfileImage} alt="user profile image" />
+                        />
+                        {/* <img src={defaultProfileImage} alt="user profile image" /> */}
                       </St.UserProfileImage>
                       <span>{users?.find((user) => user.uid === post.uid)?.displayName}</span>
                     </div>
