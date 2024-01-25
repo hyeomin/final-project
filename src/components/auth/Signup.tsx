@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -9,10 +9,8 @@ import mangofavicon from '../../assets/mango-favicon.png';
 import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
-
 import St from './style';
 import { useModal } from '../../hooks/useModal';
-import MyProfileTest from '../mypage/myProfile/myProfileTest/MyProfileTest';
 
 export type Data = {
   email: string;
@@ -26,10 +24,10 @@ export type Data = {
 
 function Signup() {
   const modal = useModal();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [passwordCheck, SetPasswordCheck] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [nickname, setNickname] = useState('');
+  // const [passwordCheck, SetPasswordCheck] = useState('');
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
   const [image, setImage] = useState('');
@@ -37,10 +35,9 @@ function Signup() {
   const [errorMsg, setErrorMsg] = usePrintError('');
   const [isFormValid, setIsFormValid] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
-  // const [isNicknameChecked, setIsNicknameChecked] = useState(false);
+  const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
   const navigate = useNavigate();
-  // const emailInputRef = useRef<HTMLInputElement | null>(null);
   const {
     register,
     handleSubmit,
@@ -66,14 +63,20 @@ function Signup() {
   }, [imageUpload]);
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passwordCheck }: Data) => {
+    console.log('찍히나');
     try {
+      if (!isChecked || !isNicknameChecked) {
+        // isChecked 상태가 false이거나 isFormValid 상태가 false일 때는 함수를 종료
+        return;
+      }
       if (!isChecked) {
         const onClickSave = () => {
           modal.close();
+          return;
         };
 
         const openModalParams: Parameters<typeof modal.open>[0] = {
-          title: '중복확인해주세요.',
+          title: '중복확인 해주세요.',
           message: '',
           leftButtonLabel: '',
           onClickLeftButton: undefined,
@@ -123,12 +126,7 @@ function Signup() {
         });
       }
     } catch (error) {
-      // console.error(errorMsg);
-      // 왜 처음에 빈 값으로 뜰까?
-
       setErrorMsg(error);
-      alert(errorMsg);
-
       return;
     }
 
@@ -159,7 +157,8 @@ function Signup() {
       modal.open(openModalParams);
 
       setIsFormValid(false);
-      setValue('email', '');
+      setIsChecked(false);
+      setValue('email', email);
 
       return;
     } else if (email === '') {
@@ -194,6 +193,7 @@ function Signup() {
       modal.open(openModalParams);
       setIsChecked(true);
       setIsFormValid(true);
+      console.log('ddddddddddd');
     }
   };
 
@@ -202,7 +202,6 @@ function Signup() {
     const userRef = collection(db, 'users');
     const q = query(userRef, where('displayName', '==', nickname));
     const querySnapshot = await getDocs(q);
-    // setIsNicknameChecked(true);
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
@@ -219,7 +218,9 @@ function Signup() {
       };
       modal.open(openModalParams);
 
-      setValue('nickname', '');
+      setValue('nickname', nickname);
+      // setIsChecked(false);
+      setIsNicknameChecked(false);
       setIsFormValid(false);
       return;
     } else if (nickname === '') {
@@ -251,8 +252,11 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
-      setIsChecked(true);
+      // setIsChecked(true);
+      setIsNicknameChecked(true);
       setIsFormValid(true);
+
+      console.log('닉넴');
     }
   };
 
@@ -277,7 +281,9 @@ function Signup() {
               pattern: emailRegex
             })}
           />
-          <St.AuthBtn onClick={() => emailCheck(getValues('email'))}>중복확인</St.AuthBtn>
+          <St.AuthBtn onClick={() => emailCheck(getValues('email'))} disabled={!!errors?.email}>
+            중복확인
+          </St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
           {errors?.email?.type === 'pattern' && <St.WarningMsg>이메일 양식에 맞게 입력해주세요</St.WarningMsg>}
         </St.InputContainer>
@@ -341,17 +347,7 @@ function Signup() {
           )}
         </St.InputContainer>
 
-        <St.SignUpAndLoginBtn
-          type="submit"
-          disabled={
-            !isFormValid &&
-            nickname === '' &&
-            email === '' &&
-            password === '' &&
-            passwordCheck === '' &&
-            password !== passwordCheck
-          }
-        >
+        <St.SignUpAndLoginBtn type="submit" disabled={!isChecked || !isNicknameChecked}>
           가입하기
         </St.SignUpAndLoginBtn>
         {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}

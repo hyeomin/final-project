@@ -27,8 +27,8 @@ const usePrintError = (error: any): [string, (error: any) => void] => {
         return setErrMsg('비밀번호가 틀립니다.');
       case 'auth/invalid-email':
         return setErrMsg('유효하지 않은 이메일 입니다.');
-      case 'auth/admin-restricted-operation':
-        return setErrMsg('필수입력 사항을 작성해주세요.');
+      case 'auth/too-many-requests':
+        return setErrMsg('너무 많은 요청을 보냈습니다. 잠시 후 다시 시도하세요.');
       case 'auth/internal-error':
         return setErrMsg('잘못된 요청입니다.');
       case 'auth/invalid-credential':
