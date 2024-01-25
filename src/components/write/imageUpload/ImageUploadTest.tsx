@@ -5,9 +5,10 @@ import { useRecoilState } from 'recoil';
 import { deleteImage, uploadSingleImage } from '../../../api/postApi';
 import DragNDrop from '../../../assets/icons/dragndrop.png';
 import { postInputState } from '../../../recoil/posts';
+import { DownloadedImageType } from '../../../types/PostType';
 import St from './style';
 
-function ImageUpload() {
+function ImageUploadTest() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
@@ -18,35 +19,47 @@ function ImageUpload() {
   // 이미지 올리는 query
   const addImageMutation = useMutation({
     mutationFn: (file: File) => uploadSingleImage({ coverImage: file }),
-    onSuccess: (downloadedImage) => {
+    onMutate: async (newImageFile) => {
+      await queryClient.cancelQueries({ queryKey: ['coverImages'] });
+      const previousImages = queryClient.getQueryData(['coverImages']) || [];
+
+      // 임시로 로컬 이미지 파일을 url과 이름이 있는 객체로 변환
+      const tempUrl = URL.createObjectURL(newImageFile);
+      const tempImage = { url: tempUrl, name: newImageFile.name };
+
+      queryClient.setQueryData(['coverImages'], (old: DownloadedImageType[] = []) => [...old, tempImage]);
+      return { previousImages };
+    },
+    onError: (err, newImageFile, context) => {
+      console.log('onError', err);
+      console.log('context:', context);
+      queryClient.setQueryData(['coverImages'], context?.previousImages);
+    },
+    onSettled: (downloadedImage) => {
+      console.log('onSettled');
       if (downloadedImage) {
-        console.log('무엇');
         // 정상적으로 url을 반환 받았는지 확인
         queryClient.invalidateQueries({ queryKey: ['coverImages'] });
-        // setPostInput({
-        //   ...postInput,
-        //   coverImages: [...coverImages, downloadedImage]
-        // });
-        setPostInput((currentInput) => {
-          const updatedImages = currentInput.coverImages.map((image) => {
-            if (image.isLocal && image.name === downloadedImage.name) {
-              return { ...downloadedImage, isLocal: false };
-            }
-            return image;
-          });
-          return { ...currentInput, coverImages: updatedImages };
+        setPostInput({
+          ...postInput,
+          coverImages: [...coverImages, downloadedImage]
         });
+      } else {
+        console.error('Failed to get the image URL');
       }
-    },
-    onError: (error, variables) => {
-      setPostInput((currentInput) => {
-        const updatedImages = currentInput.coverImages.filter(
-          (image) => !(image.isLocal && image.name === variables.name)
-        );
-        return { ...currentInput, coverImages: updatedImages };
-      });
-      console.log('이미지 업로드 실패', error);
     }
+    // onSuccess: (downloadedImage) => {
+    //   if (downloadedImage) {
+    //     // 정상적으로 url을 반환 받았는지 확인
+    //     queryClient.invalidateQueries();
+    //     setPostInput({
+    //       ...postInput,
+    //       coverImages: [...coverImages, downloadedImage]
+    //     });
+    //   } else {
+    //     console.error('Failed to get the image URL');
+    //   }
+    // }
   });
 
   // 드래그앤드롭 핸들링
@@ -81,13 +94,6 @@ function ImageUpload() {
     // 업로드 가능한 이미지 파일 크기 하나씩 확인하면서 제한
     for (let i = 0; i < selectedImageFiles?.length; i++) {
       if (selectedImageFiles[i].size <= 100 * 1024 * 1024) {
-        const tempUrl = URL.createObjectURL(selectedImageFiles[i]);
-        const tempImage = { url: tempUrl, name: selectedImageFiles[i].name, isLocal: true };
-        setPostInput((currentInput) => ({
-          ...currentInput,
-          coverImages: [...currentInput.coverImages, tempImage]
-        }));
-
         // mutation 매개변수 넘겨주기
         addImageMutation.mutate(selectedImageFiles[i]);
       } else {
@@ -155,4 +161,4 @@ function ImageUpload() {
   );
 }
 
-export default ImageUpload;
+export default ImageUploadTest;
