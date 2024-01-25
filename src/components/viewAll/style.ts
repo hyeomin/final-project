@@ -115,7 +115,7 @@ const Content = styled.li`
 
 const HeartClickButton = styled.button<{ $isLiked: boolean }>`
   all: unset;
-  color: ${({ $isLiked }) => ($isLiked ? 'red' : theme.color.lightgray)};
+  color: ${({ $isLiked }) => ($isLiked ? '#FF0000' : theme.color.lightgray)};
   font-size: 20px;
   &:hover {
     cursor: pointer;
