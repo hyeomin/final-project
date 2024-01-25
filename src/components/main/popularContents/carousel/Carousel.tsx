@@ -31,7 +31,6 @@ const Carousel = () => {
   const onClickLikeButton = useLikeButton();
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
-  console.log('현재 슬라이드==>', currentSlide);
 
   return (
     <St.Container>
@@ -51,17 +50,14 @@ const Carousel = () => {
               <Link key={post.id} to={`/detail/${post.id}`}>
                 <St.Slide>
                   <St.CoverImage>
-                    {!post ? (
-                      <Loader />
-                    ) : (
-                      <img src={defaultCoverImage} alt={post.title} />
-                      // <img
-                      //   src={
-                      //     post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : defaultCoverImage
-                      //   }
-                      //   alt={post.title}
-                      // />
-                    )}
+                    {/* TODO 이미지가 늦게 로드되는 문제 해결해야함 */}
+                    {/* <img
+                      src={
+                        post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : defaultCoverImage
+                      }
+                      alt={post.title}
+                    /> */}
+                    <img src={defaultCoverImage} alt={post.title} />
                   </St.CoverImage>
                   <St.SlideHeader>
                     <div>

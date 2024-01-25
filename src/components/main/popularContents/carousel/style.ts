@@ -144,10 +144,9 @@ const TitleAndContent = styled.div`
   display: flex;
   gap: 10px;
   flex-direction: column;
-
   & h1 {
     color: #fff;
-    height: 40px;
+    height: 36px;
     font-size: 18px;
     font-weight: 700;
     display: -webkit-box;
