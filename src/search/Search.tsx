@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 import { useNavigate } from 'react-router-dom';
-
+//데이터 가져오고 , filter
 function Search() {
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
