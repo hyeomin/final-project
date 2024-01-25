@@ -73,7 +73,7 @@ function ViewAllBody() {
       <St.MangoSUbWord>누구나, 어디서나 쉽게 따라할 수 있는 습관을 만들어 나가요.</St.MangoSUbWord>
 
       <St.MainSubWrapper>
-        <PostListAdmin queryKey={[QUERY_KEYS.ADMIN]} queryFn={getAdminPostList('admin')} sortBy={sortBy} />
+        <PostListAdmin queryKey={[QUERY_KEYS.ADMIN]} queryFn={getAdminPostList} sortBy={sortBy} />
       </St.MainSubWrapper>
 
       <St.AdminPostSpace></St.AdminPostSpace>

@@ -6,6 +6,11 @@ import useOutsideClick from '../../hooks/useOutsideClick';
 import usePreviousPathname from '../../util/usePreviousPathname';
 import AuthNavBar from './AuthNavBar';
 import St, { LogoContainer } from './style';
+import { useQueryClient } from '@tanstack/react-query';
+import { getAdminPosts } from '../../api/homeApi';
+import { getAdminPostList } from '../../api/pageListApi';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { QUERY_KEYS } from '../../query/keys';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
@@ -26,6 +31,17 @@ function NavBar() {
     return { color: isActive ? '#FFA114' : '' };
   };
 
+  // hover 시 prefetch 함수
+  const queryClient = useQueryClient(); // queryClient 사용
+  const handleHover = async () => {
+    queryClient.prefetchInfiniteQuery({
+      queryKey: [QUERY_KEYS.ADMIN],
+      queryFn: getAdminPostList,
+      initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
+      staleTime: 60000
+    });
+  };
+
   // useEffect(() => {
   //   if (prevPathName === '/write') {
   //     window.location.reload();
@@ -43,7 +59,8 @@ function NavBar() {
           <NavLink to="/about" style={styledNav}>
             망고 소개
           </NavLink>
-          <NavLink to="/viewAll" style={styledNav}>
+
+          <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
             게시물 보기
           </NavLink>
         </St.LeftNav>
