@@ -10,8 +10,12 @@ import { getFormattedDate } from '../../../util/formattedDateAndTime';
 import EditNDeleteToggle from '../EditNDeleteToggle';
 import LikeButton from '../LikeButton';
 import St from './style';
+import useKaKaoShare from '../../../hooks/useKaKaoShare';
+import { useSearchParams } from 'react-router-dom';
+import { useModal } from '../../../hooks/useModal';
 
 function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
+  const modal = useModal();
   const [isEditNDeleteToggleOpened, setIsEditNDeleteToggle] = useState(false);
 
   const { data: userList } = useQuery({
@@ -25,6 +29,35 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   if (!authorImage) {
     authorImage = defaultImage;
   }
+
+  //카카오톡 공유
+  const { handleShareKakaoClick } = useKaKaoShare();
+
+  //현재 url
+  const detailURL = window.location.href;
+  console.log(detailURL);
+
+  //코드 복사
+  const handleCodeCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(detailURL);
+
+      const onClickConfirm = () => {
+        modal.close();
+      };
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '클립보드에 링크가 복사되었어요!',
+        message: '원하는 곳에 붙여넣으세요.',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickConfirm
+      };
+      modal.open(openModalParams);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <St.BodyContainer>
@@ -61,6 +94,16 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
             {foundDetailPost.commentCount ?? 0}
           </div>
         </St.CountInfo>
+        <div>
+          <button
+            onClick={() => {
+              handleShareKakaoClick(foundDetailPost.title, detailURL);
+            }}
+          >
+            카카오
+          </button>
+          <button onClick={handleCodeCopy}>링크 복사</button>
+        </div>
       </St.AdditionalInfoContainer>
     </St.BodyContainer>
   );
