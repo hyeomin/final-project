@@ -72,8 +72,9 @@ const SinglePreview = styled.div`
     width: 100%;
     height: 200px;
     object-fit: contain;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     overflow: hidden;
+    background-color: ${theme.color.lightgray};
   }
 `;
 
@@ -93,6 +94,7 @@ const SinglePreviewInfo = styled.div`
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-overflow: ellipsis;
+      line-height: normal;
     }
 
     & span {

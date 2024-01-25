@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { SwiperClass } from 'swiper/react';
 import useSwiperNavigation from '../../../hooks/useSwiperNavigation';
+import theme from '../../../styles/theme';
 import { PostType } from '../../../types/PostType';
 
 type Props = {
@@ -130,7 +131,14 @@ const DetailLinkWrapper = styled.div`
   height: 45px;
   border-radius: 10px;
   background-color: #11111174;
+  /* background-color: ${theme.color.mangoMain}
+  opacity: 80%; */
   color: white;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #00000099;
+  }
 `;
 
 const NavButtonContainer = styled.div`
@@ -152,10 +160,10 @@ const NavButton = styled.button`
 
   color: white;
   border: none;
-  background-color: #00000099;
+  background-color: #11111174;
 
   &:hover {
     cursor: pointer;
-    background-color: #11111174;
+    background-color: #00000099;
   }
 `;

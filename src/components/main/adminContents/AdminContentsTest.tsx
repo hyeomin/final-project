@@ -49,12 +49,10 @@ const AdminContentsTest = () => {
         >
           {adminContents?.map((item, idx) => {
             return (
-              <>
+              <SwiperSlide key={idx}>
                 {/* item.coverImages로 변경하기 */}
-                <SwiperSlide key={idx}>
-                  {item ? <img src={defaultIllustration} alt={`Slide ${idx}`} /> : <Loader />}
-                </SwiperSlide>
-              </>
+                {item ? <img src={defaultIllustration} alt={`Slide ${idx}`} /> : <Loader />}
+              </SwiperSlide>
             );
           })}
         </Swiper>
