@@ -2,7 +2,7 @@ import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-quer
 import React, { useState } from 'react';
 import { getComments } from '../../../../api/commentApi';
 import defaultUserProfile from '../../../../assets/defaultImg.jpg';
-import MangoLogo from '../../../../assets/mangoLogo(2).png';
+import MangoLogo from '../../../../assets/realMango.png';
 import { useModal } from '../../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../../query/keys';
 import useCommentQuery from '../../../../query/useCommentQuery';
