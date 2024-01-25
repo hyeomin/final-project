@@ -1,6 +1,5 @@
-import { useRef } from 'react';
 import { GoChevronDown } from 'react-icons/go';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import defaultImg from '../../assets/defaultImg.jpg';
 import { useModal } from '../../hooks/useModal';
@@ -22,13 +21,6 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
   const currentUser = auth.currentUser;
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const prevPathname = useRef(location.pathname);
-
-  console.log('location-->', location);
-  console.log('pathname-->', location.pathname);
-  console.log('prevPathname-->', prevPathname);
-  console.log('window-->', window.location.pathname);
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();

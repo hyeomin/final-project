@@ -37,8 +37,19 @@ function EditUploadButton() {
 
   const onUpdatePostHandler = () => {
     if (!foundPost) {
-      window.alert('Post data not found');
-      return;
+      const onClickConfirm = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '수정할 데이터가 없습니다.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickConfirm
+      };
+      modal.open(openModalParams);
     }
 
     // 유효성 검사 (content에서 텍스트만 발라냄)

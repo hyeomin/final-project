@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/icons/mango-logo.png';
 import AuthToggle from '../../components/auth/AuthToggle';
 import useOutsideClick from '../../hooks/useOutsideClick';
-import usePreviousPathname from '../../util/usePreviousPathname';
 import AuthNavBar from './AuthNavBar';
 import St, { LogoContainer } from './style';
 
@@ -11,8 +10,6 @@ function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-
-  const prevPathName = usePreviousPathname();
 
   // AuthToggle 밖 누르면 꺼지게
   useOutsideClick<HTMLDivElement>(navRef, () => {
@@ -26,11 +23,16 @@ function NavBar() {
     return { color: isActive ? '#FFA114' : '' };
   };
 
-  // useEffect(() => {
-  //   if (prevPathName === '/write') {
-  //     window.location.reload();
-  //   }
-  // }, [prevPathName]);
+  const onUnsavedChangesHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // e.preventDefault();
+    // if (window.location.pathname === '/write') {
+    //   const confirm = window.confirm('이동하시겠습니까?');
+    //   if (confirm) {
+    //     window.location.reload();
+    //     navigate('/write');
+    //   } else return;
+    // }
+  };
 
   return (
     <St.NavContainer ref={navRef}>
@@ -40,7 +42,7 @@ function NavBar() {
             <img src={logo} alt="logo" />
             <span>Mango</span>
           </LogoContainer>
-          <NavLink to="/about" style={styledNav}>
+          <NavLink to="/about" onClick={onUnsavedChangesHandler} style={styledNav}>
             망고 소개
           </NavLink>
           <NavLink to="/viewAll" style={styledNav}>
