@@ -116,7 +116,7 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
         maxLength={1000}
         tabIndex={currentUser ? 0 : -1}
       />
-      <St.SubmitButton type="submit">등록하기</St.SubmitButton>
+      <St.SubmitButton type="submit">등록</St.SubmitButton>
     </St.CommentSubmitForm>
   );
 };

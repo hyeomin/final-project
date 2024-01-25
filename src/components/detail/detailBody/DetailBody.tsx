@@ -13,6 +13,7 @@ import St from './style';
 import useKaKaoShare from '../../../hooks/useKaKaoShare';
 import { useSearchParams } from 'react-router-dom';
 import { useModal } from '../../../hooks/useModal';
+import { extractFirst50Words } from '../../../util/extractContentText';
 
 function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
@@ -97,7 +98,13 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
         <div>
           <button
             onClick={() => {
-              handleShareKakaoClick(foundDetailPost.title, detailURL);
+              const data = {
+                title: foundDetailPost.title,
+                detailURL,
+                imageUrl: foundDetailPost.coverImages[0].url,
+                description: extractFirst50Words(foundDetailPost.content)
+              };
+              handleShareKakaoClick(data);
             }}
           >
             카카오
