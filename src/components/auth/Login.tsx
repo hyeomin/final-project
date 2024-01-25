@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
@@ -54,6 +54,24 @@ function Login() {
     queryFn: getAllUsers
   });
 
+  useEffect(() => {
+    if (errorMsg) {
+      const onClickSave = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '[로그인 오류]',
+        message: errorMsg,
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    }
+  }, [errorMsg]);
+
   // 로그인
   const signIn: SubmitHandler<Data> = async (data) => {
     try {
@@ -70,20 +88,20 @@ function Login() {
     } catch (error) {
       setErrorMsg(error);
 
-      const onClickSave = () => {
-        modal.close();
-      };
+      // const onClickSave = () => {
+      //   modal.close();
+      // };
 
-      const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '[로그인 오류]',
-        message: errorMsg,
-        leftButtonLabel: '',
-        onClickLeftButton: undefined,
-        rightButtonLabel: '확인',
-        onClickRightButton: onClickSave
-      };
-      modal.open(openModalParams);
-      //alert(errorMsg);
+      // const openModalParams: Parameters<typeof modal.open>[0] = {
+      //   title: '[로그인 오류]',
+      //   message: errorMsg,
+      //   leftButtonLabel: '',
+      //   onClickLeftButton: undefined,
+      //   rightButtonLabel: '확인',
+      //   onClickRightButton: onClickSave
+      // };
+      // modal.open(openModalParams);
+      // //alert(errorMsg);
     }
   };
 
