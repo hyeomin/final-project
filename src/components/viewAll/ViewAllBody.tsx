@@ -7,6 +7,8 @@ import PostList from './PostList';
 import PostListAdmin from './PostListAdmin';
 import St from './style';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 
 export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory' | 'total';
 export type SortList = 'popularity' | 'latest';
@@ -57,11 +59,36 @@ function ViewAllBody() {
     navigate(`/viewAll/?${newSearchParams.toString()}`);
   };
 
+  //prefetch
+  const queryClient = useQueryClient(); // queryClient 사용
+  const handleHover = async () => {
+    const queriesToPrefetch = [
+      { queryKey: QUERY_KEYS.KNOWHOW, queryFn: getCategoryPosts('knowHow') },
+      { queryKey: QUERY_KEYS.RECOMMEND, queryFn: getCategoryPosts('recommendation') },
+      { queryKey: QUERY_KEYS.SHARE, queryFn: getCategoryPosts('sharing') },
+      { queryKey: QUERY_KEYS.HABIT, queryFn: getCategoryPosts('habit') },
+      { queryKey: QUERY_KEYS.TOTAL, queryFn: getCategoryPosts('total') },
+      { queryKey: QUERY_KEYS.NOCATEGORY, queryFn: getCategoryPosts('noCategory') }
+
+      // 다른 queryKey와 queryFn을 추가할 수 있습니다.
+    ];
+
+    for (const { queryKey, queryFn } of queriesToPrefetch) {
+      await queryClient.prefetchInfiniteQuery({
+        queryKey: [queryKey],
+        queryFn: queryFn,
+        initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
+        staleTime: 60000
+      });
+    }
+  };
+
   //초기 마운트 실행시
   useEffect(() => {
     if (searchParams.get('category') === null || searchParams.get('sort') === null) {
       updateSortOption(category, sortBy);
     }
+    handleHover();
   }, []);
 
   return (
