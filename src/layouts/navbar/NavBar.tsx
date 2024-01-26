@@ -10,9 +10,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { getAdminPostList } from '../../api/pageListApi';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { QUERY_KEYS } from '../../query/keys';
+import { FaSearch } from 'react-icons/fa';
+import SearchNavBar from './SearchNavBar';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
+  const [isSearchToggleOpen, setIsSearchToggleOpen] = useState(false);
+  console.log('isSearchToggleOpen', isSearchToggleOpen);
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -47,6 +51,10 @@ function NavBar() {
   //   }
   // }, [prevPathName]);
 
+  const SearchToggle = () => {
+    setIsSearchToggleOpen((prev) => !prev);
+  };
+
   return (
     <St.NavContainer ref={navRef}>
       <St.NavBarContainer>
@@ -63,6 +71,10 @@ function NavBar() {
             게시물 보기
           </NavLink>
         </St.LeftNav>
+        <div onClick={() => SearchToggle()}>
+          <FaSearch />
+          {isSearchToggleOpen && <SearchNavBar isSearchToggleOpen={isSearchToggleOpen} />}
+        </div>
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
       </St.NavBarContainer>
       {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}
