@@ -64,7 +64,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     queryFn,
     initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
     getNextPageParam: (lastPage) => {
-      if (lastPage.length === 0) {
+      if (lastPage.length === 0 || lastPage.length < 4) {
         return undefined;
       }
       return lastPage[lastPage.length - 1];
