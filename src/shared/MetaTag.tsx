@@ -4,9 +4,10 @@ import { Helmet } from 'react-helmet-async';
 type Props = {
   title: string;
   description: string;
-  imageUrl: string;
+  image: string;
+  url: string;
 };
-const MetaTag = ({ title, description, imageUrl }: Props) => {
+const MetaTag = ({ title, description, image, url }: Props) => {
   return (
     <Helmet>
       <title>{title}</title>
@@ -14,7 +15,8 @@ const MetaTag = ({ title, description, imageUrl }: Props) => {
       <meta name="description" content={description} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={imageUrl} />
+      <meta property="og:url" content={url} />
+      <meta property="og:image" content={image} />
       <meta property="og:type" content="website" />
     </Helmet>
   );
