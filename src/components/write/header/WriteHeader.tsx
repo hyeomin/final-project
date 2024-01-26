@@ -3,18 +3,34 @@ import { postInputState } from '../../../recoil/posts';
 import IsEditingButton from './EditUploadButton';
 import SubmitButton from './SubmitButton';
 import St, { CustomButton } from './styles';
+import { useModal } from '../../../hooks/useModal';
 
 type Props = {
   isEditing: boolean;
 };
 
 function Header({ isEditing }: Props) {
+  const modal = useModal();
   const postInput = useRecoilValue(postInputState);
 
   const onTempSaveHandler = () => {
     // sessionStorage에 데이터 저장
     sessionStorage.setItem('savedData', JSON.stringify(postInput));
-    alert('저장되었습니다.');
+
+    //모달
+    const onClickSave = () => {
+      modal.close();
+    };
+
+    const openModalParams: Parameters<typeof modal.open>[0] = {
+      title: '임시 저장되었습니다.',
+      message: '',
+      leftButtonLabel: '',
+      onClickLeftButton: undefined,
+      rightButtonLabel: '확인',
+      onClickRightButton: onClickSave
+    };
+    modal.open(openModalParams);
   };
 
   return (
