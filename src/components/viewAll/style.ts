@@ -312,7 +312,7 @@ const UserProfile = styled.div`
 
 const ProfileImg = styled.img`
   width: 30px; //HM 40 > 35 변경
-  height: 30px; //HM 40 > 35 변경
+  height: 30px; //HM 40 > 35 변경!
   border-radius: 50%;
 `;
 
