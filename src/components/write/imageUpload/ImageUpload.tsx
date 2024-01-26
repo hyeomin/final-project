@@ -97,7 +97,7 @@ function ImageUpload() {
     }
     // 업로드 가능한 이미지 파일 크기 하나씩 확인하면서 제한
     for (let i = 0; i < selectedImageFiles?.length; i++) {
-      if (selectedImageFiles[i].size <= 10 * 1024 * 1024) {
+      if (selectedImageFiles[i].size <= 5 * 1024 * 1024) {
         const tempUrl = URL.createObjectURL(selectedImageFiles[i]);
         const tempImage = { url: tempUrl, name: selectedImageFiles[i].name, isLocal: true };
         setPostInput((currentInput) => ({

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import popular from '../../assets/about/popular.jpg';
-import viewAll from '../../assets/about/viewall.jpg';
-import write from '../../assets/about/write.jpg';
+import popular from '../../assets/about/popular.webp';
+import viewAll from '../../assets/about/viewall.webp';
+import write from '../../assets/about/write.webp';
 import theme from '../../styles/theme';
 function GetStarted() {
   return (
@@ -10,8 +10,11 @@ function GetStarted() {
         <h3>GET STARTED</h3>
       </TabTitle>
       <ColoredBox>
-        <h5>친환경 라이프스타일의 시작! </h5>
-        <p>작은 것부터 함께 시작해보아요</p>
+        <Subtitle>
+          <h5>친환경 라이프스타일의 시작! </h5>
+          <p>작은 것부터 함께 시작해보아요</p>
+        </Subtitle>
+        <p>친환경 습관과 노하우를 사람들과 공유할 수 있는 커뮤니티</p>
         <LinkContainer>
           <LinktoPage>
             <img src={write} alt="write" />
@@ -72,6 +75,12 @@ const ColoredBox = styled.div`
     font-size: 20px;
     font-weight: bold;
   }
+`;
+
+const Subtitle = styled.div`
+  display: flex;
+  align-items: end;
+  column-gap: 10px;
 `;
 
 const LinkContainer = styled.div`
