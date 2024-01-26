@@ -9,6 +9,7 @@ import St from './style';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import TopButton from '../about/TopButton';
 
 export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory' | 'total';
 export type SortList = 'popularity' | 'latest';
@@ -150,6 +151,7 @@ function ViewAllBody() {
         </St.CategoryWrapper>
         <PostList queryKey={[category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} />
       </St.MainSubWrapper>
+      <TopButton />
     </St.ViewAllContainer>
   );
 }
