@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { Link } from 'react-router-dom';
 import 'swiper/css';
@@ -16,8 +16,22 @@ import PostContentPreview from '../../common/PostContentPreview';
 import '../swiperStyle.css';
 import St from './style';
 import Carousel from './carousel/Carousel';
+import { QUERY_KEYS } from '../../../query/keys';
+import { getAdminPostList } from '../../../api/pageListApi';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 
 const UserContents = () => {
+  // hover 시 prefetch 함수
+  const queryClient = useQueryClient();
+  const handleHover = async () => {
+    queryClient.prefetchInfiniteQuery({
+      queryKey: [QUERY_KEYS.ADMIN],
+      queryFn: getAdminPostList,
+      initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
+      staleTime: 60000
+    });
+  };
+
   return (
     <St.UserContents>
       <St.TitleContainer>
@@ -25,7 +39,9 @@ const UserContents = () => {
         <St.SubTitle>
           <p>망고에서 제일 인기 있는 게시물들을 둘러보세요.</p>
           <Link to={'/viewAll'}>
-            <button type="button">{'전체보기 >'}</button>
+            <button type="button" onMouseEnter={handleHover}>
+              {'전체보기 >'}
+            </button>
           </Link>
         </St.SubTitle>
       </St.TitleContainer>

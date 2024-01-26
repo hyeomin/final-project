@@ -24,8 +24,6 @@ import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
-import { useState } from 'react';
-import useKaKaoShare from '../../hooks/useKaKaoShare';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -66,7 +64,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     queryFn,
     initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
     getNextPageParam: (lastPage) => {
-      if (lastPage.length === 0) {
+      if (lastPage.length === 0 || lastPage.length < 4) {
         return undefined;
       }
       return lastPage[lastPage.length - 1];
@@ -195,20 +193,6 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     await toggleLike({ postId: id, postData: post });
   };
 
-  //invalidate,, 시간 정해놓고 (쿼리에 기능.. 탑100,,staleTime...)
-  //새로고침시에만 새로운데이터 확인되도록.
-
-  const removeImageTags = (htmlContent: string) => {
-    return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
-  };
-
-  //내용 문자열 일정수 이상, 그 이상 문자열 ... 출력
-  //에디터 라이브러리 html에서 가져오는 거여서 기본적으로 <p></p><p>가 있음 => 10글자
-  //사용하고 싶은 길이 +10 글자 해야함
-  const reduceContent = (postContent: string, cnt: number) => {
-    return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
-  };
-
   //사용자 프로필 데이터
   const { data: userList } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
@@ -281,17 +265,10 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         )}
       </St.ContentsWrapper>
       <St.MoreContentWrapper>
-        {/* {isFetchingNextPage ? (
-          <Loader />
-        ) : hasNextPage ? (
-          <button onClick={() => fetchNextPage()}>더 보기</button>
-        ) : (
-          <p>모든 데이터를 가져왔습니다.</p>
-        )} */}
         {isFetchingNextPage ? (
           <Loader />
         ) : hasNextPage ? (
-          <button onClick={() => !isFetchingNextPage && fetchNextPage()}>더 보기</button>
+          <button onClick={() => fetchNextPage()}>더 보기</button>
         ) : (
           <p>모든 데이터를 가져왔습니다.</p>
         )}

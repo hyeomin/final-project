@@ -1,6 +1,6 @@
 import { QueryFunctionContext, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import mangoCover from '../../assets/tentative-cover-image.jpg';
 import { PostType } from '../../types/PostType';
 import Loader from '../common/Loader';
@@ -18,8 +18,6 @@ interface PostListProps {
 
 function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-  //console.log('searchParams', searchParams.toString()); //category=total
 
   const {
     data: posts,
@@ -59,20 +57,6 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
-  //
-  // const removeImageTags = (htmlContent: string) => {
-  //   return htmlContent.replace(/<img[^>]*>|<p[^>]*>(?:\s*<br[^>]*>\s*|)\s*<\/p>/g, '');
-  // };
-
-  //내용 문자열 일정수 이상, 그 이상 문자열 ... 출력
-  //에디터 라이브러리 html에서 가져오는 거여서 기본적으로 <p></p><p>가 있음 => 10글자
-  //사용하고 싶은 길이 +10 글자 해야함
-  // const reduceContent = (postContent: string, cnt: number) => {
-  //   return postContent?.length > cnt ? postContent.slice(0, cnt - 1) + '...' : postContent;
-  // };
-
-  // console.log(posts);
-
   return (
     <St.MainSubWrapper>
       <St.ContentsWrapper>
@@ -101,7 +85,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
         {isFetchingNextPage ? (
           <Loader />
         ) : hasNextPage && posts?.length === 2 ? (
-          <button onClick={() => !isFetchingNextPage && fetchNextPage()}>더 보기</button>
+          <button onClick={() => fetchNextPage()}>더 보기</button>
         ) : (
           <p>모든 데이터를 가져왔습니다.</p>
         )}
