@@ -60,6 +60,15 @@ const ContentBody = styled.div`
   padding: 40px 0;
   border-bottom: 1px solid ${theme.color.lightgray};
   line-height: 200%;
+
+  h3 {
+    margin: 0.5em 0;
+    font-size: 1.5em;
+  }
+
+  em {
+    font-style: italic;
+  }
 `;
 
 const AdditionalInfoContainer = styled.div`

@@ -17,6 +17,7 @@ const addPost = async ({ newPost }: AddPostProps) => {
     return postId;
   } catch (error) {
     console.error('Error adding post: ', error);
+    return error;
   }
 };
 
