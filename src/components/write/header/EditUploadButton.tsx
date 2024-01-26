@@ -37,7 +37,19 @@ function EditUploadButton() {
 
   const onUpdatePostHandler = () => {
     if (!foundPost) {
-      window.alert('Post data not found');
+      const onClickConfirm = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '[알림]',
+        message: '게시물을 찾을 수 없습니다.',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickConfirm
+      };
+      modal.open(openModalParams);
       return;
     }
 

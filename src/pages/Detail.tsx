@@ -50,7 +50,7 @@ function Detail() {
   // 해당 아이디를 가진 post가 존재하는지 확인
   // const validatePostId = posts.some((post) => post.id === id);
   // if (!id || !validatePostId) {
-  //   alert('존재하지 않는 게시물입니다.');
+  //   ('존재하지 않는 게시물입니다.');
   //   navigate('/'); // 홈으로 이동
   //   return;
   // }
