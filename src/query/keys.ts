@@ -11,5 +11,6 @@ export const QUERY_KEYS = {
   COMMENTS: 'comments',
   COVER_IMAGES: 'coverImages',
   TOTAL: 'total',
-  NOCATEGORY: 'noCategory'
+  NOCATEGORY: 'noCategory',
+  NEWS: 'news'
 };

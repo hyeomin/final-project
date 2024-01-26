@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { GoTrash } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
 import { deleteImage, uploadSingleImage } from '../../../api/postApi';
 import DragNDrop from '../../../assets/icons/dragndrop.png';
+import { useModal } from '../../../hooks/useModal';
 import { postInputState } from '../../../recoil/posts';
 import St from './style';
-import { useModal } from '../../../hooks/useModal';
 
 function ImageUpload() {
   const modal = useModal();
@@ -15,20 +15,21 @@ function ImageUpload() {
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { coverImages } = postInput;
 
+  const [uploadStatus, setUploadStatus] = useState('Loading...');
+
   const queryClient = useQueryClient();
 
   // 이미지 올리는 query
   const addImageMutation = useMutation({
-    mutationFn: (file: File) => uploadSingleImage({ coverImage: file }),
+    mutationFn: (file: File) =>
+      uploadSingleImage({
+        coverImage: file
+      }),
     onSuccess: (downloadedImage) => {
       if (downloadedImage) {
-        console.log('무엇');
         // 정상적으로 url을 반환 받았는지 확인
         queryClient.invalidateQueries({ queryKey: ['coverImages'] });
-        // setPostInput({
-        //   ...postInput,
-        //   coverImages: [...coverImages, downloadedImage]
-        // });
+        // 그 전에 보여지고 있던 로컬 파일의 미리보기 대체
         setPostInput((currentInput) => {
           const updatedImages = currentInput.coverImages.map((image) => {
             if (image.isLocal && image.name === downloadedImage.name) {
@@ -38,6 +39,7 @@ function ImageUpload() {
           });
           return { ...currentInput, coverImages: updatedImages };
         });
+        setUploadStatus('Done');
       }
     },
     onError: (error, variables) => {
@@ -95,7 +97,7 @@ function ImageUpload() {
     }
     // 업로드 가능한 이미지 파일 크기 하나씩 확인하면서 제한
     for (let i = 0; i < selectedImageFiles?.length; i++) {
-      if (selectedImageFiles[i].size <= 100 * 1024 * 1024) {
+      if (selectedImageFiles[i].size <= 5 * 1024 * 1024) {
         const tempUrl = URL.createObjectURL(selectedImageFiles[i]);
         const tempImage = { url: tempUrl, name: selectedImageFiles[i].name, isLocal: true };
         setPostInput((currentInput) => ({
@@ -179,7 +181,7 @@ function ImageUpload() {
         <button>Upload</button>
         <St.UploadTextBox>
           <p>Drag & drop to load</p>
-          <span>Maximum file size is 100MB</span>
+          <span>Maximum file size is 5MB</span>
         </St.UploadTextBox>
       </St.DragNDropContainer>
       <St.PreviewTitle>커버 이미지 미리보기</St.PreviewTitle>
@@ -192,7 +194,7 @@ function ImageUpload() {
                 <St.SinglePreviewInfo>
                   <div>
                     <p>{image.name}</p>
-                    <span>Finished</span>
+                    <span>{uploadStatus}</span>
                   </div>
                   <button onClick={() => onDeleteImageHandler(image.url)}>
                     <GoTrash />

@@ -64,7 +64,7 @@ const ContentBody = styled.div`
 
 const AdditionalInfoContainer = styled.div`
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: start;
   column-gap: 30px;
   font-size: 18px;
@@ -72,13 +72,32 @@ const AdditionalInfoContainer = styled.div`
   padding: 15px 0;
 `;
 
-const CountInfo = styled.div`
+const DetailInfo = styled.div`
   display: flex;
   column-gap: 12px;
 
   & div {
     display: flex;
     column-gap: 7px;
+  }
+`;
+
+const ShareInfo = styled.div`
+  display: flex;
+  column-gap: 8px;
+
+  & button {
+    border: none;
+    width: 33px;
+    height: 33px;
+    background-color: transparent;
+    font-weight: 900x;
+    font-size: 18px;
+
+    & img {
+      width: 100%;
+      object-fit: contain;
+    }
   }
 `;
 
@@ -90,5 +109,6 @@ export default {
   EditNDeleteContainer,
   ContentBody,
   AdditionalInfoContainer,
-  CountInfo
+  DetailInfo,
+  ShareInfo
 };
