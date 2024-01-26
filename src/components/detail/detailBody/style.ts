@@ -61,13 +61,32 @@ const ContentBody = styled.div`
   border-bottom: 1px solid ${theme.color.lightgray};
   line-height: 200%;
 
-  h3 {
-    margin: 0.5em 0;
+  h1 {
+    display: block;
+    font-size: 2em;
+    margin: 0.67em 0;
+    font-weight: bold;
+  }
+  h2 {
+    display: block;
     font-size: 1.5em;
+    margin: 0.83em 0;
+
+    font-weight: bold;
+  }
+  h3 {
+    display: block;
+    font-size: 1.17em;
+    margin: 1em 0;
+    font-weight: bold;
   }
 
   em {
     font-style: italic;
+  }
+
+  strong {
+    font-weight: bold;
   }
 `;
 
