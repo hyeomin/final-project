@@ -6,6 +6,7 @@ import defaultImage from '../../../assets/defaultImg.jpg';
 import kakao from '../../../assets/detail/Kakao-icon.png';
 import link from '../../../assets/detail/link-bold-icon.png';
 
+import defaultThumbnail from '../../../assets/mangoThumbnail.png';
 import useKaKaoShare from '../../../hooks/useKaKaoShare';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
@@ -68,7 +69,7 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
       <MetaTag
         title={foundDetailPost.title}
         description={foundDetailPost.content}
-        imageUrl={foundDetailPost.coverImages[0].url}
+        imageUrl={foundDetailPost.coverImages[0]?.url || defaultThumbnail}
       />
       <St.BodyContainer>
         <St.BodyHeader>
@@ -118,7 +119,7 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
                 const data = {
                   title: foundDetailPost.title,
                   detailURL,
-                  imageUrl: foundDetailPost.coverImages[0].url,
+                  imageUrl: foundDetailPost.coverImages[0]?.url || defaultThumbnail,
                   description: extractFirst50Words(foundDetailPost.content)
                 };
                 handleShareKakaoClick(data);
