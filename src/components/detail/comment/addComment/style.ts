@@ -11,11 +11,9 @@ const CommentSubmitForm = styled.form`
   border-radius: 10px;
   overflow: hidden;
   padding: 20px 0 20px 20px;
-  /* background-color: red; */
 
   & textarea {
     flex: 1;
-    /* width: 95%; */
     color: ${theme.color.gray};
     outline: none;
     border: none;
