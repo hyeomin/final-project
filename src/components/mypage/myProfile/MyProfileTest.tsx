@@ -21,6 +21,7 @@ import HabitCalendar from '../HabitCalendar/HabitCalendar';
 import LikesPosts from '../LikesPosts';
 import MyPosts from '../MyPosts';
 import St from './style';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 function MyProfileTest() {
   const modal = useModal();
@@ -32,7 +33,9 @@ function MyProfileTest() {
   const [isClickedGuide, setIsClickedGuide] = useState(false);
   const [isFormValid, setIsFormValid] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
   // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
 
@@ -238,6 +241,12 @@ function MyProfileTest() {
   // menuTab 버튼
   const onClickTabBtn = (name: string) => {
     setActiveTab(name);
+
+    const SearchParams = new URLSearchParams(location.search);
+    searchParams.set('profile', name);
+    const newUrl = `${location.pathname}?${searchParams.toString()}`;
+
+    navigate(newUrl);
   };
 
   // 등급 가이드 확인 버튼
