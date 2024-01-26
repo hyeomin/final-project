@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import GlobalStyle from './styles/GlobalStyles';
 import AuthContextProvider from './context/AuthContext';
 import { ModalProvider } from './hooks/useModal';
+import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,9 @@ root.render(
     <RecoilRoot>
       <AuthContextProvider>
         <ModalProvider>
-          <App />
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
         </ModalProvider>
         <GlobalStyle />
       </AuthContextProvider>

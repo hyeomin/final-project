@@ -1,12 +1,19 @@
+type Props = {
+  title: string;
+  detailURL: string;
+  imageUrl: string;
+  description: string;
+};
+
 const useKaKaoShare = () => {
-  const handleShareKakaoClick = (title: string, detailURL: string) => {
+  const handleShareKakaoClick = ({ title, detailURL, imageUrl, description }: Props) => {
     if (window.Kakao) {
       window.Kakao.Share.sendDefault({
         objectType: 'feed',
         content: {
           title,
-          description: '망고망고',
-          imageUrl: 'http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
+          description,
+          imageUrl,
           link: {
             mobileWebUrl: detailURL
           }
