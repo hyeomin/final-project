@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import aboutFooterImage from '../assets/about/about-footer.png';
-import AboutMain from '../components/about/AboutMain';
+import GetStarted from '../components/about/GetStarted';
+import HowToUse from '../components/about/HowToUse';
 import TopButton from '../components/about/TopButton';
 import WhyMango from '../components/about/WhyMango';
 import theme from '../styles/theme';
@@ -12,7 +13,9 @@ function About() {
         <source src={process.env.PUBLIC_URL + '/video/about-cover-video.webm'} type="video/mp4" />
       </Header>
       <WhyMango />
-      <AboutMain />
+      <HowToUse />
+      {/* <NewsRoom /> */}
+      <GetStarted />
       <AboutFooter>
         <AboutFooterLeft>
           <h5>

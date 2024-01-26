@@ -3,6 +3,10 @@ import { useState } from 'react';
 import { GoComment } from 'react-icons/go';
 import { getAllUsers } from '../../../api/authApi';
 import defaultImage from '../../../assets/defaultImg.jpg';
+import kakao from '../../../assets/detail/Kakao-icon.png';
+import link from '../../../assets/detail/link-bold-icon.png';
+import useKaKaoShare from '../../../hooks/useKaKaoShare';
+import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
 import { auth } from '../../../shared/firebase';
 import { FoundDetailPostProps } from '../../../types/PostType';
@@ -10,9 +14,6 @@ import { getFormattedDate } from '../../../util/formattedDateAndTime';
 import EditNDeleteToggle from '../EditNDeleteToggle';
 import LikeButton from '../LikeButton';
 import St from './style';
-import useKaKaoShare from '../../../hooks/useKaKaoShare';
-import { useSearchParams } from 'react-router-dom';
-import { useModal } from '../../../hooks/useModal';
 
 function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
@@ -80,30 +81,39 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
       </St.BodyHeader>
       <St.ContentBody dangerouslySetInnerHTML={{ __html: foundDetailPost?.content as string }} />
       <St.AdditionalInfoContainer>
-        <St.CountInfo>
-          <LikeButton foundDetailPost={foundDetailPost} buttonSize={18} likeFalseColor={'red'} likeTrueColor={'red'} />
+        <St.DetailInfo>
           <div>
-            <span>좋아요</span>
-            <span>{foundDetailPost.likeCount}</span>
+            <LikeButton
+              foundDetailPost={foundDetailPost}
+              buttonSize={18}
+              likeFalseColor={'red'}
+              likeTrueColor={'red'}
+            />
+            <div>
+              <span>좋아요</span>
+              <span>{foundDetailPost.likeCount}</span>
+            </div>
           </div>
-        </St.CountInfo>
-        <St.CountInfo>
-          <GoComment />
           <div>
-            <span>댓글</span>
-            {foundDetailPost.commentCount ?? 0}
+            <GoComment />
+            <div>
+              <span>댓글</span>
+              {foundDetailPost.commentCount ?? 0}
+            </div>
           </div>
-        </St.CountInfo>
-        <div>
+        </St.DetailInfo>
+        <St.ShareInfo>
+          <button onClick={handleCodeCopy}>
+            <img src={link} alt="link" />
+          </button>
           <button
             onClick={() => {
               handleShareKakaoClick(foundDetailPost.title, detailURL);
             }}
           >
-            카카오
+            <img src={kakao} alt="kako" />
           </button>
-          <button onClick={handleCodeCopy}>링크 복사</button>
-        </div>
+        </St.ShareInfo>
       </St.AdditionalInfoContainer>
     </St.BodyContainer>
   );
