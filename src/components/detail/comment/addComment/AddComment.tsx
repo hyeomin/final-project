@@ -1,7 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { foundDetailPostProps } from '../../../pages/Detail';
 import { useModal } from '../../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../../query/keys';
 import useCommentQuery from '../../../../query/useCommentQuery';
@@ -79,7 +78,6 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
   // 로그인 여부 확인
   const onAuthCheckHandler = (e: React.MouseEvent<HTMLTextAreaElement>) => {
     if (!currentUser) {
-      //const confirmation = window.confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?');
       const onClickCancel = () => {
         modal.close();
         return;
@@ -100,7 +98,6 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
       };
       modal.open(openModalParams);
 
-      //if (confirmation) navigate('/auth');
       e.currentTarget.blur();
     }
   };
@@ -111,7 +108,6 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
         value={content}
         onChange={onChangeContent}
         onClick={onAuthCheckHandler}
-        // type="text"
         placeholder="댓글을 입력하세요.(최대 1,000자)"
         maxLength={1000}
         tabIndex={currentUser ? 0 : -1}
