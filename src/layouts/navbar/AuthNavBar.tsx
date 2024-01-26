@@ -25,10 +25,10 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
   const location = useLocation();
   const prevPathname = useRef(location.pathname);
 
-  console.log('location-->', location);
-  console.log('pathname-->', location.pathname);
+  // console.log('location-->', location);
+  // console.log('pathname-->', location.pathname);
   console.log('prevPathname-->', prevPathname);
-  console.log('window-->', window.location.pathname);
+  // console.log('window-->', window.location.pathname);
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
