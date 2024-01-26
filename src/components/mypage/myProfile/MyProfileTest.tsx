@@ -264,13 +264,13 @@ function MyProfileTest() {
   let LevelThreeGradeEmoji = '🌳';
   let levelEmoji = LevelOneGradeEmoji;
   let level = levelOne;
-  if (userGrade && userGrade < 2) {
+  if (userGrade && userGrade < 16) {
     levelEmoji = LevelOneGradeEmoji;
     level = levelOne;
-  } else if (userGrade && userGrade < 6) {
+  } else if (userGrade && userGrade <= 30) {
     levelEmoji = LevelTwoGradeEmoji;
     level = levelTwo;
-  } else if (userGrade && userGrade >= 6) {
+  } else if (userGrade && userGrade < 30) {
     levelEmoji = LevelThreeGradeEmoji;
     level = levelThree;
   }
