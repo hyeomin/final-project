@@ -8,6 +8,7 @@ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { getAdminPosts } from '../../../api/homeApi';
 import defaultIllustration from '../../../assets/home/AdminPostIllustration.png';
+
 import Loader from '../../common/Loader';
 import St from './style';
 
