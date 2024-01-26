@@ -117,6 +117,7 @@ function ImageUploadTest() {
 
   // 이미지 삭제
   const onDeleteImageHandler = (url: string) => {
+    alert(1);
     alert('삭제하시겠습니까?');
     const deleteImages = coverImages.filter((image) => image.url !== url);
     setPostInput({

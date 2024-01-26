@@ -6,8 +6,10 @@ import { deleteImage, uploadSingleImage } from '../../../api/postApi';
 import DragNDrop from '../../../assets/icons/dragndrop.png';
 import { postInputState } from '../../../recoil/posts';
 import St from './style';
+import { useModal } from '../../../hooks/useModal';
 
 function ImageUpload() {
+  const modal = useModal();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
@@ -75,7 +77,20 @@ function ImageUpload() {
     // 업로드 가능한 이미지 개수 제한
     const totalImages = selectedImageFiles.length + (coverImages ? coverImages.length : 0);
     if (totalImages > 3) {
-      alert('최대 업로드 가능한 개수는 3개입니다.');
+      const onClickConfirm = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '[업로드 수량 안내]',
+        message: '최대 업로드 가능한 개수는 3개입니다.',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickConfirm
+      };
+      modal.open(openModalParams);
+
       return;
     }
     // 업로드 가능한 이미지 파일 크기 하나씩 확인하면서 제한
@@ -91,7 +106,19 @@ function ImageUpload() {
         // mutation 매개변수 넘겨주기
         addImageMutation.mutate(selectedImageFiles[i]);
       } else {
-        alert('File size exceeds limit');
+        const onClickConfirm = () => {
+          modal.close();
+        };
+
+        const openModalParams: Parameters<typeof modal.open>[0] = {
+          title: '[업로드 용량 안내]',
+          message: '최대 업로드 가능한 용량을 초과하였습니다.',
+          leftButtonLabel: '',
+          onClickLeftButton: undefined,
+          rightButtonLabel: '확인',
+          onClickRightButton: onClickConfirm
+        };
+        modal.open(openModalParams);
       }
     }
   };
@@ -111,13 +138,37 @@ function ImageUpload() {
 
   // 이미지 삭제
   const onDeleteImageHandler = (url: string) => {
-    alert('삭제하시겠습니까?');
-    const deleteImages = coverImages.filter((image) => image.url !== url);
-    setPostInput({
-      ...postInput,
-      coverImages: deleteImages
-    });
-    deletePostMutation.mutate(url);
+    const onClickCancel = () => {
+      modal.close();
+      return;
+    };
+
+    const onClickConfirm = () => {
+      const deleteImages = coverImages.filter((image) => image.url !== url);
+      setPostInput({
+        ...postInput,
+        coverImages: deleteImages
+      });
+      deletePostMutation.mutate(url);
+      modal.close();
+    };
+
+    const openModalParams: Parameters<typeof modal.open>[0] = {
+      title: '삭제하시겠습니까?',
+      message: '',
+      leftButtonLabel: '취소',
+      onClickLeftButton: onClickCancel,
+      rightButtonLabel: '확인',
+      onClickRightButton: onClickConfirm
+    };
+    modal.open(openModalParams);
+
+    // const deleteImages = coverImages.filter((image) => image.url !== url);
+    // setPostInput({
+    //   ...postInput,
+    //   coverImages: deleteImages
+    // });
+    // deletePostMutation.mutate(url);
   };
 
   return (
