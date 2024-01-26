@@ -32,8 +32,8 @@ const TopUsers = () => {
             return (
               <St.UserInfo key={idx}>
                 <St.ProfileImage>
-                  <img src={defaultImage} alt="profile" />
-                  {/* <img src={users?.find((u) => u.uid === user.uid)?.profileImg || defaultImage} alt="profile" /> */}
+                  {/* <img src={defaultImage} alt="profile" /> */}
+                  <img src={users?.find((u) => u.uid === user.uid)?.profileImg || defaultImage} alt="profile" />
                 </St.ProfileImage>
                 <St.UserName>
                   {idx === 0 && <img src={firstPlace} alt="firstPlace" />}

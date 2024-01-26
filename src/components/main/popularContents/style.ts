@@ -1,11 +1,7 @@
-import { GoHeart, GoHeartFill } from 'react-icons/go';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { SwiperSlide } from 'swiper/react';
 import theme from '../../../styles/theme';
 
 const UserContents = styled.section`
-  /* background-color: #f5e1ab; */
   display: flex;
   flex-direction: column;
   justify-content: center;

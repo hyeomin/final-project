@@ -80,6 +80,18 @@ const PostInfoBox = styled.div`
   padding: 20px;
   border-radius: 20px;
   background-color: #fbfbfb;
+
+  & img {
+    width: 20px;
+    height: 20px;
+    /* padding-bottom: 0px; */
+    margin: 5px;
+  }
+
+  & span {
+    font-size: 15px;
+    padding-bottom: 30px;
+  }
 `;
 
 const UserInfo = styled.div`
@@ -207,6 +219,7 @@ const TabButtonContainer = styled.div`
   column-gap: 5px;
   /* gap:10px; */
   margin-top: 80px;
+
   font-size: 20px;
 `;
 
@@ -218,9 +231,6 @@ const TabButton = styled.button`
 
   &:hover {
     cursor: pointer;
-    background-color: white;
-    border: 2.5px solid #f6f6f6;
-    color: #ffa114;
   }
   border-radius: 10px 10px 0px 0px;
   color: black;
