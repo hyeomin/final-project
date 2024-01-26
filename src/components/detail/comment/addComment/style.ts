@@ -44,7 +44,7 @@ const SubmitButton = styled.button`
   font-weight: 600;
   line-height: 32px;
   letter-spacing: 0.8px;
-  right: 30px;
+  right: 20px;
   bottom: 20px;
   &:hover {
     background-color: #df8d11;
