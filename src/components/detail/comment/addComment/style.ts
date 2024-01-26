@@ -11,11 +11,9 @@ const CommentSubmitForm = styled.form`
   border-radius: 10px;
   overflow: hidden;
   padding: 20px 0 20px 20px;
-  /* background-color: red; */
 
   & textarea {
     flex: 1;
-    /* width: 95%; */
     color: ${theme.color.gray};
     outline: none;
     border: none;
@@ -44,7 +42,7 @@ const SubmitButton = styled.button`
   font-weight: 600;
   line-height: 32px;
   letter-spacing: 0.8px;
-  right: 30px;
+  right: 20px;
   bottom: 20px;
   &:hover {
     background-color: #df8d11;
