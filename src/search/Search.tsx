@@ -1,17 +1,74 @@
 import React, { useState } from 'react';
+// import { doc } from 'firebase/firestore';
+// import algoliasearch from 'algoliasearch/lite';
+// import { InstantSearch, SearchBox, Hits, RefinementList, Configure } from 'react-instantsearch-hooks-web';
+// import { useNavigate } from 'react-router-dom';
 import { collection, endAt, getDocs, orderBy, query, startAt, where } from 'firebase/firestore';
 import { db } from '../shared/firebase';
 import { useNavigate } from 'react-router-dom';
 //데이터 가져오고 , filter
+// const searchClient = algoliasearch(
+//   process.env.REACT_APP_ALGOLIA_ID as string,
+//   process.env.REACT_APP_ALGOLIA_SEARCH_KEY as string
+// );
+
 function Search() {
+  // const navigate = useNavigate();
+  // const Post = ({ hit }: { hit: any }) => {
+  // const functions = require('firebase-functions');
+  // const admin = require('firebase-admin');
+
+  // // Set up Algolia
+  // const { default: algoliasearch } = require('algoliasearch');
+  // const algoliaClient = algoliasearch(functions.config().algolia.appid_dev, functions.config().algolia.apikey_dev);
+  // const indexName = 'dev_title';
+  // const collectionIndex = algoliaClient.initIndex(indexName);
+
+  // // Create a HTTP request cloud functions
+  // exports.sendCollectionToAlgolia = functions.region('asia-northeast2').https.onRequest(async (request, response) => {
+  //   const firestore = admin.firestore();
+  //   const algoliaRecords = [];
+  //   const snapshot = await firestore.collection('posts').listDocuments.get();
+  //   snapshot.forEach((doc) => {
+  //     const document = doc.data();
+  //     const record = {
+  //       objectID: doc.id,
+  //       title: document.title
+  //     };
+  //     algoliaRecords.push(record);
+  //   });
+
+  //   // After all records are created, save them to Algolia
+  //   collectionIndex.saveObjects(algoliaRecords, (_error, content) => {
+  //     response.status(200).send('COLLECTION was indexed to Algolia successfully.');
+  //   });
+  // });
+  // navigate('/searchPage');
+  //   return (
+  //     <article>
+  //       <h1>{hit.title}</h1>
+  //       <p>{hit.content}</p> <button onClick={() => Post(hit)}>Search</button>
+  //     </article>
+  //   );
+  // };
+  // return (
+  //   <InstantSearch searchClient={searchClient} indexName="posts">
+  //     <SearchBox />
+  //     <RefinementList attribute="UserId" />
+  //     <Hits hitComponent={Post} />
+  //     <Configure hitsPerPage={10} />
+  //   </InstantSearch>
+  // );
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
   const searchPosts = async (posts: string) => {
     try {
       //hashtags
       const postsRef = collection(db, 'posts');
-      const q = query(postsRef, where('hashtags', 'array-contains', searchTerm)); // array-contains--> 배열만 가능
-      const querySnapshot = await getDocs(q);
+      const test = query(postsRef, where('title', '>=', [searchTerm]));
+      // const q = query(postsRef, where('hashtags', 'array-contains', searchTerm)); // array-contains--> 배열만 가능
+      // const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(test);
 
       querySnapshot.forEach((doc) => {
         console.log('해시태그', doc.id, ' => ', doc.data());
