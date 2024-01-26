@@ -39,7 +39,7 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
     mutationFn: deletePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
-      navigate('/');
+      navigate(-1);
     }
   });
 
