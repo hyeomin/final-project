@@ -30,21 +30,10 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
     mutationFn: async (postId: string) => {
       const postRef = doc(db, `${QUERY_KEYS.POSTS}`, postId);
 
-      if (!!foundDetailPost.isLiked) {
-        let newLikeCount;
-        if (foundDetailPost.isLiked) {
-          //이미 좋아요한 경우
-          newLikeCount = foundDetailPost.likeCount ? foundDetailPost.likeCount - 1 : 0;
-        } else {
-          //좋아요 안 한 경우
-          newLikeCount = foundDetailPost.likeCount !== undefined ? foundDetailPost.likeCount + 1 : 1;
-        }
-
-        await updateDoc(postRef, {
-          likedUsers: foundDetailPost.isLiked ? arrayRemove(authCurrentUser?.uid) : arrayUnion(authCurrentUser?.uid),
-          likeCount: newLikeCount
-        });
-      }
+      await updateDoc(postRef, {
+        likedUsers: foundDetailPost.isLiked ? arrayRemove(authCurrentUser?.uid) : arrayUnion(authCurrentUser?.uid),
+        likeCount: foundDetailPost.isLiked ? foundDetailPost.likeCount - 1 : foundDetailPost.likeCount + 1
+      });
     },
     onMutate: async (postId) => {
       queryClient.setQueriesData<PostType[]>({ queryKey: [`${QUERY_KEYS.POSTS}`] }, (prevPosts) => {

@@ -1,5 +1,5 @@
 import 'react-calendar/dist/Calendar.css';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import theme from '../../../styles/theme';
 
 const Wrapper = styled.div`
@@ -217,24 +217,27 @@ const TabButtonContainer = styled.div`
   justify-content: left;
   width: 100%;
   column-gap: 5px;
-  /* gap:10px; */
   margin-top: 80px;
+  padding: 0 20px;
 
   font-size: 20px;
 `;
 
-const TabButton = styled.button`
+interface TabButtonProps {
+  $isActive: boolean;
+}
+
+const TabButton = styled.button<TabButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f6f6f6;
-
-  &:hover {
-    cursor: pointer;
-  }
+  background-color: ${(props) => (props.$isActive ? 'white' : '#f6f6f6')};
+  color: ${(props) => (props.$isActive ? `${theme.color.mangoMain}` : 'black')};
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${(props) => (props.$isActive ? `${theme.color.lightgray}` : 'transparent')};
+  border-bottom: 1px solid transparent;
   border-radius: 10px 10px 0px 0px;
-  color: black;
-  border-color: transparent;
 
   width: 120px;
   height: 40px;
@@ -242,7 +245,14 @@ const TabButton = styled.button`
 
   &:hover {
     cursor: pointer;
-    color: #ffa114;
+    color: ${theme.color.mangoMain};
+  }
+
+  & div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 6px;
   }
 `;
 
