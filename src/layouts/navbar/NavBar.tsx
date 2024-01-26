@@ -6,9 +6,14 @@ import useOutsideClick from '../../hooks/useOutsideClick';
 import usePreviousPathname from '../../util/usePreviousPathname';
 import AuthNavBar from './AuthNavBar';
 import St, { LogoContainer } from './style';
+import { useQueryClient } from '@tanstack/react-query';
+import { getAdminPostList } from '../../api/pageListApi';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import { QUERY_KEYS } from '../../query/keys';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
+
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -24,6 +29,17 @@ function NavBar() {
   // 선택되면 노란색으로 NavBar 이름 스타일 바뀌게
   const styledNav = ({ isActive }: { isActive: boolean }) => {
     return { color: isActive ? '#FFA114' : '' };
+  };
+
+  // hover 시 prefetch 함수
+  const queryClient = useQueryClient();
+  const handleHover = async () => {
+    queryClient.prefetchInfiniteQuery({
+      queryKey: [QUERY_KEYS.ADMIN],
+      queryFn: getAdminPostList,
+      initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
+      staleTime: 60000
+    });
   };
 
   // useEffect(() => {
@@ -43,10 +59,12 @@ function NavBar() {
           <NavLink to="/about" style={styledNav}>
             망고 소개
           </NavLink>
-          <NavLink to="/viewAll" style={styledNav}>
+
+          <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
             게시물 보기
           </NavLink>
         </St.LeftNav>
+
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
       </St.NavBarContainer>
       {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}

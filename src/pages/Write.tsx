@@ -7,8 +7,10 @@ import Hashtag from '../components/write/hashtag/Hashtag';
 import Header from '../components/write/header/WriteHeader';
 import ImageUpload from '../components/write/imageUpload/ImageUpload';
 import { initialPostInputState, postInputState } from '../recoil/posts';
+import { useModal } from '../hooks/useModal';
 
 function Write() {
+  const modal = useModal();
   const location = useLocation();
   const { foundDetailPost } = location.state || {};
 
@@ -23,15 +25,37 @@ function Write() {
     setTimeout(() => {
       const savedData = sessionStorage.getItem('savedData');
       if (savedData) {
-        const confirmLoadSavedData = window.confirm('임시저장된 데이터가 있습니다. 불러오시겠습니까?');
-        // 취소하면 날라갑니다.
-        if (confirmLoadSavedData) {
-          setPostInput(JSON.parse(savedData));
-        } else {
+        const onClickCancel = () => {
           setPostInput(initialPostInputState);
           onDeleteTempSaveHandler();
+          modal.close();
           return;
-        }
+        };
+
+        const onClickConfirm = () => {
+          setPostInput(JSON.parse(savedData));
+          modal.close();
+        };
+
+        const openModalParams: Parameters<typeof modal.open>[0] = {
+          title: '임시저장된 데이터가 있습니다.',
+          message: '데이터를 불러오시겠습니까?',
+          leftButtonLabel: '취소',
+          onClickLeftButton: onClickCancel,
+          rightButtonLabel: '확인',
+          onClickRightButton: onClickConfirm
+        };
+        modal.open(openModalParams);
+
+        // const confirmLoadSavedData = window.confirm('임시저장된 데이터가 있습니다. 불러오시겠습니까?');
+        // // 취소하면 날라갑니다.
+        // if (confirmLoadSavedData) {
+        //   setPostInput(JSON.parse(savedData));
+        // } else {
+        //   setPostInput(initialPostInputState);
+        //   onDeleteTempSaveHandler();
+        //   return;
+        // }
       }
     }, 700);
   }, []);
@@ -39,7 +63,21 @@ function Write() {
   // 임시저장된 데이터 삭제
   const onDeleteTempSaveHandler = () => {
     sessionStorage.removeItem('savedData');
-    alert('삭제되었습니다.');
+
+    //모달
+    const onClickSave = () => {
+      modal.close();
+    };
+
+    const openModalParams: Parameters<typeof modal.open>[0] = {
+      title: '삭제되었습니다.',
+      message: '',
+      leftButtonLabel: '',
+      onClickLeftButton: undefined,
+      rightButtonLabel: '확인',
+      onClickRightButton: onClickSave
+    };
+    modal.open(openModalParams);
   };
 
   // 새로고침 핸들러
