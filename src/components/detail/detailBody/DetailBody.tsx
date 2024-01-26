@@ -14,6 +14,7 @@ import useKaKaoShare from '../../../hooks/useKaKaoShare';
 import { useSearchParams } from 'react-router-dom';
 import { useModal } from '../../../hooks/useModal';
 import { extractFirst50Words } from '../../../util/extractContentText';
+import MetaTag from '../../../shared/MetaTag';
 
 function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
@@ -61,58 +62,70 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   };
 
   return (
-    <St.BodyContainer>
-      <St.BodyHeader>
-        <St.PostInfo>
+    <>
+      <MetaTag
+        title={foundDetailPost.title}
+        description={foundDetailPost.content}
+        imageUrl={foundDetailPost.coverImages[0].url}
+      />
+      <St.BodyContainer>
+        <St.BodyHeader>
+          <St.PostInfo>
+            <div>
+              <img src={authorImage} alt="profile" />
+            </div>
+            <div>
+              <p>{author?.displayName ?? '작성자 이름 없음'}</p>
+              <St.DateSpan>{getFormattedDate(foundDetailPost.createdAt!) ?? '작성일이 없습니다'}</St.DateSpan>
+            </div>
+          </St.PostInfo>
+          {auth.currentUser?.uid === foundDetailPost.uid && (
+            <St.EditNDeleteContainer>
+              <button onClick={() => setIsEditNDeleteToggle((prev) => !prev)}>. . .</button>
+              {isEditNDeleteToggleOpened && <EditNDeleteToggle foundDetailPost={foundDetailPost} />}
+            </St.EditNDeleteContainer>
+          )}
+        </St.BodyHeader>
+        <St.ContentBody dangerouslySetInnerHTML={{ __html: foundDetailPost?.content as string }} />
+        <St.AdditionalInfoContainer>
+          <St.CountInfo>
+            <LikeButton
+              foundDetailPost={foundDetailPost}
+              buttonSize={18}
+              likeFalseColor={'red'}
+              likeTrueColor={'red'}
+            />
+            <div>
+              <span>좋아요</span>
+              <span>{foundDetailPost.likeCount}</span>
+            </div>
+          </St.CountInfo>
+          <St.CountInfo>
+            <GoComment />
+            <div>
+              <span>댓글</span>
+              {foundDetailPost.commentCount ?? 0}
+            </div>
+          </St.CountInfo>
           <div>
-            <img src={authorImage} alt="profile" />
+            <button
+              onClick={() => {
+                const data = {
+                  title: foundDetailPost.title,
+                  detailURL,
+                  imageUrl: foundDetailPost.coverImages[0].url,
+                  description: extractFirst50Words(foundDetailPost.content)
+                };
+                handleShareKakaoClick(data);
+              }}
+            >
+              카카오
+            </button>
+            <button onClick={handleCodeCopy}>링크 복사</button>
           </div>
-          <div>
-            <p>{author?.displayName ?? '작성자 이름 없음'}</p>
-            <St.DateSpan>{getFormattedDate(foundDetailPost.createdAt!) ?? '작성일이 없습니다'}</St.DateSpan>
-          </div>
-        </St.PostInfo>
-        {auth.currentUser?.uid === foundDetailPost.uid && (
-          <St.EditNDeleteContainer>
-            <button onClick={() => setIsEditNDeleteToggle((prev) => !prev)}>. . .</button>
-            {isEditNDeleteToggleOpened && <EditNDeleteToggle foundDetailPost={foundDetailPost} />}
-          </St.EditNDeleteContainer>
-        )}
-      </St.BodyHeader>
-      <St.ContentBody dangerouslySetInnerHTML={{ __html: foundDetailPost?.content as string }} />
-      <St.AdditionalInfoContainer>
-        <St.CountInfo>
-          <LikeButton foundDetailPost={foundDetailPost} buttonSize={18} likeFalseColor={'red'} likeTrueColor={'red'} />
-          <div>
-            <span>좋아요</span>
-            <span>{foundDetailPost.likeCount}</span>
-          </div>
-        </St.CountInfo>
-        <St.CountInfo>
-          <GoComment />
-          <div>
-            <span>댓글</span>
-            {foundDetailPost.commentCount ?? 0}
-          </div>
-        </St.CountInfo>
-        <div>
-          <button
-            onClick={() => {
-              const data = {
-                title: foundDetailPost.title,
-                detailURL,
-                imageUrl: foundDetailPost.coverImages[0].url,
-                description: extractFirst50Words(foundDetailPost.content)
-              };
-              handleShareKakaoClick(data);
-            }}
-          >
-            카카오
-          </button>
-          <button onClick={handleCodeCopy}>링크 복사</button>
-        </div>
-      </St.AdditionalInfoContainer>
-    </St.BodyContainer>
+        </St.AdditionalInfoContainer>
+      </St.BodyContainer>
+    </>
   );
 }
 
