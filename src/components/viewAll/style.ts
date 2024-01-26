@@ -32,7 +32,6 @@ const ButtonWrapper = styled.div`
 `;
 
 const Button = styled.button<{ selected: boolean }>`
-  //font-family: Apple SD Gothic Neo;
   font-size: 17px;
   font-weight: ${({ selected }) => (selected ? 800 : 400)};
   color: ${({ selected }) => (selected ? '#222' : '#888')};
@@ -55,7 +54,6 @@ const SortWrapper = styled.ul`
 
     color: #888;
     text-align: center;
-    //font-family: Apple SD Gothic Neo;
     font-size: 15px;
     cursor: pointer;
   }
@@ -74,7 +72,6 @@ const SortWrapper = styled.ul`
 /*게시물*/
 const ContentsWrapper = styled.div`
   width: 100%;
-  /* margin: auto; */
   margin-bottom: 60px;
   display: flex;
   gap: 20px;
@@ -86,32 +83,17 @@ const Contents = styled.ul`
   grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-content: center;
   align-items: center;
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start; */
   gap: 20px;
 `;
 
 const Content = styled.li`
   display: flex;
   flex-direction: column;
-  /* position: relative; */
-  /* width: 235px; //345 > 235 변경 *아래Row width도 같이 변경필요 */
   height: 390px; //626 > 500 변경 > HM 390 변경
-  /* flex-shrink: 0; */
   border-radius: 10px; // HM
   border: 1px solid ${theme.color.lightgray};
   background: white; // white로 변경
   overflow: hidden; // HM
-
-  /* li {
-    list-style: none;
-    width: 35%;
-  } */
-
-  /* p {
-    margin-bottom: 10px;
-  } */
 `;
 
 const HeartClickButton = styled.button<{ $isLiked: boolean }>`
@@ -127,8 +109,7 @@ const ContentImg = styled.img`
   object-fit: cover;
   width: 100%; //345 > 233 변경 > HM 100% 변경
   height: 210px; //420 > 280 변경 > HM 230px 변경
-  /* flex-shrink: 0; */
-  /* border-radius: 40px 40px 0px 0px; */
+
   &:hover {
     cursor: pointer;
   }
@@ -139,16 +120,6 @@ const Row = styled.div`
   flex-direction: column;
   align-items: start;
   row-gap: 5px;
-  /* align-items: start; */
-  /* border-top: 1px solid #000000; */
-  /* width: 200px; */
-
-  /* position: absolute; */
-  /* relative: St.Content */
-  /* bottom: 3%;
-  left: 5%; */
-
-  /* padding-top: 8px; */
 
   & p {
     font-weight: bold;
@@ -156,9 +127,7 @@ const Row = styled.div`
   }
 
   span {
-    /* margin-left: 15px; */
     color: #bbb; // #222222에서 변경
-    //font-family: SB AggroOTF;
     font-size: 12px;
     font-weight: 400;
   }
@@ -168,30 +137,21 @@ export const PostInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  /* justify-content: space-between; */
   row-gap: 15px;
   padding: 15px;
   font-size: 16px;
 `;
 
 const CommentAndLikes = styled.div`
-  // 이름 pascal case 변경
   display: flex;
   justify-content: start;
   column-gap: 10px;
   color: ${theme.color.lightgray};
   font-size: 14px;
-  // position: absolute;
-  //bottom: 3%;
   & span {
     display: flex;
     column-gap: 3px;
   }
-
-  /* padding: 0 20px;
-  padding-top: 10px;
-  display: flex;
-  gap: 10px; */
 `;
 
 export const TitleAndContent = styled.div`
@@ -200,13 +160,7 @@ export const TitleAndContent = styled.div`
   align-items: start;
   flex: 1;
   row-gap: 15px;
-  /* color: #222; */
-
   padding: 5px;
-  /* width: 100%; */
-  /* padding: 0 20px; */
-  /* height: 80px; */
-  /* flex-shrink: 0; */
 
   p {
     display: -webkit-box;
@@ -266,7 +220,6 @@ const MoreContentWrapper = styled.div`
 const MangoDiv = styled.div`
   display: flex;
   align-items: center;
-  /* width: 1000px; */
   margin-top: 50px;
 `;
 
@@ -279,29 +232,22 @@ const MangoWord = styled.p`
 
 const MangoOutWord = styled.p`
   color: #000;
-  //font-family: Apple SD Gothic Neo;
   font-size: 38px;
   font-weight: 700;
 `;
 
 const MangoSUbWord = styled.p`
-  /* color: #000; */
   text-align: left;
-  //font-family: Inter;
   font-size: 17px;
   font-weight: 500;
   margin-top: 10px;
-  // margin-bottom: 10px;
 `;
 
 const AdminContents = styled.ul`
-  //kim
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   margin-top: 40px;
-
-  //sh
   gap: 20px;
 
   // ashley 추가 01.24
@@ -319,12 +265,6 @@ const AdminContents = styled.ul`
 
 const AdminContent = styled.li`
   width: 490px;
-  /* margin-bottom: 40px; */
-
-  /* li {
-    list-style: none;
-    width: 35%;
-  } */
 
   img {
     object-fit: cover;
@@ -332,7 +272,6 @@ const AdminContent = styled.li`
     height: 300px;
     flex-shrink: 0;
     border-radius: 40px;
-    /* background: #d9d9d9; */
     &:hover {
       cursor: pointer;
     }
@@ -341,7 +280,6 @@ const AdminContent = styled.li`
 
 const AdminPostTitle = styled.p`
   color: #000;
-  //font-family: ${theme.font.pretendard};
   font-size: 22px;
   font-weight: 700;
   text-align: left;
@@ -356,7 +294,6 @@ const AdminPostSpace = styled.div`
 
 const AdminPostContent = styled.div`
   color: #000;
-  //font-family: ${theme.font.pretendard};
   font-size: 16px;
   font-weight: 400;
 `;
@@ -365,9 +302,6 @@ const UserProfile = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* position: relative; */
-  /* justify-content: flex-start; */
-  /* padding: 0 15px; */
 
   & div {
     display: flex;
@@ -380,12 +314,6 @@ const ProfileImg = styled.img`
   width: 30px; //HM 40 > 35 변경
   height: 30px; //HM 40 > 35 변경
   border-radius: 50%;
-  /* margin-right: 10px; */ // UserProfile column gap으로 대체
-  /* img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-  } */
 `;
 
 const NeedDelete = styled.div`
