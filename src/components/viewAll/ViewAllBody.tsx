@@ -84,7 +84,7 @@ function ViewAllBody() {
     }
   };
 
-  //초기 마운트 실행시
+  //초기 마운트 실행
   useEffect(() => {
     if (searchParams.get('category') === null || searchParams.get('sort') === null) {
       updateSortOption(category, sortBy);
