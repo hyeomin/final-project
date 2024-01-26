@@ -41,7 +41,7 @@ const getAdminPosts = async () => {
       collection(db, QUERY_KEYS.POSTS),
       where('role', '==', 'admin'),
       orderBy('createdAt', 'desc'),
-      limit(5)
+      limit(4)
     );
     const querySnapshot = await getDocs(q);
 
