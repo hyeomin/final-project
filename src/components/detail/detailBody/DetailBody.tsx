@@ -15,7 +15,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useModal } from '../../../hooks/useModal';
 import { extractFirst50Words } from '../../../util/extractContentText';
 import MetaTag from '../../../shared/MetaTag';
-import defaultThumnail from '../../../assets/mangoThumnail.png';
+import defaultThumbnail from '../../../assets/mangoThumbnail.png';
 
 function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
@@ -67,7 +67,7 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
       <MetaTag
         title={foundDetailPost.title}
         description={foundDetailPost.content}
-        imageUrl={foundDetailPost.coverImages[0]?.url || defaultThumnail}
+        imageUrl={foundDetailPost.coverImages[0]?.url || defaultThumbnail}
       />
       <St.BodyContainer>
         <St.BodyHeader>
@@ -114,7 +114,7 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
                 const data = {
                   title: foundDetailPost.title,
                   detailURL,
-                  imageUrl: foundDetailPost.coverImages[0]?.url || defaultThumnail,
+                  imageUrl: foundDetailPost.coverImages[0]?.url || defaultThumbnail,
                   description: extractFirst50Words(foundDetailPost.content)
                 };
                 handleShareKakaoClick(data);
