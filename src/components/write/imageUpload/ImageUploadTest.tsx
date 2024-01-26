@@ -1,56 +1,65 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { GoTrash } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
 import { deleteImage, uploadSingleImage } from '../../../api/postApi';
 import DragNDrop from '../../../assets/icons/dragndrop.png';
-import { useModal } from '../../../hooks/useModal';
 import { postInputState } from '../../../recoil/posts';
+import { DownloadedImageType } from '../../../types/PostType';
 import St from './style';
 
-function ImageUpload() {
-  const modal = useModal();
+function ImageUploadTest() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { coverImages } = postInput;
 
-  const [uploadStatus, setUploadStatus] = useState('Loading...');
-
   const queryClient = useQueryClient();
 
   // 이미지 올리는 query
   const addImageMutation = useMutation({
-    mutationFn: (file: File) =>
-      uploadSingleImage({
-        coverImage: file
-      }),
-    onSuccess: (downloadedImage) => {
+    mutationFn: (file: File) => uploadSingleImage({ coverImage: file }),
+    onMutate: async (newImageFile) => {
+      await queryClient.cancelQueries({ queryKey: ['coverImages'] });
+      const previousImages = queryClient.getQueryData(['coverImages']) || [];
+
+      // 임시로 로컬 이미지 파일을 url과 이름이 있는 객체로 변환
+      const tempUrl = URL.createObjectURL(newImageFile);
+      const tempImage = { url: tempUrl, name: newImageFile.name };
+
+      queryClient.setQueryData(['coverImages'], (old: DownloadedImageType[] = []) => [...old, tempImage]);
+      return { previousImages };
+    },
+    onError: (err, newImageFile, context) => {
+      console.log('onError', err);
+      console.log('context:', context);
+      queryClient.setQueryData(['coverImages'], context?.previousImages);
+    },
+    onSettled: (downloadedImage) => {
+      console.log('onSettled');
       if (downloadedImage) {
         // 정상적으로 url을 반환 받았는지 확인
         queryClient.invalidateQueries({ queryKey: ['coverImages'] });
-        // 그 전에 보여지고 있던 로컬 파일의 미리보기 대체
-        setPostInput((currentInput) => {
-          const updatedImages = currentInput.coverImages.map((image) => {
-            if (image.isLocal && image.name === downloadedImage.name) {
-              return { ...downloadedImage, isLocal: false };
-            }
-            return image;
-          });
-          return { ...currentInput, coverImages: updatedImages };
+        setPostInput({
+          ...postInput,
+          coverImages: [...coverImages, downloadedImage]
         });
-        setUploadStatus('Done');
+      } else {
+        console.error('Failed to get the image URL');
       }
-    },
-    onError: (error, variables) => {
-      setPostInput((currentInput) => {
-        const updatedImages = currentInput.coverImages.filter(
-          (image) => !(image.isLocal && image.name === variables.name)
-        );
-        return { ...currentInput, coverImages: updatedImages };
-      });
-      console.log('이미지 업로드 실패', error);
     }
+    // onSuccess: (downloadedImage) => {
+    //   if (downloadedImage) {
+    //     // 정상적으로 url을 반환 받았는지 확인
+    //     queryClient.invalidateQueries();
+    //     setPostInput({
+    //       ...postInput,
+    //       coverImages: [...coverImages, downloadedImage]
+    //     });
+    //   } else {
+    //     console.error('Failed to get the image URL');
+    //   }
+    // }
   });
 
   // 드래그앤드롭 핸들링
@@ -79,48 +88,16 @@ function ImageUpload() {
     // 업로드 가능한 이미지 개수 제한
     const totalImages = selectedImageFiles.length + (coverImages ? coverImages.length : 0);
     if (totalImages > 3) {
-      const onClickConfirm = () => {
-        modal.close();
-      };
-
-      const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '[업로드 수량 안내]',
-        message: '최대 업로드 가능한 개수는 3개입니다.',
-        leftButtonLabel: '',
-        onClickLeftButton: undefined,
-        rightButtonLabel: '확인',
-        onClickRightButton: onClickConfirm
-      };
-      modal.open(openModalParams);
-
+      alert('최대 업로드 가능한 개수는 3개입니다.');
       return;
     }
     // 업로드 가능한 이미지 파일 크기 하나씩 확인하면서 제한
     for (let i = 0; i < selectedImageFiles?.length; i++) {
-      if (selectedImageFiles[i].size <= 10 * 1024 * 1024) {
-        const tempUrl = URL.createObjectURL(selectedImageFiles[i]);
-        const tempImage = { url: tempUrl, name: selectedImageFiles[i].name, isLocal: true };
-        setPostInput((currentInput) => ({
-          ...currentInput,
-          coverImages: [...currentInput.coverImages, tempImage]
-        }));
-
+      if (selectedImageFiles[i].size <= 100 * 1024 * 1024) {
         // mutation 매개변수 넘겨주기
         addImageMutation.mutate(selectedImageFiles[i]);
       } else {
-        const onClickConfirm = () => {
-          modal.close();
-        };
-
-        const openModalParams: Parameters<typeof modal.open>[0] = {
-          title: '[업로드 용량 안내]',
-          message: '최대 업로드 가능한 용량을 초과하였습니다.',
-          leftButtonLabel: '',
-          onClickLeftButton: undefined,
-          rightButtonLabel: '확인',
-          onClickRightButton: onClickConfirm
-        };
-        modal.open(openModalParams);
+        alert('File size exceeds limit');
       }
     }
   };
@@ -140,37 +117,14 @@ function ImageUpload() {
 
   // 이미지 삭제
   const onDeleteImageHandler = (url: string) => {
-    const onClickCancel = () => {
-      modal.close();
-      return;
-    };
-
-    const onClickConfirm = () => {
-      const deleteImages = coverImages.filter((image) => image.url !== url);
-      setPostInput({
-        ...postInput,
-        coverImages: deleteImages
-      });
-      deletePostMutation.mutate(url);
-      modal.close();
-    };
-
-    const openModalParams: Parameters<typeof modal.open>[0] = {
-      title: '삭제하시겠습니까?',
-      message: '',
-      leftButtonLabel: '취소',
-      onClickLeftButton: onClickCancel,
-      rightButtonLabel: '확인',
-      onClickRightButton: onClickConfirm
-    };
-    modal.open(openModalParams);
-
-    // const deleteImages = coverImages.filter((image) => image.url !== url);
-    // setPostInput({
-    //   ...postInput,
-    //   coverImages: deleteImages
-    // });
-    // deletePostMutation.mutate(url);
+    alert(1);
+    alert('삭제하시겠습니까?');
+    const deleteImages = coverImages.filter((image) => image.url !== url);
+    setPostInput({
+      ...postInput,
+      coverImages: deleteImages
+    });
+    deletePostMutation.mutate(url);
   };
 
   return (
@@ -181,7 +135,7 @@ function ImageUpload() {
         <button>Upload</button>
         <St.UploadTextBox>
           <p>Drag & drop to load</p>
-          <span>Maximum file size is 5MB</span>
+          <span>Maximum file size is 100MB</span>
         </St.UploadTextBox>
       </St.DragNDropContainer>
       <St.PreviewTitle>커버 이미지 미리보기</St.PreviewTitle>
@@ -194,7 +148,7 @@ function ImageUpload() {
                 <St.SinglePreviewInfo>
                   <div>
                     <p>{image.name}</p>
-                    <span>{uploadStatus}</span>
+                    <span>Finished</span>
                   </div>
                   <button onClick={() => onDeleteImageHandler(image.url)}>
                     <GoTrash />
@@ -208,4 +162,4 @@ function ImageUpload() {
   );
 }
 
-export default ImageUpload;
+export default ImageUploadTest;

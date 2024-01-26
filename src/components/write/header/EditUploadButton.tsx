@@ -42,14 +42,15 @@ function EditUploadButton() {
       };
 
       const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '수정할 데이터가 없습니다.',
-        message: '',
+        title: '[알림]',
+        message: '게시물을 찾을 수 없습니다.',
         leftButtonLabel: '',
         onClickLeftButton: undefined,
         rightButtonLabel: '확인',
         onClickRightButton: onClickConfirm
       };
       modal.open(openModalParams);
+      return;
     }
 
     // 유효성 검사 (content에서 텍스트만 발라냄)

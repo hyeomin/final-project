@@ -17,12 +17,13 @@ function Header({ isEditing }: Props) {
     // sessionStorage에 데이터 저장
     sessionStorage.setItem('savedData', JSON.stringify(postInput));
 
+    //모달
     const onClickSave = () => {
       modal.close();
     };
 
     const openModalParams: Parameters<typeof modal.open>[0] = {
-      title: '저장되었습니다.',
+      title: '임시 저장되었습니다.',
       message: '',
       leftButtonLabel: '',
       onClickLeftButton: undefined,
