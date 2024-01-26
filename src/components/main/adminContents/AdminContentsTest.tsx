@@ -51,7 +51,14 @@ const AdminContentsTest = () => {
             return (
               <SwiperSlide key={idx}>
                 {/* item.coverImages로 변경하기 */}
-                {item ? <img src={defaultIllustration} alt={`Slide ${idx}`} /> : <Loader />}
+                {item ? (
+                  <img
+                    src={(item.coverImages[1] && item.coverImages[1].url) || defaultIllustration}
+                    alt={`Slide ${idx}`}
+                  />
+                ) : (
+                  <Loader />
+                )}
               </SwiperSlide>
             );
           })}
