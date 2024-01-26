@@ -79,6 +79,7 @@ function Editor() {
         defaultValue={title}
         onChange={(event) => setPostInput({ ...postInput, title: event.target.value })}
         placeholder="제목을 입력하세요."
+        tabIndex={1}
       />
       <St.EditorContainer className="editor-container">
         <ReactQuill
@@ -89,6 +90,7 @@ function Editor() {
           modules={modules}
           formats={formats}
           ref={quillRef}
+          tabIndex={2}
         />
       </St.EditorContainer>
     </St.WritingArea>
