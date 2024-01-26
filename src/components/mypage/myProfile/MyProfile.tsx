@@ -23,7 +23,7 @@ import MyPosts from '../MyPosts';
 import St from './style';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
-function MyProfileTest() {
+function MyProfile() {
   const modal = useModal();
   const [activeTab, setActiveTab] = useState('calendar');
   const [isValid, setIsValid] = useState(true);
@@ -448,4 +448,4 @@ function MyProfileTest() {
   );
 }
 
-export default MyProfileTest;
+export default MyProfile;

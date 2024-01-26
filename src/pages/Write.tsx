@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
@@ -6,8 +6,8 @@ import Editor from '../components/write/editor/Editor';
 import Hashtag from '../components/write/hashtag/Hashtag';
 import Header from '../components/write/header/WriteHeader';
 import ImageUpload from '../components/write/imageUpload/ImageUpload';
-import { initialPostInputState, postInputState } from '../recoil/posts';
 import { useModal } from '../hooks/useModal';
+import { initialPostInputState, postInputState } from '../recoil/posts';
 
 function Write() {
   const modal = useModal();
@@ -15,47 +15,32 @@ function Write() {
   const { foundDetailPost } = location.state || {};
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
-  const { pathname } = useLocation();
-  const prevPathname = useRef(pathname);
-
-  // 주소가 바뀌면 내용 날라가게
 
   // 임시저장된 데이터 불러올지; 취소하면 날라가게
   useEffect(() => {
     setTimeout(() => {
       const savedData = sessionStorage.getItem('savedData');
       if (savedData) {
-        const onClickCancel = () => {
+        const onClickDelete = () => {
           setPostInput(initialPostInputState);
           onDeleteTempSaveHandler();
           modal.close();
-          return;
         };
 
-        const onClickConfirm = () => {
+        const onClickLoadSavedData = () => {
           setPostInput(JSON.parse(savedData));
           modal.close();
         };
 
         const openModalParams: Parameters<typeof modal.open>[0] = {
-          title: '임시저장된 데이터가 있습니다.',
-          message: '데이터를 불러오시겠습니까?',
+          title: '임시저장 데이터를 불러오시겠습니까?',
+          message: '취소하면 데이터가 삭제됩니다.',
           leftButtonLabel: '취소',
-          onClickLeftButton: onClickCancel,
+          onClickLeftButton: onClickDelete,
           rightButtonLabel: '확인',
-          onClickRightButton: onClickConfirm
+          onClickRightButton: onClickLoadSavedData
         };
         modal.open(openModalParams);
-
-        // const confirmLoadSavedData = window.confirm('임시저장된 데이터가 있습니다. 불러오시겠습니까?');
-        // // 취소하면 날라갑니다.
-        // if (confirmLoadSavedData) {
-        //   setPostInput(JSON.parse(savedData));
-        // } else {
-        //   setPostInput(initialPostInputState);
-        //   onDeleteTempSaveHandler();
-        //   return;
-        // }
       }
     }, 700);
   }, []);
@@ -64,8 +49,7 @@ function Write() {
   const onDeleteTempSaveHandler = () => {
     sessionStorage.removeItem('savedData');
 
-    //모달
-    const onClickSave = () => {
+    const onClickDelete = () => {
       modal.close();
     };
 
@@ -75,9 +59,10 @@ function Write() {
       leftButtonLabel: '',
       onClickLeftButton: undefined,
       rightButtonLabel: '확인',
-      onClickRightButton: onClickSave
+      onClickRightButton: onClickDelete
     };
     modal.open(openModalParams);
+    // alert('삭제되었습니다.');
   };
 
   // 새로고침 핸들러
@@ -113,7 +98,6 @@ function Write() {
       <Spacer />
       <Hashtag />
       <ImageUpload />
-      {/* <ImageUploadTest /> */}
     </Container>
   );
 }

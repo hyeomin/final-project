@@ -50,7 +50,7 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
         return;
       };
 
-      const onClickSave = async () => {
+      const onClickLogout = async () => {
         modal.close();
 
         try {
@@ -72,7 +72,7 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
         leftButtonLabel: '취소',
         onClickLeftButton: onClickCancel,
         rightButtonLabel: '로그아웃',
-        onClickRightButton: onClickSave
+        onClickRightButton: onClickLogout
       };
       modal.open(openModalParams);
     } catch (error) {

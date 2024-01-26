@@ -6,8 +6,7 @@ export const categoryList = [
   { nameEng: 'knowHow', nameKor: '노하우 공유', isAdmin: false },
   { nameEng: 'sharing', nameKor: '제품 나눔', isAdmin: false },
   { nameEng: 'habit', nameKor: '습관 인증', isAdmin: false },
-  { nameEng: 'adminPost', nameKor: '관리자 게시물', isAdmin: true },
-  { nameEng: 'newsRoom', nameKor: '뉴스룸', isAdmin: true }
+  { nameEng: 'adminPost', nameKor: 'Original Contents by Mango', isAdmin: true }
 ];
 
 export const convertToKor = (categoryEng: string) => {

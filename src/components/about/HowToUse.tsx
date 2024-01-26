@@ -5,10 +5,16 @@ import imageThree from '../../assets/about/howtouse(3).png';
 import bubbleOne from '../../assets/about/howtouse-bubble(1).png';
 import bubbleTwo from '../../assets/about/howtouse-bubble(2).png';
 import bubbleThree from '../../assets/about/howtouse-bubble(3).png';
+import theme from '../../styles/theme';
 
 function HowToUse() {
   return (
     <Container>
+      <Title>
+        <p>망고만의 건강한 생활습관을 만드는 우리의 원칙</p>
+        <h3>WE MAKE</h3>
+        <h3>ECO LIFESTYLE </h3>
+      </Title>
       <UsageExplanation>
         <img src={imageOne} alt="about-image1" />
 
@@ -62,7 +68,27 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  row-gap: 60px;
+  height: 2000px;
+`;
+
+const Title = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 20px;
+  font-family: ${theme.font.agroRegular};
+  height: 300px;
+
+  & p {
+    font-size: 20px;
+  }
+
+  & h3 {
+    font-family: ${theme.font.agroBold};
+    font-size: 60px;
+  }
 `;
 
 const UsageExplanation = styled.div`

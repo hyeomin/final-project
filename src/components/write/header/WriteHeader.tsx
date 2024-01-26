@@ -1,9 +1,9 @@
 import { useRecoilValue } from 'recoil';
+import { useModal } from '../../../hooks/useModal';
 import { postInputState } from '../../../recoil/posts';
 import IsEditingButton from './EditUploadButton';
 import SubmitButton from './SubmitButton';
 import St, { CustomButton } from './styles';
-import { useModal } from '../../../hooks/useModal';
 
 type Props = {
   isEditing: boolean;

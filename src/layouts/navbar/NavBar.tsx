@@ -1,23 +1,20 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { getAdminPostList } from '../../api/pageListApi';
 import logo from '../../assets/icons/mango-logo.png';
 import AuthToggle from '../../components/auth/AuthToggle';
 import useOutsideClick from '../../hooks/useOutsideClick';
-import usePreviousPathname from '../../util/usePreviousPathname';
+import { QUERY_KEYS } from '../../query/keys';
 import AuthNavBar from './AuthNavBar';
 import St, { LogoContainer } from './style';
-import { useQueryClient } from '@tanstack/react-query';
-import { getAdminPostList } from '../../api/pageListApi';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { QUERY_KEYS } from '../../query/keys';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
 
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-
-  const prevPathName = usePreviousPathname();
 
   // AuthToggle 밖 누르면 꺼지게
   useOutsideClick<HTMLDivElement>(navRef, () => {
@@ -41,12 +38,6 @@ function NavBar() {
       staleTime: 60000
     });
   };
-
-  // useEffect(() => {
-  //   if (prevPathName === '/write') {
-  //     window.location.reload();
-  //   }
-  // }, [prevPathName]);
 
   return (
     <St.NavContainer ref={navRef}>
