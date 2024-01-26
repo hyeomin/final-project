@@ -69,7 +69,8 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
       <MetaTag
         title={foundDetailPost.title}
         description={foundDetailPost.content}
-        imageUrl={foundDetailPost.coverImages[0]?.url || defaultThumbnail}
+        image={foundDetailPost.coverImages[0]?.url || defaultThumbnail}
+        url={`https://mymango.today/detail/${foundDetailPost.id}`}
       />
       <St.BodyContainer>
         <St.BodyHeader>
