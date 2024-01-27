@@ -44,7 +44,7 @@ const Carousel = () => {
         {isLoading ? (
           <Loader />
         ) : popularPosts && popularPosts.length === 0 ? (
-          <div>인기 게시물 데이터 없습니다.</div>
+          <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
         ) : (
           popularPosts?.slice(currentSlide, currentSlide + 4).map((post) => {
             return (
