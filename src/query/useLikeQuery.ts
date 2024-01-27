@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { updateLikedUsers } from '../api/homeApi';
-import { auth } from '../shared/firebase';
+import { UpdateLikedUsersType, updateLikedUsers } from '../api/homeApi';
 import { PostType } from '../types/PostType';
 import { QUERY_KEYS } from './keys';
 
@@ -9,12 +8,11 @@ type MutationContext = {
 };
 
 const useLikeQuery = () => {
-  const currentUserId = auth.currentUser?.uid;
   const queryClient = useQueryClient();
   const { mutate: likeCountMutate } = useMutation({
     mutationFn: updateLikedUsers,
 
-    onMutate: async (id) => {
+    onMutate: async ({ id, currentUserId }) => {
       await queryClient.cancelQueries({ queryKey: ['popularPosts'] });
       const previousPosts = queryClient.getQueryData<PostType[]>(['posts']);
 
@@ -40,7 +38,7 @@ const useLikeQuery = () => {
       return { previousPosts: previousPosts ?? [] };
     },
     // error, variables, context
-    onError: (error: Error, _: string, context: MutationContext | undefined): void => {
+    onError: (error: Error, _: UpdateLikedUsersType, context: MutationContext | undefined): void => {
       if (context?.previousPosts) {
         queryClient.setQueryData([QUERY_KEYS.POSTS], context.previousPosts);
       }

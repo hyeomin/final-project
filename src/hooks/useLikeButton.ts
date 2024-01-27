@@ -2,16 +2,19 @@ import { useNavigate } from 'react-router-dom';
 import useLikeQuery from '../query/useLikeQuery';
 import { auth } from '../shared/firebase';
 import { useModal } from './useModal';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 export const useLikeButton = () => {
   const modal = useModal();
-  const currentUser = auth.currentUser?.uid;
+  const authContext = useContext(AuthContext);
+  const currentUserId = authContext?.currentUser?.uid;
   const navigate = useNavigate();
   const { likeCountMutate } = useLikeQuery();
   const onClickLikeButton = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string | undefined) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!currentUser) {
+    if (!currentUserId) {
       const onClickCancel = () => {
         modal.close();
         return;
@@ -32,7 +35,7 @@ export const useLikeButton = () => {
       };
       modal.open(openModalParams);
     }
-    if (id) likeCountMutate(id);
+    if (id && currentUserId) likeCountMutate({ id, currentUserId });
   };
   return onClickLikeButton;
 };

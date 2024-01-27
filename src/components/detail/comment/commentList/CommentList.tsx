@@ -1,5 +1,5 @@
 import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { getComments } from '../../../../api/commentApi';
 import defaultUserProfile from '../../../../assets/defaultImg.jpg';
 import MangoLogo from '../../../../assets/realMango.png';
@@ -10,6 +10,7 @@ import { auth } from '../../../../shared/firebase';
 import { FoundDetailPostProps } from '../../../../types/PostType';
 import { getFormattedDate } from '../../../../util/formattedDateAndTime';
 import St from './style';
+import { AuthContext } from '../../../../context/AuthContext';
 
 const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const modal = useModal();
@@ -19,7 +20,8 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const [editingText, setEditingText] = useState('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
-  const currentUser = auth.currentUser;
+  const authContext = useContext(AuthContext);
+  const currentUserId = authContext?.currentUser?.uid;
 
   // const { data: comments, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
   //   queryKey: ['comments', postId],
@@ -140,7 +142,7 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
                   <St.Content>{comment.content}</St.Content>
                 )}
               </St.CommentDetail>
-              {currentUser?.uid === comment.uid && (
+              {currentUserId === comment.uid && (
                 <>
                   {editingCommentId === comment.id ? (
                     <St.ButtonContainer>

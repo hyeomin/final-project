@@ -12,9 +12,12 @@ import { useLikeButton } from '../../../../hooks/useLikeButton';
 import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
 import PostContentPreview from '../../../common/PostContentPreview';
 import Loader from '../../../common/Loader';
+import { AuthContext } from '../../../../context/AuthContext';
+import { useContext } from 'react';
 
 const Carousel = () => {
-  const currentUser = auth.currentUser?.uid;
+  const authContext = useContext(AuthContext);
+  const currentUserId = authContext?.currentUser?.uid;
 
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['popularPosts'],
@@ -69,7 +72,11 @@ const Carousel = () => {
                       <span>{users?.find((user) => user.uid === post.uid)?.displayName}</span>
                     </div>
                     <button type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
-                      {currentUser && post.likedUsers?.includes(currentUser) ? <St.HeartFillIcon /> : <St.HeartIcon />}
+                      {currentUserId && post.likedUsers?.includes(currentUserId) ? (
+                        <St.HeartFillIcon />
+                      ) : (
+                        <St.HeartIcon />
+                      )}
                     </button>
                   </St.SlideHeader>
                   <St.SlideBottom>
