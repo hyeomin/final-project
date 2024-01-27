@@ -14,6 +14,7 @@ import PostContentPreview from '../../../common/PostContentPreview';
 import Loader from '../../../common/Loader';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useContext } from 'react';
+import mangoDefaultCover from '../../../../assets/mangoDefaultCover.png';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);
@@ -54,7 +55,7 @@ const Carousel = () => {
                     {/* TODO: 이미지가 늦게 로드되는 문제 해결해야함 */}
                     <img
                       src={
-                        post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : defaultCoverImage
+                        post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoDefaultCover
                       }
                       alt={post.title}
                     />
