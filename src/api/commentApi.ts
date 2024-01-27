@@ -3,7 +3,7 @@ import { QUERY_KEYS } from '../query/keys';
 import { db } from '../shared/firebase';
 
 type AddComment = {
-  newComment: Omit<CommentType, 'id'>;
+  newComment: Pick<CommentType, 'uid' | 'createdAt' | 'content'>;
   postId: string;
   currentUserId: string;
 };

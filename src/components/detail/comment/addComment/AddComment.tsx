@@ -45,8 +45,6 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
     } else {
       const newComment = {
         uid: currentUser.uid,
-        displayName: currentUser.displayName,
-        photoURL: currentUser.photoURL,
         createdAt: Date.now(),
         content
       };
