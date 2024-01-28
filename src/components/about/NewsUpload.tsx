@@ -32,7 +32,7 @@ function NewsUpload() {
   const handleNewsUpload = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = await fetchAndParseHTML(newsUrl);
-    console.log('뉴스데이터', data);
+    //console.log('뉴스데이터', data);
   };
 
   return (

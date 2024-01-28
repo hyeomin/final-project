@@ -57,7 +57,7 @@ function ViewAllBody() {
     }
   });
 
-  console.log('Loading:', isLoading, 'Error:', isError, 'Data:', admin);
+  //console.log('Loading:', isLoading, 'Error:', isError, 'Data:', admin);
 
   /*----------------------------*/
   //로딩 & 에러 처리 구간

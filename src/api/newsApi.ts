@@ -17,7 +17,7 @@ const addNews = async ({ newNews }: AddNewsProps) => {
   try {
     const docRef = await addDoc(collection(db, QUERY_KEYS.NEWS), newNews);
     const newsId = docRef.id;
-    console.log('News uploaded with ID:', newsId);
+    //console.log('News uploaded with ID:', newsId);
     return newsId;
   } catch (error) {
     console.error('Error adding news: ', error);
@@ -42,7 +42,7 @@ const getNews = async () => {
 const deleteNews = async (newsId: string) => {
   try {
     await deleteDoc(doc(db, QUERY_KEYS.NEWS, newsId));
-    console.log('뉴스 삭제 완료');
+    //console.log('뉴스 삭제 완료');
   } catch (error) {
     console.log('뉴스 삭제 오류', error);
   }

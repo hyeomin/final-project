@@ -44,12 +44,12 @@ const updateProfileInfo = async ({ authCurrentUser, displayName, profileImage }:
     await authCurrentUser.reload();
     const updatedUser = auth.currentUser;
 
-    console.log('프로필 업데이트 성공', updatedUser);
+    //console.log('프로필 업데이트 성공', updatedUser);
 
     if (updatedUser) {
       const userDocRef = doc(db, 'users', updatedUser.uid);
       const userDocSnapshot = await getDoc(userDocRef);
-      console.log('userDocSnapshot-->', userDocSnapshot);
+      //console.log('userDocSnapshot-->', userDocSnapshot);
 
       // 컬렉션에 있는 users 필드 정보 수정
       await updateDoc(userDocRef, {
@@ -76,7 +76,7 @@ const updateProfileImage = async ({ authCurrentUser, profileImage }: updateProfi
     const imageRef = ref(storage, `userProfile/${authCurrentUser?.uid}`);
     const snapshot = await uploadBytes(imageRef, profileImage);
     const profileImageURL = await getDownloadURL(snapshot.ref);
-    console.log('프로필 이미지 업로드 성공');
+    //console.log('프로필 이미지 업로드 성공');
     return profileImageURL;
   } catch (error) {
     console.log('프로필 이미지 업로드 실패', error);
