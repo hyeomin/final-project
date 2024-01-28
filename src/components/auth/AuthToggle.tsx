@@ -23,6 +23,7 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
   const navigate = useNavigate();
 
   const { pathname } = useLocation();
+  console.log('pathName=>', pathname);
   const prevPathname = useRef(pathname);
 
   // const userInfo = auth.currentUser;
@@ -30,6 +31,7 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
   // 주소가 바뀌면 토글 창 꺼지게
   useEffect(() => {
     if (pathname !== prevPathname.current) {
+      console.log('prevPathname.current 나와라', prevPathname.current);
       setIsAuthToggleOpen(false);
     }
   }, [pathname]);
