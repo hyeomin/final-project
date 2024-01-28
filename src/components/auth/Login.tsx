@@ -76,7 +76,7 @@ function Login() {
   const signIn: SubmitHandler<Data> = async (data) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
-      console.log('userCredential', userCredential);
+      //console.log('userCredential', userCredential);
 
       // 로그인 성공 시 role, authCurrentUser의 recoil(전역상태) update
       const user = userList && userList.find((user) => user.uid === authCurrentUser?.uid);
@@ -115,7 +115,7 @@ function Login() {
 
         // 회원가입 시, user 컬렉션에 값이 저장됨
         const userId = auth.currentUser?.uid;
-        console.log('userId-->', userId);
+        // console.log('userId-->', userId);
         // 컬렉션에 있는 users 필드 정보 수정
         if (userId) {
           setDoc(doc(db, 'users', userId), {

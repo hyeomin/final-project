@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import GetStarted from '../components/about/GetStarted';
-import HowToUse from '../components/about/HowToUse';
 import TopButton from '../components/about/TopButton';
 import WhyMango from '../components/about/WhyMango';
 import AboutFooter from '../components/about/aboutFooter/AboutFooter';
+import GetStarted from '../components/about/getStarted/GetStarted';
+import HowToUse from '../components/about/howToUse/HowToUse';
 
 function About() {
   return (

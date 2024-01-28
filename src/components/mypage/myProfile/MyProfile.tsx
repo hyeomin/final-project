@@ -3,6 +3,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useContext, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   updateProfileImage,
   updateProfileImageProps,
@@ -21,7 +22,6 @@ import HabitCalendar from '../HabitCalendar/HabitCalendar';
 import LikesPosts from '../LikesPosts';
 import MyPosts from '../MyPosts';
 import St from './style';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 function MyProfile() {
   const modal = useModal();
@@ -135,8 +135,8 @@ function MyProfile() {
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('제출state', profileImage);
-    console.log('지금유저', authCurrentUser?.photoURL);
+    // console.log('제출state', profileImage);
+    // console.log('지금유저', authCurrentUser?.photoURL);
 
     if (authCurrentUser) {
       if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
@@ -394,46 +394,36 @@ function MyProfile() {
       </St.ProfileEditWrapper>
       <St.TabButtonContainer>
         <St.TabButton
-          style={{
-            backgroundColor: activeTab === 'calendar' ? 'white' : '#f6f6f6',
-            color: activeTab === 'calendar' ? '#ffa114' : 'black',
-            border: activeTab === 'calendar' ? '1px solid lightgrey' : '1px solid none'
-          }}
+          $isActive={activeTab === 'calendar'}
           onClick={() => {
             onClickTabBtn('calendar');
           }}
         >
           <div>
-            <GoCalendar style={{ marginTop: '3px', marginRight: '6px' }} />
-            캘린더
+            <GoCalendar />
+            <span>캘린더</span>
           </div>
         </St.TabButton>
         <St.TabButton
-          style={{
-            backgroundColor: activeTab === 'myPosts' ? 'white' : '#f6f6f6',
-            color: activeTab === 'myPosts' ? '#ffa114' : 'black',
-            border: activeTab === 'myPosts' ? '1px solid lightgrey' : '2px solid none'
-          }}
+          $isActive={activeTab === 'myPosts'}
           onClick={() => {
             onClickTabBtn('myPosts');
           }}
         >
           <div>
-            <GoTasklist style={{ marginTop: '3px', marginRight: '6px' }} />내 게시물
+            <GoTasklist />
+            <span>내 게시물</span>
           </div>
         </St.TabButton>
         <St.TabButton
-          style={{
-            backgroundColor: activeTab === 'likes' ? 'white' : '#f6f6f6',
-            color: activeTab === 'likes' ? '#ffa114' : 'black',
-            border: activeTab === 'likes' ? '1px solid lightgrey' : '2px solid none'
-          }}
+          $isActive={activeTab === 'likes'}
           onClick={() => {
             onClickTabBtn('likes');
           }}
         >
           <div>
-            <GoHeart style={{ marginTop: '3px', marginRight: '6px' }} /> 좋아요
+            <GoHeart />
+            <span>좋아요</span>
           </div>
         </St.TabButton>
       </St.TabButtonContainer>

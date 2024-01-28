@@ -33,15 +33,16 @@ function PostCard({ post }: PostCardProps) {
       const postRef = doc(db, 'posts', postId);
 
       await updateDoc(postRef, {
-        likedUsers: post.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId)
+        likedUsers: post.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId),
+        likeCount: post.isLiked ? post.likeCount - 1 : post.likeCount + 1
       });
     },
     onMutate: async (postId) => {
       queryClient.setQueriesData<PostType[]>({ queryKey: ['posts'] }, (prevPosts) => {
         if (!prevPosts) return [];
-        console.log('prevPosts', prevPosts);
+        //console.log('prevPosts', prevPosts);
         const nextPosts = produce(prevPosts, (draftPosts) => {
-          console.log('draftPosts', draftPosts);
+          //console.log('draftPosts', draftPosts);
           const post = draftPosts.find((post) => post.id === postId);
           if (!post) return draftPosts;
 
