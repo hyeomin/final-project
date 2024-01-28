@@ -22,6 +22,8 @@ import HabitCalendar from '../HabitCalendar/HabitCalendar';
 import LikesPosts from '../LikesPosts';
 import MyPosts from '../MyPosts';
 import St from './style';
+import { updateVariableDeclarationList } from 'typescript';
+import { set } from 'react-hook-form';
 
 function MyProfile() {
   const modal = useModal();
@@ -236,18 +238,27 @@ function MyProfile() {
     }
   };
 
+  useEffect(() => {
+    const queryString = location.search;
+    const searchParams = new URLSearchParams(queryString);
+    const profile = searchParams.get('profile') || '';
+    setActiveTab(profile || 'calendar');
+  }, [location.search]);
+
   // menuTab 버튼
   const onClickTabBtn = (name: string) => {
-    setActiveTab(name);
-
     const queryString = location.search;
     const newSearchParams = new URLSearchParams(queryString);
     newSearchParams.set('profile', name);
     setSearchParams(newSearchParams);
+
+    const updatedActiveTab = name;
+    setActiveTab(updatedActiveTab);
+
     const newUrl = `${location.pathname}?${newSearchParams.toString()}`;
-    console.log('queryString', queryString);
-    console.log('location', location);
-    console.log('searchParams get', newSearchParams);
+    // console.log('queryString', queryString);
+    // console.log('location', location);
+    // console.log('searchParams get', newSearchParams);
 
     navigate(newUrl);
   };
