@@ -79,9 +79,13 @@ const getPopularPosts = async () => {
   }
 };
 
+export type UpdateLikedUsersType = {
+  id: string;
+  currentUserId: string;
+};
+
 // 좋아요 상태 변경
-const updateLikedUsers = async (id: string) => {
-  const currentUserId = auth.currentUser?.uid;
+const updateLikedUsers = async ({ id, currentUserId }: UpdateLikedUsersType) => {
   try {
     //post.id와 현재 로그인 유저정보 존재여부 확인
     if (id && currentUserId) {

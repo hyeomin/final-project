@@ -12,9 +12,13 @@ import { useLikeButton } from '../../../../hooks/useLikeButton';
 import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
 import PostContentPreview from '../../../common/PostContentPreview';
 import Loader from '../../../common/Loader';
+import { AuthContext } from '../../../../context/AuthContext';
+import { useContext } from 'react';
+import mangoDefaultCover from '../../../../assets/mangoDefaultCover.png';
 
 const Carousel = () => {
-  const currentUser = auth.currentUser?.uid;
+  const authContext = useContext(AuthContext);
+  const currentUserId = authContext?.currentUser?.uid;
 
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['popularPosts'],
@@ -41,7 +45,7 @@ const Carousel = () => {
         {isLoading ? (
           <Loader />
         ) : popularPosts && popularPosts.length === 0 ? (
-          <div>인기 게시물 데이터 없습니다.</div>
+          <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
         ) : (
           popularPosts?.slice(currentSlide, currentSlide + 4).map((post) => {
             return (
@@ -51,7 +55,7 @@ const Carousel = () => {
                     {/* TODO: 이미지가 늦게 로드되는 문제 해결해야함 */}
                     <img
                       src={
-                        post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : defaultCoverImage
+                        post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoDefaultCover
                       }
                       alt={post.title}
                     />
@@ -69,7 +73,11 @@ const Carousel = () => {
                       <span>{users?.find((user) => user.uid === post.uid)?.displayName}</span>
                     </div>
                     <button type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
-                      {currentUser && post.likedUsers?.includes(currentUser) ? <St.HeartFillIcon /> : <St.HeartIcon />}
+                      {currentUserId && post.likedUsers?.includes(currentUserId) ? (
+                        <St.HeartFillIcon />
+                      ) : (
+                        <St.HeartIcon />
+                      )}
                     </button>
                   </St.SlideHeader>
                   <St.SlideBottom>

@@ -1,17 +1,17 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, increment, orderBy, query, updateDoc } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
-import { auth, db } from '../shared/firebase';
+import { db } from '../shared/firebase';
 
 type AddComment = {
-  newComment: Omit<CommentType, 'id'>;
+  newComment: Pick<CommentType, 'uid' | 'createdAt' | 'content'>;
   postId: string;
+  currentUserId: string;
 };
 
 //새 댓글 CREATE
-const addComment = async ({ newComment, postId }: AddComment) => {
+const addComment = async ({ newComment, postId, currentUserId }: AddComment) => {
   try {
-    const userId = auth.currentUser?.uid;
-    if (!userId) return;
+    if (!currentUserId) return;
     const commentRef = collection(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS);
     await addDoc(commentRef, newComment);
 

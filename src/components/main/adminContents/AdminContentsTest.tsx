@@ -10,6 +10,7 @@ import { getAdminPosts } from '../../../api/homeApi';
 import defaultIllustration from '../../../assets/home/AdminPostIllustration.png';
 import Loader from '../../common/Loader';
 import AdminCenterBox from './AdminCenterBox';
+import St from '../popularContents/carousel/style';
 
 const AdminContentsTest = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
@@ -34,7 +35,7 @@ const AdminContentsTest = () => {
   return (
     <Container>
       {adminContents?.length === 0 ? (
-        <div>관리자 컨텐츠 데이터를 찾을 수 없습니다.</div>
+        <St.PlaceHolder>관리자 컨텐츠 데이터를 찾을 수 없습니다.</St.PlaceHolder>
       ) : (
         <Swiper
           onSwiper={setSwiperInstance}
