@@ -40,7 +40,7 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
 
   //현재 url
   const detailURL = window.location.href;
-  console.log(detailURL);
+  //console.log(detailURL);
 
   //코드 복사
   const handleCodeCopy = async () => {

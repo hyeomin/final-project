@@ -32,11 +32,11 @@ function ImageUploadTest() {
     },
     onError: (err, newImageFile, context) => {
       console.log('onError', err);
-      console.log('context:', context);
+      //console.log('context:', context);
       queryClient.setQueryData(['coverImages'], context?.previousImages);
     },
     onSettled: (downloadedImage) => {
-      console.log('onSettled');
+      //console.log('onSettled');
       if (downloadedImage) {
         // 정상적으로 url을 반환 받았는지 확인
         queryClient.invalidateQueries({ queryKey: ['coverImages'] });

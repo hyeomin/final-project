@@ -45,10 +45,10 @@ const useLikeQuery = () => {
         queryClient.setQueryData([QUERY_KEYS.POSTS], context.previousPosts);
       }
       console.log('onError: ', error);
-      console.log('context: ', context);
+      //console.log('context: ', context);
     },
     onSettled: () => {
-      console.log('onSettled');
+      //console.log('onSettled');
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
     }
   });

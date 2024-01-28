@@ -5,7 +5,7 @@ import { PostType } from '../types/PostType';
 
 // 전체 게시물 가져오기
 export const getPostsDummy = async () => {
-  console.log(auth.currentUser);
+  //console.log(auth.currentUser);
   try {
     const q = query(collection(db, QUERY_KEYS.POSTS), orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
