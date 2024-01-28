@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { collection, getDocs, query, where } from 'firebase/firestore';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -22,6 +22,8 @@ import HabitCalendar from '../HabitCalendar/HabitCalendar';
 import LikesPosts from '../LikesPosts';
 import MyPosts from '../MyPosts';
 import St from './style';
+import { updateVariableDeclarationList } from 'typescript';
+import { set } from 'react-hook-form';
 
 function MyProfile() {
   const modal = useModal();
@@ -135,8 +137,6 @@ function MyProfile() {
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    // console.log('제출state', profileImage);
-    // console.log('지금유저', authCurrentUser?.photoURL);
 
     if (authCurrentUser) {
       if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
@@ -238,13 +238,27 @@ function MyProfile() {
     }
   };
 
+  useEffect(() => {
+    const queryString = location.search;
+    const searchParams = new URLSearchParams(queryString);
+    const profile = searchParams.get('profile') || '';
+    setActiveTab(profile || 'calendar');
+  }, [location.search]);
+
   // menuTab 버튼
   const onClickTabBtn = (name: string) => {
-    setActiveTab(name);
+    const queryString = location.search;
+    const newSearchParams = new URLSearchParams(queryString);
+    newSearchParams.set('profile', name);
+    setSearchParams(newSearchParams);
 
-    const SearchParams = new URLSearchParams(location.search);
-    searchParams.set('profile', name);
-    const newUrl = `${location.pathname}?${searchParams.toString()}`;
+    const updatedActiveTab = name;
+    setActiveTab(updatedActiveTab);
+
+    const newUrl = `${location.pathname}?${newSearchParams.toString()}`;
+    // console.log('queryString', queryString);
+    // console.log('location', location);
+    // console.log('searchParams get', newSearchParams);
 
     navigate(newUrl);
   };
