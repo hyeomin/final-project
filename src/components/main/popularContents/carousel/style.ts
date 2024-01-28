@@ -10,6 +10,15 @@ const Container = styled.div`
   align-items: center;
   padding: 0;
 `;
+const PlaceHolder = styled.div`
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 600;
+`;
 
 const SlideWrapper = styled.div`
   display: flex;
@@ -212,6 +221,7 @@ const Button = styled.button<ButtonProps>`
 
 export default {
   Container,
+  PlaceHolder,
   SlideWrapper,
   CoverImage,
   Slide,
