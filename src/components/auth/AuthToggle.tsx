@@ -55,7 +55,7 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
 
         try {
           await signOut(auth);
-          console.log('logout');
+          //console.log('logout');
 
           // 로그아웃 시 Recoil 전역 상태 업데이트
           setRole('');

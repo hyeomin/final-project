@@ -7,7 +7,7 @@ const imageHandler = (quillRef: React.RefObject<ReactQuill>) => {
   input.setAttribute('type', 'file');
   input.setAttribute('accept', 'image/*');
   input.click();
-  console.log(19950811);
+  //console.log(19950811);
 
   input.addEventListener('change', async () => {
     if (!quillRef.current || !input.files) return;

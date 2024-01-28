@@ -63,7 +63,7 @@ function Signup() {
   }, [imageUpload]);
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passwordCheck }: Data) => {
-    console.log('찍히나');
+    //console.log('찍히나');
     try {
       if (!isChecked || !isNicknameChecked) {
         // isChecked 상태가 false이거나 isFormValid 상태가 false일 때는 함수를 종료
@@ -87,7 +87,7 @@ function Signup() {
       }
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      console.log('userCredential', userCredential);
+      //console.log('userCredential', userCredential);
       const user = userCredential.user;
       if (user !== null) {
         await updateProfile(user, {
@@ -194,7 +194,7 @@ function Signup() {
       modal.open(openModalParams);
       setIsChecked(true);
       setIsFormValid(true);
-      console.log('ddddddddddd');
+      //console.log('ddddddddddd');
     }
   };
 
@@ -259,7 +259,7 @@ function Signup() {
       setIsNicknameChecked(true);
       setIsFormValid(true);
 
-      console.log('닉넴');
+      //console.log('닉넴');
     }
   };
 

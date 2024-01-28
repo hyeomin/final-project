@@ -39,7 +39,7 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
       queryClient.setQueriesData<PostType[]>({ queryKey: [`${QUERY_KEYS.POSTS}`] }, (prevPosts) => {
         if (!prevPosts) return [];
         const nextPosts = produce(prevPosts, (draftPosts) => {
-          console.log('draftPosts', draftPosts);
+          //console.log('draftPosts', draftPosts);
           const post = draftPosts.find((post) => post.id === postId);
           if (!post) return draftPosts;
 

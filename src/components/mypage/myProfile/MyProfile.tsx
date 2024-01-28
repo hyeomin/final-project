@@ -135,8 +135,8 @@ function MyProfile() {
   //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('제출state', profileImage);
-    console.log('지금유저', authCurrentUser?.photoURL);
+    // console.log('제출state', profileImage);
+    // console.log('지금유저', authCurrentUser?.photoURL);
 
     if (authCurrentUser) {
       if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
