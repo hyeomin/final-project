@@ -6,7 +6,7 @@ import defaultProfileImage from '../../../../assets/defaultImg.jpg';
 import defaultCoverImage from '../../../../assets/defaultCoverImg.jpeg';
 import { Link } from 'react-router-dom';
 import { auth } from '../../../../shared/firebase';
-import { getPopularPosts } from '../../../../api/homeApi';
+import { getPopularPosts, getPosts } from '../../../../api/homeApi';
 import { getAllUsers } from '../../../../api/authApi';
 import { useLikeButton } from '../../../../hooks/useLikeButton';
 import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
