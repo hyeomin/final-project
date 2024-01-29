@@ -360,7 +360,7 @@ function MyProfile() {
             <div>게시물 수</div>
             <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
               <img src={postCountIcon} />
-              <div>{myPosts?.length}개</div>
+              <div>{myPosts ? myPosts.length : '-'}개</div>
             </div>
           </St.PostInfoBox>
           <St.PostInfoBox>
