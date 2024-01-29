@@ -37,7 +37,7 @@ export const getAdminPostList = async (context: {
         startAfter(pageParam),
         limit(2)
       )
-    : query(collection(db, 'posts'), where('role', '==', 'admin'), orderBy('createdAt', 'desc'), limit(2));
+    : query(collection(db, 'posts'), where('role', '==', 'admin'), orderBy('createdAt', 'desc'), limit(3));
 
   const querySnapShot = await getDocs(q);
   return querySnapShot.docs;
