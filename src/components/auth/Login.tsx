@@ -36,18 +36,18 @@ function Login() {
 
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     register,
     handleSubmit,
-
+    setValue,
     formState: { errors }
   } = useForm<Data>({ mode: 'onChange' });
 
   const navigate = useNavigate();
 
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
+  const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{1,}/;
 
   const { data: userList } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
@@ -83,25 +83,13 @@ function Login() {
       if (user && auth) {
         setRole(user.role);
       }
+
       // home으로 이동
       navigate('/');
     } catch (error) {
       setErrorMsg(error);
-
-      // const onClickSave = () => {
-      //   modal.close();
-      // };
-
-      // const openModalParams: Parameters<typeof modal.open>[0] = {
-      //   title: '[로그인 오류]',
-      //   message: errorMsg,
-      //   leftButtonLabel: '',
-      //   onClickLeftButton: undefined,
-      //   rightButtonLabel: '확인',
-      //   onClickRightButton: onClickSave
-      // };
-      // modal.open(openModalParams);
-      //
+      setValue('email', '');
+      setValue('password', '');
     }
   };
 
@@ -182,7 +170,7 @@ function Login() {
         </St.LoginContainer>
 
         <St.SignUpNavigation>
-          <p style={{ marginBottom: '15px', fontSize: '15px' }}>아직 회원이 아니신가요?</p>
+          {/* <p style={{ marginBottom: '15px', fontSize: '15px' }}>아직 회원이 아니신가요?</p> */}
           <St.ToggleLoginAndSignUp
             onClick={() => {
               setIsSignUp(true);

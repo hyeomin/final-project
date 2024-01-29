@@ -47,7 +47,8 @@ function Signup() {
   } = useForm<Data>({ mode: 'onChange' });
   // 유효성 검사
   // 정규식
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  // const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  const emailRegex = /^[a-z0-9]{4,}@mango\.com$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
   // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
@@ -63,7 +64,6 @@ function Signup() {
   }, [imageUpload]);
 
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passwordCheck }: Data) => {
-    //console.log('찍히나');
     try {
       if (!isChecked || !isNicknameChecked) {
         // isChecked 상태가 false이거나 isFormValid 상태가 false일 때는 함수를 종료
@@ -278,13 +278,18 @@ function Signup() {
           <label htmlFor="email"></label>
           <St.AuthInput
             type="text"
-            placeholder="Email"
+            placeholder="Email@mango.com"
             {...register('email', {
               required: true,
               pattern: emailRegex
             })}
           />
+
           <St.AuthBtn onClick={() => emailCheck(getValues('email'))} disabled={!!errors?.email}>
+            {/* <St.AuthBtn
+            onClick={() => emailCheck(getValues('email'))}
+            disabled={!!errors?.email || getValues('email').trim() !== getValues('email')}
+          > */}
             중복확인
           </St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}

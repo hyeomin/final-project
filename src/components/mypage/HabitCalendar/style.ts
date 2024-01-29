@@ -27,6 +27,15 @@ const StyleCalendar = styled.div`
     padding-bottom: 30px;
   }
 
+  .react-calendar__tile--active {
+    color: black;
+  }
+
+  .react-calendar__tile--active:enabled:hover,
+  .react-calendar__tile--active:enabled:focus {
+    background: ${theme.color.mangoLight};
+  }
+
   .react-calendar button {
     width: 110px;
     height: 110px;
@@ -157,6 +166,8 @@ const PostCount = styled.div`
 
 const CurrentDate = styled.div`
   margin-top: 30px;
+  display: flex;
+  justify-content: center;
 `;
 
 export default {

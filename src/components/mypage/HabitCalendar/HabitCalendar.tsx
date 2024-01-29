@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import mangofavicon from '../../../assets/mango-favicon.png';
 import calendarSpring from '../../../assets/calendarSpring.png';
 import { getFormattedDateCustom } from '../../../util/formattedDateAndTime';
+import { CiCalendar } from 'react-icons/ci';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -100,7 +101,10 @@ const HabitCalendar = ({ date }: any) => {
             return null;
           }}
         />
-        <St.CurrentDate>현재 날짜 {moment(date).format('YYYY년 MM월 DD일')}</St.CurrentDate>
+        <St.CurrentDate>
+          <CiCalendar />
+          현재 날짜 {moment(date).format('YYYY년 MM월 DD일')}
+        </St.CurrentDate>
       </St.StyleCalendar>
     </St.CalendarWrapper>
   );

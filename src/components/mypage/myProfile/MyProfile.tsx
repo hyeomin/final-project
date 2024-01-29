@@ -22,8 +22,6 @@ import HabitCalendar from '../HabitCalendar/HabitCalendar';
 import LikesPosts from '../LikesPosts';
 import MyPosts from '../MyPosts';
 import St from './style';
-import { updateVariableDeclarationList } from 'typescript';
-import { set } from 'react-hook-form';
 
 function MyProfile() {
   const modal = useModal();
@@ -348,9 +346,9 @@ function MyProfile() {
               </div>
             ) : (
               <>
-                <CiSettings style={{ cursor: 'pointer' }} onClick={() => setIsEditing(true)}>
-                  수정
-                </CiSettings>
+                <St.ProfileModifyBtn style={{ cursor: 'pointer' }} onClick={() => setIsEditing(true)}>
+                  프로필 수정
+                </St.ProfileModifyBtn>
               </>
             )}
           </St.UserInfoModify>
