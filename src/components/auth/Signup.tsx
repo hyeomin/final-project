@@ -48,7 +48,7 @@ function Signup() {
   // 유효성 검사
   // 정규식
   // const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  const emailRegex = /^[a-z0-9]{4,}@mango\.com$/;
+  const emailRegex = /^[a-z0-9]{4,}@[a-z0-9]{3,}\.[a-z]{2,}$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
   // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
@@ -135,10 +135,29 @@ function Signup() {
     signOut(auth);
   };
 
+  // const mee = () => {
+  //   if (!isChecked) {
+  //     const onClickSave = () => {
+  //       modal.close();
+  //     };
+
+  //     const openModalParams: Parameters<typeof modal.open>[0] = {
+  //       title: '중복확인 버튼을 먼저 눌러주세요.',
+  //       message: '',
+  //       leftButtonLabel: '',
+  //       onClickLeftButton: undefined,
+  //       rightButtonLabel: '확인',
+  //       onClickRightButton: onClickSave
+  //     };
+  //     modal.open(openModalParams);
+
+  //     return;
+  //   }
+  // };
+
   // 이메일 중복체크 (firestore)
   const emailCheck = async (email: string) => {
     const userRef = collection(db, 'users');
-
     const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
 
@@ -194,7 +213,6 @@ function Signup() {
       modal.open(openModalParams);
       setIsChecked(true);
       setIsFormValid(true);
-      //console.log('ddddddddddd');
     }
   };
 
@@ -278,7 +296,7 @@ function Signup() {
           <label htmlFor="email"></label>
           <St.AuthInput
             type="text"
-            placeholder="Email@mango.com"
+            placeholder="Email"
             {...register('email', {
               required: true,
               pattern: emailRegex
@@ -286,10 +304,6 @@ function Signup() {
           />
 
           <St.AuthBtn onClick={() => emailCheck(getValues('email'))} disabled={!!errors?.email}>
-            {/* <St.AuthBtn
-            onClick={() => emailCheck(getValues('email'))}
-            disabled={!!errors?.email || getValues('email').trim() !== getValues('email')}
-          > */}
             중복확인
           </St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
@@ -306,6 +320,7 @@ function Signup() {
               pattern: passwordRegex
             })}
             disabled={!isChecked}
+            // onClick={mee}
           />
 
           {errors?.password?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}

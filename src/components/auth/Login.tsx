@@ -36,7 +36,7 @@ function Login() {
 
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSucceeded, setIsSucceeded] = useState(false);
   const {
     register,
     handleSubmit,
@@ -58,6 +58,7 @@ function Login() {
     if (errorMsg) {
       const onClickSave = () => {
         modal.close();
+        setErrorMsg('');
       };
 
       const openModalParams: Parameters<typeof modal.open>[0] = {
@@ -68,6 +69,7 @@ function Login() {
         rightButtonLabel: '확인',
         onClickRightButton: onClickSave
       };
+      setIsSucceeded(false);
       modal.open(openModalParams);
     }
   }, [errorMsg]);
@@ -76,7 +78,6 @@ function Login() {
   const signIn: SubmitHandler<Data> = async (data) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
-      //console.log('userCredential', userCredential);
 
       // 로그인 성공 시 role, authCurrentUser의 recoil(전역상태) update
       const user = userList && userList.find((user) => user.uid === authCurrentUser?.uid);
@@ -85,11 +86,13 @@ function Login() {
       }
 
       // home으로 이동
+      setIsSucceeded(true);
       navigate('/');
     } catch (error) {
       setErrorMsg(error);
       setValue('email', '');
       setValue('password', '');
+      setIsSucceeded(false);
     }
   };
 
@@ -157,9 +160,6 @@ function Login() {
             })}
           />
           {errors?.password?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
-          {/* {errors?.password?.type === 'pattern' && (
-            <St.WarningMsg>비밀번호는 문자, 숫자 1개이상 포함, 8자리 이상입니다</St.WarningMsg>
-          )} */}
         </St.InputContainer>
         <St.LoginContainer>
           <St.SignUpAndLoginBtn type="submit">로그인</St.SignUpAndLoginBtn>
@@ -170,7 +170,6 @@ function Login() {
         </St.LoginContainer>
 
         <St.SignUpNavigation>
-          {/* <p style={{ marginBottom: '15px', fontSize: '15px' }}>아직 회원이 아니신가요?</p> */}
           <St.ToggleLoginAndSignUp
             onClick={() => {
               setIsSignUp(true);
