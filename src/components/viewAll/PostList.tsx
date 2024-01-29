@@ -110,7 +110,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           newLikeCount = postData.likeCount ? postData.likeCount - 1 : 0;
         } else {
           //좋아요 안 한 경우
-          newLikeCount = postData.likeCount != undefined ? postData.likeCount + 1 : 1;
+          newLikeCount = postData.likeCount !== undefined ? postData.likeCount + 1 : 1;
         }
 
         await updateDoc(postRef, {

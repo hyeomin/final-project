@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import { produce } from 'immer';
+import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useContext } from 'react';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
@@ -28,28 +27,46 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
 
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (postId: string) => {
-      const postRef = doc(db, `${QUERY_KEYS.POSTS}`, postId);
+      const postRef = doc(db, QUERY_KEYS.POSTS, postId);
+      if (authCurrentUser) {
+        await updateDoc(postRef, {
+          likedUsers: foundDetailPost.isLiked ? arrayRemove(authCurrentUser?.uid) : arrayUnion(authCurrentUser?.uid)
+        });
+      }
 
-      await updateDoc(postRef, {
-        likedUsers: foundDetailPost.isLiked ? arrayRemove(authCurrentUser?.uid) : arrayUnion(authCurrentUser?.uid),
-        likeCount: foundDetailPost.isLiked ? foundDetailPost.likeCount - 1 : foundDetailPost.likeCount + 1
-      });
+      const postSnap = await getDoc(postRef);
+
+      if (postSnap && authCurrentUser) {
+        const postData = postSnap.data();
+
+        await updateDoc(postRef, {
+          likeCount: postData?.likedUsers?.length
+        });
+      }
     },
     onMutate: async (postId) => {
-      queryClient.setQueriesData<PostType[]>({ queryKey: [`${QUERY_KEYS.POSTS}`] }, (prevPosts) => {
-        if (!prevPosts) return [];
-        const nextPosts = produce(prevPosts, (draftPosts) => {
-          //console.log('draftPosts', draftPosts);
-          const post = draftPosts.find((post) => post.id === postId);
-          if (!post) return draftPosts;
+      await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS] });
+      const prevPosts = queryClient.getQueryData([QUERY_KEYS.POSTS]);
 
-          post.isLiked = !post.isLiked;
-
-          return draftPosts;
+      queryClient.setQueryData([QUERY_KEYS.POSTS], (old: PostType[]) => {
+        return old.map((p) => {
+          if (p.id === postId && authCurrentUser) {
+            const isLiked = p.likedUsers.includes(authCurrentUser?.uid);
+            return {
+              ...p,
+              likedUsers: isLiked
+                ? p.likedUsers!.filter((uid) => uid !== authCurrentUser.uid)
+                : [...p.likedUsers!, authCurrentUser.uid],
+              likeCount: isLiked ? p.likeCount! - 1 : p.likeCount! + 1
+            };
+          }
+          return p;
         });
-
-        return nextPosts;
       });
+      return { prevPosts };
+    },
+    onError: (error, postId, context) => {
+      queryClient.setQueryData([QUERY_KEYS.POSTS], context?.prevPosts);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [`${QUERY_KEYS.POSTS}`] });
@@ -59,13 +76,14 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
   const handleClickLikeButton = async (event: React.MouseEvent<Element>) => {
     event.stopPropagation();
 
+    // 로그인 여부 확인
     if (!authCurrentUser) {
       const onClickCancel = () => {
         modal.close();
         return;
       };
 
-      const onClickSave = () => {
+      const onClickNavigate = () => {
         modal.close();
         navigate('/auth');
       };
@@ -76,15 +94,20 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
         leftButtonLabel: '취소',
         onClickLeftButton: onClickCancel,
         rightButtonLabel: '로그인',
-        onClickRightButton: onClickSave
+        onClickRightButton: onClickNavigate
       };
       modal.open(openModalParams);
     }
 
+    // 로그인 한 유저는 좋아요 실행
     await toggleLike(foundDetailPost.id);
   };
 
-  const isPostLiked = authCurrentUser?.uid && foundDetailPost.likedUsers?.includes(authCurrentUser?.uid);
+  // 좋아요 여부 확인
+  const isPostLiked =
+    authCurrentUser?.uid &&
+    Array.isArray(foundDetailPost.likedUsers) &&
+    foundDetailPost.likedUsers.includes(authCurrentUser?.uid);
 
   return (
     <LikeButtonIcon
@@ -109,4 +132,5 @@ type LikeButtonIconProps = {
 
 const LikeButtonIcon = styled.span<LikeButtonIconProps>`
   color: ${(props) => (props.$isPostLiked ? `${props.$likeTrueColor}` : `${props.$likeFalseColor}`)};
+  cursor: pointer;
 `;

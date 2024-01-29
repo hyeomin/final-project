@@ -1,14 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { produce } from 'immer';
-import React from 'react';
+import React, { useContext } from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { getAllUsers } from '../../../api/authApi';
 import defaultProfile from '../../../assets/defaultImg.jpg';
 import mangoCover from '../../../assets/tentative-cover-image.jpg';
+import { AuthContext } from '../../../context/AuthContext';
 import { QUERY_KEYS } from '../../../query/keys';
-import { auth, db } from '../../../shared/firebase';
+import { db } from '../../../shared/firebase';
 import { PostType } from '../../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
 import PostContentPreview from '../../common/PostContentPreview';
@@ -20,7 +21,9 @@ interface PostCardProps {
 
 function PostCard({ post }: PostCardProps) {
   const navigate = useNavigate();
-  const currentUserId = auth.currentUser!.uid;
+  // const currentUserId = auth.currentUser!.uid;
+  const authContext = useContext(AuthContext);
+  const authCurrentUser = authContext?.currentUser;
   const queryClient = useQueryClient();
 
   const { data: userList } = useQuery({
@@ -32,12 +35,24 @@ function PostCard({ post }: PostCardProps) {
     mutationFn: async (postId: string) => {
       const postRef = doc(db, 'posts', postId);
 
-      await updateDoc(postRef, {
-        likedUsers: post.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId),
-        likeCount: post.isLiked ? post.likeCount - 1 : post.likeCount + 1
-      });
+      if (authCurrentUser) {
+        await updateDoc(postRef, {
+          likedUsers: post.isLiked ? arrayRemove(authCurrentUser?.uid) : arrayUnion(authCurrentUser?.uid)
+        });
+      }
+
+      const postSnap = await getDoc(postRef);
+
+      if (postSnap && authCurrentUser) {
+        const postData = postSnap.data();
+
+        await updateDoc(postRef, {
+          likeCount: postData?.likedUsers?.length
+        });
+      }
     },
     onMutate: async (postId) => {
+      console.log('onMutate');
       queryClient.setQueriesData<PostType[]>({ queryKey: ['posts'] }, (prevPosts) => {
         if (!prevPosts) return [];
         //console.log('prevPosts', prevPosts);
