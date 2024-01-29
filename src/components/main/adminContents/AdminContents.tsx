@@ -39,7 +39,7 @@ const AdminContents = () => {
         className="custom-swiper"
       >
         {adminContents?.length === 0 ? (
-          <div>관리자 컨텐츠 데이터를 찾을 수 없습니다.</div>
+          <div>관리자 콘텐츠 데이터를 찾을 수 없습니다.</div>
         ) : (
           adminContents?.map((item, idx) => {
             return (
