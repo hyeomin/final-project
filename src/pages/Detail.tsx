@@ -78,7 +78,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
+  min-width: 600px;
+  margin: 0 30px;
   padding: 30px 0;
 `;
 

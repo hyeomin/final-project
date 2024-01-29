@@ -6,7 +6,12 @@ import theme from '../../styles/theme';
 const NavContainer = styled.div`
   display: flex;
   flex-direction: column;
-  position: relative;
+  background-color: white;
+  /* position: relative; */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
 `;
 
 const NavBarContainer = styled.div`
