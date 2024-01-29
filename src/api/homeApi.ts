@@ -16,6 +16,22 @@ import { QUERY_KEYS } from '../query/keys';
 import { db } from '../shared/firebase';
 import { PostType } from '../types/PostType';
 
+const getUser = async (userId: string) => {
+  try {
+    const userRef = doc(db, 'users', userId);
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+      console.log('getUser=>', docSnap.data());
+      return docSnap.data();
+    } else {
+      console.log('데이터가 없습니다.');
+    }
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
 // 전체 게시물 가져오기
 const getPosts = async () => {
   try {
@@ -181,4 +197,4 @@ const getTopUsers = async () => {
   }
 };
 
-export { getAdminPosts, getPopularPosts, getPosts, getTopUsers, updateLikedUsers };
+export { getUser, getAdminPosts, getPopularPosts, getPosts, getTopUsers, updateLikedUsers };

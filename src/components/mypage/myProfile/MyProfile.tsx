@@ -42,9 +42,6 @@ function MyProfile() {
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
 
-  //솔
-  const currentUserId = auth.currentUser?.uid;
-
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
 
@@ -361,7 +358,7 @@ function MyProfile() {
             <div>게시물 수</div>
             <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
               <img src={postCountIcon} />
-              <div>{myPosts?.length}개</div>
+              <div>{myPosts ? myPosts.length : '-'}개</div>
             </div>
           </St.PostInfoBox>
           <St.PostInfoBox>
@@ -369,9 +366,11 @@ function MyProfile() {
             <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
               <img src={rankingIcon} />
               <div>
-                {userRanking?.findIndex((r) => r.uid === currentUserId) !== -1
-                  ? `${currentUserId && userRanking && userRanking?.findIndex((r) => r.uid === currentUserId) + 1}위`
-                  : '순위 없음'}
+                {authCurrentUser && userRanking
+                  ? userRanking.findIndex((r) => r.uid === authCurrentUser.uid) >= 0
+                    ? `${userRanking?.findIndex((r) => r.uid === authCurrentUser.uid) + 1}위`
+                    : '순위 없음'
+                  : '-'}
               </div>
             </div>
           </St.PostInfoBox>
