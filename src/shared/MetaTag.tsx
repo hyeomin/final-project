@@ -10,7 +10,6 @@ type Props = {
 const MetaTag = ({ title, description, image, url }: Props) => {
   return (
     <Helmet>
-      <title>{title}</title>
       <meta name="description" content={description} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
