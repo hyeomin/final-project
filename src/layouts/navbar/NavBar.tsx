@@ -51,8 +51,11 @@ function NavBar() {
             망고 소개
           </NavLink>
 
+          <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
+            Mango 콘텐츠
+          </NavLink>
           <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
-            게시물 보기
+            커뮤니티
           </NavLink>
         </St.LeftNav>
 

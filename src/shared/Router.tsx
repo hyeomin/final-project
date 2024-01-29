@@ -11,6 +11,7 @@ import ViewAll from '../pages/ViewAll';
 import Write from '../pages/Write';
 import ProtectedRoute from './ProtectedRoute';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import MangoContents from '../pages/MangoContents';
 
 export default function Router() {
   return (
@@ -19,6 +20,7 @@ export default function Router() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/viewAll" element={<ViewAll />} />
+          <Route path="/mangoContents" element={<MangoContents />} />
           <Route path="/auth" element={<Auth />} />
           {/* <Route path="/auth/login" element={<Login />} /> */}
           <Route path="/auth/login" element={<Login />} />
