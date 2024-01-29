@@ -1,9 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-import useLikeQuery from '../query/useLikeQuery';
-import { auth } from '../shared/firebase';
-import { useModal } from './useModal';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
+import useLikeQuery from '../query/useLikeQuery';
+import { useModal } from './useModal';
+
 export const useLikeButton = () => {
   const modal = useModal();
   const authContext = useContext(AuthContext);
