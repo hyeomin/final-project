@@ -17,7 +17,7 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const { goNext, goPrev } = useSwiperNavigation({
     swiperInstance,
     currentIndex,
-    setCurrentIndex,
+    // setCurrentIndex,
     maxIndex: coverImages.length - 1
   });
 

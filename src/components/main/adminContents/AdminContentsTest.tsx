@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -20,13 +20,20 @@ const AdminContentsTest = () => {
     queryKey: ['adminContents'],
     queryFn: getAdminPosts
   });
+  // console.log('post==>', adminContents);
 
   const handleSlideChange = (swiper: SwiperClass) => {
-    if (swiperInstance !== swiper) {
-      setSwiperInstance(swiper);
-    }
+    console.log('swiper===>', swiper);
+    // if (swiperInstance !== swiper) {
+    //   setSwiperInstance(swiper);
+    // }
     setCurrentIndex(swiper.realIndex);
   };
+
+  useEffect(() => {
+    console.log('홈!!Current Index===>', currentIndex);
+    console.log('홈!!swiperInstance===>', currentIndex);
+  }, [currentIndex, swiperInstance]);
 
   if (isLoading) {
     return <Loader />;
@@ -41,10 +48,10 @@ const AdminContentsTest = () => {
           onSwiper={setSwiperInstance}
           onSlideChange={handleSlideChange}
           centeredSlides={true}
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false
-          }}
+          // autoplay={{
+          //   delay: 5000,
+          //   disableOnInteraction: false
+          // }}
           modules={[Autoplay]}
           className="custom-swiper"
         >
@@ -70,7 +77,7 @@ const AdminContentsTest = () => {
         <AdminCenterBox
           swiperInstance={swiperInstance}
           currentIndex={currentIndex}
-          setCurrentIndex={setCurrentIndex}
+          // setCurrentIndex={setCurrentIndex}
           adminContents={adminContents}
         />
       )}

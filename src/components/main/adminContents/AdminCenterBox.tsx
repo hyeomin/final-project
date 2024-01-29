@@ -9,15 +9,15 @@ import { PostType } from '../../../types/PostType';
 type Props = {
   swiperInstance: SwiperClass | null;
   currentIndex: number;
-  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  // setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
   adminContents: PostType[] | undefined;
 };
 
-function AdminCenterBox({ swiperInstance, currentIndex, setCurrentIndex, adminContents }: Props) {
+function AdminCenterBox({ swiperInstance, currentIndex, adminContents }: Props) {
   const { goNext, goPrev } = useSwiperNavigation({
     swiperInstance,
     currentIndex,
-    setCurrentIndex,
+    // setCurrentIndex,
     maxIndex: adminContents ? adminContents?.length - 1 : 0
   });
 
