@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { updatePostViewCount } from '../api/detailApi';
-import { getPostsDummy } from '../api/dummyApi';
+import { getDetailPost } from '../api/dummyApi';
 import AddCommentForm from '../components/detail/comment/addComment/AddComment';
 import CommentList from '../components/detail/comment/commentList/CommentList';
 import DetailBody from '../components/detail/detailBody/DetailBody';
@@ -14,32 +14,34 @@ import theme from '../styles/theme';
 import { PostType } from '../types/PostType';
 
 function Detail() {
-  const [foundDetailPost, setFoundDetailPost] = useState<PostType | null>();
+  // const [foundDetailPost, setFoundDetailPost] = useState<PostType | null>();
 
   const { id } = useParams();
 
-  const { data: postList, isLoading } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getPostsDummy
+  // 해당 데이터 가져오기
+  const { data: foundDetailPost, isLoading } = useQuery<PostType | undefined>({
+    queryKey: [QUERY_KEYS.POSTS, id],
+    queryFn: () => (id ? getDetailPost(id) : undefined)
   });
   // 수정 필요
 
-  useEffect(() => {
-    if (postList) {
-      const foundDetailPost = postList.find((post) => post.id === id);
-      if (foundDetailPost) setFoundDetailPost(foundDetailPost);
-    }
-  }, [postList, id]);
+  // useEffect(() => {
+  //   if (postList) {
+  //     const foundDetailPost = postList.find((post) => post.id === id);
+  //     if (foundDetailPost) setFoundDetailPost(foundDetailPost);
+  //   }
+  // }, [postList, id]);
 
   //조회수 업데이트
   const [viewCount, setViewCount] = useState(foundDetailPost?.viewCount || 0);
+
   useEffect(() => {
-    if (foundDetailPost && !sessionStorage.getItem(`viewed-${foundDetailPost.id}`)) {
+    if (foundDetailPost && foundDetailPost.id && !sessionStorage.getItem(`viewed-${foundDetailPost.id}`)) {
       updatePostViewCount(foundDetailPost.id);
       sessionStorage.setItem(`viewed-${foundDetailPost.id}`, 'true');
       setViewCount((prevCount) => prevCount + 1);
     }
-  }, [postList, foundDetailPost]);
+  }, [foundDetailPost]);
 
   if (isLoading) {
     return <div>로딩 중...</div>;
@@ -60,11 +62,11 @@ function Detail() {
       <DetailTitle>상세페이지</DetailTitle>
       {foundDetailPost && (
         <>
-          <DetailHeader foundDetailPost={foundDetailPost} />
+          <DetailHeader foundDetailPost={foundDetailPost} isLoading={isLoading} />
           <DetailBody foundDetailPost={foundDetailPost} />
           <AddCommentForm foundDetailPost={foundDetailPost} />
           <CommentList foundDetailPost={foundDetailPost} />
-          <PostShift postList={postList} postId={id} />
+          <PostShift postId={id} />
         </>
       )}
       <DetailEmptyFooter></DetailEmptyFooter>

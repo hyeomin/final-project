@@ -13,7 +13,7 @@ import {
   where
 } from '@firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
-import { auth, db } from '../shared/firebase';
+import { db } from '../shared/firebase';
 import { PostType } from '../types/PostType';
 
 // 전체 게시물 가져오기
@@ -56,6 +56,7 @@ const getAdminPosts = async () => {
     return [];
   }
 };
+
 // 인기게시물
 const getPopularPosts = async () => {
   try {
