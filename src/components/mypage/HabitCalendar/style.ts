@@ -65,6 +65,13 @@ const StyleCalendar = styled.div`
     font-weight: 500;
     margin-top: 30px;
   }
+  .react-calendar__button:enabled:hover {
+    /* cursor: pointer; */
+  }
+
+  .react-calendar button:enabled:hover {
+    cursor: default;
+  }
 `;
 
 const CalendarContainer = styled.div`
