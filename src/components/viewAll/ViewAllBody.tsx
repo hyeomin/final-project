@@ -94,7 +94,7 @@ function ViewAllBody() {
 
   return (
     <St.ViewAllContainer>
-      <St.MangoDiv>
+      {/* <St.MangoDiv>
         <St.MangoWord>Mango</St.MangoWord>
         <St.MangoOutWord>의 콘텐츠</St.MangoOutWord>
       </St.MangoDiv>
@@ -104,7 +104,7 @@ function ViewAllBody() {
         <PostListAdmin queryKey={[QUERY_KEYS.ADMIN]} queryFn={getAdminPostList} sortBy={sortBy} />
       </St.MainSubWrapper>
 
-      <St.AdminPostSpace></St.AdminPostSpace>
+      <St.AdminPostSpace></St.AdminPostSpace> */}
 
       <St.MainSubWrapper>
         <St.CategoryWrapper>
