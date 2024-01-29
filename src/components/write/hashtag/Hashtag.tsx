@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { GoPlus, GoSearch, GoX } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
+import { useModal } from '../../../hooks/useModal';
 import { postInputState } from '../../../recoil/posts';
 import { commonHashtagsList } from '../common/lists';
 import St from './style';
 
 function Hashtag() {
+  const modal = useModal();
   const HASHTAG = 'hashtag';
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
@@ -30,7 +32,29 @@ function Hashtag() {
 
   // 선택된 해시태그 색깔 변경
   const onHandleSelectHashtag = (newHashtag: string) => {
+    // 이미 존재하는 해시태그인지 검사
+    if (hashtags.includes(newHashtag)) {
+      const onClickConfirm = () => {
+        modal.close();
+      };
+
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '이미 존재하는 해시태그입니다.',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickConfirm
+      };
+      modal.open(openModalParams);
+
+      return;
+    }
+
+    // 검사 확인 후 선택된 해시태그 리스트에 추가
     setPostInput({ ...postInput, hashtags: [...hashtags, newHashtag] });
+
+    // 추천 해시태그에 있는 해시태그면, 추천 리스트에서 삭제하기
     if (commonHashtags.includes(newHashtag)) {
       setCommonHashtags(commonHashtags.filter((tag) => tag !== newHashtag));
     }
@@ -39,6 +63,10 @@ function Hashtag() {
   // 해시태그 삭제
   const removeHashtag = (tagToRemove: string) => {
     setPostInput({ ...postInput, hashtags: hashtags.filter((tag) => tag !== tagToRemove) });
+    // 원래 해시태그 리스트에 있던 해시태그(commonHashtagsList)이고, 현재는 보여지고(commonHashtags) 있지 않으면, 다시 추가해주기
+    if (commonHashtagsList.includes(tagToRemove) && !commonHashtags.includes(tagToRemove)) {
+      setCommonHashtags([...commonHashtags, tagToRemove]);
+    }
   };
 
   return (
