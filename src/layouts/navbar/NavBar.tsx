@@ -28,7 +28,7 @@ function NavBar() {
     return { color: isActive ? '#FFA114' : '' };
   };
 
-  // hover 시 prefetch 함수
+  // hover 시 prefetch 함수!
   const queryClient = useQueryClient();
   const handleHover = async () => {
     queryClient.prefetchInfiniteQuery({
