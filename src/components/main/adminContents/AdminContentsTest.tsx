@@ -20,16 +20,8 @@ const AdminContentsTest = () => {
     queryKey: ['adminContents'],
     queryFn: getAdminPosts
   });
-  // console.log('post==>', adminContents);
 
   const handleSlideChange = (swiper: SwiperClass) => {
-    // console.log('swiper===>', swiper);
-    // 슬라이드가 변경될 때 onSwiper의 setSwiperInstance가 내부적으로 자동실행되는 것 같아요.
-    // 아래 코도 없이도 swiper값이 셋팅 되어있는 것으로 확인이 됩니다!
-    // if (swiperInstance !== swiper) {
-    //   setSwiperInstance(swiper);
-    // }
-
     setCurrentIndex(swiper.realIndex);
   };
 
@@ -56,7 +48,6 @@ const AdminContentsTest = () => {
           {adminContents?.map((item, idx) => {
             return (
               <SwiperSlide key={idx}>
-                {/* item.coverImages로 변경하기 */}
                 {item ? (
                   <img
                     src={(item.coverImages[1] && item.coverImages[1].url) || defaultIllustration}
@@ -72,12 +63,7 @@ const AdminContentsTest = () => {
       )}
       {/* 헤더 중앙에 놓인 박스, 버튼, 텍스트 등이 다 들어가있음 */}
       {adminContents && adminContents?.length > 0 && (
-        <AdminCenterBox
-          swiperInstance={swiperInstance}
-          currentIndex={currentIndex}
-          // setCurrentIndex={setCurrentIndex}
-          adminContents={adminContents}
-        />
+        <AdminCenterBox swiperInstance={swiperInstance} currentIndex={currentIndex} adminContents={adminContents} />
       )}
     </Container>
   );
