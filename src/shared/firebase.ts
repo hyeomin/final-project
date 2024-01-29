@@ -12,10 +12,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-<<<<<<< HEAD
-=======
 
->>>>>>> 0566b6d96794561af34c18d6f7a16146bd86e2cb
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export default app;
