@@ -41,7 +41,7 @@ const usePrintError = (error: any): [string, (error: any) => void] => {
       case 'auth/wrong-password':
         return setErrMsg('비밀번호가 일치하지 않습니다.');
       default:
-        //console.log('New Error code:', error.code);
+        // console.log('New Error code:', error.code);
         setErrMsg(error.code);
     }
   }, []);

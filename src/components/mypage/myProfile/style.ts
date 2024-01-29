@@ -65,6 +65,17 @@ const ProfileInfo = styled.div`
   align-items: baseline;
 `;
 
+const ProfileModifyBtn = styled.div`
+  width: 100px;
+  height: 30px;
+  background-color: ${theme.color.mangoMain};
+  color: white;
+  font-size: 14px;
+  border-radius: 30px;
+  padding: 8px;
+  margin-top: 7px;
+`;
+
 const UserPostInfoContainer = styled.div`
   display: flex;
   column-gap: 20px;
@@ -152,8 +163,8 @@ const DisplayNameCheckBtn = styled.button`
   border-radius: 20px;
   margin-left: 10px;
   font-size: 10px;
-  border: 1px solid ${theme.color.gray};
-  color: ${theme.color.gray};
+  border: 1px solid ${theme.color.lightgray};
+  color: ${theme.color.mangoMain};
   &:hover {
     cursor: pointer;
   }
@@ -278,6 +289,7 @@ export default {
   ProfileInfo,
   UserPostInfoContainer,
   PostInfoBox,
+  ProfileModifyBtn,
   TabButton,
   ModifyButton,
   PenWrapper,
