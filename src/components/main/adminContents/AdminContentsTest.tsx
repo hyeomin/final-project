@@ -33,7 +33,7 @@ const AdminContentsTest = () => {
   return (
     <Container>
       {adminContents?.length === 0 ? (
-        <St.PlaceHolder>관리자 컨텐츠 데이터를 찾을 수 없습니다.</St.PlaceHolder>
+        <St.PlaceHolder>관리자 콘텐츠 데이터를 찾을 수 없습니다.</St.PlaceHolder>
       ) : (
         <Swiper
           onSwiper={setSwiperInstance}

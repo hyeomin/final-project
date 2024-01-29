@@ -80,7 +80,9 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
             </div>
             <div>
               <p>{author?.displayName ?? '작성자 이름 없음'}</p>
-              <St.DateSpan>{getFormattedDate(foundDetailPost.createdAt!) ?? '작성일이 없습니다'}</St.DateSpan>
+              <St.DateSpan>
+                {foundDetailPost.createdAt ? getFormattedDate(foundDetailPost.createdAt) : '작성일이 없습니다'}
+              </St.DateSpan>
             </div>
           </St.PostInfo>
           {auth.currentUser?.uid === foundDetailPost.uid && (

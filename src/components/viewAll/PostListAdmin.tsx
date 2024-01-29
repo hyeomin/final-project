@@ -66,11 +66,10 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
           <St.AdminContents>
             {posts?.map((post, idx) => {
               return (
-                <St.AdminContent key={post.id}>
+                <St.AdminContent key={post.id} onClick={() => navigate(`/detail/${post.id}`)}>
                   <img
                     src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
                     alt={post.title}
-                    onClick={() => navigate(`/detail/${post.id}`)}
                   />
                   <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
                   {post.content && <PostContentPreview postContent={post.content} />}
