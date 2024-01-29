@@ -8,7 +8,6 @@ import { auth, db, storage } from '../shared/firebase';
 import { UserType } from '../types/UserType';
 
 // user 콜렉션 전부 가져오기
-
 const getAllUsers = async () => {
   try {
     const q = query(collection(db, QUERY_KEYS.USERS));
@@ -27,8 +26,24 @@ const getAllUsers = async () => {
   }
 };
 
-// 프로필 수정
+// 특정 유저 가져오기 (상세페이지 post 안의 uid)
+const getUser = async (userId: string) => {
+  try {
+    const docRef = doc(db, QUERY_KEYS.USERS, userId);
+    const userSnap = await getDoc(docRef);
+    if (!userSnap.exists()) {
+      return undefined;
+    }
 
+    const user = userSnap.data() as UserType;
+    return user;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+};
+
+// 프로필 수정
 export type updateProfileInfoProps = {
   authCurrentUser: User;
   displayName: string | null;
@@ -43,12 +58,11 @@ const updateProfileInfo = async ({ authCurrentUser, displayName, profileImage }:
     });
     await authCurrentUser.reload();
     const updatedUser = auth.currentUser;
-
-    //console.log('프로필 업데이트 성공', updatedUser);
+    console.log('프로필 업데이트 성공');
 
     if (updatedUser) {
       const userDocRef = doc(db, 'users', updatedUser.uid);
-      const userDocSnapshot = await getDoc(userDocRef);
+      // const userDocSnapshot = await getDoc(userDocRef);
       //console.log('userDocSnapshot-->', userDocSnapshot);
 
       // 컬렉션에 있는 users 필드 정보 수정
@@ -83,4 +97,4 @@ const updateProfileImage = async ({ authCurrentUser, profileImage }: updateProfi
   }
 };
 
-export { getAllUsers, updateProfileImage, updateProfileInfo };
+export { getAllUsers, getUser, updateProfileImage, updateProfileInfo };

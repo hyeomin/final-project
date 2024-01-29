@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRef } from 'react';
 import { GoPencil, GoTrash } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { deletePost } from '../../api/postApi';
 import editNdeleteToggleBox from '../../assets/editndeletetoggle.png';
 import { useModal } from '../../hooks/useModal';
-// import { foundDetailPostProps } from '../../pages/Detail';
-import { useSetRecoilState } from 'recoil';
 import { QUERY_KEYS } from '../../query/keys';
 import { isEditingPostState, postInputState } from '../../recoil/posts';
 import theme from '../../styles/theme';
@@ -16,6 +16,11 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+
+  const { pathname } = useLocation();
+  const prevPathname = useRef(pathname);
+
+  console.log('prevPathname-->', prevPathname);
 
   const setPostInput = useSetRecoilState(postInputState);
   const setIsEditingPost = useSetRecoilState(isEditingPostState);

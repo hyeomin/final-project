@@ -12,7 +12,7 @@ export type PostType = {
   likedUsers: string[];
   coverImages: DownloadedImageType[];
 
-  // isLike?: boolean;
+  comments?: [];
   commentCount?: number;
   viewCount?: number;
   isLiked?: boolean;
