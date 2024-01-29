@@ -44,9 +44,6 @@ function MyProfile() {
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
 
-  //솔
-  const currentUserId = auth.currentUser?.uid;
-
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
 
@@ -371,9 +368,15 @@ function MyProfile() {
             <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
               <img src={rankingIcon} />
               <div>
-                {userRanking?.findIndex((r) => r.uid === currentUserId) !== -1
-                  ? `${currentUserId && userRanking && userRanking?.findIndex((r) => r.uid === currentUserId) + 1}위`
-                  : '순위 없음'}
+                {authCurrentUser && userRanking
+                  ? // 조건에 만족하는 요소를 못찾으면 -1반환하는 로직 때문에 undefined가 나옴
+                    // 순위--> 인덱스 값을 사용하여 +1한 값을 보여줌. 문제는 findIndex값이 없을때 +1을 하게되면 0이됨
+                    // 0은 falsy하기 때문에 순위없음대신 undefined가 나왔음.
+                    userRanking.findIndex((r) => r.uid === authCurrentUser.uid) !== -1
+                    ? `${userRanking?.findIndex((r) => r.uid === authCurrentUser.uid) + 1}위`
+                    : '순위 없음'
+                  : // findIndex값이 -1일때 언디파인드가 아니라 '-' 나오게
+                    '-'}
               </div>
             </div>
           </St.PostInfoBox>
