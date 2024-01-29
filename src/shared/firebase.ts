@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, initializeFirestore } from '@firebase/firestore';
+import { initializeFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -13,14 +13,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 
-// export const app = initializeApp(firebaseConfig);
-// export const auth = getAuth(app);
-// export const db = initializeFirestore(app, {
-//   experimentalForceLongPolling: true
-// });
-
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export default app;
-export const db = getFirestore(app);
+export const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true
+});
 export const storage = getStorage(app);

@@ -1,17 +1,15 @@
-import { useInfiniteQuery, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
-import { getComments } from '../../../../api/commentApi';
+import { getAllUsers } from '../../../../api/authApi';
 import defaultUserProfile from '../../../../assets/defaultImg.jpg';
 import MangoLogo from '../../../../assets/realMango.png';
+import { AuthContext } from '../../../../context/AuthContext';
 import { useModal } from '../../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../../query/keys';
 import useCommentQuery from '../../../../query/useCommentQuery';
-import { auth } from '../../../../shared/firebase';
 import { FoundDetailPostProps } from '../../../../types/PostType';
 import { getFormattedDate } from '../../../../util/formattedDateAndTime';
 import St from './style';
-import { AuthContext } from '../../../../context/AuthContext';
-import { getAllUsers } from '../../../../api/authApi';
 
 const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const modal = useModal();
@@ -31,10 +29,12 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   // });
 
   // 댓글목록 가져오기
-  const { data: comments } = useQuery({
-    queryKey: [QUERY_KEYS.COMMENTS, postId],
-    queryFn: () => getComments(postId)
-  });
+  // const { data: comments } = useQuery({
+  //   queryKey: [QUERY_KEYS.COMMENTS, postId],
+  //   queryFn: () => getComments(postId)
+  // });
+
+  const commentsTest: CommentType[] = foundDetailPost.comments ?? [];
 
   const { data: users } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
@@ -122,7 +122,7 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
 
   return (
     <St.CommentListContainer>
-      {comments?.length === 0 ? (
+      {commentsTest?.length === 0 ? (
         <St.SingleComment>
           <St.Mango src={MangoLogo} alt="Mango Logo" />
           <St.CommentDetail>
@@ -133,7 +133,7 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
           </St.CommentDetail>
         </St.SingleComment>
       ) : (
-        comments?.map((comment) => {
+        commentsTest?.map((comment) => {
           return (
             <St.SingleComment key={comment.id}>
               <img

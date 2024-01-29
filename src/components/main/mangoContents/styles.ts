@@ -10,6 +10,7 @@ const MangoDiv = styled.div`
   display: flex;
   align-items: center;
   margin-top: 50px;
+  column-gap: 10px;
 `;
 
 const MangoWord = styled.p`
