@@ -23,17 +23,15 @@ const AdminContentsTest = () => {
   // console.log('post==>', adminContents);
 
   const handleSlideChange = (swiper: SwiperClass) => {
-    console.log('swiper===>', swiper);
+    // console.log('swiper===>', swiper);
+    // 슬라이드가 변경될 때 onSwiper의 setSwiperInstance가 내부적으로 자동실행되는 것 같아요.
+    // 아래 코도 없이도 swiper값이 셋팅 되어있는 것으로 확인이 됩니다!
     // if (swiperInstance !== swiper) {
     //   setSwiperInstance(swiper);
     // }
+
     setCurrentIndex(swiper.realIndex);
   };
-
-  useEffect(() => {
-    console.log('홈!!Current Index===>', currentIndex);
-    console.log('홈!!swiperInstance===>', currentIndex);
-  }, [currentIndex, swiperInstance]);
 
   if (isLoading) {
     return <Loader />;
@@ -48,10 +46,10 @@ const AdminContentsTest = () => {
           onSwiper={setSwiperInstance}
           onSlideChange={handleSlideChange}
           centeredSlides={true}
-          // autoplay={{
-          //   delay: 5000,
-          //   disableOnInteraction: false
-          // }}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false
+          }}
           modules={[Autoplay]}
           className="custom-swiper"
         >

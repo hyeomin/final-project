@@ -22,10 +22,6 @@ const useSwiperNavigation = ({ swiperInstance, currentIndex, maxIndex }: Props) 
       // setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     }
   };
-
-  useEffect(() => {
-    console.log('Current Index 변경됨===>', currentIndex);
-  }, [currentIndex]);
   return { goNext, goPrev };
 };
 
