@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { getAllUsers } from '../../api/authApi';
 import defaultProfile from '../../assets/defaultImg.jpg';
@@ -210,55 +210,56 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
               // const imageQuery = imageQueries[idx];
 
               return (
-                <St.Content key={post.id}>
-                  <St.ContentImg
-                    src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
-                    alt={post.title}
-                    onClick={() => navigate(`/detail/${post.id}`)}
-                  />
-                  <St.PostInfoContainer>
-                    {userList && userList?.find((user) => user.uid === post.uid) && (
-                      <St.UserProfile>
-                        <div>
-                          <St.ProfileImg
-                            src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
-                            alt="profile"
-                          />
-                          <St.Row>
-                            <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
-                            <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
-                          </St.Row>
-                        </div>
-                        {/* 하트 클릭하는 버튼 */}
-                        <St.HeartClickButton
-                          onClick={(e) => handleClickLikeButton(e, post.id, post)}
-                          $isLiked={!!post.isLiked}
-                        >
-                          {post.isLiked ? <GoHeartFill /> : <GoHeart />}
-                        </St.HeartClickButton>
-                      </St.UserProfile>
-                    )}
-                    <St.TitleAndContent>
-                      <p>{post.title}</p>
-                      {post.content && <PostContentPreview postContent={post.content} />}
-                    </St.TitleAndContent>
+                <Link key={post.id} to={`/detail/${post.id}`}>
+                  <St.Content>
+                    <St.ContentImg
+                      src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
+                      alt={post.title}
+                    />
+                    <St.PostInfoContainer>
+                      {userList && userList?.find((user) => user.uid === post.uid) && (
+                        <St.UserProfile>
+                          <div>
+                            <St.ProfileImg
+                              src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
+                              alt="profile"
+                            />
+                            <St.Row>
+                              <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
+                              <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
+                            </St.Row>
+                          </div>
+                          {/* 하트 클릭하는 버튼 */}
+                          <St.HeartClickButton
+                            onClick={(e) => handleClickLikeButton(e, post.id, post)}
+                            $isLiked={!!post.isLiked}
+                          >
+                            {post.isLiked ? <GoHeartFill /> : <GoHeart />}
+                          </St.HeartClickButton>
+                        </St.UserProfile>
+                      )}
+                      <St.TitleAndContent>
+                        <p>{post.title}</p>
+                        {post.content && <PostContentPreview postContent={post.content} />}
+                      </St.TitleAndContent>
 
-                    <St.CommentAndLikes>
-                      <span>
-                        <GoEye />
-                        {post.viewCount ?? 0}
-                      </span>
-                      <span>
-                        <GoHeart />
-                        {post.likeCount ?? 0}
-                      </span>
-                      <span>
-                        <GoComment />
-                        {post.commentCount ?? 0}
-                      </span>
-                    </St.CommentAndLikes>
-                  </St.PostInfoContainer>
-                </St.Content>
+                      <St.CommentAndLikes>
+                        <span>
+                          <GoEye />
+                          {post.viewCount ?? 0}
+                        </span>
+                        <span>
+                          <GoHeart />
+                          {post.likeCount ?? 0}
+                        </span>
+                        <span>
+                          <GoComment />
+                          {post.commentCount ?? 0}
+                        </span>
+                      </St.CommentAndLikes>
+                    </St.PostInfoContainer>
+                  </St.Content>
+                </Link>
               );
             })}
           </St.Contents>

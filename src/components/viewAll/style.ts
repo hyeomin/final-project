@@ -265,7 +265,7 @@ const AdminContents = styled.ul`
 
 const AdminContent = styled.li`
   width: 490px;
-
+  margin-bottom: 20px;
   img {
     object-fit: cover;
     width: 490px; //710 -> 550 (전체사이즈 1200)
