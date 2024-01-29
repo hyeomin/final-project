@@ -48,14 +48,14 @@ function NavBar() {
             <span>Mango</span>
           </LogoContainer>
           <NavLink to="/about" style={styledNav}>
-            망고 소개
+            ABOUT
           </NavLink>
 
           <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
-            Mango 콘텐츠
+            BY MANGO
           </NavLink>
           <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
-            커뮤니티
+            COMMUNITY
           </NavLink>
         </St.LeftNav>
 
