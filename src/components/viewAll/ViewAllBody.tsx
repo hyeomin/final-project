@@ -96,7 +96,7 @@ function ViewAllBody() {
     <St.ViewAllContainer>
       <St.MangoDiv>
         <St.MangoWord>Mango</St.MangoWord>
-        <St.MangoOutWord>의 컨텐츠</St.MangoOutWord>
+        <St.MangoOutWord>의 콘텐츠</St.MangoOutWord>
       </St.MangoDiv>
       <St.MangoSUbWord>누구나, 어디서나 쉽게 따라할 수 있는 습관을 만들어 나가요.</St.MangoSUbWord>
 
