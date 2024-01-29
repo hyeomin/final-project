@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { GoComment } from 'react-icons/go';
-import { getAllUsers } from '../../../api/authApi';
+import { getUser } from '../../../api/authApi';
 import defaultImage from '../../../assets/defaultImg.jpg';
 import kakao from '../../../assets/detail/Kakao-icon.png';
 import link from '../../../assets/detail/link-bold-icon.png';
@@ -23,12 +23,12 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
   const [isEditNDeleteToggleOpened, setIsEditNDeleteToggle] = useState(false);
 
-  const { data: userList } = useQuery({
-    queryKey: [QUERY_KEYS.USERS],
-    queryFn: getAllUsers
+  const { data: author } = useQuery({
+    queryKey: [QUERY_KEYS.USERS, foundDetailPost.uid],
+    queryFn: () => getUser(foundDetailPost.uid)
   });
 
-  const author = userList?.find((user) => user.uid === foundDetailPost.uid);
+  // const author = userList?.find((user) => user.uid === foundDetailPost.uid);
 
   let authorImage = author?.profileImg;
   if (!authorImage) {

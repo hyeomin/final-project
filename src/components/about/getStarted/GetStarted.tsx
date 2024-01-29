@@ -2,9 +2,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import popular from '../../../assets/about/popular.webp';
 import viewAll from '../../../assets/about/viewall.webp';
 import write from '../../../assets/about/write.webp';
-import St from './style';
 import { useModal } from '../../../hooks/useModal';
 import { auth } from '../../../shared/firebase';
+import St from './style';
 
 function GetStarted() {
   const modal = useModal();
@@ -53,20 +53,29 @@ function GetStarted() {
         <St.LinkContainer>
           <St.LinktoPage>
             <Link to="/write" onClick={onAuthCheckHandler}>
-              <img src={write} alt="write" />
-              <h5>글쓰러 가기</h5>
+              <St.ImageContainer>
+                <img src={write} alt="write" />
+                <St.Gradient></St.Gradient>
+                <h5>글쓰러 가기</h5>
+              </St.ImageContainer>
             </Link>
           </St.LinktoPage>
           <St.LinktoPage>
             <Link to="/viewAll">
-              <img src={viewAll} alt="viewAll" />
-              <h5>게시글 읽으러 가기</h5>
+              <St.ImageContainer>
+                <img src={viewAll} alt="viewAll" />
+                <St.Gradient></St.Gradient>
+                <h5>게시글 읽으러 가기</h5>
+              </St.ImageContainer>
             </Link>
           </St.LinktoPage>
           <St.LinktoPage>
             <Link to="/home">
-              <img src={popular} alt="popular" />
-              <h5>인기게시물 확인하기</h5>
+              <St.ImageContainer>
+                <img src={popular} alt="popular" />
+                <St.Gradient></St.Gradient>
+                <h5>인기게시물 확인하기</h5>
+              </St.ImageContainer>
             </Link>
           </St.LinktoPage>
         </St.LinkContainer>

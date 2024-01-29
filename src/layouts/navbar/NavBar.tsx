@@ -28,7 +28,7 @@ function NavBar() {
     return { color: isActive ? '#FFA114' : '' };
   };
 
-  // hover 시 prefetch 함수
+  // hover 시 prefetch 함수!
   const queryClient = useQueryClient();
   const handleHover = async () => {
     queryClient.prefetchInfiniteQuery({
@@ -48,11 +48,14 @@ function NavBar() {
             <span>Mango</span>
           </LogoContainer>
           <NavLink to="/about" style={styledNav}>
-            망고 소개
+            ABOUT
           </NavLink>
 
+          <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
+            BY MANGO
+          </NavLink>
           <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
-            게시물 보기
+            COMMUNITY
           </NavLink>
         </St.LeftNav>
 

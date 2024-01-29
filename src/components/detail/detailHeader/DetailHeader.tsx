@@ -4,11 +4,16 @@ import { SwiperClass, SwiperSlide } from 'swiper/react';
 import swipeLeft from '../../../assets/icons/swipeLeft.png';
 import swipeRight from '../../../assets/icons/swipeRight.png';
 import useSwiperNavigation from '../../../hooks/useSwiperNavigation';
-import { FoundDetailPostProps } from '../../../types/PostType';
+import { PostType } from '../../../types/PostType';
 import { convertToKor } from '../../write/common/lists';
 import St from './style';
 
-function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
+interface Props {
+  foundDetailPost: PostType;
+  isLoading: boolean;
+}
+
+function DetailHeader({ foundDetailPost, isLoading }: Props) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -39,6 +44,7 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
 
   return (
     <St.CoverContainer>
+      {isLoading && <St.NoImage>로딩 중...</St.NoImage>}
       {coverImages.length > 0 ? (
         <>
           <St.StyledSwiper onSwiper={setSwiperInstance} className="mySwiper">
