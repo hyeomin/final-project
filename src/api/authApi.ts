@@ -35,7 +35,8 @@ const getUser = async (userId: string) => {
       return undefined;
     }
 
-    const user = userSnap.data() as UserType;
+    const userData = userSnap.data() as Omit<UserType, 'id'>;
+    const user: UserType = { id: userSnap.id, ...userData };
     return user;
   } catch (error) {
     console.log(error);
