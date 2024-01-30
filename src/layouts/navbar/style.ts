@@ -16,10 +16,6 @@ const NavContainer = styled.div`
   @media screen and (max-width: 375px) {
     display: none;
   }
-
-  @media screen (min-width: 375px) and (max-width: 375px) {
-    margin: 100px auto 0 auto;
-  }
 `;
 
 const NavBarContainer = styled.div`
