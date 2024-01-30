@@ -51,7 +51,6 @@ const Logo = styled.div`
 
 const InputContainer = styled.div`
   margin-top: 20px;
-  /* margin-bottom: 10px; */
   width: 280px;
 `;
 
@@ -67,18 +66,6 @@ const AuthInput = styled.input`
   background-color: #f6f6f6;
 `;
 
-// const EmailAuthInput = styled.input`
-//   width: 100px;
-//   height: 35px;
-//   margin-right: 10px;
-//   border-radius: 10px;
-//   padding-left: 15px;
-//   border: 1px solid ${theme.color.containerBorder};
-//   font-size: 12px;
-//   font-weight: 400;
-//   background-color: #f6f6f6;
-// `;
-
 const Input = styled.input`
   width: 280px;
   height: 35px;
@@ -88,7 +75,6 @@ const Input = styled.input`
   border: 1px solid ${theme.color.containerBorder};
   background-color: #f6f6f6;
   border-radius: 10px;
-  /* margin-bottom: 5px; */
 `;
 
 const AuthBtn = styled.button`
@@ -196,7 +182,6 @@ export default {
   MangoLogo,
   Logo,
   AuthInput,
-  // EmailAuthInput,
   Input,
   AuthBtn,
   SignUpAndLoginBtn,
