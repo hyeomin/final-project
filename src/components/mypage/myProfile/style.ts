@@ -68,7 +68,7 @@ const ProfileInfo = styled.div`
 `;
 
 const ProfileModifyBtn = styled.div`
-  width: 100px;
+  width: 90px;
   height: 30px;
   background-color: ${theme.color.mangoMain};
   color: white;

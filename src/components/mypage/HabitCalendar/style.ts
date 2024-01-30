@@ -158,17 +158,16 @@ const CalendarContentsContainer = styled.div`
 `;
 
 const PostCount = styled.div`
-  background-color: ${theme.color.mangoLight};
+  background-color: ${theme.color.mangoMain};
   border-radius: 50%;
-  font-size: 15px;
+  font-size: 13px;
   width: 22px;
   height: 22px;
-  color: ${theme.color.mangoMain};
-
+  color: white;
   position: absolute;
   z-index: 3;
   top: 45px;
-  left: 12px;
+  left: 10px;
 `;
 
 const CurrentDate = styled.div`

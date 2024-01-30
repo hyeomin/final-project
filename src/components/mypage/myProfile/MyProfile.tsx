@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { CiSettings } from 'react-icons/ci';
 import { GoCalendar, GoHeart, GoPencil, GoQuestion, GoTasklist } from 'react-icons/go';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import {
@@ -37,7 +36,6 @@ function MyProfile() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
-  // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
 
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
