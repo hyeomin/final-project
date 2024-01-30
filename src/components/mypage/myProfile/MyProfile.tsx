@@ -133,25 +133,25 @@ function MyProfile() {
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // const onClickSave = () => {
-    //   modal.close();
-    // };
-    // if (!isChecked) {
-    //   const openModalParams: Parameters<typeof modal.open>[0] = {
-    //     title: '중복확인 버튼을 눌러주세요',
-    //     message: '',
-    //     leftButtonLabel: '',
-    //     onClickLeftButton: undefined,
-    //     rightButtonLabel: '확인',
-    //     onClickRightButton: onClickSave
-    //   };
-    //   modal.open(openModalParams);
-    // }
-
-    if (authCurrentUser) {
-      if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
-        userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
-        setIsEditing(false);
+    const onClickSave = () => {
+      modal.close();
+    };
+    if (!isChecked) {
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '중복확인 버튼을 눌러주세요',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    } else {
+      if (authCurrentUser) {
+        if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
+          userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+          setIsEditing(false);
+        }
       }
     }
   };
@@ -266,9 +266,6 @@ function MyProfile() {
     setActiveTab(updatedActiveTab);
 
     const newUrl = `${location.pathname}?${newSearchParams.toString()}`;
-    // console.log('queryString', queryString);
-    // console.log('location', location);
-    // console.log('searchParams get', newSearchParams);
 
     navigate(newUrl);
   };
@@ -346,8 +343,7 @@ function MyProfile() {
                   disabled={
                     !displayName ||
                     (displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL) ||
-                    !isValid ||
-                    (displayName !== authCurrentUser?.displayName && !isChecked)
+                    !isValid
                   }
                 >
                   수정완료
