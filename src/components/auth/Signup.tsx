@@ -135,26 +135,6 @@ function Signup() {
     signOut(auth);
   };
 
-  // const mee = () => {
-  //   if (!isChecked) {
-  //     const onClickSave = () => {
-  //       modal.close();
-  //     };
-
-  //     const openModalParams: Parameters<typeof modal.open>[0] = {
-  //       title: '중복확인 버튼을 먼저 눌러주세요.',
-  //       message: '',
-  //       leftButtonLabel: '',
-  //       onClickLeftButton: undefined,
-  //       rightButtonLabel: '확인',
-  //       onClickRightButton: onClickSave
-  //     };
-  //     modal.open(openModalParams);
-
-  //     return;
-  //   }
-  // };
-
   // 이메일 중복체크 (firestore)
   const emailCheck = async (email: string) => {
     const userRef = collection(db, 'users');
@@ -330,8 +310,6 @@ function Signup() {
               required: true,
               pattern: passwordRegex
             })}
-            // disabled={!isChecked}
-            // onClick={mee}
           />
 
           {errors?.password?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
@@ -353,7 +331,6 @@ function Signup() {
                 }
               }
             })}
-            // disabled={!isChecked}
           />
 
           {errors?.passwordCheck?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
@@ -369,7 +346,6 @@ function Signup() {
               required: true,
               pattern: nicknameRegex
             })}
-            // disabled={!isChecked}
           />
           <St.AuthBtn type="button" onClick={() => nicknameCheck(getValues('nickname'))}>
             중복확인
@@ -381,11 +357,7 @@ function Signup() {
           )}
         </St.InputContainer>
 
-        <St.SignUpAndLoginBtn
-          type="submit"
-          // disabled={!isChecked || !isNicknameChecked}
-          onClick={!isChecked || !isNicknameChecked ? handleAlert : undefined}
-        >
+        <St.SignUpAndLoginBtn type="submit" onClick={!isChecked || !isNicknameChecked ? handleAlert : undefined}>
           가입하기
         </St.SignUpAndLoginBtn>
         {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
