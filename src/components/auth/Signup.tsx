@@ -174,11 +174,12 @@ function Signup() {
         rightButtonLabel: '확인',
         onClickRightButton: onClickSave
       };
+
       modal.open(openModalParams);
 
       setIsFormValid(false);
       setIsChecked(false);
-      setValue('email', email);
+      setValue('email', '');
 
       return;
     } else if (email === '') {
@@ -239,10 +240,8 @@ function Signup() {
       modal.open(openModalParams);
 
       setValue('nickname', nickname);
-      // setIsChecked(false);
       setIsNicknameChecked(false);
       setIsFormValid(false);
-      // setIsChecked(false);
       return;
     } else if (nickname === '') {
       const onClickSave = () => {
@@ -273,12 +272,24 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
-      // setIsChecked(true);
       setIsNicknameChecked(true);
       setIsFormValid(true);
-
-      //console.log('닉넴');
     }
+  };
+  const handleAlert = () => {
+    const onClickSave = () => {
+      modal.close();
+    };
+
+    const openModalParams: Parameters<typeof modal.open>[0] = {
+      title: '중복확인 버튼을 눌러주세요',
+      message: '이메일 또는 닉네임',
+      leftButtonLabel: '',
+      onClickLeftButton: undefined,
+      rightButtonLabel: '확인',
+      onClickRightButton: onClickSave
+    };
+    modal.open(openModalParams);
   };
 
   return (
@@ -319,7 +330,7 @@ function Signup() {
               required: true,
               pattern: passwordRegex
             })}
-            disabled={!isChecked}
+            // disabled={!isChecked}
             // onClick={mee}
           />
 
@@ -342,7 +353,7 @@ function Signup() {
                 }
               }
             })}
-            disabled={!isChecked}
+            // disabled={!isChecked}
           />
 
           {errors?.passwordCheck?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
@@ -358,7 +369,7 @@ function Signup() {
               required: true,
               pattern: nicknameRegex
             })}
-            disabled={!isChecked}
+            // disabled={!isChecked}
           />
           <St.AuthBtn type="button" onClick={() => nicknameCheck(getValues('nickname'))}>
             중복확인
@@ -370,7 +381,11 @@ function Signup() {
           )}
         </St.InputContainer>
 
-        <St.SignUpAndLoginBtn type="submit" disabled={!isChecked || !isNicknameChecked}>
+        <St.SignUpAndLoginBtn
+          type="submit"
+          // disabled={!isChecked || !isNicknameChecked}
+          onClick={!isChecked || !isNicknameChecked ? handleAlert : undefined}
+        >
           가입하기
         </St.SignUpAndLoginBtn>
         {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
