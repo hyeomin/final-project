@@ -21,6 +21,7 @@ import { getAdminPostList } from '../../../api/pageListApi';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 
 const PopularContents = () => {
+  console.log('PopularContents 렌더링!');
   // hover 시 prefetch 함수
   const queryClient = useQueryClient();
   const handleHover = async () => {

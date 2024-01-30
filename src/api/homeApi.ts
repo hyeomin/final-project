@@ -15,23 +15,24 @@ import {
 import { QUERY_KEYS } from '../query/keys';
 import { db } from '../shared/firebase';
 import { PostType } from '../types/PostType';
+import { UserType } from '../types/UserType';
 
-const getUser = async (userId: string) => {
+const getUser = async (userId: string): Promise<UserType | undefined> => {
   try {
     const userRef = doc(db, 'users', userId);
     const docSnap = await getDoc(userRef);
-    if (docSnap.exists()) {
-      console.log('getUser=>', docSnap.data());
-      return docSnap.data();
-    } else {
-      console.log('데이터가 없습니다.');
+
+    if (!docSnap.exists()) {
+      console.log('유저 데이터가 없습니다.');
+      return undefined;
     }
+
+    return docSnap.data() as UserType;
   } catch (error) {
     console.log(error);
-    return [];
+    return undefined;
   }
 };
-
 // 전체 게시물 가져오기
 const getPosts = async () => {
   try {
@@ -52,6 +53,7 @@ const getPosts = async () => {
 
 // 관리자게시물
 const getAdminPosts = async () => {
+  console.log('getAdminPosts 호출!');
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -75,6 +77,7 @@ const getAdminPosts = async () => {
 
 // 인기게시물
 const getPopularPosts = async () => {
+  console.log('getPopularPosts 호출!');
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -89,6 +92,7 @@ const getPopularPosts = async () => {
       const postData = doc.data() as Omit<PostType, 'id'>;
       posts.push({ id: doc.id, ...postData });
     });
+
     return posts;
   } catch (error) {
     console.log(error);
@@ -146,6 +150,7 @@ export type likeCountPerUserType = {
 
 // TOP10 user list
 const getTopUsers = async () => {
+  console.log('getTopUsers 호출!');
   try {
     const postRef = collection(db, 'posts');
     const querySnapshot = await getDocs(postRef);
