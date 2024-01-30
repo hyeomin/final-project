@@ -4,13 +4,14 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import mangofavicon from '../../assets/mango-favicon.png';
 import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
 import St from './style';
 import { useModal } from '../../hooks/useModal';
+import { modalState } from '../../recoil/modals';
 
 export type Data = {
   email: string;
@@ -24,6 +25,13 @@ export type Data = {
 
 function Signup() {
   const modal = useModal();
+  //const setIsModalOpen = useSetRecoilState(modalState);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(modalState);
+  console.log('77isModalOpen', isModalOpen);
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [nickname, setNickname] = useState('');
+  // const [passwordCheck, SetPasswordCheck] = useState('');
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
   const [image, setImage] = useState('');
@@ -68,6 +76,7 @@ function Signup() {
       if (!isChecked) {
         const onClickSave = () => {
           modal.close();
+          setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
           return;
         };
 
@@ -80,7 +89,9 @@ function Signup() {
           onClickRightButton: onClickSave
         };
         modal.open(openModalParams);
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
       }
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
       //console.log('userCredential', userCredential);
@@ -96,6 +107,7 @@ function Signup() {
       setValue('passwordCheck', '');
 
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen02: false }));
         modal.close();
       };
 
@@ -108,6 +120,7 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen02: true }));
 
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
@@ -139,6 +152,7 @@ function Signup() {
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen03: false }));
         modal.close();
       };
 
@@ -152,6 +166,7 @@ function Signup() {
       };
 
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen03: true }));
 
       setIsFormValid(false);
       setIsChecked(false);
@@ -160,6 +175,7 @@ function Signup() {
       return;
     } else if (email === '') {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen04: false }));
         modal.close();
       };
 
@@ -172,10 +188,12 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen04: true }));
 
       return;
     } else if (querySnapshot.docs.length === 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen05: false }));
         modal.close();
       };
 
@@ -188,6 +206,7 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen05: true }));
       setIsChecked(true);
       setIsFormValid(true);
     }
@@ -202,6 +221,7 @@ function Signup() {
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen06: false }));
         modal.close();
       };
 
@@ -214,6 +234,7 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen06: true }));
 
       setValue('nickname', nickname);
       setIsNicknameChecked(false);
@@ -221,6 +242,7 @@ function Signup() {
       return;
     } else if (nickname === '') {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen07: false }));
         modal.close();
       };
 
@@ -233,9 +255,11 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen07: true }));
       return;
     } else if (querySnapshot.docs.length === 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen08: false }));
         modal.close();
       };
 
@@ -248,24 +272,39 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen08: true }));
+      // setIsChecked(true);
       setIsNicknameChecked(true);
       setIsFormValid(true);
     }
   };
+
+  // 중복확인버튼 안 눌렀을 시, 모달창 띄움
   const handleAlert = () => {
     const onClickSave = () => {
       modal.close();
     };
-
-    const openModalParams: Parameters<typeof modal.open>[0] = {
-      title: '중복확인 버튼을 눌러주세요',
-      message: '이메일 또는 닉네임',
-      leftButtonLabel: '',
-      onClickLeftButton: undefined,
-      rightButtonLabel: '확인',
-      onClickRightButton: onClickSave
-    };
-    modal.open(openModalParams);
+    if (!isChecked) {
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '이메일 중복확인 버튼을 눌러주세요',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    } else if (!isNicknameChecked) {
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '닉네임 중복확인 버튼을 눌러주세요',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    }
   };
 
   return (

@@ -1,7 +1,7 @@
 import { signOut } from 'firebase/auth';
 import { useContext, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import defaultImg from '../../assets/defaultImg.jpg';
 import { AuthContext } from '../../context/AuthContext';
@@ -9,6 +9,7 @@ import { useModal } from '../../hooks/useModal';
 import { roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import theme from '../../styles/theme';
+import { modalState } from '../../recoil/modals';
 
 type Props = {
   setIsAuthToggleOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +17,7 @@ type Props = {
 
 function AuthToggle({ setIsAuthToggleOpen }: Props) {
   const modal = useModal();
+  const setIsModalOpen = useSetRecoilState(modalState);
   const setRole = useSetRecoilState(roleState);
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
@@ -63,6 +65,8 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
           navigate('/home');
         } catch (error) {
           console.log('error');
+        } finally {
+          setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         }
       };
 
@@ -75,6 +79,7 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
         onClickRightButton: onClickLogout
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
     } catch (error) {
       console.log('Logout Error', error);
     }
