@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { GoPencil, GoTrash } from 'react-icons/go';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { deletePost } from '../../api/postApi';
 import editNdeleteToggleBox from '../../assets/editndeletetoggle.png';
@@ -11,9 +11,11 @@ import { QUERY_KEYS } from '../../query/keys';
 import { isEditingPostState, postInputState } from '../../recoil/posts';
 import theme from '../../styles/theme';
 import { FoundDetailPostProps } from '../../types/PostType';
+import { modalState } from '../../recoil/modals';
 
 function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
+  const [isModalOpen, setIsModalOpen] = useRecoilState(modalState);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -50,6 +52,7 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
 
   const onDeletePostHandler = () => {
     const onClickCancel = () => {
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
       modal.close();
     };
 
@@ -57,6 +60,7 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
       if (foundDetailPost) {
         deleteMutation.mutate(foundDetailPost.id);
       }
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
       modal.close();
     };
 
@@ -69,6 +73,7 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
       onClickRightButton: onClickSave
     };
     modal.open(openModalParams);
+    setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
 
     // const confirm = window.confirm('삭제하시겠습니까?');
     // if (!confirm) return;

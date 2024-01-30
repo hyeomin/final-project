@@ -16,6 +16,7 @@ import { auth, db } from '../../shared/firebase';
 import { Data } from './Signup';
 import St from './style';
 import { useModal } from '../../hooks/useModal';
+import { modalState } from '../../recoil/modals';
 
 interface UserData {
   uid: string;
@@ -28,6 +29,7 @@ function Login() {
   // const [password, setPassword] = useState('');
   // const [nickname, setNickname] = useState('');
   const modal = useModal();
+  const setIsModalOpen = useSetRecoilState(modalState);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [errorMsg, setErrorMsg] = usePrintError('');
 
@@ -36,7 +38,6 @@ function Login() {
 
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -57,6 +58,7 @@ function Login() {
   useEffect(() => {
     if (errorMsg) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         modal.close();
       };
 
@@ -69,6 +71,7 @@ function Login() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
     }
   }, [errorMsg]);
 
