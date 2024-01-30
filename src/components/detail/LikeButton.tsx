@@ -7,7 +7,7 @@ import { useModal } from '../../hooks/useModal';
 import { QUERY_KEYS } from '../../query/keys';
 import { auth, db } from '../../shared/firebase';
 import { PostType } from '../../types/PostType';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '../../recoil/modals';
 
 type LikeButtonProps = {
@@ -19,7 +19,7 @@ type LikeButtonProps = {
 
 function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor }: LikeButtonProps) {
   const modal = useModal();
-  const [isModalOpen, setIsModalOpen] = useRecoilState(modalState);
+  const setIsModalOpen = useSetRecoilState(modalState);
   const navigate = useNavigate();
   const uid = auth.currentUser?.uid;
 

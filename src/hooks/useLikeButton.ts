@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import useLikeQuery from '../query/useLikeQuery';
 import { useModal } from './useModal';
+import { useSetRecoilState } from 'recoil';
+import { modalState } from '../recoil/modals';
 
 export const useLikeButton = () => {
   const modal = useModal();
+  const setIsModalOpen = useSetRecoilState(modalState);
   const authContext = useContext(AuthContext);
   const currentUserId = authContext?.currentUser?.uid;
   const navigate = useNavigate();
@@ -16,11 +19,13 @@ export const useLikeButton = () => {
 
     if (!currentUserId) {
       const onClickCancel = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         modal.close();
         return;
       };
 
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         modal.close();
         navigate('/auth');
       };
@@ -34,6 +39,7 @@ export const useLikeButton = () => {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
     }
     if (id && currentUserId) likeCountMutate({ id, currentUserId });
   };

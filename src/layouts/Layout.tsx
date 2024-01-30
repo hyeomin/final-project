@@ -14,7 +14,8 @@ function Layout({ children }: PropsWithChildren) {
     isModalOpen05,
     isModalOpen06,
     isModalOpen07,
-    isModalOpen08
+    isModalOpen08,
+    isModalOpen09
   } = useRecoilValue(modalState);
 
   console.log(
@@ -25,7 +26,8 @@ function Layout({ children }: PropsWithChildren) {
     isModalOpen05,
     isModalOpen06,
     isModalOpen07,
-    isModalOpen08
+    isModalOpen08,
+    isModalOpen09
   );
   return (
     <LayoutContainer
@@ -37,7 +39,8 @@ function Layout({ children }: PropsWithChildren) {
         isModalOpen05 ||
         isModalOpen06 ||
         isModalOpen07 ||
-        isModalOpen08
+        isModalOpen08 ||
+        isModalOpen09
       }
     >
       <div>

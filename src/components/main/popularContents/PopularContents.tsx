@@ -32,13 +32,17 @@ const PopularContents = () => {
     });
   };
 
+  const handleLinkClick = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <St.UserContents>
       <St.TitleContainer>
         <h1>인기 게시물</h1>
         <St.SubTitle>
           <p>망고에서 제일 인기 있는 게시물들을 둘러보세요.</p>
-          <Link to={'/viewAll'}>
+          <Link to={'/viewAll'} onClick={handleLinkClick}>
             <button type="button" onMouseEnter={handleHover}>
               {'전체보기 >'}
             </button>
