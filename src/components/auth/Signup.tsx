@@ -24,10 +24,6 @@ export type Data = {
 
 function Signup() {
   const modal = useModal();
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [nickname, setNickname] = useState('');
-  // const [passwordCheck, SetPasswordCheck] = useState('');
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
   const [image, setImage] = useState('');

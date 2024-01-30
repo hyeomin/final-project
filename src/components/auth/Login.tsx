@@ -99,6 +99,7 @@ function Login() {
 
         // 회원가입 시, user 컬렉션에 값이 저장됨
         const userId = auth.currentUser?.uid;
+        // 컬렉션에 있는 users 필드 정보 수정
         if (userId) {
           setDoc(doc(db, 'users', userId), {
             displayName: auth.currentUser?.displayName,

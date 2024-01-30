@@ -7,7 +7,10 @@ const AuthWrapper = styled.div`
   justify-content: center;
   text-align: center;
   align-items: center;
-  margin: 50px 0;
+  width: 100%;
+  min-width: 60px;
+  max-width: 1200px;
+  height: 100vh;
 `;
 
 const SubTitle = styled.div`
