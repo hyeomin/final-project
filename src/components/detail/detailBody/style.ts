@@ -125,6 +125,10 @@ const ShareInfo = styled.div`
     & img {
       width: 100%;
       object-fit: contain;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 `;
