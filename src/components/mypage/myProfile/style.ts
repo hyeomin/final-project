@@ -175,6 +175,7 @@ const DisplayNameCheckBtn = styled.button`
 const MyImage = styled.img`
   width: 100px;
   height: 100px;
+  object-fit: cover;
   border-radius: 50%;
 `;
 

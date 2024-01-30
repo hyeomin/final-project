@@ -1,20 +1,18 @@
-import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
-import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
-import St from './style';
 import { useQuery } from '@tanstack/react-query';
-import defaultProfileImage from '../../../../assets/defaultImg.jpg';
-import defaultCoverImage from '../../../../assets/defaultCoverImg.jpeg';
-import { Link } from 'react-router-dom';
-import { auth } from '../../../../shared/firebase';
-import { getPopularPosts, getPosts } from '../../../../api/homeApi';
-import { getAllUsers } from '../../../../api/authApi';
-import { useLikeButton } from '../../../../hooks/useLikeButton';
-import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
-import PostContentPreview from '../../../common/PostContentPreview';
-import Loader from '../../../common/Loader';
-import { AuthContext } from '../../../../context/AuthContext';
 import { useContext } from 'react';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
+import { Link } from 'react-router-dom';
+import { getAllUsers } from '../../../../api/authApi';
+import { getPopularPosts } from '../../../../api/homeApi';
+import defaultProfileImage from '../../../../assets/defaultImg.jpg';
 import mangoDefaultCover from '../../../../assets/mangoDefaultCover.png';
+import { AuthContext } from '../../../../context/AuthContext';
+import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
+import { useLikeButton } from '../../../../hooks/useLikeButton';
+import Loader from '../../../common/Loader';
+import PostContentPreview from '../../../common/PostContentPreview';
+import St from './style';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);

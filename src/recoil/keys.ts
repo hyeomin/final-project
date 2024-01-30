@@ -17,3 +17,7 @@ export const POST = {
   COMMON_HASHTAG_LIST: 'commonHashtagList',
   UNSAVED_CHANGES: 'unsavedChanges'
 };
+
+export const MODAL_STATE = {
+  IS_MODAL_OPEN: 'isModalOpen'
+};

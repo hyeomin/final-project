@@ -17,6 +17,7 @@ import { AuthContext } from '../../../context/AuthContext';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
 import { auth, db } from '../../../shared/firebase';
+import { resizeProfileImageFile } from '../../../util/imageResize';
 import HabitCalendar from '../HabitCalendar/HabitCalendar';
 import LikesPosts from '../LikesPosts';
 import MyPosts from '../MyPosts';
@@ -42,6 +43,7 @@ function MyProfile() {
 
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
+  const [resizedImage, setResizedImage] = useState<File>();
 
   // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,8 +178,9 @@ function MyProfile() {
   });
 
   //input을 클릭해서 파일 업로드
-  const onChangeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
+    if (!selectedFile) return;
 
     if (selectedFile?.size! > 1024 * 1024) {
       const onClickSave = () => {
@@ -194,8 +197,14 @@ function MyProfile() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
-    } else if (authCurrentUser && selectedFile) {
-      profileImageUploadMutation.mutate({ authCurrentUser, profileImage: selectedFile });
+    } else if (authCurrentUser) {
+      try {
+        // 프로필 이미지 사이즈 업데이트
+        const resizedImage = await resizeProfileImageFile(selectedFile);
+        profileImageUploadMutation.mutate({ authCurrentUser, profileImage: resizedImage });
+      } catch (err) {
+        console.log('프로필 사이즈 전환 실패', err);
+      }
     }
   };
 
