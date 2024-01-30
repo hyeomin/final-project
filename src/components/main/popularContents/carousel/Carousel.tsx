@@ -10,7 +10,6 @@ import mangoDefaultCover from '../../../../assets/mangoDefaultCover.png';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
 import { useLikeButton } from '../../../../hooks/useLikeButton';
-import { DownloadedImageType } from '../../../../types/PostType';
 import Loader from '../../../common/Loader';
 import PostContentPreview from '../../../common/PostContentPreview';
 import St from './style';
@@ -33,13 +32,6 @@ const Carousel = () => {
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
 
-  // thumnail url 있는지 확인하고 없으면 url, 없으면 default image로 카드 이미지 설정
-  const imageSource = (coverImages: DownloadedImageType[]) => {
-    if (coverImages && coverImages.length > 0) {
-      return coverImages[0].thumbnailUrl ?? coverImages[0].url;
-    } else return mangoDefaultCover;
-  };
-
   return (
     <St.Container>
       {currentSlide > 0 && (
@@ -59,7 +51,12 @@ const Carousel = () => {
                 <St.Slide>
                   <St.CoverImage>
                     {/* TODO: 이미지가 늦게 로드되는 문제 해결해야함 */}
-                    <img src={imageSource(post.coverImages)} alt={post.title} />
+                    <img
+                      src={
+                        post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoDefaultCover
+                      }
+                      alt={post.title}
+                    />
                     {/* <img src={defaultCoverImage} alt={post.title} /> */}
                   </St.CoverImage>
                   <St.SlideHeader>

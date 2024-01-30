@@ -51,7 +51,7 @@ function Detail() {
       <DetailTitle>상세페이지</DetailTitle>
       {foundDetailPost && (
         <>
-          <DetailHeader foundDetailPost={foundDetailPost} isLoading={isLoading} />
+          <DetailHeader foundDetailPost={foundDetailPost} />
           <DetailBody foundDetailPost={foundDetailPost} />
           <AddCommentForm foundDetailPost={foundDetailPost} />
           <CommentList foundDetailPost={foundDetailPost} />

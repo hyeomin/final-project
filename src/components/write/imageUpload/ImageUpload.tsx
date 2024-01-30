@@ -6,6 +6,7 @@ import { deleteImage, uploadSingleImage } from '../../../api/postApi';
 import DragNDrop from '../../../assets/icons/dragndrop.png';
 import { useModal } from '../../../hooks/useModal';
 import { postInputState } from '../../../recoil/posts';
+import { DownloadedImageType } from '../../../types/PostType';
 import { resizeCoverImageFile } from '../../../util/imageResize';
 import St from './style';
 
@@ -30,15 +31,12 @@ function ImageUpload() {
       if (downloadedImage) {
         // 정상적으로 url을 반환 받았는지 확인
         queryClient.invalidateQueries({ queryKey: ['coverImages'] });
-        // 그 전에 보여지고 있던 로컬 파일의 미리보기 대체
+
         setPostInput((currentInput) => {
-          const updatedImages = currentInput.coverImages.map((image) => {
-            if (image.isLocal && image.name === downloadedImage.name) {
-              return { ...downloadedImage, isLocal: false };
-            }
-            return image;
-          });
-          return { ...currentInput, coverImages: updatedImages };
+          // 그 전에 보여지고 있던 로컬 파일의 미리보기 없애기
+          const updatedImages = currentInput.coverImages.filter((image) => image.isLocal !== true);
+          // 반환 받은 firebase url 정보 넣어주기
+          return { ...currentInput, coverImages: [...updatedImages, downloadedImage] };
         });
         setUploadStatus('Done');
       }
@@ -148,19 +146,21 @@ function ImageUpload() {
   });
 
   // 이미지 삭제
-  const onDeleteImageHandler = (url: string) => {
+  const onDeleteImageHandler = (image: DownloadedImageType) => {
     const onClickCancel = () => {
       modal.close();
       return;
     };
 
     const onClickConfirm = () => {
-      const deleteImages = coverImages.filter((image) => image.url !== url);
+      const deleteImages = coverImages.filter((i) => i.url !== image.url);
       setPostInput({
         ...postInput,
         coverImages: deleteImages
       });
-      deletePostMutation.mutate(url);
+      if (!image.isLocal) {
+        deletePostMutation.mutate(image.url);
+      }
       modal.close();
     };
 
@@ -198,7 +198,7 @@ function ImageUpload() {
                     <p>{image.name}</p>
                     <span>{uploadStatus}</span>
                   </div>
-                  <button onClick={() => onDeleteImageHandler(image.url)}>
+                  <button onClick={() => onDeleteImageHandler(image)}>
                     <GoTrash />
                   </button>
                 </St.SinglePreviewInfo>
