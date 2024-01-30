@@ -9,7 +9,7 @@ import {
   updateProfileInfo,
   updateProfileInfoProps
 } from '../../../api/authApi';
-import { getMyPosts, getUserRanking } from '../../../api/myPostAPI';
+import { getAllPosts } from '../../../api/myPostAPI';
 import defaultImg from '../../../assets/defaultImg.jpg';
 import postCountIcon from '../../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../../assets/icons/rankingIcon.png';
@@ -60,9 +60,19 @@ function MyProfile() {
   };
 
   // 내 게시물 갯수 가져오기
+  // const { data: myPosts } = useQuery({
+  //   queryKey: [QUERY_KEYS.POSTS],
+  //   queryFn: getMyPosts,
+  //   // enabled: !!authCurrentUser,
+  //   select: (data) => {
+  //     return data?.filter((post) => post.uid === authCurrentUser?.uid!);
+  //   }
+  // });
+
+  //test
   const { data: myPosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getMyPosts,
+    queryFn: getAllPosts,
     // enabled: !!authCurrentUser,
     select: (data) => {
       return data?.filter((post) => post.uid === authCurrentUser?.uid!);
@@ -70,10 +80,10 @@ function MyProfile() {
   });
 
   // 랭킹순위 (좋아요 수 기준)
-  const { data: userRanking } = useQuery({
-    queryKey: ['userRanking'],
-    queryFn: getUserRanking
-  });
+  // const { data: userRanking } = useQuery({
+  //   queryKey: ['userRanking'],
+  //   queryFn: getUserRanking
+  // });
 
   //div를 클릭해도 input이 클릭되도록 하기
   const onClickUpload = () => {
@@ -375,11 +385,11 @@ function MyProfile() {
             <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
               <img src={rankingIcon} />
               <div>
-                {authCurrentUser && userRanking
+                {/* {authCurrentUser && userRanking
                   ? userRanking.findIndex((r) => r.uid === authCurrentUser.uid) >= 0
                     ? `${userRanking?.findIndex((r) => r.uid === authCurrentUser.uid) + 1}위`
                     : '순위 없음'
-                  : '-'}
+                  : '-'} */}
               </div>
             </div>
           </St.PostInfoBox>
