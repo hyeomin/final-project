@@ -25,10 +25,11 @@ const HabitCalendar = ({ date }: any) => {
 
   const { data } = useQuery({
     queryKey: ['posts', { isMyPosts: true }],
-    queryFn: getMyPosts
+    queryFn: getMyPosts,
+    staleTime: Infinity
   });
+
   const createdAtList = data ? data.map((data) => getFormattedDateCustom(data.createdAt!)) : [];
-  // console.log('data', data);
   const dayList: string[] = [];
 
   const getElCount = (arr: string[]): Record<string, number> =>

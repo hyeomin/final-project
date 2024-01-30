@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getMyPosts } from '../../api/myPostAPI';
 import { auth } from '../../shared/firebase';
 import Cs from '../viewAll/style';
-//import PostCard from './PostCard/PostCard';
 import PostCard from '../mypage/PostCard/PostCard';
+import HabitCalendar from './HabitCalendar/HabitCalendar';
 // 내 게시물 가져오기
 const MyPosts = () => {
   const { data: myPosts } = useQuery({

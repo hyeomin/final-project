@@ -57,7 +57,7 @@ function MyProfile() {
     } else {
       setIsValid(false);
       // 에러 메시지 표시
-      setErrorMsg('올바른 형식으로 입력하세요. \n (2자 이상 8자 이하, 영어 또는 숫자 또는 한글)'); // 원하는 에러 메시지를 설정해주세요.
+      setErrorMsg('올바른 형식으로 입력하세요. \n (2자 이상 8자 이하, 영어 또는 숫자 또는 한글)');
     }
   };
 
@@ -71,7 +71,7 @@ function MyProfile() {
     }
   });
 
-  // 랭킹순위
+  // 랭킹순위 (좋아요 수 기준)
   const { data: userRanking } = useQuery({
     queryKey: ['userRanking'],
     queryFn: getUserRanking
