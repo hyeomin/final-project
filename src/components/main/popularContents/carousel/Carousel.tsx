@@ -15,6 +15,7 @@ import Loader from '../../../common/Loader';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useContext } from 'react';
 import mangoDefaultCover from '../../../../assets/mangoDefaultCover.png';
+import UserDetail from './UserDetail';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);
@@ -62,16 +63,7 @@ const Carousel = () => {
                     {/* <img src={defaultCoverImage} alt={post.title} /> */}
                   </St.CoverImage>
                   <St.SlideHeader>
-                    <div>
-                      <St.UserProfileImage>
-                        <img
-                          src={users?.find((user) => user.uid === post.uid)?.profileImg || defaultProfileImage}
-                          alt="user profile image"
-                        />
-                        {/* <img src={defaultProfileImage} alt="user profile image" /> */}
-                      </St.UserProfileImage>
-                      <span>{users?.find((user) => user.uid === post.uid)?.displayName}</span>
-                    </div>
+                    <UserDetail userId={post.uid} />
                     <button type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
                       {currentUserId && post.likedUsers?.includes(currentUserId) ? (
                         <St.HeartFillIcon />

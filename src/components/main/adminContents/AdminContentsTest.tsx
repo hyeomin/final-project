@@ -14,6 +14,7 @@ import St from '../popularContents/carousel/style';
 import { PostType } from '../../../types/PostType';
 
 const AdminContentsTest = () => {
+  console.log('어드민컨텐츠 렌더링!');
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -37,7 +38,7 @@ const AdminContentsTest = () => {
       ) : (
         <Swiper
           onSwiper={setSwiperInstance}
-          onSlideChange={handleSlideChange}
+          // onSlideChange={handleSlideChange}
           centeredSlides={true}
           autoplay={{
             delay: 5000,
