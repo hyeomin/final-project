@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import { getUser } from '../../../../api/authApi';
-import defaultProfileImage from '../../../../assets/defaultImg.jpg';
+import defaultProfileImage from '../../../../assets/realMango.png';
 import St from './style';
 
 type Props = {
@@ -11,8 +11,8 @@ type Props = {
 const UserDetail = ({ userId }: Props) => {
   const { data: userData } = useQuery({
     queryKey: ['users', userId],
-    queryFn: () => getUser(userId),
-    staleTime: Infinity
+    queryFn: () => getUser(userId)
+    // staleTime: Infinity
   });
 
   return (

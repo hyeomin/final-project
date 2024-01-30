@@ -38,7 +38,7 @@ const AdminContentsTest = () => {
       ) : (
         <Swiper
           onSwiper={setSwiperInstance}
-          // onSlideChange={handleSlideChange}
+          onSlideChange={handleSlideChange}
           centeredSlides={true}
           autoplay={{
             delay: 5000,

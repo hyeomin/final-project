@@ -8,11 +8,10 @@ import TopUsers from './topUsers/TopUsers';
 function MainBody() {
   return (
     <St.Container>
-      {/* <AdminContents /> */}
-      {/* <AdminContentsTest />
+      {/* <AdminContents />  */}
+      <AdminContentsTest />
       <PopularContents />
-      <TopUsers /> */}
-      <Carousel />
+      <TopUsers />
     </St.Container>
   );
 }

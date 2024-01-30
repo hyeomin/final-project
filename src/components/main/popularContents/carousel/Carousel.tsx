@@ -8,7 +8,6 @@ import { getPopularPosts } from '../../../../api/homeApi';
 import defaultProfileImage from '../../../../assets/defaultImg.jpg';
 import mangoDefaultCover from '../../../../assets/mangoDefaultCover.png';
 import UserDetail from './UserDetail';
-
 import { AuthContext } from '../../../../context/AuthContext';
 import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
 import { useLikeButton } from '../../../../hooks/useLikeButton';
