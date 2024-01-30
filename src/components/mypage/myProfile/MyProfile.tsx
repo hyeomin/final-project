@@ -133,6 +133,21 @@ function MyProfile() {
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // const onClickSave = () => {
+    //   modal.close();
+    // };
+    // if (!isChecked) {
+    //   const openModalParams: Parameters<typeof modal.open>[0] = {
+    //     title: '중복확인 버튼을 눌러주세요',
+    //     message: '',
+    //     leftButtonLabel: '',
+    //     onClickLeftButton: undefined,
+    //     rightButtonLabel: '확인',
+    //     onClickRightButton: onClickSave
+    //   };
+    //   modal.open(openModalParams);
+    // }
+
     if (authCurrentUser) {
       if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
         userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
