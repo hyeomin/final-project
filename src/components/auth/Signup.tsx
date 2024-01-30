@@ -4,13 +4,14 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import mangofavicon from '../../assets/mango-favicon.png';
 import usePrintError from '../../hooks/usePrintError';
 import { isSignUpState } from '../../recoil/users';
 import { auth, db } from '../../shared/firebase';
 import St from './style';
 import { useModal } from '../../hooks/useModal';
+import { modalState } from '../../recoil/modals';
 
 export type Data = {
   email: string;
@@ -24,6 +25,9 @@ export type Data = {
 
 function Signup() {
   const modal = useModal();
+  //const setIsModalOpen = useSetRecoilState(modalState);
+  const [isModalOpen, setIsModalOpen] = useRecoilState(modalState);
+  console.log('77isModalOpen', isModalOpen);
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
   // const [nickname, setNickname] = useState('');
@@ -72,6 +76,7 @@ function Signup() {
       if (!isChecked) {
         const onClickSave = () => {
           modal.close();
+          setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
           return;
         };
 
@@ -84,6 +89,7 @@ function Signup() {
           onClickRightButton: onClickSave
         };
         modal.open(openModalParams);
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
       }
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -100,6 +106,7 @@ function Signup() {
       setValue('passwordCheck', '');
 
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen02: false }));
         modal.close();
       };
 
@@ -112,6 +119,7 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen02: true }));
 
       // 회원가입 시, user 컬렉션에 값이 저장됨
       const userId = auth.currentUser?.uid;
@@ -144,6 +152,7 @@ function Signup() {
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen03: false }));
         modal.close();
       };
 
@@ -156,6 +165,7 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen03: true }));
 
       setIsFormValid(false);
       setIsChecked(false);
@@ -164,6 +174,7 @@ function Signup() {
       return;
     } else if (email === '') {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen04: false }));
         modal.close();
       };
 
@@ -176,10 +187,12 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen04: true }));
 
       return;
     } else if (querySnapshot.docs.length === 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen05: false }));
         modal.close();
       };
 
@@ -192,6 +205,7 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen05: true }));
       setIsChecked(true);
       setIsFormValid(true);
       //console.log('ddddddddddd');
@@ -207,6 +221,7 @@ function Signup() {
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen06: false }));
         modal.close();
       };
 
@@ -219,6 +234,7 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen06: true }));
 
       setValue('nickname', nickname);
       // setIsChecked(false);
@@ -228,6 +244,7 @@ function Signup() {
       return;
     } else if (nickname === '') {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen07: false }));
         modal.close();
       };
 
@@ -240,9 +257,11 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen07: true }));
       return;
     } else if (querySnapshot.docs.length === 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen08: false }));
         modal.close();
       };
 
@@ -255,6 +274,7 @@ function Signup() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen08: true }));
       // setIsChecked(true);
       setIsNicknameChecked(true);
       setIsFormValid(true);

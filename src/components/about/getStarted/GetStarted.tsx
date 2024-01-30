@@ -5,9 +5,12 @@ import write from '../../../assets/about/write.webp';
 import { useModal } from '../../../hooks/useModal';
 import { auth } from '../../../shared/firebase';
 import St from './style';
+import { useSetRecoilState } from 'recoil';
+import { modalState } from '../../../recoil/modals';
 
 function GetStarted() {
   const modal = useModal();
+  const setIsModalOpen = useSetRecoilState(modalState);
   const navigate = useNavigate();
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -15,11 +18,13 @@ function GetStarted() {
     if (!auth.currentUser) {
       const onClickCancel = () => {
         modal.close();
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         return;
       };
 
       const onClickSave = () => {
         modal.close();
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         navigate('/auth');
       };
 
@@ -32,6 +37,7 @@ function GetStarted() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
     } else if (window.location.pathname === '/write') {
       window.location.reload();
     } else {
