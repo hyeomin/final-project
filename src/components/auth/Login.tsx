@@ -24,9 +24,6 @@ interface UserData {
 }
 
 function Login() {
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [nickname, setNickname] = useState('');
   const modal = useModal();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [errorMsg, setErrorMsg] = usePrintError('');
@@ -36,7 +33,6 @@ function Login() {
 
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
-  const [isSucceeded, setIsSucceeded] = useState(false);
   const {
     register,
     handleSubmit,
@@ -69,7 +65,6 @@ function Login() {
         rightButtonLabel: '확인',
         onClickRightButton: onClickSave
       };
-      setIsSucceeded(false);
       modal.open(openModalParams);
     }
   }, [errorMsg]);
@@ -86,13 +81,11 @@ function Login() {
       }
 
       // home으로 이동
-      setIsSucceeded(true);
       navigate('/');
     } catch (error) {
       setErrorMsg(error);
       setValue('email', '');
       setValue('password', '');
-      setIsSucceeded(false);
     }
   };
 
