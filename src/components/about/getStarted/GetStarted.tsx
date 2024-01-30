@@ -42,7 +42,21 @@ function GetStarted() {
       window.location.reload();
     } else {
       navigate('/write');
+      window.scrollTo(0, 0);
     }
+  };
+  const handleLinkClick = () => {
+    window.scrollTo(0, 0);
+  };
+
+  const handleLinkClickMiddle = () => {
+    const middlePosition = Math.ceil(window.innerHeight / 2);
+
+    // Use scrollTo to scroll to the middle of the page
+    window.scrollTo({
+      top: middlePosition,
+      behavior: 'smooth'
+    });
   };
 
   return (
@@ -67,7 +81,7 @@ function GetStarted() {
             </Link>
           </St.LinktoPage>
           <St.LinktoPage>
-            <Link to="/viewAll">
+            <Link to="/viewAll" onClick={handleLinkClick}>
               <St.ImageContainer>
                 <img src={viewAll} alt="viewAll" />
                 <St.Gradient></St.Gradient>
@@ -76,7 +90,7 @@ function GetStarted() {
             </Link>
           </St.LinktoPage>
           <St.LinktoPage>
-            <Link to="/home">
+            <Link to="/home" onClick={handleLinkClickMiddle}>
               <St.ImageContainer>
                 <img src={popular} alt="popular" />
                 <St.Gradient></St.Gradient>
