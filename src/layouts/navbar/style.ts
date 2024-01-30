@@ -12,6 +12,14 @@ const NavContainer = styled.div`
   top: 0;
   width: 100%;
   z-index: 1000;
+
+  @media screen and (max-width: 375px) {
+    display: none;
+  }
+
+  @media screen (min-width: 375px) and (max-width: 375px) {
+    margin: 100px auto 0 auto;
+  }
 `;
 
 const NavBarContainer = styled.div`

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import theme from '../../styles/theme';
 
 const AuthWrapper = styled.div`
@@ -8,6 +8,10 @@ const AuthWrapper = styled.div`
   text-align: center;
   align-items: center;
   margin: 50px 0;
+
+  /* @media screen and (max-width: 375px) {
+    
+   } */
 `;
 
 const SubTitle = styled.div`
@@ -21,6 +25,10 @@ const SignUpTitle = styled.div`
   font-weight: 600;
   font-size: 14px;
   margin-top: 10px;
+
+  @media screen and (max-width: 375px) {
+    display: none;
+  }
 `;
 
 const LogoContainer = styled.div`
@@ -31,6 +39,10 @@ const LogoContainer = styled.div`
   padding-bottom: 30px;
   width: 300px;
   border-bottom: 1px solid #d9d9d9;
+
+  @media screen and (max-width: 375px) {
+    padding-bottom: 20px;
+  }
 `;
 
 const LogoBox = styled.div`
@@ -41,12 +53,20 @@ const MangoLogo = styled.img`
   width: 35px;
   height: 40px;
   margin-right: 5px;
+
+  @media screen and (max-width: 375px) {
+    width: 27px;
+    height: 27px;
+  }
 `;
 
 const Logo = styled.div`
   font-family: ${theme.font.mango};
   color: ${theme.color.mangoMain};
   font-size: 35px;
+  @media screen and (max-width: 375px) {
+    font-size: 25px;
+  }
 `;
 
 const InputContainer = styled.div`
