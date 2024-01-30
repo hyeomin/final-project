@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { extractFirst50Words } from '../../util/extractContentText';
+import { stripHtml } from '../../util/extractContentText';
 
 type Props = {
   postContent: string;
@@ -9,8 +9,9 @@ function PostContentPreview({ postContent }: Props) {
   const [shortenedContent, setShortenedContent] = useState<string>('');
 
   useEffect(() => {
-    // Extract the first 50 words when postContent changes
-    const text = extractFirst50Words(postContent);
+    // const text = extractFirst50Words(postContent);
+    // setShortenedContent(text);
+    const text = stripHtml(postContent).trim();
     setShortenedContent(text);
   }, [postContent]);
 

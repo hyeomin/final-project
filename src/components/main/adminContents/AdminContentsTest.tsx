@@ -1,17 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
-import { getAdminPosts, getPosts } from '../../../api/homeApi';
+import { getAdminPosts } from '../../../api/homeApi';
 import defaultIllustration from '../../../assets/home/AdminPostIllustration.png';
 import Loader from '../../common/Loader';
-import AdminCenterBox from './AdminCenterBox';
 import St from '../popularContents/carousel/style';
-import { PostType } from '../../../types/PostType';
+import AdminCenterBox from './AdminCenterBox';
 
 const AdminContentsTest = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
