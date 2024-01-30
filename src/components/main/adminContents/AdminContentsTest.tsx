@@ -13,12 +13,14 @@ import St from '../popularContents/carousel/style';
 import AdminCenterBox from './AdminCenterBox';
 
 const AdminContentsTest = () => {
+  console.log('어드민컨텐츠 렌더링!');
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const { data: adminContents, isLoading } = useQuery({
     queryKey: ['adminContents'],
     queryFn: getAdminPosts
+    // staleTime: Infinity
   });
 
   const handleSlideChange = (swiper: SwiperClass) => {
@@ -36,7 +38,7 @@ const AdminContentsTest = () => {
       ) : (
         <Swiper
           onSwiper={setSwiperInstance}
-          onSlideChange={handleSlideChange}
+          // onSlideChange={handleSlideChange}
           centeredSlides={true}
           autoplay={{
             delay: 5000,

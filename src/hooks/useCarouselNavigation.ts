@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from 'react';
 
-interface CarouselNavigation {
+type CarouselNavigation = {
   currentSlide: number;
   handlePrev: () => void;
   handleNext: () => void;
-}
+};
 
 export const useCarouselNavigation = (totalItems: number, itemsPerPage: number): CarouselNavigation => {
   const [currentSlide, setCurrentSlide] = useState(0);

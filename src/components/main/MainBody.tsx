@@ -1,6 +1,7 @@
 // import AdminContents from './adminContents/AdminContents';
 import AdminContentsTest from './adminContents/AdminContentsTest';
 import PopularContents from './popularContents/PopularContents';
+import Carousel from './popularContents/carousel/Carousel';
 import St from './style';
 import TopUsers from './topUsers/TopUsers';
 
@@ -8,9 +9,10 @@ function MainBody() {
   return (
     <St.Container>
       {/* <AdminContents /> */}
-      <AdminContentsTest />
+      {/* <AdminContentsTest />
       <PopularContents />
-      <TopUsers />
+      <TopUsers /> */}
+      <Carousel />
     </St.Container>
   );
 }
