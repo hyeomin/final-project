@@ -9,6 +9,8 @@ import { useModal } from '../../hooks/useModal';
 import { QUERY_KEYS } from '../../query/keys';
 import { db } from '../../shared/firebase';
 import { PostType } from '../../types/PostType';
+import { useRecoilState } from 'recoil';
+import { modalState } from '../../recoil/modals';
 
 type LikeButtonProps = {
   foundDetailPost: PostType;
@@ -19,6 +21,7 @@ type LikeButtonProps = {
 
 function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor }: LikeButtonProps) {
   const modal = useModal();
+  const [isModalOpen, setIsModalOpen] = useRecoilState(modalState);
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
@@ -80,11 +83,13 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
     if (!authCurrentUser) {
       const onClickCancel = () => {
         modal.close();
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         return;
       };
 
       const onClickNavigate = () => {
         modal.close();
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         navigate('/auth');
       };
 
@@ -97,6 +102,7 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
         onClickRightButton: onClickNavigate
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
     }
 
     // 로그인 한 유저는 좋아요 실행
