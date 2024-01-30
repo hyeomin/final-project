@@ -26,11 +26,6 @@ const Carousel = () => {
     queryFn: getPopularPosts
   });
 
-  const { data: users } = useQuery({
-    queryKey: ['users'],
-    queryFn: getAllUsers
-  });
-
   const onClickLikeButton = useLikeButton();
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
