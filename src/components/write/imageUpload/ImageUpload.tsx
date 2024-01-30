@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { GoTrash } from 'react-icons/go';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { deleteImage, uploadSingleImage } from '../../../api/postApi';
 import DragNDrop from '../../../assets/icons/dragndrop.png';
 import { useModal } from '../../../hooks/useModal';
@@ -9,9 +9,11 @@ import { postInputState } from '../../../recoil/posts';
 import { DownloadedImageType } from '../../../types/PostType';
 import { resizeCoverImageFile } from '../../../util/imageResize';
 import St from './style';
+import { modalState } from '../../../recoil/modals';
 
 function ImageUpload() {
   const modal = useModal();
+  const setIsModalOpen = useSetRecoilState(modalState);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
@@ -79,6 +81,7 @@ function ImageUpload() {
     const totalImages = selectedImageFiles.length + (coverImages ? coverImages.length : 0);
     if (totalImages > 3) {
       const onClickConfirm = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen03: false }));
         modal.close();
       };
 
@@ -91,7 +94,7 @@ function ImageUpload() {
         onClickRightButton: onClickConfirm
       };
       modal.open(openModalParams);
-
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen03: true }));
       return;
     }
     // 업로드 가능한 이미지 파일 크기 하나씩 확인하면서 제한
@@ -116,6 +119,7 @@ function ImageUpload() {
       } else {
         // 용량 초과 안내 모달
         const onClickConfirm = () => {
+          setIsModalOpen((prev) => ({ ...prev, isModalOpen04: false }));
           modal.close();
         };
 
@@ -128,6 +132,7 @@ function ImageUpload() {
           onClickRightButton: onClickConfirm
         };
         modal.open(openModalParams);
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen04: true }));
       }
     }
   };
@@ -149,6 +154,7 @@ function ImageUpload() {
   const onDeleteImageHandler = (image: DownloadedImageType) => {
     const onClickCancel = () => {
       modal.close();
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen05: false }));
       return;
     };
 
@@ -161,6 +167,8 @@ function ImageUpload() {
       if (!image.isLocal) {
         deletePostMutation.mutate(image.url);
       }
+
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen05: false }));
       modal.close();
     };
 
@@ -173,6 +181,13 @@ function ImageUpload() {
       onClickRightButton: onClickConfirm
     };
     modal.open(openModalParams);
+    setIsModalOpen((prev) => ({ ...prev, isModalOpen05: true }));
+    // const deleteImages = coverImages.filter((image) => image.url !== url);
+    // setPostInput({
+    //   ...postInput,
+    //   coverImages: deleteImages
+    // });
+    // deletePostMutation.mutate(url);
   };
 
   return (

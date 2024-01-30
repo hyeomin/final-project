@@ -14,10 +14,11 @@ import { PostType } from '../../../types/PostType';
 import { UserType } from '../../../types/UserType';
 import { stripHtml } from '../../../util/extractContentText';
 import { CustomButton } from './styles';
+import { modalState } from '../../../recoil/modals';
 
 function SubmitButton() {
   const modal = useModal();
-
+  const setIsModalOpen = useSetRecoilState(modalState);
   const setisEditingPost = useSetRecoilState(isEditingPostState);
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { title, content } = postInput;
@@ -87,6 +88,7 @@ function SubmitButton() {
 
     if (title.length === 0 || stripHtml(content).trim().length === 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         modal.close();
       };
 
@@ -99,13 +101,16 @@ function SubmitButton() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
     } else {
       const onClickCancel = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen02: false }));
         modal.close();
       };
 
       const onClickSave = () => {
         addMutation.mutate(); //
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen02: false }));
         modal.close();
       };
 
@@ -118,6 +123,7 @@ function SubmitButton() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen02: true }));
     }
   };
 

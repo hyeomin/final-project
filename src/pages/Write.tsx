@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Editor from '../components/write/editor/Editor';
 import Hashtag from '../components/write/hashtag/Hashtag';
@@ -8,9 +8,11 @@ import Header from '../components/write/header/WriteHeader';
 import ImageUpload from '../components/write/imageUpload/ImageUpload';
 import { useModal } from '../hooks/useModal';
 import { initialPostInputState, postInputState } from '../recoil/posts';
+import { modalState } from '../recoil/modals';
 
 function Write() {
   const modal = useModal();
+  const setIsModalOpen = useSetRecoilState(modalState);
   const location = useLocation();
   const { foundDetailPost } = location.state || {};
 
@@ -24,11 +26,13 @@ function Write() {
         const onClickDelete = () => {
           setPostInput(initialPostInputState);
           onDeleteTempSaveHandler();
+          setIsModalOpen((prev) => ({ ...prev, isModalOpen06: false }));
           modal.close();
         };
 
         const onClickLoadSavedData = () => {
           setPostInput(JSON.parse(savedData));
+          setIsModalOpen((prev) => ({ ...prev, isModalOpen06: false }));
           modal.close();
         };
 
@@ -41,6 +45,7 @@ function Write() {
           onClickRightButton: onClickLoadSavedData
         };
         modal.open(openModalParams);
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen06: true }));
       }
     }, 700);
   }, []);
@@ -50,6 +55,7 @@ function Write() {
     sessionStorage.removeItem('savedData');
 
     const onClickDelete = () => {
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen07: false }));
       modal.close();
     };
 
@@ -62,6 +68,7 @@ function Write() {
       onClickRightButton: onClickDelete
     };
     modal.open(openModalParams);
+    setIsModalOpen((prev) => ({ ...prev, isModalOpen07: true }));
     // alert('삭제되었습니다.');
   };
 

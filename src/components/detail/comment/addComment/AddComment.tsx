@@ -8,11 +8,13 @@ import { auth } from '../../../../shared/firebase';
 import { FoundDetailPostProps } from '../../../../types/PostType';
 import St from './style';
 import { AuthContext } from '../../../../context/AuthContext';
+import { useSetRecoilState } from 'recoil';
+import { modalState } from '../../../../recoil/modals';
 
 const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-
+  const setIsModalOpen = useSetRecoilState(modalState);
   const authContext = useContext(AuthContext);
   const currentUser = authContext?.currentUser;
 
@@ -30,6 +32,7 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
     if (!currentUser) return;
     if (content.trim().length === 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen02: false }));
         modal.close();
       };
 
@@ -42,6 +45,7 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen02: true }));
     } else {
       const newComment = {
         uid: currentUser.uid,
@@ -62,6 +66,7 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
       setContent('');
 
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen03: false }));
         modal.close();
       };
 
@@ -74,6 +79,7 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen03: true }));
     }
   };
 
@@ -81,11 +87,13 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
   const onAuthCheckHandler = (e: React.MouseEvent<HTMLTextAreaElement>) => {
     if (!currentUser) {
       const onClickCancel = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen04: false }));
         modal.close();
         return;
       };
 
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen04: false }));
         modal.close();
         navigate('/auth');
       };
@@ -99,6 +107,7 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen04: true }));
 
       e.currentTarget.blur();
     }

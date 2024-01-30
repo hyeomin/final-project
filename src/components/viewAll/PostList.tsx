@@ -10,7 +10,7 @@ import {
 import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getAllUsers } from '../../api/authApi';
 import defaultProfile from '../../assets/defaultImg.jpg';
 import mangoCover from '../../assets/tentative-cover-image.jpg';
@@ -24,6 +24,7 @@ import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
+import { modalState } from '../../recoil/modals';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -51,6 +52,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const currentUserId = auth.currentUser?.uid;
   const queryClient = useQueryClient();
   const modal = useModal();
+  const setIsModalOpen = useSetRecoilState(modalState);
 
   //더보기
   const {
@@ -170,11 +172,13 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
 
     if (!currentUserId) {
       const onClickCancel = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         modal.close();
         return;
       };
 
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         modal.close();
         navigate('/auth');
       };
@@ -188,6 +192,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
     }
 
     await toggleLike({ postId: id, postData: post });
