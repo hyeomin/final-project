@@ -18,17 +18,6 @@ function Layout({ children }: PropsWithChildren) {
     isModalOpen09
   } = useRecoilValue(modalState);
 
-  console.log(
-    isModalOpen01,
-    isModalOpen02,
-    isModalOpen03,
-    isModalOpen04,
-    isModalOpen05,
-    isModalOpen06,
-    isModalOpen07,
-    isModalOpen08,
-    isModalOpen09
-  );
   return (
     <LayoutContainer
       $isModalOpen={
@@ -64,7 +53,8 @@ const LayoutContainer = styled.div<LayoutProps>`
   justify-content: space-between;
   background-color: ${(props) => (props.$isModalOpen ? 'rgba(0, 0, 0, 0.02)' : 'white')};
   backdrop-filter: ${(props) => (props.$isModalOpen ? 'saturate(180%) blur(8px)' : 'none')};
-  // overflow: ${(props) => (props.$isModalOpen ? 'hidden' : 'unset')};
+
+  overflow: ${(props) => (props.$isModalOpen ? 'hidden' : 'unset')};
 `;
 
 const MainWrapper = styled.div`
