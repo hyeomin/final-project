@@ -9,6 +9,7 @@ const TopUsers = () => {
   const { data: topUsers } = useQuery({
     queryKey: ['topUsers'],
     queryFn: getTopUsers
+    // staleTime: Infinity
   });
 
   return (

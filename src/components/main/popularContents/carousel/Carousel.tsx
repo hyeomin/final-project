@@ -24,8 +24,10 @@ const Carousel = () => {
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['popularPosts'],
     queryFn: getPopularPosts
+    // staleTime: Infinity
   });
 
+  console.log('인기게시물==>', popularPosts);
   const onClickLikeButton = useLikeButton();
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
@@ -55,7 +57,7 @@ const Carousel = () => {
                       }
                       alt={post.title}
                     />
-                    {/* <img src={defaultCoverImage} alt={post.title} /> */}
+                    <img src={defaultCoverImage} alt={post.title} />
                   </St.CoverImage>
                   <St.SlideHeader>
                     <UserDetail userId={post.uid} />
