@@ -65,6 +65,7 @@ const NavigationButtonContainer = styled.div`
 const NoImage = styled.div`
   width: 100%;
   height: 120px;
+  color: black;
 `;
 
 export default {

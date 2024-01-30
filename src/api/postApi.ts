@@ -54,9 +54,12 @@ const uploadSingleImage = async ({ coverImage }: uploadImageProps) => {
   try {
     const coverImagesRef = ref(storage, `${QUERY_KEYS.COVER_IMAGES}/${coverImage.name}`);
     const snapshot = await uploadBytes(coverImagesRef, coverImage);
-    const downloadedImageUrl = await getDownloadURL(snapshot.ref);
-    //console.log('이미지 업로드 성공');
-    return { name: coverImage.name, url: downloadedImageUrl };
+    const coverImageUrl = await getDownloadURL(snapshot.ref);
+    console.log('이미지 업로드 및 다운로드 성공');
+    const thumnailRef = ref(storage, `${QUERY_KEYS.COVER_IMAGES}/thumbnails/${coverImage.name}`);
+    const thumbnailUrl = await getDownloadURL(thumnailRef);
+    console.log('썸네일 업로드 및 다운로드 성공');
+    return { name: coverImage.name, url: coverImageUrl, thumbnailUrl: thumbnailUrl };
   } catch (error) {
     console.log('이미지 업로드 실패', error);
   }

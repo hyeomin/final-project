@@ -2,8 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { updatePostViewCount } from '../api/detailApi';
-import { getDetailPost } from '../api/dummyApi';
+import { getDetailPost, updatePostViewCount } from '../api/detailApi';
 import AddCommentForm from '../components/detail/comment/addComment/AddComment';
 import CommentList from '../components/detail/comment/commentList/CommentList';
 import DetailBody from '../components/detail/detailBody/DetailBody';
@@ -14,8 +13,6 @@ import theme from '../styles/theme';
 import { PostType } from '../types/PostType';
 
 function Detail() {
-  // const [foundDetailPost, setFoundDetailPost] = useState<PostType | null>();
-
   const { id } = useParams();
 
   // 해당 데이터 가져오기
@@ -23,14 +20,6 @@ function Detail() {
     queryKey: [QUERY_KEYS.POSTS, id],
     queryFn: () => (id ? getDetailPost(id) : undefined)
   });
-  // 수정 필요
-
-  // useEffect(() => {
-  //   if (postList) {
-  //     const foundDetailPost = postList.find((post) => post.id === id);
-  //     if (foundDetailPost) setFoundDetailPost(foundDetailPost);
-  //   }
-  // }, [postList, id]);
 
   //조회수 업데이트
   const [viewCount, setViewCount] = useState(foundDetailPost?.viewCount || 0);
@@ -43,9 +32,9 @@ function Detail() {
     }
   }, [foundDetailPost]);
 
-  if (isLoading) {
-    return <div>로딩 중...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>로딩 중...</div>;
+  // }
 
   // 포스트 존재 여부 검사
   // if (posts) {

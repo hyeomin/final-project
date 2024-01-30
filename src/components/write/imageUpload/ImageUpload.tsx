@@ -6,6 +6,7 @@ import { deleteImage, uploadSingleImage } from '../../../api/postApi';
 import DragNDrop from '../../../assets/icons/dragndrop.png';
 import { useModal } from '../../../hooks/useModal';
 import { postInputState } from '../../../recoil/posts';
+import { resizeCoverImageFile } from '../../../util/imageResize';
 import St from './style';
 
 function ImageUpload() {
@@ -98,16 +99,24 @@ function ImageUpload() {
     // 업로드 가능한 이미지 파일 크기 하나씩 확인하면서 제한
     for (let i = 0; i < selectedImageFiles?.length; i++) {
       if (selectedImageFiles[i].size <= 5 * 1024 * 1024) {
-        const tempUrl = URL.createObjectURL(selectedImageFiles[i]);
-        const tempImage = { url: tempUrl, name: selectedImageFiles[i].name, isLocal: true };
-        setPostInput((currentInput) => ({
-          ...currentInput,
-          coverImages: [...currentInput.coverImages, tempImage]
-        }));
+        try {
+          // 이미지 사이즈 변경
+          const resizedImageFile = await resizeCoverImageFile(selectedImageFiles[i]);
+          const tempUrl = URL.createObjectURL(resizedImageFile as File);
+          const tempImage = { name: selectedImageFiles[i].name, url: tempUrl, thumbnailUrl: null, isLocal: true };
+
+          setPostInput((currentInput) => ({
+            ...currentInput,
+            coverImages: [...currentInput.coverImages, tempImage]
+          }));
+          addImageMutation.mutate(resizedImageFile as File);
+        } catch (err) {
+          console.log(err);
+        }
 
         // mutation 매개변수 넘겨주기
-        addImageMutation.mutate(selectedImageFiles[i]);
       } else {
+        // 용량 초과 안내 모달
         const onClickConfirm = () => {
           modal.close();
         };
@@ -164,13 +173,6 @@ function ImageUpload() {
       onClickRightButton: onClickConfirm
     };
     modal.open(openModalParams);
-
-    // const deleteImages = coverImages.filter((image) => image.url !== url);
-    // setPostInput({
-    //   ...postInput,
-    //   coverImages: deleteImages
-    // });
-    // deletePostMutation.mutate(url);
   };
 
   return (
