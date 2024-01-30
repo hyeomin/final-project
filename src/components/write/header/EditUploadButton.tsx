@@ -77,7 +77,7 @@ function EditUploadButton() {
         updatePostMutation.mutate();
         modal.close();
       };
-
+      alert(1);
       const openModalParams: Parameters<typeof modal.open>[0] = {
         title: '수정 하시겠습니까?',
         message: '',

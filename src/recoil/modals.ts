@@ -11,7 +11,8 @@ const modalState = atom({
     isModalOpen05: false,
     isModalOpen06: false,
     isModalOpen07: false,
-    isModalOpen08: false
+    isModalOpen08: false,
+    isModalOpen09: false
   }
 });
 
