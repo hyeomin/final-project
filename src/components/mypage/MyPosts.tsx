@@ -23,12 +23,12 @@ const MyPosts = () => {
   const { data: myPosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getAllPosts,
-    enabled: !!authCurrentUser
+    enabled: !!authCurrentUser,
 
-    // select: (data) => {
-    // console.log('data', myPosts);
-    //   return data?.filter((post) => post.uid === authCurrentUser?.uid!);
-    // }
+    select: (data) => {
+      console.log('data', myPosts);
+      return data?.filter((post) => post.uid === authCurrentUser?.uid!);
+    }
   });
 
   return (
