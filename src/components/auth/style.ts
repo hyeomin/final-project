@@ -9,9 +9,9 @@ const AuthWrapper = styled.div`
   align-items: center;
   margin: 50px 0;
 
-  /* @media screen and (max-width: 375px) {
-    
-   } */
+  @media screen and (min-width: 376px) and (max-width: 620px) {
+    margin: 30px 0;
+  }
 `;
 
 const SubTitle = styled.div`
@@ -26,8 +26,12 @@ const SignUpTitle = styled.div`
   font-size: 14px;
   margin-top: 10px;
 
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 376px) {
     display: none;
+  }
+
+  @media screen and (min-width: 376px) and (max-width: 620px) {
+    max-height: 375px;
   }
 `;
 
@@ -40,8 +44,11 @@ const LogoContainer = styled.div`
   width: 300px;
   border-bottom: 1px solid #d9d9d9;
 
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 376px) {
     padding-bottom: 20px;
+  }
+  @media screen and (min-width: 376px) and (max-width: 620px) {
+    padding-bottom: 10px;
   }
 `;
 
@@ -54,7 +61,7 @@ const MangoLogo = styled.img`
   height: 40px;
   margin-right: 5px;
 
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 376px) {
     width: 27px;
     height: 27px;
   }
@@ -64,7 +71,7 @@ const Logo = styled.div`
   font-family: ${theme.font.mango};
   color: ${theme.color.mangoMain};
   font-size: 35px;
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 376px) {
     font-size: 25px;
   }
 `;
@@ -73,6 +80,10 @@ const InputContainer = styled.div`
   margin-top: 20px;
   /* margin-bottom: 10px; */
   width: 280px;
+
+  @media screen and (min-width: 376px) and (max-width: 620px) {
+    margin-top: 10px;
+  }
 `;
 
 const AuthInput = styled.input`
@@ -125,6 +136,7 @@ const AuthBtn = styled.button`
     background-color: #f59004;
   }
 `;
+
 const SignUpAndLoginBtn = styled.button`
   border: none;
   background-color: ${theme.color.mangoMain};
@@ -140,6 +152,10 @@ const SignUpAndLoginBtn = styled.button`
   &:hover {
     background-color: #f59004;
     cursor: pointer;
+  }
+
+  @media screen and (min-width: 376px) and (max-width: 620px) {
+    margin-top: 15px;
   }
 `;
 const GoogleLoginBtn = styled.button`
@@ -166,6 +182,10 @@ const GoogleLoginBtn = styled.button`
   & img {
     width: 13px;
     height: 13px;
+  }
+  //
+  @media screen and (min-width: 376px) and (max-width: 620px) {
+    margin-bottom: 10px;
   }
 `;
 const WarningMsg = styled.p`

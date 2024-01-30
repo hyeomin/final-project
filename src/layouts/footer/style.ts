@@ -6,7 +6,10 @@ const FooterContainer = styled.div`
   width: 100%;
   padding: 10px 120px;
   color: black;
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 376px) {
+    display: none;
+  }
+  @media screen and (min-width: 376px) and (max-width: 620px) {
     display: none;
   }
 `;

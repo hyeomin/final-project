@@ -55,8 +55,8 @@ const LayoutContainer = styled.div<LayoutProps>`
   backdrop-filter: ${(props) => (props.$isModalOpen ? 'saturate(180%) blur(8px)' : 'none')};
   overflow: ${(props) => (props.$isModalOpen ? 'hidden' : 'unset')};
 
-  @media screen and (max-width: 375px) {
-    width: 375px;
+  @media screen and (max-width: 376px) {
+    width: 376px;
   }
 `;
 
@@ -66,7 +66,12 @@ const MainWrapper = styled.div`
   align-items: center;
   margin: 60px auto 0 auto;
 
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 376px) {
     margin: 100px auto 0 auto;
+  }
+
+  @media screen and (min-width: 376px) and (max-width: 620px) {
+    margin: 0;
+    max-height: 375px;
   }
 `;
