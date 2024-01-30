@@ -22,13 +22,13 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const { goNext, goPrev } = useSwiperNavigation({
     swiperInstance,
     currentIndex,
-    // setCurrentIndex,
+    setCurrentIndex,
     maxIndex: coverImages.length - 1
   });
 
-  // const handleSlideChange = (swiper: SwiperClass) => {
-  //   setCurrentIndex(swiper.activeIndex);
-  // };
+  const handleSlideChange = (swiper: SwiperClass) => {
+    setCurrentIndex(swiper.activeIndex);
+  };
 
   // const goNext = () => {
   //   if (swiperInstance) {
@@ -47,7 +47,7 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
       {/* {isLoading && <St.NoImage>로딩 중...</St.NoImage>} */}
       {coverImages.length > 0 ? (
         <>
-          <St.StyledSwiper onSwiper={setSwiperInstance} className="mySwiper">
+          <St.StyledSwiper onSwiper={setSwiperInstance} onSlideChange={handleSlideChange} className="mySwiper">
             {coverImages.map((image, idx) => {
               return (
                 <SwiperSlide key={idx}>

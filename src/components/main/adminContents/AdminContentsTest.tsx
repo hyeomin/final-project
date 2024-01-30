@@ -66,7 +66,12 @@ const AdminContentsTest = () => {
       )}
       {/* 헤더 중앙에 놓인 박스, 버튼, 텍스트 등이 다 들어가있음 */}
       {adminContents && adminContents?.length > 0 && (
-        <AdminCenterBox swiperInstance={swiperInstance} currentIndex={currentIndex} adminContents={adminContents} />
+        <AdminCenterBox
+          swiperInstance={swiperInstance}
+          setCurrentIndex={setCurrentIndex}
+          currentIndex={currentIndex}
+          adminContents={adminContents}
+        />
       )}
     </Container>
   );
