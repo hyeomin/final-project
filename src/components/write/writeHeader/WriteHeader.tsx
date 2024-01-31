@@ -1,15 +1,16 @@
 import { useRecoilValue } from 'recoil';
 import { useModal } from '../../../hooks/useModal';
 import { postInputState } from '../../../recoil/posts';
+import { FoundDetailPostProps } from '../../../types/PostType';
 import IsEditingButton from './EditUploadButton';
 import SubmitButton from './SubmitButton';
 import St, { CustomButton } from './styles';
 
-type Props = {
-  isEditing: boolean;
-};
+// type Props = {
+//   isEditing: boolean;
+// };
 
-function Header({ isEditing }: Props) {
+function Header({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
   const postInput = useRecoilValue(postInputState);
 
@@ -36,11 +37,10 @@ function Header({ isEditing }: Props) {
   return (
     <St.WriteHeader>
       <St.ButtonContainer>
-        {/* <button onClick={onDeleteTempSaveHandler}>임시저장 삭제</button> */}
         <CustomButton $variant="save" onClick={onTempSaveHandler}>
           임시 저장
         </CustomButton>
-        {isEditing ? <IsEditingButton /> : <SubmitButton />}
+        {foundDetailPost ? <IsEditingButton postId={foundDetailPost.id} /> : <SubmitButton />}
       </St.ButtonContainer>
     </St.WriteHeader>
   );

@@ -44,8 +44,8 @@ export const createThumbnailImageFile = (file: File): Promise<File> =>
   new Promise((resolve, reject) => {
     Resizer.imageFileResizer(
       file,
-      800,
-      800,
+      900,
+      900,
       'WEBP',
       100,
       0,

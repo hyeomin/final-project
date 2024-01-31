@@ -7,8 +7,6 @@ import { getAllUsers } from '../../../../api/authApi';
 import { getPopularPosts } from '../../../../api/homeApi';
 import defaultProfileImage from '../../../../assets/defaultImg.jpg';
 import mangoDefaultCover from '../../../../assets/mangoDefaultCover.png';
-import UserDetail from './UserDetail';
-
 import { AuthContext } from '../../../../context/AuthContext';
 import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
 import { useLikeButton } from '../../../../hooks/useLikeButton';
@@ -23,10 +21,13 @@ const Carousel = () => {
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['popularPosts'],
     queryFn: getPopularPosts
-    // staleTime: Infinity
   });
 
-  console.log('인기게시물==>', popularPosts);
+  const { data: users } = useQuery({
+    queryKey: ['users'],
+    queryFn: getAllUsers
+  });
+
   const onClickLikeButton = useLikeButton();
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
@@ -56,10 +57,19 @@ const Carousel = () => {
                       }
                       alt={post.title}
                     />
-                    <img src={mangoDefaultCover} alt={post.title} />
+                    {/* <img src={defaultCoverImage} alt={post.title} /> */}
                   </St.CoverImage>
                   <St.SlideHeader>
-                    <UserDetail userId={post.uid} />
+                    <div>
+                      <St.UserProfileImage>
+                        <img
+                          src={users?.find((user) => user.uid === post.uid)?.profileImg || defaultProfileImage}
+                          alt="user profile image"
+                        />
+                        {/* <img src={defaultProfileImage} alt="user profile image" /> */}
+                      </St.UserProfileImage>
+                      <span>{users?.find((user) => user.uid === post.uid)?.displayName}</span>
+                    </div>
                     <button type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
                       {currentUserId && post.likedUsers?.includes(currentUserId) ? (
                         <St.HeartFillIcon />

@@ -1,19 +1,9 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, query } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
 import { db } from '../shared/firebase';
+import { NewsType } from '../types/NewsType';
 
-export type NewsType = {
-  id: string;
-  youtubeId: string;
-  title: string;
-  date: string;
-};
-
-interface AddNewsProps {
-  newNews: Omit<NewsType, 'id'>;
-}
-
-const addNews = async ({ newNews }: AddNewsProps) => {
+const addNews = async (newNews: Omit<NewsType, 'id'>) => {
   try {
     const docRef = await addDoc(collection(db, QUERY_KEYS.NEWS), newNews);
     const newsId = docRef.id;

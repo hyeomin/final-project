@@ -21,6 +21,7 @@ const CommentSubmitForm = styled.form`
     font-size: 16px;
     padding: 0 100px 0 0;
     resize: none;
+    background-color: transparent;
   }
   //모바일 세로
   @media screen and (max-width: 376px) {

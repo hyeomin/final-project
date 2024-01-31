@@ -1,17 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRef } from 'react';
 import { GoPencil, GoTrash } from 'react-icons/go';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
-import { deletePost } from '../../api/postApi';
-import editNdeleteToggleBox from '../../assets/editndeletetoggle.png';
-import { useModal } from '../../hooks/useModal';
-import { QUERY_KEYS } from '../../query/keys';
-import { isEditingPostState, postInputState } from '../../recoil/posts';
-import theme from '../../styles/theme';
-import { FoundDetailPostProps } from '../../types/PostType';
-import { modalState } from '../../recoil/modals';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { deletePost } from '../../../api/postApi';
+import { useModal } from '../../../hooks/useModal';
+import { QUERY_KEYS } from '../../../query/keys';
+import { modalState } from '../../../recoil/modals';
+import { isEditingPostState, pathHistoryState, postInputState } from '../../../recoil/posts';
+import { FoundDetailPostProps } from '../../../types/PostType';
+import St from './style';
 
 function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
@@ -19,13 +16,9 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { pathname } = useLocation();
-  const prevPathname = useRef(pathname);
-
-  console.log('prevPathname-->', prevPathname);
-
   const setPostInput = useSetRecoilState(postInputState);
   const setIsEditingPost = useSetRecoilState(isEditingPostState);
+  const pathHistory = useRecoilValue(pathHistoryState);
 
   const onEditPostHandler = () => {
     setPostInput({
@@ -46,7 +39,10 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
     mutationFn: deletePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
-      navigate(-1);
+      // 뒤로가기 했을 때 /write면 홈으로 가게
+      if (pathHistory[pathHistory.length - 2] === '/write') {
+        navigate('/');
+      } else navigate(-1);
     }
   });
 
@@ -56,7 +52,7 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
       modal.close();
     };
 
-    const onClickSave = () => {
+    const onClickDelete = () => {
       if (foundDetailPost) {
         deleteMutation.mutate(foundDetailPost.id);
       }
@@ -70,72 +66,30 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
       leftButtonLabel: '취소',
       onClickLeftButton: onClickCancel,
       rightButtonLabel: '삭제',
-      onClickRightButton: onClickSave
+      onClickRightButton: onClickDelete
     };
     modal.open(openModalParams);
     setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
-
-    // const confirm = window.confirm('삭제하시겠습니까?');
-    // if (!confirm) return;
-    // if (foundDetailPost) {
-    //   deleteMutation.mutate(foundDetailPost.id);
-    // }
   };
 
   return (
-    <ToggleContainer>
-      <ToggleContentContainer>
-        <EditNDeleteSpan onClick={onEditPostHandler}>
+    <St.ToggleContainer>
+      <St.ToggleContentContainer>
+        <St.EditNDeleteSpan onClick={onEditPostHandler}>
           수정하기
           <div>
             <GoPencil />
           </div>
-        </EditNDeleteSpan>
-        <EditNDeleteSpan onClick={onDeletePostHandler}>
+        </St.EditNDeleteSpan>
+        <St.EditNDeleteSpan onClick={onDeletePostHandler}>
           삭제하기
           <div>
             <GoTrash />
           </div>
-        </EditNDeleteSpan>
-      </ToggleContentContainer>
-    </ToggleContainer>
+        </St.EditNDeleteSpan>
+      </St.ToggleContentContainer>
+    </St.ToggleContainer>
   );
 }
 
 export default EditNDeleteToggle;
-
-const ToggleContainer = styled.div`
-  background-image: url(${editNdeleteToggleBox});
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-color: transparent;
-
-  position: absolute;
-  top: 30px;
-  width: 130px;
-  height: 100px;
-`;
-
-const ToggleContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 8px;
-  padding: 25px;
-  row-gap: 10px;
-  font-size: 14px;
-`;
-
-const EditNDeleteSpan = styled.span`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  color: black;
-  font-weight: lighter;
-
-  &:hover {
-    color: ${theme.color.mangoMain};
-    cursor: pointer;
-  }
-`;

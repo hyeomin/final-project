@@ -7,7 +7,7 @@ const CoverContainer = styled.div`
   align-items: center;
   width: 100%;
   position: relative;
-  background-color: white;
+  /* background-color: white; */
 `;
 
 const StyledSwiper = styled(Swiper)`
