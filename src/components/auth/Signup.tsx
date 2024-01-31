@@ -51,7 +51,7 @@ function Signup() {
   // 유효성 검사
   // 정규식
   // const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  const emailRegex = /^[a-z0-9]{4,}@mango\.com$/;
+  const emailRegex = /^[a-z0-9]{4,}@[a-z0-9]{3,}\.[a-z]{2,}$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
   // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
@@ -90,6 +90,7 @@ function Signup() {
         modal.open(openModalParams);
         setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
       }
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
       //console.log('userCredential', userCredential);
@@ -145,7 +146,6 @@ function Signup() {
   // 이메일 중복체크 (firestore)
   const emailCheck = async (email: string) => {
     const userRef = collection(db, 'users');
-
     const q = query(userRef, where('userEmail', '==', email));
     const querySnapshot = await getDocs(q);
 
@@ -163,12 +163,13 @@ function Signup() {
         rightButtonLabel: '확인',
         onClickRightButton: onClickSave
       };
+
       modal.open(openModalParams);
       setIsModalOpen((prev) => ({ ...prev, isModalOpen03: true }));
 
       setIsFormValid(false);
       setIsChecked(false);
-      setValue('email', email);
+      setValue('email', '');
 
       return;
     } else if (email === '') {
@@ -207,7 +208,6 @@ function Signup() {
       setIsModalOpen((prev) => ({ ...prev, isModalOpen05: true }));
       setIsChecked(true);
       setIsFormValid(true);
-      //console.log('ddddddddddd');
     }
   };
 
@@ -236,10 +236,8 @@ function Signup() {
       setIsModalOpen((prev) => ({ ...prev, isModalOpen06: true }));
 
       setValue('nickname', nickname);
-      // setIsChecked(false);
       setIsNicknameChecked(false);
       setIsFormValid(false);
-      // setIsChecked(false);
       return;
     } else if (nickname === '') {
       const onClickSave = () => {
@@ -277,8 +275,34 @@ function Signup() {
       // setIsChecked(true);
       setIsNicknameChecked(true);
       setIsFormValid(true);
+    }
+  };
 
-      //console.log('닉넴');
+  // 중복확인버튼 안 눌렀을 시, 모달창 띄움
+  const handleAlert = () => {
+    const onClickSave = () => {
+      modal.close();
+    };
+    if (!isChecked) {
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '이메일 중복확인 버튼을 눌러주세요',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    } else if (!isNicknameChecked) {
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '닉네임 중복확인 버튼을 눌러주세요',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
     }
   };
 
@@ -297,7 +321,7 @@ function Signup() {
           <label htmlFor="email"></label>
           <St.AuthInput
             type="text"
-            placeholder="Email@mango.com"
+            placeholder="Email"
             {...register('email', {
               required: true,
               pattern: emailRegex
@@ -305,10 +329,6 @@ function Signup() {
           />
 
           <St.AuthBtn onClick={() => emailCheck(getValues('email'))} disabled={!!errors?.email}>
-            {/* <St.AuthBtn
-            onClick={() => emailCheck(getValues('email'))}
-            disabled={!!errors?.email || getValues('email').trim() !== getValues('email')}
-          > */}
             중복확인
           </St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
@@ -324,7 +344,6 @@ function Signup() {
               required: true,
               pattern: passwordRegex
             })}
-            disabled={!isChecked}
           />
 
           {errors?.password?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
@@ -346,7 +365,6 @@ function Signup() {
                 }
               }
             })}
-            disabled={!isChecked}
           />
 
           {errors?.passwordCheck?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
@@ -362,7 +380,6 @@ function Signup() {
               required: true,
               pattern: nicknameRegex
             })}
-            disabled={!isChecked}
           />
           <St.AuthBtn type="button" onClick={() => nicknameCheck(getValues('nickname'))}>
             중복확인
@@ -374,7 +391,7 @@ function Signup() {
           )}
         </St.InputContainer>
 
-        <St.SignUpAndLoginBtn type="submit" disabled={!isChecked || !isNicknameChecked}>
+        <St.SignUpAndLoginBtn type="submit" onClick={!isChecked || !isNicknameChecked ? handleAlert : undefined}>
           가입하기
         </St.SignUpAndLoginBtn>
         {errorMsg && <p style={{ color: 'red' }}>{errorMsg}</p>}
