@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import theme from '../../../styles/theme';
 
 const Wrapper = styled.div`
-  /* max-width: 1440px; */
-  /* width: 100%; */
-  width: 1000px;
-  height: 100%;
+  /* width: 1000px;
+  height: 100%; */
+  width: 100%;
+  max-width: 1200px;
+  min-width: 600px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -66,7 +68,7 @@ const ProfileInfo = styled.div`
 `;
 
 const ProfileModifyBtn = styled.div`
-  width: 100px;
+  width: 90px;
   height: 30px;
   background-color: ${theme.color.mangoMain};
   color: white;

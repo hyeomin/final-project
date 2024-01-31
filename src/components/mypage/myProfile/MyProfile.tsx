@@ -9,7 +9,6 @@ import {
   updateProfileInfo,
   updateProfileInfoProps
 } from '../../../api/authApi';
-import { getMyPosts, getUserRanking } from '../../../api/myPostAPI';
 import defaultImg from '../../../assets/defaultImg.jpg';
 import postCountIcon from '../../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../../assets/icons/rankingIcon.png';
@@ -22,6 +21,7 @@ import HabitCalendar from '../HabitCalendar/HabitCalendar';
 import LikesPosts from '../LikesPosts';
 import MyPosts from '../MyPosts';
 import St from './style';
+import { getMyPosts } from '../../../api/myPostAPI';
 
 function MyProfile() {
   const modal = useModal();
@@ -37,7 +37,6 @@ function MyProfile() {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
-  // 커스텀훅--> 구현 하고나서!!!!!!!!!!!!!  addeventListener , 한 번만 실행해도 됨 if else --> 로그아웃
 
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
@@ -58,25 +57,23 @@ function MyProfile() {
     } else {
       setIsValid(false);
       // 에러 메시지 표시
-      setErrorMsg('올바른 형식으로 입력하세요. \n (2자 이상 8자 이하, 영어 또는 숫자 또는 한글)'); // 원하는 에러 메시지를 설정해주세요.
+      setErrorMsg('올바른 형식으로 입력하세요. \n (2자 이상 8자 이하, 영어 또는 숫자 또는 한글)');
     }
   };
 
   // 내 게시물 갯수 가져오기
   const { data: myPosts } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS],
+    queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
     queryFn: getMyPosts,
-    // enabled: !!authCurrentUser,
-    select: (data) => {
-      return data?.filter((post) => post.uid === authCurrentUser?.uid!);
-    }
+    staleTime: 1000 * 60,
+    enabled: !!authCurrentUser
   });
 
-  // 랭킹순위
-  const { data: userRanking } = useQuery({
-    queryKey: ['userRanking'],
-    queryFn: getUserRanking
-  });
+  // 랭킹순위 (좋아요 수 기준)
+  // const { data: userRanking } = useQuery({
+  //   queryKey: ['userRanking'],
+  //   queryFn: getUserRanking
+  // });
 
   //div를 클릭해도 input이 클릭되도록 하기
   const onClickUpload = () => {
@@ -134,10 +131,25 @@ function MyProfile() {
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (authCurrentUser) {
-      if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
-        userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
-        setIsEditing(false);
+    const onClickSave = () => {
+      modal.close();
+    };
+    if (!isChecked) {
+      const openModalParams: Parameters<typeof modal.open>[0] = {
+        title: '중복확인 버튼을 눌러주세요',
+        message: '',
+        leftButtonLabel: '',
+        onClickLeftButton: undefined,
+        rightButtonLabel: '확인',
+        onClickRightButton: onClickSave
+      };
+      modal.open(openModalParams);
+    } else {
+      if (authCurrentUser) {
+        if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
+          userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+          setIsEditing(false);
+        }
       }
     }
   };
@@ -259,9 +271,6 @@ function MyProfile() {
     setActiveTab(updatedActiveTab);
 
     const newUrl = `${location.pathname}?${newSearchParams.toString()}`;
-    // console.log('queryString', queryString);
-    // console.log('location', location);
-    // console.log('searchParams get', newSearchParams);
 
     navigate(newUrl);
   };
@@ -339,8 +348,7 @@ function MyProfile() {
                   disabled={
                     !displayName ||
                     (displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL) ||
-                    !isValid ||
-                    (displayName !== authCurrentUser?.displayName && !isChecked)
+                    !isValid
                   }
                 >
                   수정완료
@@ -374,11 +382,11 @@ function MyProfile() {
             <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
               <img src={rankingIcon} />
               <div>
-                {authCurrentUser && userRanking
+                {/* {authCurrentUser && userRanking
                   ? userRanking.findIndex((r) => r.uid === authCurrentUser.uid) >= 0
                     ? `${userRanking?.findIndex((r) => r.uid === authCurrentUser.uid) + 1}위`
                     : '순위 없음'
-                  : '-'}
+                  : '-'} */}
               </div>
             </div>
           </St.PostInfoBox>

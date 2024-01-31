@@ -11,7 +11,6 @@ export type PostType = {
   likeCount: number;
   likedUsers: string[];
   coverImages: DownloadedImageType[];
-
   comments?: [];
   commentCount?: number;
   viewCount?: number;

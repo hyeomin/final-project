@@ -28,7 +28,7 @@ const getMyPosts = async () => {
   }
 };
 
-//likeUsers에 로그인한 유저 uid가 있는 게시물 가져오기
+// //likeUsers에 로그인한 유저 uid가 있는 게시물 가져오기
 const getLikePosts = async () => {
   try {
     const q = query(collection(db, QUERY_KEYS.POSTS), where('likedUsers', 'array-contains', auth.currentUser?.uid));
@@ -46,55 +46,73 @@ const getLikePosts = async () => {
   }
 };
 
-//user Ranking
-const getUserRanking = async () => {
-  try {
-    const postRef = collection(db, 'posts');
-    const querySnapshot = await getDocs(postRef);
+// //user Ranking
+// const getUserRanking = async () => {
+//   try {
+//     const postRef = collection(db, 'posts');
+//     const querySnapshot = await getDocs(postRef);
 
-    const posts: UsersWithLikeCount[] = [];
-    querySnapshot.forEach((doc) => {
-      const docData = doc.data() as PostType;
-      const post = {
-        uid: docData.uid,
-        likeCount: docData.likeCount,
-        viewCount: docData.viewCount
-      };
-      posts.push(post);
-    });
+//     const posts: UsersWithLikeCount[] = [];
+//     querySnapshot.forEach((doc) => {
+//       const docData = doc.data() as PostType;
+//       const post = {
+//         uid: docData.uid,
+//         likeCount: docData.likeCount,
+//         viewCount: docData.viewCount
+//       };
+//       posts.push(post);
+//     });
 
-    // 좋아요 합계 계산
-    const countPerUser = posts.reduce<Record<string, { totalLikes: number; totalViews: number }>>((acc, post) => {
-      if (!acc[post.uid!]) {
-        acc[post.uid!] = { totalLikes: 0, totalViews: 0 };
-      }
-      acc[post.uid!].totalLikes += post.likeCount!;
-      acc[post.uid!].totalViews += post.viewCount!;
-      return acc;
-    }, {});
+//     // 좋아요 합계 계산
+//     const countPerUser = posts.reduce<Record<string, { totalLikes: number; totalViews: number }>>((acc, post) => {
+//       if (!acc[post.uid!]) {
+//         acc[post.uid!] = { totalLikes: 0, totalViews: 0 };
+//       }
+//       acc[post.uid!].totalLikes += post.likeCount!;
+//       acc[post.uid!].totalViews += post.viewCount!;
+//       return acc;
+//     }, {});
 
-    // 객체를 배열로 변환
-    const usersWithCounts = Object.entries(countPerUser).map(([uid, counts]) => ({
-      uid,
-      totalLikes: counts.totalLikes,
-      totalViews: counts.totalViews
-    }));
+//     // 객체를 배열로 변환
+//     const usersWithCounts = Object.entries(countPerUser).map(([uid, counts]) => ({
+//       uid,
+//       totalLikes: counts.totalLikes,
+//       totalViews: counts.totalViews
+//     }));
 
-    //좋아요가 0인 유저 필터링
-    const filteredUsers = usersWithCounts.filter((user) => user.totalLikes > 0);
+//     //좋아요가 0인 유저 필터링
+//     const filteredUsers = usersWithCounts.filter((user) => user.totalLikes > 0);
 
-    const topUsers: likeCountPerUserType[] = filteredUsers.sort((a, b) => {
-      const sortedByLikes = b.totalLikes - a.totalLikes;
-      if (sortedByLikes === 0) {
-        return b.totalViews - a.totalViews;
-      }
-      return sortedByLikes;
-    });
-    return topUsers;
-  } catch (error) {
-    // console.log(error);
-    return [];
-  }
-};
+//     const topUsers: likeCountPerUserType[] = filteredUsers.sort((a, b) => {
+//       const sortedByLikes = b.totalLikes - a.totalLikes;
+//       if (sortedByLikes === 0) {
+//         return b.totalViews - a.totalViews;
+//       }
+//       return sortedByLikes;
+//     });
+//     return topUsers;
+//   } catch (error) {
+//     // console.log(error);
+//     return [];
+//   }
+// };
 
-export { getLikePosts, getMyPosts, getUserRanking };
+// const getAllPosts = async () => {
+//   try {
+//     const postRef = collection(db, 'posts');
+//     const querySnapshot = await getDocs(postRef);
+//     const posts: PostType[] = [];
+//     querySnapshot.forEach((doc) => {
+//       const postData = doc.data() as PostType;
+//       posts.push(postData);
+//       // console.log(doc.id, ' => ', doc.data());
+//     });
+
+//     // 객체들을 forEach 사용해서 배열에 담기
+//     return posts;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
+
+export { getLikePosts, getMyPosts };
