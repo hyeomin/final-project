@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, increment, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, increment, orderBy, query, updateDoc } from 'firebase/firestore';
 import { QUERY_KEYS } from '../query/keys';
 import { db } from '../shared/firebase';
 
@@ -24,26 +24,26 @@ const addComment = async ({ newComment, postId, currentUserId }: AddComment) => 
 };
 
 //코멘트 READ
-// const getComments = async (postId: string) => {
-//   try {
-//     const commentRef = collection(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS);
-//     const commentQuery = query(commentRef, orderBy('createdAt', 'desc'));
-//     const querySnapshot = await getDocs(commentQuery);
+const getComments = async (postId: string) => {
+  try {
+    const commentRef = collection(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS);
+    const commentQuery = query(commentRef, orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(commentQuery);
 
-//     const comments: CommentType[] = [];
-//     querySnapshot.forEach((doc) => {
-//       const commentData = doc.data() as CommentType;
-//       const comment = {
-//         ...commentData,
-//         id: doc.id
-//       };
-//       comments.push(comment);
-//     });
-//     return comments;
-//   } catch (error) {
-//     console.log('error', error);
-//   }
-// };
+    const comments: CommentType[] = [];
+    querySnapshot.forEach((doc) => {
+      const commentData = doc.data() as CommentType;
+      const comment = {
+        ...commentData,
+        id: doc.id
+      };
+      comments.push(comment);
+    });
+    return comments;
+  } catch (error) {
+    console.log('error', error);
+  }
+};
 
 type deleteType = {
   id: string;
@@ -80,4 +80,4 @@ const updateComment = async ({ postId, id, editingText: content }: UpdateComment
   }
 };
 
-export { addComment, deleteComment, updateComment };
+export { addComment, deleteComment, getComments, updateComment };

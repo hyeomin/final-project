@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import { getAllUsers } from '../../../../api/authApi';
+import { getComments } from '../../../../api/commentApi';
 import defaultUserProfile from '../../../../assets/defaultImg.jpg';
 import MangoLogo from '../../../../assets/realMango.png';
 import { AuthContext } from '../../../../context/AuthContext';
@@ -29,12 +30,10 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   // });
 
   // 댓글목록 가져오기
-  // const { data: comments } = useQuery({
-  //   queryKey: [QUERY_KEYS.COMMENTS, postId],
-  //   queryFn: () => getComments(postId)
-  // });
-
-  const commentsTest: CommentType[] = foundDetailPost.comments ?? [];
+  const { data: comments } = useQuery({
+    queryKey: [QUERY_KEYS.COMMENTS, postId],
+    queryFn: () => getComments(postId)
+  });
 
   const { data: users } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
@@ -122,7 +121,7 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
 
   return (
     <St.CommentListContainer>
-      {commentsTest?.length === 0 ? (
+      {comments?.length === 0 ? (
         <St.SingleComment>
           <St.Mango src={MangoLogo} alt="Mango Logo" />
           <St.CommentDetail>
@@ -133,7 +132,7 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
           </St.CommentDetail>
         </St.SingleComment>
       ) : (
-        commentsTest?.map((comment) => {
+        comments?.map((comment) => {
           return (
             <St.SingleComment key={comment.id}>
               <img

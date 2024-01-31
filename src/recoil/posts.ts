@@ -29,4 +29,9 @@ const categoryListState = atom<Category>({
   default: 'total'
 });
 
-export { categoryListState, isEditingPostState, postInputState };
+const pathHistoryState = atom<string[]>({
+  key: 'pathHistory',
+  default: []
+});
+
+export { categoryListState, isEditingPostState, pathHistoryState, postInputState };
