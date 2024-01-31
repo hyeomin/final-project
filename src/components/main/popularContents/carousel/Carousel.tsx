@@ -22,10 +22,11 @@ const Carousel = () => {
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['popularPosts'],
     queryFn: getPopularPosts,
-    staleTime: 5 * 6 * 1000
+    // staleTime: 5 * 6 * 1000
+    staleTime: Infinity
   });
 
-  console.log('인기게시물==>', popularPosts);
+  // console.log('인기게시물==>', popularPosts);
   const onClickLikeButton = useLikeButton();
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
