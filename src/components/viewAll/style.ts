@@ -5,6 +5,11 @@ import theme from '../../styles/theme';
 const ViewAllContainer = styled.div`
   width: 1000px;
   min-height: 1544px;
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    max-width: 370px;
+    min-height: 485px;
+  }
 `;
 
 /*유저 등록 데이터 (친환경노하우~습관인증) */
@@ -12,6 +17,13 @@ const MainSubWrapper = styled.div`
   width: 100%;
   min-height: 485px;
   margin-bottom: 150px; //58에서 변경
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    margin: auto;
+    /* min-width: 0px;
+    max-width: 370px;
+    min-height: 485px; */
+  }
 `;
 
 const CategoryWrapper = styled.div`
