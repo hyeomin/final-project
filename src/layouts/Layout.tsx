@@ -69,7 +69,7 @@ const MainWrapper = styled.div`
 
   //모바일 세로
   @media screen and (max-width: 376px) {
-    margin: 100px auto 0 auto;
+    //margin: 100px auto 0 auto;
     max-width: 375px;
     min-width: 0;
   }

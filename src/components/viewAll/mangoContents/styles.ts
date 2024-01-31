@@ -54,8 +54,9 @@ const MangoSUbWord = styled.p`
 
   //모바일 세로
   @media screen and (max-width: 376px) {
-    line-height: 2;
-    font-size: 15px;
+    /* line-height: 2;
+    font-size: 15px; */
+    display: none;
   }
 `;
 

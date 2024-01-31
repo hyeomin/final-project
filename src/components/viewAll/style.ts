@@ -253,6 +253,10 @@ const MangoSUbWord = styled.p`
   font-size: 17px;
   font-weight: 500;
   margin-top: 10px;
+  //모바일 (세로)
+  @media screen and (max-width: 376px) {
+    //
+  }
 `;
 
 const AdminContents = styled.ul`
@@ -288,23 +292,21 @@ const AdminContent = styled.li`
       cursor: pointer;
     }
   }
-`;
 
-// 24.01.31
-// const AdminContent = styled.li`
-//   width: 490px;
-//   margin-bottom: 20px;
-//   img {
-//     object-fit: cover;
-//     width: 490px; //710 -> 550 (전체사이즈 1200)
-//     height: 300px;
-//     flex-shrink: 0;
-//     border-radius: 40px;
-//     &:hover {
-//       cursor: pointer;
-//     }
-//   }
-// `;
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    width: 165px;
+    img {
+      object-fit: cover;
+      width: 170px;
+      height: 110px;
+      border-radius: 20px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+`;
 
 const AdminPostTitle = styled.p`
   color: #000;
@@ -313,6 +315,12 @@ const AdminPostTitle = styled.p`
   text-align: left;
   margin-top: 20px;
   margin-bottom: 10px;
+
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    font-size: 17px;
+    font-weight: 600;
+  }
 `;
 
 const AdminPostSpace = styled.div`
@@ -324,6 +332,11 @@ const AdminPostContent = styled.div`
   color: #000;
   font-size: 16px;
   font-weight: 400;
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    font-size: 10px;
+    font-weight: 400;
+  }
 `;
 
 const UserProfile = styled.div`

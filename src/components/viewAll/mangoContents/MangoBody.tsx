@@ -15,10 +15,7 @@ function MangoBody() {
           <St.MangoWord>Mango</St.MangoWord>
           <St.MangoOutWord>콘텐츠</St.MangoOutWord>
         </St.MangoDiv>
-        <St.MangoSUbWord>
-          누구나, 어디서나 <br />
-          쉽게 따라할 수 있는 습관을 만들어 나가요.
-        </St.MangoSUbWord>
+        <St.MangoSUbWord>누구나, 어디서나 쉽게 따라할 수 있는 습관을 만들어 나가요.</St.MangoSUbWord>
 
         <St.MainSubWrapper>
           <PostListAdmin queryKey={[QUERY_KEYS.ADMIN]} queryFn={getAdminPostList} sortBy={sortBy} />
