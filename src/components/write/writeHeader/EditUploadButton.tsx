@@ -29,12 +29,11 @@ function EditUploadButton({ postId }: Props) {
   const updatePostMutation = useMutation({
     mutationFn: () => updatePost({ editingPost, postId }),
     onSuccess: () => {
-      console.log('이야아아아');
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
       // 내용 원상복구
       setPostInput(initialPostInputState);
       // 임시저장 삭제
-      onDeleteTempSave();
+      sessionStorage.removeItem('savedData');
       navigate(`/detail/${postId}`);
     }
   });
@@ -101,6 +100,3 @@ function EditUploadButton({ postId }: Props) {
 }
 
 export default EditUploadButton;
-function onDeleteTempSave() {
-  throw new Error('Function not implemented.');
-}
