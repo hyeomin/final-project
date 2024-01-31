@@ -7,13 +7,21 @@ const Wrapper = styled.div`
   height: 100%; */
   width: 100%;
   max-width: 1000px;
-  min-width: 600px;
+  // min-width: 600px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+
+  @media screen and (max-width: 768px) {
+    margin: 10px 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const MySectionWrapper = styled.div`
@@ -24,6 +32,10 @@ const MySectionWrapper = styled.div`
   border-radius: 10px;
   border: 1px solid #d9d9d9;
   margin-bottom: 300px;
+
+  @media screen and (max-width: 620px) {
+    width: 100%;
+  }
 `;
 const ProfileEditWrapper = styled.div`
   display: flex;
@@ -35,6 +47,15 @@ const ProfileEditWrapper = styled.div`
   border-radius: 10px;
   border: 1px solid lightgray;
   margin-top: 30px;
+
+  @media screen and (max-width: 768px) {
+    margin: 10px 0 30px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    height: unset;
+  }
 `;
 
 const ProfileImageContainer = styled.div`
@@ -65,6 +86,11 @@ const ProfileInfo = styled.div`
   margin-top: 15px;
   gap: 10px;
   align-items: baseline;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
 const ProfileModifyBtn = styled.div`
@@ -76,19 +102,33 @@ const ProfileModifyBtn = styled.div`
   border-radius: 30px;
   padding: 8px;
   margin-top: 7px;
+
+  @media screen and (max-width: 768px) {
+    margin-top: 4px;
+    width: 80px;
+    height: 20px;
+    font-size: 12px;
+    padding: 5px;
+  }
 `;
 
 const UserPostInfoContainer = styled.div`
   display: flex;
   column-gap: 20px;
   font-size: 15px;
+
+  @media screen and (max-width: 768px) {
+    margin: 20px 0 5px;
+    column-gap: 5px;
+  }
 `;
 
 const PostInfoBox = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 140px;
+  max-width: 140px;
+  min-width: 100px;
   height: 100px;
   padding: 20px;
   border-radius: 20px;
@@ -120,8 +160,14 @@ const profileImg = styled.div`
   object-fit: cover;
   img {
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    max-width: 150px;
+    max-height: 150px;
+    /* width: 100%; /* 이미지가 부모 요소에 가득 차도록 설정 */
+    /* height: auto; 가로로 조절되면서 세로 비율 유지 */
+  }
+  @media screen and (max-width: 768px) {
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -145,7 +191,11 @@ const UserInfoModify = styled.div`
   display: flex;
   justify-content: left;
   margin-right: 50px;
-  width: 200px;
+  max-width: 200px;
+
+  /* @media screen and (max-width: 768px) {
+    margin: 30px 
+  } */
 `;
 const FileInput = styled.input`
   display: none;
@@ -177,11 +227,20 @@ const MyImage = styled.img`
   height: 100px;
   object-fit: cover;
   border-radius: 50%;
+  @media screen and (max-width: 768px) {
+    width: 70px;
+    height: 70px;
+  }
 `;
 
 const MyNickname = styled.h1`
   font-size: 20px;
   font-weight: 600;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+  }
 `;
 
 const MyEmail = styled.h4`
@@ -221,9 +280,9 @@ const GuideGrade = styled.div`
 
 const Tabs = styled.div`
   width: 100%;
-  height: 100%;
   margin: 20px;
   padding: 20px;
+  height: 450px;
 `;
 
 const TabButtonContainer = styled.div`
@@ -233,8 +292,12 @@ const TabButtonContainer = styled.div`
   column-gap: 5px;
   margin-top: 80px;
   padding: 0 20px;
-
   font-size: 20px;
+  @media screen and (max-width: 620px) {
+    margin: 30px 0 0 0;
+    min-width: 100%;
+    max-width: 100%;
+  }
 `;
 
 interface TabButtonProps {

@@ -22,6 +22,12 @@ const ContentImg = styled.img`
   object-fit: cover;
   width: 100%; //345 > 233 변경 > HM 100% 변경
   height: 210px; //420 > 280 변경 > HM 230px 변경
+
+  //희원 수정
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 180px;
+  }
 `;
 
 const Row = styled.div`
@@ -33,6 +39,10 @@ const Row = styled.div`
   & p {
     font-weight: bold;
     font-size: 14px; // HM 망고망 16px
+    //희원 수정
+    @media screen and (max-width: 768px) {
+      font-size: 12px;
+    }
   }
 
   span {
@@ -41,6 +51,11 @@ const Row = styled.div`
     //font-family: SB AggroOTF;
     font-size: 12px;
     font-weight: 400;
+    //희원 수정
+    @media screen and (max-width: 768px) {
+      font-size: 10px;
+      margin: 0;
+    }
   }
 `;
 
@@ -52,6 +67,12 @@ export const PostInfoContainer = styled.div`
   row-gap: 15px;
   padding: 15px;
   font-size: 16px;
+
+  //희원 수정
+  @media screen and (max-width: 768px) {
+    padding: 10px;
+    row-gap: 20px;
+  }
 `;
 
 const CommentAndLikes = styled.div`
@@ -125,6 +146,10 @@ const UserProfile = styled.div`
     display: flex;
     column-gap: 15px;
     justify-content: center;
+    //희원 수정
+    @media screen and (max-width: 768px) {
+      column-gap: 10px;
+    }
   }
 `;
 
@@ -138,6 +163,11 @@ const ProfileImg = styled.img`
     height: 100%;
     border-radius: 50%;
   } */
+  //희원 수정
+  @media screen and (max-width: 768px) {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const NeedDelete = styled.div`

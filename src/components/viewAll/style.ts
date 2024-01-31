@@ -89,13 +89,28 @@ const ContentsWrapper = styled.div`
   gap: 20px;
 `;
 
+// const Contents = styled.ul`
+//   width: 100%;
+//   display: grid;
+//   grid-template-columns: 1fr 1fr 1fr 1fr;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 20px;
+// `;
+
+//희원 수정
 const Contents = styled.ul`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 170px;
+  }
 `;
 
 const Content = styled.li`
