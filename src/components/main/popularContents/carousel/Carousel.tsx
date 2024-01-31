@@ -21,10 +21,10 @@ const Carousel = () => {
   const currentUserId = authContext?.currentUser?.uid;
 
   const { data: popularPosts, isLoading } = useQuery({
-    queryKey: ['popularPosts'],
+    queryKey: ['posts', 'popular'],
     queryFn: getPopularPosts,
-    // staleTime: 5 * 6 * 1000
-    staleTime: Infinity
+    staleTime: 5 * 6 * 1000
+    // staleTime: Infinity
   });
 
   // console.log('인기게시물==>', popularPosts);
