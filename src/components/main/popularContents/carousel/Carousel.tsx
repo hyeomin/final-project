@@ -39,9 +39,7 @@ const Carousel = () => {
         </St.Button>
       )}
       <St.SlideWrapper>
-        {isLoading ? (
-          <Loader />
-        ) : popularPosts && popularPosts.length === 0 ? (
+        {popularPosts && popularPosts.length === 0 ? (
           <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
         ) : (
           popularPosts?.slice(currentSlide, currentSlide + 4).map((post) => {

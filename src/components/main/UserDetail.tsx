@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
 import { getUser } from '../../api/authApi';
 import defaultUserProfile from '../../assets/realMango.png';
 

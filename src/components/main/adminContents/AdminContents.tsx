@@ -28,9 +28,9 @@ const AdminContentsTest = () => {
     setCurrentIndex(swiper.realIndex);
   };
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   return (
     <Container>
