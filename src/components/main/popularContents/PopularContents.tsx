@@ -19,9 +19,10 @@ import Carousel from './carousel/Carousel';
 import { QUERY_KEYS } from '../../../query/keys';
 import { getAdminPostList } from '../../../api/pageListApi';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import CarouselSkeleton from './carousel/skeleton/CarouselSkeleton';
 
 const PopularContents = () => {
-  console.log('PopularContents 렌더링!');
+  // console.log('PopularContents 렌더링!');
   // hover 시 prefetch 함수
   const queryClient = useQueryClient();
   const handleHover = async () => {

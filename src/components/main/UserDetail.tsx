@@ -11,8 +11,8 @@ const UserDetail = ({ userId, type }: Props) => {
   const { data: userData } = useQuery({
     queryKey: ['users', userId],
     queryFn: () => getUser(userId),
-    // staleTime: 5 * 6 * 1000
-    staleTime: Infinity
+    staleTime: 5 * 6 * 1000
+    // staleTime: Infinity
   });
 
   return (
