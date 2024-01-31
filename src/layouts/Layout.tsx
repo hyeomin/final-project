@@ -18,6 +18,7 @@ function Layout({ children }: PropsWithChildren) {
     isModalOpen09
   } = useRecoilValue(modalState);
 
+<<<<<<< HEAD
   // console.log(
   //   isModalOpen01,
   //   isModalOpen02,
@@ -29,6 +30,8 @@ function Layout({ children }: PropsWithChildren) {
   //   isModalOpen08,
   //   isModalOpen09
   // );
+=======
+>>>>>>> 1d3ee0f6eb4426d2d9cb6c4de6d7dff8378173ab
   return (
     <LayoutContainer
       $isModalOpen={
@@ -64,7 +67,12 @@ const LayoutContainer = styled.div<LayoutProps>`
   justify-content: space-between;
   background-color: ${(props) => (props.$isModalOpen ? 'rgba(0, 0, 0, 0.02)' : 'white')};
   backdrop-filter: ${(props) => (props.$isModalOpen ? 'saturate(180%) blur(8px)' : 'none')};
-  // overflow: ${(props) => (props.$isModalOpen ? 'hidden' : 'unset')};
+  overflow: ${(props) => (props.$isModalOpen ? 'hidden' : 'unset')};
+
+  @media screen and (max-width: 376px) {
+    max-width: 375px;
+    min-width: 0;
+  }
 `;
 
 const MainWrapper = styled.div`
@@ -72,4 +80,17 @@ const MainWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 60px auto 0 auto;
+
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    //margin: 100px auto 0 auto;
+    max-width: 375px;
+    min-width: 0;
+  }
+
+  //모바일 가로
+  @media screen and (min-width: 376px) and (max-width: 620px) {
+    margin: 0;
+    max-height: 375px;
+  }
 `;

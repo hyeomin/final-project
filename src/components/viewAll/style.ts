@@ -5,6 +5,11 @@ import theme from '../../styles/theme';
 const ViewAllContainer = styled.div`
   width: 1000px;
   min-height: 1544px;
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    max-width: 370px;
+    min-height: 485px;
+  }
 `;
 
 /*유저 등록 데이터 (친환경노하우~습관인증) */
@@ -12,6 +17,13 @@ const MainSubWrapper = styled.div`
   width: 100%;
   min-height: 485px;
   margin-bottom: 150px; //58에서 변경
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    margin: auto;
+    /* min-width: 0px;
+    max-width: 370px;
+    min-height: 485px; */
+  }
 `;
 
 const CategoryWrapper = styled.div`
@@ -241,6 +253,10 @@ const MangoSUbWord = styled.p`
   font-size: 17px;
   font-weight: 500;
   margin-top: 10px;
+  //모바일 (세로)
+  @media screen and (max-width: 376px) {
+    //
+  }
 `;
 
 const AdminContents = styled.ul`
@@ -264,16 +280,30 @@ const AdminContents = styled.ul`
 `;
 
 const AdminContent = styled.li`
-  width: 490px;
+  width: 300px;
   margin-bottom: 20px;
   img {
     object-fit: cover;
-    width: 490px; //710 -> 550 (전체사이즈 1200)
+    width: 300px;
     height: 300px;
     flex-shrink: 0;
-    border-radius: 40px;
+    border-radius: 20px;
     &:hover {
       cursor: pointer;
+    }
+  }
+
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    width: 165px;
+    img {
+      object-fit: cover;
+      width: 170px;
+      height: 110px;
+      border-radius: 20px;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 `;
@@ -285,6 +315,12 @@ const AdminPostTitle = styled.p`
   text-align: left;
   margin-top: 20px;
   margin-bottom: 10px;
+
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    font-size: 17px;
+    font-weight: 600;
+  }
 `;
 
 const AdminPostSpace = styled.div`
@@ -296,6 +332,11 @@ const AdminPostContent = styled.div`
   color: #000;
   font-size: 16px;
   font-weight: 400;
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    font-size: 10px;
+    font-weight: 400;
+  }
 `;
 
 const UserProfile = styled.div`

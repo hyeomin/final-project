@@ -45,12 +45,21 @@ function NavBar() {
       queryKey: [QUERY_KEYS.ADMIN],
       queryFn: getAdminPostList,
       initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
-      staleTime: 60000
+      staleTime: 60_000
     });
   };
 
+  //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기)
+  const [isAuth, setIsAuth] = useState(false);
+  console.log(isAuth);
+  useEffect(() => {
+    const detailURL = window.location.href;
+    const isAuthInURL = detailURL.includes('auth');
+    setIsAuth(isAuthInURL);
+  }, [isAuth]);
+
   return (
-    <St.NavContainer ref={navRef}>
+    <St.NavContainer ref={navRef} isAuth={isAuth}>
       <St.NavBarContainer>
         <St.LeftNav>
           <LogoContainer onClick={() => navigate('/')}>
@@ -60,7 +69,6 @@ function NavBar() {
           <NavLink to="/about" style={styledNav}>
             ABOUT
           </NavLink>
-
           <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
             BY MANGO
           </NavLink>
@@ -68,7 +76,6 @@ function NavBar() {
             COMMUNITY
           </NavLink>
         </St.LeftNav>
-
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
       </St.NavBarContainer>
       {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}
