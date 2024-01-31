@@ -9,7 +9,6 @@ import {
   updateProfileInfo,
   updateProfileInfoProps
 } from '../../../api/authApi';
-// import { getAllPosts, getMyPosts } from '../../../api/myPostAPI';
 import defaultImg from '../../../assets/defaultImg.jpg';
 import postCountIcon from '../../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../../assets/icons/rankingIcon.png';
@@ -69,8 +68,6 @@ function MyProfile() {
     staleTime: 1000 * 60,
     enabled: !!authCurrentUser
   });
-
-  console.log('authCurrentUser ', authCurrentUser);
 
   // 랭킹순위 (좋아요 수 기준)
   // const { data: userRanking } = useQuery({

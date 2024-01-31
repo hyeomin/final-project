@@ -4,7 +4,6 @@ import St from './style';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import { QUERY_KEYS } from '../../../query/keys';
-// import { getAllPosts, getMyPosts } from '../../../api/myPostAPI';
 import { useQuery } from '@tanstack/react-query';
 import mangofavicon from '../../../assets/mango-favicon.png';
 import calendarSpring from '../../../assets/calendarSpring.png';
@@ -12,15 +11,12 @@ import { getFormattedDateCustom } from '../../../util/formattedDateAndTime';
 import { CiCalendar } from 'react-icons/ci';
 import { AuthContext } from '../../../context/AuthContext';
 import { PostType } from '../../../types/PostType';
+import { getMyPosts } from '../../../api/myPostAPI';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-interface MyProfileProps {
-  getMyPosts: () => Promise<PostType[] | undefined>;
-}
-
-const HabitCalendar = ({ date }: any, { getMyPosts }: MyProfileProps) => {
+const HabitCalendar = ({ date }: any) => {
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
   // 초기값은 현재 날짜

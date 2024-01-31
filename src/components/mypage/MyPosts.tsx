@@ -5,11 +5,7 @@ import PostCard from '../mypage/PostCard/PostCard';
 import { QUERY_KEYS } from '../../query/keys';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { PostType } from '../../types/PostType';
 import { getMyPosts } from '../../api/myPostAPI';
-// interface MyProfileProps {
-//   getMyPosts: () => Promise<PostType[] | undefined>;
-// }
 
 // 내 게시물 가져오기
 const MyPosts = () => {
@@ -20,8 +16,8 @@ const MyPosts = () => {
   const { data: myPosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
     queryFn: getMyPosts,
-    enabled: !!authCurrentUser
-    // staleTime: 1000 * 60
+    enabled: !!authCurrentUser,
+    staleTime: 1000 * 60
   });
 
   return (

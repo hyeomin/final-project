@@ -115,5 +115,4 @@ const getLikePosts = async () => {
 //   }
 // };
 
-// export { getLikePosts, getMyPosts, getUserRanking };
 export { getLikePosts, getMyPosts };
