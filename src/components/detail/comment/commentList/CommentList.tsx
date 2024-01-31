@@ -11,6 +11,7 @@ import useCommentQuery from '../../../../query/useCommentQuery';
 import { FoundDetailPostProps } from '../../../../types/PostType';
 import { getFormattedDate } from '../../../../util/formattedDateAndTime';
 import St from './style';
+import UserDetail from '../../../main/UserDetail';
 
 const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const modal = useModal();
@@ -23,21 +24,11 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const authContext = useContext(AuthContext);
   const currentUserId = authContext?.currentUser?.uid;
 
-  // const { data: comments, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
-  //   queryKey: ['comments', postId],
-  //   queryFn: () => getComments(postId),
-  //   getNextPageParam: () => {}
-  // });
-
   // 댓글목록 가져오기
   const { data: comments } = useQuery({
     queryKey: [QUERY_KEYS.COMMENTS, postId],
-    queryFn: () => getComments(postId)
-  });
-
-  const { data: users } = useQuery({
-    queryKey: [QUERY_KEYS.USERS],
-    queryFn: getAllUsers
+    queryFn: () => getComments(postId),
+    staleTime: Infinity
   });
 
   //mutates
@@ -135,14 +126,11 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
         comments?.map((comment) => {
           return (
             <St.SingleComment key={comment.id}>
-              <img
-                src={users?.find((user) => user.uid === comment.uid)?.profileImg || defaultUserProfile}
-                alt="profile"
-              />
+              <UserDetail userId={comment.uid} type="profileImg" />
               <St.CommentDetail>
                 <St.NameAndTime>
                   {/* <span>{comment.displayName}</span> */}
-                  <span>{users?.find((user) => user.uid === comment.uid)?.displayName}</span>
+                  <UserDetail userId={comment.uid} type="displayName" />
                   <St.Time>{getFormattedDate(comment.createdAt)}</St.Time>
                 </St.NameAndTime>
                 {editingCommentId === comment.id ? (

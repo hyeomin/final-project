@@ -1,69 +1,88 @@
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import styled from 'styled-components';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import { getAdminPosts } from '../../../api/homeApi';
 import defaultIllustration from '../../../assets/home/AdminPostIllustration.png';
-
 import Loader from '../../common/Loader';
-import St from './style';
+import St from '../popularContents/carousel/style';
+import AdminCenterBox from './AdminCenterBox';
 
-const AdminContents = () => {
+const AdminContentsTest = () => {
+  // console.log('어드민컨텐츠 렌더링!');
+  const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const { data: adminContents, isLoading } = useQuery({
     queryKey: ['adminContents'],
-    queryFn: getAdminPosts
+    queryFn: getAdminPosts,
+    // staleTime: 5 * 6 * 1000
+    staleTime: Infinity
   });
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  const handleSlideChange = (swiper: SwiperClass) => {
+    setCurrentIndex(swiper.realIndex);
+  };
+
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   return (
-    <St.Container>
-      <Swiper
-        centeredSlides={true}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false
-        }}
-        pagination={{
-          clickable: true,
-          type: 'fraction'
-        }}
-        navigation={true}
-        modules={[Autoplay, Pagination, Navigation]}
-        className="custom-swiper"
-      >
-        {adminContents?.length === 0 ? (
-          <div>관리자 콘텐츠 데이터를 찾을 수 없습니다.</div>
-        ) : (
-          adminContents?.map((item, idx) => {
-            return (
-              <SwiperSlide key={idx}>
-                {/* item.coverImages로 변경하기 */}
-                {!item ? <Loader /> : <img src={defaultIllustration} alt={`Slide ${idx}`} />}
-                <Button to={`/detail/${item.id}`}>자세히 보기</Button>
-              </SwiperSlide>
-            );
-          })
-        )}
-      </Swiper>
-    </St.Container>
+    <Container>
+      {adminContents?.length === 0 ? (
+        <St.PlaceHolder>관리자 콘텐츠 데이터를 찾을 수 없습니다.</St.PlaceHolder>
+      ) : (
+        <Swiper
+          onSwiper={setSwiperInstance}
+          onSlideChange={handleSlideChange}
+          centeredSlides={true}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false
+          }}
+          modules={[Autoplay]}
+          className="custom-swiper"
+        >
+          {adminContents &&
+            adminContents.map((item, idx) => {
+              return (
+                <SwiperSlide key={idx}>
+                  {item ? (
+                    <img
+                      src={(item.coverImages[1] && item.coverImages[1].url) || defaultIllustration}
+                      alt={`Slide ${idx}`}
+                    />
+                  ) : (
+                    <Loader />
+                  )}
+                </SwiperSlide>
+              );
+            })}
+        </Swiper>
+      )}
+      {/* 헤더 중앙에 놓인 박스, 버튼, 텍스트 등이 다 들어가있음 */}
+      {adminContents && adminContents?.length > 0 && (
+        <AdminCenterBox
+          swiperInstance={swiperInstance}
+          setCurrentIndex={setCurrentIndex}
+          currentIndex={currentIndex}
+          adminContents={adminContents}
+        />
+      )}
+    </Container>
   );
 };
 
-export default AdminContents;
+export default AdminContentsTest;
 
-const StyledSwiperSlide = styled(SwiperSlide)`
-  width: 1000px;
-  position: absolute;
-  top: 0;
-  background-color: pink;
-  opacity: 30%;
+const Container = styled.div`
+  width: 100%;
+  height: 450px;
+  margin-bottom: 10px;
+  position: relative;
 `;
-
-const Button = styled(Link)``;

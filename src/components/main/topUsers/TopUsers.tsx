@@ -1,15 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import { getTopUsers } from '../../../api/homeApi';
 import St from './style';
-import TopUserDetail from './TopUserDetail';
+import UserDetail from '../UserDetail';
+import firstPlace from '../../../assets/1stPlace.png';
+import secondPlace from '../../../assets/2ndPlace.png';
+import thirdPlace from '../../../assets/3rdPlace.png';
 
 const TopUsers = () => {
   console.log('TopUsers 렌더링!');
 
   const { data: topUsers } = useQuery({
     queryKey: ['topUsers'],
-    queryFn: getTopUsers
-    // staleTime: Infinity
+    queryFn: getTopUsers,
+    // staleTime: 5 * 6 * 1000
+    staleTime: Infinity
   });
 
   return (
@@ -25,7 +29,15 @@ const TopUsers = () => {
           topUsers?.map((user, index) => {
             return (
               <St.UserInfo key={index}>
-                <TopUserDetail userId={user.uid} index={index} />
+                <St.ProfileImage>
+                  <UserDetail userId={user.uid} type="profileImg" />
+                </St.ProfileImage>
+                <St.UserName>
+                  {index === 0 && <img src={firstPlace} alt="firstPlace" />}
+                  {index === 1 && <img src={secondPlace} alt="secondPlace" />}
+                  {index === 2 && <img src={thirdPlace} alt="thirdPlace" />}
+                  <UserDetail userId={user.uid} type="displayName" />
+                </St.UserName>
               </St.UserInfo>
             );
           })

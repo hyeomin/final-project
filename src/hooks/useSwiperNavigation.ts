@@ -4,7 +4,7 @@ import { SwiperClass } from 'swiper/react';
 type Props = {
   swiperInstance: SwiperClass | null;
   currentIndex: number;
-  // setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
   maxIndex: number;
 };
 
