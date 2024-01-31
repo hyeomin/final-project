@@ -22,6 +22,12 @@ const StyledSwiper = styled(Swiper)`
     object-fit: cover;
     object-position: cen;
   }
+
+  @media screen and (max-width: 376px) {
+    max-width: 340px;
+    min-width: 0;
+    height: 270px;
+  }
 `;
 
 interface PostHeaderInfoProps {
@@ -36,14 +42,22 @@ const PostHeaderInfo = styled.div<PostHeaderInfoProps>`
   bottom: ${(props) => (props.$noImage ? '20px' : '40px')};
   padding: ${(props) => (props.$noImage ? '0 20px' : '0 60px')};
   cursor: initial;
-
   display: flex;
   flex-direction: column;
   row-gap: 20px;
   font-size: 40px;
 
+  @media screen and (max-width: 376px) {
+    row-gap: 10px;
+    padding: 0 30px;
+    font-size: 30px;
+  }
+
   & span {
     font-size: 20px;
+    @media screen and (max-width: 376px) {
+      font-size: 15px;
+    }
   }
 `;
 

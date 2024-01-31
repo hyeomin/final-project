@@ -4,6 +4,12 @@ import theme from '../../../styles/theme';
 const BodyContainer = styled.div`
   width: 100%;
   margin: 40px 0;
+
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 `;
 
 const BodyHeader = styled.div`
@@ -22,6 +28,11 @@ const PostInfo = styled.div`
     width: 50px;
     height: 50px;
     border-radius: 50px;
+    //모바일 세로
+    @media screen and (max-width: 376px) {
+      width: 40px;
+      height: 40px;
+    }
   }
 
   & div {
@@ -60,7 +71,11 @@ const ContentBody = styled.div`
   padding: 40px 0;
   border-bottom: 1px solid ${theme.color.lightgray};
   line-height: 200%;
-
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    //width: 50px;
+    padding-right: 10px;
+  }
   h1 {
     display: block;
     font-size: 2em;
@@ -103,16 +118,24 @@ const AdditionalInfoContainer = styled.div`
 const DetailInfo = styled.div`
   display: flex;
   column-gap: 12px;
-
+  align-items: center;
   & div {
     display: flex;
     column-gap: 7px;
+  }
+  @media screen and (max-width: 376px) {
+    max-width: 300px;
+    min-width: 0;
   }
 `;
 
 const ShareInfo = styled.div`
   display: flex;
   column-gap: 8px;
+
+  @media screen and (max-width: 376px) {
+    padding-right: 25px;
+  }
 
   & button {
     border: none;
@@ -125,6 +148,10 @@ const ShareInfo = styled.div`
     & img {
       width: 100%;
       object-fit: contain;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 `;

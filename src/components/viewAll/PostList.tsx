@@ -71,6 +71,7 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
       }
       return lastPage[lastPage.length - 1];
     },
+    staleTime: 60_000,
     select: (data) => {
       let sortedPosts = data.pages.flat().map((doc) => {
         const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
@@ -201,7 +202,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
   //사용자 프로필 데이터
   const { data: userList } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
-    queryFn: getAllUsers
+    queryFn: getAllUsers,
+    staleTime: 1000 * 60
   });
 
   return (

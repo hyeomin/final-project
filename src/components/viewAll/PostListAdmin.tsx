@@ -35,6 +35,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
       }
       return lastPage[lastPage.length - 1];
     },
+    staleTime: 60_000,
     select: (data) => {
       let sortedPosts = data.pages.flat().map((doc) => ({ id: doc.id, ...doc.data() } as PostType));
 
@@ -64,7 +65,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
           <Loader />
         ) : (
           <St.AdminContents>
-            {posts?.map((post, idx) => {
+            {posts?.map((post) => {
               return (
                 <St.AdminContent key={post.id} onClick={() => navigate(`/detail/${post.id}`)}>
                   <img
@@ -81,13 +82,19 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
       </St.ContentsWrapper>
 
       <St.MoreContentWrapper>
-        {isFetchingNextPage ? (
+        {/* {isFetchingNextPage ? (
           <Loader />
         ) : hasNextPage && posts?.length === 2 ? (
           <button onClick={() => fetchNextPage()}>더 보기</button>
         ) : (
           <p>모든 데이터를 가져왔습니다.</p>
-        )}
+        )} */}
+
+        {isFetchingNextPage ? (
+          <Loader />
+        ) : hasNextPage ? (
+          <button onClick={() => fetchNextPage()}>더 보기</button>
+        ) : undefined}
       </St.MoreContentWrapper>
     </St.MainSubWrapper>
   );

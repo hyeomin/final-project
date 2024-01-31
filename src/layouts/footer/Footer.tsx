@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import github from '../../assets/icons/github-icon.png';
 import logo from '../../assets/icons/mango-logo.png';
-import { LogoContainer } from '../navbar/style';
+import { LogoContainerFooter } from '../navbar/style';
 import St from './style';
 
 function Footer() {
@@ -11,10 +11,10 @@ function Footer() {
     <St.FooterContainer>
       <St.FooterContentContainer>
         <St.LogoWrapper>
-          <LogoContainer>
+          <LogoContainerFooter>
             <img src={logo} alt="logo" />
             <span onClick={() => navigate('/')}>Mango</span>
-          </LogoContainer>
+          </LogoContainerFooter>
         </St.LogoWrapper>
         <St.FooterText>
           <p>내일배움캠프 | 스파르타코딩클럼 | 팀스파르타</p>

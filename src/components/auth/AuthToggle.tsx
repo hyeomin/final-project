@@ -120,6 +120,10 @@ const ToggleContainer = styled.div`
   top: 65px;
   right: 60px;
   z-index: 100;
+  @media screen and (max-width: 376px) {
+    top: 58px;
+    right: 0px;
+  }
 `;
 
 const ToggleBox = styled.div`
@@ -132,6 +136,11 @@ const ToggleBox = styled.div`
   height: 320px;
   border-radius: 20px;
   background-color: ${theme.color.veryLightGray};
+
+  @media screen and (max-width: 376px) {
+    width: 270px;
+    height: 270px;
+  }
 `;
 
 const ProfileImageContainer = styled.div`
@@ -171,4 +180,8 @@ const AuthButton = styled.button<AuthButtonProps>`
   background-color: ${(props) => props.$bgcolor};
   border: 1px solid ${(props) => props.$bdrcolor};
   cursor: pointer;
+
+  @media screen and (max-width: 376px) {
+    width: 100px;
+  }
 `;

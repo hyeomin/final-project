@@ -7,6 +7,7 @@ import { isSignUpState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import St from './style';
 import { modalState } from '../../recoil/modals';
+import { FaBars } from 'react-icons/fa';
 
 type Props = {
   styledNav: ({ isActive }: { isActive: boolean }) => {
@@ -69,6 +70,9 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
             <span>
               <GoChevronDown />
             </span>
+            <div>
+              <FaBars />
+            </div>
           </St.UserInfo>
         </>
       ) : (

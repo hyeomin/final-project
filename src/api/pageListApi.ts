@@ -35,7 +35,7 @@ export const getAdminPostList = async (context: {
         where('role', '==', 'admin'),
         orderBy('createdAt', 'desc'),
         startAfter(pageParam),
-        limit(2)
+        limit(3)
       )
     : query(collection(db, 'posts'), where('role', '==', 'admin'), orderBy('createdAt', 'desc'), limit(3));
 
