@@ -18,20 +18,6 @@ function Layout({ children }: PropsWithChildren) {
     isModalOpen09
   } = useRecoilValue(modalState);
 
-<<<<<<< HEAD
-  // console.log(
-  //   isModalOpen01,
-  //   isModalOpen02,
-  //   isModalOpen03,
-  //   isModalOpen04,
-  //   isModalOpen05,
-  //   isModalOpen06,
-  //   isModalOpen07,
-  //   isModalOpen08,
-  //   isModalOpen09
-  // );
-=======
->>>>>>> 1d3ee0f6eb4426d2d9cb6c4de6d7dff8378173ab
   return (
     <LayoutContainer
       $isModalOpen={
