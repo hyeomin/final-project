@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getDetailPost, updatePostViewCount } from '../api/detailApi';
+import Loader from '../components/common/Loader';
 import AddCommentForm from '../components/detail/comment/addComment/AddComment';
 import CommentList from '../components/detail/comment/commentList/CommentList';
 import DetailBody from '../components/detail/detailBody/DetailBody';
@@ -18,7 +19,8 @@ function Detail() {
   // 해당 데이터 가져오기
   const { data: foundDetailPost, isLoading } = useQuery<PostType | undefined>({
     queryKey: [QUERY_KEYS.POSTS, id],
-    queryFn: () => (id ? getDetailPost(id) : undefined)
+    queryFn: () => (id ? getDetailPost(id) : undefined),
+    staleTime: 60_000
   });
 
   //조회수 업데이트
@@ -32,9 +34,9 @@ function Detail() {
     }
   }, [foundDetailPost]);
 
-  // if (isLoading) {
-  //   return <div>로딩 중...</div>;
-  // }
+  if (isLoading) {
+    return <Loader />;
+  }
 
   // 포스트 존재 여부 검사
   // if (posts) {

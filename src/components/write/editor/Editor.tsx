@@ -15,10 +15,9 @@ Quill.register('modules/imageActions', ImageActions);
 Quill.register('modules/imageFormats', ImageFormats);
 
 function Editor() {
-  const TITLE = 'title';
-
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { title, content } = postInput;
+  console.log('postInput', postInput);
 
   const quillRef = useRef<ReactQuill>(null);
 
@@ -75,7 +74,6 @@ function Editor() {
     <St.WritingArea>
       <SelectCategory />
       <input
-        name={TITLE}
         defaultValue={title}
         onChange={(event) => setPostInput({ ...postInput, title: event.target.value })}
         placeholder="제목을 입력하세요."
