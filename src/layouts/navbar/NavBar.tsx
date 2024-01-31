@@ -35,7 +35,7 @@ function NavBar() {
       queryKey: [QUERY_KEYS.ADMIN],
       queryFn: getAdminPostList,
       initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
-      staleTime: 60000
+      staleTime: 60_000
     });
   };
 

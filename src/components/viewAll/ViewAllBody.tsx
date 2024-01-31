@@ -79,7 +79,7 @@ function ViewAllBody() {
         queryKey: [queryKey],
         queryFn: queryFn,
         initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
-        staleTime: 60000
+        staleTime: 60_000
       });
     }
   };
