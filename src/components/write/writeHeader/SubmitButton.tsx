@@ -78,7 +78,7 @@ function SubmitButton() {
           foundPost: null,
           isEditing: false
         });
-        onDeleteTempSave();
+        sessionStorage.removeItem('savedData');
         navigate(`/detail/${postId}`);
       }
     }
@@ -136,6 +136,3 @@ function SubmitButton() {
 }
 
 export default SubmitButton;
-function onDeleteTempSave() {
-  throw new Error('Function not implemented.');
-}

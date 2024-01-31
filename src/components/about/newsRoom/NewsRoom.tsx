@@ -1,18 +1,34 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { getUser } from '../../../api/authApi';
 import { getNews } from '../../../api/newsApi';
+import { AuthContext } from '../../../context/AuthContext';
 import { QUERY_KEYS } from '../../../query/keys';
+import { roleState } from '../../../recoil/users';
 import theme from '../../../styles/theme';
+import { UserType } from '../../../types/UserType';
 import NewsUpload from './NewsUpload';
 import YoutubeModal from './YoutubeModal';
 
 function NewsRoom() {
   const [newsUrl, setNewsUrl] = useState('');
-  // const [videos, setVideos] = useState<VideoInfo[]>([]); // 비디오 ID
   const [selectedVideo, setSelectedVideo] = useState(''); // 모달에 띄울 비디오 ID
+
+  const authContext = useContext(AuthContext);
+  const authCurrentUser = authContext?.currentUser;
+  const role = useRecoilValue(roleState);
+  console.log('role-->', role);
+
+  // role이 비어있는 경우 다시 넣기
+  const { data: user, refetch } = useQuery<UserType | undefined>({
+    queryKey: [QUERY_KEYS.USERS, authCurrentUser?.uid],
+    queryFn: () => (authCurrentUser ? getUser(authCurrentUser?.uid) : undefined),
+    enabled: role === ''
+  });
 
   const { data: videos } = useQuery({ queryKey: [QUERY_KEYS.NEWS], queryFn: getNews });
 
@@ -54,10 +70,10 @@ function NewsRoom() {
               </SwiperSlide>
             ))}
         </StyledSwiper>
+        {role && role === 'admin' && <NewsUpload newsUrl={newsUrl} setNewsUrl={setNewsUrl} />}
       </SwiperContainer>
 
       {/* <NewsUpload /> */}
-      <NewsUpload newsUrl={newsUrl} setNewsUrl={setNewsUrl} />
       {selectedVideo && <YoutubeModal videoId={selectedVideo} onClose={() => setSelectedVideo('')} />}
     </NewsRoomContainer>
   );
@@ -123,7 +139,6 @@ const NewsRoomTitle = styled.div`
 const StyledSwiper = styled(Swiper)`
   width: 100%;
   height: 400px;
-  background-color: purple;
 `;
 
 const SingleSlide = styled.div`
