@@ -9,7 +9,7 @@ import {
   updateProfileInfo,
   updateProfileInfoProps
 } from '../../../api/authApi';
-import { getAllPosts } from '../../../api/myPostAPI';
+// import { getAllPosts, getMyPosts } from '../../../api/myPostAPI';
 import defaultImg from '../../../assets/defaultImg.jpg';
 import postCountIcon from '../../../assets/icons/postCountIcon.png';
 import rankingIcon from '../../../assets/icons/rankingIcon.png';
@@ -22,6 +22,7 @@ import HabitCalendar from '../HabitCalendar/HabitCalendar';
 import LikesPosts from '../LikesPosts';
 import MyPosts from '../MyPosts';
 import St from './style';
+import { getMyPosts } from '../../../api/myPostAPI';
 
 function MyProfile() {
   const modal = useModal();
@@ -62,24 +63,14 @@ function MyProfile() {
   };
 
   // 내 게시물 갯수 가져오기
-  // const { data: myPosts } = useQuery({
-  //   queryKey: [QUERY_KEYS.POSTS],
-  //   queryFn: getMyPosts,
-  //   // enabled: !!authCurrentUser,
-  //   select: (data) => {
-  //     return data?.filter((post) => post.uid === authCurrentUser?.uid!);
-  //   }
-  // });
-
-  //test
   const { data: myPosts } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getAllPosts,
-    // enabled: !!authCurrentUser,
-    select: (data) => {
-      return data?.filter((post) => post.uid === authCurrentUser?.uid!);
-    }
+    queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
+    queryFn: getMyPosts,
+    staleTime: 1000 * 60,
+    enabled: !!authCurrentUser
   });
+
+  console.log('authCurrentUser ', authCurrentUser);
 
   // 랭킹순위 (좋아요 수 기준)
   // const { data: userRanking } = useQuery({

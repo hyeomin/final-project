@@ -1,34 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
-import { getAllPosts } from '../../api/myPostAPI';
 import { auth } from '../../shared/firebase';
 import Cs from '../viewAll/style';
 import PostCard from '../mypage/PostCard/PostCard';
-import HabitCalendar from './HabitCalendar/HabitCalendar';
 import { QUERY_KEYS } from '../../query/keys';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { PostType } from '../../types/PostType';
+import { getMyPosts } from '../../api/myPostAPI';
+// interface MyProfileProps {
+//   getMyPosts: () => Promise<PostType[] | undefined>;
+// }
 
 // 내 게시물 가져오기
 const MyPosts = () => {
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
 
-  //   const { data: myPosts } = useQuery({
-  //     queryKey: ['posts', { isMyPosts: true }],
-  //     queryFn: getMyPosts,
-  //     enabled: !!auth.currentUser
-  //   });
-
   //test
   const { data: myPosts } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getAllPosts,
-    enabled: !!authCurrentUser,
-
-    select: (data) => {
-      console.log('data', myPosts);
-      return data?.filter((post) => post.uid === authCurrentUser?.uid!);
-    }
+    queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
+    queryFn: getMyPosts,
+    enabled: !!authCurrentUser
+    // staleTime: 1000 * 60
   });
 
   return (

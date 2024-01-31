@@ -7,44 +7,44 @@ import { UsersWithLikeCount, likeCountPerUserType } from './homeApi';
 // import { auth} from '../../shared/firebase';
 
 // 로그인한 유저 uid 일치하는 posts 가져오기
-// const getMyPosts = async () => {
-//   try {
-//     const q = query(
-//       collection(db, QUERY_KEYS.POSTS),
-//       where('uid', '==', auth.currentUser?.uid),
-//       orderBy('updatedAt', 'desc')
-//     );
-//     const querySnapshot = await getDocs(q);
-//     const posts: PostType[] = [];
-//     // 객체들을 forEach 사용해서 배열에 담기
-//     querySnapshot.forEach((doc) => {
-//       const postData = doc.data() as Omit<PostType, 'id'>;
-//       const isLiked = auth.currentUser ? postData.likedUsers.includes(auth.currentUser.uid) : false;
-//       posts.push({ id: doc.id, ...postData, isLiked: isLiked });
-//     });
-//     return posts;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+const getMyPosts = async () => {
+  try {
+    const q = query(
+      collection(db, QUERY_KEYS.POSTS),
+      where('uid', '==', auth.currentUser?.uid),
+      orderBy('updatedAt', 'desc')
+    );
+    const querySnapshot = await getDocs(q);
+    const posts: PostType[] = [];
+    // 객체들을 forEach 사용해서 배열에 담기
+    querySnapshot.forEach((doc) => {
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      const isLiked = auth.currentUser ? postData.likedUsers.includes(auth.currentUser.uid) : false;
+      posts.push({ id: doc.id, ...postData, isLiked: isLiked });
+    });
+    return posts;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // //likeUsers에 로그인한 유저 uid가 있는 게시물 가져오기
-// const getLikePosts = async () => {
-//   try {
-//     const q = query(collection(db, QUERY_KEYS.POSTS), where('likedUsers', 'array-contains', auth.currentUser?.uid));
-//     const querySnapshot = await getDocs(q);
-//     const posts: PostType[] = [];
-//     // 객체들을 forEach 사용해서 배열에 담기
-//     querySnapshot.forEach((doc) => {
-//       // type 추가 Ashley
-//       const postData = doc.data() as Omit<PostType, 'id'>;
-//       posts.push({ id: doc.id, ...postData, isLiked: true });
-//     });
-//     return posts;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+const getLikePosts = async () => {
+  try {
+    const q = query(collection(db, QUERY_KEYS.POSTS), where('likedUsers', 'array-contains', auth.currentUser?.uid));
+    const querySnapshot = await getDocs(q);
+    const posts: PostType[] = [];
+    // 객체들을 forEach 사용해서 배열에 담기
+    querySnapshot.forEach((doc) => {
+      // type 추가 Ashley
+      const postData = doc.data() as Omit<PostType, 'id'>;
+      posts.push({ id: doc.id, ...postData, isLiked: true });
+    });
+    return posts;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // //user Ranking
 // const getUserRanking = async () => {
@@ -97,21 +97,23 @@ import { UsersWithLikeCount, likeCountPerUserType } from './homeApi';
 //   }
 // };
 
-const getAllPosts = async () => {
-  try {
-    const postRef = collection(db, 'posts');
-    const querySnapshot = await getDocs(postRef);
-    const posts: PostType[] = [];
-    querySnapshot.forEach((doc) => {
-      // console.log(doc.id, ' => ', doc.data());
-    });
+// const getAllPosts = async () => {
+//   try {
+//     const postRef = collection(db, 'posts');
+//     const querySnapshot = await getDocs(postRef);
+//     const posts: PostType[] = [];
+//     querySnapshot.forEach((doc) => {
+//       const postData = doc.data() as PostType;
+//       posts.push(postData);
+//       // console.log(doc.id, ' => ', doc.data());
+//     });
 
-    // 객체들을 forEach 사용해서 배열에 담기
-    return posts;
-  } catch (error) {
-    console.error(error);
-  }
-};
+//     // 객체들을 forEach 사용해서 배열에 담기
+//     return posts;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 
 // export { getLikePosts, getMyPosts, getUserRanking };
-export { getAllPosts };
+export { getLikePosts, getMyPosts };

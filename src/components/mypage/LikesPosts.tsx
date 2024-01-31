@@ -1,45 +1,65 @@
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { getAdminPosts, getPopularPosts } from '../../api/homeApi';
-import { getAllPosts } from '../../api/myPostAPI';
+import { getLikePosts } from '../../api/myPostAPI';
 import Cs from '../viewAll/style';
 
 import { QUERY_KEYS } from '../../query/keys';
 import PostCard from './PostCard/PostCard';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { PostType } from '../../types/PostType';
+
+// interface MyProfileProps {
+//   getLikePosts: () => Promise<PostType[] | undefined>;
+// }
 
 const LikesPosts = () => {
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
 
+  const {
+    data: likePosts,
+    isLoading,
+    isError,
+    error
+  } = useQuery({
+    queryKey: ['posts', { likedPosts: true }],
+    queryFn: getLikePosts,
+    staleTime: 1000 * 60
+  });
+
+  if (isLoading) {
+    return <p>데이터를 불러오는 중입니다...</p>;
+  }
+
+  if (isError) {
+    return <p>오류가 발생했습니다: {error.message}</p>;
+  }
+  console.log('이거이거', likePosts);
+  //test
   // const { data: likePosts } = useQuery({
-  //   queryKey: ['posts', { likedPosts: true }],
-  //   queryFn: getLikePosts
+  //   queryKey: [QUERY_KEYS.POSTS, 'likePosts'],
+  //   queryFn: getAllPosts,
+  //   enabled: !!authCurrentUser,
+  //   staleTime: 1000 * 60,
+  //   select: (data) => {
+  //     // console.log('ddd', data);
+  //     return data?.filter((post) => post.likedUsers.includes(authCurrentUser!.uid));
+  //   }
   // });
 
-  //test
-  const { data: likePosts } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getAllPosts,
-    enabled: !!authCurrentUser,
-    select: (data) => {
-      // console.log('ddd', data);
-      return data?.filter((post) => post.likedUsers.includes(authCurrentUser!.uid));
-    }
-  });
-
-  const postQueries = useQueries({
-    queries: [
-      {
-        queryKey: ['adminContents'],
-        queryFn: getAdminPosts
-      },
-      {
-        queryKey: [QUERY_KEYS.USERPOSTS],
-        queryFn: getPopularPosts
-      }
-    ]
-  });
+  // const postQueries = useQueries({
+  //   queries: [
+  //     {
+  //       queryKey: ['adminContents'],
+  //       queryFn: getAdminPosts
+  //     },
+  //     {
+  //       queryKey: [QUERY_KEYS.USERPOSTS],
+  //       queryFn: getPopularPosts
+  //     }
+  //   ]
+  // });
 
   return (
     <Cs.Contents>

@@ -4,7 +4,7 @@ import { produce } from 'immer';
 import React, { useContext } from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
-import { getAllUsers } from '../../../api/authApi';
+import { getAllUsers, getUser } from '../../../api/authApi';
 import defaultProfile from '../../../assets/defaultImg.jpg';
 import mangoCover from '../../../assets/tentative-cover-image.jpg';
 import { AuthContext } from '../../../context/AuthContext';
@@ -26,13 +26,27 @@ function PostCard({ post }: PostCardProps) {
   const authCurrentUser = authContext?.currentUser;
   const queryClient = useQueryClient();
 
-  const { data: userList } = useQuery({
-    queryKey: [QUERY_KEYS.USERS],
-    queryFn: getAllUsers
+  // const { data: userList } = useQuery({
+  //   queryKey: [QUERY_KEYS.USERS],
+  //   queryFn: getAllUsers
+  // });
+
+  const { data: user } = useQuery({
+    queryKey: [QUERY_KEYS.USERS, post.uid],
+    queryFn: () => getUser(post.uid),
+    staleTime: 6000 * 10
   });
+
+  console.log('user', user);
+  console.log('post?.uid', post?.uid);
 
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (postId: string) => {
+      if (!postId) {
+        console.log('postId:', postId);
+        return;
+      }
+
       const postRef = doc(db, 'posts', postId);
 
       if (authCurrentUser) {
@@ -52,10 +66,10 @@ function PostCard({ post }: PostCardProps) {
       }
     },
     onMutate: async (postId) => {
-      console.log('onMutate');
+      // console.log('onMutate');
       queryClient.setQueriesData<PostType[]>({ queryKey: ['posts'] }, (prevPosts) => {
-        if (!prevPosts) return [];
-        //console.log('prevPosts', prevPosts);
+        if (!Array.isArray(prevPosts)) return [];
+        // console.log('prevPosts', prevPosts);
         const nextPosts = produce(prevPosts, (draftPosts) => {
           //console.log('draftPosts', draftPosts);
           const post = draftPosts.find((post) => post.id === postId);
@@ -78,6 +92,7 @@ function PostCard({ post }: PostCardProps) {
     e.stopPropagation();
 
     await toggleLike(post.id);
+    // console.log('post', post);
   };
 
   return (
@@ -89,13 +104,10 @@ function PostCard({ post }: PostCardProps) {
       <Cs.PostInfoContainer>
         <Cs.UserProfile>
           <div>
-            <Cs.ProfileImg
-              src={(userList?.find((user) => post.uid === user.uid) as User | undefined)?.profileImg || defaultProfile}
-              alt="profile"
-            />
+            <Cs.ProfileImg src={user?.profileImg || defaultProfile} alt="profile" />
 
             <Cs.Row>
-              <p>{userList?.find((user) => user.uid === post.uid)?.displayName}</p>
+              <p>{user?.displayName}</p>
               <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
             </Cs.Row>
           </div>
