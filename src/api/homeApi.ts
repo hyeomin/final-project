@@ -53,7 +53,7 @@ const getPosts = async () => {
 
 // 관리자게시물
 const getAdminPosts = async () => {
-  console.log('getAdminPosts 호출!');
+  // console.log('getAdminPosts 호출!');
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -77,7 +77,7 @@ const getAdminPosts = async () => {
 
 // 인기게시물
 const getPopularPosts = async () => {
-  console.log('getPopularPosts 호출!');
+  // console.log('getPopularPosts 호출!');
   try {
     const q = query(
       collection(db, QUERY_KEYS.POSTS),
@@ -150,7 +150,7 @@ export type likeCountPerUserType = {
 
 // TOP10 user list
 const getTopUsers = async () => {
-  console.log('getTopUsers 호출!');
+  // console.log('getTopUsers 호출!');
   try {
     const postRef = collection(db, 'posts');
     const querySnapshot = await getDocs(postRef);

@@ -24,22 +24,11 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const authContext = useContext(AuthContext);
   const currentUserId = authContext?.currentUser?.uid;
 
-  // const { data: comments, hasNextPage, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
-  //   queryKey: ['comments', postId],
-  //   queryFn: () => getComments(postId),
-  //   getNextPageParam: () => {}
-  // });
-
   // 댓글목록 가져오기
   const { data: comments } = useQuery({
     queryKey: [QUERY_KEYS.COMMENTS, postId],
     queryFn: () => getComments(postId),
     staleTime: Infinity
-  });
-
-  const { data: users } = useQuery({
-    queryKey: [QUERY_KEYS.USERS],
-    queryFn: getAllUsers
   });
 
   //mutates
