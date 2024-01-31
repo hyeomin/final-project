@@ -1,18 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useContext, useEffect } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { getUser } from '../../../api/authApi';
 import { addPost } from '../../../api/postApi';
-import { AuthContext } from '../../../context/AuthContext';
 import { useModal } from '../../../hooks/useModal';
+import useRoleCheck from '../../../hooks/useRoleCheck';
 import { QUERY_KEYS } from '../../../query/keys';
 import { modalState } from '../../../recoil/modals';
 import { isEditingPostState, postInputState } from '../../../recoil/posts';
-import { roleState } from '../../../recoil/users';
 import { auth } from '../../../shared/firebase';
 import { PostType } from '../../../types/PostType';
-import { UserType } from '../../../types/UserType';
 import { stripHtml } from '../../../util/extractContentText';
 import { CustomButton } from './styles';
 
@@ -23,26 +19,7 @@ function SubmitButton() {
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { title, content } = postInput;
 
-  const authContext = useContext(AuthContext);
-  const authCurrentUser = authContext?.currentUser;
-  const [role, setRole] = useRecoilState(roleState);
-
-  // role이 비어있는 경우 다시 넣기
-  const { data: user, refetch } = useQuery<UserType | undefined>({
-    queryKey: [QUERY_KEYS.USERS, authCurrentUser?.uid],
-    queryFn: () => (authCurrentUser ? getUser(authCurrentUser?.uid) : undefined),
-    enabled: role === ''
-  });
-
-  useEffect(() => {
-    if (role === '') {
-      refetch();
-    }
-    // const user = userList && userList.find((user) => user.uid === auth.currentUser?.uid);
-    if (user) {
-      setRole(user.role);
-    }
-  }, [role, refetch, setRole, user]);
+  const role = useRoleCheck();
 
   const navigate = useNavigate();
 

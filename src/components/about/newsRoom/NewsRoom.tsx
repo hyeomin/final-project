@@ -1,38 +1,28 @@
 import { useQuery } from '@tanstack/react-query';
-import { useContext, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { getUser } from '../../../api/authApi';
 import { getNews } from '../../../api/newsApi';
-import { AuthContext } from '../../../context/AuthContext';
+import useRoleCheck from '../../../hooks/useRoleCheck';
 import { QUERY_KEYS } from '../../../query/keys';
-import { roleState } from '../../../recoil/users';
 import theme from '../../../styles/theme';
-import { UserType } from '../../../types/UserType';
 import NewsUpload from './NewsUpload';
 import YoutubeModal from './YoutubeModal';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 function NewsRoom() {
   const [newsUrl, setNewsUrl] = useState('');
   const [selectedVideo, setSelectedVideo] = useState(''); // 모달에 띄울 비디오 ID
 
-  const authContext = useContext(AuthContext);
-  const authCurrentUser = authContext?.currentUser;
-  const role = useRecoilValue(roleState);
-  console.log('role-->', role);
+  // role 비어있을 경우 다시 받아오기
+  const role = useRoleCheck();
 
-  // role이 비어있는 경우 다시 넣기
-  const { data: user, refetch } = useQuery<UserType | undefined>({
-    queryKey: [QUERY_KEYS.USERS, authCurrentUser?.uid],
-    queryFn: () => (authCurrentUser ? getUser(authCurrentUser?.uid) : undefined),
-    enabled: role === ''
-  });
+  const { data: videos } = useQuery({ queryKey: [QUERY_KEYS.NEWS], queryFn: getNews, staleTime: 60_000 });
 
-  const { data: videos } = useQuery({ queryKey: [QUERY_KEYS.NEWS], queryFn: getNews });
-
-  // Function to open modal with selected video
+  // 클릭한 비디오로 모달창 띄우기
   const onClickSlideHandler = (videoId: string) => {
     setSelectedVideo(videoId);
   };
@@ -53,7 +43,7 @@ function NewsRoom() {
           pagination={{
             clickable: true
           }}
-          navigation={true}
+          navigation
           modules={[Pagination, Navigation]}
         >
           {videos &&
@@ -70,10 +60,9 @@ function NewsRoom() {
               </SwiperSlide>
             ))}
         </StyledSwiper>
+        {/* 어드민만 등록하기 인풋 보이게 */}
         {role && role === 'admin' && <NewsUpload newsUrl={newsUrl} setNewsUrl={setNewsUrl} />}
       </SwiperContainer>
-
-      {/* <NewsUpload /> */}
       {selectedVideo && <YoutubeModal videoId={selectedVideo} onClose={() => setSelectedVideo('')} />}
     </NewsRoomContainer>
   );
@@ -84,12 +73,8 @@ export default NewsRoom;
 const NewsRoomContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* place-items: center; */
   align-items: center;
-  /* justify-content: center; */
   width: 100%;
-
-  background-color: lightblue;
 `;
 
 const TabTitle = styled.div`
@@ -112,8 +97,6 @@ const SwiperContainer = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 50px;
-  /* height: 250px; */
-  padding: 60px 120px;
   width: 100%;
   height: 800px;
   padding: 60px 180px;
@@ -166,7 +149,6 @@ const NewsInfo = styled.div`
   justify-content: space-between;
   padding: 20px;
   flex: 1;
-  /* row-gap: 18px; */
 
   & span {
     font-size: 15px;
