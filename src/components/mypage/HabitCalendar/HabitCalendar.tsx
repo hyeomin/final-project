@@ -1,20 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import Calendar from 'react-calendar';
 import St from './style';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import { QUERY_KEYS } from '../../../query/keys';
-import { getMyPosts } from '../../../api/myPostAPI';
 import { useQuery } from '@tanstack/react-query';
 import mangofavicon from '../../../assets/mango-favicon.png';
 import calendarSpring from '../../../assets/calendarSpring.png';
 import { getFormattedDateCustom } from '../../../util/formattedDateAndTime';
 import { CiCalendar } from 'react-icons/ci';
+import { AuthContext } from '../../../context/AuthContext';
+import { PostType } from '../../../types/PostType';
+import { getMyPosts } from '../../../api/myPostAPI';
 
 type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 const HabitCalendar = ({ date }: any) => {
+  const authContext = useContext(AuthContext);
+  const authCurrentUser = authContext?.currentUser;
   // 초기값은 현재 날짜
   const [today, setToday] = useState<Value>(new Date());
   //클릭한 캘린더의 날짜를 알려줌
@@ -23,12 +27,26 @@ const HabitCalendar = ({ date }: any) => {
     setToday(today);
   };
 
-  const { data } = useQuery({
-    queryKey: ['posts', { isMyPosts: true }],
-    queryFn: getMyPosts
+  //getAllPosts
+  // const { data } = useQuery({
+  //   queryKey: [QUERY_KEYS.POSTS],
+  //   queryFn: getAllPosts,
+  //   staleTime: 1000 * 60,
+  //   // enabled: !!authCurrentUser,
+  //   select: (data) => {
+  //     return data?.filter((post) => post.uid === authCurrentUser?.uid!);
+  //   }
+  // });
+
+  //getMyPosts
+  const { data: myPosts } = useQuery({
+    queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
+    queryFn: getMyPosts,
+    enabled: !!authCurrentUser,
+    staleTime: 1000 * 60
   });
-  const createdAtList = data ? data.map((data) => getFormattedDateCustom(data.createdAt!)) : [];
-  // console.log('data', data);
+
+  const createdAtList = myPosts ? myPosts.map((data) => getFormattedDateCustom(data.createdAt!)) : [];
   const dayList: string[] = [];
 
   const getElCount = (arr: string[]): Record<string, number> =>
