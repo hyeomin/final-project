@@ -37,6 +37,7 @@ const Select = styled.select`
   font-size: 16px;
   border-color: transparent;
   text-align: center;
+  background-color: transparent;
 `;
 
 export default { WritingArea, EditorContainer, Select };

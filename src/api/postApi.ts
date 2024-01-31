@@ -12,7 +12,7 @@ type AddPostProps = {
 const addPost = async ({ newPost }: AddPostProps) => {
   try {
     const docRef = await addDoc(collection(db, QUERY_KEYS.POSTS), newPost);
-    //console.log('Document written with ID: ', docRef.id);
+    console.log('Document written with ID: ', docRef.id);
     const postId = docRef.id;
 
     return postId;
@@ -25,7 +25,7 @@ const addPost = async ({ newPost }: AddPostProps) => {
 const deletePost = async (postId: string) => {
   try {
     await deleteDoc(doc(db, QUERY_KEYS.POSTS, postId));
-    //console.log('포스트 삭제 완료');
+    console.log('포스트 삭제 완료');
   } catch (error) {
     console.log('포스트 삭제 오류', error);
   }
@@ -41,7 +41,7 @@ type uploadPostProps = {
 const updatePost = async ({ editingPost, postId }: uploadPostProps) => {
   try {
     await updateDoc(doc(db, `${QUERY_KEYS.POSTS}/${postId}`), editingPost);
-    //console.log('포스트 업데이트 성공');
+    console.log('포스트 업데이트 성공');
   } catch (error) {
     console.log('포스트 업데이트 오류', error);
   }

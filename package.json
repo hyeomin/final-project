@@ -16,7 +16,7 @@
     "@types/react-dom": "^18.0.0",
     "@xeger/quill-image-actions": "^0.7.2",
     "@xeger/quill-image-formats": "^0.7.2",
-    "axios": "^1.6.5",
+    "axios": "^1.6.7",
     "firebase": "^10.7.1",
     "immer": "^10.0.3",
     "moment": "^2.30.1",
