@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getAdminPostList } from '../../api/pageListApi';
 import logo from '../../assets/icons/mango-logo.png';
@@ -39,18 +39,49 @@ function NavBar() {
     });
   };
 
-  return (
-    <St.NavContainer ref={navRef}>
+  //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기)
+  const [isAuth, setIsAuth] = useState(false);
+  console.log('isAuth', isAuth);
+  useEffect(() => {
+    const detailURL = window.location.href;
+    const isAuthInURL = detailURL.includes('auth');
+    setIsAuth(isAuthInURL);
+  }, []);
+
+  return isAuth ? (
+    <St.NavContainer ref={navRef} isAuth={isAuth}>
       <St.NavBarContainer>
         <St.LeftNav>
-          <LogoContainer onClick={() => navigate('/')}>
+          <LogoContainer onClick={() => navigate('/')} isAuth={isAuth}>
             <img src={logo} alt="logo" />
             <span>Mango</span>
           </LogoContainer>
           <NavLink to="/about" style={styledNav}>
             ABOUT
           </NavLink>
+          <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
+            BY MANGO
+          </NavLink>
+          <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
+            COMMUNITY
+          </NavLink>
+        </St.LeftNav>
 
+        <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
+      </St.NavBarContainer>
+      {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}
+    </St.NavContainer>
+  ) : (
+    <St.NavContainer ref={navRef} isAuth={isAuth}>
+      <St.NavBarContainer>
+        <St.LeftNav>
+          <LogoContainer onClick={() => navigate('/')} isAuth={isAuth}>
+            <img src={logo} alt="logo" />
+            <span>Mango</span>
+          </LogoContainer>
+          <NavLink to="/about" style={styledNav}>
+            ABOUT
+          </NavLink>
           <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
             BY MANGO
           </NavLink>

@@ -2,8 +2,12 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
+type NavProps = {
+  isAuth: boolean;
+};
+
 // NavBar.tsx
-const NavContainer = styled.div`
+const NavContainer = styled.div<NavProps>`
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -13,12 +17,14 @@ const NavContainer = styled.div`
   width: 100%;
   z-index: 1000;
 
+  //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기) : 세로 버전
   @media screen and (max-width: 376px) {
-    display: none;
+    display: ${(props) => (props.isAuth ? 'none' : 'flex')};
   }
 
+  //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기) : 가로 버전
   @media screen and (min-width: 376px) and (max-width: 620px) {
-    display: none;
+    display: ${(props) => (props.isAuth ? 'none' : 'flex')};
   }
 `;
 
@@ -44,7 +50,28 @@ const LeftNav = styled.div`
   color: ${theme.color.gray};
 `;
 
-export const LogoContainer = styled.div`
+export const LogoContainer = styled.div<NavProps>`
+  display: flex;
+  cursor: pointer;
+
+  & img {
+    width: 27px;
+    height: 27px;
+    object-fit: contain;
+    transform: rotate(340deg);
+  }
+
+  & span {
+    font-family: ${theme.font.mango};
+    color: ${theme.color.mangoMain};
+    font-size: 30px;
+    @media screen and (max-width: 376px) {
+      display: ${(props) => (props.isAuth ? 'none' : 'flex')};
+    }
+  }
+`;
+
+export const LogoContainerFooter = styled.div`
   display: flex;
   cursor: pointer;
 
@@ -100,4 +127,4 @@ const UserInfo = styled.div`
   }
 `;
 
-export default { AuthContainer, StyledNavLnk, UserInfo, NavContainer, NavBarContainer, LeftNav };
+export default { AuthContainer, StyledNavLnk, UserInfo, NavContainer, NavBarContainer, LeftNav, LogoContainerFooter };
