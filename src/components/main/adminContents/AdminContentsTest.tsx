@@ -19,8 +19,8 @@ const AdminContentsTest = () => {
 
   const { data: adminContents, isLoading } = useQuery({
     queryKey: ['adminContents'],
-    queryFn: getAdminPosts
-    // staleTime: Infinity
+    queryFn: getAdminPosts,
+    staleTime: 5 * 6 * 1000
   });
 
   const handleSlideChange = (swiper: SwiperClass) => {

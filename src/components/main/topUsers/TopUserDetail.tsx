@@ -16,7 +16,8 @@ type Props = {
 const TopUserDetail = ({ userId, index }: Props) => {
   const { data: userData } = useQuery({
     queryKey: ['users', userId],
-    queryFn: () => getUser(userId)
+    queryFn: () => getUser(userId),
+    staleTime: 5 * 6 * 1000
   });
 
   return (

@@ -21,8 +21,8 @@ const Carousel = () => {
 
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['popularPosts'],
-    queryFn: getPopularPosts
-    // staleTime: Infinity
+    queryFn: getPopularPosts,
+    staleTime: 5 * 6 * 1000
   });
 
   console.log('인기게시물==>', popularPosts);
