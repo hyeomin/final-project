@@ -1,21 +1,22 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { updatePost } from '../../../api/postApi';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
-import { initialPostInputState, isEditingPostState, postInputState } from '../../../recoil/posts';
+import { initialPostInputState, postInputState } from '../../../recoil/posts';
 import { stripHtml } from '../../../util/extractContentText';
 import { CustomButton } from './styles';
 
-function EditUploadButton() {
+type Props = {
+  postId: string;
+};
+
+function EditUploadButton({ postId }: Props) {
   const modal = useModal();
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { title, content } = postInput;
-
-  const isEditingPost = useRecoilValue(isEditingPostState);
-  const { foundPost } = isEditingPost;
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -26,17 +27,19 @@ function EditUploadButton() {
   };
 
   const updatePostMutation = useMutation({
-    mutationFn: () => updatePost({ editingPost, postId: foundPost!.id }),
+    mutationFn: () => updatePost({ editingPost, postId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
       // 내용 원상복구
       setPostInput(initialPostInputState);
-      navigate(`/detail/${foundPost?.id}`);
+      // 임시저장 삭제
+      sessionStorage.removeItem('savedData');
+      navigate(`/detail/${postId}`);
     }
   });
 
   const onUpdatePostHandler = () => {
-    if (!foundPost) {
+    if (!postId) {
       const onClickConfirm = () => {
         modal.close();
       };
@@ -77,7 +80,6 @@ function EditUploadButton() {
         updatePostMutation.mutate();
         modal.close();
       };
-      alert(1);
       const openModalParams: Parameters<typeof modal.open>[0] = {
         title: '수정 하시겠습니까?',
         message: '',

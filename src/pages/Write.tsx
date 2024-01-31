@@ -4,15 +4,18 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import Editor from '../components/write/editor/Editor';
 import Hashtag from '../components/write/hashtag/Hashtag';
-import Header from '../components/write/header/WriteHeader';
 import ImageUpload from '../components/write/imageUpload/ImageUpload';
+import Header from '../components/write/writeHeader/WriteHeader';
+import { useDeleteTempSave } from '../hooks/useDeleteTempSave';
 import { useModal } from '../hooks/useModal';
-import { initialPostInputState, postInputState } from '../recoil/posts';
 import { modalState } from '../recoil/modals';
+import { initialPostInputState, postInputState } from '../recoil/posts';
 
 function Write() {
   const modal = useModal();
   const setIsModalOpen = useSetRecoilState(modalState);
+  const onDeleteTempSave = useDeleteTempSave();
+
   const location = useLocation();
   const { foundDetailPost } = location.state || {};
 
@@ -25,7 +28,8 @@ function Write() {
       if (savedData) {
         const onClickDelete = () => {
           setPostInput(initialPostInputState);
-          onDeleteTempSaveHandler();
+          // 임시저장된 데이터 삭제
+          onDeleteTempSave();
           setIsModalOpen((prev) => ({ ...prev, isModalOpen06: false }));
           modal.close();
         };
@@ -49,28 +53,6 @@ function Write() {
       }
     }, 700);
   }, []);
-
-  // 임시저장된 데이터 삭제
-  const onDeleteTempSaveHandler = () => {
-    sessionStorage.removeItem('savedData');
-
-    const onClickDelete = () => {
-      setIsModalOpen((prev) => ({ ...prev, isModalOpen07: false }));
-      modal.close();
-    };
-
-    const openModalParams: Parameters<typeof modal.open>[0] = {
-      title: '삭제되었습니다.',
-      message: '',
-      leftButtonLabel: '',
-      onClickLeftButton: undefined,
-      rightButtonLabel: '확인',
-      onClickRightButton: onClickDelete
-    };
-    modal.open(openModalParams);
-    setIsModalOpen((prev) => ({ ...prev, isModalOpen07: true }));
-    // alert('삭제되었습니다.');
-  };
 
   // 새로고침 핸들러
   useEffect(() => {
@@ -100,7 +82,7 @@ function Write() {
 
   return (
     <Container>
-      <Header isEditing={!!foundDetailPost} />
+      <Header foundDetailPost={foundDetailPost} />
       <Editor />
       <Spacer />
       <Hashtag />

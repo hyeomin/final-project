@@ -7,14 +7,14 @@ import { getAllUsers } from '../../../../api/authApi';
 import { getPopularPosts } from '../../../../api/homeApi';
 import defaultProfileImage from '../../../../assets/defaultImg.jpg';
 import mangoDefaultCover from '../../../../assets/mangoDefaultCover.png';
-import UserDetail from './UserDetail';
-
 import { AuthContext } from '../../../../context/AuthContext';
 import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
 import { useLikeButton } from '../../../../hooks/useLikeButton';
 import Loader from '../../../common/Loader';
 import PostContentPreview from '../../../common/PostContentPreview';
 import St from './style';
+import UserDetail from '../../UserDetail';
+import CarouselSkeleton from './skeleton/CarouselSkeleton';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);
@@ -22,14 +22,19 @@ const Carousel = () => {
 
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['popularPosts'],
-    queryFn: getPopularPosts
-    // staleTime: Infinity
+    queryFn: getPopularPosts,
+    // staleTime: 5 * 6 * 1000
+    staleTime: Infinity
   });
 
-  console.log('인기게시물==>', popularPosts);
+  // console.log('인기게시물==>', popularPosts);
   const onClickLikeButton = useLikeButton();
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
+
+  if (isLoading) {
+    return <CarouselSkeleton />;
+  }
 
   return (
     <St.Container>
@@ -39,9 +44,7 @@ const Carousel = () => {
         </St.Button>
       )}
       <St.SlideWrapper>
-        {isLoading ? (
-          <Loader />
-        ) : popularPosts && popularPosts.length === 0 ? (
+        {popularPosts && popularPosts.length === 0 ? (
           <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
         ) : (
           popularPosts?.slice(currentSlide, currentSlide + 4).map((post) => {
@@ -56,10 +59,16 @@ const Carousel = () => {
                       }
                       alt={post.title}
                     />
-                    <img src={mangoDefaultCover} alt={post.title} />
+                    {/* <img src={defaultCoverImage} alt={post.title} /> */}
                   </St.CoverImage>
                   <St.SlideHeader>
-                    <UserDetail userId={post.uid} />
+                    <div>
+                      <St.UserProfileImage>
+                        <UserDetail userId={post.uid} type="profileImg" />
+                        {/* <img src={defaultProfileImage} alt="user profile image" /> */}
+                      </St.UserProfileImage>
+                      <UserDetail userId={post.uid} type="displayName" />
+                    </div>
                     <button type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
                       {currentUserId && post.likedUsers?.includes(currentUserId) ? (
                         <St.HeartFillIcon />
