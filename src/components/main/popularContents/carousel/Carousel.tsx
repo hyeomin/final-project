@@ -14,6 +14,7 @@ import Loader from '../../../common/Loader';
 import PostContentPreview from '../../../common/PostContentPreview';
 import St from './style';
 import UserDetail from '../../UserDetail';
+import CarouselSkeleton from './skeleton/CarouselSkeleton';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);
@@ -30,6 +31,10 @@ const Carousel = () => {
   const onClickLikeButton = useLikeButton();
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
+
+  if (isLoading) {
+    return <CarouselSkeleton />;
+  }
 
   return (
     <St.Container>
