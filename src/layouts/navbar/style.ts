@@ -169,6 +169,14 @@ const UserInfo = styled.div`
       //display: none;
     }
   }
+
+  & div {
+    display: none;
+    //모바일 : 세로
+    @media screen and (max-width: 376px) {
+      display: block;
+    }
+  }
 `;
 
 export default {

@@ -264,19 +264,35 @@ const AdminContents = styled.ul`
 `;
 
 const AdminContent = styled.li`
-  width: 490px;
+  width: 300px;
   margin-bottom: 20px;
   img {
     object-fit: cover;
-    width: 490px; //710 -> 550 (전체사이즈 1200)
+    width: 300px;
     height: 300px;
     flex-shrink: 0;
-    border-radius: 40px;
+    border-radius: 20px;
     &:hover {
       cursor: pointer;
     }
   }
 `;
+
+// 24.01.31
+// const AdminContent = styled.li`
+//   width: 490px;
+//   margin-bottom: 20px;
+//   img {
+//     object-fit: cover;
+//     width: 490px; //710 -> 550 (전체사이즈 1200)
+//     height: 300px;
+//     flex-shrink: 0;
+//     border-radius: 40px;
+//     &:hover {
+//       cursor: pointer;
+//     }
+//   }
+// `;
 
 const AdminPostTitle = styled.p`
   color: #000;
