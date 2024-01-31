@@ -65,6 +65,13 @@ const StyleCalendar = styled.div`
     font-weight: 500;
     margin-top: 30px;
   }
+  .react-calendar__button:enabled:hover {
+    /* cursor: pointer; */
+  }
+
+  .react-calendar button:enabled:hover {
+    cursor: default;
+  }
 `;
 
 const CalendarContainer = styled.div`
@@ -151,17 +158,16 @@ const CalendarContentsContainer = styled.div`
 `;
 
 const PostCount = styled.div`
-  background-color: #ffcb30;
+  background-color: ${theme.color.mangoMain};
   border-radius: 50%;
   font-size: 13px;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   color: white;
-
   position: absolute;
   z-index: 3;
   top: 45px;
-  left: 12px;
+  left: 10px;
 `;
 
 const CurrentDate = styled.div`

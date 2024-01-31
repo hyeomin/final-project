@@ -8,6 +8,12 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   gap: 50px;
+
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    max-width: 375px;
+    min-width: 0;
+  }
 `;
 
 export default { Container };

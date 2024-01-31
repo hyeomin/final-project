@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import theme from '../../../styles/theme';
 
 type ModalProps = {
   videoId: string;
@@ -49,10 +50,13 @@ const ModalContent = styled.div`
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 15px;
+  top: -10px;
+  right: -10px;
   border: none;
-  background: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: ${theme.color.lightgray};
   font-size: 20px;
   cursor: pointer;
 `;

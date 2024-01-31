@@ -15,8 +15,8 @@ import { auth } from '../../../shared/firebase';
 import { FoundDetailPostProps } from '../../../types/PostType';
 import { extractFirst50Words } from '../../../util/extractContentText';
 import { getFormattedDate } from '../../../util/formattedDateAndTime';
-import EditNDeleteToggle from '../EditNDeleteToggle';
 import LikeButton from '../LikeButton';
+import EditNDeleteToggle from '../editNDeleteToggle/EditNDeleteToggle';
 import St from './style';
 
 function DetailBody({ foundDetailPost }: FoundDetailPostProps) {

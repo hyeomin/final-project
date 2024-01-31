@@ -11,7 +11,6 @@ export type PostType = {
   likeCount: number;
   likedUsers: string[];
   coverImages: DownloadedImageType[];
-
   comments?: [];
   commentCount?: number;
   viewCount?: number;
@@ -21,6 +20,7 @@ export type PostType = {
 export type DownloadedImageType = {
   name: string;
   url: string;
+  thumbnailUrl: string | null;
   isLocal?: boolean;
 };
 

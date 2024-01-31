@@ -1,20 +1,20 @@
-import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
-import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
-import St from './style';
 import { useQuery } from '@tanstack/react-query';
-import defaultProfileImage from '../../../../assets/defaultImg.jpg';
-import defaultCoverImage from '../../../../assets/defaultCoverImg.jpeg';
-import { Link } from 'react-router-dom';
-import { auth } from '../../../../shared/firebase';
-import { getPopularPosts, getPosts } from '../../../../api/homeApi';
-import { getAllUsers } from '../../../../api/authApi';
-import { useLikeButton } from '../../../../hooks/useLikeButton';
-import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
-import PostContentPreview from '../../../common/PostContentPreview';
-import Loader from '../../../common/Loader';
-import { AuthContext } from '../../../../context/AuthContext';
 import { useContext } from 'react';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
+import { Link } from 'react-router-dom';
+import { getAllUsers } from '../../../../api/authApi';
+import { getPopularPosts } from '../../../../api/homeApi';
+import defaultProfileImage from '../../../../assets/defaultImg.jpg';
 import mangoDefaultCover from '../../../../assets/mangoDefaultCover.png';
+import { AuthContext } from '../../../../context/AuthContext';
+import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
+import { useLikeButton } from '../../../../hooks/useLikeButton';
+import Loader from '../../../common/Loader';
+import PostContentPreview from '../../../common/PostContentPreview';
+import St from './style';
+import UserDetail from '../../UserDetail';
+import CarouselSkeleton from './skeleton/CarouselSkeleton';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);
@@ -22,17 +22,19 @@ const Carousel = () => {
 
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['popularPosts'],
-    queryFn: getPopularPosts
+    queryFn: getPopularPosts,
+    // staleTime: 5 * 6 * 1000
+    staleTime: Infinity
   });
 
-  const { data: users } = useQuery({
-    queryKey: ['users'],
-    queryFn: getAllUsers
-  });
-
+  // console.log('인기게시물==>', popularPosts);
   const onClickLikeButton = useLikeButton();
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
+
+  if (isLoading) {
+    return <CarouselSkeleton />;
+  }
 
   return (
     <St.Container>
@@ -42,9 +44,7 @@ const Carousel = () => {
         </St.Button>
       )}
       <St.SlideWrapper>
-        {isLoading ? (
-          <Loader />
-        ) : popularPosts && popularPosts.length === 0 ? (
+        {popularPosts && popularPosts.length === 0 ? (
           <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
         ) : (
           popularPosts?.slice(currentSlide, currentSlide + 4).map((post) => {
@@ -64,13 +64,10 @@ const Carousel = () => {
                   <St.SlideHeader>
                     <div>
                       <St.UserProfileImage>
-                        <img
-                          src={users?.find((user) => user.uid === post.uid)?.profileImg || defaultProfileImage}
-                          alt="user profile image"
-                        />
+                        <UserDetail userId={post.uid} type="profileImg" />
                         {/* <img src={defaultProfileImage} alt="user profile image" /> */}
                       </St.UserProfileImage>
-                      <span>{users?.find((user) => user.uid === post.uid)?.displayName}</span>
+                      <UserDetail userId={post.uid} type="displayName" />
                     </div>
                     <button type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
                       {currentUserId && post.likedUsers?.includes(currentUserId) ? (

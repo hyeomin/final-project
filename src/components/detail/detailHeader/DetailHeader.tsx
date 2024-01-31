@@ -4,16 +4,16 @@ import { SwiperClass, SwiperSlide } from 'swiper/react';
 import swipeLeft from '../../../assets/icons/swipeLeft.png';
 import swipeRight from '../../../assets/icons/swipeRight.png';
 import useSwiperNavigation from '../../../hooks/useSwiperNavigation';
-import { PostType } from '../../../types/PostType';
+import { FoundDetailPostProps } from '../../../types/PostType';
 import { convertToKor } from '../../write/common/lists';
 import St from './style';
 
-interface Props {
-  foundDetailPost: PostType;
-  isLoading: boolean;
-}
+// interface Props {
+//   foundDetailPost: PostType;
+//   isLoading: boolean;
+// }
 
-function DetailHeader({ foundDetailPost, isLoading }: Props) {
+function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -22,13 +22,13 @@ function DetailHeader({ foundDetailPost, isLoading }: Props) {
   const { goNext, goPrev } = useSwiperNavigation({
     swiperInstance,
     currentIndex,
-    // setCurrentIndex,
+    setCurrentIndex,
     maxIndex: coverImages.length - 1
   });
 
-  // const handleSlideChange = (swiper: SwiperClass) => {
-  //   setCurrentIndex(swiper.activeIndex);
-  // };
+  const handleSlideChange = (swiper: SwiperClass) => {
+    setCurrentIndex(swiper.activeIndex);
+  };
 
   // const goNext = () => {
   //   if (swiperInstance) {
@@ -44,10 +44,10 @@ function DetailHeader({ foundDetailPost, isLoading }: Props) {
 
   return (
     <St.CoverContainer>
-      {isLoading && <St.NoImage>로딩 중...</St.NoImage>}
+      {/* {isLoading && <St.NoImage>로딩 중...</St.NoImage>} */}
       {coverImages.length > 0 ? (
         <>
-          <St.StyledSwiper onSwiper={setSwiperInstance} className="mySwiper">
+          <St.StyledSwiper onSwiper={setSwiperInstance} onSlideChange={handleSlideChange} className="mySwiper">
             {coverImages.map((image, idx) => {
               return (
                 <SwiperSlide key={idx}>

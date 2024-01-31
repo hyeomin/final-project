@@ -6,6 +6,8 @@ import { useModal } from '../../hooks/useModal';
 import { isSignUpState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import St from './style';
+import { modalState } from '../../recoil/modals';
+import { FaBars } from 'react-icons/fa';
 
 type Props = {
   styledNav: ({ isActive }: { isActive: boolean }) => {
@@ -16,6 +18,7 @@ type Props = {
 
 function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
   const modal = useModal();
+  const setIsModalOpen = useSetRecoilState(modalState);
   const setIsSignUp = useSetRecoilState(isSignUpState);
 
   const currentUser = auth.currentUser;
@@ -26,11 +29,13 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
     event.preventDefault();
     if (!auth.currentUser) {
       const onClickCancel = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen02: false }));
         modal.close();
         return;
       };
 
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen02: false }));
         modal.close();
         navigate('/auth');
       };
@@ -44,6 +49,7 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen02: true }));
     } else if (window.location.pathname === '/write') {
       window.location.reload();
     } else {
@@ -64,6 +70,9 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
             <span>
               <GoChevronDown />
             </span>
+            <div>
+              <FaBars />
+            </div>
           </St.UserInfo>
         </>
       ) : (

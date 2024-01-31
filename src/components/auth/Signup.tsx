@@ -27,7 +27,6 @@ function Signup() {
   const modal = useModal();
   //const setIsModalOpen = useSetRecoilState(modalState);
   const [isModalOpen, setIsModalOpen] = useRecoilState(modalState);
-  console.log('77isModalOpen', isModalOpen);
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
   // const [nickname, setNickname] = useState('');

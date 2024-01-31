@@ -1,15 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
-import { useContext } from 'react';
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { AuthContext } from '../../context/AuthContext';
 import { useModal } from '../../hooks/useModal';
 import { QUERY_KEYS } from '../../query/keys';
-import { db } from '../../shared/firebase';
+import { auth, db } from '../../shared/firebase';
 import { PostType } from '../../types/PostType';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { modalState } from '../../recoil/modals';
 
 type LikeButtonProps = {
@@ -21,29 +19,23 @@ type LikeButtonProps = {
 
 function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor }: LikeButtonProps) {
   const modal = useModal();
-  const [isModalOpen, setIsModalOpen] = useRecoilState(modalState);
+  const setIsModalOpen = useSetRecoilState(modalState);
   const navigate = useNavigate();
-  const authContext = useContext(AuthContext);
-  const authCurrentUser = authContext?.currentUser;
+  const uid = auth.currentUser?.uid;
 
   const queryClient = useQueryClient();
 
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (postId: string) => {
-      const postRef = doc(db, QUERY_KEYS.POSTS, postId);
-      if (authCurrentUser) {
+      const postRef = doc(db, 'posts', postId);
+
+      if (uid) {
+        const isLiked = foundDetailPost.likedUsers?.includes(uid);
+        let newLikeCount = isLiked ? foundDetailPost.likeCount - 1 : foundDetailPost.likeCount + 1;
+        // Firebase 업데이트
         await updateDoc(postRef, {
-          likedUsers: foundDetailPost.isLiked ? arrayRemove(authCurrentUser?.uid) : arrayUnion(authCurrentUser?.uid)
-        });
-      }
-
-      const postSnap = await getDoc(postRef);
-
-      if (postSnap && authCurrentUser) {
-        const postData = postSnap.data();
-
-        await updateDoc(postRef, {
-          likeCount: postData?.likedUsers?.length
+          likedUsers: foundDetailPost.likedUsers?.includes(uid) ? arrayRemove(uid) : arrayUnion(uid),
+          likeCount: newLikeCount
         });
       }
     },
@@ -53,13 +45,11 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
 
       queryClient.setQueryData([QUERY_KEYS.POSTS], (old: PostType[]) => {
         return old.map((p) => {
-          if (p.id === postId && authCurrentUser) {
-            const isLiked = p.likedUsers.includes(authCurrentUser?.uid);
+          if (p.id === postId && uid) {
+            const isLiked = p.likedUsers.includes(uid);
             return {
               ...p,
-              likedUsers: isLiked
-                ? p.likedUsers!.filter((uid) => uid !== authCurrentUser.uid)
-                : [...p.likedUsers!, authCurrentUser.uid],
+              likedUsers: isLiked ? p.likedUsers!.filter((users) => users !== uid) : [...p.likedUsers!, uid],
               likeCount: isLiked ? p.likeCount! - 1 : p.likeCount! + 1
             };
           }
@@ -78,9 +68,8 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
 
   const handleClickLikeButton = async (event: React.MouseEvent<Element>) => {
     event.stopPropagation();
-
     // 로그인 여부 확인
-    if (!authCurrentUser) {
+    if (!uid) {
       const onClickCancel = () => {
         modal.close();
         setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
@@ -110,10 +99,7 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
   };
 
   // 좋아요 여부 확인
-  const isPostLiked =
-    authCurrentUser?.uid &&
-    Array.isArray(foundDetailPost.likedUsers) &&
-    foundDetailPost.likedUsers.includes(authCurrentUser?.uid);
+  const isPostLiked = uid && foundDetailPost.likedUsers.includes(uid);
 
   return (
     <LikeButtonIcon

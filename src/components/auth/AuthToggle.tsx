@@ -1,15 +1,15 @@
 import { signOut } from 'firebase/auth';
 import { useContext, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import defaultImg from '../../assets/defaultImg.jpg';
 import { AuthContext } from '../../context/AuthContext';
 import { useModal } from '../../hooks/useModal';
+import { modalState } from '../../recoil/modals';
 import { roleState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import theme from '../../styles/theme';
-import { modalState } from '../../recoil/modals';
 
 type Props = {
   setIsAuthToggleOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -98,10 +98,10 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
         </ProfileImageContainer>
         <span>{`안녕하세요, ${authCurrentUser?.displayName}님`}</span>
         <ButtonContainer>
-          <AuthButton onClick={onNavigateMyPageHandler} $bgcolor="#FFD864" bdrcolor="transparent">
+          <AuthButton onClick={onNavigateMyPageHandler} $bgcolor="#FFD864" $bdrcolor="transparent">
             마이페이지
           </AuthButton>
-          <AuthButton onClick={onLogOutHandler} $bgcolor="#f6f6f6" bdrcolor={`${theme.color.gray}`}>
+          <AuthButton onClick={onLogOutHandler} $bgcolor="#f6f6f6" $bdrcolor={`${theme.color.gray}`}>
             로그아웃
           </AuthButton>
         </ButtonContainer>
@@ -120,6 +120,10 @@ const ToggleContainer = styled.div`
   top: 65px;
   right: 60px;
   z-index: 100;
+  @media screen and (max-width: 376px) {
+    top: 58px;
+    right: 0px;
+  }
 `;
 
 const ToggleBox = styled.div`
@@ -132,6 +136,11 @@ const ToggleBox = styled.div`
   height: 320px;
   border-radius: 20px;
   background-color: ${theme.color.veryLightGray};
+
+  @media screen and (max-width: 376px) {
+    width: 270px;
+    height: 270px;
+  }
 `;
 
 const ProfileImageContainer = styled.div`
@@ -160,7 +169,7 @@ const ButtonContainer = styled.div`
 
 interface AuthButtonProps {
   $bgcolor: string;
-  bdrcolor: string;
+  $bdrcolor: string;
 }
 
 const AuthButton = styled.button<AuthButtonProps>`
@@ -169,6 +178,10 @@ const AuthButton = styled.button<AuthButtonProps>`
   width: 120px;
   border-radius: 10px;
   background-color: ${(props) => props.$bgcolor};
-  border: 1px solid ${(props) => props.bdrcolor};
+  border: 1px solid ${(props) => props.$bdrcolor};
   cursor: pointer;
+
+  @media screen and (max-width: 376px) {
+    width: 100px;
+  }
 `;

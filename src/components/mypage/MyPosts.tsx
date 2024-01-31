@@ -1,15 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMyPosts } from '../../api/myPostAPI';
 import { auth } from '../../shared/firebase';
 import Cs from '../viewAll/style';
-//import PostCard from './PostCard/PostCard';
 import PostCard from '../mypage/PostCard/PostCard';
+import { QUERY_KEYS } from '../../query/keys';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import { getMyPosts } from '../../api/myPostAPI';
+
 // 내 게시물 가져오기
 const MyPosts = () => {
+  const authContext = useContext(AuthContext);
+  const authCurrentUser = authContext?.currentUser;
+
+  //test
   const { data: myPosts } = useQuery({
-    queryKey: ['posts', { isMyPosts: true }],
+    queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
     queryFn: getMyPosts,
-    enabled: !!auth.currentUser
+    enabled: !!authCurrentUser,
+    staleTime: 1000 * 60
   });
 
   return (

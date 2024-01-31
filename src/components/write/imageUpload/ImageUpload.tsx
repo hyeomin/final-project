@@ -1,21 +1,23 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { GoTrash } from 'react-icons/go';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { deleteImage, uploadSingleImage } from '../../../api/postApi';
 import DragNDrop from '../../../assets/icons/dragndrop.png';
 import { useModal } from '../../../hooks/useModal';
+import { modalState } from '../../../recoil/modals';
 import { postInputState } from '../../../recoil/posts';
+import { DownloadedImageType } from '../../../types/PostType';
+import { resizeCoverImageFile } from '../../../util/imageResize';
 import St from './style';
 
 function ImageUpload() {
   const modal = useModal();
+  const setIsModalOpen = useSetRecoilState(modalState);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { coverImages } = postInput;
-
-  const [uploadStatus, setUploadStatus] = useState('Loading...');
 
   const queryClient = useQueryClient();
 
@@ -29,17 +31,13 @@ function ImageUpload() {
       if (downloadedImage) {
         // 정상적으로 url을 반환 받았는지 확인
         queryClient.invalidateQueries({ queryKey: ['coverImages'] });
-        // 그 전에 보여지고 있던 로컬 파일의 미리보기 대체
+
         setPostInput((currentInput) => {
-          const updatedImages = currentInput.coverImages.map((image) => {
-            if (image.isLocal && image.name === downloadedImage.name) {
-              return { ...downloadedImage, isLocal: false };
-            }
-            return image;
-          });
-          return { ...currentInput, coverImages: updatedImages };
+          // 그 전에 보여지고 있던 로컬 파일의 미리보기 없애기
+          const updatedImages = currentInput.coverImages.filter((image) => image.isLocal !== true);
+          // 반환 받은 firebase url 정보 넣어주기
+          return { ...currentInput, coverImages: [...updatedImages, downloadedImage] };
         });
-        setUploadStatus('Done');
       }
     },
     onError: (error, variables) => {
@@ -80,6 +78,7 @@ function ImageUpload() {
     const totalImages = selectedImageFiles.length + (coverImages ? coverImages.length : 0);
     if (totalImages > 3) {
       const onClickConfirm = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen03: false }));
         modal.close();
       };
 
@@ -92,23 +91,32 @@ function ImageUpload() {
         onClickRightButton: onClickConfirm
       };
       modal.open(openModalParams);
-
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen03: true }));
       return;
     }
     // 업로드 가능한 이미지 파일 크기 하나씩 확인하면서 제한
     for (let i = 0; i < selectedImageFiles?.length; i++) {
       if (selectedImageFiles[i].size <= 5 * 1024 * 1024) {
-        const tempUrl = URL.createObjectURL(selectedImageFiles[i]);
-        const tempImage = { url: tempUrl, name: selectedImageFiles[i].name, isLocal: true };
-        setPostInput((currentInput) => ({
-          ...currentInput,
-          coverImages: [...currentInput.coverImages, tempImage]
-        }));
+        try {
+          // 이미지 사이즈 변경
+          const resizedImageFile = await resizeCoverImageFile(selectedImageFiles[i]);
+          const tempUrl = URL.createObjectURL(resizedImageFile as File);
+          const tempImage = { name: selectedImageFiles[i].name, url: tempUrl, thumbnailUrl: null, isLocal: true };
+
+          setPostInput((currentInput) => ({
+            ...currentInput,
+            coverImages: [...currentInput.coverImages, tempImage]
+          }));
+          addImageMutation.mutate(resizedImageFile as File);
+        } catch (err) {
+          console.log(err);
+        }
 
         // mutation 매개변수 넘겨주기
-        addImageMutation.mutate(selectedImageFiles[i]);
       } else {
+        // 용량 초과 안내 모달
         const onClickConfirm = () => {
+          setIsModalOpen((prev) => ({ ...prev, isModalOpen04: false }));
           modal.close();
         };
 
@@ -121,6 +129,7 @@ function ImageUpload() {
           onClickRightButton: onClickConfirm
         };
         modal.open(openModalParams);
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen04: true }));
       }
     }
   };
@@ -139,19 +148,24 @@ function ImageUpload() {
   });
 
   // 이미지 삭제
-  const onDeleteImageHandler = (url: string) => {
+  const onDeleteImageHandler = (image: DownloadedImageType) => {
     const onClickCancel = () => {
       modal.close();
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen05: false }));
       return;
     };
 
     const onClickConfirm = () => {
-      const deleteImages = coverImages.filter((image) => image.url !== url);
+      const deleteImages = coverImages.filter((i) => i.url !== image.url);
       setPostInput({
         ...postInput,
         coverImages: deleteImages
       });
-      deletePostMutation.mutate(url);
+      if (!image.isLocal) {
+        deletePostMutation.mutate(image.url);
+      }
+
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen05: false }));
       modal.close();
     };
 
@@ -164,13 +178,7 @@ function ImageUpload() {
       onClickRightButton: onClickConfirm
     };
     modal.open(openModalParams);
-
-    // const deleteImages = coverImages.filter((image) => image.url !== url);
-    // setPostInput({
-    //   ...postInput,
-    //   coverImages: deleteImages
-    // });
-    // deletePostMutation.mutate(url);
+    setIsModalOpen((prev) => ({ ...prev, isModalOpen05: true }));
   };
 
   return (
@@ -194,9 +202,9 @@ function ImageUpload() {
                 <St.SinglePreviewInfo>
                   <div>
                     <p>{image.name}</p>
-                    <span>{uploadStatus}</span>
+                    <span>{image.isLocal ? 'Loading...' : 'Finished'}</span>
                   </div>
-                  <button onClick={() => onDeleteImageHandler(image.url)}>
+                  <button onClick={() => onDeleteImageHandler(image)}>
                     <GoTrash />
                   </button>
                 </St.SinglePreviewInfo>

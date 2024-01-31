@@ -5,25 +5,61 @@ import Cs from '../viewAll/style';
 
 import { QUERY_KEYS } from '../../query/keys';
 import PostCard from './PostCard/PostCard';
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import { PostType } from '../../types/PostType';
+
+// interface MyProfileProps {
+//   getLikePosts: () => Promise<PostType[] | undefined>;
+// }
 
 const LikesPosts = () => {
-  const { data: likePosts } = useQuery({
+  const authContext = useContext(AuthContext);
+  const authCurrentUser = authContext?.currentUser;
+
+  const {
+    data: likePosts,
+    isLoading,
+    isError,
+    error
+  } = useQuery({
     queryKey: ['posts', { likedPosts: true }],
-    queryFn: getLikePosts
+    queryFn: getLikePosts,
+    staleTime: 1000 * 60
   });
 
-  const postQueries = useQueries({
-    queries: [
-      {
-        queryKey: ['adminContents'],
-        queryFn: getAdminPosts
-      },
-      {
-        queryKey: [QUERY_KEYS.USERPOSTS],
-        queryFn: getPopularPosts
-      }
-    ]
-  });
+  if (isLoading) {
+    return <p>데이터를 불러오는 중입니다...</p>;
+  }
+
+  if (isError) {
+    return <p>오류가 발생했습니다: {error.message}</p>;
+  }
+  console.log('이거이거', likePosts);
+  //test
+  // const { data: likePosts } = useQuery({
+  //   queryKey: [QUERY_KEYS.POSTS, 'likePosts'],
+  //   queryFn: getAllPosts,
+  //   enabled: !!authCurrentUser,
+  //   staleTime: 1000 * 60,
+  //   select: (data) => {
+  //     // console.log('ddd', data);
+  //     return data?.filter((post) => post.likedUsers.includes(authCurrentUser!.uid));
+  //   }
+  // });
+
+  // const postQueries = useQueries({
+  //   queries: [
+  //     {
+  //       queryKey: ['adminContents'],
+  //       queryFn: getAdminPosts
+  //     },
+  //     {
+  //       queryKey: [QUERY_KEYS.USERPOSTS],
+  //       queryFn: getPopularPosts
+  //     }
+  //   ]
+  // });
 
   return (
     <Cs.Contents>

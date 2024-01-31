@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { updatePostViewCount } from '../api/detailApi';
-import { getDetailPost } from '../api/dummyApi';
+import { getDetailPost, updatePostViewCount } from '../api/detailApi';
+import Loader from '../components/common/Loader';
 import AddCommentForm from '../components/detail/comment/addComment/AddComment';
 import CommentList from '../components/detail/comment/commentList/CommentList';
 import DetailBody from '../components/detail/detailBody/DetailBody';
@@ -14,23 +14,14 @@ import theme from '../styles/theme';
 import { PostType } from '../types/PostType';
 
 function Detail() {
-  // const [foundDetailPost, setFoundDetailPost] = useState<PostType | null>();
-
   const { id } = useParams();
 
   // 해당 데이터 가져오기
   const { data: foundDetailPost, isLoading } = useQuery<PostType | undefined>({
     queryKey: [QUERY_KEYS.POSTS, id],
-    queryFn: () => (id ? getDetailPost(id) : undefined)
+    queryFn: () => (id ? getDetailPost(id) : undefined),
+    staleTime: 60_000
   });
-  // 수정 필요
-
-  // useEffect(() => {
-  //   if (postList) {
-  //     const foundDetailPost = postList.find((post) => post.id === id);
-  //     if (foundDetailPost) setFoundDetailPost(foundDetailPost);
-  //   }
-  // }, [postList, id]);
 
   //조회수 업데이트
   const [viewCount, setViewCount] = useState(foundDetailPost?.viewCount || 0);
@@ -44,7 +35,7 @@ function Detail() {
   }, [foundDetailPost]);
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <Loader />;
   }
 
   // 포스트 존재 여부 검사
@@ -62,7 +53,7 @@ function Detail() {
       <DetailTitle>상세페이지</DetailTitle>
       {foundDetailPost && (
         <>
-          <DetailHeader foundDetailPost={foundDetailPost} isLoading={isLoading} />
+          <DetailHeader foundDetailPost={foundDetailPost} />
           <DetailBody foundDetailPost={foundDetailPost} />
           <AddCommentForm foundDetailPost={foundDetailPost} />
           <CommentList foundDetailPost={foundDetailPost} />
@@ -85,14 +76,34 @@ const Container = styled.div`
   min-width: 600px;
   margin: 0 30px;
   padding: 30px 0;
+
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    max-width: 375px;
+    min-width: 0;
+    padding: 0;
+  }
 `;
 
 const DetailTitle = styled.h3`
   color: ${theme.color.gray};
   font-size: 18px;
   padding: 30px 0;
+
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    font-size: 15px;
+    font-weight: 500;
+    padding-left: 30px;
+    padding-top: 0;
+  }
 `;
 
 const DetailEmptyFooter = styled.div`
   height: 280px;
+
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    height: 40px;
+  }
 `;
