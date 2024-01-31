@@ -22,6 +22,13 @@ const CommentSubmitForm = styled.form`
     padding: 0 100px 0 0;
     resize: none;
   }
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    width: 350px;
+    height: 140px;
+    margin: auto;
+    padding: 10px 0 10px 10px;
+  }
 `;
 
 const SubmitButton = styled.button`
@@ -47,6 +54,11 @@ const SubmitButton = styled.button`
   &:hover {
     background-color: #df8d11;
     cursor: pointer;
+  }
+
+  //모바일 세로
+  @media screen and (max-width: 376px) {
+    height: 35px;
   }
 `;
 export default {

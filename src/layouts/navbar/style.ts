@@ -39,6 +39,11 @@ const NavBarContainer = styled.div`
   & a {
     text-decoration: none;
   }
+
+  //모바일 (세로)
+  @media screen and (max-width: 376px) {
+    padding: 0 18px;
+  }
 `;
 
 const LeftNav = styled.div`
@@ -48,9 +53,29 @@ const LeftNav = styled.div`
   font-size: 16px;
   font-weight: bold;
   color: ${theme.color.gray};
+
+  //모바일 (세로)
+  @media screen and (max-width: 376px) {
+    column-gap: 10px;
+    font-size: 11px;
+    color: ${theme.color.gray};
+    & span {
+      display: none;
+    }
+  }
+
+  //모바일 (가로)
+  @media screen and (min-width: 376px) and (max-width: 620px) {
+    column-gap: 10px;
+    font-size: 13px;
+    color: ${theme.color.gray};
+    & span {
+      display: none;
+    }
+  }
 `;
 
-export const LogoContainer = styled.div<NavProps>`
+export const LogoContainer = styled.div`
   display: flex;
   cursor: pointer;
 
@@ -65,9 +90,6 @@ export const LogoContainer = styled.div<NavProps>`
     font-family: ${theme.font.mango};
     color: ${theme.color.mangoMain};
     font-size: 30px;
-    @media screen and (max-width: 376px) {
-      display: ${(props) => (props.isAuth ? 'none' : 'flex')};
-    }
   }
 `;
 
@@ -101,6 +123,16 @@ const AuthContainer = styled.div`
 
 const StyledNavLnk = styled(NavLink)`
   font-weight: normal;
+
+  //모바일 : 세로
+  @media screen and (max-width: 376px) {
+    display: none;
+  }
+
+  //모바일 : 가로
+  @media screen and (min-width: 376px) and (max-width: 620px) {
+    display: none;
+  }
 `;
 
 const UserInfo = styled.div`
@@ -125,6 +157,26 @@ const UserInfo = styled.div`
     border-color: transparent;
     padding: 0;
   }
+
+  & span {
+    //모바일 : 세로
+    @media screen and (max-width: 376px) {
+      display: none;
+    }
+
+    //모바일 : 가로
+    @media screen and (min-width: 376px) and (max-width: 620px) {
+      //display: none;
+    }
+  }
 `;
 
-export default { AuthContainer, StyledNavLnk, UserInfo, NavContainer, NavBarContainer, LeftNav, LogoContainerFooter };
+export default {
+  AuthContainer,
+  StyledNavLnk,
+  UserInfo,
+  NavContainer,
+  NavBarContainer,
+  LeftNav,
+  LogoContainerFooter
+};

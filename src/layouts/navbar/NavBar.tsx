@@ -41,18 +41,18 @@ function NavBar() {
 
   //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기)
   const [isAuth, setIsAuth] = useState(false);
-  console.log('isAuth', isAuth);
+  console.log(isAuth);
   useEffect(() => {
     const detailURL = window.location.href;
     const isAuthInURL = detailURL.includes('auth');
     setIsAuth(isAuthInURL);
-  }, []);
+  }, [isAuth]);
 
-  return isAuth ? (
+  return (
     <St.NavContainer ref={navRef} isAuth={isAuth}>
       <St.NavBarContainer>
         <St.LeftNav>
-          <LogoContainer onClick={() => navigate('/')} isAuth={isAuth}>
+          <LogoContainer onClick={() => navigate('/')}>
             <img src={logo} alt="logo" />
             <span>Mango</span>
           </LogoContainer>
@@ -66,30 +66,6 @@ function NavBar() {
             COMMUNITY
           </NavLink>
         </St.LeftNav>
-
-        <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
-      </St.NavBarContainer>
-      {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}
-    </St.NavContainer>
-  ) : (
-    <St.NavContainer ref={navRef} isAuth={isAuth}>
-      <St.NavBarContainer>
-        <St.LeftNav>
-          <LogoContainer onClick={() => navigate('/')} isAuth={isAuth}>
-            <img src={logo} alt="logo" />
-            <span>Mango</span>
-          </LogoContainer>
-          <NavLink to="/about" style={styledNav}>
-            ABOUT
-          </NavLink>
-          <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
-            BY MANGO
-          </NavLink>
-          <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
-            COMMUNITY
-          </NavLink>
-        </St.LeftNav>
-
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
       </St.NavBarContainer>
       {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}
