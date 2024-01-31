@@ -17,6 +17,7 @@ function Header({ foundDetailPost }: FoundDetailPostProps) {
   const onTempSaveHandler = () => {
     // sessionStorage에 데이터 저장
     sessionStorage.setItem('savedData', JSON.stringify(postInput));
+    console.log('저장된 post', postInput);
 
     //모달
     const onClickSave = () => {

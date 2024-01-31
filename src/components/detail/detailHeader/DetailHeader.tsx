@@ -8,11 +8,6 @@ import { FoundDetailPostProps } from '../../../types/PostType';
 import { convertToKor } from '../../write/common/lists';
 import St from './style';
 
-// interface Props {
-//   foundDetailPost: PostType;
-//   isLoading: boolean;
-// }
-
 function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,18 +24,6 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const handleSlideChange = (swiper: SwiperClass) => {
     setCurrentIndex(swiper.activeIndex);
   };
-
-  // const goNext = () => {
-  //   if (swiperInstance) {
-  //     swiperInstance.slideNext();
-  //   }
-  // };
-
-  // const goPrev = () => {
-  //   if (swiperInstance) {
-  //     swiperInstance.slidePrev();
-  //   }
-  // };
 
   return (
     <St.CoverContainer>
