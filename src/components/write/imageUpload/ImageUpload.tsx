@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { GoTrash } from 'react-icons/go';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { deleteImage, uploadSingleImage } from '../../../api/postApi';
 import DragNDrop from '../../../assets/icons/dragndrop.png';
 import { useModal } from '../../../hooks/useModal';
+import { modalState } from '../../../recoil/modals';
 import { postInputState } from '../../../recoil/posts';
 import { DownloadedImageType } from '../../../types/PostType';
 import { resizeCoverImageFile } from '../../../util/imageResize';
 import St from './style';
-import { modalState } from '../../../recoil/modals';
 
 function ImageUpload() {
   const modal = useModal();
@@ -18,8 +18,6 @@ function ImageUpload() {
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { coverImages } = postInput;
-
-  const [uploadStatus, setUploadStatus] = useState('Loading...');
 
   const queryClient = useQueryClient();
 
@@ -40,7 +38,6 @@ function ImageUpload() {
           // 반환 받은 firebase url 정보 넣어주기
           return { ...currentInput, coverImages: [...updatedImages, downloadedImage] };
         });
-        setUploadStatus('Done');
       }
     },
     onError: (error, variables) => {
@@ -182,12 +179,6 @@ function ImageUpload() {
     };
     modal.open(openModalParams);
     setIsModalOpen((prev) => ({ ...prev, isModalOpen05: true }));
-    // const deleteImages = coverImages.filter((image) => image.url !== url);
-    // setPostInput({
-    //   ...postInput,
-    //   coverImages: deleteImages
-    // });
-    // deletePostMutation.mutate(url);
   };
 
   return (
@@ -211,7 +202,7 @@ function ImageUpload() {
                 <St.SinglePreviewInfo>
                   <div>
                     <p>{image.name}</p>
-                    <span>{uploadStatus}</span>
+                    <span>{image.isLocal ? 'Loading...' : 'Finished'}</span>
                   </div>
                   <button onClick={() => onDeleteImageHandler(image)}>
                     <GoTrash />

@@ -9,6 +9,13 @@ const GetStartedContainer = styled.div`
   height: 600px;
 `;
 
+const TabTitleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  background-color: #666;
+`;
+
 const TabTitle = styled.div`
   width: 340px;
   border-radius: 20px 20px 0px 0px;
@@ -37,7 +44,8 @@ const ColoredBox = styled.div`
   position: relative;
 
   & h5 {
-    font-size: 20px;
+    font-size: 26px;
+
     font-weight: bold;
   }
 `;
@@ -102,5 +110,6 @@ export default {
   Subtitle,
   LinkContainer,
   LinktoPage,
-  Gradient
+  Gradient,
+  TabTitleContainer
 };
