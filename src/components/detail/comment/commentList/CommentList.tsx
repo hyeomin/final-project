@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import { getAllUsers } from '../../../../api/authApi';
+import { getComments } from '../../../../api/commentApi';
 import defaultUserProfile from '../../../../assets/defaultImg.jpg';
 import MangoLogo from '../../../../assets/realMango.png';
 import { AuthContext } from '../../../../context/AuthContext';
@@ -10,6 +11,7 @@ import useCommentQuery from '../../../../query/useCommentQuery';
 import { FoundDetailPostProps } from '../../../../types/PostType';
 import { getFormattedDate } from '../../../../util/formattedDateAndTime';
 import St from './style';
+import UserDetail from '../../../main/UserDetail';
 
 const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const modal = useModal();
@@ -29,12 +31,11 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   // });
 
   // 댓글목록 가져오기
-  // const { data: comments } = useQuery({
-  //   queryKey: [QUERY_KEYS.COMMENTS, postId],
-  //   queryFn: () => getComments(postId)
-  // });
-
-  const commentsTest: CommentType[] = foundDetailPost.comments ?? [];
+  const { data: comments } = useQuery({
+    queryKey: [QUERY_KEYS.COMMENTS, postId],
+    queryFn: () => getComments(postId),
+    staleTime: Infinity
+  });
 
   const { data: users } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
@@ -122,7 +123,7 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
 
   return (
     <St.CommentListContainer>
-      {commentsTest?.length === 0 ? (
+      {comments?.length === 0 ? (
         <St.SingleComment>
           <St.Mango src={MangoLogo} alt="Mango Logo" />
           <St.CommentDetail>
@@ -133,17 +134,14 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
           </St.CommentDetail>
         </St.SingleComment>
       ) : (
-        commentsTest?.map((comment) => {
+        comments?.map((comment) => {
           return (
             <St.SingleComment key={comment.id}>
-              <img
-                src={users?.find((user) => user.uid === comment.uid)?.profileImg || defaultUserProfile}
-                alt="profile"
-              />
+              <UserDetail userId={comment.uid} type="profileImg" />
               <St.CommentDetail>
                 <St.NameAndTime>
                   {/* <span>{comment.displayName}</span> */}
-                  <span>{users?.find((user) => user.uid === comment.uid)?.displayName}</span>
+                  <UserDetail userId={comment.uid} type="displayName" />
                   <St.Time>{getFormattedDate(comment.createdAt)}</St.Time>
                 </St.NameAndTime>
                 {editingCommentId === comment.id ? (

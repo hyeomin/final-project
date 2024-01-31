@@ -7,13 +7,13 @@ import { getAllUsers } from '../../../../api/authApi';
 import { getPopularPosts } from '../../../../api/homeApi';
 import defaultProfileImage from '../../../../assets/defaultImg.jpg';
 import mangoDefaultCover from '../../../../assets/mangoDefaultCover.png';
-import UserDetail from './UserDetail';
 import { AuthContext } from '../../../../context/AuthContext';
 import { useCarouselNavigation } from '../../../../hooks/useCarouselNavigation';
 import { useLikeButton } from '../../../../hooks/useLikeButton';
 import Loader from '../../../common/Loader';
 import PostContentPreview from '../../../common/PostContentPreview';
 import St from './style';
+import UserDetail from '../../UserDetail';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);
@@ -56,10 +56,16 @@ const Carousel = () => {
                       }
                       alt={post.title}
                     />
-                    <img src={mangoDefaultCover} alt={post.title} />
+                    {/* <img src={defaultCoverImage} alt={post.title} /> */}
                   </St.CoverImage>
                   <St.SlideHeader>
-                    <UserDetail userId={post.uid} />
+                    <div>
+                      <St.UserProfileImage>
+                        <UserDetail userId={post.uid} type="profileImg" />
+                        {/* <img src={defaultProfileImage} alt="user profile image" /> */}
+                      </St.UserProfileImage>
+                      <UserDetail userId={post.uid} type="displayName" />
+                    </div>
                     <button type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
                       {currentUserId && post.likedUsers?.includes(currentUserId) ? (
                         <St.HeartFillIcon />

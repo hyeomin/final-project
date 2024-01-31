@@ -7,6 +7,7 @@ import { addPost } from '../../../api/postApi';
 import { AuthContext } from '../../../context/AuthContext';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
+import { modalState } from '../../../recoil/modals';
 import { isEditingPostState, postInputState } from '../../../recoil/posts';
 import { roleState } from '../../../recoil/users';
 import { auth } from '../../../shared/firebase';
@@ -14,7 +15,6 @@ import { PostType } from '../../../types/PostType';
 import { UserType } from '../../../types/UserType';
 import { stripHtml } from '../../../util/extractContentText';
 import { CustomButton } from './styles';
-import { modalState } from '../../../recoil/modals';
 
 function SubmitButton() {
   const modal = useModal();
@@ -78,6 +78,7 @@ function SubmitButton() {
           foundPost: null,
           isEditing: false
         });
+        onDeleteTempSave();
         navigate(`/detail/${postId}`);
       }
     }
@@ -135,3 +136,6 @@ function SubmitButton() {
 }
 
 export default SubmitButton;
+function onDeleteTempSave() {
+  throw new Error('Function not implemented.');
+}

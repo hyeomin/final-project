@@ -5,7 +5,7 @@ const FooterContainer = styled.div`
   background-color: ${theme.color.mangoLight};
   width: 100%;
   padding: 10px 120px;
-  color: black;
+  color: ${theme.color.gray};
 `;
 
 const FooterContentContainer = styled.div`
@@ -16,7 +16,7 @@ const FooterContentContainer = styled.div`
   row-gap: 10px;
   padding: 25px 0;
 
-  border-bottom: 1px solid black;
+  border-bottom: 0.5px solid ${theme.color.gray};
 `;
 
 const LogoWrapper = styled.div`
@@ -33,15 +33,14 @@ const FooterText = styled.div`
 const TeamInfo = styled.div`
   display: flex;
   align-items: end;
-  column-gap: 20px;
   row-gap: 5px;
 `;
 
 const SingleMember = styled.div`
   display: flex;
-  align-items: center;
-  column-gap: 10px;
-  width: 110px;
+  column-gap: 5px;
+  padding: 0 15px;
+  border-right: 1px solid ${theme.color.gray};
 
   & img {
     width: 12px;
