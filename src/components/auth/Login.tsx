@@ -25,9 +25,6 @@ interface UserData {
 }
 
 function Login() {
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [nickname, setNickname] = useState('');
   const modal = useModal();
   const setIsModalOpen = useSetRecoilState(modalState);
   const [userData, setUserData] = useState<UserData | null>(null);
@@ -60,6 +57,7 @@ function Login() {
       const onClickSave = () => {
         setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         modal.close();
+        setErrorMsg('');
       };
 
       const openModalParams: Parameters<typeof modal.open>[0] = {
@@ -79,7 +77,6 @@ function Login() {
   const signIn: SubmitHandler<Data> = async (data) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
-      //console.log('userCredential', userCredential);
 
       // 로그인 성공 시 role, authCurrentUser의 recoil(전역상태) update
       const user = userList && userList.find((user) => user.uid === authCurrentUser?.uid);
@@ -106,7 +103,6 @@ function Login() {
 
         // 회원가입 시, user 컬렉션에 값이 저장됨
         const userId = auth.currentUser?.uid;
-        // console.log('userId-->', userId);
         // 컬렉션에 있는 users 필드 정보 수정
         if (userId) {
           setDoc(doc(db, 'users', userId), {
@@ -160,9 +156,6 @@ function Login() {
             })}
           />
           {errors?.password?.type === 'required' && <St.WarningMsg>비밀번호를 입력해주세요</St.WarningMsg>}
-          {/* {errors?.password?.type === 'pattern' && (
-            <St.WarningMsg>비밀번호는 문자, 숫자 1개이상 포함, 8자리 이상입니다</St.WarningMsg>
-          )} */}
         </St.InputContainer>
         <St.LoginContainer>
           <St.SignUpAndLoginBtn type="submit">로그인</St.SignUpAndLoginBtn>
@@ -173,7 +166,6 @@ function Login() {
         </St.LoginContainer>
 
         <St.SignUpNavigation>
-          {/* <p style={{ marginBottom: '15px', fontSize: '15px' }}>아직 회원이 아니신가요?</p> */}
           <St.ToggleLoginAndSignUp
             onClick={() => {
               setIsSignUp(true);
