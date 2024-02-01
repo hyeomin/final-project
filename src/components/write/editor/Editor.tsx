@@ -70,7 +70,7 @@ function Editor() {
 
   const editorStyle = { height: '600px', maxHeight: '800px' };
 
-  const handleContentChange = (newContent: string) => {
+  const onContentChangeHandler = (newContent: string) => {
     setPostInput((prevInput) => ({ ...prevInput, content: newContent }));
   };
 
@@ -88,7 +88,7 @@ function Editor() {
           style={editorStyle}
           theme="snow"
           value={content}
-          onChange={handleContentChange}
+          onChange={onContentChangeHandler}
           modules={modules}
           formats={formats}
           ref={quillRef}
