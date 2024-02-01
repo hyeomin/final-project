@@ -76,7 +76,6 @@ const TextInBubble = styled.div<StyleProps>`
   }
 
   & p {
-    font-size: 14px;
     width: 100%;
     line-height: 150%;
   }
