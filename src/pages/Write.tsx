@@ -23,6 +23,7 @@ function Write() {
 
   // 임시저장된 데이터 불러올지; 취소하면 날라가게
   useEffect(() => {
+    // 700 밀리초 이후에 임시저장 알람 띄우기 (안그러면 글쓰기 누르자마자 알람이 생김)
     setTimeout(() => {
       const savedData = sessionStorage.getItem('savedData');
       if (savedData) {

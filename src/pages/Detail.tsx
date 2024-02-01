@@ -50,7 +50,7 @@ function Detail() {
 
   return (
     <Container>
-      <DetailTitle>상세페이지</DetailTitle>
+      {/* <DetailTitle>상세페이지</DetailTitle> */}
       {foundDetailPost && (
         <>
           <DetailHeader foundDetailPost={foundDetailPost} />

@@ -10,10 +10,12 @@ import useOutsideClick from '../../hooks/useOutsideClick';
 import { QUERY_KEYS } from '../../query/keys';
 import { pathHistoryState } from '../../recoil/posts';
 import AuthNavBar from './AuthNavBar';
+import GuideModal from './guideModal/GuideModal';
 import St, { LogoContainer } from './style';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
+  const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
 
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -58,6 +60,11 @@ function NavBar() {
     setIsAuth(isAuthInURL);
   }, [isAuth]);
 
+  // Guide modal handler
+  const onToggleModal = () => {
+    setIsGuideModalOpen(!isGuideModalOpen);
+  };
+
   return (
     <St.NavContainer ref={navRef} isAuth={isAuth}>
       <St.NavBarContainer>
@@ -75,6 +82,8 @@ function NavBar() {
           <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
             COMMUNITY
           </NavLink>
+          <div onClick={onToggleModal}>GUIDE</div>
+          {isGuideModalOpen && <GuideModal onClose={onToggleModal} />}
         </St.LeftNav>
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
       </St.NavBarContainer>
