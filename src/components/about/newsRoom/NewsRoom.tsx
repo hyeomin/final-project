@@ -11,8 +11,6 @@ import theme from '../../../styles/theme';
 import NewsUpload from './NewsUpload';
 import YoutubeModal from './YoutubeModal';
 
-// import 'swiper/css';
-// import 'swiper/css/navigation';
 import useSwiperNavigation from '../../../hooks/useSwiperNavigation';
 
 function NewsRoom() {
@@ -67,8 +65,6 @@ function NewsRoom() {
               pagination={{
                 clickable: true
               }}
-              // navigation
-              // modules={[Pagination, Navigation]}
             >
               {newsPosts.map((news, index) => (
                 <SwiperSlide key={index} onClick={() => onClickSlideHandler(news.youtubeId)}>
