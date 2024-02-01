@@ -6,8 +6,8 @@ const ViewAllContainer = styled.div`
   width: 1000px;
   min-height: 1544px;
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    max-width: 370px;
+  @media screen and (max-width: 431px) {
+    max-width: 430px;
     min-height: 485px;
   }
 `;
@@ -18,7 +18,7 @@ const MainSubWrapper = styled.div`
   min-height: 485px;
   margin-bottom: 150px; //58에서 변경
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     margin: auto;
     /* min-width: 0px;
     max-width: 370px;
@@ -273,7 +273,7 @@ const MangoSUbWord = styled.p`
   font-weight: 500;
   margin-top: 10px;
   //모바일 (세로)
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     //
   }
 `;
@@ -313,12 +313,12 @@ const AdminContent = styled.li`
   }
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    width: 165px;
+  @media screen and (max-width: 431px) {
+    width: 100%;
     img {
       object-fit: cover;
-      width: 170px;
-      height: 110px;
+      width: 100%;
+      height: 70%;
       border-radius: 20px;
       &:hover {
         cursor: pointer;
@@ -336,9 +336,9 @@ const AdminPostTitle = styled.p`
   margin-bottom: 10px;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    font-size: 17px;
-    font-weight: 600;
+  @media screen and (max-width: 431px) {
+    /* font-size: 17px;
+    font-weight: 600; */
   }
 `;
 
@@ -352,7 +352,7 @@ const AdminPostContent = styled.div`
   font-size: 16px;
   font-weight: 400;
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     font-size: 10px;
     font-weight: 400;
   }
