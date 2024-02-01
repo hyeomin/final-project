@@ -178,5 +178,6 @@ export default {
   LeftNav,
   LogoContainerFooter,
   LoginModal,
-  StyledNavLnkWrite
+  StyledNavLnkWrite,
+  GuideToggle
 };
