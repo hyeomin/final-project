@@ -73,14 +73,13 @@ const Container = styled.div`
   align-items: start;
   width: 100%;
   max-width: 1200px;
-  min-width: 600px;
+  //min-width: 600px;
   margin: 0 30px;
   padding: 30px 0;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    max-width: 375px;
-    min-width: 0;
+  @media screen and (max-width: 431px) {
+    width: 100%;
     padding: 0;
   }
 `;
