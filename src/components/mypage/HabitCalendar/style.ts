@@ -5,7 +5,7 @@ import theme from '../../../styles/theme';
 const CalendarWrapper = styled.div`
   display: flex;
   justify-content: center;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     display: flex;
     justify-content: center;
     margin: 30px 0;
@@ -14,7 +14,7 @@ const CalendarWrapper = styled.div`
 `;
 
 const StyleCalendar = styled.div`
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     width: 100%;
   }
   .react-calendar {
@@ -56,6 +56,7 @@ const StyleCalendar = styled.div`
       width: 60px;
       height: 60px;
       padding: 5px;
+      font-size: 10px;
     }
   }
   .habitImage {
@@ -64,7 +65,7 @@ const StyleCalendar = styled.div`
     height: 60px;
     @media screen and (max-width: 431px) {
       margin-top: 5px;
-      width: 20px;
+      width: 25px;
       height: 30px;
     }
   }
@@ -86,21 +87,17 @@ const StyleCalendar = styled.div`
   .react-calendar__month-view__weekdays__weekday {
     height: 70px;
     font-weight: 500;
-    margin-top: 30px;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 431px) {
       font-size: 0.6rem;
       height: 60px;
     }
-  }
-  .react-calendar__button:enabled:hover {
-    /* cursor: pointer; */
   }
 
   .react-calendar button:enabled:hover {
     cursor: default;
   }
   .react-calendar__month-view__weekdays {
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 431px) {
       font-size: 0.6rem;
     }
   }
@@ -111,24 +108,42 @@ const CalendarContainer = styled.div`
 `;
 
 const CalendarIntroduce = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  @media screen and (max-width: 431px) {
+    font-size: 14px;
+  }
   & span {
     color: ${theme.color.mangoMain};
     font-size: 20px;
     font-weight: 600;
     padding-left: 5px;
+
+    @media screen and (max-width: 431px) {
+      font-size: 14px;
+    }
   }
   & img {
-    width: 20x;
+    width: 20px;
     height: 25px;
+    @media screen and (max-width: 431px) {
+      width: 15px;
+      height: 20px;
+    }
   }
 
   & p {
     font-size: 15px;
     line-height: 0.5rem;
     color: ${theme.color.gray};
+    @media screen and (max-width: 431px) {
+      font-size: 10px;
+    }
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     font-size: 0.8rem;
   }
 `;
@@ -138,7 +153,7 @@ const CalendarSpring1 = styled.img`
   z-index: 2;
   bottom: 60px;
   left: 100px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     width: 15px;
     height: 40px;
     bottom: 50px;
@@ -150,7 +165,7 @@ const CalendarSpring2 = styled.img`
   z-index: 2;
   bottom: 60px;
   left: 200px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     width: 15px;
     height: 40px;
     bottom: 50px;
@@ -163,7 +178,7 @@ const CalendarSpring3 = styled.img`
   z-index: 2;
   bottom: 60px;
   right: 200px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     width: 15px;
     height: 40px;
     bottom: 50px;
@@ -176,7 +191,7 @@ const CalendarSpring4 = styled.img`
   z-index: 2;
   bottom: 60px;
   right: 100px;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     width: 15px;
     height: 40px;
     bottom: 50px;
@@ -202,10 +217,11 @@ const CalendarTitle = styled.div`
   position: relative;
   z-index: 1;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     font-size: 20px;
     width: 100%;
     height: 70px;
+    margin-top: 40px;
   }
 `;
 
@@ -219,7 +235,7 @@ const CalendarContentsContainer = styled.div`
     right: -20px;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     top: -3px;
     right: 12px;
   }
@@ -237,10 +253,10 @@ const PostCount = styled.div`
   top: 45px;
   left: 10px;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     width: 16px;
     height: 16px;
-    font-size: 12px;
+    font-size: 10px;
     top: 22px;
     left: 15px;
   }
@@ -250,6 +266,9 @@ const CurrentDate = styled.div`
   margin-top: 30px;
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 431px) {
+    font-size: 12px;
+  }
 `;
 
 export default {

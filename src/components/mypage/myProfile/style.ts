@@ -3,24 +3,23 @@ import styled from 'styled-components';
 import theme from '../../../styles/theme';
 
 const Wrapper = styled.div`
-  /* width: 1000px;
-  height: 100%; */
   width: 100%;
   max-width: 1000px;
-  // min-width: 600px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
 
-  @media screen and (max-width: 768px) {
-    margin: 10px 0;
+  @media screen and (max-width: 431px) {
+    margin: 10px 20px auto 20px;
     width: 100%;
     padding: 10px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 `;
 
@@ -29,34 +28,37 @@ const MySectionWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
+  max-width: 1000px;
+  justify-content: center;
   border-radius: 10px;
   border: 1px solid #d9d9d9;
   margin-bottom: 300px;
+  justify-content: center;
 
-  @media screen and (max-width: 620px) {
+  @media screen and (max-width: 431px) {
+    display: flex;
+    align-items: center;
     width: 100%;
+    flex-direction: column;
   }
 `;
 const ProfileEditWrapper = styled.div`
   display: flex;
   align-items: center;
   column-gap: 30px;
-  width: 100%;
-  /* height: 200px; */
   padding: 40px 60px;
   border-radius: 10px;
+  width: 100%;
   border: 1px solid lightgray;
-  margin-top: 30px;
+  margin-top: 10px;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     display: flex;
     align-items: center;
-    margin: 60px 0 30px;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
-    height: unset;
   }
 `;
 
@@ -79,6 +81,11 @@ const PenWrapper = styled.div`
   background-color: white;
   font-size: larger;
   cursor: pointer;
+
+  @media screen and (max-width: 431px) {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const ProfileInfo = styled.div`
@@ -88,8 +95,9 @@ const ProfileInfo = styled.div`
   margin-top: 15px;
   gap: 10px;
   align-items: baseline;
+  /* margin-right: 100px; */
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     display: flex;
     /* flex-wrap: wrap; */
   }
@@ -105,11 +113,11 @@ const ProfileModifyBtn = styled.div`
   padding: 8px;
   margin-top: 7px;
 
-  @media screen and (max-width: 768px) {
-    margin-top: 4px;
-    width: 80px;
+  @media screen and (max-width: 431px) {
+    margin-top: 2px;
+    width: 60px;
     height: 20px;
-    font-size: 12px;
+    font-size: 10px;
     padding: 5px;
   }
 `;
@@ -121,7 +129,9 @@ const UserPostInfoContainer = styled.div`
 
   /* margin-left: 50px; */
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
+    display: flex;
+    justify-content: center;
     margin: 20px 0 5px;
     column-gap: 5px;
   }
@@ -132,16 +142,20 @@ const PostInfoBox = styled.div`
   flex-direction: column;
   text-align: left;
   width: 140px;
+  /* width: 100%; */
   /* min-width: 100px; */
   height: 100px;
   padding: 20px;
   border-radius: 20px;
   background-color: #fbfbfb;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     width: 20px;
-    height: 20px;
-    width: 100px;
+    /* height: 20px; */
+    height: 80px;
+    width: 90px;
+    padding: 20px;
+    font-size: 12px;
   }
 
   & img {
@@ -154,6 +168,34 @@ const PostInfoBox = styled.div`
   & span {
     font-size: 15px;
     padding-bottom: 30px;
+    @media screen and (max-width: 431px) {
+      font-size: 12px;
+      margin-bottom: 50px;
+    }
+  }
+`;
+const LevelBox = styled.div`
+  display: flex;
+  width: 20px;
+  margin-top: 20p;
+  gap: 5px;
+  @media screen and (max-width: 431px) {
+    margin-top: -3px;
+  }
+`;
+
+const LevelEmoji = styled.div`
+  margin-top: 10px;
+  @media screen and (max-width: 431px) {
+    width: 10px;
+    font-size: 10px;
+    height: 10px;
+  }
+`;
+
+const Level = styled.div`
+  margin-top: 10px;
+  @media screen and (max-width: 431px) {
   }
 `;
 
@@ -162,8 +204,28 @@ const UserInfo = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 20px;
   gap: 20px;
+  margin-left: 50px;
+  @media screen and (max-width: 431px) {
+    margin-top: 10px;
+  }
+`;
+
+const PostInfoIcon = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+
+  @media screen and (max-width: 431px) {
+    margin-top: 10px;
+  }
+  img {
+    @media screen and (max-width: 431px) {
+      width: 12px;
+      height: 12px;
+      margin-top: 5px;
+    }
+  }
 `;
 
 const profileImg = styled.div`
@@ -175,7 +237,7 @@ const profileImg = styled.div`
     /* width: 100%; /* 이미지가 부모 요소에 가득 차도록 설정 */
     /* height: auto; 가로로 조절되면서 세로 비율 유지 */
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     width: 20px;
     height: 20px;
   }
@@ -195,16 +257,23 @@ const ModifyButton = styled.button`
   &:hover {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 431px) {
+    width: 60px;
+    height: 20px;
+    font-weight: 500;
+    font-size: 10px;
+  }
 `;
 
 const UserInfoModify = styled.div`
   display: flex;
   justify-content: left;
-  margin-right: 50px;
+  margin-right: 100px;
   max-width: 200px;
 
-  /* @media screen and (max-width: 768px) {
-    margin: 30px 
+  /* @media screen and (max-width: 431px) {
+    justify-content: left;
   } */
 `;
 const FileInput = styled.input`
@@ -219,6 +288,13 @@ const DisplayNameModify = styled.input`
   font-size: 13px;
   width: 150px;
   font-size: 12px;
+
+  @media screen and (max-width: 431px) {
+    width: 100px;
+    height: 20px;
+    font-weight: 500;
+    font-size: 10px;
+  }
 `;
 
 const DisplayNameCheckBtn = styled.button`
@@ -237,16 +313,16 @@ const MyImage = styled.img`
   height: 100px;
   object-fit: cover;
   border-radius: 50%;
-  @media screen and (max-width: 768px) {
-    width: 70px;
-    height: 70px;
+  @media screen and (max-width: 431px) {
+    width: 50px;
+    height: 50px;
   }
 `;
 
 const MyNickname = styled.h1`
   font-size: 20px;
   font-weight: 600;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     width: 100%;
     height: 100%;
     font-size: 14px;
@@ -256,6 +332,9 @@ const MyNickname = styled.h1`
 const MyEmail = styled.h4`
   font-size: 15px;
   color: ${theme.color.mangoNavy};
+  @media screen and (max-width: 431px) {
+    font-size: 12px;
+  }
 `;
 
 const GuideGradeWrapper = styled.div`
@@ -275,6 +354,14 @@ const GuideGrade = styled.div`
   left: 60%;
   bottom: -10px;
   border-radius: 10px;
+  @media screen and (max-width: 431px) {
+    padding: 8px;
+    left: 0px;
+    bottom: 35px;
+    height: 50px;
+    width: 150px;
+    font-size: 10px;
+  }
 
   &:after {
     content: '';
@@ -285,13 +372,30 @@ const GuideGrade = styled.div`
     border-left: 10px solid transparent;
     border-right: 10px solid ${theme.color.mangoLight};
     border-bottom: 10px solid transparent;
+
+    @media screen and (max-width: 431px) {
+      left: 25px;
+      top: 50px;
+      border-top: 10px solid ${theme.color.mangoLight};
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+    }
   }
 `;
 
 const Tabs = styled.div`
+  display: flex;
+  justify-content: center;
   width: 100%;
   margin: 20px;
   padding: 20px;
+
+  @media screen and (max-width: 431px) {
+    width: 100%;
+    padding: 10px;
+    margin: 0 20px;
+  }
 `;
 
 const TabButtonContainer = styled.div`
@@ -300,12 +404,14 @@ const TabButtonContainer = styled.div`
   width: 100%;
   column-gap: 5px;
   margin-top: 80px;
+  /* margin-left: 150px; */
   padding: 0 20px;
   font-size: 20px;
-  @media screen and (max-width: 620px) {
+  @media screen and (max-width: 431px) {
     margin: 30px 0 0 0;
     min-width: 100%;
-    max-width: 100%;
+    width: 100%;
+    justify-content: center;
   }
 `;
 
@@ -329,6 +435,13 @@ const TabButton = styled.button<TabButtonProps>`
   height: 40px;
   font-size: 14px;
 
+  @media screen and (max-width: 431px) {
+    font-size: 10px;
+
+    width: 80px;
+    height: 30px;
+  }
+
   &:hover {
     cursor: pointer;
     color: ${theme.color.mangoMain};
@@ -340,12 +453,22 @@ const TabButton = styled.button<TabButtonProps>`
     align-items: center;
     column-gap: 6px;
   }
+
+  & span {
+    @media screen and (max-width: 431px) {
+      font-size: 10px;
+    }
+  }
 `;
 
 const ErrorMsg = styled.div`
   color: red;
   font-size: 12px;
   margin-left: 10px;
+
+  @media screen and (max-width: 431px) {
+    font-size: 10px;
+  }
 `;
 export default {
   ProfileEditWrapper,
@@ -359,9 +482,13 @@ export default {
   TabButtonContainer,
   profileImg,
   FileInput,
+  LevelBox,
+  LevelEmoji,
+  Level,
   DisplayNameModify,
   UserInfoModify,
   ProfileInfo,
+  PostInfoIcon,
   UserPostInfoContainer,
   PostInfoBox,
   ProfileModifyBtn,

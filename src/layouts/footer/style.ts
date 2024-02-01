@@ -10,9 +10,9 @@ const FooterContainer = styled.div`
   @media screen and (max-width: 431px) {
     display: none;
   }
-  @media screen and (min-width: 376px) and (max-width: 620px) {
+  /* @media screen and (min-width: 376px) and (max-width: 620px) {
     display: none;
-  }
+  } */
 `;
 
 const FooterContentContainer = styled.div`

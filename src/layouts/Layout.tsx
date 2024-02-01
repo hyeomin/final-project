@@ -68,8 +68,18 @@ const MainWrapper = styled.div`
 
   //모바일 세로
   @media screen and (max-width: 431px) {
-    //margin: 100px auto 0 auto;
-    /* max-width: 431px;
+    @media screen and (max-width: 431px) {
+      //margin: 100px auto 0 auto;
+      /* max-width: 431px;
     min-width: 0; */
+    }
+    max-width: 100%;
+    min-width: 0;
   }
+
+  //모바일 가로
+  /* @media screen and (min-width: 376px) and (max-width: 620px) {
+    margin: 0;
+    max-height: 375px;
+  } */
 `;

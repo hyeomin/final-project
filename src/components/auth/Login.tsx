@@ -95,7 +95,6 @@ function Login() {
 
   //구글 로그인
   function handleGoogleLogin() {
-    // const auth = getAuth();
     const provider = new GoogleAuthProvider(); // provider를 구글로 설정
     signInWithPopup(auth, provider) // popup을 이용한 signup
       .then((data) => {

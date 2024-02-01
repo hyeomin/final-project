@@ -384,14 +384,14 @@ function MyProfile() {
         <St.UserPostInfoContainer>
           <St.PostInfoBox>
             <div>게시물 수</div>
-            <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
+            <St.PostInfoIcon>
               <img src={postCountIcon} />
               <div>{myPosts ? myPosts.length : '-'}개</div>
-            </div>
+            </St.PostInfoIcon>
           </St.PostInfoBox>
           <St.PostInfoBox>
             <div>랭킹</div>
-            <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
+            <St.PostInfoIcon>
               <img src={rankingIcon} />
               <div>
                 {authCurrentUser && userRanking
@@ -400,7 +400,7 @@ function MyProfile() {
                     : '순위 없음'
                   : '-'}
               </div>
-            </div>
+            </St.PostInfoIcon>
           </St.PostInfoBox>
           <St.PostInfoBox>
             <div>
@@ -423,10 +423,10 @@ function MyProfile() {
                 </div>
               ) : null}
               <br />
-              <div style={{ display: 'flex', width: '20px', marginTop: '10px', gap: '5px' }}>
-                <span>{levelEmoji}</span>
-                <span>Lv.{level}</span>
-              </div>
+              <St.LevelBox>
+                <St.LevelEmoji>{levelEmoji}</St.LevelEmoji>
+                <St.Level>Lv.{level}</St.Level>
+              </St.LevelBox>
             </div>
           </St.PostInfoBox>
         </St.UserPostInfoContainer>
