@@ -7,13 +7,14 @@ import { getCategoryPosts } from '../../api/pageListApi';
 import { QUERY_KEYS } from '../../query/keys';
 import { categoryListState } from '../../recoil/posts';
 import TopButton from '../about/TopButton';
-import PostList from './PostList';
+// import PostList from './PostList';
+import CommunityPostList from './communityPostList/CommunityPostListTest';
 import St from './style';
 
 export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory' | 'total';
 export type SortList = 'popularity' | 'latest';
 
-function ViewAllBody() {
+function CommunityBodyTest() {
   const [category, setCategory] = useRecoilState<Category>(categoryListState);
   const [sortBy, setSortBy] = useState<SortList>('latest');
   const [searchParams, setSearchParams] = useSearchParams();
@@ -92,54 +93,52 @@ function ViewAllBody() {
   }, []);
 
   return (
-    <St.ViewAllContainer>
-      <St.MainSubWrapper>
-        <St.CategoryWrapper>
-          <St.ButtonWrapper>
-            <St.Button onClick={() => updateSortOption('total', sortBy)} selected={category === 'total'}>
-              전체보기
-            </St.Button>
-            <St.Button onClick={() => updateSortOption('knowHow', sortBy)} selected={category === 'knowHow'}>
-              노하우 공유
-            </St.Button>
-            <St.Button
-              onClick={() => updateSortOption('recommendation', sortBy)}
-              selected={category === 'recommendation'}
-            >
-              제품 추천
-            </St.Button>
-            <St.Button onClick={() => updateSortOption('sharing', sortBy)} selected={category === 'sharing'}>
-              제품 나눔
-            </St.Button>
-            <St.Button onClick={() => updateSortOption('habit', sortBy)} selected={category === 'habit'}>
-              습관 인증
-            </St.Button>
-            <St.Button onClick={() => updateSortOption('noCategory', sortBy)} selected={category === 'noCategory'}>
-              기타
-            </St.Button>
-          </St.ButtonWrapper>
+    <St.CommunityContainer>
+      <St.CommunityNavBar>
+        <St.CategoryButtonWrapper>
+          <St.CategoryButton onClick={() => updateSortOption('total', sortBy)} selected={category === 'total'}>
+            전체보기
+          </St.CategoryButton>
+          <St.CategoryButton onClick={() => updateSortOption('knowHow', sortBy)} selected={category === 'knowHow'}>
+            노하우 공유
+          </St.CategoryButton>
+          <St.CategoryButton
+            onClick={() => updateSortOption('recommendation', sortBy)}
+            selected={category === 'recommendation'}
+          >
+            제품 추천
+          </St.CategoryButton>
+          <St.CategoryButton onClick={() => updateSortOption('sharing', sortBy)} selected={category === 'sharing'}>
+            제품 나눔
+          </St.CategoryButton>
+          <St.CategoryButton onClick={() => updateSortOption('habit', sortBy)} selected={category === 'habit'}>
+            습관 인증
+          </St.CategoryButton>
+          <St.CategoryButton
+            onClick={() => updateSortOption('noCategory', sortBy)}
+            selected={category === 'noCategory'}
+          >
+            기타
+          </St.CategoryButton>
+        </St.CategoryButtonWrapper>
 
-          <St.SortWrapper>
-            <li>
-              <a
-                onClick={() => updateSortOption(category, 'popularity')}
-                className={sortBy === 'popularity' ? 'selected' : ''}
-              >
-                인기순
-              </a>
-            </li>
-
-            <li>
-              <a onClick={() => updateSortOption(category, 'latest')} className={sortBy === 'latest' ? 'selected' : ''}>
-                최신순
-              </a>
-            </li>
-          </St.SortWrapper>
-        </St.CategoryWrapper>
-        <PostList queryKey={[category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} />
-      </St.MainSubWrapper>
+        <St.SortingWrapper>
+          <li
+            onClick={() => updateSortOption(category, 'popularity')}
+            className={sortBy === 'popularity' ? 'selected' : ''}
+          >
+            인기순
+          </li>
+          <span>|</span>
+          <li onClick={() => updateSortOption(category, 'latest')} className={sortBy === 'latest' ? 'selected' : ''}>
+            최신순
+          </li>
+        </St.SortingWrapper>
+      </St.CommunityNavBar>
+      <CommunityPostList queryKey={[category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} />
+      {/* <PostList queryKey={[category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} /> */}
       <TopButton />
-    </St.ViewAllContainer>
+    </St.CommunityContainer>
   );
 }
-export default ViewAllBody;
+export default CommunityBodyTest;

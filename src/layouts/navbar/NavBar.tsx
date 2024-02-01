@@ -53,7 +53,7 @@ function NavBar() {
 
   //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기)
   const [isAuth, setIsAuth] = useState(false);
-
+  console.log(isAuth);
   useEffect(() => {
     const detailURL = window.location.href;
     const isAuthInURL = detailURL.includes('auth');
@@ -79,10 +79,10 @@ function NavBar() {
           <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
             BY MANGO
           </NavLink>
-          <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
+          <NavLink to="/community" style={styledNav} onMouseEnter={handleHover}>
             COMMUNITY
           </NavLink>
-          <div onClick={onToggleModal}>GUIDE</div>
+          <St.GuideToggle onClick={onToggleModal}>GUIDE</St.GuideToggle>
           {isGuideModalOpen && <GuideModal onClose={onToggleModal} />}
         </St.LeftNav>
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />

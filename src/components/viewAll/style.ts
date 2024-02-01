@@ -6,14 +6,14 @@ const ViewAllContainer = styled.div`
   /* width: 1000px; */
   width: 100%;
   max-width: 1000px;
-  /* min-height: 1544px; */
+  min-height: 1544px;
 
   //모바일 세로
   @media screen and (max-width: 431px) {
-    /* max-width: 370px; */
     width: 100%;
+    /* max-width: 370px; */
     /* min-height: 485px; */
-    margin: 70px 20px;
+    /* margin: 70px 20px; */
 
     background-color: purple;
   }
@@ -55,7 +55,6 @@ const ButtonWrapper = styled.div`
   /* height: 46px; */
   align-items: flex-end;
   gap: 50px;
-  background-color: pink;
   align-items: center;
   @media screen and (max-width: 431px) {
     justify-content: space-between;
@@ -98,11 +97,11 @@ const SortWrapper = styled.ul`
     color: #222;
   }
 
-  li:not(:last-child):after {
+  /* li:not(:last-child):after {
     content: '|';
     margin-left: 10px;
     color: #999;
-  }
+  } */
 
   @media screen and (max-width: 431px) {
     width: 100%;
@@ -121,17 +120,6 @@ const ContentsWrapper = styled.div`
   width: 100%;
   margin-bottom: 60px;
   gap: 20px;
-
-  @media screen and (max-width: 431px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    /* height: 170px; */
-
-    background-color: pink;
-  }
 `;
 
 // const Contents = styled.ul`
@@ -153,12 +141,8 @@ const Contents = styled.ul`
   gap: 20px;
 
   @media screen and (max-width: 431px) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 170px;
+    grid-template-columns: 50% 50%;
+    gap: 0px;
   }
 `;
 
@@ -170,6 +154,11 @@ const Content = styled.li`
   border: 1px solid ${theme.color.lightgray};
   background: white; // white로 변경
   overflow: hidden; // HM
+
+  @media screen and (max-width: 431px) {
+    height: 250px;
+    margin: 5px;
+  }
 `;
 
 const HeartClickButton = styled.button<{ $isLiked: boolean }>`
@@ -183,8 +172,8 @@ const HeartClickButton = styled.button<{ $isLiked: boolean }>`
 
 const ContentImg = styled.img`
   object-fit: cover;
-  width: 100%; //345 > 233 변경 > HM 100% 변경
-  height: 210px; //420 > 280 변경 > HM 230px 변경
+  width: 100%;
+  height: 53%;
 
   &:hover {
     cursor: pointer;
@@ -207,6 +196,16 @@ const Row = styled.div`
     font-size: 12px;
     font-weight: 400;
   }
+
+  @media screen and (max-width: 431px) {
+    & p {
+      font-size: 12px; // HM 망고망 16px
+    }
+
+    span {
+      font-size: 10px;
+    }
+  }
 `;
 
 export const PostInfoContainer = styled.div`
@@ -216,6 +215,12 @@ export const PostInfoContainer = styled.div`
   row-gap: 15px;
   padding: 15px;
   font-size: 16px;
+
+  @media screen and (max-width: 431px) {
+    padding: 10px;
+    row-gap: 5px;
+    font-size: 14px;
+  }
 `;
 
 const CommentAndLikes = styled.div`
