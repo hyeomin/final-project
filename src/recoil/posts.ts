@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { Category } from '../components/viewAll/ViewAllBody';
-import { DownloadedImageType, IsEditingPostProps, PostInputType } from '../types/PostType';
+import { IsEditingPostProps, PostInputType } from '../types/PostType';
 import { POST } from './keys';
 
 export const initialPostInputState = {
@@ -10,31 +10,6 @@ export const initialPostInputState = {
   hashtags: [],
   coverImages: []
 };
-
-const titleState = atom<string>({
-  key: 'title',
-  default: ''
-});
-
-const contentState = atom<string>({
-  key: 'content',
-  default: ''
-});
-
-const categoryState = atom<string>({
-  key: 'category',
-  default: 'noCategory'
-});
-
-const hashtagState = atom<string[]>({
-  key: 'hastags',
-  default: []
-});
-
-const coverImageState = atom<DownloadedImageType[]>({
-  key: 'coverImages',
-  default: []
-});
 
 const postInputState = atom<PostInputType>({
   key: POST.EDIT_INPUT,
@@ -59,14 +34,4 @@ const pathHistoryState = atom<string[]>({
   default: []
 });
 
-export {
-  categoryListState,
-  categoryState,
-  contentState,
-  coverImageState,
-  hashtagState,
-  isEditingPostState,
-  pathHistoryState,
-  postInputState,
-  titleState
-};
+export { categoryListState, isEditingPostState, pathHistoryState, postInputState };
