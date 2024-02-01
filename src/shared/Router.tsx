@@ -7,11 +7,12 @@ import Auth from '../pages/Auth';
 import Detail from '../pages/Detail';
 import Home from '../pages/Home';
 import MyPage from '../pages/MyPage';
-import ViewAll from '../pages/ViewAll';
+// import ViewAll from '../pages/Community';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import Community from '../pages/Community';
+import MangoContents from '../pages/MangoContents';
 import Write from '../pages/Write';
 import ProtectedRoute from './ProtectedRoute';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import MangoContents from '../pages/MangoContents';
 
 export default function Router() {
   return (
@@ -19,7 +20,7 @@ export default function Router() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/viewAll" element={<ViewAll />} />
+          <Route path="/community" element={<Community />} />
           <Route path="/mangoContents" element={<MangoContents />} />
           <Route path="/auth" element={<Auth />} />
           {/* <Route path="/auth/login" element={<Login />} /> */}

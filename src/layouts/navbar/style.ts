@@ -46,6 +46,10 @@ const NavBarContainer = styled.div`
   }
 `;
 
+const GuideToggle = styled.div`
+  cursor: pointer;
+`;
+
 const LeftNav = styled.div`
   display: flex;
   align-items: center;
@@ -167,5 +171,6 @@ export default {
   NavContainer,
   NavBarContainer,
   LeftNav,
-  LogoContainerFooter
+  LogoContainerFooter,
+  GuideToggle
 };
