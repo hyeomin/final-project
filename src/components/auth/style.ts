@@ -7,18 +7,14 @@ const AuthWrapper = styled.div`
   justify-content: center;
   text-align: center;
   align-items: center;
-<<<<<<< HEAD
+  margin: 60px 0px;
   width: 100%;
-  min-width: 60px;
-  max-width: 1200px;
-  height: 100vh;
-=======
-  margin: 50px 0;
+  max-width: 1000px;
+  min-width: 600px;
 
   @media screen and (min-width: 376px) and (max-width: 620px) {
     margin: 30px 0;
   }
->>>>>>> 4ab8ffe198a9ffeb9e0ff155079dd022fccdef75
 `;
 
 const SubTitle = styled.div`
