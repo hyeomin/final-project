@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 const AuthWrapper = styled.div`
@@ -10,11 +10,7 @@ const AuthWrapper = styled.div`
   margin: 60px 0px;
   width: 100%;
   max-width: 1000px;
-  min-width: 600px;
-
-  @media screen and (min-width: 376px) and (max-width: 620px) {
-    margin: 30px 0;
-  }
+  //min-width: 600px;
 `;
 
 const SubTitle = styled.div`
@@ -28,14 +24,6 @@ const SignUpTitle = styled.div`
   font-weight: 600;
   font-size: 14px;
   margin-top: 10px;
-
-  @media screen and (max-width: 376px) {
-    display: none;
-  }
-
-  @media screen and (min-width: 376px) and (max-width: 620px) {
-    max-height: 375px;
-  }
 `;
 
 const LogoContainer = styled.div`
@@ -46,13 +34,6 @@ const LogoContainer = styled.div`
   padding-bottom: 30px;
   width: 300px;
   border-bottom: 1px solid #d9d9d9;
-
-  @media screen and (max-width: 376px) {
-    padding-bottom: 20px;
-  }
-  @media screen and (min-width: 376px) and (max-width: 620px) {
-    padding-bottom: 10px;
-  }
 `;
 
 const LogoBox = styled.div`
@@ -63,29 +44,17 @@ const MangoLogo = styled.img`
   width: 35px;
   height: 40px;
   margin-right: 5px;
-
-  @media screen and (max-width: 376px) {
-    width: 27px;
-    height: 27px;
-  }
 `;
 
 const Logo = styled.div`
   font-family: ${theme.font.mango};
   color: ${theme.color.mangoMain};
   font-size: 35px;
-  @media screen and (max-width: 376px) {
-    font-size: 25px;
-  }
 `;
 
 const InputContainer = styled.div`
   margin-top: 20px;
   width: 280px;
-
-  @media screen and (min-width: 376px) and (max-width: 620px) {
-    margin-top: 10px;
-  }
 `;
 
 const AuthInput = styled.input`
@@ -142,10 +111,6 @@ const SignUpAndLoginBtn = styled.button`
     background-color: #f59004;
     cursor: pointer;
   }
-
-  @media screen and (min-width: 376px) and (max-width: 620px) {
-    margin-top: 15px;
-  }
 `;
 const GoogleLoginBtn = styled.button`
   display: flex;
@@ -171,10 +136,6 @@ const GoogleLoginBtn = styled.button`
   & img {
     width: 13px;
     height: 13px;
-  }
-  //
-  @media screen and (min-width: 376px) and (max-width: 620px) {
-    margin-bottom: 10px;
   }
 `;
 const WarningMsg = styled.p`

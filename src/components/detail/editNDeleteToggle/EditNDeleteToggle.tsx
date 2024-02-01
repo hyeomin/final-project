@@ -6,9 +6,10 @@ import { deletePost } from '../../../api/postApi';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
 import { modalState } from '../../../recoil/modals';
-import { isEditingPostState, pathHistoryState, postInputState } from '../../../recoil/posts';
+import { categoryListState, isEditingPostState, pathHistoryState, postInputState } from '../../../recoil/posts';
 import { FoundDetailPostProps } from '../../../types/PostType';
 import St from './style';
+import { Category } from '../../viewAll/ViewAllBody';
 
 function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
@@ -19,7 +20,10 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
   const setPostInput = useSetRecoilState(postInputState);
   const setIsEditingPost = useSetRecoilState(isEditingPostState);
   const pathHistory = useRecoilValue(pathHistoryState);
+  //const [category, setCategory] = useRecoilState<Category>(categoryListState);
 
+  const category = useRecoilValue<Category>(categoryListState);
+  console.log('category', category);
   const onEditPostHandler = () => {
     setPostInput({
       title: foundDetailPost.title,
@@ -32,6 +36,10 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
       foundPost: foundDetailPost,
       isEditing: true
     });
+
+    //카테고리 업데이트 위함
+    queryClient.invalidateQueries({ queryKey: [category] });
+
     navigate('/write', { state: { foundDetailPost } });
   };
 
@@ -39,6 +47,8 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
     mutationFn: deletePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
+      queryClient.invalidateQueries({ queryKey: [category] });
+
       // 뒤로가기 했을 때 /write면 홈으로 가게
       if (pathHistory[pathHistory.length - 2] === '/write') {
         navigate('/');

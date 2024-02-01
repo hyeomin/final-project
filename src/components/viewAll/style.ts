@@ -358,11 +358,11 @@ const AdminContent = styled.li`
 
   //모바일 세로
   @media screen and (max-width: 431px) {
-    width: 165px;
+    width: 100%;
     img {
       object-fit: cover;
-      width: 170px;
-      height: 110px;
+      width: 100%;
+      height: 70%;
       border-radius: 20px;
       &:hover {
         cursor: pointer;
@@ -381,8 +381,8 @@ const AdminPostTitle = styled.p`
 
   //모바일 세로
   @media screen and (max-width: 431px) {
-    font-size: 17px;
-    font-weight: 600;
+    /* font-size: 17px;
+    font-weight: 600; */
   }
 `;
 

@@ -70,13 +70,13 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
             <span>
               <GoChevronDown />
             </span>
-            <div>
-              <FaBars />
-            </div>
           </St.UserInfo>
         </>
       ) : (
         <>
+          <div>
+            <FaBars />
+          </div>
           <St.StyledNavLnk to="/auth" onClick={() => setIsSignUp(false)} style={styledNav}>
             로그인
           </St.StyledNavLnk>

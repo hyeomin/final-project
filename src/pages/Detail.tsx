@@ -73,37 +73,22 @@ const Container = styled.div`
   align-items: start;
   width: 100%;
   max-width: 1200px;
-  min-width: 600px;
+  //min-width: 600px;
   margin: 0 30px;
   padding: 30px 0;
-
-  //모바일 세로
-  @media screen and (max-width: 376px) {
-    max-width: 375px;
-    min-width: 0;
-    padding: 0;
-  }
 `;
 
 const DetailTitle = styled.h3`
   color: ${theme.color.gray};
   font-size: 18px;
   padding: 30px 0;
-
-  //모바일 세로
-  @media screen and (max-width: 376px) {
-    font-size: 15px;
-    font-weight: 500;
-    padding-left: 30px;
-    padding-top: 0;
-  }
 `;
 
 const DetailEmptyFooter = styled.div`
   height: 280px;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     height: 40px;
   }
 `;
