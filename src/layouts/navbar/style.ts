@@ -41,7 +41,7 @@ const NavBarContainer = styled.div`
 
   //모바일 (세로)
   @media screen and (max-width: 431px) {
-    padding: 0 10px 0 0;
+    padding: 0;
     width: 90%;
   }
 `;

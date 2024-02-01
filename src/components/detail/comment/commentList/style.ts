@@ -6,10 +6,6 @@ const CommentListContainer = styled.div`
   flex-direction: column;
   width: 100%;
   font-size: 14px;
-  //모바일 세로
-  @media screen and (max-width: 431px) {
-    padding: 0 20px;
-  }
 `;
 
 const SingleComment = styled.div`

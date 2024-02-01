@@ -122,7 +122,7 @@ const ToggleContainer = styled.div`
   z-index: 100;
   @media screen and (max-width: 431px) {
     top: 58px;
-    right: 0px;
+    right: 30px;
   }
 `;
 

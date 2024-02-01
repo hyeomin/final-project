@@ -8,7 +8,7 @@ const ViewAllContainer = styled.div`
   //모바일 세로
   @media screen and (max-width: 431px) {
     width: 100%;
-    //margin: 10px 20px auto 20px;
+    margin-top: 30px;
   }
 `;
 
@@ -20,7 +20,7 @@ const MangoDiv = styled.div`
 
   //모바일 세로
   @media screen and (max-width: 431px) {
-    margin-top: 25px;
+    margin-top: 0;
   }
 `;
 

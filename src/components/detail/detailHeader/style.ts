@@ -24,8 +24,7 @@ const StyledSwiper = styled(Swiper)`
   }
 
   @media screen and (max-width: 431px) {
-    max-width: 340px;
-    min-width: 0;
+    //width: 100%;
     height: 270px;
   }
 `;
