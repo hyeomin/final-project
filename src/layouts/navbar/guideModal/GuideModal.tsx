@@ -32,8 +32,6 @@ function GuideModal({ onClose }: ModalProps) {
     setCurrentIndex(swiper.activeIndex);
   };
 
-  console.log('currentIndex', currentIndex);
-
   return (
     <ModalBackdrop onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>

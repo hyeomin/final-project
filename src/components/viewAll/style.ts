@@ -3,22 +3,29 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 const ViewAllContainer = styled.div`
-  width: 1000px;
-  min-height: 1544px;
+  /* width: 1000px; */
+  width: 100%;
+  max-width: 1000px;
+  /* min-height: 1544px; */
+
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    max-width: 370px;
-    min-height: 485px;
+  @media screen and (max-width: 431px) {
+    /* max-width: 370px; */
+    width: 100%;
+    /* min-height: 485px; */
+    margin: 70px 20px;
+
+    background-color: purple;
   }
 `;
 
 /*유저 등록 데이터 (친환경노하우~습관인증) */
 const MainSubWrapper = styled.div`
   width: 100%;
-  min-height: 485px;
+  /* min-height: 485px; */
   margin-bottom: 150px; //58에서 변경
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     margin: auto;
     /* min-width: 0px;
     max-width: 370px;
@@ -30,17 +37,30 @@ const CategoryWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 30px;
+  /* margin: 30px; */
+  margin: 50px 30px;
+
+  @media screen and (max-width: 431px) {
+    flex-direction: column;
+    margin: auto;
+    /* min-width: 0px;
+    max-width: 370px;
+    min-height: 485px; */
+  }
 `;
 
 /*버튼*/
 const ButtonWrapper = styled.div`
   display: flex;
-  height: 46px;
+  /* height: 46px; */
   align-items: flex-end;
   gap: 50px;
-
+  background-color: pink;
   align-items: center;
+  @media screen and (max-width: 431px) {
+    justify-content: space-between;
+    gap: 0;
+  }
 `;
 
 const Button = styled.button<{ selected: boolean }>`
@@ -52,6 +72,10 @@ const Button = styled.button<{ selected: boolean }>`
   outline: none;
   cursor: pointer;
   background-color: transparent;
+
+  @media screen and (max-width: 431px) {
+    font-size: 14px;
+  }
 `;
 
 /*정렬*/
@@ -79,14 +103,35 @@ const SortWrapper = styled.ul`
     margin-left: 10px;
     color: #999;
   }
+
+  @media screen and (max-width: 431px) {
+    width: 100%;
+    gap: 20;
+    background-color: lightblue;
+
+    li a {
+      font-size: 13px;
+    }
+  }
 `;
 
 /*게시물*/
 const ContentsWrapper = styled.div`
+  display: flex;
   width: 100%;
   margin-bottom: 60px;
-  display: flex;
   gap: 20px;
+
+  @media screen and (max-width: 431px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* height: 170px; */
+
+    background-color: pink;
+  }
 `;
 
 // const Contents = styled.ul`
@@ -107,9 +152,9 @@ const Contents = styled.ul`
   align-items: center;
   gap: 20px;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 431px) {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -237,7 +282,6 @@ const MoreContentWrapper = styled.div`
 
     color: #fff;
     text-align: center;
-    //font-family: Apple SD Gothic Neo;
     font-size: 16px;
     font-weight: 400;
 
@@ -273,7 +317,7 @@ const MangoSUbWord = styled.p`
   font-weight: 500;
   margin-top: 10px;
   //모바일 (세로)
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     //
   }
 `;
@@ -313,7 +357,7 @@ const AdminContent = styled.li`
   }
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     width: 165px;
     img {
       object-fit: cover;
@@ -336,7 +380,7 @@ const AdminPostTitle = styled.p`
   margin-bottom: 10px;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     font-size: 17px;
     font-weight: 600;
   }
@@ -352,7 +396,7 @@ const AdminPostContent = styled.div`
   font-size: 16px;
   font-weight: 400;
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     font-size: 10px;
     font-weight: 400;
   }
