@@ -17,6 +17,7 @@ function NewsRoom() {
   const [newsUrl, setNewsUrl] = useState('');
   const [selectedVideo, setSelectedVideo] = useState(''); // 모달에 띄울 비디오 ID
 
+  // swiper 관련
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -41,9 +42,6 @@ function NewsRoom() {
   const handleSlideChange = (swiper: SwiperClass) => {
     setCurrentIndex(swiper.activeIndex);
   };
-
-  console.log('currentIndex', currentIndex);
-  console.log('currentIndex length', newsPosts?.length);
 
   return (
     <NewsRoomContainer>
