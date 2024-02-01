@@ -55,17 +55,17 @@ function NavBar() {
   };
 
   //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기)
-  const [isAuth, setIsAuth] = useRecoilState(isAuthState);
+  const [authCheck, setAuthCheck] = useRecoilState(isAuthState);
   const detailURL = window.location.href;
-  const isAuthInURL = detailURL.includes('auth');
+  const CheckAuthInURL = detailURL.includes('auth');
 
   useEffect(() => {
-    if (isAuthInURL) {
-      setIsAuth(true);
+    if (CheckAuthInURL) {
+      setAuthCheck(true);
     } else {
-      setIsAuth(false);
+      setAuthCheck(false);
     }
-  }, [isAuthInURL]);
+  }, [CheckAuthInURL]);
 
   // Guide modal handler
   const onToggleModal = () => {
@@ -79,7 +79,7 @@ function NavBar() {
   };
 
   return (
-    <St.NavContainer ref={navRef} isAuth={isAuth}>
+    <St.NavContainer ref={navRef} isAuth={authCheck}>
       <St.NavBarContainer>
         <St.LeftNav>
           <LogoContainer onClick={() => navigate('/')}>
