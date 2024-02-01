@@ -55,8 +55,8 @@ const LayoutContainer = styled.div<LayoutProps>`
   backdrop-filter: ${(props) => (props.$isModalOpen ? 'saturate(180%) blur(8px)' : 'none')};
   overflow: ${(props) => (props.$isModalOpen ? 'hidden' : 'unset')};
 
-  @media screen and (max-width: 376px) {
-    max-width: 375px;
+  @media screen and (max-width: 431px) {
+    max-width: 100%fit-content;
     min-width: 0;
   }
 `;
@@ -68,15 +68,15 @@ const MainWrapper = styled.div`
   margin: 60px auto 0 auto;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     //margin: 100px auto 0 auto;
-    max-width: 375px;
+    max-width: 100%;
     min-width: 0;
   }
 
   //모바일 가로
-  @media screen and (min-width: 376px) and (max-width: 620px) {
+  /* @media screen and (min-width: 376px) and (max-width: 620px) {
     margin: 0;
     max-height: 375px;
-  }
+  } */
 `;
