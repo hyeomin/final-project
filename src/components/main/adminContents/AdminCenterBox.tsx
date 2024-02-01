@@ -72,6 +72,13 @@ const HeaderMain = styled.section`
 
   display: flex;
   align-items: end;
+
+  @media screen and (max-width: 431px) {
+    width: 100%;
+    padding: 40px 30px;
+    /* top: 10%;
+    left: 10%; */
+  }
 `;
 
 const HeaderText = styled.div`
@@ -87,16 +94,29 @@ const HeaderText = styled.div`
     & h1 {
       font-size: 36px;
       font-weight: 700;
+
+      @media screen and (max-width: 431px) {
+        font-size: 20px;
+        font-weight: 700;
+      }
     }
 
     & h2 {
       font-size: 24px;
+
+      @media screen and (max-width: 431px) {
+        font-weight: 20px;
+      }
     }
   }
 
   & p {
     font-size: 17px;
     line-height: normal;
+
+    @media screen and (max-width: 431px) {
+      font-size: 15px;
+    }
   }
 `;
 
@@ -120,6 +140,9 @@ const FlexBox = styled.div`
   flex-direction: column;
   align-items: center;
   row-gap: 40px;
+  @media screen and (max-width: 431px) {
+    row-gap: 20px;
+  }
 `;
 
 const DetailLinkWrapper = styled.div`
@@ -138,6 +161,10 @@ const DetailLinkWrapper = styled.div`
   &:hover {
     cursor: pointer;
     background-color: #00000099;
+  }
+  @media screen and (max-width: 431px) {
+    width: 120px;
+    font-size: 12px;
   }
 `;
 
@@ -165,5 +192,11 @@ const NavButton = styled.button`
   &:hover {
     cursor: pointer;
     background-color: #00000099;
+  }
+
+  @media screen and (max-width: 431px) {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
   }
 `;

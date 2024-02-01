@@ -16,4 +16,9 @@ const modalState = atom({
   }
 });
 
-export { modalState };
+const isAuthState = atom({
+  key: MODAL_STATE.IS_AUTH,
+  default: false
+});
+
+export { modalState, isAuthState };

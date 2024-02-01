@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 type NavProps = {
-  isAuth: boolean;
+  $isAuth: boolean;
 };
 
 // NavBar.tsx
@@ -19,7 +19,7 @@ const NavContainer = styled.div<NavProps>`
 
   //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기) : 세로 버전
   @media screen and (max-width: 431px) {
-    display: ${(props) => (props.isAuth ? 'none' : 'flex')};
+    display: ${(props) => (props.$isAuth ? 'none' : 'flex')};
     position: fixed;
     top: 0;
     z-index: 1000;
@@ -60,18 +60,8 @@ const LeftNav = styled.div`
 
   //모바일 (세로)
   @media screen and (max-width: 431px) {
-    column-gap: 13px;
-    font-size: 13px;
-    color: ${theme.color.gray};
-    & span {
-      display: none;
-    }
-  }
-
-  //모바일 (가로)
-  @media screen and (min-width: 376px) and (max-width: 620px) {
     column-gap: 10px;
-    font-size: 13px;
+    font-size: 10px;
     color: ${theme.color.gray};
     & span {
       display: none;
@@ -122,6 +112,14 @@ const AuthContainer = styled.div`
   column-gap: 20px;
   color: #888;
   font-size: 14px;
+  //모바일 : 세로
+  @media screen and (max-width: 431px) {
+    column-gap: 10px;
+  }
+`;
+
+const StyledNavLnkWrite = styled(NavLink)`
+  font-weight: normal;
 `;
 
 const StyledNavLnk = styled(NavLink)`
@@ -164,6 +162,13 @@ const UserInfo = styled.div`
   }
 `;
 
+const LoginModal = styled.div`
+  //모바일 세로
+  @media screen and (min-width: 431px) {
+    display: none;
+  }
+`;
+
 export default {
   AuthContainer,
   StyledNavLnk,
@@ -172,5 +177,7 @@ export default {
   NavBarContainer,
   LeftNav,
   LogoContainerFooter,
+  LoginModal,
+  StyledNavLnkWrite,
   GuideToggle
 };
