@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 type NavProps = {
-  isAuth: boolean;
+  $isAuth: boolean;
 };
 
 // NavBar.tsx
@@ -19,7 +19,7 @@ const NavContainer = styled.div<NavProps>`
 
   //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기) : 세로 버전
   @media screen and (max-width: 431px) {
-    display: ${(props) => (props.isAuth ? 'none' : 'flex')};
+    display: ${(props) => (props.$isAuth ? 'none' : 'flex')};
     position: fixed;
     top: 0;
     z-index: 1000;

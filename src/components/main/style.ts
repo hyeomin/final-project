@@ -11,8 +11,7 @@ const Container = styled.div`
 
   //모바일 세로
   @media screen and (max-width: 431px) {
-    max-width: 375px;
-    min-width: 0;
+    width: 100%;
   }
 `;
 

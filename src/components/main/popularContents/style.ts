@@ -8,6 +8,10 @@ const UserContents = styled.section`
   align-items: center;
   width: 1200px;
   margin-bottom: 10px;
+
+  @media screen and (max-width: 431px) {
+    width: 100%;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -22,16 +26,24 @@ const TitleContainer = styled.div`
     font-size: 26px;
     font-weight: 700;
   }
+
+  @media screen and (max-width: 431px) {
+    width: 100%;
+  }
 `;
 
 const SubTitle = styled.div`
   display: flex;
   justify-content: space-between;
-
+  align-items: center;
   & p {
     color: ${theme.color.mangoMain};
     font-size: 17px;
     font-weight: 600;
+
+    @media screen and (max-width: 431px) {
+      font-size: 14px;
+    }
   }
 
   & button {
@@ -40,6 +52,9 @@ const SubTitle = styled.div`
     border-color: transparent;
     font-size: 16px;
     cursor: pointer;
+    @media screen and (max-width: 431px) {
+      font-size: 13px;
+    }
   }
 `;
 

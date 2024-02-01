@@ -79,7 +79,7 @@ function NavBar() {
   };
 
   return (
-    <St.NavContainer ref={navRef} isAuth={authCheck}>
+    <St.NavContainer ref={navRef} $isAuth={authCheck}>
       <St.NavBarContainer>
         <St.LeftNav>
           <LogoContainer onClick={() => navigate('/')}>

@@ -9,6 +9,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 0;
+
+  @media screen and (max-width: 431px) {
+    width: 100%;
+  }
 `;
 const PlaceHolder = styled.div`
   width: 100%;
@@ -27,6 +31,10 @@ const SlideWrapper = styled.div`
   margin: 0 35px;
   gap: 20px;
   /* background-color: #b5b5f7; */
+
+  @media screen and (max-width: 431px) {
+    width: 100%;
+  }
 `;
 
 const Slide = styled.div`
@@ -65,6 +73,9 @@ const Slide = styled.div`
     background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
     z-index: 2;
     bottom: 0;
+  }
+  @media screen and (max-width: 431px) {
+    width: 200px;
   }
 `;
 
