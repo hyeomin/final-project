@@ -56,6 +56,7 @@ const StyleCalendar = styled.div`
       width: 60px;
       height: 60px;
       padding: 5px;
+      font-size: 10px;
     }
   }
   .habitImage {
@@ -64,7 +65,7 @@ const StyleCalendar = styled.div`
     height: 60px;
     @media screen and (max-width: 431px) {
       margin-top: 5px;
-      width: 20px;
+      width: 25px;
       height: 30px;
     }
   }
@@ -86,14 +87,10 @@ const StyleCalendar = styled.div`
   .react-calendar__month-view__weekdays__weekday {
     height: 70px;
     font-weight: 500;
-    margin-top: 30px;
     @media screen and (max-width: 431px) {
       font-size: 0.6rem;
       height: 60px;
     }
-  }
-  .react-calendar__button:enabled:hover {
-    /* cursor: pointer; */
   }
 
   .react-calendar button:enabled:hover {
@@ -259,7 +256,7 @@ const PostCount = styled.div`
   @media screen and (max-width: 431px) {
     width: 16px;
     height: 16px;
-    font-size: 12px;
+    font-size: 10px;
     top: 22px;
     left: 15px;
   }
@@ -269,6 +266,9 @@ const CurrentDate = styled.div`
   margin-top: 30px;
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 431px) {
+    font-size: 12px;
+  }
 `;
 
 export default {

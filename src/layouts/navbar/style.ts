@@ -23,11 +23,7 @@ const NavContainer = styled.div<NavProps>`
     position: fixed;
     top: 0;
     z-index: 1000;
-  }
-
-  //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기) : 가로 버전
-  @media screen and (max-width: 431px) {
-    display: ${(props) => (props.isAuth ? 'none' : 'flex')};
+    width: 100%;
   }
 `;
 
@@ -45,7 +41,8 @@ const NavBarContainer = styled.div`
 
   //모바일 (세로)
   @media screen and (max-width: 431px) {
-    padding: 0 18px;
+    padding: 0;
+    width: 90%;
   }
 `;
 
@@ -59,8 +56,8 @@ const LeftNav = styled.div`
 
   //모바일 (세로)
   @media screen and (max-width: 431px) {
-    column-gap: 10px;
-    font-size: 11px;
+    column-gap: 13px;
+    font-size: 13px;
     color: ${theme.color.gray};
     & span {
       display: none;
@@ -115,7 +112,6 @@ export const LogoContainerFooter = styled.div`
 `;
 
 // AuthNavBar.tsx
-
 const AuthContainer = styled.div`
   display: flex;
   align-items: center;
@@ -131,11 +127,6 @@ const StyledNavLnk = styled(NavLink)`
   @media screen and (max-width: 431px) {
     display: none;
   }
-
-  /* //모바일 : 가로
-  @media screen and (max-width: 431px)  {
-    display: none;
-  } */
 `;
 
 const UserInfo = styled.div`
@@ -165,19 +156,6 @@ const UserInfo = styled.div`
     //모바일 : 세로
     @media screen and (max-width: 431px) {
       display: none;
-    }
-
-    //모바일 : 가로
-    /* @media screen and (min-width: 376px) and (max-width: 620px) {
-      //display: none;
-    } */
-  }
-
-  & div {
-    display: none;
-    //모바일 : 세로
-    @media screen and (max-width: 431px) {
-      display: block;
     }
   }
 `;

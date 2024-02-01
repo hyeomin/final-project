@@ -12,14 +12,14 @@ const Wrapper = styled.div`
   text-align: center;
 
   @media screen and (max-width: 431px) {
-    margin: 10px 0;
+    margin: 10px 20px auto 20px;
     width: 100%;
     padding: 10px;
     display: flex;
-    /* justify-content: center; */
-    display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 `;
 
@@ -33,6 +33,7 @@ const MySectionWrapper = styled.div`
   border-radius: 10px;
   border: 1px solid #d9d9d9;
   margin-bottom: 300px;
+  justify-content: center;
 
   @media screen and (max-width: 431px) {
     display: flex;
@@ -54,23 +55,16 @@ const ProfileEditWrapper = styled.div`
   @media screen and (max-width: 431px) {
     display: flex;
     align-items: center;
-
-    /* margin: 20px 0 30px; */
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
-    /* height: 200px; */
   }
 `;
 
 const ProfileImageContainer = styled.div`
   display: flex;
   position: relative;
-  /* width: 100%; */
-  /* @media screen and (max-width: 431px) {
-    width: 100%;
-  } */
 `;
 
 const PenWrapper = styled.div`
@@ -87,6 +81,11 @@ const PenWrapper = styled.div`
   background-color: white;
   font-size: larger;
   cursor: pointer;
+
+  @media screen and (max-width: 431px) {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const ProfileInfo = styled.div`
@@ -96,6 +95,7 @@ const ProfileInfo = styled.div`
   margin-top: 15px;
   gap: 10px;
   align-items: baseline;
+  /* margin-right: 100px; */
 
   @media screen and (max-width: 431px) {
     display: flex;
@@ -131,7 +131,7 @@ const UserPostInfoContainer = styled.div`
 
   @media screen and (max-width: 431px) {
     display: flex;
-    /* flex-direction: column; */
+    justify-content: center;
     margin: 20px 0 5px;
     column-gap: 5px;
   }
@@ -170,7 +170,32 @@ const PostInfoBox = styled.div`
     padding-bottom: 30px;
     @media screen and (max-width: 431px) {
       font-size: 12px;
+      margin-bottom: 50px;
     }
+  }
+`;
+const LevelBox = styled.div`
+  display: flex;
+  width: 20px;
+  margin-top: 20p;
+  gap: 5px;
+  @media screen and (max-width: 431px) {
+    margin-top: -3px;
+  }
+`;
+
+const LevelEmoji = styled.div`
+  margin-top: 10px;
+  @media screen and (max-width: 431px) {
+    width: 10px;
+    font-size: 10px;
+    height: 10px;
+  }
+`;
+
+const Level = styled.div`
+  margin-top: 10px;
+  @media screen and (max-width: 431px) {
   }
 `;
 
@@ -179,10 +204,27 @@ const UserInfo = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 20px;
   gap: 20px;
+  margin-left: 50px;
   @media screen and (max-width: 431px) {
     margin-top: 10px;
+  }
+`;
+
+const PostInfoIcon = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+
+  @media screen and (max-width: 431px) {
+    margin-top: 10px;
+  }
+  img {
+    @media screen and (max-width: 431px) {
+      width: 12px;
+      height: 12px;
+      margin-top: 5px;
+    }
   }
 `;
 
@@ -215,16 +257,23 @@ const ModifyButton = styled.button`
   &:hover {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 431px) {
+    width: 60px;
+    height: 20px;
+    font-weight: 500;
+    font-size: 10px;
+  }
 `;
 
 const UserInfoModify = styled.div`
   display: flex;
   justify-content: left;
-  margin-right: 50px;
+  margin-right: 100px;
   max-width: 200px;
 
   /* @media screen and (max-width: 431px) {
-    margin: 30px 
+    justify-content: left;
   } */
 `;
 const FileInput = styled.input`
@@ -239,6 +288,13 @@ const DisplayNameModify = styled.input`
   font-size: 13px;
   width: 150px;
   font-size: 12px;
+
+  @media screen and (max-width: 431px) {
+    width: 100px;
+    height: 20px;
+    font-weight: 500;
+    font-size: 10px;
+  }
 `;
 
 const DisplayNameCheckBtn = styled.button`
@@ -298,6 +354,14 @@ const GuideGrade = styled.div`
   left: 60%;
   bottom: -10px;
   border-radius: 10px;
+  @media screen and (max-width: 431px) {
+    padding: 8px;
+    left: 0px;
+    bottom: 35px;
+    height: 50px;
+    width: 150px;
+    font-size: 10px;
+  }
 
   &:after {
     content: '';
@@ -308,6 +372,15 @@ const GuideGrade = styled.div`
     border-left: 10px solid transparent;
     border-right: 10px solid ${theme.color.mangoLight};
     border-bottom: 10px solid transparent;
+
+    @media screen and (max-width: 431px) {
+      left: 25px;
+      top: 50px;
+      border-top: 10px solid ${theme.color.mangoLight};
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+    }
   }
 `;
 
@@ -337,7 +410,8 @@ const TabButtonContainer = styled.div`
   @media screen and (max-width: 431px) {
     margin: 30px 0 0 0;
     min-width: 100%;
-    max-width: 100%;
+    width: 100%;
+    justify-content: center;
   }
 `;
 
@@ -361,6 +435,13 @@ const TabButton = styled.button<TabButtonProps>`
   height: 40px;
   font-size: 14px;
 
+  @media screen and (max-width: 431px) {
+    font-size: 10px;
+
+    width: 80px;
+    height: 30px;
+  }
+
   &:hover {
     cursor: pointer;
     color: ${theme.color.mangoMain};
@@ -372,12 +453,22 @@ const TabButton = styled.button<TabButtonProps>`
     align-items: center;
     column-gap: 6px;
   }
+
+  & span {
+    @media screen and (max-width: 431px) {
+      font-size: 10px;
+    }
+  }
 `;
 
 const ErrorMsg = styled.div`
   color: red;
   font-size: 12px;
   margin-left: 10px;
+
+  @media screen and (max-width: 431px) {
+    font-size: 10px;
+  }
 `;
 export default {
   ProfileEditWrapper,
@@ -391,9 +482,13 @@ export default {
   TabButtonContainer,
   profileImg,
   FileInput,
+  LevelBox,
+  LevelEmoji,
+  Level,
   DisplayNameModify,
   UserInfoModify,
   ProfileInfo,
+  PostInfoIcon,
   UserPostInfoContainer,
   PostInfoBox,
   ProfileModifyBtn,
