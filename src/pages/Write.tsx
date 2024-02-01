@@ -69,7 +69,6 @@ function Write() {
 
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
-      // setPostInput(initialPostInputState);
       return (e.returnValue = '');
     };
 

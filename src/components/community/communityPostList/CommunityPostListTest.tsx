@@ -11,20 +11,31 @@ import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, upda
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { getAllUsers } from '../../api/authApi';
-import defaultProfile from '../../assets/defaultImg.jpg';
-import mangoCover from '../../assets/tentative-cover-image.jpg';
-import { useModal } from '../../hooks/useModal';
-import { QUERY_KEYS } from '../../query/keys';
-import { modalState } from '../../recoil/modals';
-import { categoryListState } from '../../recoil/posts';
-import { auth, db } from '../../shared/firebase';
-import { PostType } from '../../types/PostType';
-import { getFormattedDate_yymmdd } from '../../util/formattedDateAndTime';
-import Loader from '../common/Loader';
-import PostContentPreview from '../common/PostContentPreview';
-import { SortList } from './ViewAllBody';
-import St from './style';
+import { getAllUsers } from '../../../api/authApi';
+import defaultProfile from '../../../assets/defaultImg.jpg';
+import mangoCover from '../../../assets/tentative-cover-image.jpg';
+import { useModal } from '../../../hooks/useModal';
+import { QUERY_KEYS } from '../../../query/keys';
+import { modalState } from '../../../recoil/modals';
+import { categoryListState } from '../../../recoil/posts';
+import { auth, db } from '../../../shared/firebase';
+import { PostType } from '../../../types/PostType';
+import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
+import Loader from '../../common/Loader';
+import PostContentPreview from '../../common/PostContentPreview';
+import { SortList } from '../../viewAll/ViewAllBody';
+import St, {
+  AuthorProfileImg,
+  CommentAndLikes,
+  HeartClickButton,
+  PostCardHeader,
+  PostCardHeaderTextRow,
+  PostContainer,
+  PostImg,
+  PostInfoContainer,
+  PostTitleAndContent,
+  SinglePost
+} from './style';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -44,7 +55,7 @@ interface PostCardProps {
   postData: PostType;
 }
 
-function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
+function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const category = useRecoilValue(categoryListState);
   const navigate = useNavigate();
 
@@ -206,51 +217,50 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
     staleTime: 1000 * 60
   });
 
+  // St가 안 붙은 태그들은 재활용을 위해 .style에서 직접 export 한 것들
   return (
-    <St.MainSubWrapper>
-      <St.ContentsWrapper>
+    <St.PostListContainer>
+      <div>
         {isLoading ? (
           <Loader />
         ) : (
-          <St.Contents>
+          <PostContainer>
             {posts?.map((post, idx) => {
-              // const imageQuery = imageQueries[idx];
-
               return (
                 <Link key={post.id} to={`/detail/${post.id}`}>
-                  <St.Content>
-                    <St.ContentImg
+                  <SinglePost>
+                    <PostImg
                       src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
                       alt={post.title}
                     />
-                    <St.PostInfoContainer>
+                    <PostInfoContainer>
                       {userList && userList?.find((user) => user.uid === post.uid) && (
-                        <St.UserProfile>
+                        <PostCardHeader>
                           <div>
-                            <St.ProfileImg
+                            <AuthorProfileImg
                               src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
                               alt="profile"
                             />
-                            <St.Row>
+                            <PostCardHeaderTextRow>
                               <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
                               <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
-                            </St.Row>
+                            </PostCardHeaderTextRow>
                           </div>
                           {/* 하트 클릭하는 버튼 */}
-                          <St.HeartClickButton
+                          <HeartClickButton
                             onClick={(e) => handleClickLikeButton(e, post.id, post)}
                             $isLiked={!!post.isLiked}
                           >
                             {post.isLiked ? <GoHeartFill /> : <GoHeart />}
-                          </St.HeartClickButton>
-                        </St.UserProfile>
+                          </HeartClickButton>
+                        </PostCardHeader>
                       )}
-                      <St.TitleAndContent>
+                      <PostTitleAndContent>
                         <p>{post.title}</p>
                         {post.content && <PostContentPreview postContent={post.content} />}
-                      </St.TitleAndContent>
+                      </PostTitleAndContent>
 
-                      <St.CommentAndLikes>
+                      <CommentAndLikes>
                         <span>
                           <GoEye />
                           {post.viewCount ?? 0}
@@ -263,15 +273,15 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
                           <GoComment />
                           {post.commentCount ?? 0}
                         </span>
-                      </St.CommentAndLikes>
-                    </St.PostInfoContainer>
-                  </St.Content>
+                      </CommentAndLikes>
+                    </PostInfoContainer>
+                  </SinglePost>
                 </Link>
               );
             })}
-          </St.Contents>
+          </PostContainer>
         )}
-      </St.ContentsWrapper>
+      </div>
       <St.MoreContentWrapper>
         {isFetchingNextPage ? (
           <Loader />
@@ -281,8 +291,8 @@ function PostList({ queryKey, queryFn, sortBy }: PostListProps) {
           <p>모든 데이터를 가져왔습니다.</p>
         )}
       </St.MoreContentWrapper>
-    </St.MainSubWrapper>
+    </St.PostListContainer>
   );
 }
 
-export default PostList;
+export default CommunityPostList;

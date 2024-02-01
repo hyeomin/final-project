@@ -1,4 +1,4 @@
-import MangoBody from '../../src/components/viewAll/mangoContents/MangoBody';
+import MangoBody from '../components/mangoContents/MangoBody';
 function MangoContents() {
   return <MangoBody />;
 }

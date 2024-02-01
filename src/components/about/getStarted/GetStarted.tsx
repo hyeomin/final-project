@@ -80,7 +80,7 @@ function GetStarted() {
             </Link>
           </St.LinktoPage>
           <St.LinktoPage>
-            <Link to="/viewAll" onClick={handleLinkClick}>
+            <Link to="/community" onClick={handleLinkClick}>
               <St.ImageContainer>
                 <img src={viewAll} alt="viewAll" />
                 <St.Gradient></St.Gradient>

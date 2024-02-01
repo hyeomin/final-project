@@ -92,10 +92,10 @@ function NavBar() {
           <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
             BY MANGO
           </NavLink>
-          <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
+          <NavLink to="/community" style={styledNav} onMouseEnter={handleHover}>
             COMMUNITY
           </NavLink>
-          <div onClick={onToggleModal}>GUIDE</div>
+          <St.GuideToggle onClick={onToggleModal}>GUIDE</St.GuideToggle>
           {isGuideModalOpen && <GuideModal onClose={onToggleModal} />}
         </St.LeftNav>
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
