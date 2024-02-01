@@ -7,7 +7,7 @@ const CommentListContainer = styled.div`
   width: 100%;
   font-size: 14px;
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     padding: 0 20px;
   }
 `;

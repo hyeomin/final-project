@@ -24,11 +24,7 @@ const ScDivContainer = styled.div`
   background-color: #fff;
   border-radius: 8px;
 
-  @media screen and (max-width: 376px) {
-    width: 300px;
-    height: 180px;
-  }
-  @media screen and (min-width: 376px) and (max-width: 620px) {
+  @media screen and (max-width: 431px) {
     width: 300px;
     height: 180px;
   }
@@ -48,11 +44,7 @@ const ScDivTitleAndContent = styled.div`
     font-size: 22px;
     padding-bottom: 10px;
 
-    @media screen and (max-width: 376px) {
-      font-weight: 600;
-      font-size: 20px;
-    }
-    @media screen and (min-width: 376px) and (max-width: 620px) {
+    @media screen and (max-width: 431px) {
       font-weight: 600;
       font-size: 20px;
     }

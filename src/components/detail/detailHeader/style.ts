@@ -23,7 +23,7 @@ const StyledSwiper = styled(Swiper)`
     object-position: cen;
   }
 
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     max-width: 340px;
     min-width: 0;
     height: 270px;
@@ -47,7 +47,7 @@ const PostHeaderInfo = styled.div<PostHeaderInfoProps>`
   row-gap: 20px;
   font-size: 40px;
 
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     row-gap: 10px;
     padding: 0 30px;
     font-size: 30px;
@@ -55,7 +55,7 @@ const PostHeaderInfo = styled.div<PostHeaderInfoProps>`
 
   & span {
     font-size: 20px;
-    @media screen and (max-width: 376px) {
+    @media screen and (max-width: 431px) {
       font-size: 15px;
     }
   }

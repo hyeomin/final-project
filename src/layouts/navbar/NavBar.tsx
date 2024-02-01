@@ -53,7 +53,7 @@ function NavBar() {
 
   //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기)
   const [isAuth, setIsAuth] = useState(false);
-  console.log(isAuth);
+
   useEffect(() => {
     const detailURL = window.location.href;
     const isAuthInURL = detailURL.includes('auth');

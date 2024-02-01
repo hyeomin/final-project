@@ -120,7 +120,7 @@ const ToggleContainer = styled.div`
   top: 65px;
   right: 60px;
   z-index: 100;
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     top: 58px;
     right: 0px;
   }
@@ -137,7 +137,7 @@ const ToggleBox = styled.div`
   border-radius: 20px;
   background-color: ${theme.color.veryLightGray};
 
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     width: 270px;
     height: 270px;
   }
@@ -181,7 +181,7 @@ const AuthButton = styled.button<AuthButtonProps>`
   border: 1px solid ${(props) => props.$bdrcolor};
   cursor: pointer;
 
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     width: 100px;
   }
 `;

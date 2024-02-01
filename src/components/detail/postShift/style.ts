@@ -7,7 +7,7 @@ const ButtonContainer = styled.div`
   width: 100%;
   padding: 40px 0;
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     /* padding-right: 20px;
     padding-left: 20px; */
     padding: 25px 0px 25px 10px;

@@ -24,7 +24,7 @@ const CommentSubmitForm = styled.form`
     background-color: transparent;
   }
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     width: 350px;
     height: 140px;
     margin: auto;
@@ -58,7 +58,7 @@ const SubmitButton = styled.button`
   }
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     height: 35px;
   }
 `;

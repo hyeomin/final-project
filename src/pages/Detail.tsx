@@ -90,7 +90,7 @@ const DetailTitle = styled.h3`
   padding: 30px 0;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     font-size: 15px;
     font-weight: 500;
     padding-left: 30px;
@@ -102,7 +102,7 @@ const DetailEmptyFooter = styled.div`
   height: 280px;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     height: 40px;
   }
 `;

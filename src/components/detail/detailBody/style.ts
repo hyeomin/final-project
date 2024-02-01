@@ -6,7 +6,7 @@ const BodyContainer = styled.div`
   margin: 40px 0;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     margin-left: 20px;
     margin-right: 20px;
   }
@@ -29,7 +29,7 @@ const PostInfo = styled.div`
     height: 50px;
     border-radius: 50px;
     //모바일 세로
-    @media screen and (max-width: 376px) {
+    @media screen and (max-width: 431px) {
       width: 40px;
       height: 40px;
     }
@@ -72,7 +72,7 @@ const ContentBody = styled.div`
   border-bottom: 1px solid ${theme.color.lightgray};
   line-height: 200%;
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     //width: 50px;
     padding-right: 10px;
   }
@@ -123,7 +123,7 @@ const DetailInfo = styled.div`
     display: flex;
     column-gap: 7px;
   }
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     max-width: 300px;
     min-width: 0;
   }
@@ -133,7 +133,7 @@ const ShareInfo = styled.div`
   display: flex;
   column-gap: 8px;
 
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     padding-right: 25px;
   }
 
