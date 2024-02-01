@@ -50,7 +50,7 @@ const ProfileEditWrapper = styled.div`
   border-radius: 10px;
   width: 100%;
   border: 1px solid lightgray;
-  margin-top: 10px;
+  margin-top: 50px;
 
   @media screen and (max-width: 431px) {
     display: flex;
