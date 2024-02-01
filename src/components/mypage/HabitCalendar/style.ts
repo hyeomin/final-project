@@ -52,7 +52,7 @@ const StyleCalendar = styled.div`
     flex-direction: column;
     align-items: center;
 
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 431px) {
       width: 60px;
       height: 60px;
       padding: 5px;
@@ -62,7 +62,7 @@ const StyleCalendar = styled.div`
     margin-top: 5px;
     width: 50px;
     height: 60px;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 431px) {
       margin-top: 5px;
       width: 20px;
       height: 30px;
@@ -74,7 +74,7 @@ const StyleCalendar = styled.div`
   .react-calendar__navigation__label__labelText {
     font-size: 17px;
     font-weight: 400;
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: 431px) {
       font-size: 12px;
     }
   }

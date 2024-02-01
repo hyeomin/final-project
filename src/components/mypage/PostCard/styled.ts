@@ -76,8 +76,8 @@ export const PostInfoContainer = styled.div`
 `;
 
 const CommentAndLikes = styled.div`
-  // 이름 pascal case 변경
   display: flex;
+  // 이름 pascal case 변경
   justify-content: start;
   column-gap: 10px;
   color: ${theme.color.lightgray};

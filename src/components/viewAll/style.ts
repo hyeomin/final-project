@@ -102,12 +102,16 @@ const ContentsWrapper = styled.div`
 const Contents = styled.ul`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 
   @media screen and (max-width: 768px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 170px;
   }

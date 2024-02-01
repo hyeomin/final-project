@@ -42,14 +42,16 @@ const ProfileEditWrapper = styled.div`
   align-items: center;
   column-gap: 30px;
   width: 100%;
-  height: 200px;
+  /* height: 200px; */
   padding: 40px 60px;
   border-radius: 10px;
   border: 1px solid lightgray;
   margin-top: 30px;
 
   @media screen and (max-width: 768px) {
-    margin: 10px 0 30px;
+    display: flex;
+    align-items: center;
+    margin: 60px 0 30px;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -89,7 +91,7 @@ const ProfileInfo = styled.div`
 
   @media screen and (max-width: 768px) {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
   }
 `;
 
@@ -117,6 +119,8 @@ const UserPostInfoContainer = styled.div`
   column-gap: 20px;
   font-size: 15px;
 
+  /* margin-left: 50px; */
+
   @media screen and (max-width: 768px) {
     margin: 20px 0 5px;
     column-gap: 5px;
@@ -127,12 +131,18 @@ const PostInfoBox = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  max-width: 140px;
-  min-width: 100px;
+  width: 140px;
+  /* min-width: 100px; */
   height: 100px;
   padding: 20px;
   border-radius: 20px;
   background-color: #fbfbfb;
+
+  @media screen and (max-width: 768px) {
+    width: 20px;
+    height: 20px;
+    width: 100px;
+  }
 
   & img {
     width: 20px;
@@ -282,7 +292,6 @@ const Tabs = styled.div`
   width: 100%;
   margin: 20px;
   padding: 20px;
-  height: 450px;
 `;
 
 const TabButtonContainer = styled.div`
