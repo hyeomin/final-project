@@ -21,7 +21,7 @@ import HabitCalendar from '../HabitCalendar/HabitCalendar';
 import LikesPosts from '../LikesPosts';
 import MyPosts from '../MyPosts';
 import St from './style';
-import { getMyPosts } from '../../../api/myPostAPI';
+import { getMyPosts, getUserRanking } from '../../../api/myPostAPI';
 
 function MyProfile() {
   const modal = useModal();
@@ -40,7 +40,8 @@ function MyProfile() {
 
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
-
+  const [isPhotoURLChanged, setIsPhotoURLChanged] = useState(false);
+  const [isDisplayNameChanged, setIsDisplayNameChanged] = useState(false);
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
   const [resizedImage, setResizedImage] = useState<File>();
@@ -70,10 +71,10 @@ function MyProfile() {
   });
 
   // 랭킹순위 (좋아요 수 기준)
-  // const { data: userRanking } = useQuery({
-  //   queryKey: ['userRanking'],
-  //   queryFn: getUserRanking
-  // });
+  const { data: userRanking } = useQuery({
+    queryKey: ['userRanking'],
+    queryFn: getUserRanking
+  });
 
   //div를 클릭해도 input이 클릭되도록 하기
   const onClickUpload = () => {
@@ -134,7 +135,16 @@ function MyProfile() {
     const onClickSave = () => {
       modal.close();
     };
-    if (!isChecked) {
+
+    if (authCurrentUser!.displayName !== displayName) {
+      setIsDisplayNameChanged(true);
+    }
+
+    if (authCurrentUser!.photoURL !== profileImage) {
+      setIsPhotoURLChanged(true);
+    }
+
+    if (!isChecked && isDisplayNameChanged) {
       const openModalParams: Parameters<typeof modal.open>[0] = {
         title: '중복확인 버튼을 눌러주세요',
         message: '',
@@ -146,9 +156,11 @@ function MyProfile() {
       modal.open(openModalParams);
     } else {
       if (authCurrentUser) {
-        if (authCurrentUser.displayName !== displayName || authCurrentUser.photoURL !== profileImage) {
+        if (isDisplayNameChanged || isPhotoURLChanged) {
           userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
           setIsEditing(false);
+          setIsDisplayNameChanged(false);
+          setIsPhotoURLChanged(false);
         }
       }
     }
@@ -382,11 +394,11 @@ function MyProfile() {
             <div style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
               <img src={rankingIcon} />
               <div>
-                {/* {authCurrentUser && userRanking
+                {authCurrentUser && userRanking
                   ? userRanking.findIndex((r) => r.uid === authCurrentUser.uid) >= 0
                     ? `${userRanking?.findIndex((r) => r.uid === authCurrentUser.uid) + 1}위`
                     : '순위 없음'
-                  : '-'} */}
+                  : '-'}
               </div>
             </div>
           </St.PostInfoBox>

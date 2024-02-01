@@ -33,12 +33,9 @@ function PostCard({ post }: PostCardProps) {
 
   const { data: user } = useQuery({
     queryKey: [QUERY_KEYS.USERS, post.uid],
-    queryFn: () => getUser(post.uid)
-    // staleTime: 6000 * 10
+    queryFn: () => getUser(post.uid),
+    staleTime: 6000 * 10
   });
-
-  console.log('user', user);
-  console.log('post?.uid', post?.uid);
 
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (postId: string) => {
