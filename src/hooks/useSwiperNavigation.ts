@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { SwiperClass } from 'swiper/react';
 
 type Props = {
@@ -10,16 +9,14 @@ type Props = {
 
 const useSwiperNavigation = ({ swiperInstance, currentIndex, maxIndex }: Props) => {
   const goNext = () => {
-    if (swiperInstance && currentIndex < maxIndex) {
+    if (swiperInstance) {
       swiperInstance.slideNext();
-      // setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, maxIndex));
     }
   };
 
   const goPrev = () => {
-    if (swiperInstance && currentIndex > 0) {
+    if (swiperInstance) {
       swiperInstance.slidePrev();
-      // setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     }
   };
   return { goNext, goPrev };
