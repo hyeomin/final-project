@@ -7,7 +7,6 @@ import { isSignUpState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import St from './style';
 import { modalState } from '../../recoil/modals';
-import { FaBars } from 'react-icons/fa';
 
 type Props = {
   styledNav: ({ isActive }: { isActive: boolean }) => {
@@ -59,9 +58,9 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
 
   return (
     <St.AuthContainer>
-      <St.StyledNavLnk to="/write" onClick={onAuthCheckHandler} style={styledNav}>
+      <St.StyledNavLnkWrite to="/write" onClick={onAuthCheckHandler} style={styledNav}>
         글쓰기
-      </St.StyledNavLnk>
+      </St.StyledNavLnkWrite>
       {currentUser ? (
         <>
           <St.UserInfo onClick={() => setIsAuthToggleOpen((prev) => !prev)}>
@@ -74,9 +73,6 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
         </>
       ) : (
         <>
-          <div>
-            <FaBars />
-          </div>
           <St.StyledNavLnk to="/auth" onClick={() => setIsSignUp(false)} style={styledNav}>
             로그인
           </St.StyledNavLnk>

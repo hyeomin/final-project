@@ -56,18 +56,8 @@ const LeftNav = styled.div`
 
   //모바일 (세로)
   @media screen and (max-width: 431px) {
-    column-gap: 13px;
-    font-size: 13px;
-    color: ${theme.color.gray};
-    & span {
-      display: none;
-    }
-  }
-
-  //모바일 (가로)
-  @media screen and (min-width: 376px) and (max-width: 620px) {
     column-gap: 10px;
-    font-size: 13px;
+    font-size: 10px;
     color: ${theme.color.gray};
     & span {
       display: none;
@@ -118,6 +108,14 @@ const AuthContainer = styled.div`
   column-gap: 20px;
   color: #888;
   font-size: 14px;
+  //모바일 : 세로
+  @media screen and (max-width: 431px) {
+    column-gap: 10px;
+  }
+`;
+
+const StyledNavLnkWrite = styled(NavLink)`
+  font-weight: normal;
 `;
 
 const StyledNavLnk = styled(NavLink)`
@@ -160,6 +158,13 @@ const UserInfo = styled.div`
   }
 `;
 
+const LoginModal = styled.div`
+  //모바일 세로
+  @media screen and (min-width: 431px) {
+    display: none;
+  }
+`;
+
 export default {
   AuthContainer,
   StyledNavLnk,
@@ -167,5 +172,7 @@ export default {
   NavContainer,
   NavBarContainer,
   LeftNav,
-  LogoContainerFooter
+  LogoContainerFooter,
+  LoginModal,
+  StyledNavLnkWrite
 };
