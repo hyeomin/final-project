@@ -15,6 +15,7 @@ import St, { LogoContainer } from './style';
 import LoginModal from './loginModal/LoginModal';
 import { FaBars } from 'react-icons/fa';
 import { isAuthState } from '../../recoil/modals';
+import { auth } from '../../shared/firebase';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
@@ -22,6 +23,8 @@ function NavBar() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  const currentUser = auth.currentUser;
 
   // 뒤로가기 버튼 핸들링을 위한 history 관리
   const setPathHistory = useSetRecoilState(pathHistoryState);
@@ -101,9 +104,12 @@ function NavBar() {
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
 
         <St.LoginModal>
-          <label onClick={onLoginToggleModal}>
-            <FaBars />
-          </label>
+          {!currentUser ? (
+            <label onClick={onLoginToggleModal}>
+              <FaBars />
+            </label>
+          ) : null}
+
           {isLoginModalOpen && <LoginModal onClose={onLoginToggleModal} />}
         </St.LoginModal>
       </St.NavBarContainer>
