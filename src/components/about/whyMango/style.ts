@@ -29,9 +29,10 @@ const Mission = styled.div`
 
   @media screen and (max-width: 431px) {
     flex-direction: column;
+    height: 1000px;
     row-gap: 50px;
     & img {
-      width: 140px;
+      width: 200px;
     }
   }
 `;
@@ -58,7 +59,8 @@ const SubTitle = styled.div`
   opacity: 80%;
 
   @media screen and (max-width: 431px) {
-    font-size: 22px;
+    font-size: 24px;
+    text-align: center;
   }
 `;
 
@@ -75,7 +77,7 @@ const Description = styled.div`
   }
 
   @media screen and (max-width: 431px) {
-    font-size: 14px;
+    font-size: 16px;
     padding: 0 55px;
     text-align: center;
     line-height: 150%;

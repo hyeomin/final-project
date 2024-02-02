@@ -103,6 +103,7 @@ const Container = styled.div`
 
   @media screen and (max-width: 431px) {
     margin: 0 0 50px 0;
+    font-size: 80%;
   }
 `;
 

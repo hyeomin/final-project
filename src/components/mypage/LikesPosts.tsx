@@ -1,13 +1,10 @@
-import { useQueries, useQuery } from '@tanstack/react-query';
-import { getAdminPosts, getPopularPosts } from '../../api/homeApi';
+import { useQuery } from '@tanstack/react-query';
 import { getLikePosts } from '../../api/myPostAPI';
-import Cs from '../viewAll/style';
 
-import { QUERY_KEYS } from '../../query/keys';
-import PostCard from './PostCard/PostCard';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
-import { PostType } from '../../types/PostType';
+import { PostContainer } from '../community/communityPostList/style';
+import PostCard from './PostCard/PostCard';
 
 // interface MyProfileProps {
 //   getLikePosts: () => Promise<PostType[] | undefined>;
@@ -62,7 +59,7 @@ const LikesPosts = () => {
   // });
 
   return (
-    <Cs.Contents>
+    <PostContainer>
       {likePosts?.length! > 0 ? (
         likePosts?.map((post) => {
           return <PostCard key={post.id} post={post} />;
@@ -70,7 +67,7 @@ const LikesPosts = () => {
       ) : (
         <p style={{ display: 'flex', justifyContent: 'center' }}>좋아요 누른 게시물이 없습니다.</p>
       )}
-    </Cs.Contents>
+    </PostContainer>
   );
 };
 

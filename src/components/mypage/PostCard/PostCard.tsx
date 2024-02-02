@@ -11,10 +11,19 @@ import { AuthContext } from '../../../context/AuthContext';
 import { QUERY_KEYS } from '../../../query/keys';
 import { db } from '../../../shared/firebase';
 import { PostType } from '../../../types/PostType';
-import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
+import { getFormattedDateCustom } from '../../../util/formattedDateAndTime';
 import PostContentPreview from '../../common/PostContentPreview';
-import { PostImg, SinglePost } from '../../community/communityPostList/style';
-import Cs, { PostInfoContainer } from './styled';
+import {
+  AuthorProfileImg,
+  CommentAndLikes,
+  HeartClickButton,
+  PostCardHeader,
+  PostCardHeaderTextRow,
+  PostImg,
+  PostInfoContainer,
+  PostTitleAndContent,
+  SinglePost
+} from '../../community/communityPostList/style';
 
 interface PostCardProps {
   post: PostType;
@@ -100,26 +109,25 @@ function PostCard({ post }: PostCardProps) {
         alt="cover"
       />
       <PostInfoContainer>
-        <Cs.UserProfile>
+        <PostCardHeader>
           <div>
-            <Cs.ProfileImg src={user?.profileImg || defaultProfile} alt="profile" />
-
-            <Cs.Row>
+            <AuthorProfileImg src={user?.profileImg || defaultProfile} alt="profile" />
+            <PostCardHeaderTextRow>
               <p>{user?.displayName}</p>
-              <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
-            </Cs.Row>
+              <span>{getFormattedDateCustom(post.createdAt!)}</span>
+            </PostCardHeaderTextRow>
           </div>
-          <Cs.HeartClickButton onClick={handleClickLikeButton} $isLiked={!!post.isLiked}>
+          <HeartClickButton onClick={handleClickLikeButton} $isLiked={!!post.isLiked}>
             {post.isLiked ? <GoHeartFill /> : <GoHeart />}
-          </Cs.HeartClickButton>
-        </Cs.UserProfile>
+          </HeartClickButton>
+        </PostCardHeader>
 
-        <Cs.TitleAndContent>
+        <PostTitleAndContent>
           <p>{post.title}</p>
           {post.content && <PostContentPreview postContent={post.content} />}
-        </Cs.TitleAndContent>
+        </PostTitleAndContent>
 
-        <Cs.CommentAndLikes>
+        <CommentAndLikes>
           <span>
             <GoEye />
             {post.viewCount}
@@ -132,7 +140,7 @@ function PostCard({ post }: PostCardProps) {
             <GoComment />
             {post.commentCount ?? 0}
           </span>
-        </Cs.CommentAndLikes>
+        </CommentAndLikes>
       </PostInfoContainer>
     </SinglePost>
   );

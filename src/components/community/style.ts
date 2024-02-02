@@ -6,7 +6,6 @@ const CommunityContainer = styled.div`
   max-width: 1000px;
   display: flex;
   flex-direction: column;
-  background-color: pink;
 
   //모바일 세로
   @media screen and (max-width: 431px) {
@@ -84,6 +83,7 @@ const SortingWrapper = styled.ul`
   @media screen and (max-width: 431px) {
     width: 100%;
     gap: 10px;
+    padding: 0 10px;
 
     & li {
       font-size: 13px;
