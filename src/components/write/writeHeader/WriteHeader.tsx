@@ -6,10 +6,6 @@ import IsEditingButton from './EditUploadButton';
 import SubmitButton from './SubmitButton';
 import St, { CustomButton } from './styles';
 
-// type Props = {
-//   isEditing: boolean;
-// };
-
 function Header({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
   const postInput = useRecoilValue(postInputState);

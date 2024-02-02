@@ -4,7 +4,7 @@ import { produce } from 'immer';
 import React, { useContext } from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
-import { getAllUsers, getUser } from '../../../api/authApi';
+import { getUser } from '../../../api/authApi';
 import defaultProfile from '../../../assets/defaultImg.jpg';
 import mangoCover from '../../../assets/tentative-cover-image.jpg';
 import { AuthContext } from '../../../context/AuthContext';
@@ -13,7 +13,8 @@ import { db } from '../../../shared/firebase';
 import { PostType } from '../../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
 import PostContentPreview from '../../common/PostContentPreview';
-import Cs from './styled';
+import { PostImg, SinglePost } from '../../community/communityPostList/style';
+import Cs, { PostInfoContainer } from './styled';
 
 interface PostCardProps {
   post: PostType;
@@ -93,12 +94,12 @@ function PostCard({ post }: PostCardProps) {
   };
 
   return (
-    <Cs.Content onClick={() => navigate(`/detail/${post.id}`)}>
-      <Cs.ContentImg
+    <SinglePost onClick={() => navigate(`/detail/${post.id}`)}>
+      <PostImg
         src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
         alt="cover"
       />
-      <Cs.PostInfoContainer>
+      <PostInfoContainer>
         <Cs.UserProfile>
           <div>
             <Cs.ProfileImg src={user?.profileImg || defaultProfile} alt="profile" />
@@ -132,8 +133,8 @@ function PostCard({ post }: PostCardProps) {
             {post.commentCount ?? 0}
           </span>
         </Cs.CommentAndLikes>
-      </Cs.PostInfoContainer>
-    </Cs.Content>
+      </PostInfoContainer>
+    </SinglePost>
   );
 }
 

@@ -21,12 +21,18 @@ const Mission = styled.div`
   align-items: center;
   column-gap: 100px;
   height: 800px;
-
-  /* padding-top: 100px; */
   background-color: ${theme.color.mangoMain};
 
   & img {
     width: 390px;
+  }
+
+  @media screen and (max-width: 431px) {
+    flex-direction: column;
+    row-gap: 50px;
+    & img {
+      width: 140px;
+    }
   }
 `;
 
@@ -35,6 +41,10 @@ const Textbox = styled.div`
   flex-direction: column;
   justify-content: center;
   row-gap: 50px;
+
+  @media screen and (max-width: 431px) {
+    align-items: center;
+  }
 `;
 
 const SubTitle = styled.div`
@@ -46,6 +56,10 @@ const SubTitle = styled.div`
   font-size: 36px;
   font-family: ${theme.font.agroBold};
   opacity: 80%;
+
+  @media screen and (max-width: 431px) {
+    font-size: 22px;
+  }
 `;
 
 const Description = styled.div`
@@ -54,9 +68,17 @@ const Description = styled.div`
   row-gap: 10px;
   color: #222222cc;
   font-size: 18px;
+  /* background-color: lightblue; */
 
   & span {
     font-family: ${theme.font.agroBold};
+  }
+
+  @media screen and (max-width: 431px) {
+    font-size: 14px;
+    padding: 0 55px;
+    text-align: center;
+    line-height: 150%;
   }
 `;
 
