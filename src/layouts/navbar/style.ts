@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 type NavProps = {
-  isAuth: boolean;
+  $isAuth: boolean;
 };
 
 // NavBar.tsx
@@ -18,16 +18,12 @@ const NavContainer = styled.div<NavProps>`
   z-index: 1000;
 
   //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기) : 세로 버전
-  @media screen and (max-width: 376px) {
-    display: ${(props) => (props.isAuth ? 'none' : 'flex')};
+  @media screen and (max-width: 431px) {
+    display: ${(props) => (props.$isAuth ? 'none' : 'flex')};
     position: fixed;
     top: 0;
     z-index: 1000;
-  }
-
-  //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기) : 가로 버전
-  @media screen and (min-width: 376px) and (max-width: 620px) {
-    display: ${(props) => (props.isAuth ? 'none' : 'flex')};
+    width: 100%;
   }
 `;
 
@@ -44,9 +40,14 @@ const NavBarContainer = styled.div`
   }
 
   //모바일 (세로)
-  @media screen and (max-width: 376px) {
-    padding: 0 18px;
+  @media screen and (max-width: 431px) {
+    padding: 0;
+    width: 90%;
   }
+`;
+
+const GuideToggle = styled.div`
+  cursor: pointer;
 `;
 
 const LeftNav = styled.div`
@@ -58,9 +59,10 @@ const LeftNav = styled.div`
   color: ${theme.color.gray};
 
   //모바일 (세로)
-  @media screen and (max-width: 376px) {
-    column-gap: 10px;
-    font-size: 11px;
+  @media screen and (max-width: 431px) {
+<<<<<<< HEAD
+    column-gap: 13px;
+    font-size: 13px;
     color: ${theme.color.gray};
     & span {
       display: none;
@@ -68,9 +70,11 @@ const LeftNav = styled.div`
   }
 
   //모바일 (가로)
-  @media screen and (min-width: 376px) and (max-width: 620px) {
+  @media screen and (max-width: 431px) {
+=======
+>>>>>>> 761323675ceba4b34e5f8c25312aead903e667ec
     column-gap: 10px;
-    font-size: 13px;
+    font-size: 10px;
     color: ${theme.color.gray};
     & span {
       display: none;
@@ -115,25 +119,27 @@ export const LogoContainerFooter = styled.div`
 `;
 
 // AuthNavBar.tsx
-
 const AuthContainer = styled.div`
   display: flex;
   align-items: center;
   column-gap: 20px;
   color: #888;
   font-size: 14px;
+  //모바일 : 세로
+  @media screen and (max-width: 431px) {
+    column-gap: 10px;
+  }
+`;
+
+const StyledNavLnkWrite = styled(NavLink)`
+  font-weight: normal;
 `;
 
 const StyledNavLnk = styled(NavLink)`
   font-weight: normal;
 
   //모바일 : 세로
-  @media screen and (max-width: 376px) {
-    display: none;
-  }
-
-  //모바일 : 가로
-  @media screen and (min-width: 376px) and (max-width: 620px) {
+  @media screen and (max-width: 431px) {
     display: none;
   }
 `;
@@ -163,22 +169,16 @@ const UserInfo = styled.div`
 
   & span {
     //모바일 : 세로
-    @media screen and (max-width: 376px) {
+    @media screen and (max-width: 431px) {
       display: none;
     }
-
-    //모바일 : 가로
-    @media screen and (min-width: 376px) and (max-width: 620px) {
-      //display: none;
-    }
   }
+`;
 
-  & div {
+const LoginModal = styled.div`
+  //모바일 세로
+  @media screen and (min-width: 431px) {
     display: none;
-    //모바일 : 세로
-    @media screen and (max-width: 376px) {
-      display: block;
-    }
   }
 `;
 
@@ -189,5 +189,8 @@ export default {
   NavContainer,
   NavBarContainer,
   LeftNav,
-  LogoContainerFooter
+  LogoContainerFooter,
+  LoginModal,
+  StyledNavLnkWrite,
+  GuideToggle
 };

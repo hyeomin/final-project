@@ -6,7 +6,7 @@ import { useModal } from '../../../hooks/useModal';
 import useRoleCheck from '../../../hooks/useRoleCheck';
 import { QUERY_KEYS } from '../../../query/keys';
 import { modalState } from '../../../recoil/modals';
-import { isEditingPostState, postInputState } from '../../../recoil/posts';
+import { initialPostInputState, isEditingPostState, postInputState } from '../../../recoil/posts';
 import { auth } from '../../../shared/firebase';
 import { PostType } from '../../../types/PostType';
 import { stripHtml } from '../../../util/extractContentText';
@@ -43,13 +43,7 @@ function SubmitButton() {
 
       if (postId) {
         // 내용 원상복구
-        setPostInput({
-          title: '',
-          content: '',
-          category: 'noCategory',
-          hashtags: [],
-          coverImages: []
-        });
+        setPostInput(initialPostInputState);
         // 전역상태 원상복구
         setisEditingPost({
           foundPost: null,

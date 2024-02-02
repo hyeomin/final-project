@@ -1,15 +1,14 @@
 import styled from 'styled-components';
-import theme from '../../../styles/theme';
+import theme from '../../styles/theme';
 
 const ViewAllContainer = styled.div`
   width: 1000px;
   min-height: 1544px;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    max-width: 370px;
-    min-height: 485px;
-    padding-left: 15px;
+  @media screen and (max-width: 431px) {
+    width: 100%;
+    margin-top: 30px;
   }
 `;
 
@@ -20,8 +19,8 @@ const MangoDiv = styled.div`
   column-gap: 10px;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    margin-top: 25px;
+  @media screen and (max-width: 431px) {
+    margin-top: 0;
   }
 `;
 
@@ -31,7 +30,7 @@ const MangoWord = styled.p`
   font-size: 38px;
   font-weight: 400;
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     font-size: 28px;
   }
 `;
@@ -41,7 +40,7 @@ const MangoOutWord = styled.p`
   font-size: 38px;
   font-weight: 700;
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     font-size: 28px;
   }
 `;
@@ -53,9 +52,7 @@ const MangoSUbWord = styled.p`
   margin-top: 10px;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    /* line-height: 2;
-    font-size: 15px; */
+  @media screen and (max-width: 431px) {
     display: none;
   }
 `;
@@ -66,7 +63,7 @@ const MainSubWrapper = styled.div`
   min-height: 485px;
   margin-bottom: 150px; //58에서 변경
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     margin: auto;
   }
 `;

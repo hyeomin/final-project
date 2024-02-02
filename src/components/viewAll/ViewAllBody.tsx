@@ -1,14 +1,14 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getCategoryPosts } from '../../api/pageListApi';
 import { QUERY_KEYS } from '../../query/keys';
 import { categoryListState } from '../../recoil/posts';
+import TopButton from '../about/TopButton';
 import PostList from './PostList';
 import St from './style';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import TopButton from '../about/TopButton';
 
 export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory' | 'total';
 export type SortList = 'popularity' | 'latest';
@@ -56,7 +56,7 @@ function ViewAllBody() {
     newSearchParams.set('sort', newSortBy);
     setSearchParams(newSearchParams);
 
-    navigate(`/viewAll/?${newSearchParams.toString()}`);
+    navigate(`/community/?${newSearchParams.toString()}`);
   };
 
   //prefetch

@@ -10,9 +10,8 @@ const Container = styled.div`
   gap: 50px;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    max-width: 375px;
-    min-width: 0;
+  @media screen and (max-width: 431px) {
+    width: 100%;
   }
 `;
 

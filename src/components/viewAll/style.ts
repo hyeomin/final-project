@@ -3,22 +3,29 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 const ViewAllContainer = styled.div`
-  width: 1000px;
+  /* width: 1000px; */
+  width: 100%;
+  max-width: 1000px;
   min-height: 1544px;
+
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    max-width: 370px;
-    min-height: 485px;
+  @media screen and (max-width: 431px) {
+    width: 100%;
+    /* max-width: 370px; */
+    /* min-height: 485px; */
+    /* margin: 70px 20px; */
+
+    background-color: purple;
   }
 `;
 
 /*유저 등록 데이터 (친환경노하우~습관인증) */
 const MainSubWrapper = styled.div`
   width: 100%;
-  min-height: 485px;
+  /* min-height: 485px; */
   margin-bottom: 150px; //58에서 변경
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     margin: auto;
     /* min-width: 0px;
     max-width: 370px;
@@ -30,17 +37,29 @@ const CategoryWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 30px;
+  /* margin: 30px; */
+  margin: 50px 30px;
+
+  @media screen and (max-width: 431px) {
+    flex-direction: column;
+    margin: auto;
+    /* min-width: 0px;
+    max-width: 370px;
+    min-height: 485px; */
+  }
 `;
 
 /*버튼*/
 const ButtonWrapper = styled.div`
   display: flex;
-  height: 46px;
+  /* height: 46px; */
   align-items: flex-end;
   gap: 50px;
-
   align-items: center;
+  @media screen and (max-width: 431px) {
+    justify-content: space-between;
+    gap: 0;
+  }
 `;
 
 const Button = styled.button<{ selected: boolean }>`
@@ -52,6 +71,10 @@ const Button = styled.button<{ selected: boolean }>`
   outline: none;
   cursor: pointer;
   background-color: transparent;
+
+  @media screen and (max-width: 431px) {
+    font-size: 14px;
+  }
 `;
 
 /*정렬*/
@@ -74,21 +97,41 @@ const SortWrapper = styled.ul`
     color: #222;
   }
 
-  li:not(:last-child):after {
+  /* li:not(:last-child):after {
     content: '|';
     margin-left: 10px;
     color: #999;
+  } */
+
+  @media screen and (max-width: 431px) {
+    width: 100%;
+    gap: 20;
+    background-color: lightblue;
+
+    li a {
+      font-size: 13px;
+    }
   }
 `;
 
 /*게시물*/
 const ContentsWrapper = styled.div`
+  display: flex;
   width: 100%;
   margin-bottom: 60px;
-  display: flex;
   gap: 20px;
 `;
 
+// const Contents = styled.ul`
+//   width: 100%;
+//   display: grid;
+//   grid-template-columns: 1fr 1fr 1fr 1fr;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 20px;
+// `;
+
+//희원 수정
 const Contents = styled.ul`
   width: 100%;
   display: grid;
@@ -96,6 +139,11 @@ const Contents = styled.ul`
   justify-content: center;
   align-items: center;
   gap: 20px;
+
+  @media screen and (max-width: 431px) {
+    grid-template-columns: 50% 50%;
+    gap: 0px;
+  }
 `;
 
 const Content = styled.li`
@@ -106,6 +154,11 @@ const Content = styled.li`
   border: 1px solid ${theme.color.lightgray};
   background: white; // white로 변경
   overflow: hidden; // HM
+
+  @media screen and (max-width: 431px) {
+    height: 250px;
+    margin: 5px;
+  }
 `;
 
 const HeartClickButton = styled.button<{ $isLiked: boolean }>`
@@ -119,8 +172,8 @@ const HeartClickButton = styled.button<{ $isLiked: boolean }>`
 
 const ContentImg = styled.img`
   object-fit: cover;
-  width: 100%; //345 > 233 변경 > HM 100% 변경
-  height: 210px; //420 > 280 변경 > HM 230px 변경
+  width: 100%;
+  height: 53%;
 
   &:hover {
     cursor: pointer;
@@ -143,6 +196,16 @@ const Row = styled.div`
     font-size: 12px;
     font-weight: 400;
   }
+
+  @media screen and (max-width: 431px) {
+    & p {
+      font-size: 12px; // HM 망고망 16px
+    }
+
+    span {
+      font-size: 10px;
+    }
+  }
 `;
 
 export const PostInfoContainer = styled.div`
@@ -152,6 +215,12 @@ export const PostInfoContainer = styled.div`
   row-gap: 15px;
   padding: 15px;
   font-size: 16px;
+
+  @media screen and (max-width: 431px) {
+    padding: 10px;
+    row-gap: 5px;
+    font-size: 14px;
+  }
 `;
 
 const CommentAndLikes = styled.div`
@@ -218,7 +287,6 @@ const MoreContentWrapper = styled.div`
 
     color: #fff;
     text-align: center;
-    //font-family: Apple SD Gothic Neo;
     font-size: 16px;
     font-weight: 400;
 
@@ -254,7 +322,7 @@ const MangoSUbWord = styled.p`
   font-weight: 500;
   margin-top: 10px;
   //모바일 (세로)
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     //
   }
 `;
@@ -294,12 +362,12 @@ const AdminContent = styled.li`
   }
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    width: 165px;
+  @media screen and (max-width: 431px) {
+    width: 100%;
     img {
       object-fit: cover;
-      width: 170px;
-      height: 110px;
+      width: 100%;
+      height: 70%;
       border-radius: 20px;
       &:hover {
         cursor: pointer;
@@ -317,9 +385,9 @@ const AdminPostTitle = styled.p`
   margin-bottom: 10px;
 
   //모바일 세로
-  @media screen and (max-width: 376px) {
-    font-size: 17px;
-    font-weight: 600;
+  @media screen and (max-width: 431px) {
+    /* font-size: 17px;
+    font-weight: 600; */
   }
 `;
 
@@ -333,7 +401,7 @@ const AdminPostContent = styled.div`
   font-size: 16px;
   font-weight: 400;
   //모바일 세로
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     font-size: 10px;
     font-weight: 400;
   }

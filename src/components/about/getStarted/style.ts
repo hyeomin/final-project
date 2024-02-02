@@ -76,8 +76,8 @@ const LinktoPage = styled.div`
 const ImageContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: pink;
   position: relative;
+  cursor: pointer;
 
   & img {
     width: 100%;

@@ -85,4 +85,9 @@ const Container = styled.div`
   height: 450px;
   margin-bottom: 10px;
   position: relative;
+
+  //모바일 세로
+  @media screen and (max-width: 431px) {
+    width: 100%;
+  }
 `;

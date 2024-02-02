@@ -70,11 +70,15 @@ function Editor() {
 
   const editorStyle = { height: '600px', maxHeight: '800px' };
 
+  const onContentChangeHandler = (newContent: string) => {
+    setPostInput((prevInput) => ({ ...prevInput, content: newContent }));
+  };
+
   return (
     <St.WritingArea>
       <SelectCategory />
       <input
-        defaultValue={title}
+        value={title}
         onChange={(event) => setPostInput({ ...postInput, title: event.target.value })}
         placeholder="제목을 입력하세요."
         tabIndex={1}
@@ -83,8 +87,8 @@ function Editor() {
         <ReactQuill
           style={editorStyle}
           theme="snow"
-          defaultValue={content}
-          onChange={(newContent) => setPostInput({ ...postInput, content: newContent })}
+          value={content}
+          onChange={onContentChangeHandler}
           modules={modules}
           formats={formats}
           ref={quillRef}

@@ -19,5 +19,6 @@ export const POST = {
 };
 
 export const MODAL_STATE = {
-  IS_MODAL_OPEN: 'isModalOpen'
+  IS_MODAL_OPEN: 'isModalOpen',
+  IS_AUTH: 'authCheck'
 };

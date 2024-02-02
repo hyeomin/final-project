@@ -18,6 +18,10 @@ const Container = styled.section`
     font-size: 17px;
     font-weight: 600;
   }
+
+  @media screen and (max-width: 431px) {
+    width: 100%;
+  }
 `;
 
 const Title = styled.div`

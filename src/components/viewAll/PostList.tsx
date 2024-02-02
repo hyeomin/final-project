@@ -16,6 +16,7 @@ import defaultProfile from '../../assets/defaultImg.jpg';
 import mangoCover from '../../assets/tentative-cover-image.jpg';
 import { useModal } from '../../hooks/useModal';
 import { QUERY_KEYS } from '../../query/keys';
+import { modalState } from '../../recoil/modals';
 import { categoryListState } from '../../recoil/posts';
 import { auth, db } from '../../shared/firebase';
 import { PostType } from '../../types/PostType';
@@ -24,7 +25,6 @@ import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
-import { modalState } from '../../recoil/modals';
 
 interface PostListProps {
   queryKey: QueryKey;

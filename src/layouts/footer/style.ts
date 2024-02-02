@@ -7,12 +7,12 @@ const FooterContainer = styled.div`
   padding: 10px 120px;
   color: ${theme.color.gray};
 
-  @media screen and (max-width: 376px) {
+  @media screen and (max-width: 431px) {
     display: none;
   }
-  @media screen and (min-width: 376px) and (max-width: 620px) {
+  /* @media screen and (min-width: 376px) and (max-width: 620px) {
     display: none;
-  }
+  } */
 `;
 
 const FooterContentContainer = styled.div`

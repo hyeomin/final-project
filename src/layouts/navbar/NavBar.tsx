@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { getAdminPostList } from '../../api/pageListApi';
 import logo from '../../assets/icons/mango-logo.png';
 import AuthToggle from '../../components/auth/AuthToggle';
@@ -10,11 +10,16 @@ import useOutsideClick from '../../hooks/useOutsideClick';
 import { QUERY_KEYS } from '../../query/keys';
 import { pathHistoryState } from '../../recoil/posts';
 import AuthNavBar from './AuthNavBar';
+import GuideModal from './guideModal/GuideModal';
 import St, { LogoContainer } from './style';
+import LoginModal from './loginModal/LoginModal';
+import { FaBars } from 'react-icons/fa';
+import { isAuthState } from '../../recoil/modals';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
-
+  const [isGuideModalOpen, setIsGuideModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -50,16 +55,31 @@ function NavBar() {
   };
 
   //반응형 웹 (로그인/회원가입시 : navbar 히든 / 나머지는 : 보여지기)
-  const [isAuth, setIsAuth] = useState(false);
-  console.log(isAuth);
+  const [authCheck, setAuthCheck] = useRecoilState(isAuthState);
+  const detailURL = window.location.href;
+  const CheckAuthInURL = detailURL.includes('auth');
+
   useEffect(() => {
-    const detailURL = window.location.href;
-    const isAuthInURL = detailURL.includes('auth');
-    setIsAuth(isAuthInURL);
-  }, [isAuth]);
+    if (CheckAuthInURL) {
+      setAuthCheck(true);
+    } else {
+      setAuthCheck(false);
+    }
+  }, [CheckAuthInURL]);
+
+  // Guide modal handler
+  const onToggleModal = () => {
+    setIsGuideModalOpen(!isGuideModalOpen);
+  };
+
+  // Login
+  // Guide modal handler
+  const onLoginToggleModal = () => {
+    setIsLoginModalOpen(!isLoginModalOpen);
+  };
 
   return (
-    <St.NavContainer ref={navRef} isAuth={isAuth}>
+    <St.NavContainer ref={navRef} $isAuth={authCheck}>
       <St.NavBarContainer>
         <St.LeftNav>
           <LogoContainer onClick={() => navigate('/')}>
@@ -72,11 +92,20 @@ function NavBar() {
           <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
             BY MANGO
           </NavLink>
-          <NavLink to="/viewAll" style={styledNav} onMouseEnter={handleHover}>
+          <NavLink to="/community" style={styledNav} onMouseEnter={handleHover}>
             COMMUNITY
           </NavLink>
+          <St.GuideToggle onClick={onToggleModal}>GUIDE</St.GuideToggle>
+          {isGuideModalOpen && <GuideModal onClose={onToggleModal} />}
         </St.LeftNav>
         <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
+
+        <St.LoginModal>
+          <label onClick={onLoginToggleModal}>
+            <FaBars />
+          </label>
+          {isLoginModalOpen && <LoginModal onClose={onLoginToggleModal} />}
+        </St.LoginModal>
       </St.NavBarContainer>
       {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}
     </St.NavContainer>
