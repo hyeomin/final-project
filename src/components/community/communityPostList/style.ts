@@ -11,7 +11,6 @@ export const PostContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px;
-  background-color: purple;
 
   @media screen and (max-width: 431px) {
     grid-template-columns: 50% 50%;
