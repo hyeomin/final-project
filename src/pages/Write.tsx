@@ -98,7 +98,12 @@ const Container = styled.div`
   flex-direction: column;
   row-gap: 20px;
   margin: 50px 0;
-  width: 900px;
+  width: 100%;
+  max-width: 900px;
+
+  @media screen and (max-width: 431px) {
+    margin: 0 0 50px 0;
+  }
 `;
 
 const Spacer = styled.div`

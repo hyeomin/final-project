@@ -8,6 +8,10 @@ const Container = styled.div`
   justify-content: center;
   row-gap: 60px;
   height: 2000px;
+
+  @media screen and (max-width: 431px) {
+    height: 2400px;
+  }
 `;
 
 const Title = styled.div`
@@ -27,6 +31,16 @@ const Title = styled.div`
     font-family: ${theme.font.agroBold};
     font-size: 60px;
   }
+
+  @media screen and (max-width: 431px) {
+    & p {
+      font-size: 16px;
+    }
+
+    & h3 {
+      font-size: 35px;
+    }
+  }
 `;
 
 const UsageExplanation = styled.div`
@@ -39,6 +53,24 @@ const UsageExplanation = styled.div`
   & img {
     width: 280px;
     object-fit: contain;
+    order: 1;
+  }
+
+  & div {
+    order: 2;
+  }
+
+  @media screen and (max-width: 431px) {
+    flex-direction: column;
+    row-gap: 50px;
+
+    img {
+      order: 2;
+    }
+
+    & div {
+      order: 1;
+    }
   }
 `;
 
@@ -49,6 +81,10 @@ const Bubble = styled.div`
   & img {
     width: 100%;
     object-fit: contain;
+  }
+
+  @media screen and (max-width: 431px) {
+    width: 350px;
   }
 `;
 
@@ -78,6 +114,17 @@ const TextInBubble = styled.div<StyleProps>`
   & p {
     width: 100%;
     line-height: 150%;
+  }
+
+  @media screen and (max-width: 431px) {
+    left: ${(props) => (props.$left ? '18%' : '17%')};
+    h5 {
+      font-size: 15px;
+    }
+    & p {
+      font-size: 13px;
+      width: 85%;
+    }
   }
 `;
 

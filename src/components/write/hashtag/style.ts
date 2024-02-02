@@ -14,12 +14,15 @@ const HashtagArea = styled.div`
 
 const RecommendedTags = styled.div`
   display: flex;
-  column-gap: 10px;
+  /* column-gap: 10px; */
   font-size: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
 
 const SingleHashtag = styled.span`
   display: flex;
+  flex-shrink: 0;
   justify-content: center;
   column-gap: 5px;
 
@@ -32,6 +35,16 @@ const SingleHashtag = styled.span`
 
   &:hover {
     cursor: pointer;
+    border: 1px solid ${theme.color.mangoMain};
+  }
+`;
+
+const SelectedTagList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  & span {
     border: 1px solid ${theme.color.mangoMain};
   }
 `;
@@ -61,15 +74,6 @@ const HashtagInputContainer = styled.div`
 const SearchIcon = styled.div`
   padding: 0 20px;
   border-left: 1px solid ${theme.color.lightgray};
-`;
-
-const SelectedTagList = styled.div`
-  display: flex;
-  column-gap: 10px;
-
-  & span {
-    border: 1px solid ${theme.color.mangoMain};
-  }
 `;
 
 export default { HashtagArea, RecommendedTags, SingleHashtag, HashtagInputContainer, SearchIcon, SelectedTagList };
