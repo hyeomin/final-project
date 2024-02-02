@@ -26,21 +26,22 @@ export const SinglePost = styled.div`
   border: 1px solid ${theme.color.lightgray};
   background: white;
   overflow: hidden;
-  /* margin: 10px; */
 
   @media screen and (max-width: 431px) {
     height: 320px;
     margin: 5px;
   }
 `;
+
 export const PostImg = styled.img`
   object-fit: cover;
   width: 100%;
   height: 50%;
+  cursor: pointer;
 
-  &:hover {
-    cursor: pointer;
-  }
+  /* @media screen and (max-width: 431px) {
+    height: 140px;
+  } */
 `;
 
 export const PostInfoContainer = styled.div`
@@ -52,8 +53,8 @@ export const PostInfoContainer = styled.div`
   font-size: 16px;
 
   @media screen and (max-width: 431px) {
-    padding: 10px;
-    row-gap: 5px;
+    padding: 12px;
+    row-gap: 10px;
     font-size: 14px;
   }
 `;
@@ -107,6 +108,7 @@ export const PostCardHeaderTextRow = styled.div`
   @media screen and (max-width: 431px) {
     & p {
       font-size: 13px; // HM 망고망 16px
+      text-align: start;
     }
     span {
       font-size: 11px;
@@ -130,6 +132,7 @@ export const PostTitleAndContent = styled.div`
     text-overflow: ellipsis;
     font-size: 16px;
     font-weight: bold;
+    text-align: start;
   }
 
   /* 아래 p에서 span으로 변경 */
@@ -143,6 +146,7 @@ export const PostTitleAndContent = styled.div`
     font-size: 14px;
     line-height: normal;
     color: ${theme.color.gray};
+    text-align: start;
   }
 
   @media screen and (max-width: 431px) {
