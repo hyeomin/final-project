@@ -60,7 +60,10 @@ const PreviewTitle = styled.div`
 const PreviewContainer = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 40px;
+  gap: 40px;
+  @media screen and (max-width: 431px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const SinglePreview = styled.div`

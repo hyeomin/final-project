@@ -60,21 +60,8 @@ const LeftNav = styled.div`
 
   //모바일 (세로)
   @media screen and (max-width: 431px) {
-<<<<<<< HEAD
     column-gap: 13px;
     font-size: 13px;
-    color: ${theme.color.gray};
-    & span {
-      display: none;
-    }
-  }
-
-  //모바일 (가로)
-  @media screen and (max-width: 431px) {
-=======
->>>>>>> 761323675ceba4b34e5f8c25312aead903e667ec
-    column-gap: 10px;
-    font-size: 10px;
     color: ${theme.color.gray};
     & span {
       display: none;

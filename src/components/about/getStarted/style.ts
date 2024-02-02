@@ -7,6 +7,10 @@ const GetStartedContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 600px;
+
+  @media screen and (max-width: 431px) {
+    height: 700px;
+  }
 `;
 
 const TabTitleContainer = styled.div`
@@ -30,6 +34,10 @@ const TabTitle = styled.div`
     font-size: 24px;
     padding: 10px;
   }
+
+  @media screen and (max-width: 431px) {
+    width: 250px;
+  }
 `;
 
 const ColoredBox = styled.div`
@@ -45,8 +53,15 @@ const ColoredBox = styled.div`
 
   & h5 {
     font-size: 26px;
-
     font-weight: bold;
+  }
+
+  @media screen and (max-width: 431px) {
+    padding: 40px;
+    height: 370px;
+    h5 {
+      font-size: 20px;
+    }
   }
 `;
 
@@ -64,6 +79,12 @@ const LinkContainer = styled.div`
   height: 370px;
   margin: 30px 0;
   border-radius: 10px;
+
+  @media screen and (max-width: 431px) {
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+    height: 470px;
+  }
 `;
 
 const LinktoPage = styled.div`
@@ -71,6 +92,10 @@ const LinktoPage = styled.div`
   overflow: hidden;
   padding: 5px;
   border-radius: 10px;
+
+  @media screen and (max-width: 431px) {
+    height: 100%;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -100,6 +125,7 @@ const Gradient = styled.div`
   height: 50%;
   opacity: 0.6;
   background: linear-gradient(rgba(0, 0, 0, 0) 10%, #000 100%);
+  border-radius: 10px;
 `;
 
 export default {
