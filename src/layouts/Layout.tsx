@@ -56,7 +56,7 @@ const LayoutContainer = styled.div<LayoutProps>`
   overflow: ${(props) => (props.$isModalOpen ? 'hidden' : 'unset')};
 
   @media screen and (max-width: 431px) {
-    margin: 10px 20px auto 20px;
+    //margin: 10px 20px auto 20px;
   }
 `;
 
@@ -75,6 +75,7 @@ const MainWrapper = styled.div`
     }
     max-width: 100%;
     min-width: 0;
+    margin: 70px 20px auto 20px;
   }
 
   //모바일 가로
