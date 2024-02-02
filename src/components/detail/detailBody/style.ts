@@ -114,8 +114,10 @@ const DetailInfo = styled.div`
   display: flex;
   column-gap: 12px;
   align-items: center;
+
   & div {
     display: flex;
+    align-items: center;
     column-gap: 7px;
   }
 `;
