@@ -48,6 +48,7 @@ const SingleMember = styled.div`
   column-gap: 5px;
   padding: 0 15px;
   /* border-right: 1px solid ${theme.color.gray}; */
+  margin-right: -15px;
 
   & img {
     width: 12px;

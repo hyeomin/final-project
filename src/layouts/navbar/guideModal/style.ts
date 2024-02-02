@@ -20,9 +20,9 @@ const ModalBackdrop = styled.div`
 `;
 
 const ModalContent = styled.div`
-  padding: 25px;
+  padding: 40px;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   height: auto;
   background: white;
   border-radius: 10px;
@@ -60,7 +60,7 @@ const NavButton = styled.div`
   & span {
     display: flex;
     align-items: end;
-    font-size: 30px;
+    font-size: 50px;
     color: ${theme.color.gray};
   }
 

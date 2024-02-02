@@ -138,27 +138,32 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     onMutate: async (params: PostCardProps) => {
       const { postId: selectedPostId } = params;
 
-      await queryClient.cancelQueries({ queryKey: [category] });
+      await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS, category] });
 
       //이전 데이터 저장
-      const previousPosts = queryClient.getQueriesData<InfiniteData<PostType[]> | undefined>({ queryKey: [category] });
-
-      queryClient.setQueriesData<InfiniteData<PostType[]> | undefined>({ queryKey: [category] }, (prevPosts) => {
-        if (!prevPosts) {
-          return {
-            pages: [],
-            pageParams: []
-          };
-        }
-
-        // pages 배열 내의 모든 페이지를 펼칩니다.
-        const updatedPages = prevPosts.pages.map((posts) =>
-          posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
-        );
-
-        // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
-        return { ...prevPosts, pages: updatedPages };
+      const previousPosts = queryClient.getQueriesData<InfiniteData<PostType[]> | undefined>({
+        queryKey: [QUERY_KEYS.POSTS, category]
       });
+
+      queryClient.setQueriesData<InfiniteData<PostType[]> | undefined>(
+        { queryKey: [QUERY_KEYS.POSTS, category] },
+        (prevPosts) => {
+          if (!prevPosts) {
+            return {
+              pages: [],
+              pageParams: []
+            };
+          }
+
+          // pages 배열 내의 모든 페이지를 펼칩니다.
+          const updatedPages = prevPosts.pages.map((posts) =>
+            posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
+          );
+
+          // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
+          return { ...prevPosts, pages: updatedPages };
+        }
+      );
 
       //context에 이전 데이터 저장
       return { previousPosts };
@@ -169,7 +174,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [category] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS, category] });
     }
   });
 

@@ -64,19 +64,19 @@ function CommunityBodyTest() {
   const queryClient = useQueryClient(); // queryClient 사용
   const handleHover = async () => {
     const queriesToPrefetch = [
-      { queryKey: QUERY_KEYS.KNOWHOW, queryFn: getCategoryPosts('knowHow') },
-      { queryKey: QUERY_KEYS.RECOMMEND, queryFn: getCategoryPosts('recommendation') },
-      { queryKey: QUERY_KEYS.SHARE, queryFn: getCategoryPosts('sharing') },
-      { queryKey: QUERY_KEYS.HABIT, queryFn: getCategoryPosts('habit') },
-      { queryKey: QUERY_KEYS.TOTAL, queryFn: getCategoryPosts('total') },
-      { queryKey: QUERY_KEYS.NOCATEGORY, queryFn: getCategoryPosts('noCategory') }
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.KNOWHOW], queryFn: getCategoryPosts('knowHow') },
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.RECOMMEND], queryFn: getCategoryPosts('recommendation') },
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.SHARE], queryFn: getCategoryPosts('sharing') },
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.HABIT], queryFn: getCategoryPosts('habit') },
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.TOTAL], queryFn: getCategoryPosts('total') },
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.NOCATEGORY], queryFn: getCategoryPosts('noCategory') }
 
       // 다른 queryKey와 queryFn을 추가할 수 있습니다.
     ];
 
     for (const { queryKey, queryFn } of queriesToPrefetch) {
       await queryClient.prefetchInfiniteQuery({
-        queryKey: [queryKey],
+        queryKey: queryKey,
         queryFn: queryFn,
         initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
         staleTime: 60_000
@@ -135,7 +135,7 @@ function CommunityBodyTest() {
           </li>
         </St.SortingWrapper>
       </St.CommunityNavBar>
-      <CommunityPostList queryKey={[category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} />
+      <CommunityPostList queryKey={[QUERY_KEYS.POSTS, category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} />
       {/* <PostList queryKey={[category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} /> */}
       <TopButton />
     </St.CommunityContainer>

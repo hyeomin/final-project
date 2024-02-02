@@ -71,7 +71,7 @@ function GuideModal({ onClose }: ModalProps) {
             )}
           </St.NavButton>
           <St.NavButton onClick={goNext}>
-            {currentIndex < 6 && (
+            {currentIndex < 5 && (
               <span>
                 <GoChevronRight />
               </span>

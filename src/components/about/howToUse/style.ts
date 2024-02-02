@@ -8,10 +8,6 @@ const Container = styled.div`
   justify-content: center;
   row-gap: 60px;
   height: 2000px;
-
-  @media screen and (max-width: 431px) {
-    height: 2400px;
-  }
 `;
 
 const Title = styled.div`
