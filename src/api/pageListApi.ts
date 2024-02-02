@@ -22,13 +22,13 @@ import { db } from '../shared/firebase';
 //   }: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
 
 export const getAdminPostList = async (context: {
-  //queryKey: string[];
-  //signal: AbortSignal;
   pageParam: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined;
-  //direction: FetchDirection;
-  //meta: Record<string, unknown> | undefined;
 }) => {
   const { pageParam } = context;
+
+  // if (pageParam === undefined) return;
+  console.log('pageParam', pageParam);
+
   const q = pageParam
     ? query(
         collection(db, 'posts'),
@@ -38,6 +38,8 @@ export const getAdminPostList = async (context: {
         limit(3)
       )
     : query(collection(db, 'posts'), where('role', '==', 'admin'), orderBy('createdAt', 'desc'), limit(3));
+
+  console.log(q);
 
   const querySnapShot = await getDocs(q);
   return querySnapShot.docs;
