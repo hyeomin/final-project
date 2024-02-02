@@ -15,10 +15,10 @@ import PostContentPreview from '../../../common/PostContentPreview';
 import St from './style';
 import UserDetail from '../../UserDetail';
 import CarouselSkeleton from './skeleton/CarouselSkeleton';
+import { auth } from '../../../../shared/firebase';
 
 const Carousel = () => {
-  const authContext = useContext(AuthContext);
-  const currentUserId = authContext?.currentUser?.uid;
+  const currentUserId = auth.currentUser?.uid;
 
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['posts', 'popular'],
