@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { Link } from 'react-router-dom';
@@ -30,7 +30,36 @@ const Carousel = () => {
   // console.log('인기게시물==>', popularPosts);
   const onClickLikeButton = useLikeButton();
 
-  const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, 4);
+  //kim
+  /*---------------------------------- */
+  const [slideCnt, setSlideCnt] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const screenWidth = window.innerWidth;
+      console.log('dd', screenWidth);
+      if (screenWidth <= 431) {
+        // 모바일용
+        setSlideCnt(1);
+      } else {
+        // PC용
+        setSlideCnt(4);
+      }
+    };
+
+    handleResize();
+
+    // 창 크기 조정 이벤트 리스너 추가
+    window.addEventListener('resize', handleResize);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 정리
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  /*---------------------------------- */
+
+  const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, slideCnt);
 
   if (isLoading) {
     return <CarouselSkeleton />;
@@ -47,7 +76,7 @@ const Carousel = () => {
         {popularPosts && popularPosts.length === 0 ? (
           <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
         ) : (
-          popularPosts?.slice(currentSlide, currentSlide + 4).map((post) => {
+          popularPosts?.slice(currentSlide, currentSlide + slideCnt).map((post) => {
             return (
               <Link key={post.id} to={`/detail/${post.id}`}>
                 <St.Slide>

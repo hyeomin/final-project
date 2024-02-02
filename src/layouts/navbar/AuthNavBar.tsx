@@ -21,7 +21,6 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
   const setIsSignUp = useSetRecoilState(isSignUpState);
 
   const currentUser = auth.currentUser;
-
   const navigate = useNavigate();
 
   const onAuthCheckHandler = (event: React.MouseEvent<HTMLAnchorElement>) => {

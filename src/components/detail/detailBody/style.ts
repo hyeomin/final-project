@@ -88,6 +88,16 @@ const ContentBody = styled.div`
   strong {
     font-weight: bold;
   }
+
+  //모바일 (세로)
+  @media screen and (max-width: 431px) {
+    img {
+      width: 350px;
+      height: 100%;
+      object-fit: cover;
+    }
+    width: 100%;
+  }
 `;
 
 const AdditionalInfoContainer = styled.div`
