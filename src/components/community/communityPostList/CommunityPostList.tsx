@@ -12,7 +12,6 @@ import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getAllUsers } from '../../../api/authApi';
-import defaultProfile from '../../../assets/defaultImg.jpg';
 import mangoCover from '../../../assets/tentative-cover-image.jpg';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
@@ -23,13 +22,14 @@ import { PostType } from '../../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
 import Loader from '../../common/Loader';
 import PostContentPreview from '../../common/PostContentPreview';
+import UserDetail from '../../main/UserDetail';
 import { SortList } from '../../viewAll/ViewAllBody';
 import St, {
-  AuthorProfileImg,
+  AuthorNameAndDate,
   CommentAndLikes,
   HeartClickButton,
   PostCardHeader,
-  PostCardHeaderTextRow,
+  PostCardHeaderLeft,
   PostContainer,
   PostImg,
   PostInfoContainer,
@@ -236,16 +236,22 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
                     <PostInfoContainer>
                       {userList && userList?.find((user) => user.uid === post.uid) && (
                         <PostCardHeader>
-                          <div>
-                            <AuthorProfileImg
+                          <PostCardHeaderLeft>
+                            <UserDetail userId={post.uid} type="profileImg" />
+
+                            {/* <AuthorProfileImg
                               src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
                               alt="profile"
-                            />
-                            <PostCardHeaderTextRow>
-                              <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
-                              <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
-                            </PostCardHeaderTextRow>
-                          </div>
+                            /> */}
+                            {/* <PostCardHeaderTextRow> */}
+                            <AuthorNameAndDate>
+                              <UserDetail userId={post.uid} type="displayName" />
+                              {/* <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p> */}
+                              <p>{getFormattedDate_yymmdd(post.createdAt!)}</p>
+                            </AuthorNameAndDate>
+
+                            {/* </PostCardHeaderTextRow> */}
+                          </PostCardHeaderLeft>
                           {/* 하트 클릭하는 버튼 */}
                           <HeartClickButton
                             onClick={(e) => handleClickLikeButton(e, post.id, post)}

@@ -25,7 +25,8 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
 
   const { data: author } = useQuery({
     queryKey: [QUERY_KEYS.USERS, foundDetailPost.uid],
-    queryFn: () => getUser(foundDetailPost.uid)
+    queryFn: () => getUser(foundDetailPost.uid),
+    staleTime: 60_000
   });
 
   // const author = userList?.find((user) => user.uid === foundDetailPost.uid);

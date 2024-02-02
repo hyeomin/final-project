@@ -13,7 +13,8 @@ type Props = {
 function PostShift({ postId }: Props) {
   const { data: postList } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
-    queryFn: getPosts
+    queryFn: getPosts,
+    staleTime: 60_000
   });
 
   const [postIndexNumber, setPostIndexNumber] = useState(0);

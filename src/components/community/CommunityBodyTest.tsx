@@ -8,7 +8,7 @@ import { QUERY_KEYS } from '../../query/keys';
 import { categoryListState } from '../../recoil/posts';
 import TopButton from '../about/TopButton';
 // import PostList from './PostList';
-import CommunityPostList from './communityPostList/CommunityPostListTest';
+import CommunityPostList from './communityPostList/CommunityPostList';
 import St from './style';
 
 export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory' | 'total';
