@@ -4,6 +4,9 @@ import theme from '../../styles/theme';
 const CommunityContainer = styled.div`
   width: 100%;
   max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  background-color: pink;
 
   //모바일 세로
   @media screen and (max-width: 431px) {

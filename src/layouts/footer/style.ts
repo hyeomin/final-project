@@ -47,7 +47,7 @@ const SingleMember = styled.div`
   display: flex;
   column-gap: 5px;
   padding: 0 15px;
-  border-right: 1px solid ${theme.color.gray};
+  /* border-right: 1px solid ${theme.color.gray}; */
 
   & img {
     width: 12px;

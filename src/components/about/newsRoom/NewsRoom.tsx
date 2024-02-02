@@ -41,7 +41,7 @@ function NewsRoom() {
   });
 
   const handleSlideChange = (swiper: SwiperClass) => {
-    setCurrentIndex(swiper.activeIndex);
+    setCurrentIndex(swiper.realIndex);
   };
 
   return (
@@ -60,15 +60,20 @@ function NewsRoom() {
               onSwiper={setSwiperInstance}
               onSlideChange={handleSlideChange}
               breakpoints={{
-                1500: {
+                1200: {
                   spaceBetween: 20,
                   slidesPerView: 4
                 },
-                1000: {
+                900: {
+                  spaceBetween: 20,
                   slidesPerView: 3
                 },
+                650: {
+                  spaceBetween: 10,
+                  slidesPerView: 2
+                },
                 431: {
-                  spaceBetween: 0,
+                  spaceBetween: 10,
                   slidesPerView: 1
                 }
               }}

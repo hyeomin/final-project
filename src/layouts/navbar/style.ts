@@ -42,7 +42,8 @@ const NavBarContainer = styled.div`
   //모바일 (세로)
   @media screen and (max-width: 431px) {
     padding: 0;
-    width: 90%;
+    width: 93%;
+    margin: 10px;
   }
 `;
 
@@ -60,8 +61,8 @@ const LeftNav = styled.div`
 
   //모바일 (세로)
   @media screen and (max-width: 431px) {
-    column-gap: 13px;
-    font-size: 13px;
+    column-gap: 10px;
+    font-size: 10px;
     color: ${theme.color.gray};
     & span {
       display: none;

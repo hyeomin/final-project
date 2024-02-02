@@ -61,6 +61,7 @@ const PreviewContainer = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 40px;
+
   @media screen and (max-width: 431px) {
     grid-template-columns: 1fr;
   }

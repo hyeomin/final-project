@@ -41,7 +41,7 @@ const SwiperContainer = styled.div`
 
   @media screen and (max-width: 431px) {
     height: 670px;
-    padding: 40px;
+    padding: 60px;
   }
 `;
 
@@ -74,6 +74,9 @@ const NewsRoomTitle = styled.div`
 const StyledSwiper = styled(Swiper)`
   width: 100%;
   height: 340px;
+
+  @media screen and (max-width: 431px) {
+  }
 `;
 
 const SingleSlide = styled.div`
@@ -85,17 +88,12 @@ const SingleSlide = styled.div`
   box-shadow: -2px 0px 6px 0px rgba(0, 0, 0, 0.15), 2px 4px 6px 0px rgba(0, 0, 0, 0.15);
   background-color: white;
   padding: 5px;
-  /* margin: 0 10px; */
 
   & img {
     width: 100%;
     height: 55%;
     object-fit: cover;
     border-radius: 10px;
-  }
-
-  @media screen and (max-width: 431px) {
-    width: 80%;
   }
 `;
 
@@ -135,6 +133,14 @@ const NavigationButtonContainer = styled.div`
 
   & img {
     width: 25px;
+  }
+
+  @media screen and (max-width: 431px) {
+    width: 80vw;
+
+    & img {
+      width: 20px;
+    }
   }
 `;
 
