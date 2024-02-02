@@ -12,11 +12,17 @@ const Container = styled.section`
     color: #000;
     font-size: 28px;
     font-weight: 700;
+    @media screen and (max-width: 431px) {
+      font-size: 26px;
+    }
   }
   & h3 {
     color: #ffa114;
     font-size: 17px;
     font-weight: 600;
+    @media screen and (max-width: 431px) {
+      font-size: 14px;
+    }
   }
 
   @media screen and (max-width: 431px) {

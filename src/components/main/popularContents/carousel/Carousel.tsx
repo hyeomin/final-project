@@ -17,6 +17,11 @@ import UserDetail from '../../UserDetail';
 import CarouselSkeleton from './skeleton/CarouselSkeleton';
 import { auth } from '../../../../shared/firebase';
 
+import { Swiper, SwiperClass, SwiperSlide, useSwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Navigation, Pagination } from 'swiper/modules';
+
 const Carousel = () => {
   const currentUserId = auth.currentUser?.uid;
 
@@ -30,35 +35,9 @@ const Carousel = () => {
   // console.log('인기게시물==>', popularPosts);
   const onClickLikeButton = useLikeButton();
 
-  //kim
-  /*---------------------------------- */
-  const [slideCnt, setSlideCnt] = useState(0);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const screenWidth = window.innerWidth;
-      if (screenWidth <= 431) {
-        // 모바일용
-        setSlideCnt(4);
-      } else {
-        // PC용
-        setSlideCnt(4);
-      }
-    };
-
-    handleResize();
-
-    // 창 크기 조정 이벤트 리스너 추가
-    window.addEventListener('resize', handleResize);
-
-    // 컴포넌트 언마운트 시 이벤트 리스너 정리
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-  /*---------------------------------- */
-
-  const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, slideCnt);
+  let swiperCnt = 5;
+  const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, swiperCnt);
+  //const swiperSlide = useSwiperSlide();
 
   return (
     <St.Container>
@@ -67,67 +46,107 @@ const Carousel = () => {
           <SlArrowLeft />
         </St.Button>
       )}
-      <St.SlideWrapper>
+
+      <Swiper
+        pagination={{
+          clickable: true
+        }}
+        modules={[Pagination, Navigation]}
+        className="mySwiper"
+        //swiper가 initialization 되자마자 사라지는 부분으로 swiper instance를 받는 callback함수
+        //onSwiper={setSwiperInstance}
+        //  onSlideChange={handleSlideChange}
+
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper: SwiperClass) => console.log(swiper)}
+        navigation={true}
+        breakpoints={{
+          1200: {
+            spaceBetween: 20,
+            slidesPerView: 4
+          },
+          900: {
+            spaceBetween: 20,
+            slidesPerView: 3
+          },
+          650: {
+            spaceBetween: 10,
+            slidesPerView: 2
+          },
+          431: {
+            spaceBetween: 10,
+            slidesPerView: 3
+          }
+        }}
+      >
+        {/* <St.SlideWrapper> */}
         {popularPosts && popularPosts.length === 0 ? (
           <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
         ) : (
-          popularPosts?.slice(currentSlide, currentSlide + slideCnt).map((post) => {
+          popularPosts?.slice(currentSlide, currentSlide + swiperCnt).map((post, idx) => {
             return (
               <Link key={post.id} to={`/detail/${post.id}`}>
                 {/* <CarouselSkeleton /> */}
-                <St.Slide>
-                  <St.CoverImage>
-                    <img
-                      src={
-                        post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoDefaultCover
-                      }
-                      alt={post.title}
-                    />
-                  </St.CoverImage>
-                  <St.SlideHeader>
-                    <div>
-                      <St.UserProfileImage>
-                        <UserDetail userId={post.uid} type="profileImg" />
-                      </St.UserProfileImage>
-                      <UserDetail userId={post.uid} type="displayName" />
-                    </div>
-                    <button type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
-                      {currentUserId && post.likedUsers?.includes(currentUserId) ? (
-                        <St.HeartFillIcon />
-                      ) : (
-                        <St.HeartIcon />
-                      )}
-                    </button>
-                  </St.SlideHeader>
-                  <St.SlideBottom>
-                    <St.TitleAndContent>
-                      <h1>{post.title}</h1>
+
+                <SwiperSlide key={idx}>
+                  <St.Slide>
+                    <St.CoverImage>
+                      <img
+                        src={
+                          post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoDefaultCover
+                        }
+                        alt={post.title}
+                      />
+                    </St.CoverImage>
+                    <St.SlideHeader>
                       <div>
-                        <PostContentPreview postContent={post.content || ''} />
+                        <St.UserProfileImage>
+                          <UserDetail userId={post.uid} type="profileImg" />
+                        </St.UserProfileImage>
+                        <St.UserProfileName>
+                          <UserDetail userId={post.uid} type="displayName" />
+                        </St.UserProfileName>
                       </div>
-                    </St.TitleAndContent>
-                    <St.InteractionInfo>
-                      <div>
-                        <GoEye />
-                        <span>{post.viewCount?.toLocaleString() || 0}</span>
-                      </div>
-                      <div>
-                        <GoHeart />
-                        <span>{post.likeCount?.toLocaleString() || 0}</span>
-                      </div>
-                      <div>
-                        <GoComment />
-                        <span>{post.commentCount?.toLocaleString() || 0}</span>
-                      </div>
-                    </St.InteractionInfo>
-                  </St.SlideBottom>
-                </St.Slide>
+                      <button type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
+                        {currentUserId && post.likedUsers?.includes(currentUserId) ? (
+                          <St.HeartFillIcon />
+                        ) : (
+                          <St.HeartIcon />
+                        )}
+                      </button>
+                    </St.SlideHeader>
+                    <St.SlideBottom>
+                      <St.TitleAndContent>
+                        <h1>{post.title}</h1>
+                        <div>
+                          <PostContentPreview postContent={post.content || ''} />
+                        </div>
+                      </St.TitleAndContent>
+                      <St.InteractionInfo>
+                        <div>
+                          <GoEye />
+                          <span>{post.viewCount?.toLocaleString() || 0}</span>
+                        </div>
+                        <div>
+                          <GoHeart />
+                          <span>{post.likeCount?.toLocaleString() || 0}</span>
+                        </div>
+                        <div>
+                          <GoComment />
+                          <span>{post.commentCount?.toLocaleString() || 0}</span>
+                        </div>
+                      </St.InteractionInfo>
+                    </St.SlideBottom>
+                  </St.Slide>
+                </SwiperSlide>
               </Link>
             );
           })
         )}
-      </St.SlideWrapper>
-      {popularPosts && currentSlide < popularPosts.length - 4 && (
+        {/* </St.SlideWrapper> */}
+      </Swiper>
+
+      {popularPosts && currentSlide < popularPosts.length - swiperCnt && (
         <St.Button type="button" onClick={handleNext} $buttonType="next">
           <SlArrowRight />
         </St.Button>

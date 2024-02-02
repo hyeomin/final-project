@@ -29,7 +29,7 @@ const NavContainer = styled.div<NavProps>`
 
 const NavBarContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 0 80px;
   height: 60px;
@@ -175,6 +175,14 @@ const LoginModal = styled.div`
   }
 `;
 
+const RightNav = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 10px;
+  padding-left: 10px;
+`;
+
 export default {
   AuthContainer,
   StyledNavLnk,
@@ -182,6 +190,7 @@ export default {
   NavContainer,
   NavBarContainer,
   LeftNav,
+  RightNav,
   LogoContainerFooter,
   LoginModal,
   StyledNavLnkWrite,
