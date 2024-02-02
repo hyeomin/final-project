@@ -23,8 +23,7 @@ const Carousel = () => {
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['posts', 'popular'],
     queryFn: getPopularPosts,
-    staleTime: 5 * 6 * 1000
-    // staleTime: Infinity
+    staleTime: 60_000
   });
 
   // console.log('인기게시물==>', popularPosts);
@@ -37,7 +36,7 @@ const Carousel = () => {
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
-      console.log('dd', screenWidth);
+      // console.log('dd', screenWidth);
       if (screenWidth <= 431) {
         // 모바일용
         setSlideCnt(1);
@@ -69,13 +68,13 @@ const Carousel = () => {
         </St.Button>
       )}
       <St.SlideWrapper>
-        {popularPosts && popularPosts.length === 0 ? (
+        {isLoading && <CarouselSkeleton />}
+        {popularPosts?.length === 0 ? (
           <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
         ) : (
           popularPosts?.slice(currentSlide, currentSlide + slideCnt).map((post) => {
             return (
               <Link key={post.id} to={`/detail/${post.id}`}>
-                {/* <CarouselSkeleton /> */}
                 <St.Slide>
                   <St.CoverImage>
                     <img

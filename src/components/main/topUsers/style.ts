@@ -33,6 +33,7 @@ const Title = styled.div`
 `;
 
 const UserList = styled.div`
+  /* background-color: red; */
   width: 85%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -45,6 +46,7 @@ const UserList = styled.div`
 `;
 
 const UserInfo = styled.div`
+  /* background-color: aliceblue; */
   display: flex;
   flex-direction: column;
   justify-content: start;

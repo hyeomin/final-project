@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { getAdminPostList } from '../../api/pageListApi';
 import { QUERY_KEYS } from '../../query/keys';
-import PostListAdmin from '../viewAll/PostListAdmin';
 import { SortList } from '../viewAll/ViewAllBody';
 import St from './styles';
+import PostListAdmin from '../viewAll/PostListAdmin';
 
 function MangoBody() {
   const [sortBy, setSortBy] = useState<SortList>('latest');
