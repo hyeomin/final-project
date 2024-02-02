@@ -40,6 +40,27 @@ const StyleCalendar = styled.div`
     color: black;
   }
 
+  .react-calendar__navigation button {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .react-calendar__year-view {
+    margin-top: 70px;
+  }
+
+  .react-calendar__decade-view {
+    margin-top: 70px;
+  }
+
+  .react-calendar__century-view {
+    margin-top: 70px;
+  }
+
+  .react-calendar__tile--hasActive {
+    background-color: ${theme.color.mangoLight};
+  }
   .react-calendar__tile--active:enabled:hover,
   .react-calendar__tile--active:enabled:focus {
     background: ${theme.color.mangoLight};
@@ -87,6 +108,8 @@ const StyleCalendar = styled.div`
   .react-calendar__month-view__weekdays__weekday {
     height: 70px;
     font-weight: 500;
+    margin-top: 50px;
+
     @media screen and (max-width: 431px) {
       font-size: 0.6rem;
       height: 60px;
@@ -112,6 +135,7 @@ const CalendarIntroduce = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 30px;
   @media screen and (max-width: 431px) {
     font-size: 14px;
   }

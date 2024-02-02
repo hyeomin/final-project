@@ -66,7 +66,7 @@ function MyProfile() {
   const { data: myPosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
     queryFn: getMyPosts,
-    staleTime: 1000 * 60,
+    staleTime: 60_000,
     enabled: !!authCurrentUser
   });
 
@@ -349,34 +349,34 @@ function MyProfile() {
               <St.MyNickname>{authCurrentUser?.displayName || ''}</St.MyNickname>
             )}
           </div>
-          <St.MyEmail>{authCurrentUser?.email}</St.MyEmail>
+          {isEditing ? null : <St.MyEmail>{authCurrentUser?.email}</St.MyEmail>}
           <St.UserInfoModify>
             {isEditing ? (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+              <St.ModifyBox>
                 <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
-                <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
-                <St.ModifyButton
-                  onClick={onSubmitModifyProfile}
-                  disabled={
-                    !displayName ||
-                    (displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL) ||
-                    !isValid
-                  }
-                >
-                  수정완료
-                </St.ModifyButton>
+                <div style={{ display: 'flex', gap: '5px' }}>
+                  <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
+                  <St.ModifyButton
+                    onClick={onSubmitModifyProfile}
+                    disabled={
+                      !displayName ||
+                      (displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL) ||
+                      !isValid
+                    }
+                  >
+                    수정완료
+                  </St.ModifyButton>
+                </div>
                 <St.ErrorMsg>
                   {!isValid && errorMsg !== '변경된 내용이 없습니다.' && <span>{errorMsg}</span>}
                   {displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL && (
                     <span>변경된 내용이 없습니다.</span>
                   )}
                 </St.ErrorMsg>
-              </div>
+              </St.ModifyBox>
             ) : (
               <>
-                <St.ProfileModifyBtn style={{ cursor: 'pointer' }} onClick={() => setIsEditing(true)}>
-                  프로필 수정
-                </St.ProfileModifyBtn>
+                <St.ProfileModifyBtn onClick={() => setIsEditing(true)}>프로필 수정</St.ProfileModifyBtn>
               </>
             )}
           </St.UserInfoModify>

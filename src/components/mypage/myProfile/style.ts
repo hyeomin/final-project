@@ -44,6 +44,7 @@ const MySectionWrapper = styled.div`
 `;
 const ProfileEditWrapper = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   column-gap: 30px;
   padding: 40px 60px;
@@ -89,6 +90,14 @@ const PenWrapper = styled.div`
   }
 `;
 
+const ModifyBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  @media screen and (max-width: 431px) {
+  }
+`;
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -106,13 +115,16 @@ const ProfileInfo = styled.div`
 
 const ProfileModifyBtn = styled.div`
   width: 90px;
-  height: 30px;
+  height: 25px;
   background-color: ${theme.color.mangoMain};
   color: white;
-  font-size: 14px;
+  font-size: 12px;
   border-radius: 30px;
-  padding: 8px;
+  padding: 7px;
   margin-top: 7px;
+  &:hover {
+    cursor: pointer;
+  }
 
   @media screen and (max-width: 431px) {
     margin-top: 2px;
@@ -196,8 +208,10 @@ const LevelEmoji = styled.div`
 `;
 
 const Level = styled.div`
-  margin-top: 0px;
+  margin-top: 10px;
+
   @media screen and (max-width: 431px) {
+    margin-top: 0px;
   }
 `;
 
@@ -246,14 +260,13 @@ const profileImg = styled.div`
 `;
 
 const ModifyButton = styled.button`
-  width: 80px;
-  height: 30px;
+  width: 70px;
+  height: 25px;
   border-radius: 30px;
   border: none;
-  font-size: 12px;
+  font-size: 10px;
   color: white;
-  margin-top: 15px;
-  margin-left: 5px;
+  margin-top: 10px;
   background-color: ${theme.color.mangoMain};
   font-weight: 600;
   &:hover {
@@ -323,7 +336,7 @@ const MyImage = styled.img`
 
 const MyNickname = styled.h1`
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   @media screen and (max-width: 431px) {
     width: 100%;
     height: 100%;
@@ -466,7 +479,7 @@ const TabButton = styled.button<TabButtonProps>`
 const ErrorMsg = styled.div`
   color: red;
   font-size: 12px;
-  margin-left: 10px;
+  margin-left: 5px;
 
   @media screen and (max-width: 431px) {
     font-size: 10px;
@@ -490,6 +503,7 @@ export default {
   DisplayNameModify,
   UserInfoModify,
   ProfileInfo,
+  ModifyBox,
   PostInfoIcon,
   UserPostInfoContainer,
   PostInfoBox,
