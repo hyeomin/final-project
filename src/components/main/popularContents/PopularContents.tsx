@@ -10,9 +10,10 @@ import { QUERY_KEYS } from '../../../query/keys';
 import '../swiperStyle.css';
 import Carousel from './carousel/Carousel';
 import St from './style';
+import CarouselSkeleton from './carousel/skeleton/CarouselSkeleton';
 
 const PopularContents = () => {
-  console.log('PopularContents 렌더링!');
+  // console.log('PopularContents 렌더링!');
   // hover 시 prefetch 함수
   const queryClient = useQueryClient();
   const handleHover = async () => {

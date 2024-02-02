@@ -18,10 +18,10 @@ const AdminContentsTest = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const { data: adminContents, isLoading } = useQuery({
-    queryKey: ['adminContents'],
+    queryKey: ['posts', 'admin'],
     queryFn: getAdminPosts,
-    // staleTime: 5 * 6 * 1000
-    staleTime: Infinity
+    staleTime: 5 * 6 * 1000
+    // staleTime: Infinity
   });
 
   const handleSlideChange = (swiper: SwiperClass) => {

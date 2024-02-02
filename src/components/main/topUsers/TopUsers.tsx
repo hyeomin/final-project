@@ -10,10 +10,10 @@ const TopUsers = () => {
   console.log('TopUsers 렌더링!');
 
   const { data: topUsers } = useQuery({
-    queryKey: ['topUsers'],
+    queryKey: ['posts', 'topUsers'],
     queryFn: getTopUsers,
-    // staleTime: 5 * 6 * 1000
-    staleTime: Infinity
+    staleTime: 5 * 6 * 1000
+    // staleTime: Infinity
   });
 
   return (

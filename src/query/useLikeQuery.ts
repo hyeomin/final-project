@@ -13,12 +13,12 @@ const useLikeQuery = () => {
     mutationFn: updateLikedUsers,
 
     onMutate: async ({ id, currentUserId }) => {
-      await queryClient.cancelQueries({ queryKey: ['popularPosts'] });
-      const previousPosts = queryClient.getQueryData<PostType[]>(['posts']);
+      await queryClient.cancelQueries({ queryKey: ['posts', 'popular'] });
+      const previousPosts = queryClient.getQueryData<PostType[]>(['posts', 'popular']);
 
       if (currentUserId) {
         // 옵티미스틱 업데이트
-        queryClient.setQueryData(['popularPosts'], (old: PostType[] | []) => {
+        queryClient.setQueryData(['posts', 'popular'], (old: PostType[] | []) => {
           return old.map((p) => {
             if (p.id === id) {
               // 현재 사용자가 이미 '좋아요'를 눌렀는지 확인
