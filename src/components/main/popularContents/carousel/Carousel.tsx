@@ -37,10 +37,9 @@ const Carousel = () => {
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth;
-      console.log('dd', screenWidth);
       if (screenWidth <= 431) {
         // 모바일용
-        setSlideCnt(1);
+        setSlideCnt(4);
       } else {
         // PC용
         setSlideCnt(4);

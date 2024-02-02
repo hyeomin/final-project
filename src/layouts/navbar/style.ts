@@ -121,6 +121,11 @@ const AuthContainer = styled.div`
 
 const StyledNavLnkWrite = styled(NavLink)`
   font-weight: normal;
+
+  //모바일 : 세로
+  @media screen and (max-width: 431px) {
+    font-size: 10px;
+  }
 `;
 
 const StyledNavLnk = styled(NavLink)`

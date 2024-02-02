@@ -40,7 +40,7 @@ const UserList = styled.div`
   gap: 10px;
   @media screen and (max-width: 431px) {
     width: 100%;
-    grid-template-columns: repeat(3, 1fr);
+    //grid-template-columns: repeat(3, 1fr);
   }
 `;
 
@@ -51,6 +51,9 @@ const UserInfo = styled.div`
   align-items: center;
   width: 100%;
   height: 200px;
+  @media screen and (max-width: 431px) {
+    height: 130px;
+  }
 `;
 
 const ProfileImage = styled.div`
@@ -62,6 +65,11 @@ const ProfileImage = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  @media screen and (max-width: 431px) {
+    width: 40px;
+    height: 40px;
   }
 `;
 
@@ -76,6 +84,9 @@ const UserName = styled.div`
   & img {
     width: 20px;
     height: 20px;
+  }
+  @media screen and (max-width: 431px) {
+    font-size: 9px;
   }
 `;
 

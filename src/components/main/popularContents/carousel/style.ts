@@ -77,7 +77,8 @@ const Slide = styled.div`
     bottom: 0;
   }
   @media screen and (max-width: 431px) {
-    width: 270px;
+    width: 100px;
+
     display: flex;
     flex-wrap: wrap;
   }
