@@ -21,10 +21,10 @@ const Carousel = () => {
   const currentUserId = authContext?.currentUser?.uid;
 
   const { data: popularPosts, isLoading } = useQuery({
-    queryKey: ['popularPosts'],
+    queryKey: ['posts', 'popular'],
     queryFn: getPopularPosts,
-    // staleTime: 5 * 6 * 1000
-    staleTime: Infinity
+    staleTime: 5 * 6 * 1000
+    // staleTime: Infinity
   });
 
   // console.log('인기게시물==>', popularPosts);
@@ -61,10 +61,6 @@ const Carousel = () => {
 
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, slideCnt);
 
-  if (isLoading) {
-    return <CarouselSkeleton />;
-  }
-
   return (
     <St.Container>
       {currentSlide > 0 && (
@@ -79,22 +75,20 @@ const Carousel = () => {
           popularPosts?.slice(currentSlide, currentSlide + slideCnt).map((post) => {
             return (
               <Link key={post.id} to={`/detail/${post.id}`}>
+                {/* <CarouselSkeleton /> */}
                 <St.Slide>
                   <St.CoverImage>
-                    {/* TODO: 이미지가 늦게 로드되는 문제 해결해야함 */}
                     <img
                       src={
                         post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoDefaultCover
                       }
                       alt={post.title}
                     />
-                    {/* <img src={defaultCoverImage} alt={post.title} /> */}
                   </St.CoverImage>
                   <St.SlideHeader>
                     <div>
                       <St.UserProfileImage>
                         <UserDetail userId={post.uid} type="profileImg" />
-                        {/* <img src={defaultProfileImage} alt="user profile image" /> */}
                       </St.UserProfileImage>
                       <UserDetail userId={post.uid} type="displayName" />
                     </div>

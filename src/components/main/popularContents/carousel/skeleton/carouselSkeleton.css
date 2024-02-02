@@ -1,11 +1,50 @@
 .skeleton-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 285px;
+  height: 406px;
+  border-radius: 20px;
+  /* background-color: rgb(234, 233, 233); */
+  padding: 13px 20px 20px;
+  animation: loading 1.5s infinite;
 }
 
-.skeleton-title,
-.skeleton-text,
+.skeleton-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 25px;
+}
+
+.skeleton-profileImage {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: rgb(234, 233, 233);
+}
+.skeleton-displayName {
+  height: 25px;
+  width: 100%;
+  background-color: rgb(234, 233, 233);
+}
+
 .skeleton-footer {
-  background-color: #eee;
-  animation: loading 1.5s infinite;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.skeleton-text,
+.skeleton-counts {
+  height: 25px;
+  width: 100%;
+  background-color: rgb(234, 233, 233);
+}
+
+.skeleton-text {
+  margin-top: 20px;
 }
 
 @keyframes loading {
