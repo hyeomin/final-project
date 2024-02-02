@@ -86,29 +86,98 @@ function MyProfile() {
   const queryClient = useQueryClient();
 
   // 프로필 정보 Firebase 업데이트
+  // const userProfileUpdateMutation = useMutation({
+  //   mutationFn: async ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) =>
+  //     await updateProfileInfo({ authCurrentUser, displayName, profileImage }),
+  //   onSuccess: (updatedUser) => {
+  //     queryClient.invalidateQueries({ queryKey: [`${QUERY_KEYS.USERS}`] });
+  //     if (updatedUser) {
+  //       authContext?.updateCurrentUserInContext(updatedUser);
+  //     }
+  //     setIsEditing(false);
+
+  //     const onClickSave = () => {
+  //       modal.close();
+  //     };
+
+  //     const openModalParams: Parameters<typeof modal.open>[0] = {
+  //       title: '프로필이 수정되었습니다.',
+  //       message: '',
+  //       leftButtonLabel: '',
+  //       onClickLeftButton: undefined,
+  //       rightButtonLabel: '확인',
+  //       onClickRightButton: onClickSave
+  //     };
+  //     modal.open(openModalParams);
+  //   },
+  //   onError: (error) => {
+  //     console.error('프로필 업데이트에 문제가 발생했습니다.', error);
+  //     setIsEditing(false);
+
+  //     const onClickSave = () => {
+  //       modal.close();
+  //     };
+
+  //     const openModalParams: Parameters<typeof modal.open>[0] = {
+  //       title: '프로필 업데이트에 문제가 발생했습니다.',
+  //       message: '',
+  //       leftButtonLabel: '',
+  //       onClickLeftButton: undefined,
+  //       rightButtonLabel: '확인',
+  //       onClickRightButton: onClickSave
+  //     };
+  //     modal.open(openModalParams);
+  //   }
+  // });
+
+  // //프로필 수정 업데이트
+  // const onSubmitModifyProfile = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+  //   const onClickSave = () => {
+  //     modal.close();
+  //   };
+
+  //   if (authCurrentUser!.displayName !== displayName) {
+  //     setIsDisplayNameChanged(true);
+  //   }
+
+  //   if (authCurrentUser!.photoURL !== profileImage) {
+  //     setIsPhotoURLChanged(true);
+  //   }
+
+  //   // if (!isChecked && isDisplayNameChanged) {
+  //   if (!isDisplayNameChanged) {
+  //     const openModalParams: Parameters<typeof modal.open>[0] = {
+  //       title: '중복확인 버튼을 눌러주세요',
+  //       message: '',
+  //       leftButtonLabel: '',
+  //       onClickLeftButton: undefined,
+  //       rightButtonLabel: '확인',
+  //       onClickRightButton: onClickSave
+  //     };
+  //     modal.open(openModalParams);
+  //   } else {
+  //     if (authCurrentUser) {
+  //       if (isDisplayNameChanged || isPhotoURLChanged) {
+  //         userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+  //         setIsEditing(false);
+  //         setIsDisplayNameChanged(false);
+  //         setIsPhotoURLChanged(false);
+  //       }
+  //     }
+  //   }
+  // };
+
   const userProfileUpdateMutation = useMutation({
-    mutationFn: ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) =>
-      updateProfileInfo({ authCurrentUser, displayName, profileImage }),
+    mutationFn: async ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) =>
+      await updateProfileInfo({ authCurrentUser, displayName, profileImage }),
     onSuccess: (updatedUser) => {
       queryClient.invalidateQueries({ queryKey: [`${QUERY_KEYS.USERS}`] });
       if (updatedUser) {
         authContext?.updateCurrentUserInContext(updatedUser);
       }
       setIsEditing(false);
-
-      const onClickSave = () => {
-        modal.close();
-      };
-
-      const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '프로필이 수정되었습니다.',
-        message: '',
-        leftButtonLabel: '',
-        onClickLeftButton: undefined,
-        rightButtonLabel: '확인',
-        onClickRightButton: onClickSave
-      };
-      modal.open(openModalParams);
     },
     onError: (error) => {
       console.error('프로필 업데이트에 문제가 발생했습니다.', error);
@@ -130,43 +199,27 @@ function MyProfile() {
     }
   });
 
-  //프로필 수정 업데이트
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const onClickSave = () => {
+    const onClickSave = async () => {
+      if (!authCurrentUser) {
+        console.error('현재 사용자 정보가 없습니다.');
+        return;
+      }
+
+      await userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
       modal.close();
     };
-
-    if (authCurrentUser!.displayName !== displayName) {
-      setIsDisplayNameChanged(true);
-    }
-
-    if (authCurrentUser!.photoURL !== profileImage) {
-      setIsPhotoURLChanged(true);
-    }
-
-    // if (!isChecked && isDisplayNameChanged) {
-    if (!isDisplayNameChanged) {
-      const openModalParams: Parameters<typeof modal.open>[0] = {
-        title: '중복확인 버튼을 눌러주세요',
-        message: '',
-        leftButtonLabel: '',
-        onClickLeftButton: undefined,
-        rightButtonLabel: '확인',
-        onClickRightButton: onClickSave
-      };
-      modal.open(openModalParams);
-    } else {
-      if (authCurrentUser) {
-        if (isDisplayNameChanged || isPhotoURLChanged) {
-          userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
-          setIsEditing(false);
-          setIsDisplayNameChanged(false);
-          setIsPhotoURLChanged(false);
-        }
-      }
-    }
+    const openModalParams: Parameters<typeof modal.open>[0] = {
+      title: '프로필이 수정되었습니다.',
+      message: '',
+      leftButtonLabel: '',
+      onClickLeftButton: undefined,
+      rightButtonLabel: '확인',
+      onClickRightButton: onClickSave
+    };
+    modal.open(openModalParams);
   };
 
   // 프로필 이미지를 Firebase에 업로드
