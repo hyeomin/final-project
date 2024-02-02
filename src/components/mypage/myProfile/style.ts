@@ -59,6 +59,7 @@ const ProfileEditWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
     padding: 20px;
+    margin-top: 5px;
   }
 `;
 
@@ -190,11 +191,12 @@ const LevelEmoji = styled.div`
     width: 10px;
     font-size: 10px;
     height: 10px;
+    margin-top: 0px;
   }
 `;
 
 const Level = styled.div`
-  margin-top: 10px;
+  margin-top: 0px;
   @media screen and (max-width: 431px) {
   }
 `;

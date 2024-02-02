@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Calendar from 'react-calendar';
 import St from './style';
-// import moment from 'moment';
 import dayjs from 'dayjs';
 import { QUERY_KEYS } from '../../../query/keys';
 import { useQuery } from '@tanstack/react-query';
@@ -21,12 +20,10 @@ const HabitCalendar = ({ date }: any) => {
   // 초기값은 현재 날짜
   const [today, setToday] = useState<Value>(new Date());
   //클릭한 캘린더의 날짜를 알려줌
-  // const moment = require('moment');
   const onChangeToday = () => {
     setToday(today);
   };
 
-  //getMyPosts
   const { data: myPosts } = useQuery({
     queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
     queryFn: getMyPosts,
@@ -75,19 +72,8 @@ const HabitCalendar = ({ date }: any) => {
           // 일요일부터 시작
           calendarType="gregory"
           tileContent={({ date, view }) => {
-            // const formattedDate = moment(date).format('YYYY. MM. DD.');
-            // if (createdAtList.find((x) => x === moment(date).format('YYYY. MM. DD.'))) {
             const formattedDate = dayjs(date).format('YYYY. MM. DD.');
             if (createdAtList.find((x) => x === dayjs(date).format('YYYY. MM. DD.'))) {
-              // postCount가 0으로만 나온다.
-              // dayCount[formattedDate]가 값이 없으니까 => 0으로 된다?
-              // dayCount에 문제가 있는지?
-              // formattedDate에 문제가 있는지?
-              // console.log({
-              //   formattedDate,
-              //   finded: createdAtList.find((x) => x === moment(date).format('YYYY. MM. DD.')),
-              //   일치하는지: formattedDate === createdAtList.find((x) => x === moment(date).format('YYYY. MM. DD.'))
-              // });
               const postCount = dayCount[formattedDate] || 0;
               return (
                 <>
@@ -110,7 +96,6 @@ const HabitCalendar = ({ date }: any) => {
         />
         <St.CurrentDate>
           <CiCalendar />
-          {/* 현재 날짜 {moment(date).format('YYYY년 MM월 DD일')} */}
           현재 날짜 {dayjs(date).format('YYYY년 MM월 DD일')}
         </St.CurrentDate>
       </St.StyleCalendar>
