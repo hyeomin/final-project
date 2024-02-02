@@ -113,6 +113,7 @@ const StyleCalendar = styled.div`
     @media screen and (max-width: 431px) {
       font-size: 0.6rem;
       height: 60px;
+      margin-top: 10px;
     }
   }
 
@@ -138,6 +139,7 @@ const CalendarIntroduce = styled.div`
   margin-top: 30px;
   @media screen and (max-width: 431px) {
     font-size: 14px;
+    margin-top: 0px;
   }
   & span {
     color: ${theme.color.mangoMain};
@@ -163,7 +165,7 @@ const CalendarIntroduce = styled.div`
     line-height: 0.5rem;
     color: ${theme.color.gray};
     @media screen and (max-width: 431px) {
-      font-size: 10px;
+      font-size: 12px;
     }
   }
 

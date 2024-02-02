@@ -316,71 +316,73 @@ function MyProfile() {
   return (
     <St.Wrapper>
       <St.ProfileEditWrapper>
-        <St.ProfileImageContainer>
-          {isEditing ? (
-            <>
-              <St.PenWrapper onClick={onClickUpload}>
-                <GoPencil />
-              </St.PenWrapper>
-              <St.MyImage src={profileImage} alt="defaultImg" />
-            </>
-          ) : (
-            <St.MyImage src={authCurrentUser?.photoURL || defaultImg} alt="defaultImg" />
-          )}
-        </St.ProfileImageContainer>
-        <St.ProfileInfo>
-          <div style={{ display: 'flex' }}>
+        <St.ProFileEditContainer>
+          <St.ProfileImageContainer>
             {isEditing ? (
               <>
-                <St.DisplayNameModify
-                  autoFocus
-                  defaultValue={authCurrentUser?.displayName ?? ''}
-                  onChange={onChangeDisplayName}
-                  style={{ borderColor: isValid ? 'black' : 'red' }}
-                />
-                <St.DisplayNameCheckBtn
-                  onClick={() => nicknameCheck(displayName)}
-                  disabled={displayName == '' || displayName == authCurrentUser?.displayName}
-                >
-                  중복확인
-                </St.DisplayNameCheckBtn>
+                <St.PenWrapper onClick={onClickUpload}>
+                  <GoPencil />
+                </St.PenWrapper>
+                <St.MyImage src={profileImage} alt="defaultImg" />
               </>
             ) : (
-              <St.MyNickname>{authCurrentUser?.displayName || ''}</St.MyNickname>
+              <St.MyImage src={authCurrentUser?.photoURL || defaultImg} alt="defaultImg" />
             )}
-          </div>
-          {isEditing ? null : <St.MyEmail>{authCurrentUser?.email}</St.MyEmail>}
-          <St.UserInfoModify>
-            {isEditing ? (
-              <St.ModifyBox>
-                <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
-                <div style={{ display: 'flex', gap: '5px' }}>
-                  <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
-                  <St.ModifyButton
-                    onClick={onSubmitModifyProfile}
-                    disabled={
-                      !displayName ||
-                      (displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL) ||
-                      !isValid
-                    }
+          </St.ProfileImageContainer>
+          <St.ProfileInfo>
+            <div style={{ display: 'flex' }}>
+              {isEditing ? (
+                <>
+                  <St.DisplayNameModify
+                    autoFocus
+                    defaultValue={authCurrentUser?.displayName ?? ''}
+                    onChange={onChangeDisplayName}
+                    style={{ borderColor: isValid ? 'black' : 'red' }}
+                  />
+                  <St.DisplayNameCheckBtn
+                    onClick={() => nicknameCheck(displayName)}
+                    disabled={displayName == '' || displayName == authCurrentUser?.displayName}
                   >
-                    수정완료
-                  </St.ModifyButton>
-                </div>
-                <St.ErrorMsg>
-                  {!isValid && errorMsg !== '변경된 내용이 없습니다.' && <span>{errorMsg}</span>}
-                  {displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL && (
-                    <span>변경된 내용이 없습니다.</span>
-                  )}
-                </St.ErrorMsg>
-              </St.ModifyBox>
-            ) : (
-              <>
-                <St.ProfileModifyBtn onClick={() => setIsEditing(true)}>프로필 수정</St.ProfileModifyBtn>
-              </>
-            )}
-          </St.UserInfoModify>
-        </St.ProfileInfo>
+                    중복확인
+                  </St.DisplayNameCheckBtn>
+                </>
+              ) : (
+                <St.MyNickname>{authCurrentUser?.displayName || ''}</St.MyNickname>
+              )}
+            </div>
+            {isEditing ? null : <St.MyEmail>{authCurrentUser?.email}</St.MyEmail>}
+            <St.UserInfoModify>
+              {isEditing ? (
+                <St.ModifyBox>
+                  <St.FileInput type="file" onChange={onChangeUpload} accept="image/*" ref={fileRef} />
+                  <div style={{ display: 'flex', gap: '5px' }}>
+                    <St.ModifyButton onClick={() => setIsEditing(false)}>취소</St.ModifyButton>
+                    <St.ModifyButton
+                      onClick={onSubmitModifyProfile}
+                      disabled={
+                        !displayName ||
+                        (displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL) ||
+                        !isValid
+                      }
+                    >
+                      수정완료
+                    </St.ModifyButton>
+                  </div>
+                  <St.ErrorMsg>
+                    {!isValid && errorMsg !== '변경된 내용이 없습니다.' && <span>{errorMsg}</span>}
+                    {displayName === authCurrentUser?.displayName && profileImage === authCurrentUser?.photoURL && (
+                      <span>변경된 내용이 없습니다.</span>
+                    )}
+                  </St.ErrorMsg>
+                </St.ModifyBox>
+              ) : (
+                <>
+                  <St.ProfileModifyBtn onClick={() => setIsEditing(true)}>프로필 수정</St.ProfileModifyBtn>
+                </>
+              )}
+            </St.UserInfoModify>
+          </St.ProfileInfo>
+        </St.ProFileEditContainer>
         <St.UserPostInfoContainer>
           <St.PostInfoBox>
             <div>게시물 수</div>

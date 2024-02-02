@@ -12,9 +12,8 @@ const Wrapper = styled.div`
   text-align: center;
 
   @media screen and (max-width: 431px) {
-    margin: 10px 20px auto 20px;
+    margin: 5px 5px auto 5px;
     width: 100%;
-    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,9 +63,25 @@ const ProfileEditWrapper = styled.div`
   }
 `;
 
+const ProFileEditContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  @media screen and (max-width: 431px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+`;
+
 const ProfileImageContainer = styled.div`
   display: flex;
   position: relative;
+
+  @media screen and (max-width: 431px) {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const PenWrapper = styled.div`
@@ -87,6 +102,7 @@ const PenWrapper = styled.div`
   @media screen and (max-width: 431px) {
     width: 20px;
     height: 20px;
+    font-size: small;
   }
 `;
 
@@ -96,6 +112,9 @@ const ModifyBox = styled.div`
   gap: 10px;
 
   @media screen and (max-width: 431px) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 `;
 const ProfileInfo = styled.div`
@@ -109,7 +128,7 @@ const ProfileInfo = styled.div`
 
   @media screen and (max-width: 431px) {
     display: flex;
-    /* flex-wrap: wrap; */
+    flex-wrap: nowrap;
   }
 `;
 
@@ -274,10 +293,11 @@ const ModifyButton = styled.button`
   }
 
   @media screen and (max-width: 431px) {
-    width: 60px;
+    width: 50px;
     height: 20px;
     font-weight: 500;
-    font-size: 10px;
+    font-size: 8px;
+    margin-top: 0px;
   }
 `;
 
@@ -287,9 +307,9 @@ const UserInfoModify = styled.div`
   margin-right: 100px;
   max-width: 200px;
 
-  /* @media screen and (max-width: 431px) {
+  @media screen and (max-width: 431px) {
     justify-content: left;
-  } */
+  }
 `;
 const FileInput = styled.input`
   display: none;
@@ -321,6 +341,13 @@ const DisplayNameCheckBtn = styled.button`
   &:hover {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 431px) {
+    width: 50px;
+    height: 20px;
+    font-weight: 500;
+    font-size: 9px;
+  }
 `;
 
 const MyImage = styled.img`
@@ -329,8 +356,8 @@ const MyImage = styled.img`
   object-fit: cover;
   border-radius: 50%;
   @media screen and (max-width: 431px) {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
   }
 `;
 
@@ -370,12 +397,13 @@ const GuideGrade = styled.div`
   bottom: -10px;
   border-radius: 10px;
   @media screen and (max-width: 431px) {
-    padding: 8px;
-    left: 0px;
-    bottom: 35px;
+    padding: 7px;
+    left: -45px;
+    bottom: 30px;
     height: 50px;
-    width: 150px;
+    width: 140px;
     font-size: 10px;
+    line-height: 0.7rem;
   }
 
   &:after {
@@ -389,7 +417,7 @@ const GuideGrade = styled.div`
     border-bottom: 10px solid transparent;
 
     @media screen and (max-width: 431px) {
-      left: 25px;
+      left: 70px;
       top: 50px;
       border-top: 10px solid ${theme.color.mangoLight};
       border-left: 10px solid transparent;
@@ -502,6 +530,7 @@ export default {
   Level,
   DisplayNameModify,
   UserInfoModify,
+  ProFileEditContainer,
   ProfileInfo,
   ModifyBox,
   PostInfoIcon,
