@@ -50,10 +50,10 @@ function Signup() {
   } = useForm<Data>({ mode: 'onChange' });
   // 유효성 검사
   // 정규식
-  // const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const emailRegex = /^[a-z0-9]{4,}@[a-z0-9]{3,}\.[a-z]{2,}$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
-  const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
+  // const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
+  const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/i;
   // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
   // 폴더/파일
   useEffect(() => {

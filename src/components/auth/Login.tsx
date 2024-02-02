@@ -1,5 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signInWithRedirect,
+  signInWithCredential
+} from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -95,17 +101,11 @@ function Login() {
 
   //구글 로그인
 
-  // const credential = GoogleAuthProvider.credential(googleUser.getAuthResponse().id_token);
-  // const result = await signInWithCredential(auth, credential);
-
-  //   const credential = firebase.auth.GoogleAuthProvider.credential(
-  //     googleUser.getAuthResponse().id_token);
-  // const result = await firebase.auth().signInWithCredential(credential);
-
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider(); // provider를 구글로 설정
       const result = await signInWithPopup(auth, provider); // popup을 이용한 signup
+
       const user = result.user;
       setUserData(user);
 
@@ -127,6 +127,7 @@ function Login() {
       setErrorMsg(err);
     }
   };
+
   return (
     <St.AuthWrapper>
       <St.LogoContainer>

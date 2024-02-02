@@ -36,7 +36,9 @@ function MyProfile() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
+  // const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
+  // const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/i;
+  const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/i;
 
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
@@ -44,13 +46,13 @@ function MyProfile() {
   const [isDisplayNameChanged, setIsDisplayNameChanged] = useState(false);
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
-  const [resizedImage, setResizedImage] = useState<File>();
 
   // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const value = e.target.value;
-    setIsChecked(false);
+    // setIsChecked(false);
+    setIsDisplayNameChanged(false);
 
     if (value !== '' && nicknameRegex.test(value)) {
       setIsValid(true);
@@ -144,7 +146,8 @@ function MyProfile() {
       setIsPhotoURLChanged(true);
     }
 
-    if (!isChecked && isDisplayNameChanged) {
+    // if (!isChecked && isDisplayNameChanged) {
+    if (!isDisplayNameChanged) {
       const openModalParams: Parameters<typeof modal.open>[0] = {
         title: '중복확인 버튼을 눌러주세요',
         message: '',
@@ -228,7 +231,8 @@ function MyProfile() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
-      setIsChecked(false);
+      setIsDisplayNameChanged(false);
+      // setIsChecked(false);
       setIsFormValid(false);
       return;
     } else if (nickname === '') {
@@ -261,7 +265,8 @@ function MyProfile() {
       };
       modal.open(openModalParams);
       setIsFormValid(true);
-      setIsChecked(true);
+      // setIsChecked(true);
+      setIsDisplayNameChanged(true);
     }
   };
 
