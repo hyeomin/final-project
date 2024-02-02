@@ -26,18 +26,21 @@ function Footer() {
                 <img src={github} alt="github" />
               </a>
             </St.SingleMember>
+            <span>|</span>
             <St.SingleMember>
               <span>박솔이 Soli</span>
               <a href="https://github.com/Solyi-Park" target="_blank" rel="noopener noreferrer">
                 <img src={github} alt="github" />
               </a>
             </St.SingleMember>
+            <span>|</span>
             <St.SingleMember>
               <span>박혜민 Ashley</span>
               <a href="https://github.com/hyeomin" target="_blank" rel="noopener noreferrer">
                 <img src={github} alt="github" />
               </a>
             </St.SingleMember>
+            <span>|</span>
             <St.SingleMember>
               <span>박희원 Hailey</span>
               <a href="https://github.com/heeneeee" target="_blank" rel="noopener noreferrer">

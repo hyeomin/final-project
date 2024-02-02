@@ -18,6 +18,7 @@ const Title = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -28,6 +29,10 @@ const Title = styled.div`
   color: white;
   font-size: 80px;
   font-family: ${theme.font.mango};
+
+  @media screen and (max-width: 431px) {
+    font-size: 60px;
+  }
 `;
 
 export default { Header, VideoWrapper, Title };
