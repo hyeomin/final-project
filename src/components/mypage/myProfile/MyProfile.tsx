@@ -84,11 +84,12 @@ function MyProfile() {
   };
 
   const queryClient = useQueryClient();
+  //-------------------------------------------------------------------------------------------------
 
   // 프로필 정보 Firebase 업데이트
   // const userProfileUpdateMutation = useMutation({
-  //   mutationFn: async ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) =>
-  //     await updateProfileInfo({ authCurrentUser, displayName, profileImage }),
+  //   mutationFn: ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) =>
+  //     updateProfileInfo({ authCurrentUser, displayName, profileImage }),
   //   onSuccess: (updatedUser) => {
   //     queryClient.invalidateQueries({ queryKey: [`${QUERY_KEYS.USERS}`] });
   //     if (updatedUser) {
@@ -168,10 +169,15 @@ function MyProfile() {
   //     }
   //   }
   // };
+  //-------------------------------------------------------------------------------------------------
+
+  // 내가 수정할 코드
+
+  // 프로필 수정 업데이트 (마지막 코드)
 
   const userProfileUpdateMutation = useMutation({
-    mutationFn: async ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) =>
-      await updateProfileInfo({ authCurrentUser, displayName, profileImage }),
+    mutationFn: ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) =>
+      updateProfileInfo({ authCurrentUser, displayName, profileImage }),
     onSuccess: (updatedUser) => {
       queryClient.invalidateQueries({ queryKey: [`${QUERY_KEYS.USERS}`] });
       if (updatedUser) {
@@ -183,7 +189,13 @@ function MyProfile() {
       console.error('프로필 업데이트에 문제가 발생했습니다.', error);
       setIsEditing(false);
 
-      const onClickSave = () => {
+      const onClickSave = async () => {
+        if (!authCurrentUser) {
+          console.error('현재 사용자 정보가 없습니다.');
+          return;
+        }
+
+        await userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
         modal.close();
       };
 
@@ -202,15 +214,10 @@ function MyProfile() {
   const onSubmitModifyProfile = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const onClickSave = async () => {
-      if (!authCurrentUser) {
-        console.error('현재 사용자 정보가 없습니다.');
-        return;
-      }
-
-      await userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+    const onClickSave = () => {
       modal.close();
     };
+
     const openModalParams: Parameters<typeof modal.open>[0] = {
       title: '프로필이 수정되었습니다.',
       message: '',
@@ -220,7 +227,35 @@ function MyProfile() {
       onClickRightButton: onClickSave
     };
     modal.open(openModalParams);
+
+    if (authCurrentUser!.displayName !== displayName) {
+      if (!isDisplayNameChanged) {
+        const openModalParams: Parameters<typeof modal.open>[0] = {
+          title: '중복확인 버튼을 눌러주세요',
+          message: '',
+          leftButtonLabel: '',
+          onClickLeftButton: undefined,
+          rightButtonLabel: '확인',
+          onClickRightButton: onClickSave
+        };
+        modal.open(openModalParams);
+      } else {
+        if (authCurrentUser) {
+          userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+          setIsEditing(false);
+          setIsDisplayNameChanged(false);
+          setIsPhotoURLChanged(false);
+        }
+      }
+    } else if (authCurrentUser) {
+      userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+      setIsEditing(false);
+      setIsDisplayNameChanged(false);
+      setIsPhotoURLChanged(false);
+    }
   };
+
+  //-------------------------------------------------------------------------------------------------
 
   // 프로필 이미지를 Firebase에 업로드
   const profileImageUploadMutation = useMutation({

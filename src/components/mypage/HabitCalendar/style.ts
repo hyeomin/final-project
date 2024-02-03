@@ -34,16 +34,17 @@ const StyleCalendar = styled.div`
     justify-content: center;
     align-content: center;
     padding-bottom: 30px;
-  }
-
-  .react-calendar__tile--active {
-    color: black;
-  }
-
-  .react-calendar__navigation button {
     &:hover {
       cursor: pointer;
+      background-color: white;
     }
+  }
+
+  .react-calendar__navigation__arrow {
+    background-color: white;
+  }
+  .react-calendar__tile--active {
+    color: black;
   }
 
   .react-calendar__year-view {
@@ -109,6 +110,7 @@ const StyleCalendar = styled.div`
     height: 70px;
     font-weight: 500;
     margin-top: 50px;
+    /* pointer-events: none; */
 
     @media screen and (max-width: 431px) {
       font-size: 0.6rem;
@@ -117,9 +119,11 @@ const StyleCalendar = styled.div`
     }
   }
 
-  .react-calendar button:enabled:hover {
+  .react-calendar__month-view__days {
     cursor: default;
+    pointer-events: none;
   }
+
   .react-calendar__month-view__weekdays {
     @media screen and (max-width: 431px) {
       font-size: 0.6rem;

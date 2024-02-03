@@ -14,11 +14,6 @@ const Wrapper = styled.div`
   @media screen and (max-width: 431px) {
     margin: 5px 5px auto 5px;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
   }
 `;
 

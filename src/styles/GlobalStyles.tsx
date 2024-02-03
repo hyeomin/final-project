@@ -45,6 +45,10 @@ const GlobalStyle = createGlobalStyle`
         border-spacing: 0;
     }
 
+    link {
+        color:blue;
+        -webkit-appearance: none;
+    }
     * {
         box-sizing: border-box;
     }
