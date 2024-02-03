@@ -328,7 +328,7 @@ function Signup() {
             })}
           />
 
-          <St.AuthBtn onClick={() => emailCheck(getValues('email'))} disabled={!!errors?.email}>
+          <St.AuthBtn type="button" onClick={() => emailCheck(getValues('email'))} disabled={!!errors?.email}>
             중복확인
           </St.AuthBtn>
           {errors?.email?.type === 'required' && <St.WarningMsg>이메일을 입력해주세요</St.WarningMsg>}
