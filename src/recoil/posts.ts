@@ -1,5 +1,6 @@
 import { atom } from 'recoil';
-import { Category } from '../components/viewAll/ViewAllBody';
+// import { Category } from '../components/viewAll/ViewAllBody';
+import { Category } from '../types/PostListType';
 import { IsEditingPostProps, PostInputType } from '../types/PostType';
 import { POST } from './keys';
 
@@ -34,4 +35,9 @@ const pathHistoryState = atom<string[]>({
   default: []
 });
 
-export { categoryListState, isEditingPostState, pathHistoryState, postInputState };
+const imageUploadingStatusState = atom<'Loading...' | 'Finished'>({
+  key: POST.UPLOADING_STATUS,
+  default: 'Loading...'
+});
+
+export { categoryListState, imageUploadingStatusState, isEditingPostState, pathHistoryState, postInputState };
