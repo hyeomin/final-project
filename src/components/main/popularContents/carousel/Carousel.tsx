@@ -20,7 +20,6 @@ import { auth } from '../../../../shared/firebase';
 import { Swiper, SwiperClass, SwiperSlide, useSwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
-
 import { Navigation, Pagination } from 'swiper/modules';
 
 const Carousel = () => {
@@ -29,12 +28,14 @@ const Carousel = () => {
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['posts', 'popular'],
     queryFn: getPopularPosts,
-    staleTime: 60_000
+    staleTime: 5 * 6 * 1000
+    // staleTime: Infinity
   });
 
+  // console.log('인기게시물==>', popularPosts);
   const onClickLikeButton = useLikeButton();
 
-  let swiperCnt = 7;
+  let swiperCnt = 5;
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, swiperCnt);
   //const swiperSlide = useSwiperSlide();
 
@@ -62,7 +63,6 @@ const Carousel = () => {
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper: SwiperClass) => console.log(swiper)}
             navigation={true}
-            slidesPerView={'auto'}
             breakpoints={{
               1200: {
                 spaceBetween: 10,
@@ -78,7 +78,7 @@ const Carousel = () => {
               },
               431: {
                 spaceBetween: 10,
-                slidesPerView: 1
+                slidesPerView: 2
               }
             }}
           >
@@ -87,10 +87,8 @@ const Carousel = () => {
             ) : (
               popularPosts?.slice(currentSlide, currentSlide + swiperCnt).map((post, idx) => {
                 return (
-                  <Link key={post.id} to={`/detail/${post.id}`}>
-                    {/* <CarouselSkeleton /> */}
-
-                    <SwiperSlide key={idx}>
+                  <SwiperSlide key={idx}>
+                    <Link key={post.id} to={`/detail/${post.id}`}>
                       <St.Slide>
                         <St.CoverImage>
                           <img
@@ -142,8 +140,8 @@ const Carousel = () => {
                           </St.InteractionInfo>
                         </St.SlideBottom>
                       </St.Slide>
-                    </SwiperSlide>
-                  </Link>
+                    </Link>
+                  </SwiperSlide>
                 );
               })
             )}
