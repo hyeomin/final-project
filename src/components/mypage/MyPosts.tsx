@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { QUERY_KEYS } from '../../query/keys';
 import { PostContainer } from '../community/communityPostList/style';
 import PostCard from '../mypage/PostCard/PostCard';
-import MyPageSkeleton from './myPageSkeleton/MyPageSkeleton';
+import MyPageSkeleton from './postsSkeleton/PostsSkeleton';
 
 // 내 게시물 가져오기
 const MyPosts = () => {

@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { PostContainer } from '../community/communityPostList/style';
 import PostCard from './PostCard/PostCard';
-import MyPageSkeleton from './myPageSkeleton/MyPageSkeleton';
+import MyPageSkeleton from './postsSkeleton/PostsSkeleton';
 
 // interface MyProfileProps {
 //   getLikePosts: () => Promise<PostType[] | undefined>;
