@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   animation: loading 1.5s infinite;
+  padding: 90px 150px;
 }
 
 .skeleton-h2 {

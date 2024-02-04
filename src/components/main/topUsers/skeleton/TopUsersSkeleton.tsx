@@ -6,43 +6,43 @@ const TopUsersSkeleton = () => {
     <div className="skeleton-cardWrapper">
       <div className="skeleton-userCard">
         <div className="skeleton-profile"></div>
-        <div className="skeleton-userName"></div>
+        <p className="skeleton-userName"></p>
       </div>
       <div className="skeleton-userCard">
         <div className="skeleton-profile"></div>
-        <div className="skeleton-userName"></div>
+        <p className="skeleton-userName"></p>
       </div>
       <div className="skeleton-userCard">
         <div className="skeleton-profile"></div>
-        <div className="skeleton-userName"></div>
+        <p className="skeleton-userName"></p>
       </div>
       <div className="skeleton-userCard">
         <div className="skeleton-profile"></div>
-        <div className="skeleton-userName"></div>
+        <p className="skeleton-userName"></p>
       </div>
       <div className="skeleton-userCard">
         <div className="skeleton-profile"></div>
-        <div className="skeleton-userName"></div>
+        <p className="skeleton-userName"></p>
       </div>
       <div className="skeleton-userCard">
         <div className="skeleton-profile"></div>
-        <div className="skeleton-userName"></div>
+        <p className="skeleton-userName"></p>
       </div>
       <div className="skeleton-userCard">
         <div className="skeleton-profile"></div>
-        <div className="skeleton-userName"></div>
+        <p className="skeleton-userName"></p>
       </div>
       <div className="skeleton-userCard">
         <div className="skeleton-profile"></div>
-        <div className="skeleton-userName"></div>
+        <p className="skeleton-userName"></p>
       </div>
       <div className="skeleton-userCard">
         <div className="skeleton-profile"></div>
-        <div className="skeleton-userName"></div>
+        <p className="skeleton-userName"></p>
       </div>
       <div className="skeleton-userCard">
         <div className="skeleton-profile"></div>
-        <div className="skeleton-userName"></div>
+        <p className="skeleton-userName"></p>
       </div>
     </div>
   );

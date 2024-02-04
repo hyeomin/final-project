@@ -63,6 +63,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
     <St.MainSubWrapper>
       <St.ContentsWrapper>
         <St.AdminContents>
+          {/* <ByMangoSkeleton /> */}
           {isLoading ? (
             <ByMangoSkeleton />
           ) : (
