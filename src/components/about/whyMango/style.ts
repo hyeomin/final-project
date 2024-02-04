@@ -13,6 +13,10 @@ const WhyContainer = styled.div`
     height: 300px;
     background: linear-gradient(to bottom, rgba(255, 161, 20, 1) 50%, rgba(255, 161, 20, 0) 100%);
   }
+
+  @media screen and (max-width: 431px) {
+    width: 100vw;
+  }
 `;
 
 const Mission = styled.div`
@@ -31,7 +35,7 @@ const Mission = styled.div`
     flex-direction: column;
     row-gap: 50px;
     & img {
-      width: 140px;
+      width: 200px;
     }
   }
 `;
@@ -58,7 +62,8 @@ const SubTitle = styled.div`
   opacity: 80%;
 
   @media screen and (max-width: 431px) {
-    font-size: 22px;
+    font-size: 24px;
+    text-align: center;
   }
 `;
 
@@ -75,7 +80,7 @@ const Description = styled.div`
   }
 
   @media screen and (max-width: 431px) {
-    font-size: 14px;
+    font-size: 16px;
     padding: 0 55px;
     text-align: center;
     line-height: 150%;

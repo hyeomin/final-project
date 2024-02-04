@@ -1,5 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signInWithRedirect,
+  signInWithCredential
+} from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -94,31 +100,34 @@ function Login() {
   };
 
   //구글 로그인
-  function handleGoogleLogin() {
-    const provider = new GoogleAuthProvider(); // provider를 구글로 설정
-    signInWithPopup(auth, provider) // popup을 이용한 signup
-      .then((data) => {
-        setUserData(data.user);
 
-        // 회원가입 시, user 컬렉션에 값이 저장됨
-        const userId = auth.currentUser?.uid;
-        // 컬렉션에 있는 users 필드 정보 수정
-        if (userId) {
-          setDoc(doc(db, 'users', userId), {
-            displayName: auth.currentUser?.displayName,
-            profileImg: auth.currentUser?.photoURL,
-            uid: auth.currentUser?.uid,
-            phoneNum: auth.currentUser?.phoneNumber,
-            role: 'user'
-          });
-        }
-        navigate('/');
-      })
+  const handleGoogleLogin = async () => {
+    try {
+      const provider = new GoogleAuthProvider(); // provider를 구글로 설정
+      const result = await signInWithPopup(auth, provider); // popup을 이용한 signup
 
-      .catch((err) => {
-        setErrorMsg(err);
-      });
-  }
+      const user = result.user;
+      setUserData(user);
+
+      // 회원가입 시, user 컬렉션에 값이 저장됨
+      const userId = auth.currentUser?.uid;
+      // 컬렉션에 있는 users 필드 정보 수정
+      if (userId) {
+        await setDoc(doc(db, 'users', userId), {
+          displayName: auth.currentUser?.displayName,
+          profileImg: auth.currentUser?.photoURL,
+          uid: auth.currentUser?.uid,
+          phoneNum: auth.currentUser?.phoneNumber,
+          role: 'user'
+        });
+      }
+
+      navigate('/');
+    } catch (err) {
+      setErrorMsg(err);
+    }
+  };
+
   return (
     <St.AuthWrapper>
       <St.LogoContainer>

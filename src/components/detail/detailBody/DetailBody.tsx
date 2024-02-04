@@ -6,6 +6,7 @@ import defaultImage from '../../../assets/defaultImg.jpg';
 import kakao from '../../../assets/detail/Kakao-icon.png';
 import link from '../../../assets/detail/link-bold-icon.png';
 
+import { getComments } from '../../../api/commentApi';
 import defaultThumbnail from '../../../assets/mangoThumbnail.png';
 import useKaKaoShare from '../../../hooks/useKaKaoShare';
 import { useModal } from '../../../hooks/useModal';
@@ -25,10 +26,16 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
 
   const { data: author } = useQuery({
     queryKey: [QUERY_KEYS.USERS, foundDetailPost.uid],
-    queryFn: () => getUser(foundDetailPost.uid)
+    queryFn: () => getUser(foundDetailPost.uid),
+    staleTime: 60_000
   });
 
-  // const author = userList?.find((user) => user.uid === foundDetailPost.uid);
+  // 댓글목록 가져오기
+  const { data: comments } = useQuery({
+    queryKey: [QUERY_KEYS.COMMENTS, foundDetailPost.id],
+    queryFn: () => getComments(foundDetailPost.id),
+    staleTime: Infinity
+  });
 
   let authorImage = author?.profileImg;
   if (!authorImage) {
@@ -111,7 +118,7 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
               <GoComment />
               <div>
                 <span>댓글</span>
-                {foundDetailPost.commentCount ?? 0}
+                {comments?.length ?? 0}
               </div>
             </div>
           </St.DetailInfo>

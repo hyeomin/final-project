@@ -49,6 +49,7 @@ const NewsRoomTitle = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 1200px;
   row-gap: 15px;
   color: white;
 
@@ -73,6 +74,7 @@ const NewsRoomTitle = styled.div`
 
 const StyledSwiper = styled(Swiper)`
   width: 100%;
+  max-width: 1200px;
   height: 340px;
 
   @media screen and (max-width: 431px) {
@@ -106,6 +108,7 @@ const NewsInfo = styled.div`
   flex: 1;
 
   & span {
+    user-select: text;
     font-size: 15px;
     color: ${theme.color.gray};
   }

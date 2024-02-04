@@ -11,37 +11,32 @@ export const PostContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px;
-  background-color: purple;
 
   @media screen and (max-width: 431px) {
-    grid-template-columns: 50% 50%;
-    gap: 0px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 `;
 
 export const SinglePost = styled.div`
   display: flex;
   flex-direction: column;
-  height: 390px;
+  height: 380px;
   border-radius: 10px;
   border: 1px solid ${theme.color.lightgray};
   background: white;
   overflow: hidden;
-  /* margin: 10px; */
 
   @media screen and (max-width: 431px) {
     height: 320px;
-    margin: 5px;
   }
 `;
+
 export const PostImg = styled.img`
   object-fit: cover;
   width: 100%;
   height: 50%;
-
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 `;
 
 export const PostInfoContainer = styled.div`
@@ -53,8 +48,8 @@ export const PostInfoContainer = styled.div`
   font-size: 16px;
 
   @media screen and (max-width: 431px) {
-    padding: 10px;
-    row-gap: 5px;
+    padding: 12px;
+    row-gap: 10px;
     font-size: 14px;
   }
 `;
@@ -77,43 +72,89 @@ export const PostCardHeader = styled.div`
   }
 `;
 
-export const AuthorProfileImg = styled.img`
-  width: 30px; //HM 40 > 35 변경
-  height: 30px; //HM 40 > 35 변경!
-  border-radius: 50%;
+// 작성자 프로필 + 날짜
+export const PostCardHeaderLeft = styled.div`
+  img {
+    width: 30px; //HM 40 > 35 변경
+    height: 30px; //HM 40 > 35 변경!
+    border-radius: 50%;
+  }
 
   @media screen and (max-width: 431px) {
-    width: 25px;
-    height: 25px;
+    img {
+      width: 25px;
+      height: 25px;
+    }
   }
 `;
 
-export const PostCardHeaderTextRow = styled.div`
+export const AuthorNameAndDate = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
   row-gap: 5px;
 
-  & p {
+  span {
     font-weight: bold;
     font-size: 14px; // HM 망고망 16px
   }
 
-  span {
+  p {
     color: #bbb; // #222222에서 변경
     font-size: 12px;
     font-weight: 400;
   }
 
   @media screen and (max-width: 431px) {
-    & p {
-      font-size: 13px; // HM 망고망 16px
-    }
     span {
+      font-size: 12px; // HM 망고망 16px
+      text-align: start;
+    }
+    p {
       font-size: 11px;
+      text-align: start;
     }
   }
 `;
+
+// export const AuthorProfileImg = styled.img`
+//   width: 30px; //HM 40 > 35 변경
+//   height: 30px; //HM 40 > 35 변경!
+//   border-radius: 50%;
+
+//   @media screen and (max-width: 431px) {
+//     width: 25px;
+//     height: 25px;
+//   }
+// `;
+
+// export const PostCardHeaderTextRow = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: start;
+//   row-gap: 5px;
+
+//   & p {
+//     font-weight: bold;
+//     font-size: 14px; // HM 망고망 16px
+//   }
+
+//   span {
+//     color: #bbb; // #222222에서 변경
+//     font-size: 12px;
+//     font-weight: 400;
+//   }
+
+//   @media screen and (max-width: 431px) {
+//     & p {
+//       font-size: 13px; // HM 망고망 16px
+//       text-align: start;
+//     }
+//     span {
+//       font-size: 11px;
+//     }
+//   }
+// `;
 
 export const PostTitleAndContent = styled.div`
   display: flex;
@@ -122,6 +163,8 @@ export const PostTitleAndContent = styled.div`
   flex: 1;
   row-gap: 15px;
   padding: 5px;
+  line-height: normal;
+  text-align: start;
 
   p {
     display: -webkit-box;
@@ -142,12 +185,20 @@ export const PostTitleAndContent = styled.div`
     text-overflow: ellipsis;
     font-weight: normal;
     font-size: 14px;
-    line-height: normal;
+
     color: ${theme.color.gray};
   }
 
   @media screen and (max-width: 431px) {
     row-gap: 10px;
+
+    p {
+      font-size: 15px;
+    }
+
+    span {
+      font-size: 13px;
+    }
   }
 `;
 
