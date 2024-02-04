@@ -35,7 +35,7 @@ const Carousel = () => {
   // console.log('인기게시물==>', popularPosts);
   const onClickLikeButton = useLikeButton();
 
-  let swiperCnt = 5;
+  let swiperCnt = 7;
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, swiperCnt);
   //const swiperSlide = useSwiperSlide();
 
