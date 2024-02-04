@@ -371,11 +371,13 @@ const AdminPostTitle = styled.p`
   margin-bottom: 10px;
   line-height: normal;
 
+  // 두줄로 제한, 높이 제한
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
+  min-height: calc(2 * 1em);
 
   //모바일 세로
   @media screen and (max-width: 431px) {
