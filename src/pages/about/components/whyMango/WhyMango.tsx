@@ -1,4 +1,4 @@
-import mangoMission from './../../../../assets/about/about-why-mango.png';
+import mangoMission from '../../../../assets/about/about-why-mango.png';
 import St from './style';
 
 function MangoMission() {
