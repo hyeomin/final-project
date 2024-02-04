@@ -23,7 +23,8 @@ export const getFormattedDate_yymmdd = (date: number) => {
 };
 
 // 캘린더에 쓸 거 하나 만들었습니다.. - Haliey
-export const getFormattedDateCustom = (date: number) => {
+// newsRoom에 쓸려고 string type 추가했습니다! - Ashley
+export const getFormattedDateCustom = (date: number | string) => {
   return new Date(date).toLocaleDateString('ko', {
     year: 'numeric',
     month: '2-digit',

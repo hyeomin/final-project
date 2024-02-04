@@ -33,11 +33,23 @@ const CategoryButtonWrapper = styled.div`
   column-gap: 50px;
 
   @media screen and (max-width: 431px) {
-    width: 100vw;
+    width: 100%;
     padding: 0 20px;
-    justify-content: space-between;
-    gap: 0;
+    column-gap: 20px;
     border-bottom: 1px solid ${theme.color.lightgray};
+    justify-content: start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    // 스크롤바 숨기기
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    // 기타 브라우저에 스크롤바 없애기
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 `;
 

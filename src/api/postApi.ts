@@ -81,6 +81,7 @@ const deleteImage = async (url: string) => {
     const httpsReference = ref(storage, url);
     await deleteObject(httpsReference);
     console.log('이미지 삭제 성공');
+    return url;
   } catch (error) {
     console.error('이미지 삭제 실패: ', error);
   }

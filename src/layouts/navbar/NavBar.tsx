@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
+import { FaBars } from 'react-icons/fa';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { getAdminPostList } from '../../api/pageListApi';
@@ -8,14 +9,13 @@ import logo from '../../assets/icons/mango-logo.png';
 import AuthToggle from '../../components/auth/AuthToggle';
 import useOutsideClick from '../../hooks/useOutsideClick';
 import { QUERY_KEYS } from '../../query/keys';
+import { isAuthState } from '../../recoil/modals';
 import { pathHistoryState } from '../../recoil/posts';
+import { auth } from '../../shared/firebase';
 import AuthNavBar from './AuthNavBar';
 import GuideModal from './guideModal/GuideModal';
-import St, { LogoContainer } from './style';
 import LoginModal from './loginModal/LoginModal';
-import { FaBars } from 'react-icons/fa';
-import { isAuthState } from '../../recoil/modals';
-import { auth } from '../../shared/firebase';
+import St, { LogoContainer } from './style';
 
 function NavBar() {
   const [isAuthToggleOpen, setIsAuthToggleOpen] = useState(false);
@@ -50,7 +50,7 @@ function NavBar() {
   const queryClient = useQueryClient();
   const handleHover = async () => {
     queryClient.prefetchInfiniteQuery({
-      queryKey: [QUERY_KEYS.ADMIN],
+      queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.ADMIN],
       queryFn: getAdminPostList,
       initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
       staleTime: 60_000
