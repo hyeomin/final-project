@@ -20,6 +20,7 @@ import { auth } from '../../../../shared/firebase';
 import { Swiper, SwiperClass, SwiperSlide, useSwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
+
 import { Navigation, Pagination } from 'swiper/modules';
 
 const Carousel = () => {
@@ -48,6 +49,7 @@ const Carousel = () => {
         <Swiper
           pagination={{
             clickable: true
+            //dynamicBullets: true
           }}
           modules={[Pagination, Navigation]}
           className="mySwiper"

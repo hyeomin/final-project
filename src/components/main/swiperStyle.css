@@ -14,12 +14,6 @@
   align-items: center;
   width: 300px;
 }
-/* .mySwiper {
-  width: 300px;
-  text-align: center;
-  font-size: 18px;
-  color: #fff;
-} */
 
 .swiper-slide img {
   display: block;
@@ -31,4 +25,8 @@
 .swiper-button-next::after,
 .swiper-button-prev::after {
   display: none;
+}
+
+:root {
+  --swiper-theme-color: #ffa114;
 }
