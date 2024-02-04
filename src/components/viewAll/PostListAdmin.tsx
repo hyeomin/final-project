@@ -7,6 +7,7 @@ import Loader from '../common/Loader';
 import PostContentPreview from '../common/PostContentPreview';
 import { SortList } from './ViewAllBody';
 import St from './style';
+import ByMangoSkeleton from './byMangoSkeleton/ByMangoSkeleton';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -61,7 +62,25 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
   return (
     <St.MainSubWrapper>
       <St.ContentsWrapper>
-        {isLoading ? (
+        <St.AdminContents>
+          {isLoading ? (
+            <ByMangoSkeleton />
+          ) : (
+            posts?.map((post) => {
+              return (
+                <St.AdminContent key={post.id} onClick={() => navigate(`/detail/${post.id}`)}>
+                  <img
+                    src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
+                    alt={post.title}
+                  />
+                  <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
+                  {post.content && <PostContentPreview postContent={post.content} />}
+                </St.AdminContent>
+              );
+            })
+          )}
+        </St.AdminContents>
+        {/* {isLoading ? (
           <Loader />
         ) : (
           <St.AdminContents>
@@ -78,7 +97,7 @@ function PostListAdmin({ queryKey, queryFn, sortBy }: PostListProps) {
               );
             })}
           </St.AdminContents>
-        )}
+        )} */}
       </St.ContentsWrapper>
 
       <St.MoreContentWrapper>

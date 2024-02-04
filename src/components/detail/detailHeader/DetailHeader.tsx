@@ -7,6 +7,7 @@ import useSwiperNavigation from '../../../hooks/useSwiperNavigation';
 import { FoundDetailPostProps } from '../../../types/PostType';
 import { convertToKor } from '../../write/common/lists';
 import St from './style';
+import DetailHeaderSkeleton from './skeleton/DetailHeaderSkeleton';
 
 function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
@@ -26,35 +27,36 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   };
 
   return (
-    <St.CoverContainer>
-      {/* {isLoading && <St.NoImage>로딩 중...</St.NoImage>} */}
-      {coverImages.length > 0 ? (
-        <>
-          <St.StyledSwiper onSwiper={setSwiperInstance} onSlideChange={handleSlideChange} className="mySwiper">
-            {coverImages.map((image, idx) => {
-              return (
-                <SwiperSlide key={idx}>
-                  <img src={image.url} alt="cover" />
-                  <St.Gradient></St.Gradient>
-                  <St.PostHeaderInfo $noImage={false}>
-                    <span>{convertToKor(foundDetailPost.category)}</span>
-                    <h2>{foundDetailPost.title}</h2>
-                  </St.PostHeaderInfo>
-                </SwiperSlide>
-              );
-            })}
-          </St.StyledSwiper>
-          <St.NavigationButtonContainer>
-            <div onClick={goPrev}>{currentIndex > 0 && <img src={swipeLeft} alt="Previous" />}</div>
-            <div onClick={goNext}>{currentIndex < coverImages.length - 1 && <img src={swipeRight} alt="Next" />}</div>
-          </St.NavigationButtonContainer>
-        </>
-      ) : (
-        <St.NoImage>
-          <St.PostHeaderInfo $noImage={true}>{foundDetailPost.title}</St.PostHeaderInfo>
-        </St.NoImage>
-      )}
-    </St.CoverContainer>
+    <>
+      <St.CoverContainer>
+        {coverImages.length > 0 ? (
+          <>
+            <St.StyledSwiper onSwiper={setSwiperInstance} onSlideChange={handleSlideChange} className="mySwiper">
+              {coverImages.map((image, idx) => {
+                return (
+                  <SwiperSlide key={idx}>
+                    <img src={image.url} alt="cover" />
+                    <St.Gradient></St.Gradient>
+                    <St.PostHeaderInfo $noImage={false}>
+                      <span>{convertToKor(foundDetailPost.category)}</span>
+                      <h2>{foundDetailPost.title}</h2>
+                    </St.PostHeaderInfo>
+                  </SwiperSlide>
+                );
+              })}
+            </St.StyledSwiper>
+            <St.NavigationButtonContainer>
+              <div onClick={goPrev}>{currentIndex > 0 && <img src={swipeLeft} alt="Previous" />}</div>
+              <div onClick={goNext}>{currentIndex < coverImages.length - 1 && <img src={swipeRight} alt="Next" />}</div>
+            </St.NavigationButtonContainer>
+          </>
+        ) : (
+          <St.NoImage>
+            <St.PostHeaderInfo $noImage={true}>{foundDetailPost.title}</St.PostHeaderInfo>
+          </St.NoImage>
+        )}
+      </St.CoverContainer>
+    </>
   );
 }
 

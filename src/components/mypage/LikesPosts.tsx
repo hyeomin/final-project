@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { PostContainer } from '../community/communityPostList/style';
 import PostCard from './PostCard/PostCard';
+import MyPageSkeleton from './myPageSkeleton/MyPageSkeleton';
 
 // interface MyProfileProps {
 //   getLikePosts: () => Promise<PostType[] | undefined>;
@@ -34,15 +35,18 @@ const LikesPosts = () => {
   }
 
   return (
-    <PostContainer>
-      {likePosts?.length! > 0 ? (
-        likePosts?.map((post) => {
-          return <PostCard key={post.id} post={post} />;
-        })
-      ) : (
-        <p style={{ display: 'flex', justifyContent: 'center' }}>좋아요 누른 게시물이 없습니다.</p>
-      )}
-    </PostContainer>
+    <>
+      <MyPageSkeleton />
+      <PostContainer>
+        {likePosts?.length! > 0 ? (
+          likePosts?.map((post) => {
+            return <PostCard key={post.id} post={post} />;
+          })
+        ) : (
+          <p style={{ display: 'flex', justifyContent: 'center' }}>좋아요 누른 게시물이 없습니다.</p>
+        )}
+      </PostContainer>
+    </>
   );
 };
 

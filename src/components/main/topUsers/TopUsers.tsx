@@ -5,15 +5,13 @@ import UserDetail from '../UserDetail';
 import firstPlace from '../../../assets/1stPlace.png';
 import secondPlace from '../../../assets/2ndPlace.png';
 import thirdPlace from '../../../assets/3rdPlace.png';
+import TopUsersSkeleton from './skeleton/TopUsersSkeleton';
 
 const TopUsers = () => {
-  console.log('TopUsers 렌더링!');
-
-  const { data: topUsers } = useQuery({
+  const { data: topUsers, isLoading } = useQuery({
     queryKey: ['posts', 'topUsers'],
     queryFn: getTopUsers,
-    staleTime: 5 * 6 * 1000
-    // staleTime: Infinity
+    staleTime: 60_000
   });
 
   return (
@@ -22,6 +20,7 @@ const TopUsers = () => {
         <h1>TOP 10</h1>
         <h3>망고의 에코라이프 인플루언서들을 확인하세요!</h3>
       </St.Title>
+      {isLoading && <TopUsersSkeleton />}
       <St.UserList>
         {topUsers?.length === 0 ? (
           <div>TOP10 데이터를 찾을 수 없습니다.</div>

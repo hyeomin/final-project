@@ -424,6 +424,7 @@ const GuideGrade = styled.div`
 
 const Tabs = styled.div`
   display: flex;
+  flex-direction: column; //솔 test
   justify-content: center;
   width: 100%;
   margin: 20px;

@@ -22,12 +22,12 @@
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background-color: rgb(234, 233, 233);
+  background-color: rgb(248, 247, 247);
 }
 .skeleton-displayName {
   height: 25px;
   width: 100%;
-  background-color: rgb(234, 233, 233);
+  background-color: rgb(248, 247, 247);
 }
 
 .skeleton-footer {
@@ -40,7 +40,7 @@
 .skeleton-counts {
   height: 25px;
   width: 100%;
-  background-color: rgb(234, 233, 233);
+  background-color: rgb(248, 247, 247);
 }
 
 .skeleton-text {
