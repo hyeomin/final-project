@@ -3,9 +3,9 @@ import { useContext } from 'react';
 import { getMyPosts } from '../../api/myPostAPI';
 import { AuthContext } from '../../context/AuthContext';
 import { QUERY_KEYS } from '../../query/keys';
-import { PostContainer } from '../community/communityPostList/style';
-import PostCard from '../mypage/PostCard/PostCard';
 import PostsSkeleton from './postsSkeleton/PostsSkeleton';
+import { PostContainer } from '../../pages/community/components/communityPostList/style';
+import PostCard from '../../pages/mypage/components/PostCard/PostCard';
 
 // 내 게시물 가져오기
 const MyPosts = () => {

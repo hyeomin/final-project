@@ -15,7 +15,7 @@ export const POST = {
   IS_EDITING: 'isEditing',
   COVER_IMAGE: 'coverImage',
   COMMON_HASHTAG_LIST: 'commonHashtagList',
-  UNSAVED_CHANGES: 'unsavedChanges'
+  UPLOADING_STATUS: 'uploadingStatus'
 };
 
 export const MODAL_STATE = {

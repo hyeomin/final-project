@@ -6,8 +6,8 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { getAdminPostList } from '../../api/pageListApi';
 import logo from '../../assets/icons/mango-logo.png';
-import AuthToggle from '../../components/auth/AuthToggle';
 import useOutsideClick from '../../hooks/useOutsideClick';
+import AuthToggle from '../../pages/auth/components/AuthToggle';
 import { QUERY_KEYS } from '../../query/keys';
 import { isAuthState } from '../../recoil/modals';
 import { pathHistoryState } from '../../recoil/posts';
@@ -92,7 +92,7 @@ function NavBar() {
           <NavLink to="/about" style={styledNav}>
             ABOUT
           </NavLink>
-          <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
+          <NavLink to="/bymango" style={styledNav} onMouseEnter={handleHover}>
             BY MANGO
           </NavLink>
           <NavLink to="/community" style={styledNav} onMouseEnter={handleHover}>
