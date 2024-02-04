@@ -31,10 +31,9 @@ const Carousel = () => {
     staleTime: 60_000
   });
 
-  // console.log('인기게시물==>', popularPosts);
   const onClickLikeButton = useLikeButton();
 
-  let swiperCnt = 5;
+  let swiperCnt = 7;
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, swiperCnt);
   //const swiperSlide = useSwiperSlide();
 
@@ -59,6 +58,7 @@ const Carousel = () => {
           onSlideChange={() => console.log('slide change')}
           onSwiper={(swiper: SwiperClass) => console.log(swiper)}
           navigation={true}
+          slidesPerView={'auto'}
           breakpoints={{
             1200: {
               spaceBetween: 10,
@@ -74,7 +74,7 @@ const Carousel = () => {
             },
             431: {
               spaceBetween: 10,
-              slidesPerView: 2
+              slidesPerView: 1
             }
           }}
         >
