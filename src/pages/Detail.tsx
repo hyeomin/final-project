@@ -10,7 +10,6 @@ import DetailBody from '../components/detail/detailBody/DetailBody';
 import DetailHeader from '../components/detail/detailHeader/DetailHeader';
 import PostShift from '../components/detail/postShift/PostShift';
 import { QUERY_KEYS } from '../query/keys';
-import theme from '../styles/theme';
 import { PostType } from '../types/PostType';
 
 function Detail() {
@@ -50,7 +49,6 @@ function Detail() {
 
   return (
     <Container>
-      {/* <DetailTitle>상세페이지</DetailTitle> */}
       {foundDetailPost && (
         <>
           <DetailHeader foundDetailPost={foundDetailPost} />
@@ -75,12 +73,6 @@ const Container = styled.div`
   max-width: 1200px;
   //min-width: 600px;
   margin: 0 30px;
-  padding: 30px 0;
-`;
-
-const DetailTitle = styled.h3`
-  color: ${theme.color.gray};
-  font-size: 18px;
   padding: 30px 0;
 `;
 

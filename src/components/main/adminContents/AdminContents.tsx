@@ -12,7 +12,7 @@ import Loader from '../../common/Loader';
 import St from '../popularContents/carousel/style';
 import AdminCenterBox from './AdminCenterBox';
 
-const AdminContentsTest = () => {
+const AdminContents = () => {
   // console.log('어드민컨텐츠 렌더링!');
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -78,7 +78,7 @@ const AdminContentsTest = () => {
   );
 };
 
-export default AdminContentsTest;
+export default AdminContents;
 
 const Container = styled.div`
   width: 100%;
