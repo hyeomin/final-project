@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 const ViewAllContainer = styled.div`
-  /* width: 1000px; */
   width: 100%;
   max-width: 1000px;
   min-height: 1544px;
@@ -11,10 +10,6 @@ const ViewAllContainer = styled.div`
   //모바일 세로
   @media screen and (max-width: 431px) {
     width: 100%;
-    /* max-width: 370px; */
-    /* min-height: 485px; */
-    /* margin: 70px 20px; */
-
     background-color: purple;
   }
 `;
@@ -22,14 +17,11 @@ const ViewAllContainer = styled.div`
 /*유저 등록 데이터 (친환경노하우~습관인증) */
 const MainSubWrapper = styled.div`
   width: 100%;
-  /* min-height: 485px; */
   margin-bottom: 150px; //58에서 변경
+
   //모바일 세로
   @media screen and (max-width: 431px) {
     margin: auto;
-    /* min-width: 0px;
-    max-width: 370px;
-    min-height: 485px; */
   }
 `;
 
@@ -37,22 +29,17 @@ const CategoryWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* margin: 30px; */
   margin: 50px 30px;
 
   @media screen and (max-width: 431px) {
     flex-direction: column;
     margin: auto;
-    /* min-width: 0px;
-    max-width: 370px;
-    min-height: 485px; */
   }
 `;
 
 /*버튼*/
 const ButtonWrapper = styled.div`
   display: flex;
-  /* height: 46px; */
   align-items: flex-end;
   gap: 50px;
   align-items: center;
@@ -97,12 +84,6 @@ const SortWrapper = styled.ul`
     color: #222;
   }
 
-  /* li:not(:last-child):after {
-    content: '|';
-    margin-left: 10px;
-    color: #999;
-  } */
-
   @media screen and (max-width: 431px) {
     width: 100%;
     gap: 20;
@@ -120,16 +101,8 @@ const ContentsWrapper = styled.div`
   width: 100%;
   margin-bottom: 60px;
   gap: 20px;
+  justify-content: center;
 `;
-
-// const Contents = styled.ul`
-//   width: 100%;
-//   display: grid;
-//   grid-template-columns: 1fr 1fr 1fr 1fr;
-//   justify-content: center;
-//   align-items: center;
-//   gap: 20px;
-// `;
 
 //희원 수정
 const Contents = styled.ul`
