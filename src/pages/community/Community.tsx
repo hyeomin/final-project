@@ -1,5 +1,5 @@
 // import ViewAllBody from '../components/viewAll/ViewAllBody';
-import CommunityBodyTest from '../../components/community/CommunityBodyTest';
+import CommunityBodyTest from './components/CommunityBodyTest';
 
 function Community() {
   return (

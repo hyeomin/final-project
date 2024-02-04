@@ -1,17 +1,16 @@
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import Login from '../components/auth/Login';
-import Signup from '../components/auth/Signup';
 import Layout from '../layouts/Layout';
-import MyPage from '../pages/MyPage';
+import Write from '../pages/Write';
 import About from '../pages/about/About';
 import Auth from '../pages/auth/Auth';
+import Login from '../pages/auth/components/Login';
+import Signup from '../pages/auth/components/Signup';
+import ByMango from '../pages/bymango/ByMango';
+import Community from '../pages/community/Community';
 import Detail from '../pages/detail/Detail';
 import Home from '../pages/home/Home';
-// import ViewAll from '../pages/Community';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import MangoContents from '../pages/MangoContents';
-import Write from '../pages/Write';
-import Community from '../pages/community/Community';
+import MyPage from '../pages/mypage/MyPage';
 import ProtectedRoute from './ProtectedRoute';
 
 export default function Router() {
@@ -21,7 +20,7 @@ export default function Router() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/community" element={<Community />} />
-          <Route path="/mangoContents" element={<MangoContents />} />
+          <Route path="/bymango" element={<ByMango />} />
           <Route path="/auth" element={<Auth />} />
           {/* <Route path="/auth/login" element={<Login />} /> */}
           <Route path="/auth/login" element={<Login />} />

@@ -1,10 +1,10 @@
-import TopButton from '../../components/about/TopButton';
-import AboutFooter from '../../components/about/aboutFooter/AboutFooter';
-import AboutHeader from '../../components/about/aboutHeader/AboutHeader';
-import GetStarted from '../../components/about/getStarted/GetStarted';
-import HowToUse from '../../components/about/howToUse/HowToUse';
-import NewsRoom from '../../components/about/newsRoom/NewsRoom';
-import WhyMango from '../../components/about/whyMango/WhyMango';
+import TopButton from './components/TopButton';
+import AboutFooter from './components/aboutFooter/AboutFooter';
+import AboutHeader from './components/aboutHeader/AboutHeader';
+import GetStarted from './components/getStarted/GetStarted';
+import HowToUse from './components/howToUse/HowToUse';
+import NewsRoom from './components/newsRoom/NewsRoom';
+import WhyMango from './components/whyMango/WhyMango';
 
 function About() {
   return (

@@ -1,7 +1,7 @@
 import { useRecoilState } from 'recoil';
-import Login from '../../components/auth/Login';
-import Signup from '../../components/auth/Signup';
 import { isSignUpState } from '../../recoil/users';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
 function Auth() {
   const [isSignUp, setIsSignUp] = useRecoilState(isSignUpState);

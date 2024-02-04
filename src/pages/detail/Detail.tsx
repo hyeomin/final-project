@@ -3,17 +3,17 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getDetailPost, updatePostViewCount } from '../../api/detailApi';
-import AddCommentForm from '../../components/detail/comment/addComment/AddComment';
-import CommentList from '../../components/detail/comment/commentList/CommentList';
-import CommentSkeleton from '../../components/detail/comment/commentList/commentSkeleton/CommentSkeleton';
-import DetailBody from '../../components/detail/detailBody/DetailBody';
-import DetailBodySkeleton from '../../components/detail/detailBody/skeleton/DetailBodySkeleton';
-import DetailHeader from '../../components/detail/detailHeader/DetailHeader';
-import DetailHeaderSkeleton from '../../components/detail/detailHeader/skeleton/DetailHeaderSkeleton';
-import PostShift from '../../components/detail/postShift/PostShift';
 import { QUERY_KEYS } from '../../query/keys';
 import theme from '../../styles/theme';
 import { PostType } from '../../types/PostType';
+import AddCommentForm from './components/comment/addComment/AddComment';
+import CommentList from './components/comment/commentList/CommentList';
+import CommentSkeleton from './components/comment/commentList/commentSkeleton/CommentSkeleton';
+import DetailBody from './components/detailBody/DetailBody';
+import DetailBodySkeleton from './components/detailBody/skeleton/DetailBodySkeleton';
+import DetailHeader from './components/detailHeader/DetailHeader';
+import DetailHeaderSkeleton from './components/detailHeader/skeleton/DetailHeaderSkeleton';
+import PostShift from './components/postShift/PostShift';
 
 function Detail() {
   const { id } = useParams();

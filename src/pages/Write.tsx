@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import Editor from '../components/write/editor/Editor';
-import Hashtag from '../components/write/hashtag/Hashtag';
-import ImageUpload from '../components/write/imageUpload/ImageUpload';
-import Header from '../components/write/writeHeader/WriteHeader';
 import { useDeleteTempSave } from '../hooks/useDeleteTempSave';
 import { useModal } from '../hooks/useModal';
 import { modalState } from '../recoil/modals';
 import { initialPostInputState, postInputState } from '../recoil/posts';
+import Editor from './write/components/editor/Editor';
+import Hashtag from './write/components/hashtag/Hashtag';
+import ImageUpload from './write/components/imageUpload/ImageUpload';
+import Header from './write/components/writeHeader/WriteHeader';
 
 function Write() {
   const modal = useModal();
