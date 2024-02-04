@@ -2,16 +2,16 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Login from '../components/auth/Login';
 import Signup from '../components/auth/Signup';
 import Layout from '../layouts/Layout';
-import About from '../pages/About';
-import Auth from '../pages/Auth';
-import Detail from '../pages/Detail';
-import Home from '../pages/Home';
 import MyPage from '../pages/MyPage';
+import About from '../pages/about/About';
+import Auth from '../pages/auth/Auth';
+import Detail from '../pages/detail/Detail';
+import Home from '../pages/home/Home';
 // import ViewAll from '../pages/Community';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import Community from '../pages/Community';
 import MangoContents from '../pages/MangoContents';
 import Write from '../pages/Write';
+import Community from '../pages/community/Community';
 import ProtectedRoute from './ProtectedRoute';
 
 export default function Router() {

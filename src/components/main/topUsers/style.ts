@@ -45,6 +45,7 @@ const UserList = styled.div`
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: auto auto;
   gap: 10px;
+
   @media screen and (max-width: 431px) {
     width: 100%;
     //grid-template-columns: repeat(3, 1fr);
