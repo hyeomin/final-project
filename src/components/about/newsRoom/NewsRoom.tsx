@@ -12,6 +12,7 @@ import YoutubeModal from './YoutubeModal';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import useSwiperNavigation from '../../../hooks/useSwiperNavigation';
+import { getFormattedDateCustom } from '../../../util/formattedDateAndTime';
 import St from './style';
 
 function NewsRoom() {
@@ -86,9 +87,15 @@ function NewsRoom() {
                   <St.SingleSlide>
                     <img src={news.thumbnailUrl} alt="video preview" />
                     <St.NewsInfo>
-                      <span>{news.tags[0]}</span>
-                      <strong>{news.title}</strong>
-                      <span>{news.publishedAt}</span>
+                      <span className="swiper-no-swiping" onClick={(e) => e.stopPropagation()}>
+                        {news.tags[0]}
+                      </span>
+                      <strong className="swiper-no-swiping" onClick={(e) => e.stopPropagation()}>
+                        {news.title}
+                      </strong>
+                      <span className="swiper-no-swiping" onClick={(e) => e.stopPropagation()}>
+                        {getFormattedDateCustom(news.publishedAt)}
+                      </span>
                     </St.NewsInfo>
                   </St.SingleSlide>
                 </SwiperSlide>

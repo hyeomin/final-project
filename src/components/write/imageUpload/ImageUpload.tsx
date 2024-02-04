@@ -1,12 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useRef } from 'react';
 import { GoTrash } from 'react-icons/go';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { deleteImage, uploadSingleImage } from '../../../api/postApi';
 import DragNDrop from '../../../assets/icons/dragndrop.png';
 import { useModal } from '../../../hooks/useModal';
+import { QUERY_KEYS } from '../../../query/keys';
 import { modalState } from '../../../recoil/modals';
-import { postInputState } from '../../../recoil/posts';
+import { isEditingPostState, postInputState } from '../../../recoil/posts';
+import { db } from '../../../shared/firebase';
 import { DownloadedImageType } from '../../../types/PostType';
 import { resizeCoverImageFile } from '../../../util/imageResize';
 import St from './style';
@@ -16,6 +19,8 @@ function ImageUpload() {
   const setIsModalOpen = useSetRecoilState(modalState);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const isEditingPost = useRecoilValue(isEditingPostState);
+  const { foundPost } = isEditingPost;
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { coverImages } = postInput;
 
@@ -142,8 +147,22 @@ function ImageUpload() {
   // 이미지 삭제 Mutation
   const deletePostMutation = useMutation({
     mutationFn: (url: string) => deleteImage(url),
-    onSuccess: () => {
+    onSuccess: async (url) => {
       queryClient.invalidateQueries();
+
+      // Firebase Post 데이터 업데이트
+      if (isEditingPost && foundPost) {
+        const postRef = doc(db, QUERY_KEYS.POSTS, foundPost.id);
+        const postSnap = await getDoc(postRef);
+
+        if (postSnap.exists()) {
+          const postData = postSnap.data();
+          const coverImagesAfterDelete = postData.coverImages.filter((image: DownloadedImageType) => image.url !== url);
+          await updateDoc(postRef, {
+            coverImages: coverImagesAfterDelete
+          });
+        }
+      }
     }
   });
 
