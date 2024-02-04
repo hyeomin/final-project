@@ -18,7 +18,6 @@ import { getFormattedDate } from '../../../util/formattedDateAndTime';
 import LikeButton from '../LikeButton';
 import EditNDeleteToggle from '../editNDeleteToggle/EditNDeleteToggle';
 import St from './style';
-import DetailBodySkeleton from './skeleton/DetailBodySkeleton';
 
 function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();

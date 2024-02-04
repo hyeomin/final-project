@@ -19,7 +19,7 @@ const AdminContentsTest = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const { data: adminContents, isLoading } = useQuery({
-    queryKey: ['posts', 'admin'],
+    queryKey: ['posts', 'admin', 'selectedFour'],
     queryFn: getAdminPosts,
     staleTime: 60_000
   });

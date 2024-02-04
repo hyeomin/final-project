@@ -1,3 +1,38 @@
+.community-skeleton-card {
+  background-color: red;
+}
+
+.community-skeleton-coverImg {
+  background-color: rgb(248, 247, 247);
+}
+
+.community-skeleton-infoWrapper {
+}
+
+.community-skeleton-infoHeader {
+}
+
+.community-skeleton-profile {
+  animation: loading 1.5s infinite;
+}
+
+.community-skeleton-text {
+}
+
+.community-skeleton-displayName {
+  animation: loading 1.5s infinite;
+}
+
+.community-skeleton-dateAndTime {
+  animation: loading 1.5s infinite;
+}
+
+.community-skeleton-content {
+}
+
+.community-skeleton-counts {
+}
+
 @keyframes loading {
   0% {
     background-color: #eee;
