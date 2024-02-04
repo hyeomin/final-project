@@ -37,6 +37,7 @@ import St, {
   SinglePost
 } from './style';
 import PostsSkeleton from '../../mypage/postsSkeleton/PostsSkeleton';
+import CommunitySkeleton from '../../viewAll/communitySkeleton/CommunitySkeleton';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -228,7 +229,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     <St.PostListContainer>
       <div>
         {isLoading ? (
-          <PostsSkeleton />
+          <CommunitySkeleton />
         ) : (
           <PostContainer>
             {posts?.map((post, idx) => {
