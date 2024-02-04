@@ -9,13 +9,11 @@ import {
   updateProfileInfoProps
 } from '../../../api/authApi';
 import defaultImg from '../../../assets/defaultImg.jpg';
-
 import { AuthContext } from '../../../context/AuthContext';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
 import { auth, db } from '../../../shared/firebase';
 import { resizeProfileImageFile } from '../../../util/imageResize';
-
 import St from './style';
 
 function EditProfile() {
