@@ -5,9 +5,9 @@ const CommentSkeleton = () => {
     <div className="comment-skeleton-container">
       <div className="comment-skeleton-userInfo">
         <div className="comment-skeleton-profile"></div>
-        <div className="comment-skeleton-text"></div>
+        <p className="comment-skeleton-text"></p>
       </div>
-      <div className="comment-skeleton-content"></div>
+      <p className="comment-skeleton-content"></p>
     </div>
   );
 };

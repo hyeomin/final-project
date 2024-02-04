@@ -1,7 +1,7 @@
 import React from 'react';
 import './postsSkeleton.css';
 
-const postsSkeleton = () => {
+const PostsSkeleton = () => {
   return (
     <div className="posts-skeleton-container">
       <div className="posts-skeleton-card">
@@ -10,15 +10,14 @@ const postsSkeleton = () => {
           <div className="posts-skeleton-infoHeader">
             <div className="posts-skeleton-profile"></div>
             <div className="posts-skeleton-text">
-              <div className="posts-skeleton-displayName"></div>
-              <div className="posts-skeleton-dateAndTime"></div>
+              <p className="posts-skeleton-displayName"></p>
+              <p className="posts-skeleton-dateAndTime"></p>
             </div>
           </div>
           <div className="posts-skeleton-contentWrapper">
-            <div className="posts-skeleton-content"></div>
-            <div className="posts-skeleton-content"></div>
+            <p className="posts-skeleton-content"></p>
+            <p className="posts-skeleton-content"></p>
           </div>
-
           <div className="posts-skeleton-counts"></div>
         </div>
       </div>
@@ -28,15 +27,14 @@ const postsSkeleton = () => {
           <div className="posts-skeleton-infoHeader">
             <div className="posts-skeleton-profile"></div>
             <div className="posts-skeleton-text">
-              <div className="posts-skeleton-displayName"></div>
-              <div className="posts-skeleton-dateAndTime"></div>
+              <p className="posts-skeleton-displayName"></p>
+              <p className="posts-skeleton-dateAndTime"></p>
             </div>
           </div>
           <div className="posts-skeleton-contentWrapper">
-            <div className="posts-skeleton-content"></div>
-            <div className="posts-skeleton-content"></div>
+            <p className="posts-skeleton-content"></p>
+            <p className="posts-skeleton-content"></p>
           </div>
-
           <div className="posts-skeleton-counts"></div>
         </div>
       </div>
@@ -46,15 +44,14 @@ const postsSkeleton = () => {
           <div className="posts-skeleton-infoHeader">
             <div className="posts-skeleton-profile"></div>
             <div className="posts-skeleton-text">
-              <div className="posts-skeleton-displayName"></div>
-              <div className="posts-skeleton-dateAndTime"></div>
+              <p className="posts-skeleton-displayName"></p>
+              <p className="posts-skeleton-dateAndTime"></p>
             </div>
           </div>
           <div className="posts-skeleton-contentWrapper">
-            <div className="posts-skeleton-content"></div>
-            <div className="posts-skeleton-content"></div>
+            <p className="posts-skeleton-content"></p>
+            <p className="posts-skeleton-content"></p>
           </div>
-
           <div className="posts-skeleton-counts"></div>
         </div>
       </div>
@@ -64,15 +61,14 @@ const postsSkeleton = () => {
           <div className="posts-skeleton-infoHeader">
             <div className="posts-skeleton-profile"></div>
             <div className="posts-skeleton-text">
-              <div className="posts-skeleton-displayName"></div>
-              <div className="posts-skeleton-dateAndTime"></div>
+              <p className="posts-skeleton-displayName"></p>
+              <p className="posts-skeleton-dateAndTime"></p>
             </div>
           </div>
           <div className="posts-skeleton-contentWrapper">
-            <div className="posts-skeleton-content"></div>
-            <div className="posts-skeleton-content"></div>
+            <p className="posts-skeleton-content"></p>
+            <p className="posts-skeleton-content"></p>
           </div>
-
           <div className="posts-skeleton-counts"></div>
         </div>
       </div>
@@ -80,4 +76,4 @@ const postsSkeleton = () => {
   );
 };
 
-export default postsSkeleton;
+export default PostsSkeleton;

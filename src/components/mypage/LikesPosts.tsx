@@ -5,8 +5,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { PostContainer } from '../community/communityPostList/style';
 import PostCard from './PostCard/PostCard';
-import MyPageSkeleton from './postsSkeleton/PostsSkeleton';
-
+import PostsSkeleton from './postsSkeleton/PostsSkeleton';
 // interface MyProfileProps {
 //   getLikePosts: () => Promise<PostType[] | undefined>;
 // }
@@ -32,7 +31,7 @@ const LikesPosts = () => {
 
   return (
     <>
-      {isLoading && <MyPageSkeleton />}
+      {isLoading && <PostsSkeleton />}
       <PostContainer>
         {likePosts?.length! > 0 ? (
           likePosts?.map((post) => {

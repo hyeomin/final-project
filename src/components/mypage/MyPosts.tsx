@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { QUERY_KEYS } from '../../query/keys';
 import { PostContainer } from '../community/communityPostList/style';
 import PostCard from '../mypage/PostCard/PostCard';
-import MyPageSkeleton from './postsSkeleton/PostsSkeleton';
+import PostsSkeleton from './postsSkeleton/PostsSkeleton';
 
 // 내 게시물 가져오기
 const MyPosts = () => {
@@ -22,12 +22,17 @@ const MyPosts = () => {
 
   return (
     <>
-      {isLoading && <MyPageSkeleton />}
+      {isLoading && <PostsSkeleton />}
       <PostContainer>
-        {myPosts?.length! > 0 ? (
-          myPosts?.map((post) => <PostCard key={post.id} post={post} />)
-        ) : (
+        {/* {myPosts?.length! > 0 ? (
+        myPosts?.map((post) => <PostCard key={post.id} post={post} />)
+      ) : (
+        <p style={{ display: 'flex', justifyContent: 'center' }}>내 게시물이 없습니다.</p>
+      )} */}
+        {myPosts?.length === 0 ? (
           <p style={{ display: 'flex', justifyContent: 'center' }}>내 게시물이 없습니다.</p>
+        ) : (
+          myPosts?.map((post) => <PostCard key={post.id} post={post} />)
         )}
       </PostContainer>
     </>

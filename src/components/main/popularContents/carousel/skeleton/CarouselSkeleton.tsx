@@ -7,51 +7,51 @@ const CarouselSkeleton = () => {
       <div className="skeleton-wrapper">
         <div className="skeleton-header">
           <div className="skeleton-profileImage"></div>
-          <div className="skeleton-displayName"></div>
+          <p className="skeleton-displayName"></p>
         </div>
         <div className="skeleton-footer">
           <div>
-            <div className="skeleton-text"></div>
-            <div className="skeleton-text"></div>
+            <p className="skeleton-text"></p>
+            <p className="skeleton-text"></p>
           </div>
           <div className="skeleton-counts"></div>
         </div>
-      </div>{' '}
+      </div>
       <div className="skeleton-wrapper">
         <div className="skeleton-header">
           <div className="skeleton-profileImage"></div>
-          <div className="skeleton-displayName"></div>
+          <p className="skeleton-displayName"></p>
         </div>
         <div className="skeleton-footer">
           <div>
-            <div className="skeleton-text"></div>
-            <div className="skeleton-text"></div>
+            <p className="skeleton-text"></p>
+            <p className="skeleton-text"></p>
           </div>
           <div className="skeleton-counts"></div>
         </div>
-      </div>{' '}
+      </div>
       <div className="skeleton-wrapper">
         <div className="skeleton-header">
           <div className="skeleton-profileImage"></div>
-          <div className="skeleton-displayName"></div>
+          <p className="skeleton-displayName"></p>
         </div>
         <div className="skeleton-footer">
           <div>
-            <div className="skeleton-text"></div>
-            <div className="skeleton-text"></div>
+            <p className="skeleton-text"></p>
+            <p className="skeleton-text"></p>
           </div>
           <div className="skeleton-counts"></div>
         </div>
-      </div>{' '}
+      </div>
       <div className="skeleton-wrapper">
         <div className="skeleton-header">
           <div className="skeleton-profileImage"></div>
-          <div className="skeleton-displayName"></div>
+          <p className="skeleton-displayName"></p>
         </div>
         <div className="skeleton-footer">
           <div>
-            <div className="skeleton-text"></div>
-            <div className="skeleton-text"></div>
+            <p className="skeleton-text"></p>
+            <p className="skeleton-text"></p>
           </div>
           <div className="skeleton-counts"></div>
         </div>

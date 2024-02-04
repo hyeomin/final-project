@@ -8,13 +8,13 @@ const DetailBodySkeleton = () => {
         <div className="skeleton-header">
           <div className="detailBody-skeleton-profile"></div>
           <div className="detailBody-skeleton-wrapper">
-            <div className="detailBody-skeleton-displayName"></div>
-            <div className="detailBody-skeleton-dateAndTime"></div>
+            <p className="detailBody-skeleton-displayName"></p>
+            <p className="detailBody-skeleton-dateAndTime"></p>
           </div>
         </div>
       </div>
       <div className="detailBody-skeleton-shareInfo">
-        <div className="detailBody-skeleton-counts"></div>
+        <p className="detailBody-skeleton-counts"></p>
       </div>
     </>
   );
