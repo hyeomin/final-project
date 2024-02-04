@@ -77,7 +77,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     queryFn,
     initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
     getNextPageParam: (lastPage) => {
-      if (lastPage.length === 0 || lastPage.length < 4) {
+      if (lastPage.length === 0) {
         return undefined;
       }
       return lastPage[lastPage.length - 1];
@@ -299,13 +299,18 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
         )}
       </div>
       <St.MoreContentWrapper>
-        {isFetchingNextPage ? (
+        {/* {isFetchingNextPage ? (
           <Loader />
         ) : hasNextPage ? (
           <button onClick={() => fetchNextPage()}>더 보기</button>
         ) : (
           <p>모든 데이터를 가져왔습니다.</p>
-        )}
+        )} */}
+        {isFetchingNextPage ? (
+          <Loader />
+        ) : hasNextPage ? (
+          <button onClick={() => fetchNextPage()}>더 보기</button>
+        ) : null}
       </St.MoreContentWrapper>
     </St.PostListContainer>
   );
