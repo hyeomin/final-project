@@ -1,4 +1,9 @@
 .comment-skeleton-container {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.comment-skeleton-wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
