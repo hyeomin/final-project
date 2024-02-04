@@ -301,10 +301,11 @@ const MangoSUbWord = styled.p`
 `;
 
 const AdminContents = styled.ul`
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  grid-template-columns: 1fr 1fr 1fr;
+  /* justify-content: flex-start; */
+  /* flex-wrap: wrap; */
   margin-top: 40px;
   gap: 20px;
   margin-bottom: 20px;
@@ -328,12 +329,16 @@ const AdminContents = styled.ul`
 `;
 
 const AdminContent = styled.li`
-  width: 300px;
+  display: grid;
+  align-items: start;
+  /* width: 300px; */
   margin-bottom: 20px;
   img {
+    width: 100%;
+    height: 250px;
     object-fit: cover;
-    width: 300px;
-    height: 300px;
+    /* width: 300px; */
+    /* height: 300px; */
     flex-shrink: 0;
     border-radius: 20px;
     &:hover {
@@ -358,12 +363,19 @@ const AdminContent = styled.li`
 `;
 
 const AdminPostTitle = styled.p`
-  color: #000;
+  /* color: #000; */
   font-size: 22px;
   font-weight: 700;
   text-align: left;
   margin-top: 20px;
   margin-bottom: 10px;
+  line-height: normal;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   //모바일 세로
   @media screen and (max-width: 431px) {

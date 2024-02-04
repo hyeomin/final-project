@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import mangoCover from '../../../../assets/mangoDefaultCover.png';
 import Loader from '../../../../components/Loader';
 import PostContentPreview from '../../../../components/PostContentPreview';
-// import { SortList } from '../../../../components/viewAll/ViewAllBody';
 import { SortList } from '../../../../types/PostListType';
 import { PostType } from '../../../../types/PostType';
 import ByMangoSkeleton from '../../byMangoSkeleton/ByMangoSkeleton';
