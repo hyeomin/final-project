@@ -94,6 +94,11 @@ function CommunityBodyTest() {
 
   return (
     <St.CommunityContainer>
+      <St.MangoDiv>
+        <St.MangoWord>Mango</St.MangoWord>
+        <St.MangoOutWord>커뮤니티</St.MangoOutWord>
+      </St.MangoDiv>
+      <St.MangoSUbWord>재미있고 즐거운 친환경! 라이프스타일을 공유해요.</St.MangoSUbWord>
       <St.CommunityNavBar>
         <St.CategoryButtonWrapper>
           <St.CategoryButton onClick={() => updateSortOption('total', sortBy)} selected={category === 'total'}>
