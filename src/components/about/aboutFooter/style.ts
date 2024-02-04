@@ -19,18 +19,20 @@ const AboutFooterContainer = styled.div`
 `;
 
 const AboutFooterLeft = styled.div`
-  width: 50%;
+  width: 45%;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+  /* background-color: pink; */
 
   & h5 {
-    font-size: 32px;
+    font-size: 36px;
     font-family: ${theme.font.agroBold};
     line-height: 125%;
   }
 
   & p {
+    font-size: 20px;
     line-height: 150%;
   }
 
@@ -47,8 +49,8 @@ const AboutFooterLeft = styled.div`
 `;
 
 const AboutFooterRight = styled.div`
-  flex: 1;
-  /* width: 580px; */
+  width: 550px;
+  height: auto;
   position: relative;
 
   & img {
@@ -61,10 +63,12 @@ const AboutFooterRight = styled.div`
 
 const swipeUp = keyframes`
   from {
-    transform: translateY(80%);
+    opacity: 0;
+    transform: translateY(20px);
   }
   to {
-    transform: translateY(-50%);
+    opacity: 1;
+    transform: translateY(0);
   }
 
 
@@ -76,7 +80,7 @@ const AnimatedCategory = styled.div`
   overflow: hidden;
   position: absolute;
   left: 230px;
-  top: 147px;
+  top: 128px;
   font-size: 22px;
   font-weight: bold;
   @media screen and (max-width: 431px) {

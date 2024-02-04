@@ -237,35 +237,40 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
                     <PostImg
                       src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
                       alt={post.title}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.src = mangoCover;
+                      }}
                     />
                     <PostInfoContainer>
-                      {userList && userList?.find((user) => user.uid === post.uid) && (
-                        <PostCardHeader>
-                          <PostCardHeaderLeft>
-                            <UserDetail userId={post.uid} type="profileImg" />
+                      {/* {userList && userList?.find((user) => user.uid === post.uid) && ( */}
+                      <PostCardHeader>
+                        <PostCardHeaderLeft>
+                          <UserDetail userId={post.uid} type="profileImg" />
 
-                            {/* <AuthorProfileImg
+                          {/* <AuthorProfileImg
                               src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
                               alt="profile"
                             /> */}
-                            {/* <PostCardHeaderTextRow> */}
-                            <AuthorNameAndDate>
-                              <UserDetail userId={post.uid} type="displayName" />
-                              {/* <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p> */}
-                              <p>{getFormattedDate_yymmdd(post.createdAt!)}</p>
-                            </AuthorNameAndDate>
+                          {/* <PostCardHeaderTextRow> */}
+                          <AuthorNameAndDate>
+                            <UserDetail userId={post.uid} type="displayName" />
+                            {/* <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p> */}
+                            <p>{getFormattedDate_yymmdd(post.createdAt!)}</p>
+                          </AuthorNameAndDate>
 
-                            {/* </PostCardHeaderTextRow> */}
-                          </PostCardHeaderLeft>
-                          {/* 하트 클릭하는 버튼 */}
-                          <HeartClickButton
-                            onClick={(e) => handleClickLikeButton(e, post.id, post)}
-                            $isLiked={!!post.isLiked}
-                          >
-                            {post.isLiked ? <GoHeartFill /> : <GoHeart />}
-                          </HeartClickButton>
-                        </PostCardHeader>
-                      )}
+                          {/* </PostCardHeaderTextRow> */}
+                        </PostCardHeaderLeft>
+                        {/* 하트 클릭하는 버튼 */}
+                        <HeartClickButton
+                          onClick={(e) => handleClickLikeButton(e, post.id, post)}
+                          $isLiked={!!post.isLiked}
+                        >
+                          {post.isLiked ? <GoHeartFill /> : <GoHeart />}
+                        </HeartClickButton>
+                      </PostCardHeader>
+                      {/* // )} */}
                       <PostTitleAndContent>
                         <p>{post.title}</p>
                         {post.content && <PostContentPreview postContent={post.content} />}

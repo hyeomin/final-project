@@ -13,8 +13,8 @@ export const PostContainer = styled.div`
   gap: 20px;
 
   @media screen and (max-width: 431px) {
-    grid-template-columns: 50% 50%;
-    gap: 0px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 `;
 
@@ -29,7 +29,6 @@ export const SinglePost = styled.div`
 
   @media screen and (max-width: 431px) {
     height: 320px;
-    margin: 5px;
   }
 `;
 

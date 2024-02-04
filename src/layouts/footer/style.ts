@@ -41,14 +41,13 @@ const TeamInfo = styled.div`
   display: flex;
   align-items: end;
   row-gap: 5px;
+  margin-right: -13px;
 `;
 
 const SingleMember = styled.div`
   display: flex;
   column-gap: 5px;
   padding: 0 15px;
-  /* border-right: 1px solid ${theme.color.gray}; */
-  margin-right: -15px;
 
   & img {
     width: 12px;

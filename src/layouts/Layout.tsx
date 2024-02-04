@@ -50,7 +50,7 @@ type LayoutProps = {
 const LayoutContainer = styled.div<LayoutProps>`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100vh;
   justify-content: space-between;
   background-color: ${(props) => (props.$isModalOpen ? 'rgba(0, 0, 0, 0.02)' : 'white')};
   backdrop-filter: ${(props) => (props.$isModalOpen ? 'saturate(180%) blur(8px)' : 'none')};
