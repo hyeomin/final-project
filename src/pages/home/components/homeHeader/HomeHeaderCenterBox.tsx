@@ -13,7 +13,7 @@ type Props = {
   adminContents: PostType[] | undefined;
 };
 
-function AdminCenterBox({ swiperInstance, currentIndex, setCurrentIndex, adminContents }: Props) {
+function HomeHeaderCenterBox({ swiperInstance, currentIndex, setCurrentIndex, adminContents }: Props) {
   const { goNext, goPrev } = useSwiperNavigation({
     swiperInstance,
     currentIndex,
@@ -57,7 +57,7 @@ function AdminCenterBox({ swiperInstance, currentIndex, setCurrentIndex, adminCo
   );
 }
 
-export default AdminCenterBox;
+export default HomeHeaderCenterBox;
 
 const HeaderMain = styled.section`
   width: 1200px;

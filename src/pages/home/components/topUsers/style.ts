@@ -30,6 +30,12 @@ const Container = styled.section`
   }
 `;
 
+const PlaceHolder = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 const Title = styled.div`
   display: flex;
   flex-direction: column;
@@ -101,6 +107,7 @@ const UserName = styled.div`
 
 export default {
   Container,
+  PlaceHolder,
   Title,
   UserList,
   UserInfo,

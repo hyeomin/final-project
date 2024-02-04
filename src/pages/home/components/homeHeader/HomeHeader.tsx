@@ -10,10 +10,10 @@ import { getAdminPosts } from '../../../../api/homeApi';
 import defaultIllustration from '../../../../assets/home/AdminPostIllustration.png';
 import Loader from '../../../../components/Loader';
 import St from '../popularContents/carousel/style';
-import AdminCenterBox from './AdminCenterBox';
-import HomeAdminSkeleton from './skeleton/HomeAdminSkeleton';
+import HomeHeaderCenterBox from './HomeHeaderCenterBox';
+import HomeHeaderSkeleton from './skeleton/HomeHeaderSkeleton';
 
-const AdminContents = () => {
+const HomeHeader = () => {
   // console.log('어드민컨텐츠 렌더링!');
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -35,7 +35,7 @@ const AdminContents = () => {
   return (
     <>
       <Container>
-        {isLoading && <HomeAdminSkeleton />}
+        {isLoading && <HomeHeaderSkeleton />}
         {adminContents?.length === 0 ? (
           <St.PlaceHolder>관리자 콘텐츠 데이터를 찾을 수 없습니다.</St.PlaceHolder>
         ) : (
@@ -69,7 +69,7 @@ const AdminContents = () => {
         )}
         {/* 헤더 중앙에 놓인 박스, 버튼, 텍스트 등이 다 들어가있음 */}
         {adminContents && adminContents?.length > 0 && (
-          <AdminCenterBox
+          <HomeHeaderCenterBox
             swiperInstance={swiperInstance}
             setCurrentIndex={setCurrentIndex}
             currentIndex={currentIndex}
@@ -81,7 +81,7 @@ const AdminContents = () => {
   );
 };
 
-export default AdminContents;
+export default HomeHeader;
 
 const Container = styled.div`
   width: 100%;

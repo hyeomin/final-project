@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
-import { useDeleteTempSave } from '../hooks/useDeleteTempSave';
-import { useModal } from '../hooks/useModal';
-import { modalState } from '../recoil/modals';
-import { initialPostInputState, postInputState } from '../recoil/posts';
-import Editor from './write/components/editor/Editor';
-import Hashtag from './write/components/hashtag/Hashtag';
-import ImageUpload from './write/components/imageUpload/ImageUpload';
-import Header from './write/components/writeHeader/WriteHeader';
+import { useDeleteTempSave } from '../../hooks/useDeleteTempSave';
+import { useModal } from '../../hooks/useModal';
+import { modalState } from '../../recoil/modals';
+import { initialPostInputState, postInputState } from '../../recoil/posts';
+import Editor from './components/editor/Editor';
+import Hashtag from './components/hashtag/Hashtag';
+import ImageUpload from './components/imageUpload/ImageUpload';
+import Header from './components/writeHeader/WriteHeader';
+import St from './style';
 
 function Write() {
   const modal = useModal();
@@ -81,32 +81,14 @@ function Write() {
   }, [postInput]);
 
   return (
-    <Container>
+    <St.Container>
       <Header foundDetailPost={foundDetailPost} />
       <Editor />
-      <Spacer />
+      <St.Spacer />
       <Hashtag />
       <ImageUpload />
-    </Container>
+    </St.Container>
   );
 }
 
 export default Write;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-  margin: 50px 0;
-  width: 100%;
-  max-width: 900px;
-
-  @media screen and (max-width: 431px) {
-    margin: 0 0 50px 0;
-    font-size: 80%;
-  }
-`;
-
-const Spacer = styled.div`
-  height: 30px;
-`;

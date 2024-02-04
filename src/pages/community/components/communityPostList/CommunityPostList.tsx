@@ -25,6 +25,7 @@ import { auth, db } from '../../../../shared/firebase';
 import { SortList } from '../../../../types/PostListType';
 import { PostType } from '../../../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../../../util/formattedDateAndTime';
+import CommunitySkeleton from '../../communitySkeleton/CommunitySkeleton';
 import St, {
   AuthorNameAndDate,
   CommentAndLikes,
@@ -37,6 +38,8 @@ import St, {
   PostTitleAndContent,
   SinglePost
 } from './style';
+// import PostsSkeleton from '../../mypage/postsSkeleton/PostsSkeleton';
+// import CommunitySkeleton from '../../viewAll/communitySkeleton/CommunitySkeleton';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -228,7 +231,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     <St.PostListContainer>
       <div>
         {isLoading ? (
-          <Loader />
+          <CommunitySkeleton />
         ) : (
           <PostContainer>
             {posts?.map((post, idx) => {

@@ -92,7 +92,7 @@ function NavBar() {
           <NavLink to="/about" style={styledNav}>
             ABOUT
           </NavLink>
-          <NavLink to="/mangoContents" style={styledNav} onMouseEnter={handleHover}>
+          <NavLink to="/bymango" style={styledNav} onMouseEnter={handleHover}>
             BY MANGO
           </NavLink>
           <NavLink to="/community" style={styledNav} onMouseEnter={handleHover}>

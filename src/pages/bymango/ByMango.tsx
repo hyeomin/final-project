@@ -5,7 +5,7 @@ import { SortList } from '../../types/PostListType';
 import PostListAdmin from './components/byMangoPostList/ByMangoPostList';
 import St from './style';
 
-function MangoContents() {
+function ByMango() {
   const [sortBy, setSortBy] = useState<SortList>('latest');
 
   return (
@@ -22,4 +22,4 @@ function MangoContents() {
   );
 }
 
-export default MangoContents;
+export default ByMango;

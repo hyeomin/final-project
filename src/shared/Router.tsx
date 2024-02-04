@@ -1,7 +1,6 @@
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Layout from '../layouts/Layout';
-import Write from '../pages/Write';
 import About from '../pages/about/About';
 import Auth from '../pages/auth/Auth';
 import Login from '../pages/auth/components/Login';
@@ -11,6 +10,7 @@ import Community from '../pages/community/Community';
 import Detail from '../pages/detail/Detail';
 import Home from '../pages/home/Home';
 import MyPage from '../pages/mypage/MyPage';
+import Write from '../pages/write/Write';
 import ProtectedRoute from './ProtectedRoute';
 
 export default function Router() {

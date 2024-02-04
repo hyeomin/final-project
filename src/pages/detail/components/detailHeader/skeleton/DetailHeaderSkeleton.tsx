@@ -4,8 +4,8 @@ import './detailHeaderSkeleton.css';
 const DetailHeaderSkeleton = () => {
   return (
     <div className="detail-skeleton-coverImg">
-      <div className="detail-skeleton-category"></div>
-      <div className="detail-skeleton-title"></div>
+      <p className="detail-skeleton-category"></p>
+      <h1 className="detail-skeleton-title"></h1>
     </div>
   );
 };
