@@ -352,6 +352,7 @@ const AdminContent = styled.li`
       &:hover {
         cursor: pointer;
       }
+      max-height: 263px;
     }
   }
 `;
