@@ -50,6 +50,7 @@ const ByMangoSubtitle = styled.p`
   font-size: 17px;
   font-weight: 500;
   margin-top: 10px;
+  line-height: 2;
 
   //모바일 세로
   @media screen and (max-width: 431px) {

@@ -23,7 +23,8 @@ const Carousel = () => {
   const { data: popularPosts, isLoading } = useQuery({
     queryKey: ['posts', 'popular'],
     queryFn: getPopularPosts,
-    staleTime: 60_000
+    staleTime: 5 * 6 * 1000
+    // staleTime: Infinity
   });
 
   // console.log('인기게시물==>', popularPosts);
@@ -81,10 +82,8 @@ const Carousel = () => {
             ) : (
               popularPosts?.slice(currentSlide, currentSlide + swiperCnt).map((post, idx) => {
                 return (
-                  <Link key={post.id} to={`/detail/${post.id}`}>
-                    {/* <CarouselSkeleton /> */}
-
-                    <SwiperSlide key={idx}>
+                  <SwiperSlide key={idx}>
+                    <Link key={post.id} to={`/detail/${post.id}`}>
                       <St.Slide>
                         <St.CoverImage>
                           <img
@@ -136,8 +135,8 @@ const Carousel = () => {
                           </St.InteractionInfo>
                         </St.SlideBottom>
                       </St.Slide>
-                    </SwiperSlide>
-                  </Link>
+                    </Link>
+                  </SwiperSlide>
                 );
               })
             )}

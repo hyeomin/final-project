@@ -38,7 +38,7 @@ export const getAdminPostList = async (context: {
         startAfter(pageParam),
         limit(3)
       )
-    : query(collection(db, 'posts'), where('role', '==', 'admin'), orderBy('createdAt', 'desc'), limit(3));
+    : query(collection(db, 'posts'), where('role', '==', 'admin'), orderBy('createdAt', 'desc'), limit(6));
 
   console.log(q);
 
@@ -66,7 +66,7 @@ export const getCategoryPosts =
     if (pageParam) {
       q = query(q, orderBy('createdAt', 'desc'), startAfter(pageParam), limit(4));
     } else {
-      q = query(q, orderBy('createdAt', 'desc'), limit(4));
+      q = query(q, orderBy('createdAt', 'desc'), limit(12));
     }
 
     try {

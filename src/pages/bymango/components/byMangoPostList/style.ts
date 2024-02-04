@@ -301,11 +301,13 @@ const MangoSUbWord = styled.p`
 `;
 
 const AdminContents = styled.ul`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   justify-content: flex-start;
   flex-wrap: wrap;
   margin-top: 40px;
   gap: 20px;
+  margin-bottom: 20px;
 
   // ashley 추가 01.24
   & span {
@@ -317,6 +319,11 @@ const AdminContents = styled.ul`
     font-weight: normal;
     color: ${theme.color.gray};
     line-height: normal;
+  }
+  //모바일 (세로)
+  @media screen and (max-width: 431px) {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
   }
 `;
 
@@ -345,6 +352,7 @@ const AdminContent = styled.li`
       &:hover {
         cursor: pointer;
       }
+      max-height: 263px;
     }
   }
 `;

@@ -15,6 +15,8 @@ import { QUERY_KEYS } from '../../../../query/keys';
 import { auth, db } from '../../../../shared/firebase';
 import { resizeProfileImageFile } from '../../../../util/imageResize';
 import St from './style';
+import { useSetRecoilState } from 'recoil';
+import { modalState } from '../../../recoil/modals';
 
 function EditProfile() {
   const modal = useModal();
@@ -31,6 +33,7 @@ function EditProfile() {
   const [isDisplayNameChanged, setIsDisplayNameChanged] = useState(false);
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
+  const setIsModalOpen = useSetRecoilState(modalState);
 
   // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,6 +80,7 @@ function EditProfile() {
         }
 
         await userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         modal.close();
       };
 
@@ -89,6 +93,7 @@ function EditProfile() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
     }
   });
 
@@ -96,6 +101,8 @@ function EditProfile() {
     e.preventDefault();
 
     const onClickSave = () => {
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen02: false }));
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen03: false }));
       modal.close();
     };
 
@@ -108,6 +115,7 @@ function EditProfile() {
       onClickRightButton: onClickSave
     };
     modal.open(openModalParams);
+    setIsModalOpen((prev) => ({ ...prev, isModalOpen02: true }));
 
     if (authCurrentUser!.displayName !== displayName) {
       if (!isDisplayNameChanged) {
@@ -120,6 +128,7 @@ function EditProfile() {
           onClickRightButton: onClickSave
         };
         modal.open(openModalParams);
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen03: true }));
       } else {
         if (authCurrentUser) {
           userProfileUpdateMutation.mutate({ authCurrentUser, displayName, profileImage });
@@ -154,6 +163,7 @@ function EditProfile() {
 
     if (selectedFile?.size! > 1024 * 1024) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen04: false }));
         modal.close();
         return;
       };
@@ -167,6 +177,7 @@ function EditProfile() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen04: true }));
     } else if (authCurrentUser) {
       try {
         // 프로필 이미지 사이즈 업데이트
@@ -186,6 +197,7 @@ function EditProfile() {
 
     if (querySnapshot.docs.length > 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen05: false }));
         modal.close();
       };
 
@@ -198,12 +210,14 @@ function EditProfile() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen05: true }));
       setIsDisplayNameChanged(false);
       // setIsChecked(false);
       setIsFormValid(false);
       return;
     } else if (nickname === '') {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen06: false }));
         modal.close();
       };
 
@@ -216,9 +230,11 @@ function EditProfile() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen06: true }));
       return;
     } else if (querySnapshot.docs.length === 0) {
       const onClickSave = () => {
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen07: false }));
         modal.close();
       };
 
@@ -231,6 +247,7 @@ function EditProfile() {
         onClickRightButton: onClickSave
       };
       modal.open(openModalParams);
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen07: true }));
       setIsFormValid(true);
       // setIsChecked(true);
       setIsDisplayNameChanged(true);
