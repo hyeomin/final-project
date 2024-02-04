@@ -22,12 +22,14 @@ const TopUsers = () => {
       </St.Title>
       {isLoading && <TopUsersSkeleton />}
       {topUsers?.length === 0 ? (
-        <div>TOP10 데이터를 찾을 수 없습니다.</div>
+        <>
+          <St.PlaceHolder>TOP10 데이터를 찾을 수 없습니다.</St.PlaceHolder>
+        </>
       ) : (
-        topUsers?.map((user, index) => {
-          return (
-            <St.UserList key={index}>
-              <St.UserInfo>
+        <St.UserList>
+          {topUsers?.map((user, index) => {
+            return (
+              <St.UserInfo key={index}>
                 <St.ProfileImage>
                   <UserDetail userId={user.uid} type="profileImg" />
                 </St.ProfileImage>
@@ -38,9 +40,9 @@ const TopUsers = () => {
                   <UserDetail userId={user.uid} type="displayName" />
                 </St.UserName>
               </St.UserInfo>
-            </St.UserList>
-          );
-        })
+            );
+          })}
+        </St.UserList>
       )}
     </St.Container>
   );
