@@ -2,13 +2,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { useModal } from '../../hooks/useModal';
 import { QUERY_KEYS } from '../../query/keys';
+import { modalState } from '../../recoil/modals';
 import { auth, db } from '../../shared/firebase';
 import { PostType } from '../../types/PostType';
-import { useRecoilState, useSetRecoilState } from 'recoil';
-import { modalState } from '../../recoil/modals';
 
 type LikeButtonProps = {
   foundDetailPost: PostType;
@@ -25,7 +25,7 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
 
   const queryClient = useQueryClient();
 
-  const { mutateAsync: toggleLike } = useMutation({
+  const { mutate: toggleLike } = useMutation({
     mutationFn: async (postId: string) => {
       const postRef = doc(db, 'posts', postId);
 
@@ -40,33 +40,37 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
       }
     },
     onMutate: async (postId) => {
-      await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS] });
-      const prevPosts = queryClient.getQueryData([QUERY_KEYS.POSTS]);
+      await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS, postId] });
+      const prevPosts = queryClient.getQueryData([QUERY_KEYS.POSTS, postId]);
 
-      queryClient.setQueryData([QUERY_KEYS.POSTS], (old: PostType[]) => {
-        return old.map((p) => {
-          if (p.id === postId && uid) {
-            const isLiked = p.likedUsers.includes(uid);
+      if (uid) {
+        queryClient.setQueryData([QUERY_KEYS.POSTS, postId], (old: PostType) => {
+          console.log(old);
+          console.log(postId);
+          if (old.id === postId) {
+            const isLiked = old.likedUsers.includes(uid);
             return {
-              ...p,
-              likedUsers: isLiked ? p.likedUsers!.filter((users) => users !== uid) : [...p.likedUsers!, uid],
-              likeCount: isLiked ? p.likeCount! - 1 : p.likeCount! + 1
+              ...old,
+              likedUsers: isLiked ? old.likedUsers!.filter((users) => users !== uid) : [...old.likedUsers!, uid],
+              likeCount: isLiked ? old.likeCount! - 1 : old.likeCount! + 1
             };
           }
-          return p;
+          return old;
         });
-      });
+      }
       return { prevPosts };
     },
     onError: (error, postId, context) => {
-      queryClient.setQueryData([QUERY_KEYS.POSTS], context?.prevPosts);
+      if (context?.prevPosts) {
+        queryClient.setQueryData([QUERY_KEYS.POSTS], context?.prevPosts);
+      }
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [`${QUERY_KEYS.POSTS}`] });
+    onSettled: (postId) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS, postId] });
     }
   });
 
-  const handleClickLikeButton = async (event: React.MouseEvent<Element>) => {
+  const onClickLikeButtonHandler = async (event: React.MouseEvent<Element>) => {
     event.stopPropagation();
     // 로그인 여부 확인
     if (!uid) {
@@ -95,7 +99,7 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
     }
 
     // 로그인 한 유저는 좋아요 실행
-    await toggleLike(foundDetailPost.id);
+    toggleLike(foundDetailPost.id);
   };
 
   // 좋아요 여부 확인
@@ -104,7 +108,7 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
   return (
     <LikeButtonIcon
       style={{ fontSize: `${buttonSize}px` }}
-      onClick={handleClickLikeButton}
+      onClick={onClickLikeButtonHandler}
       $isPostLiked={isPostLiked || false}
       $likeFalseColor={likeFalseColor}
       $likeTrueColor={likeTrueColor}
@@ -122,7 +126,10 @@ type LikeButtonIconProps = {
   $likeTrueColor: string;
 };
 
-const LikeButtonIcon = styled.span<LikeButtonIconProps>`
+const LikeButtonIcon = styled.button<LikeButtonIconProps>`
   color: ${(props) => (props.$isPostLiked ? `${props.$likeTrueColor}` : `${props.$likeFalseColor}`)};
   cursor: pointer;
+  border: none;
+  background: none;
+  display: flex;
 `;

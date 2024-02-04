@@ -13,6 +13,10 @@ const WhyContainer = styled.div`
     height: 300px;
     background: linear-gradient(to bottom, rgba(255, 161, 20, 1) 50%, rgba(255, 161, 20, 0) 100%);
   }
+
+  @media screen and (max-width: 431px) {
+    width: 100vw;
+  }
 `;
 
 const Mission = styled.div`
@@ -29,7 +33,6 @@ const Mission = styled.div`
 
   @media screen and (max-width: 431px) {
     flex-direction: column;
-    height: 1000px;
     row-gap: 50px;
     & img {
       width: 200px;

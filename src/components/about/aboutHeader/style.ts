@@ -5,6 +5,11 @@ const Header = styled.div`
   position: relative;
   width: 100%;
   height: 800px;
+
+  @media screen and (max-width: 431px) {
+    width: 100vw;
+    height: 400px;
+  }
 `;
 
 const VideoWrapper = styled.video`

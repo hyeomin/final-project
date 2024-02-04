@@ -11,14 +11,14 @@ import { AuthContext } from '../../../context/AuthContext';
 import { QUERY_KEYS } from '../../../query/keys';
 import { db } from '../../../shared/firebase';
 import { PostType } from '../../../types/PostType';
-import { getFormattedDateCustom } from '../../../util/formattedDateAndTime';
+import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
 import PostContentPreview from '../../common/PostContentPreview';
 import {
-  AuthorProfileImg,
+  AuthorNameAndDate,
   CommentAndLikes,
   HeartClickButton,
   PostCardHeader,
-  PostCardHeaderTextRow,
+  PostCardHeaderLeft,
   PostImg,
   PostInfoContainer,
   PostTitleAndContent,
@@ -110,13 +110,13 @@ function PostCard({ post }: PostCardProps) {
       />
       <PostInfoContainer>
         <PostCardHeader>
-          <div>
-            <AuthorProfileImg src={user?.profileImg || defaultProfile} alt="profile" />
-            <PostCardHeaderTextRow>
-              <p>{user?.displayName}</p>
-              <span>{getFormattedDateCustom(post.createdAt!)}</span>
-            </PostCardHeaderTextRow>
-          </div>
+          <PostCardHeaderLeft>
+            <img src={user?.profileImg || defaultProfile} alt="profile" />
+            <AuthorNameAndDate>
+              <span>{user?.displayName}</span>
+              <p>{getFormattedDate_yymmdd(post.createdAt!)}</p>
+            </AuthorNameAndDate>
+          </PostCardHeaderLeft>
           <HeartClickButton onClick={handleClickLikeButton} $isLiked={!!post.isLiked}>
             {post.isLiked ? <GoHeartFill /> : <GoHeart />}
           </HeartClickButton>
