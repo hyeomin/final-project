@@ -1,7 +1,7 @@
 import { useContext } from 'react';
-import Loader from '../src/components/common/Loader';
 import { AuthContext } from '../src/context/AuthContext';
 import './App.css';
+import Loader from './components/Loader';
 import Router from './shared/Router';
 
 function App() {
