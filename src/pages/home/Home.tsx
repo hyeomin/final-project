@@ -1,6 +1,6 @@
-import HomeHeader from './\bcomponents/homeHeader/HomeHeader';
-import PopularContents from './\bcomponents/popularContents/PopularContents';
-import TopUsers from './\bcomponents/topUsers/TopUsers';
+import HomeHeader from './components/homeHeader/HomeHeader';
+import PopularContents from './components/popularContents/PopularContents';
+import TopUsers from './components/topUsers/TopUsers';
 import St from './style';
 
 function Home() {
