@@ -269,6 +269,9 @@ const Button = styled.button<ButtonProps>`
       position: absolute;
       right: 0;
     `}
+    @media screen and (max-width: 431px) {
+    display: none;
+  }
 `;
 
 export default {
