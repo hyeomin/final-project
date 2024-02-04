@@ -6,6 +6,7 @@ const CommentListContainer = styled.div`
   flex-direction: column;
   width: 100%;
   font-size: 14px;
+  margin-top: 20px;
 `;
 
 const SingleComment = styled.div`
@@ -13,6 +14,7 @@ const SingleComment = styled.div`
   column-gap: 20px;
   border-bottom: 1px solid ${theme.color.lightgray};
   padding: 40px 0;
+  height: 139px;
 
   img {
     width: 40px;

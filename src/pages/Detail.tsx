@@ -12,6 +12,9 @@ import PostShift from '../components/detail/postShift/PostShift';
 import { QUERY_KEYS } from '../query/keys';
 import theme from '../styles/theme';
 import { PostType } from '../types/PostType';
+import DetailHeaderSkeleton from '../components/detail/detailHeader/skeleton/DetailHeaderSkeleton';
+import DetailBodySkeleton from '../components/detail/detailBody/skeleton/DetailBodySkeleton';
+import CommentSkeleton from '../components/detail/comment/commentList/commentSkeleton/CommentSkeleton';
 
 function Detail() {
   const { id } = useParams();
@@ -34,9 +37,9 @@ function Detail() {
     }
   }, [foundDetailPost]);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  // if (isLoading) {
+  //   return <Loader />;
+  // }
 
   // 포스트 존재 여부 검사
   // if (posts) {
@@ -51,12 +54,21 @@ function Detail() {
   return (
     <Container>
       {/* <DetailTitle>상세페이지</DetailTitle> */}
+      {isLoading && (
+        <>
+          <DetailHeaderSkeleton />
+          <DetailBodySkeleton />
+          <AddCommentForm foundDetailPost={foundDetailPost!} />
+          <CommentSkeleton />
+          <PostShift postId={id} />
+        </>
+      )}
       {foundDetailPost && (
         <>
-          <DetailHeader foundDetailPost={foundDetailPost} />
-          <DetailBody foundDetailPost={foundDetailPost} />
-          <AddCommentForm foundDetailPost={foundDetailPost} />
-          <CommentList foundDetailPost={foundDetailPost} />
+          <DetailHeader foundDetailPost={foundDetailPost} isLoading={isLoading} />
+          <DetailBody foundDetailPost={foundDetailPost} isLoading={isLoading} />
+          <AddCommentForm foundDetailPost={foundDetailPost} isLoading={isLoading} />
+          <CommentList foundDetailPost={foundDetailPost} isLoading={isLoading} />
           <PostShift postId={id} />
         </>
       )}

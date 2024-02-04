@@ -13,7 +13,7 @@ import { getFormattedDate } from '../../../../util/formattedDateAndTime';
 import St from './style';
 import UserDetail from '../../../main/UserDetail';
 
-const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
+const CommentList = ({ foundDetailPost, isLoading }: FoundDetailPostProps) => {
   const modal = useModal();
   const queryClient = useQueryClient();
   const postId = foundDetailPost?.id;
