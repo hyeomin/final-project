@@ -3,7 +3,7 @@ import './carouselSkeleton.css';
 
 const CarouselSkeleton = () => {
   return (
-    <>
+    <div className="carousel-skeleton-container">
       <div className="skeleton-wrapper">
         <div className="skeleton-header">
           <div className="skeleton-profileImage"></div>
@@ -56,7 +56,7 @@ const CarouselSkeleton = () => {
           <div className="skeleton-counts"></div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

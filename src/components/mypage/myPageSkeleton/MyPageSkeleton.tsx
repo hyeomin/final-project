@@ -14,7 +14,11 @@ const MyPageSkeleton = () => {
               <div className="mypage-skeleton-dateAndTime"></div>
             </div>
           </div>
-          <div className="mypage-skeleton-content"></div>
+          <div className="mypage-skeleton-contentWrapper">
+            <div className="mypage-skeleton-content"></div>
+            <div className="mypage-skeleton-content"></div>
+          </div>
+
           <div className="mypage-skeleton-counts"></div>
         </div>
       </div>
@@ -28,7 +32,11 @@ const MyPageSkeleton = () => {
               <div className="mypage-skeleton-dateAndTime"></div>
             </div>
           </div>
-          <div className="mypage-skeleton-content"></div>
+          <div className="mypage-skeleton-contentWrapper">
+            <div className="mypage-skeleton-content"></div>
+            <div className="mypage-skeleton-content"></div>
+          </div>
+
           <div className="mypage-skeleton-counts"></div>
         </div>
       </div>
@@ -42,7 +50,11 @@ const MyPageSkeleton = () => {
               <div className="mypage-skeleton-dateAndTime"></div>
             </div>
           </div>
-          <div className="mypage-skeleton-content"></div>
+          <div className="mypage-skeleton-contentWrapper">
+            <div className="mypage-skeleton-content"></div>
+            <div className="mypage-skeleton-content"></div>
+          </div>
+
           <div className="mypage-skeleton-counts"></div>
         </div>
       </div>
@@ -56,7 +68,11 @@ const MyPageSkeleton = () => {
               <div className="mypage-skeleton-dateAndTime"></div>
             </div>
           </div>
-          <div className="mypage-skeleton-content"></div>
+          <div className="mypage-skeleton-contentWrapper">
+            <div className="mypage-skeleton-content"></div>
+            <div className="mypage-skeleton-content"></div>
+          </div>
+
           <div className="mypage-skeleton-counts"></div>
         </div>
       </div>

@@ -26,17 +26,13 @@ const LikesPosts = () => {
     staleTime: 60_000
   });
 
-  if (isLoading) {
-    return <p>데이터를 불러오는 중입니다...</p>;
-  }
-
   if (isError) {
     return <p>오류가 발생했습니다: {error.message}</p>;
   }
 
   return (
     <>
-      <MyPageSkeleton />
+      {isLoading && <MyPageSkeleton />}
       <PostContainer>
         {likePosts?.length! > 0 ? (
           likePosts?.map((post) => {

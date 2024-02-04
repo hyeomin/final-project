@@ -45,6 +45,7 @@ const Carousel = () => {
           <SlArrowLeft />
         </St.Button>
       )}
+      {isLoading && <CarouselSkeleton />}
       <St.SlideWrapper>
         <Swiper
           pagination={{
