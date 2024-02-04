@@ -204,7 +204,7 @@ const TitleAndContent = styled.div`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-
+    text-align: left;
     @media screen and (max-width: 431px) {
       font-size: 12px;
     }
