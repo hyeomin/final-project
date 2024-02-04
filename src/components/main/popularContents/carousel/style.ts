@@ -6,6 +6,7 @@ const Container = styled.div`
   width: 1300px;
   /* background-color: #f4bdbd; */
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 0;
@@ -203,7 +204,7 @@ const TitleAndContent = styled.div`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-
+    text-align: left;
     @media screen and (max-width: 431px) {
       font-size: 12px;
     }

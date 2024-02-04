@@ -5,8 +5,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { PostContainer } from '../community/communityPostList/style';
 import PostCard from './PostCard/PostCard';
-import MyPageSkeleton from './myPageSkeleton/MyPageSkeleton';
-
+import PostsSkeleton from './postsSkeleton/PostsSkeleton';
 // interface MyProfileProps {
 //   getLikePosts: () => Promise<PostType[] | undefined>;
 // }
@@ -26,17 +25,13 @@ const LikesPosts = () => {
     staleTime: 60_000
   });
 
-  if (isLoading) {
-    return <p>데이터를 불러오는 중입니다...</p>;
-  }
-
   if (isError) {
     return <p>오류가 발생했습니다: {error.message}</p>;
   }
 
   return (
     <>
-      <MyPageSkeleton />
+      {isLoading && <PostsSkeleton />}
       <PostContainer>
         {likePosts?.length! > 0 ? (
           likePosts?.map((post) => {
