@@ -103,4 +103,60 @@ const SortingWrapper = styled.ul`
   }
 `;
 
-export default { CommunityContainer, CommunityNavBar, CategoryButtonWrapper, CategoryButton, SortingWrapper };
+const MangoDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+  column-gap: 10px;
+
+  //모바일 세로
+  @media screen and (max-width: 431px) {
+    margin-top: 30px;
+  }
+`;
+
+const MangoWord = styled.p`
+  color: ${theme.color.mangoMain};
+  font-family: ${theme.font.mango};
+  font-size: 38px;
+  font-weight: 400;
+  //모바일 세로
+  @media screen and (max-width: 431px) {
+    font-size: 28px;
+  }
+`;
+
+const MangoOutWord = styled.p`
+  color: #000;
+  font-size: 38px;
+  font-weight: 700;
+  //모바일 세로
+  @media screen and (max-width: 431px) {
+    font-size: 28px;
+  }
+`;
+
+const MangoSUbWord = styled.p`
+  text-align: left;
+  font-size: 17px;
+  font-weight: 500;
+  margin-top: 10px;
+  line-height: 2;
+
+  //모바일 세로
+  @media screen and (max-width: 431px) {
+    display: none;
+  }
+`;
+
+export default {
+  CommunityContainer,
+  CommunityNavBar,
+  CategoryButtonWrapper,
+  CategoryButton,
+  SortingWrapper,
+  MangoDiv,
+  MangoWord,
+  MangoOutWord,
+  MangoSUbWord
+};
