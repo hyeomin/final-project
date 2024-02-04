@@ -43,8 +43,10 @@ const TabTitle = styled.div`
 const ColoredBox = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
+  align-items: center;
+  justify-content: start;
   background-color: ${theme.color.mangoMain};
+  row-gap: 10px;
   width: 100%;
   height: 340px;
   padding: 60px 180px;
@@ -52,8 +54,16 @@ const ColoredBox = styled.div`
   position: relative;
 
   & h5 {
+    width: 100%;
+    max-width: 1200px;
     font-size: 26px;
     font-weight: bold;
+    text-align: left;
+  }
+
+  p {
+    width: 100%;
+    max-width: 1200px;
   }
 
   @media screen and (max-width: 431px) {
@@ -76,6 +86,7 @@ const LinkContainer = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 20px;
   width: 100%;
+  max-width: 1200px;
   height: 370px;
   margin: 30px 0;
   border-radius: 10px;

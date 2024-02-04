@@ -12,7 +12,6 @@ import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { getAllUsers } from '../../../api/authApi';
-import defaultProfile from '../../../assets/defaultImg.jpg';
 import mangoCover from '../../../assets/tentative-cover-image.jpg';
 import { useModal } from '../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../query/keys';
@@ -23,13 +22,14 @@ import { PostType } from '../../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../../util/formattedDateAndTime';
 import Loader from '../../common/Loader';
 import PostContentPreview from '../../common/PostContentPreview';
+import UserDetail from '../../main/UserDetail';
 import { SortList } from '../../viewAll/ViewAllBody';
 import St, {
-  AuthorProfileImg,
+  AuthorNameAndDate,
   CommentAndLikes,
   HeartClickButton,
   PostCardHeader,
-  PostCardHeaderTextRow,
+  PostCardHeaderLeft,
   PostContainer,
   PostImg,
   PostInfoContainer,
@@ -138,27 +138,32 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     onMutate: async (params: PostCardProps) => {
       const { postId: selectedPostId } = params;
 
-      await queryClient.cancelQueries({ queryKey: [category] });
+      await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS, category] });
 
       //이전 데이터 저장
-      const previousPosts = queryClient.getQueriesData<InfiniteData<PostType[]> | undefined>({ queryKey: [category] });
-
-      queryClient.setQueriesData<InfiniteData<PostType[]> | undefined>({ queryKey: [category] }, (prevPosts) => {
-        if (!prevPosts) {
-          return {
-            pages: [],
-            pageParams: []
-          };
-        }
-
-        // pages 배열 내의 모든 페이지를 펼칩니다.
-        const updatedPages = prevPosts.pages.map((posts) =>
-          posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
-        );
-
-        // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
-        return { ...prevPosts, pages: updatedPages };
+      const previousPosts = queryClient.getQueriesData<InfiniteData<PostType[]> | undefined>({
+        queryKey: [QUERY_KEYS.POSTS, category]
       });
+
+      queryClient.setQueriesData<InfiniteData<PostType[]> | undefined>(
+        { queryKey: [QUERY_KEYS.POSTS, category] },
+        (prevPosts) => {
+          if (!prevPosts) {
+            return {
+              pages: [],
+              pageParams: []
+            };
+          }
+
+          // pages 배열 내의 모든 페이지를 펼칩니다.
+          const updatedPages = prevPosts.pages.map((posts) =>
+            posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
+          );
+
+          // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
+          return { ...prevPosts, pages: updatedPages };
+        }
+      );
 
       //context에 이전 데이터 저장
       return { previousPosts };
@@ -169,7 +174,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [category] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS, category] });
     }
   });
 
@@ -232,29 +237,40 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
                     <PostImg
                       src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
                       alt={post.title}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null;
+                        target.src = mangoCover;
+                      }}
                     />
                     <PostInfoContainer>
-                      {userList && userList?.find((user) => user.uid === post.uid) && (
-                        <PostCardHeader>
-                          <div>
-                            <AuthorProfileImg
+                      {/* {userList && userList?.find((user) => user.uid === post.uid) && ( */}
+                      <PostCardHeader>
+                        <PostCardHeaderLeft>
+                          <UserDetail userId={post.uid} type="profileImg" />
+
+                          {/* <AuthorProfileImg
                               src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
                               alt="profile"
-                            />
-                            <PostCardHeaderTextRow>
-                              <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p>
-                              <span>{getFormattedDate_yymmdd(post.createdAt!)}</span>
-                            </PostCardHeaderTextRow>
-                          </div>
-                          {/* 하트 클릭하는 버튼 */}
-                          <HeartClickButton
-                            onClick={(e) => handleClickLikeButton(e, post.id, post)}
-                            $isLiked={!!post.isLiked}
-                          >
-                            {post.isLiked ? <GoHeartFill /> : <GoHeart />}
-                          </HeartClickButton>
-                        </PostCardHeader>
-                      )}
+                            /> */}
+                          {/* <PostCardHeaderTextRow> */}
+                          <AuthorNameAndDate>
+                            <UserDetail userId={post.uid} type="displayName" />
+                            {/* <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p> */}
+                            <p>{getFormattedDate_yymmdd(post.createdAt!)}</p>
+                          </AuthorNameAndDate>
+
+                          {/* </PostCardHeaderTextRow> */}
+                        </PostCardHeaderLeft>
+                        {/* 하트 클릭하는 버튼 */}
+                        <HeartClickButton
+                          onClick={(e) => handleClickLikeButton(e, post.id, post)}
+                          $isLiked={!!post.isLiked}
+                        >
+                          {post.isLiked ? <GoHeartFill /> : <GoHeart />}
+                        </HeartClickButton>
+                      </PostCardHeader>
+                      {/* // )} */}
                       <PostTitleAndContent>
                         <p>{post.title}</p>
                         {post.content && <PostContentPreview postContent={post.content} />}

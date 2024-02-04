@@ -17,7 +17,6 @@ Quill.register('modules/imageFormats', ImageFormats);
 function Editor() {
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { title, content } = postInput;
-  console.log('postInput', postInput);
 
   const quillRef = useRef<ReactQuill>(null);
 
