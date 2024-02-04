@@ -34,8 +34,11 @@ const SlideWrapper = styled.div`
 
   @media screen and (max-width: 431px) {
     width: 100%;
-    height: 300px;
+    //height: 300px;
     margin: 0 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 `;
 
@@ -45,7 +48,8 @@ const Slide = styled.div`
   /* min-width: 200px;
   max-width: 285px; */
   width: 285px;
-  height: 100%;
+  //height: 100%;
+  height: 400px;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -77,9 +81,10 @@ const Slide = styled.div`
     bottom: 0;
   }
   @media screen and (max-width: 431px) {
-    width: 270px;
+    position: relative;
+    //width: 130px;
+    padding: 10px 10px 10px;
     display: flex;
-    flex-wrap: wrap;
   }
 `;
 
@@ -138,12 +143,19 @@ const HeartIcon = styled(GoHeart)`
   color: #fff;
   font-size: 25px;
   cursor: pointer;
+  @media screen and (max-width: 431px) {
+    font-size: 15px;
+  }
 `;
 
 const HeartFillIcon = styled(GoHeartFill)`
   color: red;
   font-size: 26px;
   cursor: pointer;
+
+  @media screen and (max-width: 431px) {
+    font-size: 16px;
+  }
 `;
 
 const UserProfileImage = styled.div`
@@ -155,6 +167,18 @@ const UserProfileImage = styled.div`
     width: 100%;
     height: 100%;
     background-color: #fff;
+  }
+  @media screen and (max-width: 431px) {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
+const UserProfileName = styled.div`
+  @media screen and (max-width: 431px) {
+    & span {
+      font-size: 12px;
+    }
   }
 `;
 
@@ -179,6 +203,10 @@ const TitleAndContent = styled.div`
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+
+    @media screen and (max-width: 431px) {
+      font-size: 12px;
+    }
   }
   & div {
     color: #fff;
@@ -187,6 +215,9 @@ const TitleAndContent = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    @media screen and (max-width: 431px) {
+      font-size: 10px;
+    }
   }
 `;
 const InteractionInfo = styled.div`
@@ -201,6 +232,9 @@ const InteractionInfo = styled.div`
     font-size: 14px;
     font-weight: 400;
     line-height: 150%;
+    @media screen and (max-width: 431px) {
+      font-size: 10px;
+    }
   }
 `;
 
@@ -214,7 +248,8 @@ const Button = styled.button<ButtonProps>`
   all: unset;
   /* background-color: #addddd; */
   font-size: 35px;
-  color: #ededed;
+  //color: #ededed;
+  color: #000;
   cursor: pointer;
   &:hover {
     color: #e3e3e3;
@@ -242,6 +277,7 @@ export default {
   CoverImage,
   Slide,
   UserProfileImage,
+  UserProfileName,
   SlideHeader,
   SlideBottom,
   TitleAndContent,

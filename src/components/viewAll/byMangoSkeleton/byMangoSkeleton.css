@@ -1,0 +1,44 @@
+.byMango-skeleton-wrapper {
+  width: 300px;
+  height: 412px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.skeleton-coverImage {
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+  animation: loading 1.5s infinite;
+}
+
+.byMango-skeleton-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.skeleton-title {
+  width: 100%;
+  height: 48px;
+  animation: loading 1.5s infinite;
+}
+
+.skeleton-content {
+  width: 100%;
+  height: 37px;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-color: #eee;
+  }
+  50% {
+    background-color: #ddd;
+  }
+  100% {
+    background-color: #eee;
+  }
+}

@@ -37,8 +37,6 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
     staleTime: Infinity
   });
 
-  // const author = userList?.find((user) => user.uid === foundDetailPost.uid);
-
   let authorImage = author?.profileImg;
   if (!authorImage) {
     authorImage = defaultImage;

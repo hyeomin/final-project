@@ -101,17 +101,19 @@ function NavBar() {
           <St.GuideToggle onClick={onToggleModal}>GUIDE</St.GuideToggle>
           {isGuideModalOpen && <GuideModal onClose={onToggleModal} />}
         </St.LeftNav>
-        <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
 
-        <St.LoginModal>
-          {!currentUser ? (
-            <label onClick={onLoginToggleModal}>
-              <FaBars />
-            </label>
-          ) : null}
+        <St.RightNav>
+          <AuthNavBar styledNav={styledNav} setIsAuthToggleOpen={setIsAuthToggleOpen} />
+          <St.LoginModal>
+            {!currentUser ? (
+              <label onClick={onLoginToggleModal}>
+                <FaBars />
+              </label>
+            ) : null}
 
-          {isLoginModalOpen && <LoginModal onClose={onLoginToggleModal} />}
-        </St.LoginModal>
+            {isLoginModalOpen && <LoginModal onClose={onLoginToggleModal} />}
+          </St.LoginModal>
+        </St.RightNav>
       </St.NavBarContainer>
       {isAuthToggleOpen && <AuthToggle setIsAuthToggleOpen={setIsAuthToggleOpen} />}
     </St.NavContainer>

@@ -61,23 +61,24 @@ function GuideModal({ onClose }: ModalProps) {
           <SwiperSlide>
             <img src={pageSix} alt="guide-six" />
           </SwiperSlide>
+          <St.NavigationButtonContainer>
+            <St.NavButton onClick={goPrev}>
+              {currentIndex > 0 && (
+                <span>
+                  <GoChevronLeft />
+                </span>
+              )}
+            </St.NavButton>
+            <St.NavButton onClick={goNext}>
+              {currentIndex < 5 && (
+                <span>
+                  <GoChevronRight />
+                </span>
+              )}
+            </St.NavButton>
+          </St.NavigationButtonContainer>
+          <St.PageCount>{`${currentIndex + 1} / 6`}</St.PageCount>
         </Swiper>
-        <St.NavigationButtonContainer>
-          <St.NavButton onClick={goPrev}>
-            {currentIndex > 0 && (
-              <span>
-                <GoChevronLeft />
-              </span>
-            )}
-          </St.NavButton>
-          <St.NavButton onClick={goNext}>
-            {currentIndex < 5 && (
-              <span>
-                <GoChevronRight />
-              </span>
-            )}
-          </St.NavButton>
-        </St.NavigationButtonContainer>
       </St.ModalContent>
     </St.ModalBackdrop>
   );

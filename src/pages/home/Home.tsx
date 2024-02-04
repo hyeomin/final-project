@@ -1,4 +1,4 @@
-import MainBody from '../components/main/MainBody';
+import MainBody from '../../components/main/MainBody';
 
 function Home() {
   return <MainBody />;

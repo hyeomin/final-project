@@ -20,7 +20,6 @@ const ModalBackdrop = styled.div`
 `;
 
 const ModalContent = styled.div`
-  padding: 40px;
   width: 100%;
   max-width: 600px;
   height: auto;
@@ -28,6 +27,8 @@ const ModalContent = styled.div`
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   position: relative;
+  border-radius: 20px;
+  overflow: hidden;
 
   @media screen and (max-width: 431px) {
     width: 100%;
@@ -44,6 +45,7 @@ const NavigationButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  z-index: 100;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -53,15 +55,14 @@ const NavigationButtonContainer = styled.div`
 const NavButton = styled.div`
   display: flex;
   justify-content: center;
-
   cursor: pointer;
-  border-radius: 50%;
 
   & span {
     display: flex;
     align-items: end;
     font-size: 50px;
     color: ${theme.color.gray};
+    opacity: 80%;
   }
 
   @media screen and (max-width: 431px) {
@@ -73,4 +74,12 @@ const NavButton = styled.div`
   }
 `;
 
-export default { ModalBackdrop, ModalContent, GuideImage, NavigationButtonContainer, NavButton };
+const PageCount = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  font-weight: 400;
+`;
+
+export default { ModalBackdrop, ModalContent, GuideImage, NavigationButtonContainer, NavButton, PageCount };

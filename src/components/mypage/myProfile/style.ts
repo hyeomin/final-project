@@ -12,14 +12,8 @@ const Wrapper = styled.div`
   text-align: center;
 
   @media screen and (max-width: 431px) {
-    margin: 10px 20px auto 20px;
+    margin: 5px 5px auto 5px;
     width: 100%;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
   }
 `;
 
@@ -44,6 +38,7 @@ const MySectionWrapper = styled.div`
 `;
 const ProfileEditWrapper = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   column-gap: 30px;
   padding: 40px 60px;
@@ -63,9 +58,25 @@ const ProfileEditWrapper = styled.div`
   }
 `;
 
+const ProFileEditContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  @media screen and (max-width: 431px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+`;
+
 const ProfileImageContainer = styled.div`
   display: flex;
   position: relative;
+
+  @media screen and (max-width: 431px) {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const PenWrapper = styled.div`
@@ -86,9 +97,21 @@ const PenWrapper = styled.div`
   @media screen and (max-width: 431px) {
     width: 20px;
     height: 20px;
+    font-size: small;
   }
 `;
 
+const ModifyBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  @media screen and (max-width: 431px) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+`;
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -100,19 +123,22 @@ const ProfileInfo = styled.div`
 
   @media screen and (max-width: 431px) {
     display: flex;
-    /* flex-wrap: wrap; */
+    flex-wrap: nowrap;
   }
 `;
 
 const ProfileModifyBtn = styled.div`
   width: 90px;
-  height: 30px;
+  height: 25px;
   background-color: ${theme.color.mangoMain};
   color: white;
-  font-size: 14px;
+  font-size: 12px;
   border-radius: 30px;
-  padding: 8px;
+  padding: 7px;
   margin-top: 7px;
+  &:hover {
+    cursor: pointer;
+  }
 
   @media screen and (max-width: 431px) {
     margin-top: 2px;
@@ -196,8 +222,10 @@ const LevelEmoji = styled.div`
 `;
 
 const Level = styled.div`
-  margin-top: 0px;
+  margin-top: 10px;
+
   @media screen and (max-width: 431px) {
+    margin-top: 0px;
   }
 `;
 
@@ -246,14 +274,13 @@ const profileImg = styled.div`
 `;
 
 const ModifyButton = styled.button`
-  width: 80px;
-  height: 30px;
+  width: 70px;
+  height: 25px;
   border-radius: 30px;
   border: none;
-  font-size: 12px;
+  font-size: 10px;
   color: white;
-  margin-top: 15px;
-  margin-left: 5px;
+  margin-top: 10px;
   background-color: ${theme.color.mangoMain};
   font-weight: 600;
   &:hover {
@@ -261,10 +288,11 @@ const ModifyButton = styled.button`
   }
 
   @media screen and (max-width: 431px) {
-    width: 60px;
+    width: 50px;
     height: 20px;
     font-weight: 500;
-    font-size: 10px;
+    font-size: 8px;
+    margin-top: 0px;
   }
 `;
 
@@ -274,9 +302,9 @@ const UserInfoModify = styled.div`
   margin-right: 100px;
   max-width: 200px;
 
-  /* @media screen and (max-width: 431px) {
+  @media screen and (max-width: 431px) {
     justify-content: left;
-  } */
+  }
 `;
 const FileInput = styled.input`
   display: none;
@@ -308,6 +336,13 @@ const DisplayNameCheckBtn = styled.button`
   &:hover {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 431px) {
+    width: 50px;
+    height: 20px;
+    font-weight: 500;
+    font-size: 9px;
+  }
 `;
 
 const MyImage = styled.img`
@@ -316,14 +351,14 @@ const MyImage = styled.img`
   object-fit: cover;
   border-radius: 50%;
   @media screen and (max-width: 431px) {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
   }
 `;
 
 const MyNickname = styled.h1`
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   @media screen and (max-width: 431px) {
     width: 100%;
     height: 100%;
@@ -357,12 +392,13 @@ const GuideGrade = styled.div`
   bottom: -10px;
   border-radius: 10px;
   @media screen and (max-width: 431px) {
-    padding: 8px;
-    left: 0px;
-    bottom: 35px;
+    padding: 7px;
+    left: -45px;
+    bottom: 30px;
     height: 50px;
-    width: 150px;
+    width: 140px;
     font-size: 10px;
+    line-height: 0.7rem;
   }
 
   &:after {
@@ -376,7 +412,7 @@ const GuideGrade = styled.div`
     border-bottom: 10px solid transparent;
 
     @media screen and (max-width: 431px) {
-      left: 25px;
+      left: 70px;
       top: 50px;
       border-top: 10px solid ${theme.color.mangoLight};
       border-left: 10px solid transparent;
@@ -388,6 +424,7 @@ const GuideGrade = styled.div`
 
 const Tabs = styled.div`
   display: flex;
+  flex-direction: column; //솔 test
   justify-content: center;
   width: 100%;
   margin: 20px;
@@ -466,7 +503,7 @@ const TabButton = styled.button<TabButtonProps>`
 const ErrorMsg = styled.div`
   color: red;
   font-size: 12px;
-  margin-left: 10px;
+  margin-left: 5px;
 
   @media screen and (max-width: 431px) {
     font-size: 10px;
@@ -489,7 +526,9 @@ export default {
   Level,
   DisplayNameModify,
   UserInfoModify,
+  ProFileEditContainer,
   ProfileInfo,
+  ModifyBox,
   PostInfoIcon,
   UserPostInfoContainer,
   PostInfoBox,

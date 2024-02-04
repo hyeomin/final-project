@@ -4,6 +4,7 @@ import theme from '../../../styles/theme';
 const BodyContainer = styled.div`
   width: 100%;
   margin: 40px 0;
+  /* padding: 40px 20px; */
 `;
 
 const BodyHeader = styled.div`
