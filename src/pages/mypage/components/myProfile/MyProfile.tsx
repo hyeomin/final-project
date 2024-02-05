@@ -16,6 +16,7 @@ import St from './style';
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
   const [isClickedGuide, setIsClickedGuide] = useState(false);
+  const [isClickedRanking, setIsClickedRanking] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -63,6 +64,10 @@ function MyProfile() {
     setIsClickedGuide((prevState) => !prevState);
   };
 
+  const ClickedRankingToggleBtn = () => {
+    setIsClickedRanking((prevState) => !prevState);
+  };
+
   const userGrade = myPosts?.length;
   let levelOne = 1;
   let levelTwo = 2;
@@ -98,17 +103,32 @@ function MyProfile() {
             </St.PostInfoIcon>
           </St.PostInfoBox>
           <St.PostInfoBox>
-            <div>랭킹</div>
-            <St.PostInfoIcon>
+            <div style={{ display: 'flex' }}>
+              랭킹
+              <div style={{ cursor: 'pointer' }} onClick={ClickedRankingToggleBtn}>
+                <GoQuestion style={{ fontSize: '15px', marginLeft: '5px', cursor: 'pointer' }} />
+              </div>
+              {isClickedRanking ? (
+                <div>
+                  <St.RankingInfoWrapper>
+                    <St.RankingInfo>
+                      좋아요를 많이 받은 순으로 <br />
+                      랭킹이 표시됩니다.
+                    </St.RankingInfo>
+                  </St.RankingInfoWrapper>
+                </div>
+              ) : null}
+            </div>
+            <St.RankingIcon>
               <img src={rankingIcon} />
               <div>
                 {authCurrentUser && userRanking
                   ? userRanking.findIndex((r) => r.uid === authCurrentUser.uid) >= 0
                     ? `${userRanking?.findIndex((r) => r.uid === authCurrentUser.uid) + 1}위`
-                    : '순위 없음'
+                    : '미정'
                   : '-'}
               </div>
-            </St.PostInfoIcon>
+            </St.RankingIcon>
           </St.PostInfoBox>
           <St.PostInfoBox>
             <div>

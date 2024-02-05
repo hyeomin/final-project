@@ -6,6 +6,7 @@ import { AuthContext } from '../../../context/AuthContext';
 import { PostContainer } from '../../community/components/communityPostList/style';
 import PostCard from './PostCard/PostCard';
 import PostCardSkeleton from './PostCard/PostCardSkeleton/PostCardSkeleton';
+import PostsSkeleton from '../../../components/mypage/postsSkeleton/PostsSkeleton';
 
 const LikesPosts = () => {
   const authContext = useContext(AuthContext);
@@ -22,13 +23,9 @@ const LikesPosts = () => {
     staleTime: 60_000
   });
 
-  {
-    isLoading && <PostCardSkeleton />;
-  }
-
   return (
     <>
-      {isLoading && <PostCardSkeleton />}
+      {isLoading && <PostsSkeleton />}
       <PostContainer>
         {likePosts?.length === 0 ? (
           <p style={{ display: 'flex', justifyContent: 'center' }}>좋아요 누른 게시물이 없습니다.</p>

@@ -38,6 +38,7 @@ import St, {
   PostTitleAndContent,
   SinglePost
 } from './style';
+import PostsSkeleton from '../../../../components/mypage/postsSkeleton/PostsSkeleton';
 // import PostsSkeleton from '../../mypage/postsSkeleton/PostsSkeleton';
 // import CommunitySkeleton from '../../viewAll/communitySkeleton/CommunitySkeleton';
 
@@ -230,8 +231,12 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
   return (
     <St.PostListContainer>
       <div>
-        {isLoading ? (
+        {/* {isLoading ? (
           <CommunitySkeleton />
+        )  */}
+
+        {isLoading ? (
+          <PostsSkeleton />
         ) : (
           <PostContainer>
             {posts?.map((post, idx) => {

@@ -6,6 +6,7 @@ import { QUERY_KEYS } from '../../../query/keys';
 import { PostContainer } from '../../community/components/communityPostList/style';
 import PostCard from './PostCard/PostCard';
 import PostCardSkeleton from './PostCard/PostCardSkeleton/PostCardSkeleton';
+import PostsSkeleton from '../../../components/mypage/postsSkeleton/PostsSkeleton';
 
 // 내 게시물 가져오기
 const MyPosts = () => {
@@ -22,7 +23,7 @@ const MyPosts = () => {
 
   return (
     <>
-      {isLoading && <PostCardSkeleton />}
+      {isLoading && <PostsSkeleton />}
       <PostContainer>
         {myPosts?.length! === 0 ? (
           <div>내 게시물이 없습니다</div>
