@@ -28,7 +28,7 @@ const HomeHeader = () => {
   });
 
   if (error) {
-    console.log(error.message);
+    console.log('byMango 게시물 가져오기 실패!', error);
   }
 
   const handleSlideChange = (swiper: SwiperClass) => {

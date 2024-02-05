@@ -17,11 +17,9 @@ const useLikeQuery = () => {
       const previousPosts = queryClient.getQueryData<PostType[]>(['posts', 'popular']);
 
       if (currentUserId) {
-        // 옵티미스틱 업데이트
         queryClient.setQueryData(['posts', 'popular'], (old: PostType[] | []) => {
           return old.map((p) => {
             if (p.id === id) {
-              // 현재 사용자가 이미 '좋아요'를 눌렀는지 확인
               const isLiked = p.likedUsers!.includes(currentUserId);
               return {
                 ...p,
@@ -37,16 +35,14 @@ const useLikeQuery = () => {
       }
       return { previousPosts: previousPosts ?? [] };
     },
-    // error, variables, context
+
     onError: (error: Error, _: UpdateLikedUsersType, context: MutationContext | undefined): void => {
       if (context?.previousPosts) {
         queryClient.setQueryData([QUERY_KEYS.POSTS], context.previousPosts);
       }
-      console.log('onError: ', error);
-      //console.log('context: ', context);
+      console.log('좋아요 업데이트 실패!: ', error);
     },
     onSettled: () => {
-      //console.log('onSettled');
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
     }
   });

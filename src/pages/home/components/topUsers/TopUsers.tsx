@@ -8,12 +8,19 @@ import TopUsersSkeleton from './skeleton/TopUsersSkeleton';
 import St from './style';
 
 const TopUsers = () => {
-  const { data: topUsers, isLoading } = useQuery({
+  const {
+    data: topUsers,
+    isLoading,
+    error
+  } = useQuery({
     queryKey: ['posts', 'topUsers'],
     queryFn: getTopUsers,
     staleTime: 60_000
   });
-  console.log('topUsers==>', topUsers);
+
+  if (error) {
+    console.log('top10 users 가져오기 실패!', error);
+  }
 
   return (
     <St.Container>

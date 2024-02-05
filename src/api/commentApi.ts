@@ -10,39 +10,30 @@ type AddComment = {
 
 //새 댓글 CREATE
 const addComment = async ({ newComment, postId, currentUserId }: AddComment) => {
-  try {
-    if (!currentUserId) return;
-    const commentRef = collection(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS);
-    await addDoc(commentRef, newComment);
+  if (!currentUserId) return;
+  const commentRef = collection(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS);
+  await addDoc(commentRef, newComment);
 
-    //댓글 추가후 commentCount 업데이트/ 숫자값 늘리기
-    const postRef = doc(db, QUERY_KEYS.POSTS, postId);
-    await updateDoc(postRef, { commentCount: increment(1) });
-  } catch (error) {
-    console.log('error', error);
-  }
+  const postRef = doc(db, QUERY_KEYS.POSTS, postId);
+  await updateDoc(postRef, { commentCount: increment(1) });
 };
 
 //코멘트 READ
 const getComments = async (postId: string) => {
-  try {
-    const commentRef = collection(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS);
-    const commentQuery = query(commentRef, orderBy('createdAt', 'desc'));
-    const querySnapshot = await getDocs(commentQuery);
+  const commentRef = collection(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS);
+  const commentQuery = query(commentRef, orderBy('createdAt', 'desc'));
+  const querySnapshot = await getDocs(commentQuery);
 
-    const comments: CommentType[] = [];
-    querySnapshot.forEach((doc) => {
-      const commentData = doc.data() as CommentType;
-      const comment = {
-        ...commentData,
-        id: doc.id
-      };
-      comments.push(comment);
-    });
-    return comments;
-  } catch (error) {
-    console.log('error', error);
-  }
+  const comments: CommentType[] = [];
+  querySnapshot.forEach((doc) => {
+    const commentData = doc.data() as CommentType;
+    const comment = {
+      ...commentData,
+      id: doc.id
+    };
+    comments.push(comment);
+  });
+  return comments;
 };
 
 type deleteType = {
@@ -54,14 +45,11 @@ type deleteType = {
 const deleteComment = async ({ id, postId }: deleteType) => {
   if (!id || !postId) return;
   const commentRef = doc(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS, id);
-  try {
-    await deleteDoc(commentRef);
 
-    const postRef = doc(db, QUERY_KEYS.POSTS, postId);
-    await updateDoc(postRef, { commentCount: increment(-1) });
-  } catch (error) {
-    console.log('error', error);
-  }
+  await deleteDoc(commentRef);
+
+  const postRef = doc(db, QUERY_KEYS.POSTS, postId);
+  await updateDoc(postRef, { commentCount: increment(-1) });
 };
 
 type UpdateComment = {
@@ -71,13 +59,9 @@ type UpdateComment = {
 };
 // 게시물 UPDATE
 const updateComment = async ({ postId, id, editingText: content }: UpdateComment) => {
-  try {
-    const postRef = doc(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS, id);
-    const createdAt = Date.now();
-    await updateDoc(postRef, { content, createdAt });
-  } catch (error) {
-    console.log('error', error);
-  }
+  const postRef = doc(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS, id);
+  const createdAt = Date.now();
+  await updateDoc(postRef, { content, createdAt });
 };
 
 export { addComment, deleteComment, getComments, updateComment };
