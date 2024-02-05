@@ -45,8 +45,6 @@ function LikeButton({ foundDetailPost, buttonSize, likeFalseColor, likeTrueColor
 
       if (uid) {
         queryClient.setQueryData([QUERY_KEYS.POSTS, postId], (old: PostType) => {
-          console.log(old);
-          console.log(postId);
           if (old.id === postId) {
             const isLiked = old.likedUsers.includes(uid);
             return {
