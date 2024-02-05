@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const TopButton = () => {
+interface TopButtonProps {
+  position: number;
+}
+
+const TopButton = ({ position }: TopButtonProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const scrollToTop = () => {
@@ -23,12 +27,20 @@ const TopButton = () => {
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 
-  return <>{isVisible && <StyledButton onClick={scrollToTop}>TOP</StyledButton>}</>;
+  return (
+    <>
+      {isVisible && (
+        <StyledButton position={position} onClick={scrollToTop}>
+          TOP
+        </StyledButton>
+      )}
+    </>
+  );
 };
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<TopButtonProps>`
   position: fixed;
-  bottom: 20px;
+  bottom: ${(props) => props.position}px;
   right: 20px;
   width: 50px;
   height: 50px;
