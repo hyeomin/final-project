@@ -17,7 +17,7 @@ import { isSignUpState, roleState } from '../../../recoil/users';
 import { auth, db } from '../../../shared/firebase';
 import { Data } from './Signup';
 import St from './style';
-
+import { setPersistence, browserSessionPersistence } from 'firebase/auth';
 interface UserData {
   uid: string;
   displayName: string | null;
@@ -74,7 +74,9 @@ function Login() {
   }, [errorMsg]);
 
   // 로그인
+
   const signIn: SubmitHandler<Data> = async (data) => {
+    setPersistence(auth, browserSessionPersistence);
     try {
       const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
 

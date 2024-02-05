@@ -338,7 +338,7 @@ const DisplayNameCheckBtn = styled.button`
   }
 
   @media screen and (max-width: 431px) {
-    width: 50px;
+    width: 70px;
     height: 20px;
     font-weight: 500;
     font-size: 9px;
