@@ -119,7 +119,7 @@ const ContentBody = styled.div`
     }
     width: 100%;
     line-height: 185%;
-    font-size: 14px;
+    font-size: 15px;
   }
 `;
 

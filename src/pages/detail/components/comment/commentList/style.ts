@@ -51,10 +51,11 @@ const NameAndTime = styled.div`
   display: flex;
   column-gap: 20px;
   font-weight: bold;
+  font-size: 15px;
   @media screen and (max-width: 431px) {
     flex-direction: column;
     gap: 5px;
-    font-size: 13px;
+    font-size: 14px;
   }
 `;
 
@@ -82,6 +83,7 @@ const ButtonContainer = styled.div`
 
 const Content = styled.div`
   display: flex;
+  font-size: 16px;
 `;
 
 const Mango = styled.img`
