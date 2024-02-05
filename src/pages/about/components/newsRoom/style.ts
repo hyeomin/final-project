@@ -76,9 +76,6 @@ const StyledSwiper = styled(Swiper)`
   width: 100%;
   max-width: 1200px;
   height: 340px;
-
-  @media screen and (max-width: 431px) {
-  }
 `;
 
 const SingleSlide = styled.div`

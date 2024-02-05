@@ -150,10 +150,10 @@ function ImageUpload() {
   };
 
   // 이미지 삭제 Mutation
-  const deletePostMutation = useMutation({
+  const deleteImageMutation = useMutation({
     mutationFn: (url: string) => deleteImage(url),
     onSuccess: async (url) => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
 
       // Firebase Post 데이터 업데이트
       if (isEditingPost && foundPost) {
@@ -168,6 +168,9 @@ function ImageUpload() {
           });
         }
       }
+    },
+    onError: (error) => {
+      console.log('이미지 삭제 실패', error);
     }
   });
 
@@ -186,7 +189,7 @@ function ImageUpload() {
         coverImages: deleteImages
       });
       if (!image.isLocal) {
-        deletePostMutation.mutate(image.url);
+        deleteImageMutation.mutate(image.url);
       }
 
       setIsModalOpen((prev) => ({ ...prev, isModalOpen05: false }));
@@ -216,7 +219,7 @@ function ImageUpload() {
           onChange={onAddImageHandler}
           style={{ display: 'none' }}
           ref={fileInputRef}
-          typeof=""
+          accept=".jpg,.jpeg,.png"
         />
         <img src={DragNDrop} alt="cloud-icon" />
         <button>Upload</button>

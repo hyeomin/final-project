@@ -35,6 +35,9 @@ function EditUploadButton({ postId }: Props) {
       // 임시저장 삭제
       sessionStorage.removeItem('savedData');
       navigate(`/detail/${postId}`);
+    },
+    onError: (error) => {
+      console.log('게시글 수정 실패', error);
     }
   });
 

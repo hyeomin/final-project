@@ -4,14 +4,12 @@ import {
   QueryKey,
   useInfiniteQuery,
   useMutation,
-  useQuery,
   useQueryClient
 } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { getAllUsers } from '../../../../api/authApi';
 import mangoCover from '../../../../assets/mangoDefaultCover.png';
 import Loader from '../../../../components/Loader';
 import PostContentPreview from '../../../../components/PostContentPreview';
@@ -221,11 +219,11 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
   };
 
   //사용자 프로필 데이터
-  const { data: userList } = useQuery({
-    queryKey: [QUERY_KEYS.USERS],
-    queryFn: getAllUsers,
-    staleTime: 1000 * 60
-  });
+  // const { data: userList } = useQuery({
+  //   queryKey: [QUERY_KEYS.USERS],
+  //   queryFn: getAllUsers,
+  //   staleTime: 1000 * 60
+  // });
 
   // St가 안 붙은 태그들은 재활용을 위해 .style에서 직접 export 한 것들
   return (

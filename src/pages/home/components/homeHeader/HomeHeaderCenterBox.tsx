@@ -31,10 +31,14 @@ function HomeHeaderCenterBox({ swiperInstance, currentIndex, setCurrentIndex, ad
             <h2>나부터 먼저!</h2>
             <h1>친환경 생활습관</h1>
           </div>
-          <p>
-            더는 지켜만 볼 수 없어요! <br />
-            우리 같이 건강한 환경 만들기 챌린지에 도전해봐요.
-          </p>
+          {adminContents ? (
+            <p>{adminContents[currentIndex].title}</p>
+          ) : (
+            <p>
+              더는 지켜만 볼 수 없어요! <br />
+              우리 같이 건강한 환경 만들기 챌린지에 도전해봐요.
+            </p>
+          )}
         </HeaderText>
         <ButtonContainer>
           <FlexBox>
@@ -111,8 +115,10 @@ const HeaderText = styled.div`
   }
 
   & p {
-    font-size: 17px;
+    font-size: 22px;
     line-height: normal;
+    font-weight: 700;
+    color: ${theme.color.mangoMain};
 
     @media screen and (max-width: 431px) {
       font-size: 15px;

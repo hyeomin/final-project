@@ -6,11 +6,17 @@ export const extractFirst50Words = (htmlString: string) => {
   return words.join(' ') + (words.length >= 10 ? '...' : '');
 };
 
-export const stripHtml = (htmlString: string) => {
-  // 새로운 div 요소를 만들고 HTML 내용을 넣습니다.
+export const stripHtml = (htmlString: string, checkForImages: boolean = false) => {
+  // 텍스트에 이미지 있는지 확인
+  if (checkForImages) {
+    const containsImage = /<img .+?>/i.test(htmlString);
+    if (containsImage) {
+      return 'Image found';
+    }
+  }
+
+  // 이미지 없으면 텍스트 있는지 확인
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = htmlString;
-
-  // 텍스트만 추출합니다.
   return tempDiv.textContent || tempDiv.innerText || '';
 };
