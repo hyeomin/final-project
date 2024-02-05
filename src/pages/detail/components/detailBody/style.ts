@@ -34,12 +34,29 @@ const PostInfo = styled.div`
     justify-content: center;
     row-gap: 15px;
   }
+  @media screen and (max-width: 431px) {
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50px;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      row-gap: 8px;
+      font-size: 14px;
+    }
+  }
 `;
 
 const DateSpan = styled.span`
   color: ${theme.color.gray};
   font-size: 14px;
   font-weight: 300;
+  @media screen and (max-width: 431px) {
+    font-size: 13px;
+  }
 `;
 
 const EditNDeleteContainer = styled.div`
