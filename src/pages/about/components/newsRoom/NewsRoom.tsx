@@ -26,7 +26,11 @@ function NewsRoom() {
   // role 비어있을 경우 다시 받아오기
   const role = useRoleCheck();
 
-  const { data: newsPosts } = useQuery({ queryKey: [QUERY_KEYS.NEWS], queryFn: getNews, staleTime: 60_000 });
+  const { data: newsPosts, error } = useQuery({ queryKey: [QUERY_KEYS.NEWS], queryFn: getNews, staleTime: 60_000 });
+
+  if (error) {
+    console.log('뉴스 가져오기 실패', error);
+  }
 
   // 클릭한 비디오로 모달창 띄우기
   const onClickSlideHandler = (videoId: string) => {

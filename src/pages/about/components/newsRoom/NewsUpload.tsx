@@ -43,6 +43,9 @@ function NewsUpload({ newsUrl, setNewsUrl }: Props) {
     mutationFn: (news: Omit<NewsType, 'id'>) => addNews(news),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.NEWS] });
+    },
+    onError: (error) => {
+      console.log('뉴스 업로드 실패', error);
     }
   });
 
