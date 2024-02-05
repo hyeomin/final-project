@@ -14,7 +14,7 @@ function ByMango() {
         <St.TextWithMangoFont>Mango</St.TextWithMangoFont>
         <St.TextWithoutMangoFont>콘텐츠</St.TextWithoutMangoFont>
       </St.ByMangoTitle>
-      <St.ByMangoSubtitle>누구나, 어디서나 쉽게 따라할 수 있는 습관을 만들어 나가요.</St.ByMangoSubtitle>
+      <St.ByMangoSubtitle>망고 관리자들이 소개합니다! 재미있고 도움되는 친환경 이야기</St.ByMangoSubtitle>
       <St.PostListWrapper>
         <PostListAdmin queryKey={[QUERY_KEYS.POSTS, QUERY_KEYS.ADMIN]} queryFn={getAdminPostList} sortBy={sortBy} />
       </St.PostListWrapper>

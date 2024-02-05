@@ -38,6 +38,7 @@ const Carousel = () => {
 
   return (
     <St.Container>
+      {/* <CarouselSkeleton /> */}
       {currentSlide > 0 && (
         <St.Button type="button" onClick={handlePrev} $buttonType="prev">
           <SlArrowLeft />

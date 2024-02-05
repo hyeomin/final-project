@@ -47,6 +47,12 @@ function Footer() {
                 <img src={github} alt="github" />
               </a>
             </St.SingleMember>
+            <St.SingleMember>
+              <span>송승훈 Hoon</span>
+              <a href="https://github.com/heeneeee" target="_blank" rel="noopener noreferrer">
+                <img src={github} alt="github" />
+              </a>
+            </St.SingleMember>
           </St.TeamInfo>
         </St.FooterText>
       </St.FooterContentContainer>

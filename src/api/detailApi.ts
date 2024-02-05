@@ -11,20 +11,12 @@ const updatePostViewCount = async (postId: string) => {
 };
 
 export const getDetailPost = async (postId: string) => {
-  try {
-    const postRef = doc(db, QUERY_KEYS.POSTS, postId);
-    const postSnap = await getDoc(postRef);
-    if (!postSnap.exists()) {
-      return undefined;
-    }
+  const postRef = doc(db, QUERY_KEYS.POSTS, postId);
+  const postSnap = await getDoc(postRef);
 
-    const postData = postSnap.data() as Omit<PostType, 'id'>;
-    const post: PostType = { id: postSnap.id, ...postData };
-    return post;
-  } catch (error) {
-    console.log(error);
-    return undefined;
-  }
+  const postData = postSnap.data() as Omit<PostType, 'id'>;
+  const post: PostType = { id: postSnap.id, ...postData };
+  return post;
 };
 
 export { updatePostViewCount };
