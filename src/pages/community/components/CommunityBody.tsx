@@ -141,8 +141,7 @@ function CommunityBody() {
         </St.SortingWrapper>
       </St.CommunityNavBar>
       <CommunityPostList queryKey={[QUERY_KEYS.POSTS, category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} />
-      {/* <PostList queryKey={[category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} /> */}
-      <TopButton />
+      <TopButton position={220} />
     </St.CommunityContainer>
   );
 }
