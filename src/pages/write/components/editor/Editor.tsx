@@ -81,6 +81,7 @@ function Editor() {
         onChange={(event) => setPostInput({ ...postInput, title: event.target.value })}
         placeholder="제목을 입력하세요."
         tabIndex={1}
+        maxLength={30}
       />
       <St.EditorContainer className="editor-container">
         <ReactQuill

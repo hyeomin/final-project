@@ -216,7 +216,7 @@ function ImageUpload() {
           onChange={onAddImageHandler}
           style={{ display: 'none' }}
           ref={fileInputRef}
-          typeof=""
+          accept=".jpg,.jpeg,.png"
         />
         <img src={DragNDrop} alt="cloud-icon" />
         <button>Upload</button>

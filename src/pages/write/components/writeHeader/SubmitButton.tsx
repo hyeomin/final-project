@@ -22,7 +22,7 @@ function SubmitButton() {
   const setIsModalOpen = useSetRecoilState(modalState);
   const setisEditingPost = useSetRecoilState(isEditingPostState);
   const [postInput, setPostInput] = useRecoilState(postInputState);
-  const { title, content } = postInput;
+  const { title, content, coverImages } = postInput;
 
   // 이미지 업로드 상태 관리
   const imageUploadingStatus = useRecoilValue(imageUploadingStatusState);
@@ -82,7 +82,7 @@ function SubmitButton() {
       };
       modal.open(openModalParams);
       setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
-    } else if (imageUploadingStatus === 'Loading...') {
+    } else if (coverImages.length > 0 && imageUploadingStatus === 'Loading...') {
       // 킴님 확인이 필요합니다!
       const onClickConfirm = () => {
         setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));

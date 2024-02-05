@@ -25,6 +25,7 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
 
   const category = useRecoilValue<Category>(categoryListState);
   console.log('category', category);
+
   const onEditPostHandler = () => {
     setPostInput({
       title: foundDetailPost.title,
