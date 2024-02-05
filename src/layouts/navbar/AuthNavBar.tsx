@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import defaultImg from '../../assets/defaultImg.jpg';
 import { useModal } from '../../hooks/useModal';
+import { modalState } from '../../recoil/modals';
 import { isSignUpState } from '../../recoil/users';
 import { auth } from '../../shared/firebase';
 import St from './style';
-import { modalState } from '../../recoil/modals';
 
 type Props = {
   styledNav: ({ isActive }: { isActive: boolean }) => {
@@ -74,9 +74,6 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
         <>
           <St.StyledNavLnk to="/auth" onClick={() => setIsSignUp(false)} style={styledNav}>
             로그인
-          </St.StyledNavLnk>
-          <St.StyledNavLnk to="/auth" onClick={() => setIsSignUp(true)} style={styledNav}>
-            회원가입
           </St.StyledNavLnk>
         </>
       )}

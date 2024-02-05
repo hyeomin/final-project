@@ -19,11 +19,20 @@ function Detail() {
   const { id } = useParams();
 
   // 해당 데이터 가져오기
-  const { data: foundDetailPost, isLoading } = useQuery<PostType | undefined>({
+  const {
+    data: foundDetailPost,
+    isLoading,
+    error
+  } = useQuery<PostType>({
     queryKey: [QUERY_KEYS.POSTS, id],
-    queryFn: () => (id ? getDetailPost(id) : undefined),
+    queryFn: () => getDetailPost(id!),
+    enabled: !!id,
     staleTime: 60_000
   });
+
+  if (error) {
+    console.log('상세 게시글 불러오기 실패', error);
+  }
 
   //조회수 업데이트
   const [viewCount, setViewCount] = useState(foundDetailPost?.viewCount || 0);

@@ -14,7 +14,7 @@ const SingleComment = styled.div`
   column-gap: 20px;
   border-bottom: 1px solid ${theme.color.lightgray};
   padding: 40px 0;
-  height: 139px;
+  /* height: 139px; */
 
   img {
     width: 40px;
@@ -28,10 +28,12 @@ const CommentDetail = styled.div`
   flex-direction: column;
   row-gap: 30px;
   flex: 1;
+
   & textarea {
     resize: none;
     outline: none;
-    height: 100px;
+    /* height: 300px; */
+    /* height: auto; */
     border: 1px solid ${theme.color.lightgray};
     border-radius: 5px;
     padding: 10px;

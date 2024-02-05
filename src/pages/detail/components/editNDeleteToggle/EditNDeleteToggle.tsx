@@ -55,6 +55,9 @@ function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {
       if (pathHistory[pathHistory.length - 2] === '/write') {
         navigate('/');
       } else navigate(-1);
+    },
+    onError: (error) => {
+      console.log('게시글 삭제 실패', error);
     }
   });
 
