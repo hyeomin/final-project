@@ -1,0 +1,148 @@
+.skeleton-CardWrapper {
+  @media screen and (max-width: 431px) {
+    width: 100%;
+    /* display: flex; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    justify-content: center; /* 가로축 가운데 정렬 */
+    align-items: center; /* 세로축 가운데 정렬 */
+  }
+}
+
+.skeleton-CardBox {
+  @media screen and (max-width: 431px) {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
+.posts-skeleton-container {
+  width: 100%;
+  /* height: 600px; */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 20px;
+  @media screen and (max-width: 431px) {
+    height: 390px;
+  }
+}
+
+.posts-skeleton-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  /* background: red; */
+  overflow: hidden;
+}
+
+/* .skeleton-PostCardImg {
+  @media screen and (max-width: 431px) {
+    object-fit: cover;
+    width: 100%;
+    height: 50%;
+    animation: loading 1.5s infinite;
+  }
+} */
+.skeleton-PostCardImg {
+  @media screen and (max-width: 431px) {
+    width: 100%;
+    object-fit: cover;
+    height: 150px;
+    animation: loading 1.5s infinite;
+  }
+}
+
+.skeleton-DataBox {
+  @media screen and (max-width: 431px) {
+    display: flex;
+    align-items: center;
+    /* background-color: orange; */
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.skeleton-UserImg {
+  @media screen and (max-width: 431px) {
+    /* background-color: pink; */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 5px;
+    animation: loading 1.5s infinite;
+  }
+}
+
+.skeleton-NicknameAndDate {
+  @media screen and (max-width: 431px) {
+    /* background-color: gray; */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 7px;
+    margin-top: 5px;
+  }
+}
+
+.skeleton-postCardNickname {
+  @media screen and (max-width: 431px) {
+    /* background-color: blue; */
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    animation: loading 1.5s infinite;
+  }
+}
+
+.skeleton-postCardDate {
+  @media screen and (max-width: 431px) {
+    /* background-color: green; */
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    animation: loading 1.5s infinite;
+  }
+}
+
+.skeleton-TitleAndContent {
+  @media screen and (max-width: 431px) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.skeleton-postCardTitle {
+  @media screen and (max-width: 431px) {
+    /* background-color: black; */
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    animation: loading 1.5s infinite;
+  }
+}
+
+.skeleton-postCardContent {
+  @media screen and (max-width: 431px) {
+    /* background-color: purple; */
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    animation: loading 1.5s infinite;
+  }
+}
+
+@keyframes loading {
+  0% {
+    background-color: #eee;
+  }
+  50% {
+    background-color: #ddd;
+  }
+  100% {
+    background-color: #eee;
+  }
+}
