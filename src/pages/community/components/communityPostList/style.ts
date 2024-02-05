@@ -15,6 +15,14 @@ export const PostContainer = styled.div`
   @media screen and (max-width: 431px) {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+
+    p {
+      font-size: 10px;
+    }
+
+    div {
+      font-size: 10px;
+    }
   }
 `;
 

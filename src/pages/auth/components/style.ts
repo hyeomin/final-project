@@ -87,7 +87,7 @@ const AuthBtn = styled.button`
   border: none;
   background-color: ${theme.color.mangoMain};
   color: white;
-  font-weight: 300;
+  font-weight: 600;
   font-size: 10px;
   &:hover {
     cursor: pointer;
@@ -105,8 +105,7 @@ const SignUpAndLoginBtn = styled.button`
   border-radius: 10px;
   margin-bottom: 10px;
   font-size: 12px;
-  font-weight: 500;
-
+  font-weight: 600;
   &:hover {
     background-color: #f59004;
     cursor: pointer;

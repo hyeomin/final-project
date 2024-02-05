@@ -17,6 +17,7 @@ import { modalState } from '../../../../recoil/modals';
 import { auth, db } from '../../../../shared/firebase';
 import { resizeProfileImageFile } from '../../../../util/imageResize';
 import St from './style';
+import ProfileSkeleton from './myPageSkeleton/ProfileSkeleton';
 // import { modalState } from '../../../recoil/modals';
 
 function EditProfile() {

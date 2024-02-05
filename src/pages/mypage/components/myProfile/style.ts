@@ -258,6 +258,22 @@ const PostInfoIcon = styled.div`
   }
 `;
 
+const RankingIcon = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 17px;
+  @media screen and (max-width: 431px) {
+    margin-top: 5px;
+  }
+  img {
+    @media screen and (max-width: 431px) {
+      width: 12px;
+      height: 12px;
+      margin-top: 5px;
+    }
+  }
+`;
+
 const profileImg = styled.div`
   object-fit: cover;
   img {
@@ -338,7 +354,7 @@ const DisplayNameCheckBtn = styled.button`
   }
 
   @media screen and (max-width: 431px) {
-    width: 50px;
+    width: 70px;
     height: 20px;
     font-weight: 500;
     font-size: 9px;
@@ -395,6 +411,57 @@ const GuideGrade = styled.div`
     padding: 7px;
     left: -45px;
     bottom: 30px;
+    height: 50px;
+    width: 140px;
+    font-size: 10px;
+    line-height: 0.7rem;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: -10%;
+    top: 35%;
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid ${theme.color.mangoLight};
+    border-bottom: 10px solid transparent;
+
+    @media screen and (max-width: 431px) {
+      left: 70px;
+      top: 50px;
+      border-top: 10px solid ${theme.color.mangoLight};
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+    }
+  }
+`;
+
+const RankingInfoWrapper = styled.div`
+  position: relative;
+`;
+// const Test = styled.div`
+//   width: 20px;
+//   background-color: rebeccapurple;
+// `;
+const RankingInfo = styled.div`
+  display: flex;
+  align-items: center;
+  /* column-gap: px; */
+  width: 180px;
+  height: 50px;
+  padding: 12px;
+  font-size: 12px;
+  background-color: ${theme.color.mangoLight};
+  position: absolute;
+  left: 15px;
+  bottom: -30px;
+  border-radius: 10px;
+  @media screen and (max-width: 431px) {
+    padding: 15px;
+    left: -85px;
+    bottom: 10px;
     height: 50px;
     width: 140px;
     font-size: 10px;
@@ -540,6 +607,9 @@ export default {
   MyImage,
   GuideGrade,
   GuideGradeWrapper,
+  RankingInfoWrapper,
+  RankingInfo,
   ErrorMsg,
-  DisplayNameCheckBtn
+  DisplayNameCheckBtn,
+  RankingIcon
 };
