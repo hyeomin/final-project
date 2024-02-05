@@ -54,6 +54,9 @@ const StyledButton = styled.button<TopButtonProps>`
   justify-content: center;
   font-size: 14px;
   z-index: 999;
+  @media screen and (max-width: 431px) {
+    display: none;
+  }
 `;
 
 export default TopButton;
