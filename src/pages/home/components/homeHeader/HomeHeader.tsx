@@ -14,7 +14,6 @@ import HomeHeaderCenterBox from './HomeHeaderCenterBox';
 import HomeHeaderSkeleton from './skeleton/HomeHeaderSkeleton';
 
 const HomeHeader = () => {
-  // console.log('어드민컨텐츠 렌더링!');
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -27,10 +26,6 @@ const HomeHeader = () => {
   const handleSlideChange = (swiper: SwiperClass) => {
     setCurrentIndex(swiper.realIndex);
   };
-
-  // if (isLoading) {
-  //   return <Loader />;
-  // }
 
   return (
     <>
@@ -56,7 +51,8 @@ const HomeHeader = () => {
                   <SwiperSlide key={idx}>
                     {item ? (
                       <img
-                        src={(item.coverImages[1] && item.coverImages[1].url) || defaultIllustration}
+                        // src={(item.coverImages[1] && item.coverImages[1].url) || defaultIllustration}
+                        src={defaultIllustration}
                         alt={`Slide ${idx}`}
                       />
                     ) : (

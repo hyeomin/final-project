@@ -5,7 +5,7 @@ const DetailBodySkeleton = () => {
   return (
     <>
       <div className="detailBody-skeleton-container">
-        <div className="skeleton-header">
+        <div className="detailBody-skeleton-header">
           <div className="detailBody-skeleton-profile"></div>
           <div className="detailBody-skeleton-wrapper">
             <p className="detailBody-skeleton-displayName"></p>
