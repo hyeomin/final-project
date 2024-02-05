@@ -55,7 +55,7 @@ function Detail() {
       {/* <DetailTitle>상세페이지</DetailTitle> */}
       {isLoading && (
         <>
-          {/* <DetailHeaderSkeleton /> */}
+          <DetailHeaderSkeleton />
           <DetailBodySkeleton />
           <AddCommentForm foundDetailPost={foundDetailPost!} />
           <CommentSkeleton />
@@ -64,8 +64,7 @@ function Detail() {
       )}
       {foundDetailPost && (
         <>
-          {/* <DetailHeader foundDetailPost={foundDetailPost} isLoading={isLoading} /> */}
-          {/* <DetailBodySkeleton /> */}
+          <DetailHeader foundDetailPost={foundDetailPost} isLoading={isLoading} />
           <DetailBody foundDetailPost={foundDetailPost} isLoading={isLoading} />
           <AddCommentForm foundDetailPost={foundDetailPost} isLoading={isLoading} />
           <CommentList foundDetailPost={foundDetailPost} isLoading={isLoading} />

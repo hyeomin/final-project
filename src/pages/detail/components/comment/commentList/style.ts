@@ -15,11 +15,17 @@ const SingleComment = styled.div`
   border-bottom: 1px solid ${theme.color.lightgray};
   padding: 40px 0;
   height: 139px;
-
   img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
+  }
+  @media screen and (max-width: 431px) {
+    padding: 20px;
+    img {
+      width: 30px;
+      height: 30px;
+    }
   }
 `;
 
@@ -36,12 +42,20 @@ const CommentDetail = styled.div`
     border-radius: 5px;
     padding: 10px;
   }
+  @media screen and (max-width: 431px) {
+    row-gap: 15px;
+  }
 `;
 
 const NameAndTime = styled.div`
   display: flex;
   column-gap: 20px;
   font-weight: bold;
+  @media screen and (max-width: 431px) {
+    flex-direction: column;
+    gap: 5px;
+    font-size: 13px;
+  }
 `;
 
 const Time = styled.span`
