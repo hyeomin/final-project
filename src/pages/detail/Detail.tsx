@@ -31,7 +31,7 @@ function Detail() {
   });
 
   if (error) {
-    console.log('상세 게시글 불러오기 실패', error);
+    console.log('상세페이지 게시글 불러오기 실패', error.message);
   }
 
   //조회수 업데이트

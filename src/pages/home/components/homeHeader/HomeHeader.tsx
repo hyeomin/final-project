@@ -10,7 +10,7 @@ import { getAdminPosts } from '../../../../api/homeApi';
 import defaultIllustration from '../../../../assets/home/AdminPostIllustration.png';
 import Loader from '../../../../components/Loader';
 import St from '../popularContents/carousel/style';
-import HomeHeaderCenterBox from './HomeHeaderCenterBox';
+import HomeHeaderCenterBox from './homeHeaderCenterBox/HomeHeaderCenterBox';
 import HomeHeaderSkeleton from './skeleton/HomeHeaderSkeleton';
 
 const HomeHeader = () => {
