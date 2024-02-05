@@ -7,7 +7,7 @@ function usePreviousPathname() {
 
   useEffect(() => {
     setPrevPathname(pathname);
-  }, [pathname]);
+  }, []);
 
   return prevPathname;
 }

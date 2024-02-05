@@ -23,7 +23,7 @@ function AboutFooter() {
         </h5>
         <p>
           다양한 노하우와 정보 공유를 통해
-          <br /> 환경 오염 함께 줄여나가요.
+          <br /> 환경 오염을 함께 줄여나가요.
         </p>
       </St.AboutFooterLeft>
       <St.AboutFooterRight>
