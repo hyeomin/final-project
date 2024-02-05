@@ -15,7 +15,7 @@ function About() {
       <NewsRoom />
       <GetStarted />
       <AboutFooter />
-      <TopButton />
+      <TopButton position={20} />
     </>
   );
 }
