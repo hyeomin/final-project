@@ -33,3 +33,20 @@
     background-color: #eee;
   }
 }
+
+@media screen and (max-width: 431px) {
+  .detail-skeleton-coverImg {
+    height: 270px;
+    width: 100%;
+    border-radius: 10px;
+    padding: 40px 30px;
+  }
+  .detail-skeleton-category {
+    width: 215px;
+    height: 15px;
+    margin-bottom: 10px;
+  }
+  .detail-skeleton-title {
+    height: 60px;
+  }
+}

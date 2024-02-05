@@ -5,19 +5,14 @@ import Loader from './components/Loader';
 import Router from './shared/Router';
 
 function App() {
-  // const authContext = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
 
-  // if (!authContext) {
-  //   return <Loader />;
-  // }
+  if (!authContext) {
+    return <Loader />;
+  }
 
-  // const { init } = authContext;
-  // return <>{init ? <Router /> : <Loader />}</>;
-  return (
-    <>
-      <Router />{' '}
-    </>
-  );
+  const { init } = authContext;
+  return <>{init ? <Router /> : <Loader />}</>;
 }
 
 export default App;
