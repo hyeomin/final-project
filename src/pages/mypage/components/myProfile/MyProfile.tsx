@@ -129,7 +129,7 @@ function MyProfile() {
                   {authCurrentUser && userRanking
                     ? userRanking.findIndex((r) => r.uid === authCurrentUser.uid) >= 0
                       ? `${userRanking?.findIndex((r) => r.uid === authCurrentUser.uid) + 1}위`
-                      : '미정'
+                      : '없음'
                     : '-'}
                 </div>
               </St.RankingIcon>
