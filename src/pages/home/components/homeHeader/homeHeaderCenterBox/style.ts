@@ -1,67 +1,6 @@
-import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { SwiperClass } from 'swiper/react';
-import useSwiperNavigation from '../../../../hooks/useSwiperNavigation';
-import theme from '../../../../styles/theme';
-import { PostType } from '../../../../types/PostType';
-
-type Props = {
-  swiperInstance: SwiperClass | null;
-  currentIndex: number;
-  setCurrentIndex: React.Dispatch<React.SetStateAction<number>>;
-  adminContents: PostType[] | undefined;
-};
-
-function HomeHeaderCenterBox({ swiperInstance, currentIndex, setCurrentIndex, adminContents }: Props) {
-  const { goNext, goPrev } = useSwiperNavigation({
-    swiperInstance,
-    currentIndex,
-    setCurrentIndex,
-    maxIndex: adminContents ? adminContents?.length - 1 : 0
-  });
-
-  const postId = adminContents && adminContents[currentIndex] ? adminContents[currentIndex].id : null;
-
-  return (
-    <HeaderMain>
-      <HeaderInfo>
-        <HeaderText>
-          <div>
-            <h2>나부터 먼저!</h2>
-            <h1>친환경 생활습관</h1>
-          </div>
-          {adminContents ? (
-            <p>{adminContents[currentIndex].title}</p>
-          ) : (
-            <p>
-              더는 지켜만 볼 수 없어요! <br />
-              우리 같이 건강한 환경 만들기 챌린지에 도전해봐요.
-            </p>
-          )}
-        </HeaderText>
-        <ButtonContainer>
-          <FlexBox>
-            <DetailLinkWrapper>
-              <Link to={`/detail/${postId}`}>자세히 보기</Link>
-            </DetailLinkWrapper>
-            <NavButtonContainer>
-              <NavButton onClick={goPrev}>
-                <GoChevronLeft />
-              </NavButton>
-              <span>{`${currentIndex + 1} / ${adminContents?.length}`}</span>
-              <NavButton onClick={goNext}>
-                <GoChevronRight />
-              </NavButton>
-            </NavButtonContainer>
-          </FlexBox>
-        </ButtonContainer>
-      </HeaderInfo>
-    </HeaderMain>
-  );
-}
-
-export default HomeHeaderCenterBox;
+import theme from '../../../../../styles/theme';
 
 const HeaderMain = styled.section`
   width: 1200px;
@@ -152,7 +91,7 @@ const FlexBox = styled.div`
   }
 `;
 
-const DetailLinkWrapper = styled.div`
+const DetailLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -161,9 +100,13 @@ const DetailLinkWrapper = styled.div`
   height: 45px;
   border-radius: 10px;
   background-color: #11111174;
+  border: none;
   /* background-color: ${theme.color.mangoMain}
   opacity: 80%; */
-  color: white;
+
+  p {
+    color: white;
+  }
 
   &:hover {
     cursor: pointer;
@@ -207,3 +150,14 @@ const NavButton = styled.button`
     font-size: 20px;
   }
 `;
+
+export default {
+  HeaderMain,
+  HeaderText,
+  HeaderInfo,
+  ButtonContainer,
+  FlexBox,
+  DetailLink,
+  NavButtonContainer,
+  NavButton
+};
