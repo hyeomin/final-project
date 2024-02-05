@@ -27,6 +27,8 @@ const Carousel = () => {
     // staleTime: Infinity
   });
 
+  console.log('popularPosts==>', popularPosts);
+
   // console.log('인기게시물==>', popularPosts);
   const onClickLikeButton = useLikeButton();
 

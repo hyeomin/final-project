@@ -31,6 +31,7 @@
 
 .comment-skeleton-content {
   height: 30px;
+  width: 200px;
   animation: loading 1.5s infinite;
   margin: 0 60px;
 }
@@ -44,5 +45,29 @@
   }
   100% {
     background-color: #eee;
+  }
+}
+@media screen and (max-width: 431px) {
+  .comment-skeleton-wrapper {
+    padding: 20px;
+    gap: 15px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+  .comment-skeleton-profile {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    animation: loading 1.5s infinite;
+  }
+  .comment-skeleton-text {
+    width: 200px;
+    height: 30px;
+  }
+  .comment-skeleton-content {
+    width: 245px;
+    height: 100%;
+    margin-left: 50px;
   }
 }

@@ -4,7 +4,10 @@ import theme from '../../../../styles/theme';
 const BodyContainer = styled.div`
   width: 100%;
   margin: 40px 0;
-  /* padding: 40px 20px; */
+
+  @media screen and (max-width: 431px) {
+    padding: 40px 20px;
+  }
 `;
 
 const BodyHeader = styled.div`
@@ -31,12 +34,29 @@ const PostInfo = styled.div`
     justify-content: center;
     row-gap: 15px;
   }
+  @media screen and (max-width: 431px) {
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50px;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      row-gap: 8px;
+      font-size: 14px;
+    }
+  }
 `;
 
 const DateSpan = styled.span`
   color: ${theme.color.gray};
   font-size: 14px;
   font-weight: 300;
+  @media screen and (max-width: 431px) {
+    font-size: 13px;
+  }
 `;
 
 const EditNDeleteContainer = styled.div`
@@ -61,7 +81,7 @@ const ContentBody = styled.div`
   padding: 40px 0;
   border-bottom: 1px solid ${theme.color.lightgray};
   line-height: 200%;
-
+  overflow: hidden;
   h1 {
     display: block;
     font-size: 2em;
@@ -98,6 +118,8 @@ const ContentBody = styled.div`
       object-fit: cover;
     }
     width: 100%;
+    line-height: 185%;
+    font-size: 15px;
   }
 `;
 
@@ -109,6 +131,18 @@ const AdditionalInfoContainer = styled.div`
   font-size: 18px;
   color: #222222;
   padding: 15px 0;
+  @media screen and (max-width: 431px) {
+    img {
+      width: 15px;
+      height: 15px;
+      object-fit: cover;
+    }
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    line-height: 185%;
+    font-size: 14px;
+  }
 `;
 
 const DetailInfo = styled.div`
