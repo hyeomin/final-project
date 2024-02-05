@@ -22,7 +22,7 @@ function SubmitButton() {
   const setIsModalOpen = useSetRecoilState(modalState);
   const setisEditingPost = useSetRecoilState(isEditingPostState);
   const [postInput, setPostInput] = useRecoilState(postInputState);
-  const { title, content } = postInput;
+  const { title, content, coverImages } = postInput;
 
   // 이미지 업로드 상태 관리
   const imageUploadingStatus = useRecoilValue(imageUploadingStatusState);
@@ -31,21 +31,10 @@ function SubmitButton() {
 
   const navigate = useNavigate();
 
-  // 작업 중인 포스트 정보
-  const newPost: Omit<PostType, 'id'> = {
-    ...postInput,
-    createdAt: Date.now(),
-    updatedAt: Date.now(),
-    uid: auth.currentUser!.uid,
-    likeCount: 0,
-    likedUsers: [],
-    role
-  };
-
   // 게시물 추가
   const queryClient = useQueryClient();
   const addMutation = useMutation({
-    mutationFn: () => addPost({ newPost }),
+    mutationFn: (newPost: Omit<PostType, 'id'>) => addPost(newPost),
     onSuccess: (postId) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
 
@@ -60,13 +49,16 @@ function SubmitButton() {
         sessionStorage.removeItem('savedData');
         navigate(`/detail/${postId}`);
       }
+    },
+    onError: (error) => {
+      console.log('게시글 등록 실패', error);
     }
   });
 
   const onSubmitPostHandler = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (title.length === 0 || stripHtml(content).trim().length === 0) {
+    if (title.length === 0 || stripHtml(content, true).trim().length === 0) {
       const onClickConfirm = () => {
         setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
         modal.close();
@@ -82,10 +74,9 @@ function SubmitButton() {
       };
       modal.open(openModalParams);
       setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
-    } else if (imageUploadingStatus === 'Loading...') {
-      // 킴님 확인이 필요합니다!
+    } else if (coverImages.length > 0 && imageUploadingStatus === 'Loading...') {
       const onClickConfirm = () => {
-        setIsModalOpen((prev) => ({ ...prev, isModalOpen01: false }));
+        setIsModalOpen((prev) => ({ ...prev, isModalOpen03: false }));
         modal.close();
       };
 
@@ -98,15 +89,28 @@ function SubmitButton() {
         onClickRightButton: onClickConfirm
       };
       modal.open(openModalParams);
-      setIsModalOpen((prev) => ({ ...prev, isModalOpen01: true }));
+      setIsModalOpen((prev) => ({ ...prev, isModalOpen03: true }));
     } else {
       const onClickCancel = () => {
         setIsModalOpen((prev) => ({ ...prev, isModalOpen02: false }));
         modal.close();
       };
-
+      // 업로드 Mutation
       const onClickSave = () => {
-        addMutation.mutate(); //
+        if (auth.currentUser) {
+          // 작업 중인 포스트 정보
+          const newPost: Omit<PostType, 'id'> = {
+            ...postInput,
+            createdAt: Date.now(),
+            updatedAt: Date.now(),
+            uid: auth.currentUser.uid,
+            likeCount: 0,
+            likedUsers: [],
+            role
+          };
+          addMutation.mutate(newPost);
+        }
+
         setIsModalOpen((prev) => ({ ...prev, isModalOpen02: false }));
         modal.close();
       };

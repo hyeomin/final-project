@@ -4,7 +4,7 @@ function AboutHeader() {
   return (
     <St.Header>
       <St.VideoWrapper muted autoPlay loop playsInline>
-        <source src={process.env.PUBLIC_URL + '/video/about-cover-video.mp4'} type="video/mp4" />
+        <source src={process.env.PUBLIC_URL + '/video/about-cover-video.webm'} type="video/webm" />
       </St.VideoWrapper>
       <St.Title>
         <h5>WHY MANGO?</h5>

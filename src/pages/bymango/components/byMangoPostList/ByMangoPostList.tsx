@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import mangoCover from '../../../../assets/mangoDefaultCover.png';
 import Loader from '../../../../components/Loader';
 import PostContentPreview from '../../../../components/PostContentPreview';
-// import { SortList } from '../../../../components/viewAll/ViewAllBody';
 import { SortList } from '../../../../types/PostListType';
 import { PostType } from '../../../../types/PostType';
 import ByMangoSkeleton from '../../byMangoSkeleton/ByMangoSkeleton';
@@ -62,13 +61,13 @@ function ByMangoPostList({ queryKey, queryFn, sortBy }: PostListProps) {
 
   return (
     <St.MainSubWrapper>
+      {/* <ByMangoSkeleton /> */}
       <St.ContentsWrapper>
-        <St.AdminContents>
-          {/* <ByMangoSkeleton /> */}
-          {isLoading ? (
-            <ByMangoSkeleton />
-          ) : (
-            posts?.map((post) => {
+        {isLoading ? (
+          <ByMangoSkeleton />
+        ) : (
+          <St.AdminContents>
+            {posts?.map((post) => {
               return (
                 <St.AdminContent key={post.id} onClick={() => navigate(`/detail/${post.id}`)}>
                   <img
@@ -79,9 +78,9 @@ function ByMangoPostList({ queryKey, queryFn, sortBy }: PostListProps) {
                   {post.content && <PostContentPreview postContent={post.content} />}
                 </St.AdminContent>
               );
-            })
-          )}
-        </St.AdminContents>
+            })}
+          </St.AdminContents>
+        )}
         {/* {isLoading ? (
           <Loader />
         ) : (

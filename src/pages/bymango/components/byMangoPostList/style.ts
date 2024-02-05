@@ -255,7 +255,8 @@ const MoreContentWrapper = styled.div`
     height: 35px;
     flex-shrink: 0;
     border-radius: 10px;
-    background: #ffa114;
+    background-color: ${theme.color.mangoMain};
+    /* background: #ffa114; */
     border: none;
 
     color: #fff;
@@ -284,7 +285,7 @@ const MangoWord = styled.p`
 `;
 
 const MangoOutWord = styled.p`
-  color: #000;
+  /* color: #000; */
   font-size: 38px;
   font-weight: 700;
 `;
@@ -294,17 +295,12 @@ const MangoSUbWord = styled.p`
   font-size: 17px;
   font-weight: 500;
   margin-top: 10px;
-  //모바일 (세로)
-  @media screen and (max-width: 431px) {
-    //
-  }
 `;
 
 const AdminContents = styled.ul`
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  justify-content: flex-start;
-  flex-wrap: wrap;
   margin-top: 40px;
   gap: 20px;
   margin-bottom: 20px;
@@ -328,12 +324,13 @@ const AdminContents = styled.ul`
 `;
 
 const AdminContent = styled.li`
-  width: 300px;
+  display: grid;
   margin-bottom: 20px;
+
   img {
+    width: 100%;
+    height: 250px;
     object-fit: cover;
-    width: 300px;
-    height: 300px;
     flex-shrink: 0;
     border-radius: 20px;
     &:hover {
@@ -347,7 +344,6 @@ const AdminContent = styled.li`
     img {
       object-fit: cover;
       width: 100%;
-      height: 70%;
       border-radius: 20px;
       &:hover {
         cursor: pointer;
@@ -358,12 +354,21 @@ const AdminContent = styled.li`
 `;
 
 const AdminPostTitle = styled.p`
-  color: #000;
+  /* color: #000; */
   font-size: 22px;
   font-weight: 700;
   text-align: left;
   margin-top: 20px;
   margin-bottom: 10px;
+  line-height: normal;
+
+  // 두줄로 제한, 높이 제한
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: calc(2 * 1em);
 
   //모바일 세로
   @media screen and (max-width: 431px) {

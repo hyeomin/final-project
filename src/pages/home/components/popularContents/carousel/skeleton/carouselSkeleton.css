@@ -1,9 +1,18 @@
 .carousel-skeleton-container {
-  display: flex;
-  width: 1200px;
-  height: 406px;
   margin: 0 35px;
   gap: 17px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  max-width: 1200px;
+  width: 100%;
+}
+
+@media screen and (max-width: 431px) {
+  .carousel-skeleton-container {
+    grid-template-columns: 1fr;
+    overflow: hidden;
+  }
 }
 
 .skeleton-wrapper {
@@ -16,6 +25,12 @@
   /* background-color: rgb(234, 233, 233); */
   padding: 13px 20px 20px;
   animation: loading 1.5s infinite;
+}
+
+@media screen and (max-width: 431px) {
+  .skeleton-wrapper {
+    margin: auto;
+  }
 }
 
 .skeleton-header {

@@ -16,6 +16,7 @@ const ByMangoTitle = styled.div`
   display: flex;
   align-items: center;
   margin-top: 50px;
+  margin-bottom: 10px;
   column-gap: 10px;
 
   //모바일 세로
@@ -49,12 +50,12 @@ const ByMangoSubtitle = styled.p`
   text-align: left;
   font-size: 17px;
   font-weight: 500;
-  margin-top: 10px;
-  line-height: 2;
+  margin-top: 15px;
+  line-height: normal;
 
   //모바일 세로
   @media screen and (max-width: 431px) {
-    display: none;
+    font-size: 15px;
   }
 `;
 
