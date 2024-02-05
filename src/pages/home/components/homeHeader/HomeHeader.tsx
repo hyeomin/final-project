@@ -17,11 +17,19 @@ const HomeHeader = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { data: adminContents, isLoading } = useQuery({
+  const {
+    data: adminContents,
+    isLoading,
+    error
+  } = useQuery({
     queryKey: ['posts', 'admin', 'selectedFour'],
     queryFn: getAdminPosts,
     staleTime: 60_000
   });
+
+  if (error) {
+    console.log(error.message);
+  }
 
   const handleSlideChange = (swiper: SwiperClass) => {
     setCurrentIndex(swiper.realIndex);
