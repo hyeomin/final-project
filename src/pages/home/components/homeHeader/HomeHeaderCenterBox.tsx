@@ -62,7 +62,7 @@ export default HomeHeaderCenterBox;
 const HeaderMain = styled.section`
   width: 1200px;
   height: 100%;
-  margin: 0 auto;
+  margin: 20px auto 20px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -74,6 +74,7 @@ const HeaderMain = styled.section`
   align-items: end;
 
   @media screen and (max-width: 431px) {
+    height: 300px;
     width: 100%;
     padding: 40px 30px;
     /* top: 10%;

@@ -13,6 +13,7 @@ const TopUsers = () => {
     queryFn: getTopUsers,
     staleTime: 60_000
   });
+  console.log('topUsers==>', topUsers);
 
   return (
     <St.Container>
