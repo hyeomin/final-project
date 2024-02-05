@@ -42,11 +42,11 @@ function HomeHeaderCenterBox({ swiperInstance, currentIndex, setCurrentIndex, ad
               <Link to={`/detail/${postId}`}>자세히 보기</Link>
             </DetailLinkWrapper>
             <NavButtonContainer>
-              <NavButton onClick={goPrev} disabled={currentIndex === 0}>
+              <NavButton onClick={goPrev}>
                 <GoChevronLeft />
               </NavButton>
               <span>{`${currentIndex + 1} / ${adminContents?.length}`}</span>
-              <NavButton onClick={goNext} disabled={currentIndex + 1 === adminContents?.length}>
+              <NavButton onClick={goNext}>
                 <GoChevronRight />
               </NavButton>
             </NavButtonContainer>
