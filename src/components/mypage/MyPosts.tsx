@@ -40,7 +40,7 @@ const MyPosts = () => {
         {myPosts?.length! > 0 ? (
           myPosts?.map((post) => <PostCard key={post.id} post={post} />)
         ) : (
-          <p style={{ display: 'flex', justifyContent: 'center' }}>내 게시물이 없습니다.</p>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>내 게시물이 없습니다.</div>
         )}
         {/* {myPosts?.length === 0 ? (
           <p style={{ display: 'flex', justifyContent: 'center' }}>내 게시물이 없습니다.</p>

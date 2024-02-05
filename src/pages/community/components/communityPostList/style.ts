@@ -19,6 +19,10 @@ export const PostContainer = styled.div`
     p {
       font-size: 10px;
     }
+
+    div {
+      font-size: 10px;
+    }
   }
 `;
 

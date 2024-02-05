@@ -20,7 +20,7 @@
   flex-direction: column;
   border-radius: 10px;
   overflow: hidden;
-  height: 320px;
+  height: 370px;
 
   @media screen and (max-width: 431px) {
     margin-top: 10px;
@@ -66,7 +66,7 @@
   /* width: 100%; */
 }
 .posts-skeleton-displayName {
-  width: 120px;
+  width: 100px;
   height: 14px;
   border-radius: 10px;
   animation: loading 1.5s infinite;
