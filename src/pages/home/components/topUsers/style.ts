@@ -54,6 +54,9 @@ const UserList = styled.div`
 
   @media screen and (max-width: 431px) {
     width: 100%;
+    height: 250px;
+    gap: 10px;
+
     //grid-template-columns: repeat(3, 1fr);
   }
 `;
@@ -67,7 +70,7 @@ const UserInfo = styled.div`
   width: 100%;
   height: 200px;
   @media screen and (max-width: 431px) {
-    height: 130px;
+    height: 120px;
   }
 `;
 
@@ -102,6 +105,11 @@ const UserName = styled.div`
   }
   @media screen and (max-width: 431px) {
     font-size: 9px;
+    margin-top: 10px;
+    & img {
+      width: 15px;
+      height: 15px;
+    }
   }
 `;
 

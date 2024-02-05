@@ -6,8 +6,8 @@ import St from './style';
 function Home() {
   return (
     <St.Container>
-      <HomeHeader />
-      <PopularContents />
+      {/* <HomeHeader />
+      <PopularContents /> */}
       <TopUsers />
     </St.Container>
   );
