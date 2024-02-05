@@ -51,7 +51,8 @@ const HomeHeader = () => {
                   <SwiperSlide key={idx}>
                     {item ? (
                       <img
-                        src={(item.coverImages[1] && item.coverImages[1].url) || defaultIllustration}
+                        // src={(item.coverImages[1] && item.coverImages[1].url) || defaultIllustration}
+                        src={defaultIllustration}
                         alt={`Slide ${idx}`}
                       />
                     ) : (
