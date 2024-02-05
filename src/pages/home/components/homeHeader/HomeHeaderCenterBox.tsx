@@ -46,11 +46,11 @@ function HomeHeaderCenterBox({ swiperInstance, currentIndex, setCurrentIndex, ad
               <Link to={`/detail/${postId}`}>자세히 보기</Link>
             </DetailLinkWrapper>
             <NavButtonContainer>
-              <NavButton onClick={goPrev} disabled={currentIndex === 0}>
+              <NavButton onClick={goPrev}>
                 <GoChevronLeft />
               </NavButton>
               <span>{`${currentIndex + 1} / ${adminContents?.length}`}</span>
-              <NavButton onClick={goNext} disabled={currentIndex + 1 === adminContents?.length}>
+              <NavButton onClick={goNext}>
                 <GoChevronRight />
               </NavButton>
             </NavButtonContainer>
@@ -66,7 +66,7 @@ export default HomeHeaderCenterBox;
 const HeaderMain = styled.section`
   width: 1200px;
   height: 100%;
-  margin: 0 auto;
+  margin: 20px auto 20px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -78,6 +78,7 @@ const HeaderMain = styled.section`
   align-items: end;
 
   @media screen and (max-width: 431px) {
+    height: 300px;
     width: 100%;
     padding: 40px 30px;
     /* top: 10%;
