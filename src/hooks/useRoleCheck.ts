@@ -13,7 +13,7 @@ function useRoleCheck() {
   // role이 비어있는 경우 다시 넣기
   const { data: user, refetch } = useQuery<UserType | undefined>({
     queryKey: [QUERY_KEYS.USERS, auth.currentUser?.uid],
-    queryFn: () => (auth.currentUser ? getUser(auth.currentUser?.uid) : undefined),
+    queryFn: () => getUser(auth.currentUser?.uid!),
     enabled: !!auth.currentUser && role === ''
   });
 
@@ -24,7 +24,7 @@ function useRoleCheck() {
     if (user) {
       setRole(user.role);
     }
-  }, [role, refetch, setRole, user]);
+  }, [user]);
 
   // role 돌려주기
   return role;

@@ -32,7 +32,7 @@ function NavBar() {
 
   useEffect(() => {
     setPathHistory((prev) => [...prev, location.pathname]);
-  }, [location, setPathHistory]);
+  }, [location]);
 
   // AuthToggle 밖 누르면 꺼지게
   useOutsideClick<HTMLDivElement>(navRef, () => {
