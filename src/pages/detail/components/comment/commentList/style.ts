@@ -14,12 +14,7 @@ const SingleComment = styled.div`
   column-gap: 20px;
   border-bottom: 1px solid ${theme.color.lightgray};
   padding: 40px 0;
-<<<<<<< HEAD
-  height: 139px;
-=======
   /* height: 139px; */
-
->>>>>>> f7362081c064217743e1e24e82cd6c1f4248e0e9
   img {
     width: 40px;
     height: 40px;
