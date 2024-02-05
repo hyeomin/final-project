@@ -14,11 +14,11 @@ function useRoleCheck() {
   const { data: user, refetch } = useQuery<UserType | undefined>({
     queryKey: [QUERY_KEYS.USERS, auth.currentUser?.uid],
     queryFn: () => (auth.currentUser ? getUser(auth.currentUser?.uid) : undefined),
-    enabled: role === ''
+    enabled: !!auth.currentUser && role === ''
   });
 
   useEffect(() => {
-    if (role === '') {
+    if (!!auth.currentUser && role === '') {
       refetch();
     }
     if (user) {

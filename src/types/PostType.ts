@@ -39,4 +39,5 @@ export type IsEditingPostProps = {
 
 export type FoundDetailPostProps = {
   foundDetailPost: PostType;
+  isLoading?: boolean;
 };
