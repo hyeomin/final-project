@@ -1,6 +1,6 @@
 import { GoHeart, GoHeartFill } from 'react-icons/go';
 import styled from 'styled-components';
-import theme from 'styles/theme';
+import theme from 'types/styles/theme';
 
 const ViewAllContainer = styled.div`
   width: 100%;

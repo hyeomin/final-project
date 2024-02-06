@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getDetailPost, updatePostViewCount } from 'api/detailApi';
 import { QUERY_KEYS } from 'query/keys';
-import theme from 'styles/theme';
+import theme from 'types/styles/theme';
 import { PostType } from 'types/PostType';
 import AddCommentForm from './components/comment/addComment/AddComment';
 import CommentList from './components/comment/commentList/CommentList';

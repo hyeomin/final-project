@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { getAdminPostList } from 'api/pageListApi';
 import { QUERY_KEYS } from 'query/keys';
@@ -12,8 +11,6 @@ import Carousel from './carousel/Carousel';
 import St from './style';
 
 const PopularContents = () => {
-  // hover 시 prefetch 함수
-  // prefetch는 오류 반환 x
   const queryClient = useQueryClient();
   const handleHover = async () => {
     queryClient.prefetchInfiniteQuery({

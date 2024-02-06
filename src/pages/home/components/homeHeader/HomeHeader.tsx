@@ -16,7 +16,7 @@ import HomeHeaderSkeleton from './skeleton/HomeHeaderSkeleton';
 const HomeHeader = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  console.log('home header!');
   const {
     data: adminContents,
     isLoading,
@@ -59,8 +59,7 @@ const HomeHeader = () => {
                   <SwiperSlide key={idx}>
                     {item ? (
                       <img
-                        // src={(item.coverImages[1] && item.coverImages[1].url) || defaultIllustration}
-                        src={defaultIllustration}
+                        src={(item.coverImages[1] && item.coverImages[1].url) || defaultIllustration}
                         alt={`Slide ${idx}`}
                       />
                     ) : (
@@ -71,7 +70,6 @@ const HomeHeader = () => {
               })}
           </Swiper>
         )}
-        {/* 헤더 중앙에 놓인 박스, 버튼, 텍스트 등이 다 들어가있음 */}
         {adminContents && adminContents?.length > 0 && (
           <HomeHeaderCenterBox
             swiperInstance={swiperInstance}

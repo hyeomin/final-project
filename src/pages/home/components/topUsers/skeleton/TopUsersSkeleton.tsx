@@ -1,4 +1,3 @@
-import React from 'react';
 import './topUsersSkeleton.css';
 
 const TopUsersSkeleton = () => {
