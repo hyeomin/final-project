@@ -2,12 +2,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import { AuthContext } from '../../../../../context/AuthContext';
-import { useModal } from '../../../../../hooks/useModal';
-import { QUERY_KEYS } from '../../../../../query/keys';
-import useCommentQuery from '../../../../../query/useCommentQuery';
-import { modalState } from '../../../../../recoil/modals';
-import { FoundDetailPostProps } from '../../../../../types/PostType';
+import { AuthContext } from 'context/AuthContext';
+import { useModal } from 'hooks/useModal';
+import { QUERY_KEYS } from 'query/keys';
+import useCommentQuery from 'query/useCommentQuery';
+import { modalState } from 'recoil/modals';
+import { FoundDetailPostProps } from 'types/PostType';
 import St from './style';
 
 const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {

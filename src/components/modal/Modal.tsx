@@ -1,4 +1,4 @@
-import { OpenModalParams } from '../../hooks/useModal';
+import { OpenModalParams } from 'hooks/useModal';
 import St from './style';
 
 type ModalProps = Exclude<OpenModalParams, 'closeButton'>;

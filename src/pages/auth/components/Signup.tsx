@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import mangofavicon from '../../../assets/mango-favicon.png';
-import { useModal } from '../../../hooks/useModal';
-import usePrintError from '../../../hooks/usePrintError';
-import { modalState } from '../../../recoil/modals';
-import { isSignUpState } from '../../../recoil/users';
-import { auth, db } from '../../../shared/firebase';
+import mangofavicon from 'assets/mango-favicon.png';
+import { useModal } from 'hooks/useModal';
+import usePrintError from 'hooks/usePrintError';
+import { modalState } from 'recoil/modals';
+import { isSignUpState } from 'recoil/users';
+import { auth, db } from 'shared/firebase';
 import St from './style';
 
 export type Data = {

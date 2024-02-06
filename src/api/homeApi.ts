@@ -12,10 +12,10 @@ import {
   updateDoc,
   where
 } from '@firebase/firestore';
-import { QUERY_KEYS } from '../query/keys';
-import { db } from '../shared/firebase';
-import { PostType } from '../types/PostType';
-import { UserType } from '../types/UserType';
+import { QUERY_KEYS } from 'query/keys';
+import { db } from 'shared/firebase';
+import { PostType } from 'types/PostType';
+import { UserType } from 'types/UserType';
 
 const getUser = async (userId: string): Promise<UserType | undefined> => {
   const userRef = doc(db, 'users', userId);

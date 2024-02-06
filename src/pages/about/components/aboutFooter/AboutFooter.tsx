@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import aboutFooterImage from '../../../../assets/about/about-footer.png';
+import aboutFooterImage from 'assets/about/about-footer.png';
 import St from './style';
 
 function AboutFooter() {

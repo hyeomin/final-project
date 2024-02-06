@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { getTopUsers } from '../../../../api/homeApi';
-import firstPlace from '../../../../assets/home/1stPlace.png';
-import secondPlace from '../../../../assets/home/2ndPlace.png';
-import thirdPlace from '../../../../assets/home/3rdPlace.png';
-import UserDetail from '../../../../components/UserDetail';
+import { getTopUsers } from 'api/homeApi';
+import firstPlace from 'assets/home/1stPlace.png';
+import secondPlace from 'assets/home/2ndPlace.png';
+import thirdPlace from 'assets/home/3rdPlace.png';
+import UserDetail from 'components/UserDetail';
 import TopUsersSkeleton from './skeleton/TopUsersSkeleton';
 import St from './style';
 

@@ -4,11 +4,11 @@ import { GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { useModal } from '../../../hooks/useModal';
-import { QUERY_KEYS } from '../../../query/keys';
-import { modalState } from '../../../recoil/modals';
-import { auth, db } from '../../../shared/firebase';
-import { PostType } from '../../../types/PostType';
+import { useModal } from 'hooks/useModal';
+import { QUERY_KEYS } from 'query/keys';
+import { modalState } from 'recoil/modals';
+import { auth, db } from 'shared/firebase';
+import { PostType } from 'types/PostType';
 
 type LikeButtonProps = {
   foundDetailPost: PostType;

@@ -3,22 +3,17 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useContext, useRef, useState } from 'react';
 import { GoPencil } from 'react-icons/go';
 import { useSetRecoilState } from 'recoil';
-import {
-  updateProfileImage,
-  updateProfileImageProps,
-  updateProfileInfo,
-  updateProfileInfoProps
-} from '../../../../api/authApi';
-import defaultImg from '../../../../assets/defaultImg.jpg';
-import { AuthContext } from '../../../../context/AuthContext';
-import { useModal } from '../../../../hooks/useModal';
-import { QUERY_KEYS } from '../../../../query/keys';
-import { modalState } from '../../../../recoil/modals';
-import { auth, db } from '../../../../shared/firebase';
-import { resizeProfileImageFile } from '../../../../util/imageResize';
+import { updateProfileImage, updateProfileImageProps, updateProfileInfo, updateProfileInfoProps } from 'api/authApi';
+import defaultImg from 'assets/defaultImg.jpg';
+import { AuthContext } from 'context/AuthContext';
+import { useModal } from 'hooks/useModal';
+import { QUERY_KEYS } from 'query/keys';
+import { modalState } from 'recoil/modals';
+import { auth, db } from 'shared/firebase';
+import { resizeProfileImageFile } from 'util/imageResize';
 import St from './style';
 import ProfileSkeleton from './myPageSkeleton/ProfileSkeleton';
-// import { modalState } from '../../../recoil/modals';
+// import { modalState } from 'recoil/modals';
 
 function EditProfile() {
   const modal = useModal();

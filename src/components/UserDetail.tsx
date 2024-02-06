@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUser } from '../api/authApi';
-import defaultUserProfile from '../assets/realMango.png';
+import { getUser } from 'api/authApi';
+import defaultUserProfile from 'assets/realMango.png';
 
 type Props = {
   userId: string;

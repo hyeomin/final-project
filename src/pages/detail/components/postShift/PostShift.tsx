@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
-import { getPosts } from '../../../../api/homeApi';
-import { QUERY_KEYS } from '../../../../query/keys';
+import { getPosts } from 'api/homeApi';
+import { QUERY_KEYS } from 'query/keys';
 import St from './style';
 
 type Props = {

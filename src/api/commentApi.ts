@@ -1,6 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, increment, orderBy, query, updateDoc } from 'firebase/firestore';
-import { QUERY_KEYS } from '../query/keys';
-import { db } from '../shared/firebase';
+import { QUERY_KEYS } from 'query/keys';
+import { db } from 'shared/firebase';
 
 type AddComment = {
   newComment: Pick<CommentType, 'uid' | 'createdAt' | 'content'>;
