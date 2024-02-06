@@ -1,9 +1,9 @@
-import imageOne from '../../../../assets/about/howtouse(1).png';
-import imageTwo from '../../../../assets/about/howtouse(2).png';
-import imageThree from '../../../../assets/about/howtouse(3).png';
-import bubbleOne from '../../../../assets/about/howtouse-bubble(1).png';
-import bubbleTwo from '../../../../assets/about/howtouse-bubble(2).png';
-import bubbleThree from '../../../../assets/about/howtouse-bubble(3).png';
+import imageOne from 'assets/about/howtouse(1).png';
+import imageTwo from 'assets/about/howtouse(2).png';
+import imageThree from 'assets/about/howtouse(3).png';
+import bubbleOne from 'assets/about/howtouse-bubble(1).png';
+import bubbleTwo from 'assets/about/howtouse-bubble(2).png';
+import bubbleThree from 'assets/about/howtouse-bubble(3).png';
 import St from './style';
 
 function HowToUse() {

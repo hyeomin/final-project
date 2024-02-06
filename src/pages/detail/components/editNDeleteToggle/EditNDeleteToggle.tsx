@@ -2,14 +2,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GoPencil, GoTrash } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { deletePost } from '../../../../api/postApi';
-// import { Category } from '../../../../components/viewAll/ViewAllBody';
-import { useModal } from '../../../../hooks/useModal';
-import { QUERY_KEYS } from '../../../../query/keys';
-import { modalState } from '../../../../recoil/modals';
-import { categoryListState, isEditingPostState, pathHistoryState, postInputState } from '../../../../recoil/posts';
-import { Category } from '../../../../types/PostListType';
-import { FoundDetailPostProps } from '../../../../types/PostType';
+import { deletePost } from 'api/postApi';
+// import { Category } from 'components/viewAll/ViewAllBody';
+import { useModal } from 'hooks/useModal';
+import { QUERY_KEYS } from 'query/keys';
+import { modalState } from 'recoil/modals';
+import { categoryListState, isEditingPostState, pathHistoryState, postInputState } from 'recoil/posts';
+import { Category } from 'types/PostListType';
+import { FoundDetailPostProps } from 'types/PostType';
 import St from './style';
 
 function EditNDeleteToggle({ foundDetailPost }: FoundDetailPostProps) {

@@ -11,9 +11,9 @@ import {
   startAfter,
   where
 } from 'firebase/firestore';
-// import { Category } from '../components/viewAll/ViewAllBody';
-import { db } from '../shared/firebase';
-import { Category } from '../types/PostListType';
+// import { Category } from 'pages/components/viewAll/ViewAllBody';
+import { db } from 'shared/firebase';
+import { Category } from 'types/PostListType';
 
 //관리자 (콘텐츠 by Mango)
 // export const getAdminPostList =

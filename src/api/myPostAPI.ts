@@ -1,7 +1,7 @@
 import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
-import { QUERY_KEYS } from '../query/keys';
-import { auth, db } from '../shared/firebase';
-import { PostType } from '../types/PostType';
+import { QUERY_KEYS } from 'query/keys';
+import { auth, db } from 'shared/firebase';
+import { PostType } from 'types/PostType';
 import { UsersWithLikeCount, likeCountPerUserType } from './homeApi';
 
 // 로그인한 유저 uid 일치하는 posts 가져오기

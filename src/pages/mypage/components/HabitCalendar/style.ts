@@ -1,6 +1,6 @@
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
-import theme from '../../../../styles/theme';
+import theme from 'styles/theme';
 
 const CalendarWrapper = styled.div`
   display: flex;

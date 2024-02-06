@@ -6,9 +6,9 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
-import { getAdminPosts } from '../../../../api/homeApi';
-import defaultIllustration from '../../../../assets/home/AdminPostIllustration.png';
-import Loader from '../../../../components/Loader';
+import { getAdminPosts } from 'api/homeApi';
+import defaultIllustration from 'assets/home/AdminPostIllustration.png';
+import Loader from 'components/Loader';
 import St from '../popularContents/carousel/style';
 import HomeHeaderCenterBox from './homeHeaderCenterBox/HomeHeaderCenterBox';
 import HomeHeaderSkeleton from './skeleton/HomeHeaderSkeleton';
@@ -17,11 +17,19 @@ const HomeHeader = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { data: adminContents, isLoading } = useQuery({
+  const {
+    data: adminContents,
+    isLoading,
+    error
+  } = useQuery({
     queryKey: ['posts', 'admin', 'selectedFour'],
     queryFn: getAdminPosts,
     staleTime: 60_000
   });
+
+  if (error) {
+    console.log('byMango 게시물 가져오기 실패!', error);
+  }
 
   const handleSlideChange = (swiper: SwiperClass) => {
     setCurrentIndex(swiper.realIndex);

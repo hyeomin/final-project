@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
 // import { Category } from '../components/viewAll/ViewAllBody';
-import { Category } from '../types/PostListType';
-import { IsEditingPostProps, PostInputType } from '../types/PostType';
+import { Category } from 'types/PostListType';
+import { IsEditingPostProps, PostInputType } from 'types/PostType';
 import { POST } from './keys';
 
 export const initialPostInputState = {

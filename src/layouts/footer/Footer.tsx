@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import github from '../../assets/icons/github-icon.png';
-import logo from '../../assets/icons/mango-logo.png';
-import { LogoContainerFooter } from '../navbar/style';
+import github from 'assets/icons/github-icon.png';
+import logo from 'assets/icons/mango-logo.png';
 import St from './style';
+import { LogoContainerFooter } from 'layouts/navbar/style';
 
 function Footer() {
   const navigate = useNavigate();

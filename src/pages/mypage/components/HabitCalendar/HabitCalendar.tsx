@@ -3,12 +3,12 @@ import dayjs from 'dayjs';
 import { useContext, useState } from 'react';
 import Calendar from 'react-calendar';
 import { CiCalendar } from 'react-icons/ci';
-import { getMyPosts } from '../../../../api/myPostAPI';
-import calendarSpring from '../../../../assets/calendarSpring.png';
-import mangofavicon from '../../../../assets/mango-favicon.png';
-import { AuthContext } from '../../../../context/AuthContext';
-import { QUERY_KEYS } from '../../../../query/keys';
-import { getFormattedDateCustom } from '../../../../util/formattedDateAndTime';
+import { getMyPosts } from 'api/myPostAPI';
+import calendarSpring from 'assets/calendarSpring.png';
+import mangofavicon from 'assets/mango-favicon.png';
+import { AuthContext } from 'context/AuthContext';
+import { QUERY_KEYS } from 'query/keys';
+import { getFormattedDateCustom } from 'util/formattedDateAndTime';
 import St from './style';
 
 type ValuePiece = Date | null;

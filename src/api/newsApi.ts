@@ -1,7 +1,7 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, query } from 'firebase/firestore';
-import { QUERY_KEYS } from '../query/keys';
-import { db } from '../shared/firebase';
-import { NewsType } from '../types/NewsType';
+import { QUERY_KEYS } from 'query/keys';
+import { db } from 'shared/firebase';
+import { NewsType } from 'types/NewsType';
 
 const addNews = async (newNews: Omit<NewsType, 'id'>) => {
   try {

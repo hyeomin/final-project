@@ -1,6 +1,6 @@
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import ReactQuill from 'react-quill';
-import { storage } from '../../../../shared/firebase';
+import { storage } from 'shared/firebase';
 
 const imageHandler = (quillRef: React.RefObject<ReactQuill>) => {
   const input = document.createElement('input');

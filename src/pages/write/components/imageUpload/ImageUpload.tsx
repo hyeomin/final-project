@@ -3,15 +3,15 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useRef } from 'react';
 import { GoTrash } from 'react-icons/go';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { deleteImage, uploadSingleImage } from '../../../../api/postApi';
-import DragNDrop from '../../../../assets/icons/dragndrop.png';
-import { useModal } from '../../../../hooks/useModal';
-import { QUERY_KEYS } from '../../../../query/keys';
-import { modalState } from '../../../../recoil/modals';
-import { imageUploadingStatusState, isEditingPostState, postInputState } from '../../../../recoil/posts';
-import { db } from '../../../../shared/firebase';
-import { DownloadedImageType } from '../../../../types/PostType';
-import { resizeCoverImageFile } from '../../../../util/imageResize';
+import { deleteImage, uploadSingleImage } from 'api/postApi';
+import DragNDrop from 'assets/icons/dragndrop.png';
+import { useModal } from 'hooks/useModal';
+import { QUERY_KEYS } from 'query/keys';
+import { modalState } from 'recoil/modals';
+import { imageUploadingStatusState, isEditingPostState, postInputState } from 'recoil/posts';
+import { db } from 'shared/firebase';
+import { DownloadedImageType } from 'types/PostType';
+import { resizeCoverImageFile } from 'util/imageResize';
 import St from './style';
 
 function ImageUpload() {

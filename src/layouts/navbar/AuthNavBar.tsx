@@ -1,11 +1,11 @@
 import { GoChevronDown } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import defaultImg from '../../assets/defaultImg.jpg';
-import { useModal } from '../../hooks/useModal';
-import { modalState } from '../../recoil/modals';
-import { isSignUpState } from '../../recoil/users';
-import { auth } from '../../shared/firebase';
+import defaultImg from 'assets/defaultImg.jpg';
+import { useModal } from 'hooks/useModal';
+import { modalState } from 'recoil/modals';
+import { isSignUpState } from 'recoil/users';
+import { auth } from 'shared/firebase';
 import St from './style';
 
 type Props = {

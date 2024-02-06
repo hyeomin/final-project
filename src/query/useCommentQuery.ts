@@ -1,25 +1,34 @@
 import { useMutation } from '@tanstack/react-query';
-import React from 'react'
+import React from 'react';
 import { QUERY_KEYS } from './keys';
-import { addComment, deleteComment, updateComment } from '../api/commentApi';
+import { addComment, deleteComment, updateComment } from 'api/commentApi';
 
 const useCommentQuery = () => {
-  const {mutate: addCommentMutate} = useMutation({
+  const { mutate: addCommentMutate, error: addCommentError } = useMutation({
     mutationKey: [QUERY_KEYS.COMMENTS],
-    mutationFn: addComment
-  })
+    mutationFn: addComment,
+    onError: () => {
+      console.log('댓글 추가 실패!', addCommentError);
+    }
+  });
 
-  const {mutate: updateCommentMutate} = useMutation({
+  const { mutate: updateCommentMutate, error: updateCommentError } = useMutation({
     mutationKey: [QUERY_KEYS.COMMENTS],
-    mutationFn: updateComment
-    })
+    mutationFn: updateComment,
+    onError: () => {
+      console.log('댓글 수정 실패!', updateCommentError);
+    }
+  });
 
-  const {mutate: deleteCommentMutate} = useMutation({
+  const { mutate: deleteCommentMutate, error: deleteCommentError } = useMutation({
     mutationKey: [QUERY_KEYS.COMMENTS],
-    mutationFn: deleteComment
-  })
+    mutationFn: deleteComment,
+    onError: () => {
+      console.log('댓글 삭제 실패!', deleteCommentError);
+    }
+  });
 
-  return { addCommentMutate, updateCommentMutate, deleteCommentMutate}
-}
+  return { addCommentMutate, updateCommentMutate, deleteCommentMutate };
+};
 
-export default useCommentQuery
+export default useCommentQuery;

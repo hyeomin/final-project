@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import { getLikePosts } from '../../../api/myPostAPI';
+import { getLikePosts } from 'api/myPostAPI';
 
 import { useContext } from 'react';
-import { AuthContext } from '../../../context/AuthContext';
-import { PostContainer } from '../../community/components/communityPostList/style';
+import { AuthContext } from 'context/AuthContext';
+import { PostContainer } from 'pages/community/components/communityPostList/style';
 import PostCard from './PostCard/PostCard';
-import PostsSkeleton from '../../../components/mypage/postsSkeleton/PostsSkeleton';
+import PostCardSkeleton from './PostCard/PostCardSkeleton/PostCardSkeleton';
+import PostsSkeleton from 'components/mypage/postsSkeleton/PostsSkeleton';
 
 const LikesPosts = () => {
   const authContext = useContext(AuthContext);

@@ -2,13 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { Link } from 'react-router-dom';
-import { getPopularPosts } from '../../../../../api/homeApi';
-import mangoDefaultCover from '../../../../../assets/mangoDefaultCover.png';
-import PostContentPreview from '../../../../../components/PostContentPreview';
-import UserDetail from '../../../../../components/UserDetail';
-import { useCarouselNavigation } from '../../../../../hooks/useCarouselNavigation';
-import { useLikeButton } from '../../../../../hooks/useLikeButton';
-import { auth } from '../../../../../shared/firebase';
+import { getPopularPosts } from 'api/homeApi';
+import mangoDefaultCover from 'assets/mangoDefaultCover.png';
+import PostContentPreview from 'components/PostContentPreview';
+import UserDetail from 'components/UserDetail';
+import { useCarouselNavigation } from 'hooks/useCarouselNavigation';
+import { useLikeButton } from 'hooks/useLikeButton';
+import { auth } from 'shared/firebase';
 import St from './style';
 
 import 'swiper/css';
@@ -20,12 +20,18 @@ import CarouselSkeleton from './skeleton/CarouselSkeleton';
 const Carousel = () => {
   const currentUserId = auth.currentUser?.uid;
 
-  const { data: popularPosts, isLoading } = useQuery({
+  const {
+    data: popularPosts,
+    isLoading,
+    error
+  } = useQuery({
     queryKey: ['posts', 'popular'],
     queryFn: getPopularPosts,
-    staleTime: 5 * 6 * 1000
-    // staleTime: Infinity
+    staleTime: 60_000
   });
+  if (error) {
+    console.log('인기 게시물 가져오기 실패!', error);
+  }
 
   const onClickLikeButton = useLikeButton();
 

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import 'swiper/css';
 import { SwiperClass, SwiperSlide } from 'swiper/react';
-import swipeLeft from '../../../../assets/icons/swipeLeft.png';
-import swipeRight from '../../../../assets/icons/swipeRight.png';
-import useSwiperNavigation from '../../../../hooks/useSwiperNavigation';
-import { FoundDetailPostProps } from '../../../../types/PostType';
-import { convertToKor } from '../../../write/components/common/lists';
+import swipeLeft from 'assets/icons/swipeLeft.png';
+import swipeRight from 'assets/icons/swipeRight.png';
+import useSwiperNavigation from 'hooks/useSwiperNavigation';
+import { FoundDetailPostProps } from 'types/PostType';
+
 import St from './style';
+import { convertToKor } from 'pages/write/components/common/lists';
 
 function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
