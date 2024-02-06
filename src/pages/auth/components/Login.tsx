@@ -47,10 +47,14 @@ function Login() {
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{1,}/;
 
-  const { data: userList } = useQuery({
+  const { data: userList, error } = useQuery({
     queryKey: [QUERY_KEYS.USERS],
     queryFn: getAllUsers
   });
+
+  if (error) {
+    console.log('전체 유저리스트 가져오기 실패(Login)', error);
+  }
 
   useEffect(() => {
     if (errorMsg) {
