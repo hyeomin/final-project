@@ -4,6 +4,8 @@
 import CommunityBody from './components/CommunityBody';
 
 function Community() {
+  console.log('bymango');
+
   return (
     <>
       <CommunityBody />
