@@ -144,7 +144,7 @@ Navigation Bar에 있는 By Mango 혹은 Community 탭으로 넘어가면 관리
 각각 탭을 눌러 내가 작성한 게시글과 좋아요 한 게시글을 확인할 수 있습니다.
 
 <details>
- <summary>나의 관련 게시글</summary>
+ <summary>나의 관련 게시글</summary>
 <img width="1031" alt="Screen Shot 2024-02-06 at 9 30 59 PM" src="https://github.com/hyeomin/final-project/assets/121536857/4bef2fd4-5193-4728-8cc5-0c75f725f18d">
 </details>
 
@@ -153,23 +153,23 @@ Navigation Bar에 있는 By Mango 혹은 Community 탭으로 넘어가면 관리
 망고 소개 페이지에서는 동적인 영상 재생과 함께 하단에 망고 서비스의 취지와 이용안내가 담겨있습니다.
 
 <details>
- <summary>상단 영상</summary>
+ <summary>상단 영상</summary>
 <img width="1307" alt="Screen Shot 2024-02-06 at 9 32 26 PM" src="https://github.com/hyeomin/final-project/assets/121536857/0b20f77a-f564-48c9-b85e-569748023b02">
 </details>
 
 <details>
- <summary>소개 내용</summary>
+ <summary>소개 내용</summary>
 <img width="1241" alt="Screen Shot 2024-02-06 at 9 32 37 PM" src="https://github.com/hyeomin/final-project/assets/121536857/daa8c9e4-9979-4921-924c-d80d38e96427">
 </details>
 
 어드민은 뉴스룸에 유튜브 링크를 첨부하여 유튜브 API로 반환받은 정보들을 카드로 만들 수 있습니다.
 
 <details>
- <summary>뉴스룸</summary>
+ <summary>뉴스룸</summary>
 <img width="1247" alt="Screen Shot 2024-02-06 at 9 35 12 PM" src="https://github.com/hyeomin/final-project/assets/121536857/7c167c3f-3604-440a-97cd-bb6e7a81e9b0">
 </details>
 
 <details>
- <summary>Get Started</summary>
+ <summary>Get Started</summary>
 <img width="1171" alt="Screen Shot 2024-02-06 at 9 35 42 PM" src="https://github.com/hyeomin/final-project/assets/121536857/3caff683-d806-4d4d-9bba-6f87c971b4f1">
 </details>
