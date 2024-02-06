@@ -1,11 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getUser } from 'api/authApi';
 import defaultProfile from 'assets/defaultImg.jpg';
 import PostContentPreview from 'components/PostContentPreview';
 import { AuthContext } from 'context/AuthContext';
 import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { produce } from 'immer';
-import { QUERY_KEYS } from 'query/keys';
 import React, { useContext, useEffect, useState } from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
