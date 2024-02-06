@@ -59,10 +59,3 @@ export const createThumbnailImageFile = (file: File): Promise<File> =>
       'file'
     );
   });
-
-// export const thumbnailFilenameHandler = (coverImageName: string) => {
-//   const nameParts = coverImageName.split('.');
-//   const extension = nameParts.pop();
-//   const baseName = nameParts.join('.');
-//   return `${baseName}_800x800.webp`;
-// };

@@ -8,9 +8,7 @@ import PostContentPreview from 'components/PostContentPreview';
 import UserDetail from 'components/UserDetail';
 import { useCarouselNavigation } from 'hooks/useCarouselNavigation';
 import { useLikeButton } from 'hooks/useLikeButton';
-import { auth } from 'shared/firebase';
 import St from './style';
-
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -44,7 +42,6 @@ const Carousel = () => {
 
   return (
     <St.Container>
-      {/* <CarouselSkeleton /> */}
       {currentSlide > 0 && (
         <St.Button type="button" onClick={handlePrev} $buttonType="prev">
           <SlArrowLeft />
@@ -151,7 +148,6 @@ const Carousel = () => {
       )}
 
       {popularPosts && currentSlide < popularPosts.length - swiperCnt && (
-        //여기에서 console.log() 검색하고싶어
         <St.Button type="button" onClick={handleNext} $buttonType="next">
           <SlArrowRight />
         </St.Button>

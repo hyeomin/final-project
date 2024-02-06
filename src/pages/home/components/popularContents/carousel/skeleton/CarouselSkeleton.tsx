@@ -3,7 +3,6 @@ import './carouselSkeleton.css';
 const CarouselSkeleton = () => {
   return (
     <div className="carousel-skeleton-container">
-      {/* 반응형 적용 */}
       <div className="skeleton-wrapper">
         <div className="skeleton-header">
           <div className="skeleton-profileImage"></div>

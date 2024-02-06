@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { initializeFirestore, persistentLocalCache } from 'firebase/firestore';
+import { getFirestore, initializeFirestore, persistentLocalCache } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -12,12 +12,12 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export default app;
 export const storage = getStorage(app);
-export const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true
-  // localCache: persistentLocalCache(/*settings*/ {}) //이거 뭔데..
-});
+// export const db = initializeFirestore(app, {
+//   experimentalForceLongPolling: true
+//   localCache: persistentLocalCache(/*settings*/ {}) //이거 뭔데..
+// });
+export const db = getFirestore(app);
