@@ -7,8 +7,9 @@ const ToggleContainer = styled.div`
   font-size: 14px;
   position: absolute;
   top: 65px;
-  right: 60px;
+  right: 200px;
   z-index: 100;
+
   @media screen and (max-width: 431px) {
     top: 58px;
     right: 30px;
