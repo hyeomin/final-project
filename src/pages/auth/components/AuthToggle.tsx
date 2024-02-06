@@ -9,7 +9,7 @@ import { useModal } from 'hooks/useModal';
 import { modalState } from 'recoil/modals';
 import { roleState } from 'recoil/users';
 import { auth } from 'shared/firebase';
-import theme from 'styles/theme';
+import theme from 'types/styles/theme';
 
 type Props = {
   setIsAuthToggleOpen: React.Dispatch<React.SetStateAction<boolean>>;

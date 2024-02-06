@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import theme from 'styles/theme';
+import theme from 'types/styles/theme';
 
 const AboutFooterContainer = styled.div`
   display: flex;

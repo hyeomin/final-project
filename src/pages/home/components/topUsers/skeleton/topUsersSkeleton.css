@@ -29,6 +29,7 @@
   align-items: center;
   margin-top: 20px;
   animation: loading 1.5s infinite;
+  border-radius: 20px;
 }
 
 @keyframes loading {
@@ -72,5 +73,6 @@
     justify-content: center;
     align-items: center;
     animation: loading 1.5s infinite;
+    border-radius: 10px;
   }
 }

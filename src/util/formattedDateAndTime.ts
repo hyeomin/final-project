@@ -1,5 +1,3 @@
-// date에 post.createdAt이 들어갑니다.
-// ex: getFormattaedDate(post.createdAt)
 export const getFormattedDate = (date: number) => {
   return new Date(date).toLocaleDateString('ko', {
     year: 'numeric',
@@ -11,7 +9,6 @@ export const getFormattedDate = (date: number) => {
   });
 };
 
-//kim
 export const getFormattedDate_yymmdd = (date: number) => {
   return new Date(date).toLocaleDateString('ko', {
     month: '2-digit',
@@ -22,8 +19,6 @@ export const getFormattedDate_yymmdd = (date: number) => {
   });
 };
 
-// 캘린더에 쓸 거 하나 만들었습니다.. - Haliey
-// newsRoom에 쓸려고 string type 추가했습니다! - Ashley
 export const getFormattedDateCustom = (date: number | string) => {
   return new Date(date).toLocaleDateString('ko', {
     year: 'numeric',

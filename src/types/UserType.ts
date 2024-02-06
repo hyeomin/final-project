@@ -5,3 +5,5 @@ export type UserType = {
   role: string;
   uid: string;
 };
+
+export type User = Pick<UserType, 'displayName' | 'profileImg' | 'uid'>;
