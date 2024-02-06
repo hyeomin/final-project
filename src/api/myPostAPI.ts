@@ -36,7 +36,7 @@ const getLikePosts = async () => {
   return posts;
 };
 
-// //user Ranking
+//user Ranking
 const getUserRanking = async () => {
   const postRef = collection(db, 'posts');
   const querySnapshot = await getDocs(postRef);

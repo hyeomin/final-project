@@ -50,7 +50,7 @@ const GlobalStyle = createGlobalStyle`
     }
     body {
         margin: 0;
-        font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, 'roca', 'Segoe UI', 'Roboto', 'Oxygen',
+        font-family: "PretendardVariable-Regular", Pretendard, -apple-system, BlinkMacSystemFont, 'roca', 'Segoe UI', 'Roboto', 'Oxygen',
             'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
             sans-serif;
         -webkit-font-smoothing: antialiased;

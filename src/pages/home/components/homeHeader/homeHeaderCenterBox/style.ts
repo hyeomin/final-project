@@ -37,7 +37,7 @@ const HeaderText = styled.div`
 
     & h1 {
       font-size: 36px;
-      font-weight: 700;
+      font-weight: 1000;
 
       @media screen and (max-width: 431px) {
         font-size: 20px;
@@ -47,6 +47,7 @@ const HeaderText = styled.div`
 
     & h2 {
       font-size: 24px;
+      font-weight: 500;
 
       @media screen and (max-width: 431px) {
         font-weight: 20px;
