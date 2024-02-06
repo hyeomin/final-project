@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 interface TopButtonProps {
-  position: number;
+  $position: number;
 }
 
-const TopButton = ({ position }: TopButtonProps) => {
+const TopButton = ({ $position }: TopButtonProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const scrollToTop = () => {
@@ -30,7 +30,7 @@ const TopButton = ({ position }: TopButtonProps) => {
   return (
     <>
       {isVisible && (
-        <StyledButton position={position} onClick={scrollToTop}>
+        <StyledButton $position={$position} onClick={scrollToTop}>
           TOP
         </StyledButton>
       )}
@@ -40,7 +40,7 @@ const TopButton = ({ position }: TopButtonProps) => {
 
 const StyledButton = styled.button<TopButtonProps>`
   position: fixed;
-  bottom: ${(props) => props.position}px;
+  bottom: ${(props) => props.$position}px;
   right: 20px;
   width: 50px;
   height: 50px;
