@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Swiper } from 'swiper/react';
-import theme from 'styles/theme';
+import theme from 'types/styles/theme';
 
 const NewsRoomContainer = styled.div`
   display: flex;
