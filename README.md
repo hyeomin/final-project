@@ -28,9 +28,10 @@
 | 박혜민 Ashley | https://hyeomin-codex.tistory.com/ | https://github.com/hyeomin       |
 | 박희원 Hailey | https://heenee.tistory.com/        | https://github.com/heeneeee      |
 
+
 ## <b>사용 기술 스택</b>
 
-![Web App Reference Architecture](https://github.com/hyeomin/final-project/assets/121536857/bf4b1f78-7b2c-441a-be3a-b9f7927b88af)
+![Web App Reference Architecture (1)](https://github.com/hyeomin/final-project/assets/121536857/62e18735-6ee3-4403-a66d-7e40fcc8435d)
 
 
 ## 사용 라이브러리
@@ -63,7 +64,10 @@
 
 게시물은 오른쪽 상단 하트 버튼을 눌러 ‘좋아요’ 기능을 활용할 수 있으며, 로그인이 안된 상태에서는 커스텀으로 만든 모달을 띄워 실행을 막아놨기 때문에 로그인을 유도할 수 있습니다.
 
+<details>
+ <summary>로그인 유도 (커스텀 모달)</summary>
 <img width="1101" alt="Screen Shot 2024-01-22 at 10 00 18 AM" src="https://github.com/hyeomin/final-project/assets/121536857/3adedf5a-6de7-4c1b-bb89-bae1a28cfbb4">
+</details>
 
 
 ### By Mango와 커뮤니티
