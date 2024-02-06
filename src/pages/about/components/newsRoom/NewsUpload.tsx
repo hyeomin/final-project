@@ -31,7 +31,6 @@ function NewsUpload({ newsUrl, setNewsUrl }: Props) {
       const response = await axios.get(url);
       const newYoutubeInfo = response.data.items[0].snippet;
       const newYoutube = { id: videoId, ...newYoutubeInfo };
-      console.log('Video Info:', newYoutube);
       return newYoutube;
     } catch (erorr) {
       console.log('Error getting video', erorr);

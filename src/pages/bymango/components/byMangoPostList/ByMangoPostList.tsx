@@ -43,15 +43,15 @@ function ByMangoPostList({ queryKey, queryFn, sortBy }: PostListProps) {
 
       if (sortBy === 'popularity') {
         sortedPosts = sortedPosts.sort((a, b) => {
-          const likeCountA = a.likeCount ?? 0; // 만약 likeCount가 없다면 0으로 처리
-          const likeCountB = b.likeCount ?? 0; // 만약 likeCount가 없다면 0으로 처리
+          const likeCountA = a.likeCount ?? 0;
+          const likeCountB = b.likeCount ?? 0;
 
           return likeCountB - likeCountA;
         });
       } else if (sortBy === 'latest') {
         sortedPosts = sortedPosts.sort((a, b) => {
-          const createdAtA = a.createdAt ?? 0; // 만약 createdAt이 없다면 0으로 처리
-          const createdAtB = b.createdAt ?? 0; // 만약 createdAt이 없다면 0으로 처리
+          const createdAtA = a.createdAt ?? 0;
+          const createdAtB = b.createdAt ?? 0;
 
           return createdAtB - createdAtA;
         });
