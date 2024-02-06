@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { updatePost } from '../../../../api/postApi';
-import { useModal } from '../../../../hooks/useModal';
-import { QUERY_KEYS } from '../../../../query/keys';
-import { initialPostInputState, postInputState } from '../../../../recoil/posts';
-import { stripHtml } from '../../../../util/extractContentText';
+import { updatePost } from 'api/postApi';
+import { useModal } from 'hooks/useModal';
+import { QUERY_KEYS } from 'query/keys';
+import { initialPostInputState, postInputState } from 'recoil/posts';
+import { stripHtml } from 'util/extractContentText';
 import { CustomButton } from './styles';
 
 type Props = {

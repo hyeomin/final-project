@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { GoPlus, GoSearch, GoX } from 'react-icons/go';
 import { useRecoilState } from 'recoil';
-import { useModal } from '../../../../hooks/useModal';
-import { postInputState } from '../../../../recoil/posts';
+import { useModal } from 'hooks/useModal';
+import { postInputState } from 'recoil/posts';
 import { commonHashtagsList } from '../common/lists';
 import St from './style';
 

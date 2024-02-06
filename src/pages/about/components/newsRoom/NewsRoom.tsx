@@ -1,18 +1,18 @@
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { SwiperClass, SwiperSlide } from 'swiper/react';
-import { getNews } from '../../../../api/newsApi';
-import swipeLeft from '../../../../assets/about/swipe-left-white.png';
-import swipeRight from '../../../../assets/about/swipe-right-white.png';
-import useRoleCheck from '../../../../hooks/useRoleCheck';
-import { QUERY_KEYS } from '../../../../query/keys';
+import { getNews } from 'api/newsApi';
+import swipeLeft from 'assets/about/swipe-left-white.png';
+import swipeRight from 'assets/about/swipe-right-white.png';
+import useRoleCheck from 'hooks/useRoleCheck';
+import { QUERY_KEYS } from 'query/keys';
 import NewsUpload from './NewsUpload';
 import YoutubeModal from './YoutubeModal';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import useSwiperNavigation from '../../../../hooks/useSwiperNavigation';
-import { getFormattedDateCustom } from '../../../../util/formattedDateAndTime';
+import useSwiperNavigation from 'hooks/useSwiperNavigation';
+import { getFormattedDateCustom } from 'util/formattedDateAndTime';
 import St from './style';
 
 function NewsRoom() {

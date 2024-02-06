@@ -1,8 +1,8 @@
+import { getAdminPostList } from 'api/pageListApi';
+import TopButton from 'pages/about/components/TopButton';
+import { QUERY_KEYS } from 'query/keys';
 import { useState } from 'react';
-import { getAdminPostList } from '../../api/pageListApi';
-import { QUERY_KEYS } from '../../query/keys';
-import { SortList } from '../../types/PostListType';
-import TopButton from '../about/components/TopButton';
+import { SortList } from 'types/PostListType';
 import PostListAdmin from './components/byMangoPostList/ByMangoPostList';
 import St from './style';
 

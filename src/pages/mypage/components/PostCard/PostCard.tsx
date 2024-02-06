@@ -4,15 +4,15 @@ import { produce } from 'immer';
 import React, { useContext } from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../../../../api/authApi';
-import defaultProfile from '../../../../assets/defaultImg.jpg';
-import mangoCover from '../../../../assets/mangoDefaultCover.png';
-import PostContentPreview from '../../../../components/PostContentPreview';
-import { AuthContext } from '../../../../context/AuthContext';
-import { QUERY_KEYS } from '../../../../query/keys';
-import { db } from '../../../../shared/firebase';
-import { PostType } from '../../../../types/PostType';
-import { getFormattedDate_yymmdd } from '../../../../util/formattedDateAndTime';
+import { getUser } from 'api/authApi';
+import defaultProfile from 'assets/defaultImg.jpg';
+import mangoCover from 'assets/mangoDefaultCover.png';
+import PostContentPreview from 'components/PostContentPreview';
+import { AuthContext } from 'context/AuthContext';
+import { QUERY_KEYS } from 'query/keys';
+import { db } from 'shared/firebase';
+import { PostType } from 'types/PostType';
+import { getFormattedDate_yymmdd } from 'util/formattedDateAndTime';
 
 import {
   AuthorNameAndDate,
@@ -24,7 +24,7 @@ import {
   PostInfoContainer,
   PostTitleAndContent,
   SinglePost
-} from '../../../community/components/communityPostList/style';
+} from 'pages/community/components/communityPostList/style';
 
 interface PostCardProps {
   post: PostType;

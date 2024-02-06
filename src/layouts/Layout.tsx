@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { modalState } from '../recoil/modals';
+import { modalState } from 'recoil/modals';
 import Footer from './footer/Footer';
 import NavBar from './navbar/NavBar';
 

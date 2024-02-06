@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import editNdeleteToggleBox from '../../../../assets/editndeletetoggle.png';
-import theme from '../../../../styles/theme';
+import editNdeleteToggleBox from 'assets/editndeletetoggle.png';
+import theme from 'styles/theme';
 
 const ToggleContainer = styled.div`
   background-image: url(${editNdeleteToggleBox});

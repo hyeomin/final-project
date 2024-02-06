@@ -1,7 +1,7 @@
 import { doc, getDoc, increment, updateDoc } from 'firebase/firestore';
-import { QUERY_KEYS } from '../query/keys';
-import { db } from '../shared/firebase';
-import { PostType } from '../types/PostType';
+import { QUERY_KEYS } from 'query/keys';
+import { db } from 'shared/firebase';
+import { PostType } from 'types/PostType';
 
 const updatePostViewCount = async (postId: string) => {
   const postRef = doc(db, QUERY_KEYS.POSTS, postId);
