@@ -66,17 +66,17 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const setIsModalOpen = useSetRecoilState(modalState);
 
   const [users, setUsers] = useState<User[]>([]);
-  const [userDataIsLoading, setIsLoading] = useState<boolean>(true);
-  const [userDataError, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   //더보기
   const {
     data: posts,
     fetchNextPage,
     isFetchingNextPage,
-    isLoading,
+    isLoading: moreDataIsLoading,
     hasNextPage,
-    error
+    error: moreDataError
   } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -116,8 +116,8 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
-  if (error) {
-    console.log('community 데이터 읽기 오류', error);
+  if (moreDataError) {
+    console.log('community 데이터 읽기 오류', moreDataError);
   }
 
   //좋아요 토글 + 좋아요 수
@@ -227,14 +227,14 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     getUsers();
   }, []);
 
-  if (userDataError) {
-    console.log('users 데이터 가져오기 실패!', userDataError);
+  if (error) {
+    console.log('users 데이터 가져오기 실패!', error);
   }
 
   return (
     <St.PostListContainer>
       <div>
-        {isLoading ? (
+        {moreDataIsLoading && isLoading ? (
           <PostsSkeleton />
         ) : (
           <PostContainer>

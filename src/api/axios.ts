@@ -6,7 +6,7 @@ export const fetchUsers = async (): Promise<User[] | undefined> => {
   try {
     const resp = await axios.get(baseURL);
     // console.log('resp===>', resp);
-    console.log('resp===>', resp.data.documents);
+    // console.log('resp===>', resp.data.documents);
     const users = resp.data.documents.map((doc: any) => {
       const userData: User = {
         displayName: doc.fields.displayName.stringValue,
@@ -15,7 +15,6 @@ export const fetchUsers = async (): Promise<User[] | undefined> => {
       };
       return userData;
     });
-    console.log('users==>', users);
     return users;
   } catch (error) {
     console.error('user 데이터 가져오기 실패!', error);
