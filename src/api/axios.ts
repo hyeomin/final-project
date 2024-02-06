@@ -5,8 +5,7 @@ const baseURL = `https://firestore.googleapis.com/v1/projects/mango-final/databa
 export const fetchUsers = async (): Promise<User[] | undefined> => {
   try {
     const resp = await axios.get(baseURL);
-    console.log('resp===>', resp);
-    console.log('resp===>', resp.data.documents);
+
     const users = resp.data.documents.map((doc: any) => {
       const userData: User = {
         displayName: doc.fields.displayName.stringValue,

@@ -6,7 +6,7 @@ import { AuthContext } from 'context/AuthContext';
 import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { produce } from 'immer';
 import { QUERY_KEYS } from 'query/keys';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { db } from 'shared/firebase';
@@ -25,6 +25,7 @@ import {
   SinglePost
 } from 'pages/community/components/communityPostList/style';
 import { getThumbnailSource } from 'util/getThumbnailSource';
+import { fetchUsers } from 'api/axios';
 
 interface PostCardProps {
   post: PostType;
@@ -32,21 +33,14 @@ interface PostCardProps {
 
 function PostCard({ post }: PostCardProps) {
   const navigate = useNavigate();
-  // const currentUserId = auth.currentUser!.uid;
+
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
   const queryClient = useQueryClient();
 
-  // const { data: userList } = useQuery({
-  //   queryKey: [QUERY_KEYS.USERS],
-  //   queryFn: getAllUsers
-  // });
-
-  const { data: user, error } = useQuery({
-    queryKey: [QUERY_KEYS.USERS, post.uid],
-    queryFn: () => getUser(post.uid),
-    staleTime: 6000 * 10
-  });
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   if (error) {
     console.log('특정 유저 가져오기 실패(PostCard)', error);
@@ -78,12 +72,10 @@ function PostCard({ post }: PostCardProps) {
       }
     },
     onMutate: async (postId) => {
-      // console.log('onMutate');
       queryClient.setQueriesData<PostType[]>({ queryKey: ['posts'] }, (prevPosts) => {
         if (!Array.isArray(prevPosts)) return [];
-        // console.log('prevPosts', prevPosts);
+
         const nextPosts = produce(prevPosts, (draftPosts) => {
-          //console.log('draftPosts', draftPosts);
           const post = draftPosts.find((post) => post.id === postId);
           if (!post) return draftPosts;
 
@@ -100,11 +92,34 @@ function PostCard({ post }: PostCardProps) {
     }
   });
 
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        setIsLoading(true);
+        const fetchedUsers = await fetchUsers();
+        if (fetchedUsers) {
+          setUsers(fetchedUsers);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        setError('users 데이터 fetch 실패!');
+        setIsLoading(false);
+      }
+    };
+
+    getUsers();
+  }, []);
+
+  if (error) {
+    console.log('users 데이터 가져오기 실패!', error);
+  }
+
+  const user = users.find((user) => user.uid === post.uid);
+
   const handleClickLikeButton: React.MouseEventHandler = async (e) => {
     e.stopPropagation();
 
     await toggleLike(post.id);
-    // console.log('post', post);
   };
 
   return (
