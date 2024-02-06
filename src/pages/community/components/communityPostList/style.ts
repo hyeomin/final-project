@@ -83,8 +83,8 @@ export const PostCardHeader = styled.div`
 // 작성자 프로필 + 날짜
 export const PostCardHeaderLeft = styled.div`
   img {
-    width: 30px; //HM 40 > 35 변경
-    height: 30px; //HM 40 > 35 변경!
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
   }
 
@@ -104,18 +104,18 @@ export const AuthorNameAndDate = styled.div`
 
   span {
     font-weight: bold;
-    font-size: 14px; // HM 망고망 16px
+    font-size: 14px;
   }
 
   p {
-    color: #bbb; // #222222에서 변경
+    color: #bbb;
     font-size: 12px;
     font-weight: 400;
   }
 
   @media screen and (max-width: 431px) {
     span {
-      font-size: 12px; // HM 망고망 16px
+      font-size: 12px;
       text-align: start;
     }
     p {
@@ -124,45 +124,6 @@ export const AuthorNameAndDate = styled.div`
     }
   }
 `;
-
-// export const AuthorProfileImg = styled.img`
-//   width: 30px; //HM 40 > 35 변경
-//   height: 30px; //HM 40 > 35 변경!
-//   border-radius: 50%;
-
-//   @media screen and (max-width: 431px) {
-//     width: 25px;
-//     height: 25px;
-//   }
-// `;
-
-// export const PostCardHeaderTextRow = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: start;
-//   row-gap: 5px;
-
-//   & p {
-//     font-weight: bold;
-//     font-size: 14px; // HM 망고망 16px
-//   }
-
-//   span {
-//     color: #bbb; // #222222에서 변경
-//     font-size: 12px;
-//     font-weight: 400;
-//   }
-
-//   @media screen and (max-width: 431px) {
-//     & p {
-//       font-size: 13px; // HM 망고망 16px
-//       text-align: start;
-//     }
-//     span {
-//       font-size: 11px;
-//     }
-//   }
-// `;
 
 export const PostTitleAndContent = styled.div`
   display: flex;
@@ -185,7 +146,6 @@ export const PostTitleAndContent = styled.div`
     word-break: break-word;
   }
 
-  /* 아래 p에서 span으로 변경 */
   span {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -232,8 +192,6 @@ export const HeartClickButton = styled.button<{ $isLiked: boolean }>`
     cursor: pointer;
   }
 `;
-
-/*더보기*/
 
 const MoreContentWrapper = styled.div`
   display: flex;
