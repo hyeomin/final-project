@@ -114,6 +114,10 @@ const CoverImage = styled.div`
   &:hover::before {
     opacity: 1;
   }
+
+  @media screen and (max-width: 431px) {
+    size: 30px;
+  }
 `;
 
 const SlideHeader = styled.div`

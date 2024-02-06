@@ -56,10 +56,8 @@ interface PostCardProps {
 }
 
 function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
-  const category = useRecoilValue(categoryListState);
+  const category = queryKey[1];
   const navigate = useNavigate();
-
-  //좋아요
   const currentUserId = auth.currentUser?.uid;
   const queryClient = useQueryClient();
   const modal = useModal();
@@ -71,7 +69,8 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     fetchNextPage,
     isFetchingNextPage,
     isLoading,
-    hasNextPage
+    hasNextPage,
+    error
   } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -111,6 +110,10 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
+  if (error) {
+    console.log('community 데이터 읽기 오류', error);
+  }
+
   //좋아요 토글 + 좋아요 수
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (params: PostCardProps) => {
@@ -126,13 +129,12 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
           //좋아요 안 한 경우
           newLikeCount = postData.likeCount !== undefined ? postData.likeCount + 1 : 1;
         }
-
         await updateDoc(postRef, {
           likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId),
           likeCount: newLikeCount
         });
       } else {
-        return;
+        throw new Error('Invalid input for toggleLike');
       }
     },
     onMutate: async (params: PostCardProps) => {
@@ -145,27 +147,13 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
         queryKey: [QUERY_KEYS.POSTS, category]
       });
 
-      queryClient.setQueriesData<InfiniteData<PostType[]> | undefined>(
-        { queryKey: [QUERY_KEYS.POSTS, category] },
-        (prevPosts) => {
-          if (!prevPosts) {
-            return {
-              pages: [],
-              pageParams: []
-            };
-          }
-
-          // pages 배열 내의 모든 페이지를 펼칩니다.
-          const updatedPages = prevPosts.pages.map((posts) =>
-            posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
-          );
-
-          // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
-          return { ...prevPosts, pages: updatedPages };
-        }
-      );
-
-      //context에 이전 데이터 저장
+      queryClient.setQueryData<InfiniteData<PostType[]>>([QUERY_KEYS.POSTS, category], (oldData) => {
+        // 이전 데이터를 수정하고 반환
+        return {
+          pages: oldData?.pages ?? [],
+          pageParams: oldData?.pageParams ?? []
+        };
+      });
       return { previousPosts };
     },
     onError: (Error, _, context) => {
@@ -174,7 +162,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS, category] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
     }
   });
 
@@ -215,21 +203,9 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     await toggleLike({ postId: id, postData: post });
   };
 
-  //사용자 프로필 데이터
-  // const { data: userList } = useQuery({
-  //   queryKey: [QUERY_KEYS.USERS],
-  //   queryFn: getAllUsers,
-  //   staleTime: 1000 * 60
-  // });
-
-  // St가 안 붙은 태그들은 재활용을 위해 .style에서 직접 export 한 것들
   return (
     <St.PostListContainer>
       <div>
-        {/* {isLoading ? (
-          <CommunitySkeleton />
-        )  */}
-
         {isLoading ? (
           <PostsSkeleton />
         ) : (
@@ -248,24 +224,15 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
                       }}
                     />
                     <PostInfoContainer>
-                      {/* {userList && userList?.find((user) => user.uid === post.uid) && ( */}
                       <PostCardHeader>
                         <PostCardHeaderLeft>
                           <UserDetail userId={post.uid} type="profileImg" />
-
-                          {/* <AuthorProfileImg
-                              src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
-                              alt="profile"
-                            /> */}
-                          {/* <PostCardHeaderTextRow> */}
                           <AuthorNameAndDate>
                             <UserDetail userId={post.uid} type="displayName" />
-                            {/* <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p> */}
                             <p>{getFormattedDate_yymmdd(post.createdAt!)}</p>
                           </AuthorNameAndDate>
-
-                          {/* </PostCardHeaderTextRow> */}
                         </PostCardHeaderLeft>
+
                         {/* 하트 클릭하는 버튼 */}
                         <HeartClickButton
                           onClick={(e) => handleClickLikeButton(e, post.id, post)}
@@ -274,7 +241,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
                           {post.isLiked ? <GoHeartFill /> : <GoHeart />}
                         </HeartClickButton>
                       </PostCardHeader>
-                      {/* // )} */}
+
                       <PostTitleAndContent>
                         <p>{post.title}</p>
                         {post.content && <PostContentPreview postContent={post.content} />}
@@ -303,13 +270,6 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
         )}
       </div>
       <St.MoreContentWrapper>
-        {/* {isFetchingNextPage ? (
-          <Loader />
-        ) : hasNextPage ? (
-          <button onClick={() => fetchNextPage()}>더 보기</button>
-        ) : (
-          <p>모든 데이터를 가져왔습니다.</p>
-        )} */}
         {isFetchingNextPage ? (
           <Loader />
         ) : hasNextPage ? (

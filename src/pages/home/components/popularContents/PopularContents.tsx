@@ -12,8 +12,8 @@ import Carousel from './carousel/Carousel';
 import St from './style';
 
 const PopularContents = () => {
-  // console.log('PopularContents 렌더링!');
   // hover 시 prefetch 함수
+  // prefetch는 오류 반환 x
   const queryClient = useQueryClient();
   const handleHover = async () => {
     queryClient.prefetchInfiniteQuery({
