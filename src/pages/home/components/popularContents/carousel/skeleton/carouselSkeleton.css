@@ -22,7 +22,6 @@
   width: 285px;
   height: 406px;
   border-radius: 20px;
-  /* background-color: rgb(234, 233, 233); */
   padding: 13px 20px 20px;
   animation: loading 1.5s infinite;
 }
