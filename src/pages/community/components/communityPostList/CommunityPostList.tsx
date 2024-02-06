@@ -7,10 +7,6 @@ import {
   useQueryClient
 } from '@tanstack/react-query';
 import { fetchUsers } from 'api/axios';
-import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
-import { Link, useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
 import mangoCover from 'assets/mangoDefaultCover.png';
 import defaultUserProfile from 'assets/realMango.png';
 import Loader from 'components/Loader';
