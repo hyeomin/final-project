@@ -50,7 +50,6 @@
 <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white"><img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white">
 
 # 망고 페이지 소개
-![2](https://github.com/hyeomin/final-project/assets/121536857/e488ab8f-7918-490b-9d6c-de0bcb9646a0)
 
 ### 홈
 
@@ -72,7 +71,7 @@
 
 
 ### By Mango와 커뮤니티
-![3](https://github.com/hyeomin/final-project/assets/121536857/8107975a-edc7-4650-ab19-8d29376f1153)
+<img width="400" alt="post-list" src="https://github.com/hyeomin/final-project/assets/121536857/8107975a-edc7-4650-ab19-8d29376f1153">
 
 Navigation Bar에 있는 By Mango 혹은 Community 탭으로 넘어가면 관리자가 작성하는 콘텐츠와 유저들이 작성한 콘텐츠를 각각 볼 수 있으며, 더보기 기능을 활용하여 보여지는 게시물 수를 조절합니다.
 
@@ -88,7 +87,7 @@ Navigation Bar에 있는 By Mango 혹은 Community 탭으로 넘어가면 관리
 
 
 ### 글쓰기
-![4](https://github.com/hyeomin/final-project/assets/121536857/1aff061d-b448-4e1a-91fe-0a9093999a32)
+<img width="400" alt="write-page" src="https://github.com/hyeomin/final-project/assets/121536857/1aff061d-b448-4e1a-91fe-0a9093999a32">
 
 글쓰기 탭에서는 React-Quill을 활용한 에디터 기능을 사용할 수 있습니다. 게시글 작성 시 카테고리 선택, 해시태그 선택, 그리고 커버 이미지를 선택할 수 있습니다.
 
@@ -111,7 +110,7 @@ Navigation Bar에 있는 By Mango 혹은 Community 탭으로 넘어가면 관리
 
 
 ### 게시글 상세페이지
-![5](https://github.com/hyeomin/final-project/assets/121536857/b3888d8f-7ae7-4180-b0c7-5c053d9ac4fa)
+<img width="400" alt="detail-page" src="https://github.com/hyeomin/final-project/assets/121536857/b3888d8f-7ae7-4180-b0c7-5c053d9ac4fa">
 
 게시글 작성 후 해당 게시글을 누르고 들어가면 상세 내용이 보입니다. 내가 작성한 게시글인 경우 오른쪽에 … 버튼을 눌러서 게시글 수정 혹은 삭제가 가능합니다.
 하단에는 댓글을 남길 수 있으며, 로그인을 안한 경우에는 모달을 띄워서 작성을 막는 방식으로 로그인을 유도하고 있습니다. 하단 ‘이전 게시물’ ‘다음 게시물’을 누르면 다른 게시물로 이동합니다.
@@ -123,7 +122,7 @@ Navigation Bar에 있는 By Mango 혹은 Community 탭으로 넘어가면 관리
 
 
 ### 마이페이지
-![6](https://github.com/hyeomin/final-project/assets/121536857/6be77648-14ea-4e5a-b85e-b6402ba30951)
+<img width="400" alt="my-page" src="https://github.com/hyeomin/final-project/assets/121536857/6be77648-14ea-4e5a-b85e-b6402ba30951">
 
 오른쪽 상단을 누르면 유저 관련 정보를 확인할 수도 있으며, 마이페이지로 이동 혹은 로그아웃을 실행시킬 수 있습니다.
 
