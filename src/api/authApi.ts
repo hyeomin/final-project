@@ -3,9 +3,9 @@
 import { User, updateProfile } from 'firebase/auth';
 import { collection, doc, getDoc, getDocs, query, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { QUERY_KEYS } from '../query/keys';
-import { auth, db, storage } from '../shared/firebase';
-import { UserType } from '../types/UserType';
+import { QUERY_KEYS } from 'query/keys';
+import { auth, db, storage } from 'shared/firebase';
+import { UserType } from 'types/UserType';
 
 // user 콜렉션 전부 가져오기
 const getAllUsers = async () => {

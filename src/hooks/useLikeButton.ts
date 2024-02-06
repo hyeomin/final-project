@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';
-import useLikeQuery from '../query/useLikeQuery';
+import { AuthContext } from 'context/AuthContext';
+import useLikeQuery from 'query/useLikeQuery';
 import { useModal } from './useModal';
 import { useSetRecoilState } from 'recoil';
-import { modalState } from '../recoil/modals';
+import { modalState } from 'recoil/modals';
 
 export const useLikeButton = () => {
   const modal = useModal();

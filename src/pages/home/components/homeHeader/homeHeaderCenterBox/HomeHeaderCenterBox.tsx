@@ -1,7 +1,7 @@
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import { SwiperClass } from 'swiper/react';
-import useSwiperNavigation from '../../../../../hooks/useSwiperNavigation';
-import { PostType } from '../../../../../types/PostType';
+import useSwiperNavigation from 'hooks/useSwiperNavigation';
+import { PostType } from 'types/PostType';
 import St from './style';
 
 type Props = {

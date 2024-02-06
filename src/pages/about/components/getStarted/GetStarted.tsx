@@ -1,12 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import community from '../../../../assets/about/community.webp';
-import popular from '../../../../assets/about/popular.webp';
-import write from '../../../../assets/about/write.webp';
+import community from 'assets/about/community.webp';
+import popular from 'assets/about/popular.webp';
+import write from 'assets/about/write.webp';
 
-import { useModal } from '../../../../hooks/useModal';
-import { modalState } from '../../../../recoil/modals';
-import { auth } from '../../../../shared/firebase';
+import { useModal } from 'hooks/useModal';
+import { modalState } from 'recoil/modals';
+import { auth } from 'shared/firebase';
 import St from './style';
 
 function GetStarted() {

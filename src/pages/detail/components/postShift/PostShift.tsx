@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
-import { getPosts } from '../../../../api/homeApi';
-import { QUERY_KEYS } from '../../../../query/keys';
+import { getPosts } from 'api/homeApi';
+import { QUERY_KEYS } from 'query/keys';
 import St from './style';
 
 type Props = {
@@ -11,11 +11,15 @@ type Props = {
 };
 
 function PostShift({ postId }: Props) {
-  const { data: postList } = useQuery({
+  const { data: postList, error } = useQuery({
     queryKey: [QUERY_KEYS.POSTS],
     queryFn: getPosts,
     staleTime: 60_000
   });
+
+  if (error) {
+    console.log('전체 게시물(posts) 가져오기 실패!', error);
+  }
 
   const [postIndexNumber, setPostIndexNumber] = useState(0);
 

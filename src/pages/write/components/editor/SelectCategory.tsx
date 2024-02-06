@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { postInputState } from '../../../../recoil/posts';
-import { roleState } from '../../../../recoil/users';
+import { postInputState } from 'recoil/posts';
+import { roleState } from 'recoil/users';
 import { categoryList } from '../common/lists';
 import St from './style';
 

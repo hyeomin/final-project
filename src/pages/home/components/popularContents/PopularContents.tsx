@@ -5,8 +5,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { getAdminPostList } from '../../../../api/pageListApi';
-import { QUERY_KEYS } from '../../../../query/keys';
+import { getAdminPostList } from 'api/pageListApi';
+import { QUERY_KEYS } from 'query/keys';
 import '../swiperStyle.css';
 import Carousel from './carousel/Carousel';
 import St from './style';

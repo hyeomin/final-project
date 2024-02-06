@@ -1,14 +1,14 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import React, { useContext, useState } from 'react';
-import { getComments } from '../../../../../api/commentApi';
-import MangoLogo from '../../../../../assets/realMango.png';
-import UserDetail from '../../../../../components/UserDetail';
-import { AuthContext } from '../../../../../context/AuthContext';
-import { useModal } from '../../../../../hooks/useModal';
-import { QUERY_KEYS } from '../../../../../query/keys';
-import useCommentQuery from '../../../../../query/useCommentQuery';
-import { FoundDetailPostProps } from '../../../../../types/PostType';
-import { getFormattedDate } from '../../../../../util/formattedDateAndTime';
+import { getComments } from 'api/commentApi';
+import MangoLogo from 'assets/realMango.png';
+import UserDetail from 'components/UserDetail';
+import { AuthContext } from 'context/AuthContext';
+import { useModal } from 'hooks/useModal';
+import { QUERY_KEYS } from 'query/keys';
+import useCommentQuery from 'query/useCommentQuery';
+import { FoundDetailPostProps } from 'types/PostType';
+import { getFormattedDate } from 'util/formattedDateAndTime';
 import St from './style';
 
 const CommentList = ({ foundDetailPost, isLoading }: FoundDetailPostProps) => {
@@ -23,11 +23,14 @@ const CommentList = ({ foundDetailPost, isLoading }: FoundDetailPostProps) => {
   const currentUserId = authContext?.currentUser?.uid;
 
   // 댓글목록 가져오기
-  const { data: comments } = useQuery({
+  const { data: comments, error } = useQuery({
     queryKey: [QUERY_KEYS.COMMENTS, postId],
     queryFn: () => getComments(postId),
-    staleTime: Infinity
+    staleTime: 60_000
   });
+  if (error) {
+    console.log('댓글 목록 가져오기 실패!', error);
+  }
 
   //mutates
   const { updateCommentMutate, deleteCommentMutate } = useCommentQuery();

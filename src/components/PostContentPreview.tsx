@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { stripHtml } from '../util/extractContentText';
+import { stripHtml } from 'util/extractContentText';
 
 type Props = {
   postContent: string;

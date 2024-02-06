@@ -1,12 +1,12 @@
 import { QueryFunctionContext, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
-import mangoCover from '../../../../assets/mangoDefaultCover.png';
-import Loader from '../../../../components/Loader';
-import PostContentPreview from '../../../../components/PostContentPreview';
-import { SortList } from '../../../../types/PostListType';
-import { PostType } from '../../../../types/PostType';
-import ByMangoSkeleton from '../../byMangoSkeleton/ByMangoSkeleton';
+import mangoCover from 'assets/mangoDefaultCover.png';
+import Loader from 'components/Loader';
+import PostContentPreview from 'components/PostContentPreview';
+import { SortList } from 'types/PostListType';
+import { PostType } from 'types/PostType';
+import ByMangoSkeleton from 'pages/bymango/byMangoSkeleton/ByMangoSkeleton';
 import St from './style';
 
 interface PostListProps {

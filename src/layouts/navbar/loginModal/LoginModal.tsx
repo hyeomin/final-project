@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { isSignUpState } from '../../../recoil/users';
-import editNdeleteToggleBox from '../../../assets/editndeletetoggle.png';
-import { isAuthState } from '../../../recoil/modals';
+import { isSignUpState } from 'recoil/users';
+import editNdeleteToggleBox from 'assets/editndeletetoggle.png';
+import { isAuthState } from 'recoil/modals';
 
 type ModalProps = {
   onClose: () => void;

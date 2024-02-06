@@ -8,7 +8,7 @@ import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
 
 import 'react-quill/dist/quill.snow.css';
-import { postInputState } from '../../../../recoil/posts';
+import { postInputState } from 'recoil/posts';
 import St from './style';
 
 Quill.register('modules/imageActions', ImageActions);

@@ -1,7 +1,7 @@
 import { useRecoilValue } from 'recoil';
-import { useModal } from '../../../../hooks/useModal';
-import { postInputState } from '../../../../recoil/posts';
-import { FoundDetailPostProps } from '../../../../types/PostType';
+import { useModal } from 'hooks/useModal';
+import { postInputState } from 'recoil/posts';
+import { FoundDetailPostProps } from 'types/PostType';
 import IsEditingButton from './EditUploadButton';
 import SubmitButton from './SubmitButton';
 import St, { CustomButton } from './styles';
