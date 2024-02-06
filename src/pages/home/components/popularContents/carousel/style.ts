@@ -4,7 +4,6 @@ import styled, { css } from 'styled-components';
 const Container = styled.div`
   position: relative;
   width: 1300px;
-  /* background-color: #f4bdbd; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -31,11 +30,9 @@ const SlideWrapper = styled.div`
   height: 406px;
   margin: 0 35px;
   gap: 20px;
-  /* background-color: #b5b5f7; */
 
   @media screen and (max-width: 431px) {
     width: 100%;
-    //height: 300px;
     margin: 0 40px;
     display: flex;
     flex-wrap: wrap;
@@ -45,11 +42,7 @@ const SlideWrapper = styled.div`
 
 const Slide = styled.div`
   position: relative;
-  //TODO: 이미지 로딩중일때 background가 보이는 문제 수정하기
-  /* min-width: 200px;
-  max-width: 285px; */
   width: 285px;
-  //height: 100%;
   height: 400px;
   border-radius: 20px;
   display: flex;
@@ -83,7 +76,6 @@ const Slide = styled.div`
   }
   @media screen and (max-width: 431px) {
     position: relative;
-    //width: 130px;
     padding: 10px 10px 10px;
     display: flex;
   }
@@ -192,7 +184,7 @@ const SlideBottom = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 100%; // Slide width 변경시 함께 변경
+  width: 100%;
 `;
 
 const TitleAndContent = styled.div`
@@ -251,9 +243,7 @@ const Button = styled.button<ButtonProps>`
   justify-content: center;
   align-items: center;
   all: unset;
-  /* background-color: #addddd; */
   font-size: 35px;
-  //color: #ededed;
   color: #000;
   cursor: pointer;
   &:hover {

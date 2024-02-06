@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import theme from 'styles/theme';
+import theme from 'types/styles/theme';
 
 const ByMangoContainer = styled.div`
   width: 1000px;

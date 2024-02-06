@@ -1,6 +1,6 @@
 import 'react-calendar/dist/Calendar.css';
 import styled from 'styled-components';
-import theme from 'styles/theme';
+import theme from 'types/styles/theme';
 
 const Wrapper = styled.div`
   width: 100%;

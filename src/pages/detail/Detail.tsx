@@ -1,8 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { getDetailPost, updatePostViewCount } from 'api/detailApi';
 import { QUERY_KEYS } from 'query/keys';
+<<<<<<< HEAD
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+=======
+import theme from 'types/styles/theme';
+>>>>>>> e15e3ecafa59f576dbbb203d8daceb7eabcc0b61
 import { PostType } from 'types/PostType';
 
 import AddCommentForm from './components/comment/addComment/AddComment';
