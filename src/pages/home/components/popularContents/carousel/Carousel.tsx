@@ -16,9 +16,13 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import CarouselSkeleton from './skeleton/CarouselSkeleton';
+import { useContext } from 'react';
+import { AuthContext } from 'context/AuthContext';
 
 const Carousel = () => {
-  const currentUserId = auth.currentUser?.uid;
+  const authContext = useContext(AuthContext);
+  const currentUser = authContext?.currentUser;
+  const currentUserId = currentUser?.uid;
 
   const {
     data: popularPosts,
@@ -59,6 +63,7 @@ const Carousel = () => {
             onSlideChange={() => {}}
             onSwiper={(swiper: SwiperClass) => {}}
             navigation={true}
+            slidesPerView={4}
             breakpoints={{
               1200: {
                 spaceBetween: 10,

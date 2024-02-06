@@ -23,8 +23,8 @@ export default function Router() {
           <Route path="/bymango" element={<ByMango />} />
           <Route path="/auth" element={<Auth />} />
           {/* <Route path="/auth/login" element={<Login />} /> */}
-          <Route path="/auth/login" element={<Login />} />
-          <Route path="/auth/signup" element={<Signup />} />
+          {/* <Route path="/auth/login" element={<Login />} />
+          <Route path="/auth/signup" element={<Signup />} /> */}
 
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/about" element={<About />} />
