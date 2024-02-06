@@ -66,7 +66,6 @@ function ByMangoPostList({ queryKey, queryFn, sortBy }: PostListProps) {
 
   return (
     <St.MainSubWrapper>
-      {/* <ByMangoSkeleton /> */}
       <St.ContentsWrapper>
         {isLoading ? (
           <ByMangoSkeleton />
@@ -86,24 +85,6 @@ function ByMangoPostList({ queryKey, queryFn, sortBy }: PostListProps) {
             })}
           </St.AdminContents>
         )}
-        {/* {isLoading ? (
-          <Loader />
-        ) : (
-          <St.AdminContents>
-            {posts?.map((post) => {
-              return (
-                <St.AdminContent key={post.id} onClick={() => navigate(`/detail/${post.id}`)}>
-                  <img
-                    src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
-                    alt={post.title}
-                  />
-                  <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
-                  {post.content && <PostContentPreview postContent={post.content} />}
-                </St.AdminContent>
-              );
-            })}
-          </St.AdminContents>
-        )} */}
       </St.ContentsWrapper>
 
       <St.MoreContentWrapper>

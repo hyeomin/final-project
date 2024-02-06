@@ -7,7 +7,6 @@ import { getCategoryPosts } from 'api/pageListApi';
 import { QUERY_KEYS } from 'query/keys';
 import { categoryListState } from 'recoil/posts';
 import TopButton from 'pages/about/components/TopButton';
-// import PostList from './PostList';
 import CommunityPostList from './communityPostList/CommunityPostList';
 import St from './style';
 
@@ -42,7 +41,6 @@ function CommunityBody() {
     }
   };
 
-  //URL에서 상태 읽어오는 useEffect
   useEffect(() => {
     updateStateFromUrl();
   }, [searchParams]);
@@ -61,7 +59,7 @@ function CommunityBody() {
   };
 
   //prefetch
-  const queryClient = useQueryClient(); // queryClient 사용
+  const queryClient = useQueryClient();
   const handleHover = async () => {
     const queriesToPrefetch = [
       { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.KNOWHOW], queryFn: getCategoryPosts('knowHow') },
@@ -70,8 +68,6 @@ function CommunityBody() {
       { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.HABIT], queryFn: getCategoryPosts('habit') },
       { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.TOTAL], queryFn: getCategoryPosts('total') },
       { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.NOCATEGORY], queryFn: getCategoryPosts('noCategory') }
-
-      // 다른 queryKey와 queryFn을 추가할 수 있습니다.
     ];
 
     //prefetch는 오류 반환 x
@@ -85,7 +81,6 @@ function CommunityBody() {
     }
   };
 
-  //초기 마운트 실행
   useEffect(() => {
     if (searchParams.get('category') === null || searchParams.get('sort') === null) {
       updateSortOption(category, sortBy);

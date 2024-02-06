@@ -9,16 +9,14 @@ import {
 import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import mangoCover from 'assets/mangoDefaultCover.png';
 import Loader from 'components/Loader';
 import PostContentPreview from 'components/PostContentPreview';
 import UserDetail from 'components/UserDetail';
-// import { SortList } from 'components/viewAll/ViewAllBody';
 import { useModal } from 'hooks/useModal';
 import { QUERY_KEYS } from 'query/keys';
 import { modalState } from 'recoil/modals';
-import { categoryListState } from 'recoil/posts';
 import { auth, db } from 'shared/firebase';
 import { SortList } from 'types/PostListType';
 import { PostType } from 'types/PostType';

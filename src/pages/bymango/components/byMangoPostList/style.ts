@@ -17,9 +17,8 @@ const ViewAllContainer = styled.div`
 /*유저 등록 데이터 (친환경노하우~습관인증) */
 const MainSubWrapper = styled.div`
   width: 100%;
-  margin-bottom: 150px; //58에서 변경
+  margin-bottom: 150px;
 
-  //모바일 세로
   @media screen and (max-width: 431px) {
     margin: auto;
   }
@@ -37,7 +36,6 @@ const CategoryWrapper = styled.div`
   }
 `;
 
-/*버튼*/
 const ButtonWrapper = styled.div`
   display: flex;
   align-items: flex-end;
@@ -64,7 +62,6 @@ const Button = styled.button<{ selected: boolean }>`
   }
 `;
 
-/*정렬*/
 const SortWrapper = styled.ul`
   display: flex;
   justify-content: flex-end;
@@ -104,7 +101,6 @@ const ContentsWrapper = styled.div`
   justify-content: center;
 `;
 
-//희원 수정
 const Contents = styled.ul`
   width: 100%;
   display: grid;
@@ -122,11 +118,11 @@ const Contents = styled.ul`
 const Content = styled.li`
   display: flex;
   flex-direction: column;
-  height: 390px; //626 > 500 변경 > HM 390 변경
-  border-radius: 10px; // HM
+  height: 390px;
+  border-radius: 10px;
   border: 1px solid ${theme.color.lightgray};
-  background: white; // white로 변경
-  overflow: hidden; // HM
+  background: white;
+  overflow: hidden;
 
   @media screen and (max-width: 431px) {
     height: 250px;
@@ -161,18 +157,18 @@ const Row = styled.div`
 
   & p {
     font-weight: bold;
-    font-size: 14px; // HM 망고망 16px
+    font-size: 14px;
   }
 
   span {
-    color: #bbb; // #222222에서 변경
+    color: #bbb;
     font-size: 12px;
     font-weight: 400;
   }
 
   @media screen and (max-width: 431px) {
     & p {
-      font-size: 12px; // HM 망고망 16px
+      font-size: 12px;
     }
 
     span {
@@ -226,7 +222,6 @@ export const TitleAndContent = styled.div`
     font-weight: bold;
   }
 
-  /* 아래 p에서 span으로 변경 */
   span {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -240,8 +235,6 @@ export const TitleAndContent = styled.div`
   }
 `;
 
-/*더보기*/
-
 const MoreContentWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -250,13 +243,11 @@ const MoreContentWrapper = styled.div`
   margin: 40px;
 
   button {
-    //sh
     width: 170px;
     height: 35px;
     flex-shrink: 0;
     border-radius: 10px;
     background-color: ${theme.color.mangoMain};
-    /* background: #ffa114; */
     border: none;
 
     color: #fff;
@@ -285,7 +276,6 @@ const MangoWord = styled.p`
 `;
 
 const MangoOutWord = styled.p`
-  /* color: #000; */
   font-size: 38px;
   font-weight: 700;
 `;
@@ -305,7 +295,6 @@ const AdminContents = styled.ul`
   gap: 20px;
   margin-bottom: 20px;
 
-  // ashley 추가 01.24
   & span {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -316,7 +305,7 @@ const AdminContents = styled.ul`
     color: ${theme.color.gray};
     line-height: normal;
   }
-  //모바일 (세로)
+
   @media screen and (max-width: 431px) {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -338,7 +327,6 @@ const AdminContent = styled.li`
     }
   }
 
-  //모바일 세로
   @media screen and (max-width: 431px) {
     width: 100%;
     img {
@@ -354,27 +342,18 @@ const AdminContent = styled.li`
 `;
 
 const AdminPostTitle = styled.p`
-  /* color: #000; */
   font-size: 22px;
   font-weight: 700;
   text-align: left;
   margin-top: 20px;
   margin-bottom: 10px;
   line-height: normal;
-
-  // 두줄로 제한, 높이 제한
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
   min-height: calc(2 * 1em);
-
-  //모바일 세로
-  @media screen and (max-width: 431px) {
-    /* font-size: 17px;
-    font-weight: 600; */
-  }
 `;
 
 const AdminPostSpace = styled.div`
@@ -386,7 +365,6 @@ const AdminPostContent = styled.div`
   color: #000;
   font-size: 16px;
   font-weight: 400;
-  //모바일 세로
   @media screen and (max-width: 431px) {
     font-size: 10px;
     font-weight: 400;
@@ -406,8 +384,8 @@ const UserProfile = styled.div`
 `;
 
 const ProfileImg = styled.img`
-  width: 30px; //HM 40 > 35 변경
-  height: 30px; //HM 40 > 35 변경!
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
 `;
 
