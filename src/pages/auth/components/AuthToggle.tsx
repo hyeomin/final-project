@@ -55,7 +55,6 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
 
         try {
           await signOut(auth);
-          //console.log('logout');
 
           // 로그아웃 시 Recoil 전역 상태 업데이트
           setRole('');
@@ -152,7 +151,6 @@ const ProfileImageContainer = styled.div`
   overflow: hidden;
 
   & img {
-    /* object-fit: contain; */
     border-radius: 50%;
     width: 100%;
     height: 100%;
