@@ -57,10 +57,11 @@ const GlobalStyle = createGlobalStyle`
         -moz-osx-font-smoothing: grayscale;
     }
 
+    // Link style 초기화
     a, a:hover, a:active, a:visited, a:focus {
-        color: inherit;        /* Inherits color from parent and applies to all states */
-        text-decoration: none; /* Removes underline from links in all states */
-        outline: none;         /* Removes outline on focus, can be customized */
+        color: inherit;        
+        text-decoration: none;
+        outline: none;        
     }
 
 

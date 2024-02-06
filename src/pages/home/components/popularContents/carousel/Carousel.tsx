@@ -1,22 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
+import { fetchUsers } from 'api/axios';
+import { getPopularPosts } from 'api/homeApi';
+import defaultUserProfile from 'assets/realMango.png';
+import PostContentPreview from 'components/PostContentPreview';
+import { AuthContext } from 'context/AuthContext';
+import { useCarouselNavigation } from 'hooks/useCarouselNavigation';
+import { useLikeButton } from 'hooks/useLikeButton';
+import { useContext, useEffect, useState } from 'react';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { Link } from 'react-router-dom';
-import { getPopularPosts } from 'api/homeApi';
-import mangoDefaultCover from 'assets/mangoDefaultCover.png';
-import defaultUserProfile from 'assets/realMango.png';
-import PostContentPreview from 'components/PostContentPreview';
-import { useCarouselNavigation } from 'hooks/useCarouselNavigation';
-import { useLikeButton } from 'hooks/useLikeButton';
-import St from './style';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
+import { getThumbnailSource } from 'util/getThumbnailSource';
 import CarouselSkeleton from './skeleton/CarouselSkeleton';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from 'context/AuthContext';
-import { fetchUsers } from 'api/axios';
+import St from './style';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);
@@ -117,14 +117,7 @@ const Carousel = () => {
                     <Link key={post.id} to={`/detail/${post.id}`}>
                       <St.Slide>
                         <St.CoverImage>
-                          <img
-                            src={
-                              post.coverImages && post.coverImages.length > 0
-                                ? post.coverImages[0].url
-                                : mangoDefaultCover
-                            }
-                            alt={post.title}
-                          />
+                          <img src={getThumbnailSource(post.coverImages)} alt={post.title} />
                         </St.CoverImage>
                         <St.SlideHeader>
                           <div>
