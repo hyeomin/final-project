@@ -69,11 +69,11 @@ export const getCategoryPosts =
       q = query(q, orderBy('createdAt', 'desc'), limit(12));
     }
 
-    try {
-      const querySnapshot = await getDocs(q);
-      return querySnapshot.docs;
-    } catch (error) {
-      console.error('Error getting documents:', error);
-      throw error;
-    }
+    // try {
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs;
+    // } catch (error) {
+    //   console.error('Error getting documents:', error);
+    //   throw error;
+    // }
   };

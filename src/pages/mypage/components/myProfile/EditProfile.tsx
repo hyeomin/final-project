@@ -251,7 +251,6 @@ function EditProfile() {
       modal.open(openModalParams);
       setIsModalOpen((prev) => ({ ...prev, isModalOpen07: true }));
       setIsFormValid(true);
-      // setIsChecked(true);
       setIsDisplayNameChanged(true);
     }
   };

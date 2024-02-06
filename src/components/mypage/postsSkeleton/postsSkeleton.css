@@ -80,7 +80,7 @@
   animation: loading 1.5s infinite;
   border-radius: 10px;
   @media screen and (max-width: 431px) {
-    width: 90px;
+    width: 70px;
   }
 }
 

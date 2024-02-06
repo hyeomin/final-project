@@ -7,6 +7,7 @@ import { PostContainer } from '../../community/components/communityPostList/styl
 import PostCard from './PostCard/PostCard';
 import PostCardSkeleton from './PostCard/PostCardSkeleton/PostCardSkeleton';
 import PostsSkeleton from '../../../components/mypage/postsSkeleton/PostsSkeleton';
+import { error } from 'console';
 
 // 내 게시물 가져오기
 const MyPosts = () => {
@@ -14,12 +15,20 @@ const MyPosts = () => {
   const authCurrentUser = authContext!.currentUser;
 
   //test
-  const { data: myPosts, isLoading } = useQuery({
+  const {
+    data: myPosts,
+    isLoading,
+    error
+  } = useQuery({
     queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
     queryFn: getMyPosts,
     enabled: !!authCurrentUser,
     staleTime: 60_000
   });
+
+  if (error) {
+    console.log('데이터를 불러오지 못했습니다', error);
+  }
 
   return (
     <>

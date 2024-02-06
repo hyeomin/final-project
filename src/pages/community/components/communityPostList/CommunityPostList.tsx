@@ -74,7 +74,8 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     fetchNextPage,
     isFetchingNextPage,
     isLoading,
-    hasNextPage
+    hasNextPage,
+    error
   } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -113,6 +114,10 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
       return sortedPosts;
     }
   });
+
+  if (error) {
+    console.log(error.message);
+  }
 
   //좋아요 토글 + 좋아요 수
   const { mutateAsync: toggleLike } = useMutation({
