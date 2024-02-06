@@ -5,9 +5,7 @@ import { AuthContext } from 'context/AuthContext';
 import { QUERY_KEYS } from 'query/keys';
 import { PostContainer } from 'pages/community/components/communityPostList/style';
 import PostCard from './PostCard/PostCard';
-import PostCardSkeleton from './PostCard/PostCardSkeleton/PostCardSkeleton';
 import PostsSkeleton from '../../../components/mypage/postsSkeleton/PostsSkeleton';
-import { error } from 'console';
 
 // 내 게시물 가져오기
 const MyPosts = () => {
@@ -27,7 +25,7 @@ const MyPosts = () => {
   });
 
   if (error) {
-    console.log('데이터를 불러오지 못했습니다', error);
+    console.error('데이터를 불러오지 못했습니다', error);
   }
 
   return (

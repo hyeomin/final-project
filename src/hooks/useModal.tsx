@@ -1,8 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import Modal from 'components/modal/Modal';
 
-// const { title, message, btnMsg, btnType, btnMsg2, btnType2 } = useModal;
-
 type ModalContextValue = {
   open: (params: OpenModalParams) => void;
   close: () => void;

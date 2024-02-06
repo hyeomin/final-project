@@ -1,11 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { getLikePosts } from 'api/myPostAPI';
-
 import { useContext } from 'react';
 import { AuthContext } from 'context/AuthContext';
 import { PostContainer } from 'pages/community/components/communityPostList/style';
 import PostCard from './PostCard/PostCard';
-import PostCardSkeleton from './PostCard/PostCardSkeleton/PostCardSkeleton';
 import PostsSkeleton from 'components/mypage/postsSkeleton/PostsSkeleton';
 
 const LikesPosts = () => {
@@ -23,7 +21,7 @@ const LikesPosts = () => {
   });
 
   if (error) {
-    console.log('데이터를 불러오지 못했습니다', error);
+    console.error('데이터를 불러오지 못했습니다', error);
   }
 
   return (

@@ -11,7 +11,6 @@ import {
   startAfter,
   where
 } from 'firebase/firestore';
-// import { Category } from 'pages/components/viewAll/ViewAllBody';
 import { db } from 'shared/firebase';
 import { Category } from 'types/PostListType';
 
@@ -40,11 +39,7 @@ export const getCategoryPosts =
   async ({
     pageParam
   }: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>) => {
-    let q: Query<DocumentData> = query(
-      collection(db, 'posts'),
-      ///where('createdAt', '!=', null),
-      where('role', '==', 'user')
-    );
+    let q: Query<DocumentData> = query(collection(db, 'posts'), where('role', '==', 'user'));
 
     if (category !== 'total') {
       q = query(q, where('category', '==', category));

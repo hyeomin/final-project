@@ -1,19 +1,9 @@
 import { useCallback, useState } from 'react';
 
-// const 임시함수 = (): [string, () => void] => {
-//   const 내부함수 = () => {};
-//   return ['1', 내부함수];
-// };
-
-// const [문자열, 함수] = 임시함수(); // ['1', 내부함수];
-
 const usePrintError = (error: any): [string, (error: any) => void] => {
   const [errMsg, setErrMsg] = useState(error);
 
   const printErr = useCallback((error: any) => {
-    // if (error.code === 'auth/email-already-in-use') {
-    //   return setErrMsg('이미 사용하는 이메일입니다.');
-    // }
     switch (error.code) {
       case 'auth/user-not-found':
         return setErrMsg('이메일이 일치하지 않습니다.');
@@ -37,11 +27,9 @@ const usePrintError = (error: any): [string, (error: any) => void] => {
         return setErrMsg('네트워크 연결에 실패 하였습니다.');
       case 'auth/email-already-exists':
         return setErrMsg('제공된 이메일을 기존 사용자가 이미 사용 중입니다.');
-      // 비밀번호 input 과 비밀번호 확인 input 의 값이 다를경우 출력하는 오류
       case 'auth/wrong-password':
         return setErrMsg('비밀번호가 일치하지 않습니다.');
       default:
-        // console.log('New Error code:', error.code);
         setErrMsg(error.code);
     }
   }, []);

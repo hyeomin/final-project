@@ -1,29 +1,43 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
-
 @font-face {
   font-family: 'Milk Mango Regular';
   font-style: normal;
   font-weight: normal;
   src: local('Milk Mango Regular'), url('./fonts/MilkMango-z8vjG.woff') format('woff');
+  font-display: fallback;
 }
 
 @font-face {
   font-family: 'SBAggroB-bold';
   font-style: normal;
   font-weight: bold;
-  src: url('./fonts/SBAggro/SB_OTF_B.otf') format('opentype');
+  src: url('./fonts/SBAggro/subset-OTAggroBA.woff2') format('woff2'),
+    url('./fonts/SBAggro/subset-OTAggroBA.woff') format('woff'), url('./fonts/SBAggro/SB_OTF_B.otf') format('opentype');
+  font-display: fallback;
 }
 
 @font-face {
   font-family: 'SBAggroB-light';
   font-style: normal;
   font-weight: light;
-  src: url('./fonts/SBAggro/SB_OTF_L.otf') format('opentype');
+  src: url('./fonts/SBAggro/subset-OTAggroLA.woff2') format('woff2'),
+    url('./fonts/SBAggro/subset-OTAggroLA.woff') format('woff2'), url('./fonts/SBAggro/SB_OTF_L.otf') format('opentype');
+  font-display: fallback;
 }
 
 @font-face {
   font-family: 'SBAggroB-regular';
   font-style: normal;
   font-weight: normal;
-  src: url('./fonts/SBAggro/SB_OTF_M.otf') format('opentype');
+  src: url('./fonts/SBAggro/subset-OTAggroLA.woff2') format('woff2'),
+    url('./fonts/SBAggro/subset-OTAggroLA.woff') format('woff'), url('./fonts/SBAggro/SB_OTF_M.otf') format('opentype');
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: 'PretendardVariable-Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./fonts/SBAggro/subset-PretendardVariable-Regular.woff2') format('woff2'),
+    url('./fonts/SBAggro/subset-PretendardVariable-Regular.woff') format('woff');
+  font-display: fallback;
 }

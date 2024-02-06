@@ -110,7 +110,6 @@ const StyleCalendar = styled.div`
     height: 70px;
     font-weight: 500;
     margin-top: 50px;
-    /* pointer-events: none; */
 
     @media screen and (max-width: 431px) {
       font-size: 0.6rem;
