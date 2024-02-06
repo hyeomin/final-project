@@ -16,6 +16,7 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import CarouselSkeleton from './skeleton/CarouselSkeleton';
+import { useEffect, useRef, useState } from 'react';
 
 const Carousel = () => {
   const currentUserId = auth.currentUser?.uid;
@@ -38,6 +39,23 @@ const Carousel = () => {
   let swiperCnt = 7;
   const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, swiperCnt);
 
+  const [slidesPerView, setSlidesPerView] = useState(4);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 431) {
+        setSlidesPerView(1);
+      } else {
+        setSlidesPerView(4);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <St.Container>
       {/* <CarouselSkeleton /> */}
@@ -59,24 +77,7 @@ const Carousel = () => {
             onSlideChange={() => {}}
             onSwiper={(swiper: SwiperClass) => {}}
             navigation={true}
-            breakpoints={{
-              1200: {
-                spaceBetween: 10,
-                slidesPerView: 4
-              },
-              900: {
-                spaceBetween: 10,
-                slidesPerView: 3
-              },
-              650: {
-                spaceBetween: 10,
-                slidesPerView: 2
-              },
-              431: {
-                spaceBetween: 10,
-                slidesPerView: 2
-              }
-            }}
+            slidesPerView={slidesPerView}
           >
             {popularPosts && popularPosts.length === 0 ? (
               <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>

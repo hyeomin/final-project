@@ -51,6 +51,7 @@ const Slide = styled.div`
   width: 285px;
   //height: 100%;
   height: 400px;
+
   border-radius: 20px;
   display: flex;
   flex-direction: column;
