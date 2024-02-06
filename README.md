@@ -138,7 +138,7 @@ Navigation Bar에 있는 By Mango 혹은 Community 탭으로 넘어가면 관리
 
 <details>
  <summary>망고 캘린더</summary>
-![망고캘린더](https://github.com/hyeomin/final-project/assets/121536857/9f9f2e2d-4486-4bbb-bbab-7baf7f6c70fa)
+ <img width="600" alt="mango-calendar" src="https://github.com/hyeomin/final-project/assets/121536857/1ef440d8-8202-4bea-bbf6-ce7059cb86b4">
 </details>
 
 각각 탭을 눌러 내가 작성한 게시글과 좋아요 한 게시글을 확인할 수 있습니다.
