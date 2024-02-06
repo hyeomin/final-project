@@ -15,13 +15,16 @@ const LikesPosts = () => {
   const {
     data: likePosts,
     isLoading,
-    isError,
     error
   } = useQuery({
     queryKey: ['posts', { likedPosts: true }],
     queryFn: getLikePosts,
     staleTime: 60_000
   });
+
+  if (error) {
+    console.log('데이터를 불러오지 못했습니다', error);
+  }
 
   return (
     <>

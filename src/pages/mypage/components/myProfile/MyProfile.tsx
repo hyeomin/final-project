@@ -25,12 +25,20 @@ function MyProfile() {
   const authCurrentUser = authContext?.currentUser;
 
   // 내 게시물 갯수 가져오기
-  const { data: myPosts, isLoading } = useQuery({
+  const {
+    data: myPosts,
+    error,
+    isLoading
+  } = useQuery({
     queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
     queryFn: getMyPosts,
     staleTime: 60_000,
     enabled: !!authCurrentUser
   });
+
+  if (error) {
+    console.log('데이터를 불러오지 못했습니다', error);
+  }
 
   // 랭킹순위 (좋아요 수 기준)
   const { data: userRanking } = useQuery({
@@ -93,7 +101,6 @@ function MyProfile() {
   return (
     <>
       {/* {isLoading && <ProfileSkeleton />} */}
-
       <St.Wrapper>
         <St.ProfileEditWrapper>
           <EditProfile />
@@ -129,7 +136,7 @@ function MyProfile() {
                   {authCurrentUser && userRanking
                     ? userRanking.findIndex((r) => r.uid === authCurrentUser.uid) >= 0
                       ? `${userRanking?.findIndex((r) => r.uid === authCurrentUser.uid) + 1}위`
-                      : '미정'
+                      : '없음'
                     : '-'}
                 </div>
               </St.RankingIcon>

@@ -16,7 +16,6 @@ const MyPosts = () => {
   const {
     data: myPosts,
     isLoading,
-    isError,
     error
   } = useQuery({
     queryKey: [QUERY_KEYS.POSTS, 'myPosts'],
@@ -25,12 +24,8 @@ const MyPosts = () => {
     staleTime: 60_000
   });
 
-  if (isLoading) {
-    return <p>데이터를 불러오는 중입니다...</p>;
-  }
-
-  if (isError) {
-    return <p>오류가 발생했습니다: {error.message}</p>;
+  if (error) {
+    console.log('데이터를 불러오지 못했습니다.', error);
   }
 
   return (
