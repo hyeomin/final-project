@@ -47,6 +47,7 @@ function NavBar() {
   };
 
   // hover 시 prefetch 함수!
+  //prefetch는 error 반환 x
   const queryClient = useQueryClient();
   const handleHover = async () => {
     queryClient.prefetchInfiniteQuery({

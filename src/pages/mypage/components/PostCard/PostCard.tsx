@@ -42,11 +42,15 @@ function PostCard({ post }: PostCardProps) {
   //   queryFn: getAllUsers
   // });
 
-  const { data: user } = useQuery({
+  const { data: user, error } = useQuery({
     queryKey: [QUERY_KEYS.USERS, post.uid],
     queryFn: () => getUser(post.uid),
     staleTime: 6000 * 10
   });
+
+  if (error) {
+    console.log('특정 유저 가져오기 실패(PostCard)', error);
+  }
 
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (postId: string) => {
