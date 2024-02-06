@@ -9,7 +9,7 @@ import {
 import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import mangoCover from '../../../../assets/mangoDefaultCover.png';
 import Loader from '../../../../components/Loader';
 import PostContentPreview from '../../../../components/PostContentPreview';
@@ -17,7 +17,6 @@ import UserDetail from '../../../../components/UserDetail';
 import { useModal } from '../../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../../query/keys';
 import { modalState } from '../../../../recoil/modals';
-import { categoryListState } from '../../../../recoil/posts';
 import { auth, db } from '../../../../shared/firebase';
 import { SortList } from '../../../../types/PostListType';
 import { PostType } from '../../../../types/PostType';
@@ -55,10 +54,8 @@ interface PostCardProps {
 }
 
 function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
-  const category = useRecoilValue(categoryListState);
+  const category = queryKey[1];
   const navigate = useNavigate();
-
-  //좋아요
   const currentUserId = auth.currentUser?.uid;
   const queryClient = useQueryClient();
   const modal = useModal();
@@ -70,7 +67,8 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     fetchNextPage,
     isFetchingNextPage,
     isLoading,
-    hasNextPage
+    hasNextPage,
+    error
   } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -110,6 +108,10 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     }
   });
 
+  if (error) {
+    console.log('community 데이터 읽기 오류', error);
+  }
+
   //좋아요 토글 + 좋아요 수
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (params: PostCardProps) => {
@@ -125,19 +127,17 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
           //좋아요 안 한 경우
           newLikeCount = postData.likeCount !== undefined ? postData.likeCount + 1 : 1;
         }
-
         await updateDoc(postRef, {
           likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId),
           likeCount: newLikeCount
         });
       } else {
-        return;
+        throw new Error('Invalid input for toggleLike');
       }
     },
     onMutate: async (params: PostCardProps) => {
-      const { postId, postData } = params;
       const { postId: selectedPostId } = params;
-      console.log(postData);
+
       await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS, category] });
 
       //이전 데이터 저장
@@ -145,28 +145,13 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
         queryKey: [QUERY_KEYS.POSTS, category]
       });
 
-      queryClient.setQueriesData<InfiniteData<PostType[]> | undefined>(
-        { queryKey: [QUERY_KEYS.POSTS, category] },
-        (prevPosts) => {
-          if (!prevPosts) {
-            return {
-              pages: [],
-              pageParams: []
-            };
-          }
-          console.log('prevPosts', prevPosts.pages);
-          // pages 배열 내의 모든 페이지를 펼칩니다.
-          const updatedPages = prevPosts.pages.map((posts) => {
-            console.log('posts', posts);
-            return posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post));
-          });
-
-          // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
-          return { ...prevPosts, pages: updatedPages };
-        }
-      );
-
-      //context에 이전 데이터 저장
+      queryClient.setQueryData<InfiniteData<PostType[]>>([QUERY_KEYS.POSTS, category], (oldData) => {
+        // 이전 데이터를 수정하고 반환
+        return {
+          pages: oldData?.pages ?? [],
+          pageParams: oldData?.pageParams ?? []
+        };
+      });
       return { previousPosts };
     },
     onError: (Error, _, context) => {
@@ -175,7 +160,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS, category] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
     }
   });
 
