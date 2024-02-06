@@ -44,6 +44,7 @@ const Slide = styled.div`
   position: relative;
   width: 285px;
   height: 400px;
+
   border-radius: 20px;
   display: flex;
   flex-direction: column;

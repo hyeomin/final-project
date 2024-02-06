@@ -7,7 +7,6 @@ const CommunityContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  //모바일 세로
   @media screen and (max-width: 431px) {
     width: 100%;
   }
@@ -111,7 +110,6 @@ const MangoDiv = styled.div`
 
   column-gap: 10px;
 
-  //모바일 세로
   @media screen and (max-width: 431px) {
     margin-top: 30px;
   }
@@ -122,7 +120,7 @@ const MangoWord = styled.p`
   font-family: ${theme.font.mango};
   font-size: 38px;
   font-weight: 400;
-  //모바일 세로
+
   @media screen and (max-width: 431px) {
     font-size: 28px;
   }
@@ -131,8 +129,13 @@ const MangoWord = styled.p`
 const MangoOutWord = styled.p`
   color: #000;
   font-size: 38px;
+<<<<<<< HEAD
   font-weight: 1000;
   //모바일 세로
+=======
+  font-weight: 700;
+
+>>>>>>> d43cc8f769e147ee83660900e04b59e266c51346
   @media screen and (max-width: 431px) {
     font-size: 28px;
   }
@@ -144,7 +147,6 @@ const MangoSUbWord = styled.p`
   font-weight: 500;
   line-height: normal;
 
-  //모바일 세로
   @media screen and (max-width: 431px) {
     font-size: 15px;
   }
