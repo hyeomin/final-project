@@ -2,6 +2,9 @@
 
 ## <b>프로젝트 소개</b>
 
+![노션 썸네일 (1)](https://github.com/hyeomin/final-project/assets/121536857/4052cb5c-70da-40dd-b53c-efc26df14f67)
+
+
 망고는 망해가는 지구를 함께 고쳐나가자는 미션을 가진 라이프스타일 관련 웹 어플리케이션입니다.
 
 사용자들은 서로 친환경 라이프에 대한 노하우를 공유하거나 제품 추천을 할 수도 있고,
@@ -27,7 +30,8 @@
 
 ## <b>사용 기술 스택</b>
 
-<img src="https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F83c75a39-3aba-4ba4-a792-7aefe4b07895%2F22012cde-6fae-4ac0-b9a8-7aac3b0242f8%2F%25E1%2584%2582%25E1%2585%25A9%25E1%2584%2589%25E1%2585%25A7%25E1%2586%25AB_%25E1%2584%258A%25E1%2585%25A5%25E1%2586%25B7%25E1%2584%2582%25E1%2585%25A6%25E1%2584%258B%25E1%2585%25B5%25E1%2586%25AF_(1).png?table=block&id=1651ea47-ce64-45c9-94a4-d8b54be94837&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895">
+![Web App Reference Architecture](https://github.com/hyeomin/final-project/assets/121536857/bf4b1f78-7b2c-441a-be3a-b9f7927b88af)
+
 
 ## 사용 라이브러리
 
