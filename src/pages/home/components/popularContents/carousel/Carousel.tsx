@@ -4,8 +4,8 @@ import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { Link } from 'react-router-dom';
 import { getPopularPosts } from 'api/homeApi';
 import mangoDefaultCover from 'assets/mangoDefaultCover.png';
+import defaultUserProfile from 'assets/realMango.png';
 import PostContentPreview from 'components/PostContentPreview';
-import UserDetail from 'components/UserDetail';
 import { useCarouselNavigation } from 'hooks/useCarouselNavigation';
 import { useLikeButton } from 'hooks/useLikeButton';
 import St from './style';
@@ -14,25 +14,52 @@ import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import CarouselSkeleton from './skeleton/CarouselSkeleton';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from 'context/AuthContext';
+import { fetchUsers } from 'api/axios';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);
   const currentUser = authContext?.currentUser;
   const currentUserId = currentUser?.uid;
 
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
   const {
     data: popularPosts,
-    isLoading,
-    error
+    isLoading: popularPostsIsLoading,
+    error: popularPostsError
   } = useQuery({
     queryKey: ['posts', 'popular'],
     queryFn: getPopularPosts,
     staleTime: 60_000
   });
+  if (popularPostsError) {
+    console.log('인기 게시물 가져오기 실패!', popularPostsError);
+  }
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        setIsLoading(true);
+        const fetchedUsers = await fetchUsers();
+        if (fetchedUsers) {
+          setUsers(fetchedUsers);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        setError('users 데이터 fetch 실패!');
+        setIsLoading(false);
+      }
+    };
+
+    getUsers();
+  }, []);
+
   if (error) {
-    console.log('인기 게시물 가져오기 실패!', error);
+    console.log('users 데이터 가져오기 실패!', error);
   }
 
   const onClickLikeButton = useLikeButton();
@@ -47,7 +74,7 @@ const Carousel = () => {
           <SlArrowLeft />
         </St.Button>
       )}
-      {isLoading ? (
+      {popularPostsIsLoading && isLoading ? (
         <CarouselSkeleton />
       ) : (
         <St.SlideWrapper>
@@ -84,6 +111,7 @@ const Carousel = () => {
               <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
             ) : (
               popularPosts?.slice(currentSlide, currentSlide + swiperCnt).map((post, idx) => {
+                const user = users.find((user) => user.uid === post.uid);
                 return (
                   <SwiperSlide key={idx}>
                     <Link key={post.id} to={`/detail/${post.id}`}>
@@ -101,10 +129,10 @@ const Carousel = () => {
                         <St.SlideHeader>
                           <div>
                             <St.UserProfileImage>
-                              <UserDetail userId={post.uid} type="profileImg" />
+                              <img src={user?.profileImg || defaultUserProfile} alt="profile" />
                             </St.UserProfileImage>
                             <St.UserProfileName>
-                              <UserDetail userId={post.uid} type="displayName" />
+                              <span>{user?.displayName}</span>
                             </St.UserProfileName>
                           </div>
                           <button type="button" onClick={(e) => onClickLikeButton(e, post.id)}>
