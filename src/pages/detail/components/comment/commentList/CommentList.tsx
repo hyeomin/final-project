@@ -1,20 +1,15 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-<<<<<<< HEAD
-=======
-import React, { useContext, useEffect, useState } from 'react';
->>>>>>> e15e3ecafa59f576dbbb203d8daceb7eabcc0b61
+import { fetchUsers } from 'api/axios';
 import { getComments } from 'api/commentApi';
-import MangoLogo from 'assets/realMango.png';
+import { default as MangoLogo, default as defaultUserProfile } from 'assets/realMango.png';
 import { AuthContext } from 'context/AuthContext';
 import { useModal } from 'hooks/useModal';
 import { QUERY_KEYS } from 'query/keys';
 import useCommentQuery from 'query/useCommentQuery';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FoundDetailPostProps } from 'types/PostType';
-import defaultUserProfile from 'assets/realMango.png';
-import St from './style';
-import { fetchUsers } from 'api/axios';
 import { getFormattedDate } from 'util/formattedDateAndTime';
+import St from './style';
 
 const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const modal = useModal();
@@ -162,12 +157,8 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
               <img src={user?.profileImg || defaultUserProfile} alt="profile" />
               <St.CommentDetail>
                 <St.NameAndTime>
-<<<<<<< HEAD
-                  <UserDetail userId={comment.uid} type="displayName" />
-=======
                   {/* <span>{comment.displayName}</span> */}
                   <span>{user?.displayName}</span>
->>>>>>> e15e3ecafa59f576dbbb203d8daceb7eabcc0b61
                   <St.Time>{getFormattedDate(comment.createdAt)}</St.Time>
                 </St.NameAndTime>
                 {editingCommentId === comment.id ? (

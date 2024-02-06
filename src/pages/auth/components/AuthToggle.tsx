@@ -8,12 +8,8 @@ import { useSetRecoilState } from 'recoil';
 import { modalState } from 'recoil/modals';
 import { roleState } from 'recoil/users';
 import { auth } from 'shared/firebase';
-<<<<<<< HEAD
 import styled from 'styled-components';
-import theme from 'styles/theme';
-=======
 import theme from 'types/styles/theme';
->>>>>>> e15e3ecafa59f576dbbb203d8daceb7eabcc0b61
 
 type Props = {
   setIsAuthToggleOpen: React.Dispatch<React.SetStateAction<boolean>>;
