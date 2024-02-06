@@ -89,45 +89,87 @@ Navigation Bar에 있는 By Mango 혹은 Community 탭으로 넘어가면 관리
 
 글쓰기 탭에서는 React-Quill을 활용한 에디터 기능을 사용할 수 있습니다. 게시글 작성 시 카테고리 선택, 해시태그 선택, 그리고 커버 이미지를 선택할 수 있습니다.
 
-<img width="1110" alt="Screen Shot 2024-01-22 at 9 57 05 AM" src="https://github.com/hyeomin/final-project/assets/121536857/aa616626-d5ec-4e7d-aea1-01e97401b675">
-<img width="1092" alt="Screen Shot 2024-01-22 at 9 57 10 AM" src="https://github.com/hyeomin/final-project/assets/121536857/11e435b7-d027-49fa-9814-93785bbb2c19">
+<details>
+ <summary>React-Quill</summary>
+ - 카테고리 선택 및 제출 버튼
+ - session에 저장하는 임시저장 가능
+<img width="837" alt="Screen Shot 2024-02-06 at 9 11 00 PM" src="https://github.com/hyeomin/final-project/assets/121536857/42fbfa47-902d-4b7b-a276-c6ea76595bce">
+</details>
+
+<details>
+ <summary>해시태그</summary>
+<img width="1007" alt="Screen Shot 2024-02-06 at 9 13 16 PM" src="https://github.com/hyeomin/final-project/assets/121536857/82be80c2-79ad-45a9-a012-0549672494e2">
+</details>
+
+<details>
+ <summary>커버이미지 업로드</summary>
+ <img width="825" alt="Screen Shot 2024-02-06 at 9 10 24 PM" src="https://github.com/hyeomin/final-project/assets/121536857/ad919924-80c0-4f7f-8a5d-2148740fa262">
+</details>
 
 
 ### 게시글 상세페이지
 
 게시글 작성 후 해당 게시글을 누르고 들어가면 상세 내용이 보입니다. 내가 작성한 게시글인 경우 오른쪽에 … 버튼을 눌러서 게시글 수정 혹은 삭제가 가능합니다.
-
-<img width="1116" alt="Screen Shot 2024-01-22 at 10 01 23 AM" src="https://github.com/hyeomin/final-project/assets/121536857/cda18979-3d41-4c23-85e1-7f84721ba97f">
-
 하단에는 댓글을 남길 수 있으며, 로그인을 안한 경우에는 모달을 띄워서 작성을 막는 방식으로 로그인을 유도하고 있습니다. 하단 ‘이전 게시물’ ‘다음 게시물’을 누르면 다른 게시물로 이동합니다.
 
-<img width="1119" alt="Screen Shot 2024-01-22 at 10 01 37 AM" src="https://github.com/hyeomin/final-project/assets/121536857/1d279bc3-d5f0-41fe-9a93-ac46c4e84771">
+<details>
+ <summary>게시글 상세페이지</summary>
+ <img width="1001" alt="Screen Shot 2024-02-06 at 9 14 30 PM" src="https://github.com/hyeomin/final-project/assets/121536857/aacdfe3e-181f-4196-b84a-2dd4c9345227">
+</details>
+
 
 ### 마이페이지
 
 오른쪽 상단을 누르면 유저 관련 정보를 확인할 수도 있으며, 마이페이지로 이동 혹은 로그아웃을 실행시킬 수 있습니다.
 
 <details>
- <summary>프로필 관리</summary>
-
+ <summary>Auth Toggle</summary>
+<img width="333" alt="Screen Shot 2024-02-06 at 9 25 52 PM" src="https://github.com/hyeomin/final-project/assets/121536857/8f878035-51dc-4081-9b14-d02374cf5ff7">
 </details>
 
 마이페이지에서는 프로필 이름과 사진 수정이 가능하며, 지금까지 올린 게시물 수, 받은 좋아요 수 기준 랭킹과 등급을 확인할 수 있습니다.
 
-
+<details>
+ <summary>프로필 관리</summary>
+<img width="1039" alt="Screen Shot 2024-02-06 at 9 15 19 PM" src="https://github.com/hyeomin/final-project/assets/121536857/c14b45e6-535b-4e0a-b11c-9884c22d8f42">
+</details>
 
 각 캘린더 해당일자에 몇 개의 글을 썼는지 확인할 수 있습니다.
 
-<img width="682" alt="Screen Shot 2024-01-22 at 9 57 49 AM" src="https://github.com/hyeomin/final-project/assets/121536857/2d66de20-5439-48c8-9adf-e1513f4b5e3b">
+<details>
+ <summary>망고 캘린더</summary>
+![망고캘린더](https://github.com/hyeomin/final-project/assets/121536857/9f9f2e2d-4486-4bbb-bbab-7baf7f6c70fa)
+</details>
 
-각각 탭을 눌러 내가 작성한 게시물과 좋아요 한 게시물을 확인할 수 있습니다.
+각각 탭을 눌러 내가 작성한 게시글과 좋아요 한 게시글을 확인할 수 있습니다.
 
-<img width="1114" alt="Screen Shot 2024-01-22 at 9 57 56 AM" src="https://github.com/hyeomin/final-project/assets/121536857/48d8238b-6586-4045-96b9-3740ef119009">
+<details>
+ <summary>나의 관련 게시글</summary>
+<img width="1031" alt="Screen Shot 2024-02-06 at 9 30 59 PM" src="https://github.com/hyeomin/final-project/assets/121536857/4bef2fd4-5193-4728-8cc5-0c75f725f18d">
+</details>
 
 ### 망고 소개
 
 망고 소개 페이지에서는 동적인 영상 재생과 함께 하단에 망고 서비스의 취지와 이용안내가 담겨있습니다.
 
-<img width="1113" alt="Screen Shot 2024-01-22 at 9 58 02 AM" src="https://github.com/hyeomin/final-project/assets/121536857/649aa6e9-cab8-4877-a246-10f2747fcebf">
-<img width="1115" alt="Screen Shot 2024-01-22 at 9 58 09 AM" src="https://github.com/hyeomin/final-project/assets/121536857/0152f847-b741-4bcc-b3e7-e367be80f5b1">
-<img width="1107" alt="Screen Shot 2024-01-22 at 9 58 15 AM" src="https://github.com/hyeomin/final-project/assets/121536857/dc48a4e7-070e-4b5e-9a33-d11d7b80902e">
+<details>
+ <summary>상단 영상</summary>
+<img width="1307" alt="Screen Shot 2024-02-06 at 9 32 26 PM" src="https://github.com/hyeomin/final-project/assets/121536857/0b20f77a-f564-48c9-b85e-569748023b02">
+</details>
+
+<details>
+ <summary>소개 내용</summary>
+<img width="1241" alt="Screen Shot 2024-02-06 at 9 32 37 PM" src="https://github.com/hyeomin/final-project/assets/121536857/daa8c9e4-9979-4921-924c-d80d38e96427">
+</details>
+
+어드민은 뉴스룸에 유튜브 링크를 첨부하여 유튜브 API로 반환받은 정보들을 카드로 만들 수 있습니다.
+
+<details>
+ <summary>뉴스룸</summary>
+<img width="1247" alt="Screen Shot 2024-02-06 at 9 35 12 PM" src="https://github.com/hyeomin/final-project/assets/121536857/7c167c3f-3604-440a-97cd-bb6e7a81e9b0">
+</details>
+
+<details>
+ <summary>Get Started</summary>
+<img width="1171" alt="Screen Shot 2024-02-06 at 9 35 42 PM" src="https://github.com/hyeomin/final-project/assets/121536857/3caff683-d806-4d4d-9bba-6f87c971b4f1">
+</details>
