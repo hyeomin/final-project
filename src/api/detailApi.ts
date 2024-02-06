@@ -10,7 +10,7 @@ const updatePostViewCount = async (postId: string) => {
   });
 };
 
-export const getDetailPost = async (postId: string) => {
+const getDetailPost = async (postId: string) => {
   const postRef = doc(db, QUERY_KEYS.POSTS, postId);
   const postSnap = await getDoc(postRef);
 
@@ -19,4 +19,4 @@ export const getDetailPost = async (postId: string) => {
   return post;
 };
 
-export { updatePostViewCount };
+export { getDetailPost, updatePostViewCount };
