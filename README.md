@@ -27,12 +27,7 @@
 
 ## <b>사용 기술 스택</b>
 
-<img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"><img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"><img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E"><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"><img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"><br/>
-<img src="https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=React_Query&logoColor=white"><img src="https://img.shields.io/badge/Recoil-3578E5?style=for-the-badge&logo=Recoil&logoColor=black">
-
-## 서버
-
- <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=Firebase&logoColor=black">
+<img src="https://teamsparta.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F83c75a39-3aba-4ba4-a792-7aefe4b07895%2F22012cde-6fae-4ac0-b9a8-7aac3b0242f8%2F%25E1%2584%2582%25E1%2585%25A9%25E1%2584%2589%25E1%2585%25A7%25E1%2586%25AB_%25E1%2584%258A%25E1%2585%25A5%25E1%2586%25B7%25E1%2584%2582%25E1%2585%25A6%25E1%2584%258B%25E1%2585%25B5%25E1%2586%25AF_(1).png?table=block&id=1651ea47-ce64-45c9-94a4-d8b54be94837&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895">
 
 ## 사용 라이브러리
 
@@ -56,19 +51,30 @@
 첫 화면에서 어드민이 작성하여 홍보하고 싶은 메인 게시글 몇 가지와, 하단에 좋아요 수 기준으로 정렬된 인기 게시물, 그리고 인기 유저들을 확인할 수 있습니다. 게시글은 조회 수, 좋아요 수, 댓글 수 등을 확인할 수 있습니다.
 
 <img width="1062" alt="Screen Shot 2024-01-22 at 9 56 31 AM" src="https://github.com/hyeomin/final-project/assets/121536857/29eca7d0-32e4-4f75-b202-e2a1f07b1e6d">
+
+<details>
+ <summary>인기게시물 및 Top 10 유저</summary>
 <img width="798" alt="Screen Shot 2024-01-22 at 9 56 41 AM" src="https://github.com/hyeomin/final-project/assets/121536857/e6ec9ea7-364a-4ae7-8a2a-4c5893c54cae">
+</details>
 
 게시물은 오른쪽 상단 하트 버튼을 눌러 ‘좋아요’ 기능을 활용할 수 있으며, 로그인이 안된 상태에서는 커스텀으로 만든 모달을 띄워 실행을 막아놨기 때문에 로그인을 유도할 수 있습니다.
 
 <img width="1101" alt="Screen Shot 2024-01-22 at 10 00 18 AM" src="https://github.com/hyeomin/final-project/assets/121536857/3adedf5a-6de7-4c1b-bb89-bae1a28cfbb4">
 
 
-### 전체보기
+### By Mango와 커뮤니티
 
-전체보기 탭으로 넘어가면 관리자가 작성하는 콘텐츠와 유저들이 작성한 콘텐츠를 각각 볼 수 있으며, 더보기 기능을 활용하여 보여지는 게시물 수를 조절합니다.
+Navigation Bar에 있는 By Mango 혹은 Community 탭으로 넘어가면 관리자가 작성하는 콘텐츠와 유저들이 작성한 콘텐츠를 각각 볼 수 있으며, 더보기 기능을 활용하여 보여지는 게시물 수를 조절합니다.
 
-<img width="1099" alt="Screen Shot 2024-01-22 at 9 56 50 AM" src="https://github.com/hyeomin/final-project/assets/121536857/b740ae14-e15f-4eb5-b561-d0dd5bfc403e">
-<img width="1093" alt="Screen Shot 2024-01-22 at 9 56 56 AM" src="https://github.com/hyeomin/final-project/assets/121536857/3763deed-0653-4ec2-94dd-1fe50689bd69">
+<details>
+ <summary>By Mango</summary>
+<img width="1045" alt="Screen Shot 2024-02-06 at 7 52 49 PM" src="https://github.com/hyeomin/final-project/assets/121536857/47d0f66e-1e1d-4040-aa56-813f1424386f">
+</details>
+
+<details>
+ <summary>Community</summary>
+<img width="1033" alt="Screen Shot 2024-02-06 at 7 54 51 PM" src="https://github.com/hyeomin/final-project/assets/121536857/0e083777-52f4-4b95-a7fa-efd404f22902">
+</details>
 
 
 ### 글쓰기
@@ -86,15 +92,21 @@
 <img width="1116" alt="Screen Shot 2024-01-22 at 10 01 23 AM" src="https://github.com/hyeomin/final-project/assets/121536857/cda18979-3d41-4c23-85e1-7f84721ba97f">
 
 하단에는 댓글을 남길 수 있으며, 로그인을 안한 경우에는 모달을 띄워서 작성을 막는 방식으로 로그인을 유도하고 있습니다. 하단 ‘이전 게시물’ ‘다음 게시물’을 누르면 다른 게시물로 이동합니다.
+
 <img width="1119" alt="Screen Shot 2024-01-22 at 10 01 37 AM" src="https://github.com/hyeomin/final-project/assets/121536857/1d279bc3-d5f0-41fe-9a93-ac46c4e84771">
 
 ### 마이페이지
 
-오른쪽 상단을 누르면 유저 관련 정보를 확인할 수도 있으며, 마이페이지로 이동 혹은 로그아웃을 실행시킬 수 있습니다.\
-<img width="955" alt="Screen Shot 2024-01-22 at 9 57 30 AM" src="https://github.com/hyeomin/final-project/assets/121536857/96557fed-6df4-423d-9247-d7bb345386cd">
+오른쪽 상단을 누르면 유저 관련 정보를 확인할 수도 있으며, 마이페이지로 이동 혹은 로그아웃을 실행시킬 수 있습니다.
+
+<details>
+ <summary>프로필 관리</summary>
+
+</details>
 
 마이페이지에서는 프로필 이름과 사진 수정이 가능하며, 지금까지 올린 게시물 수, 받은 좋아요 수 기준 랭킹과 등급을 확인할 수 있습니다.
-<img width="1117" alt="Screen Shot 2024-01-22 at 9 57 39 AM" src="https://github.com/hyeomin/final-project/assets/121536857/efccf85f-cc80-43c5-98f3-5b364d541837">
+
+
 
 각 캘린더 해당일자에 몇 개의 글을 썼는지 확인할 수 있습니다.
 
