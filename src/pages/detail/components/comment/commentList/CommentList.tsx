@@ -1,16 +1,15 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useContext, useEffect, useState } from 'react';
+import { fetchUsers } from 'api/axios';
 import { getComments } from 'api/commentApi';
-import MangoLogo from 'assets/realMango.png';
+import { default as MangoLogo, default as defaultUserProfile } from 'assets/realMango.png';
 import { AuthContext } from 'context/AuthContext';
 import { useModal } from 'hooks/useModal';
 import { QUERY_KEYS } from 'query/keys';
 import useCommentQuery from 'query/useCommentQuery';
+import React, { useContext, useEffect, useState } from 'react';
 import { FoundDetailPostProps } from 'types/PostType';
-import defaultUserProfile from 'assets/realMango.png';
-import St from './style';
-import { fetchUsers } from 'api/axios';
 import { getFormattedDate } from 'util/formattedDateAndTime';
+import St from './style';
 
 const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const modal = useModal();

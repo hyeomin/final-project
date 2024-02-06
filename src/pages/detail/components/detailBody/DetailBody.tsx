@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { GoComment } from 'react-icons/go';
 import { getUser } from 'api/authApi';
 import defaultImage from 'assets/defaultImg.jpg';
 import kakao from 'assets/detail/Kakao-icon.png';
 import link from 'assets/detail/link-bold-icon.png';
+import { useState } from 'react';
+import { GoComment } from 'react-icons/go';
 
 import { getComments } from 'api/commentApi';
 import defaultThumbnail from 'assets/mangoThumbnail.png';
@@ -31,7 +31,7 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   });
 
   if (error) {
-    console.log('특정 유저 가져오기 실패(DetailBody)', error);
+    console.log('게시글 작성자 가져오기 실패', error);
   }
 
   // 댓글목록 가져오기
@@ -41,17 +41,11 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
     staleTime: Infinity
   });
 
-  let authorImage = author?.profileImg;
-  if (!authorImage) {
-    authorImage = defaultImage;
-  }
-
   //카카오톡 공유
   const { handleShareKakaoClick } = useKaKaoShare();
 
   //현재 url
   const detailURL = window.location.href;
-  //console.log(detailURL);
 
   //코드 복사
   const handleCodeCopy = async () => {
@@ -87,7 +81,7 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
         <St.BodyHeader>
           <St.PostInfo>
             <div>
-              <img src={authorImage} alt="profile" />
+              <img src={author?.profileImg || defaultImage} alt="profile" />
             </div>
             <div>
               <p>{author?.displayName ?? '작성자 이름 없음'}</p>

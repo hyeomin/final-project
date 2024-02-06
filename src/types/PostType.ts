@@ -7,7 +7,7 @@ export type PostType = {
   updatedAt: number;
   hashtags: string[];
   uid: string;
-  role: string; //kim 추가 24.01.11
+  role: string;
   likeCount: number;
   likedUsers: string[];
   coverImages: DownloadedImageType[];
@@ -40,4 +40,13 @@ export type IsEditingPostProps = {
 export type FoundDetailPostProps = {
   foundDetailPost: PostType;
   isLoading?: boolean;
+};
+
+export type CommentType = {
+  id: string;
+  displayName: string | null;
+  uid: string;
+  photoURL: string | null;
+  createdAt: number;
+  content: string;
 };
