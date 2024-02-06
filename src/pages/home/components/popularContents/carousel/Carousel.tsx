@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import { GoComment, GoEye, GoHeart } from 'react-icons/go';
-import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
-import { Link } from 'react-router-dom';
 import { getPopularPosts } from 'api/homeApi';
-import mangoDefaultCover from 'assets/mangoDefaultCover.png';
 import PostContentPreview from 'components/PostContentPreview';
 import UserDetail from 'components/UserDetail';
 import { useCarouselNavigation } from 'hooks/useCarouselNavigation';
 import { useLikeButton } from 'hooks/useLikeButton';
+import { GoComment, GoEye, GoHeart } from 'react-icons/go';
+import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
+import { Link } from 'react-router-dom';
 import { auth } from 'shared/firebase';
 import St from './style';
 
@@ -15,6 +14,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
+import { getThumbnailSource } from 'util/getThumbnailSource';
 import CarouselSkeleton from './skeleton/CarouselSkeleton';
 
 const Carousel = () => {
@@ -87,14 +87,7 @@ const Carousel = () => {
                     <Link key={post.id} to={`/detail/${post.id}`}>
                       <St.Slide>
                         <St.CoverImage>
-                          <img
-                            src={
-                              post.coverImages && post.coverImages.length > 0
-                                ? post.coverImages[0].url
-                                : mangoDefaultCover
-                            }
-                            alt={post.title}
-                          />
+                          <img src={getThumbnailSource(post.coverImages)} alt={post.title} />
                         </St.CoverImage>
                         <St.SlideHeader>
                           <div>

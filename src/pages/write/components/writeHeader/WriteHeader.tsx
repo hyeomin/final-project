@@ -1,5 +1,5 @@
-import { useRecoilValue } from 'recoil';
 import { useModal } from 'hooks/useModal';
+import { useRecoilValue } from 'recoil';
 import { postInputState } from 'recoil/posts';
 import { FoundDetailPostProps } from 'types/PostType';
 import IsEditingButton from './EditUploadButton';

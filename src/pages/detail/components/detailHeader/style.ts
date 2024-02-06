@@ -7,7 +7,6 @@ const CoverContainer = styled.div`
   align-items: center;
   width: 100%;
   position: relative;
-  /* background-color: white; */
 `;
 
 const StyledSwiper = styled(Swiper)`
@@ -24,7 +23,6 @@ const StyledSwiper = styled(Swiper)`
   }
 
   @media screen and (max-width: 431px) {
-    //width: 100%;
     height: 270px;
   }
 `;

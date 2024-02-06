@@ -14,7 +14,6 @@ const HashtagArea = styled.div`
 
 const RecommendedTags = styled.div`
   display: flex;
-  /* column-gap: 10px; */
   font-size: 16px;
   flex-wrap: wrap;
   gap: 10px;

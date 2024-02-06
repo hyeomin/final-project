@@ -1,15 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getUser } from 'api/authApi';
+import defaultProfile from 'assets/defaultImg.jpg';
+import PostContentPreview from 'components/PostContentPreview';
+import { AuthContext } from 'context/AuthContext';
 import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { produce } from 'immer';
+import { QUERY_KEYS } from 'query/keys';
 import React, { useContext } from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from 'api/authApi';
-import defaultProfile from 'assets/defaultImg.jpg';
-import mangoCover from 'assets/mangoDefaultCover.png';
-import PostContentPreview from 'components/PostContentPreview';
-import { AuthContext } from 'context/AuthContext';
-import { QUERY_KEYS } from 'query/keys';
 import { db } from 'shared/firebase';
 import { PostType } from 'types/PostType';
 import { getFormattedDate_yymmdd } from 'util/formattedDateAndTime';
@@ -25,6 +24,7 @@ import {
   PostTitleAndContent,
   SinglePost
 } from 'pages/community/components/communityPostList/style';
+import { getThumbnailSource } from 'util/getThumbnailSource';
 
 interface PostCardProps {
   post: PostType;
@@ -109,10 +109,7 @@ function PostCard({ post }: PostCardProps) {
 
   return (
     <SinglePost onClick={() => navigate(`/detail/${post.id}`)}>
-      <PostImg
-        src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
-        alt="cover"
-      />
+      <PostImg src={getThumbnailSource(post.coverImages)} alt="cover" />
       <PostInfoContainer>
         <PostCardHeader>
           <PostCardHeaderLeft>

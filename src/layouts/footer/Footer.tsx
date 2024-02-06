@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router-dom';
+import figma from 'assets/icons/figma.png';
 import github from 'assets/icons/github-icon.png';
 import logo from 'assets/icons/mango-logo.png';
-import St from './style';
 import { LogoContainerFooter } from 'layouts/navbar/style';
+import { useNavigate } from 'react-router-dom';
+import St from './style';
 
 function Footer() {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ function Footer() {
             <St.SingleMember>
               <span>송승훈 Hoon</span>
               <a href="https://github.com/heeneeee" target="_blank" rel="noopener noreferrer">
-                <img src={github} alt="github" />
+                <img src={figma} alt="github" />
               </a>
             </St.SingleMember>
           </St.TeamInfo>

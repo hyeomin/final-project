@@ -11,7 +11,6 @@ const NavContainer = styled.div<NavProps>`
   display: flex;
   flex-direction: column;
   background-color: white;
-  /* position: relative; */
   position: fixed;
   top: 0;
   width: 100%;

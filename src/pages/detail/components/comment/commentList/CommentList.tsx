@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import React, { useContext, useState } from 'react';
 import { getComments } from 'api/commentApi';
 import MangoLogo from 'assets/realMango.png';
 import UserDetail from 'components/UserDetail';
@@ -7,6 +6,7 @@ import { AuthContext } from 'context/AuthContext';
 import { useModal } from 'hooks/useModal';
 import { QUERY_KEYS } from 'query/keys';
 import useCommentQuery from 'query/useCommentQuery';
+import React, { useContext, useState } from 'react';
 import { FoundDetailPostProps } from 'types/PostType';
 import { getFormattedDate } from 'util/formattedDateAndTime';
 import St from './style';
@@ -130,7 +130,6 @@ const CommentList = ({ foundDetailPost, isLoading }: FoundDetailPostProps) => {
               <UserDetail userId={comment.uid} type="profileImg" />
               <St.CommentDetail>
                 <St.NameAndTime>
-                  {/* <span>{comment.displayName}</span> */}
                   <UserDetail userId={comment.uid} type="displayName" />
                   <St.Time>{getFormattedDate(comment.createdAt)}</St.Time>
                 </St.NameAndTime>

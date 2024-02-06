@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
+import { getPosts } from 'api/homeApi';
+import { QUERY_KEYS } from 'query/keys';
 import { useEffect, useState } from 'react';
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
-import { getPosts } from 'api/homeApi';
-import { QUERY_KEYS } from 'query/keys';
 import St from './style';
 
 type Props = {
@@ -50,7 +50,6 @@ function PostShift({ postId }: Props) {
 
   return (
     <St.ButtonContainer>
-      {/* 아예 안 보이게 바꿨어요! Ashley */}
       {postIndexNumber > 0 && (
         <St.ShiftButton $side={'left'} onClick={onClickPrevButton} type="button">
           <GoChevronLeft />

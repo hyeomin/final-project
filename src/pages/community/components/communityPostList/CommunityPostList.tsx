@@ -6,23 +6,24 @@ import {
   useMutation,
   useQueryClient
 } from '@tanstack/react-query';
-import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
-import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
-import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
 import mangoCover from 'assets/mangoDefaultCover.png';
 import Loader from 'components/Loader';
 import PostContentPreview from 'components/PostContentPreview';
 import UserDetail from 'components/UserDetail';
+import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 // import { SortList } from 'components/viewAll/ViewAllBody';
+import PostsSkeleton from 'components/mypage/postsSkeleton/PostsSkeleton';
 import { useModal } from 'hooks/useModal';
 import { QUERY_KEYS } from 'query/keys';
 import { modalState } from 'recoil/modals';
-import { categoryListState } from 'recoil/posts';
 import { auth, db } from 'shared/firebase';
 import { SortList } from 'types/PostListType';
 import { PostType } from 'types/PostType';
 import { getFormattedDate_yymmdd } from 'util/formattedDateAndTime';
+import { getThumbnailSource } from 'util/getThumbnailSource';
 import St, {
   AuthorNameAndDate,
   CommentAndLikes,
@@ -35,7 +36,6 @@ import St, {
   PostTitleAndContent,
   SinglePost
 } from './style';
-import PostsSkeleton from 'components/mypage/postsSkeleton/PostsSkeleton';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -215,7 +215,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
                 <Link key={post.id} to={`/detail/${post.id}`}>
                   <SinglePost>
                     <PostImg
-                      src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
+                      src={getThumbnailSource(post.coverImages)}
                       alt={post.title}
                       onError={(e) => {
                         const target = e.target as HTMLImageElement;

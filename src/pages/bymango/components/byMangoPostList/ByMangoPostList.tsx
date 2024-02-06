@@ -1,12 +1,12 @@
 import { QueryFunctionContext, QueryKey, useInfiniteQuery } from '@tanstack/react-query';
-import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { useNavigate } from 'react-router-dom';
-import mangoCover from 'assets/mangoDefaultCover.png';
 import Loader from 'components/Loader';
 import PostContentPreview from 'components/PostContentPreview';
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+import ByMangoSkeleton from 'pages/bymango/byMangoSkeleton/ByMangoSkeleton';
+import { useNavigate } from 'react-router-dom';
 import { SortList } from 'types/PostListType';
 import { PostType } from 'types/PostType';
-import ByMangoSkeleton from 'pages/bymango/byMangoSkeleton/ByMangoSkeleton';
+import { getThumbnailSource } from 'util/getThumbnailSource';
 import St from './style';
 
 interface PostListProps {
@@ -75,10 +75,7 @@ function ByMangoPostList({ queryKey, queryFn, sortBy }: PostListProps) {
             {posts?.map((post) => {
               return (
                 <St.AdminContent key={post.id} onClick={() => navigate(`/detail/${post.id}`)}>
-                  <img
-                    src={post.coverImages && post.coverImages.length > 0 ? post.coverImages[0].url : mangoCover}
-                    alt={post.title}
-                  />
+                  <img src={getThumbnailSource(post.coverImages)} alt={post.title} />
                   <St.AdminPostTitle>{post.title}</St.AdminPostTitle>
                   {post.content && <PostContentPreview postContent={post.content} />}
                 </St.AdminContent>
