@@ -14,7 +14,6 @@ import mangoCover from '../../../../assets/mangoDefaultCover.png';
 import Loader from '../../../../components/Loader';
 import PostContentPreview from '../../../../components/PostContentPreview';
 import UserDetail from '../../../../components/UserDetail';
-// import { SortList } from '../../../../components/viewAll/ViewAllBody';
 import { useModal } from '../../../../hooks/useModal';
 import { QUERY_KEYS } from '../../../../query/keys';
 import { modalState } from '../../../../recoil/modals';
@@ -23,7 +22,6 @@ import { auth, db } from '../../../../shared/firebase';
 import { SortList } from '../../../../types/PostListType';
 import { PostType } from '../../../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../../../util/formattedDateAndTime';
-import CommunitySkeleton from '../../communitySkeleton/CommunitySkeleton';
 import St, {
   AuthorNameAndDate,
   CommentAndLikes,
@@ -37,8 +35,6 @@ import St, {
   SinglePost
 } from './style';
 import PostsSkeleton from '../../../../components/mypage/postsSkeleton/PostsSkeleton';
-// import PostsSkeleton from '../../mypage/postsSkeleton/PostsSkeleton';
-// import CommunitySkeleton from '../../viewAll/communitySkeleton/CommunitySkeleton';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -220,21 +216,9 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     await toggleLike({ postId: id, postData: post });
   };
 
-  //사용자 프로필 데이터
-  // const { data: userList } = useQuery({
-  //   queryKey: [QUERY_KEYS.USERS],
-  //   queryFn: getAllUsers,
-  //   staleTime: 1000 * 60
-  // });
-
-  // St가 안 붙은 태그들은 재활용을 위해 .style에서 직접 export 한 것들
   return (
     <St.PostListContainer>
       <div>
-        {/* {isLoading ? (
-          <CommunitySkeleton />
-        )  */}
-
         {isLoading ? (
           <PostsSkeleton />
         ) : (
@@ -253,24 +237,15 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
                       }}
                     />
                     <PostInfoContainer>
-                      {/* {userList && userList?.find((user) => user.uid === post.uid) && ( */}
                       <PostCardHeader>
                         <PostCardHeaderLeft>
                           <UserDetail userId={post.uid} type="profileImg" />
-
-                          {/* <AuthorProfileImg
-                              src={userList.find((user) => user.uid === post.uid)?.profileImg || defaultProfile}
-                              alt="profile"
-                            /> */}
-                          {/* <PostCardHeaderTextRow> */}
                           <AuthorNameAndDate>
                             <UserDetail userId={post.uid} type="displayName" />
-                            {/* <p>{userList.find((user) => user.uid === post.uid)?.displayName}</p> */}
                             <p>{getFormattedDate_yymmdd(post.createdAt!)}</p>
                           </AuthorNameAndDate>
-
-                          {/* </PostCardHeaderTextRow> */}
                         </PostCardHeaderLeft>
+
                         {/* 하트 클릭하는 버튼 */}
                         <HeartClickButton
                           onClick={(e) => handleClickLikeButton(e, post.id, post)}
@@ -279,7 +254,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
                           {post.isLiked ? <GoHeartFill /> : <GoHeart />}
                         </HeartClickButton>
                       </PostCardHeader>
-                      {/* // )} */}
+
                       <PostTitleAndContent>
                         <p>{post.title}</p>
                         {post.content && <PostContentPreview postContent={post.content} />}
@@ -308,13 +283,6 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
         )}
       </div>
       <St.MoreContentWrapper>
-        {/* {isFetchingNextPage ? (
-          <Loader />
-        ) : hasNextPage ? (
-          <button onClick={() => fetchNextPage()}>더 보기</button>
-        ) : (
-          <p>모든 데이터를 가져왔습니다.</p>
-        )} */}
         {isFetchingNextPage ? (
           <Loader />
         ) : hasNextPage ? (
