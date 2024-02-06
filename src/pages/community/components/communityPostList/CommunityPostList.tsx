@@ -13,7 +13,6 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import mangoCover from 'assets/mangoDefaultCover.png';
 import Loader from 'components/Loader';
 import PostContentPreview from 'components/PostContentPreview';
-import UserDetail from 'components/UserDetail';
 // import { SortList } from 'components/viewAll/ViewAllBody';
 import { useModal } from 'hooks/useModal';
 import { QUERY_KEYS } from 'query/keys';
@@ -22,7 +21,7 @@ import { categoryListState } from 'recoil/posts';
 import { auth, db } from 'shared/firebase';
 import { SortList } from 'types/PostListType';
 import { PostType } from 'types/PostType';
-import { getFormattedDate_yymmdd } from 'util/formattedDateAndTime';
+import defaultUserProfile from 'assets/realMango.png';
 import St, {
   AuthorNameAndDate,
   CommentAndLikes,
@@ -36,6 +35,9 @@ import St, {
   SinglePost
 } from './style';
 import PostsSkeleton from 'components/mypage/postsSkeleton/PostsSkeleton';
+import { getFormattedDate_yymmdd } from 'util/formattedDateAndTime';
+import { useEffect, useState } from 'react';
+import { fetchUsers } from 'api/axios';
 
 interface PostListProps {
   queryKey: QueryKey;
@@ -62,6 +64,10 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const queryClient = useQueryClient();
   const modal = useModal();
   const setIsModalOpen = useSetRecoilState(modalState);
+
+  const [users, setUsers] = useState<User[]>([]);
+  const [userDataIsLoading, setIsLoading] = useState<boolean>(true);
+  const [userDataError, setError] = useState<string | null>(null);
 
   //더보기
   const {
@@ -203,6 +209,28 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     await toggleLike({ postId: id, postData: post });
   };
 
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        setIsLoading(true);
+        const fetchedUsers = await fetchUsers();
+        if (fetchedUsers) {
+          setUsers(fetchedUsers);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        setError('users 데이터 fetch 실패!');
+        setIsLoading(false);
+      }
+    };
+
+    getUsers();
+  }, []);
+
+  if (userDataError) {
+    console.log('users 데이터 가져오기 실패!', userDataError);
+  }
+
   return (
     <St.PostListContainer>
       <div>
@@ -211,6 +239,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
         ) : (
           <PostContainer>
             {posts?.map((post, idx) => {
+              const user = users.find((user) => user.uid === post.uid);
               return (
                 <Link key={post.id} to={`/detail/${post.id}`}>
                   <SinglePost>
@@ -226,9 +255,9 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
                     <PostInfoContainer>
                       <PostCardHeader>
                         <PostCardHeaderLeft>
-                          <UserDetail userId={post.uid} type="profileImg" />
+                          <img src={user?.profileImg || defaultUserProfile} alt="profile" />
                           <AuthorNameAndDate>
-                            <UserDetail userId={post.uid} type="displayName" />
+                            <span>{user?.displayName}</span>
                             <p>{getFormattedDate_yymmdd(post.createdAt!)}</p>
                           </AuthorNameAndDate>
                         </PostCardHeaderLeft>
