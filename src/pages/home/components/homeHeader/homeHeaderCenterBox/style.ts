@@ -20,8 +20,6 @@ const HeaderMain = styled.section`
     height: 300px;
     width: 100%;
     padding: 40px 30px;
-    /* top: 10%;
-    left: 10%; */
   }
 `;
 
@@ -37,11 +35,10 @@ const HeaderText = styled.div`
 
     & h1 {
       font-size: 36px;
-      font-weight: 1000;
+      font-weight: bold;
 
       @media screen and (max-width: 431px) {
         font-size: 20px;
-        font-weight: 700;
       }
     }
 
@@ -102,8 +99,6 @@ const DetailLink = styled(Link)`
   border-radius: 10px;
   background-color: #11111174;
   border: none;
-  /* background-color: ${theme.color.mangoMain}
-  opacity: 80%; */
 
   p {
     color: white;

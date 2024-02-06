@@ -3,7 +3,7 @@ import { getAdminPostList } from 'api/pageListApi';
 import logo from 'assets/icons/mango-logo.png';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import useOutsideClick from 'hooks/useOutsideClick';
-import AuthToggle from 'pages/auth/components/AuthToggle';
+import AuthToggle from 'pages/auth/components/authToggle/AuthToggle';
 import { QUERY_KEYS } from 'query/keys';
 import { useEffect, useRef, useState } from 'react';
 import { FaBars } from 'react-icons/fa';
