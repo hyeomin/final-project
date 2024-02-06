@@ -15,7 +15,7 @@ function About() {
       <NewsRoom />
       <GetStarted />
       <AboutFooter />
-      <TopButton position={20} />
+      <TopButton $position={20} />
     </>
   );
 }

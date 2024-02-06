@@ -25,7 +25,8 @@ function ByMangoPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     fetchNextPage,
     isFetchingNextPage,
     isLoading,
-    hasNextPage
+    hasNextPage,
+    error
   } = useInfiniteQuery({
     queryKey,
     queryFn,
@@ -58,6 +59,10 @@ function ByMangoPostList({ queryKey, queryFn, sortBy }: PostListProps) {
       return sortedPosts;
     }
   });
+
+  if (error) {
+    console.log('관리자 게시물 가져오기 실패 (ByMangoPostList)', error);
+  }
 
   return (
     <St.MainSubWrapper>

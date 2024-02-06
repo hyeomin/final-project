@@ -19,7 +19,7 @@ function ByMango() {
       <St.PostListWrapper>
         <PostListAdmin queryKey={[QUERY_KEYS.POSTS, QUERY_KEYS.ADMIN]} queryFn={getAdminPostList} sortBy={sortBy} />
       </St.PostListWrapper>
-      <TopButton position={220} />
+      <TopButton $position={220} />
     </St.ByMangoContainer>
   );
 }

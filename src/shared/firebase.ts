@@ -18,6 +18,6 @@ export const auth = getAuth(app);
 export default app;
 export const storage = getStorage(app);
 export const db = initializeFirestore(app, {
-  experimentalForceLongPolling: true,
-  localCache: persistentLocalCache(/*settings*/ {}) //이거 뭔데..
+  experimentalForceLongPolling: true
+  // localCache: persistentLocalCache(/*settings*/ {}) //이거 뭔데..
 });

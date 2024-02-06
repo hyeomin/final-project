@@ -24,11 +24,15 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
   const modal = useModal();
   const [isEditNDeleteToggleOpened, setIsEditNDeleteToggle] = useState(false);
 
-  const { data: author } = useQuery({
+  const { data: author, error } = useQuery({
     queryKey: [QUERY_KEYS.USERS, foundDetailPost.uid],
     queryFn: () => getUser(foundDetailPost.uid),
     staleTime: 60_000
   });
+
+  if (error) {
+    console.log('특정 유저 가져오기 실패(DetailBody)', error);
+  }
 
   // 댓글목록 가져오기
   const { data: comments } = useQuery({

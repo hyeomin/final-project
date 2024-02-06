@@ -8,11 +8,15 @@ type Props = {
 };
 
 const UserDetail = ({ userId, type }: Props) => {
-  const { data: userData } = useQuery({
+  const { data: userData, error } = useQuery({
     queryKey: ['users', userId],
     queryFn: () => getUser(userId),
     staleTime: 60_000
   });
+
+  if (error) {
+    console.log('특정 유저 가져오기 실패(UserDetail)', error);
+  }
 
   return (
     <>

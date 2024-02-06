@@ -9,39 +9,33 @@ import { UserType } from '../types/UserType';
 
 // user 콜렉션 전부 가져오기
 const getAllUsers = async () => {
-  try {
-    const q = query(collection(db, QUERY_KEYS.USERS));
-    const querySnapshot = await getDocs(q);
+  const q = query(collection(db, QUERY_KEYS.USERS));
+  const querySnapshot = await getDocs(q);
 
-    const userData: UserType[] = [];
+  const userData: UserType[] = [];
 
-    querySnapshot.forEach((doc) => {
-      const docData = doc.data() as Omit<UserType, 'id'>;
-      userData.push({ id: doc.id, ...docData });
-    });
-    return userData;
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
+  querySnapshot.forEach((doc) => {
+    const docData = doc.data() as Omit<UserType, 'id'>;
+    userData.push({ id: doc.id, ...docData });
+  });
+  return userData;
 };
 
 // 특정 유저 가져오기 (상세페이지 post 안의 uid)
 const getUser = async (userId: string) => {
-  try {
-    const docRef = doc(db, QUERY_KEYS.USERS, userId);
-    const userSnap = await getDoc(docRef);
-    if (!userSnap.exists()) {
-      return undefined;
-    }
-
-    const userData = userSnap.data() as Omit<UserType, 'id'>;
-    const user: UserType = { id: userSnap.id, ...userData };
-    return user;
-  } catch (error) {
-    console.log(error);
+  const docRef = doc(db, QUERY_KEYS.USERS, userId);
+  const userSnap = await getDoc(docRef);
+  if (!userSnap.exists()) {
     return undefined;
   }
+
+  const userData = userSnap.data() as Omit<UserType, 'id'>;
+  const user: UserType = { id: userSnap.id, ...userData };
+  return user;
+  // } catch (error) {
+  //   console.log(error);
+  //   return undefined;
+  // }
 };
 
 // 프로필 수정
@@ -52,33 +46,28 @@ export type updateProfileInfoProps = {
 };
 
 const updateProfileInfo = async ({ authCurrentUser, displayName, profileImage }: updateProfileInfoProps) => {
-  try {
-    await updateProfile(authCurrentUser!, {
-      displayName: displayName,
-      photoURL: profileImage
+  await updateProfile(authCurrentUser!, {
+    displayName: displayName,
+    photoURL: profileImage
+  });
+  await authCurrentUser.reload();
+  const updatedUser = auth.currentUser;
+  // console.log('프로필 업데이트 성공');
+
+  if (updatedUser) {
+    const userDocRef = doc(db, 'users', updatedUser.uid);
+    // const userDocSnapshot = await getDoc(userDocRef);
+    //console.log('userDocSnapshot-->', userDocSnapshot);
+
+    // 컬렉션에 있는 users 필드 정보 수정
+    await updateDoc(userDocRef, {
+      displayName: updatedUser?.displayName,
+      profileImg: updatedUser?.photoURL,
+      uid: updatedUser?.uid
     });
-    await authCurrentUser.reload();
-    const updatedUser = auth.currentUser;
-    console.log('프로필 업데이트 성공');
-
-    if (updatedUser) {
-      const userDocRef = doc(db, 'users', updatedUser.uid);
-      // const userDocSnapshot = await getDoc(userDocRef);
-      //console.log('userDocSnapshot-->', userDocSnapshot);
-
-      // 컬렉션에 있는 users 필드 정보 수정
-      await updateDoc(userDocRef, {
-        displayName: updatedUser?.displayName,
-        profileImg: updatedUser?.photoURL,
-        uid: updatedUser?.uid
-      });
-    }
-
-    return updatedUser;
-  } catch (error) {
-    console.log('프로필 업데이트 실패', error);
-    throw error;
   }
+
+  return updatedUser;
 };
 
 export type updateProfileImageProps = {
@@ -87,15 +76,10 @@ export type updateProfileImageProps = {
 };
 
 const updateProfileImage = async ({ authCurrentUser, profileImage }: updateProfileImageProps) => {
-  try {
-    const imageRef = ref(storage, `userProfile/${authCurrentUser?.uid}`);
-    const snapshot = await uploadBytes(imageRef, profileImage);
-    const profileImageURL = await getDownloadURL(snapshot.ref);
-    //console.log('프로필 이미지 업로드 성공');
-    return profileImageURL;
-  } catch (error) {
-    console.log('프로필 이미지 업로드 실패', error);
-  }
+  const imageRef = ref(storage, `userProfile/${authCurrentUser?.uid}`);
+  const snapshot = await uploadBytes(imageRef, profileImage);
+  const profileImageURL = await getDownloadURL(snapshot.ref);
+  return profileImageURL;
 };
 
 export { getAllUsers, getUser, updateProfileImage, updateProfileInfo };

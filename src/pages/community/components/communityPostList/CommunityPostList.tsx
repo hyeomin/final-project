@@ -139,8 +139,9 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
       }
     },
     onMutate: async (params: PostCardProps) => {
+      const { postId, postData } = params;
       const { postId: selectedPostId } = params;
-
+      console.log(postData);
       await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS, category] });
 
       //이전 데이터 저장
@@ -157,11 +158,12 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
               pageParams: []
             };
           }
-
+          console.log('prevPosts', prevPosts.pages);
           // pages 배열 내의 모든 페이지를 펼칩니다.
-          const updatedPages = prevPosts.pages.map((posts) =>
-            posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post))
-          );
+          const updatedPages = prevPosts.pages.map((posts) => {
+            console.log('posts', posts);
+            return posts.map((post) => (post.id === selectedPostId ? { ...post, isLiked: !post.isLiked } : post));
+          });
 
           // 업데이트된 pages 배열로 새로운 data 객체를 반환합니다.
           return { ...prevPosts, pages: updatedPages };

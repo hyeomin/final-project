@@ -74,6 +74,7 @@ function CommunityBody() {
       // 다른 queryKey와 queryFn을 추가할 수 있습니다.
     ];
 
+    //prefetch는 오류 반환 x
     for (const { queryKey, queryFn } of queriesToPrefetch) {
       await queryClient.prefetchInfiniteQuery({
         queryKey: queryKey,
@@ -141,7 +142,7 @@ function CommunityBody() {
         </St.SortingWrapper>
       </St.CommunityNavBar>
       <CommunityPostList queryKey={[QUERY_KEYS.POSTS, category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} />
-      <TopButton position={220} />
+      <TopButton $position={220} />
     </St.CommunityContainer>
   );
 }

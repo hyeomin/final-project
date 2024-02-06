@@ -50,12 +50,8 @@ const Carousel = () => {
             }}
             modules={[Pagination, Navigation]}
             className="mySwiper"
-            //swiper가 initialization 되자마자 사라지는 부분으로 swiper instance를 받는 callback함수
-            //onSwiper={setSwiperInstance}
-            //  onSlideChange={handleSlideChange}
-
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper: SwiperClass) => console.log(swiper)}
+            onSlideChange={() => {}}
+            onSwiper={(swiper: SwiperClass) => {}}
             navigation={true}
             breakpoints={{
               1200: {
@@ -144,6 +140,7 @@ const Carousel = () => {
       )}
 
       {popularPosts && currentSlide < popularPosts.length - swiperCnt && (
+        //여기에서 console.log() 검색하고싶어
         <St.Button type="button" onClick={handleNext} $buttonType="next">
           <SlArrowRight />
         </St.Button>

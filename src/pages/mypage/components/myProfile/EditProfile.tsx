@@ -155,6 +155,9 @@ function EditProfile() {
       queryClient.invalidateQueries();
       // 성공 시 이미지 state 업로드해서 사진 미리보기
       if (url) setProfileImage(url);
+    },
+    onError: (error) => {
+      console.log('프로필 이미지 업로드 실패', error);
     }
   });
 
