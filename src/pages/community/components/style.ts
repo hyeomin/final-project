@@ -129,8 +129,13 @@ const MangoWord = styled.p`
 const MangoOutWord = styled.p`
   color: #000;
   font-size: 38px;
+<<<<<<< HEAD
+  font-weight: 1000;
+  //모바일 세로
+=======
   font-weight: 700;
 
+>>>>>>> d43cc8f769e147ee83660900e04b59e266c51346
   @media screen and (max-width: 431px) {
     font-size: 28px;
   }

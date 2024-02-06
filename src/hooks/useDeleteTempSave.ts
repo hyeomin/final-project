@@ -1,4 +1,3 @@
-// hooks/useDeleteTempSave.js
 import { useSetRecoilState } from 'recoil';
 import { modalState } from 'recoil/modals';
 import { useModal } from './useModal';

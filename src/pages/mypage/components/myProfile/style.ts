@@ -154,8 +154,6 @@ const UserPostInfoContainer = styled.div`
   column-gap: 20px;
   font-size: 15px;
 
-  /* margin-left: 50px; */
-
   @media screen and (max-width: 431px) {
     display: flex;
     justify-content: center;
@@ -169,8 +167,6 @@ const PostInfoBox = styled.div`
   flex-direction: column;
   text-align: left;
   width: 140px;
-  /* width: 100%; */
-  /* min-width: 100px; */
   height: 100px;
   padding: 20px;
   border-radius: 20px;
@@ -178,7 +174,6 @@ const PostInfoBox = styled.div`
 
   @media screen and (max-width: 431px) {
     width: 20px;
-    /* height: 20px; */
     height: 80px;
     width: 90px;
     padding: 20px;
@@ -188,7 +183,6 @@ const PostInfoBox = styled.div`
   & img {
     width: 20px;
     height: 20px;
-    /* padding-bottom: 0px; */
     margin: 5px;
   }
 
@@ -280,8 +274,6 @@ const profileImg = styled.div`
     border-radius: 50%;
     max-width: 150px;
     max-height: 150px;
-    /* width: 100%; /* 이미지가 부모 요소에 가득 차도록 설정 */
-    /* height: auto; 가로로 조절되면서 세로 비율 유지 */
   }
   @media screen and (max-width: 431px) {
     width: 20px;
@@ -397,7 +389,6 @@ const GuideGradeWrapper = styled.div`
 const GuideGrade = styled.div`
   display: flex;
   align-items: center;
-  /* column-gap: px; */
   width: 180px;
   height: 50px;
   padding: 12px;
@@ -441,14 +432,10 @@ const GuideGrade = styled.div`
 const RankingInfoWrapper = styled.div`
   position: relative;
 `;
-// const Test = styled.div`
-//   width: 20px;
-//   background-color: rebeccapurple;
-// `;
 const RankingInfo = styled.div`
   display: flex;
   align-items: center;
-  /* column-gap: px; */
+
   width: 180px;
   height: 50px;
   padding: 12px;
@@ -491,7 +478,7 @@ const RankingInfo = styled.div`
 
 const Tabs = styled.div`
   display: flex;
-  flex-direction: column; //솔 test
+  flex-direction: column;
   justify-content: center;
   width: 100%;
   margin: 20px;
@@ -510,7 +497,6 @@ const TabButtonContainer = styled.div`
   width: 100%;
   column-gap: 5px;
   margin-top: 80px;
-  /* margin-left: 150px; */
   padding: 0 20px;
   font-size: 20px;
   @media screen and (max-width: 431px) {

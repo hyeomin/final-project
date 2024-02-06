@@ -1,5 +1,3 @@
-// Ashley가 만든 페이지입니다. 혹시 authApi 파일이 필요하시면 합치거나 제가 별도로 만들게요! (@Hailey)
-
 import { User, updateProfile } from 'firebase/auth';
 import { collection, doc, getDoc, getDocs, query, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
@@ -32,10 +30,6 @@ const getUser = async (userId: string) => {
   const userData = userSnap.data() as Omit<UserType, 'id'>;
   const user: UserType = { id: userSnap.id, ...userData };
   return user;
-  // } catch (error) {
-  //   console.log(error);
-  //   return undefined;
-  // }
 };
 
 // 프로필 수정
@@ -52,12 +46,9 @@ const updateProfileInfo = async ({ authCurrentUser, displayName, profileImage }:
   });
   await authCurrentUser.reload();
   const updatedUser = auth.currentUser;
-  // console.log('프로필 업데이트 성공');
 
   if (updatedUser) {
     const userDocRef = doc(db, 'users', updatedUser.uid);
-    // const userDocSnapshot = await getDoc(userDocRef);
-    //console.log('userDocSnapshot-->', userDocSnapshot);
 
     // 컬렉션에 있는 users 필드 정보 수정
     await updateDoc(userDocRef, {

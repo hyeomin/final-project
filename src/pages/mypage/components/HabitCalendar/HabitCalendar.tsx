@@ -19,7 +19,6 @@ const HabitCalendar = ({ date }: any) => {
   const authCurrentUser = authContext?.currentUser;
   // 초기값은 현재 날짜
   const [today, setToday] = useState<Value>(new Date());
-  //클릭한 캘린더의 날짜를 알려줌
   const onChangeToday = () => {
     setToday(today);
   };

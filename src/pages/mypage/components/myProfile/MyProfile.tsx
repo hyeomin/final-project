@@ -13,6 +13,7 @@ import MyPosts from '../MyPosts';
 import EditProfile from './EditProfile';
 import St from './style';
 import ProfileSkeleton from './myPageSkeleton/ProfileSkeleton';
+import PostCardSkeleton from '../PostCard/PostCardSkeleton/PostCardSkeleton';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -37,7 +38,7 @@ function MyProfile() {
   });
 
   if (error) {
-    console.log('데이터를 불러오지 못했습니다', error);
+    console.error('데이터를 불러오지 못했습니다', error);
   }
 
   // 랭킹순위 (좋아요 수 기준)
@@ -100,76 +101,83 @@ function MyProfile() {
 
   return (
     <>
-      {/* {isLoading && <ProfileSkeleton />} */}
       <St.Wrapper>
-        <St.ProfileEditWrapper>
-          <EditProfile />
-
-          <St.UserPostInfoContainer>
-            <St.PostInfoBox>
-              <div>게시물 수</div>
-              <St.PostInfoIcon>
-                <img src={postCountIcon} />
-                <div>{myPosts ? myPosts.length : '-'}개</div>
-              </St.PostInfoIcon>
-            </St.PostInfoBox>
-            <St.PostInfoBox>
-              <div style={{ display: 'flex' }}>
-                랭킹
-                <div style={{ cursor: 'pointer' }} onClick={ClickedRankingToggleBtn}>
-                  <GoQuestion style={{ fontSize: '15px', marginLeft: '5px', cursor: 'pointer' }} />
-                </div>
-                {isClickedRanking ? (
+        {isLoading ? (
+          <>
+            <ProfileSkeleton />
+            <PostCardSkeleton />
+          </>
+        ) : (
+          <>
+            <St.ProfileEditWrapper>
+              <EditProfile />
+              <St.UserPostInfoContainer>
+                <St.PostInfoBox>
+                  <div>게시물 수</div>
+                  <St.PostInfoIcon>
+                    <img src={postCountIcon} />
+                    <div>{myPosts ? myPosts.length : '-'}개</div>
+                  </St.PostInfoIcon>
+                </St.PostInfoBox>
+                <St.PostInfoBox>
+                  <div style={{ display: 'flex' }}>
+                    랭킹
+                    <div style={{ cursor: 'pointer' }} onClick={ClickedRankingToggleBtn}>
+                      <GoQuestion style={{ fontSize: '15px', marginLeft: '5px', cursor: 'pointer' }} />
+                    </div>
+                    {isClickedRanking ? (
+                      <div>
+                        <St.RankingInfoWrapper>
+                          <St.RankingInfo>
+                            좋아요를 많이 받은 순으로 <br />
+                            랭킹이 표시됩니다.
+                          </St.RankingInfo>
+                        </St.RankingInfoWrapper>
+                      </div>
+                    ) : null}
+                  </div>
+                  <St.RankingIcon>
+                    <img src={rankingIcon} />
+                    <div>
+                      {authCurrentUser && userRanking
+                        ? userRanking.findIndex((r) => r.uid === authCurrentUser.uid) >= 0
+                          ? `${userRanking?.findIndex((r) => r.uid === authCurrentUser.uid) + 1}위`
+                          : '없음'
+                        : '-'}
+                    </div>
+                  </St.RankingIcon>
+                </St.PostInfoBox>
+                <St.PostInfoBox>
                   <div>
-                    <St.RankingInfoWrapper>
-                      <St.RankingInfo>
-                        좋아요를 많이 받은 순으로 <br />
-                        랭킹이 표시됩니다.
-                      </St.RankingInfo>
-                    </St.RankingInfoWrapper>
-                  </div>
-                ) : null}
-              </div>
-              <St.RankingIcon>
-                <img src={rankingIcon} />
-                <div>
-                  {authCurrentUser && userRanking
-                    ? userRanking.findIndex((r) => r.uid === authCurrentUser.uid) >= 0
-                      ? `${userRanking?.findIndex((r) => r.uid === authCurrentUser.uid) + 1}위`
-                      : '없음'
-                    : '-'}
-                </div>
-              </St.RankingIcon>
-            </St.PostInfoBox>
-            <St.PostInfoBox>
-              <div>
-                <div style={{ display: 'flex' }}>
-                  <div>등급</div>
-                  <div style={{ cursor: 'pointer' }} onClick={ClickedGuideToggleBtn}>
-                    <GoQuestion style={{ fontSize: '15px', marginLeft: '5px', cursor: 'pointer' }} />
-                  </div>
-                </div>
+                    <div style={{ display: 'flex' }}>
+                      <div>등급</div>
+                      <div style={{ cursor: 'pointer' }} onClick={ClickedGuideToggleBtn}>
+                        <GoQuestion style={{ fontSize: '15px', marginLeft: '5px', cursor: 'pointer' }} />
+                      </div>
+                    </div>
 
-                {isClickedGuide ? (
-                  <div>
-                    <St.GuideGradeWrapper>
-                      <St.GuideGrade>
-                        Lv1 - 0-15개 : 새싹등급🌱 <br />
-                        Lv2 - 16-30개 : 클로버등급☘️ <br />
-                        Lv3 - 30개 이상 : 나무등급🌳
-                      </St.GuideGrade>
-                    </St.GuideGradeWrapper>
+                    {isClickedGuide ? (
+                      <div>
+                        <St.GuideGradeWrapper>
+                          <St.GuideGrade>
+                            Lv1 - 0-15개 : 새싹등급🌱 <br />
+                            Lv2 - 16-30개 : 클로버등급☘️ <br />
+                            Lv3 - 30개 이상 : 나무등급🌳
+                          </St.GuideGrade>
+                        </St.GuideGradeWrapper>
+                      </div>
+                    ) : null}
+                    <br />
+                    <St.LevelBox>
+                      <St.LevelEmoji>{levelEmoji}</St.LevelEmoji>
+                      <St.Level>Lv.{level}</St.Level>
+                    </St.LevelBox>
                   </div>
-                ) : null}
-                <br />
-                <St.LevelBox>
-                  <St.LevelEmoji>{levelEmoji}</St.LevelEmoji>
-                  <St.Level>Lv.{level}</St.Level>
-                </St.LevelBox>
-              </div>
-            </St.PostInfoBox>
-          </St.UserPostInfoContainer>
-        </St.ProfileEditWrapper>
+                </St.PostInfoBox>
+              </St.UserPostInfoContainer>
+            </St.ProfileEditWrapper>
+          </>
+        )}
         <St.TabButtonContainer>
           <St.TabButton
             $isActive={activeTab === 'calendar'}

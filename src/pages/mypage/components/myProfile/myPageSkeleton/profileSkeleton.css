@@ -1,27 +1,3 @@
-/* <div className="skeleton-ProfileWrapper">
-<div className="skeleton-ProfileContainer">
-  <div className="skeleton-ProfileImg"></div>
-  <div className="skeleton-NicknameAndEmail">
-    <div className="skeleton-UserNickname"></div>
-    <div className="skeleton-UserEmail"></div>
-  </div>
-</div>
-<div className="skeleton-UserActiveContainer">
-  <div className="skeleton-ActiveBox">
-    <div className="skeleton-ActiveTitle"></div>
-    <div className="skeleton-Active"></div>
-  </div>
-  <div className="skeleton-ActiveBox">
-    <div className="skeleton-ActiveTitle"></div>
-    <div className="skeleton-Active"></div>
-  </div>
-  <div className="skeleton-ActiveBox">
-    <div className="skeleton-ActiveTitle"></div>
-    <div className="skeleton-Active"></div>
-  </div>
-</div>
-</div> */
-
 .skeleton-ProfileWrapper {
   width: 1000px;
   display: flex;
@@ -32,9 +8,7 @@
   border-radius: 10px;
   width: 1000px;
   background-color: #eee;
-  /* border: 1px solid lightgray; */
   margin-top: 50px;
-  /* animation: loading 1.5s infinite; */
 }
 
 .skeleton-ProfileContainer {
@@ -46,7 +20,6 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  /* background-color: pink; */
   padding: 15px;
   animation: loading 1.5s infinite;
 }
@@ -55,14 +28,11 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
-  /* width: 120px; */
-  /* background-color: olivedrab; */
 
   gap: 10px;
 }
 
 .skeleton-UserNickname {
-  /* background-color: rebeccapurple; */
   padding: 10px;
   width: 120px;
   height: 14px;
@@ -71,7 +41,6 @@
 }
 
 .skeleton-UserEmail {
-  /* background-color: bisque; */
   padding: 10px;
   width: 150px;
   border-radius: 10px;
@@ -81,8 +50,6 @@
 
 .skeleton-UserActiveContainer {
   display: flex;
-  /* background-color: orchid; */
-
   padding: 20px;
   gap: 10px;
 }
@@ -93,24 +60,19 @@
   gap: 15px;
   padding: 20px;
   border-radius: 10px;
-  /* border: 1px solid #eee; */
   width: 140px;
-  /* background-color: yellowgreen; */
 }
 .skeleton-ActiveTitle {
   padding: 10px;
   width: 50px;
   border-radius: 10px;
   animation: loading 1.5s infinite;
-
-  /* background-color: bisque; */
 }
 
 .skeleton-ActiveContent {
   padding: 10px;
   width: 80px;
   border-radius: 10px;
-  /* background-color: bisque; */
   animation: loading 1.5s infinite;
 }
 

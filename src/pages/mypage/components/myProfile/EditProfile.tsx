@@ -12,8 +12,6 @@ import { modalState } from 'recoil/modals';
 import { auth, db } from 'shared/firebase';
 import { resizeProfileImageFile } from 'util/imageResize';
 import St from './style';
-import ProfileSkeleton from './myPageSkeleton/ProfileSkeleton';
-// import { modalState } from 'recoil/modals';
 
 function EditProfile() {
   const modal = useModal();
@@ -23,7 +21,6 @@ function EditProfile() {
   const [errorMsg, setErrorMsg] = useState('');
   const [isFormValid, setIsFormValid] = useState(true);
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/i;
-
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
   const [isPhotoURLChanged, setIsPhotoURLChanged] = useState(false);
@@ -31,6 +28,7 @@ function EditProfile() {
   const [displayName, setDisplayName] = useState(auth.currentUser?.displayName || '');
   const [profileImage, setProfileImage] = useState(authCurrentUser?.photoURL || defaultImg);
   const setIsModalOpen = useSetRecoilState(modalState);
+  const queryClient = useQueryClient();
 
   // 닉네임 변경 유효성 검사
   const onChangeDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,15 +42,13 @@ function EditProfile() {
     } else {
       setIsValid(false);
       // 에러 메시지 표시
-      setErrorMsg('올바른 형식으로 입력하세요. \n (2자 이상 8자 이하, 영어 또는 숫자 또는 한글)');
+      setErrorMsg('올바른 형식으로 입력하세요. (2자 이상 8자 이하, 영어 또는 숫자 또는 한글)');
     }
   };
   //div를 클릭해도 input이 클릭되도록 하기
   const onClickUpload = () => {
     fileRef.current?.click();
   };
-
-  const queryClient = useQueryClient();
 
   // 프로필 수정 업데이트
 
@@ -152,7 +148,7 @@ function EditProfile() {
       if (url) setProfileImage(url);
     },
     onError: (error) => {
-      console.log('프로필 이미지 업로드 실패', error);
+      console.error('프로필 이미지 업로드 실패', error);
     }
   });
 
@@ -184,7 +180,7 @@ function EditProfile() {
         const resizedImage = await resizeProfileImageFile(selectedFile);
         profileImageUploadMutation.mutate({ authCurrentUser, profileImage: resizedImage });
       } catch (err) {
-        console.log('프로필 사이즈 전환 실패', err);
+        console.error('프로필 사이즈 전환 실패', err);
       }
     }
   };
@@ -212,7 +208,6 @@ function EditProfile() {
       modal.open(openModalParams);
       setIsModalOpen((prev) => ({ ...prev, isModalOpen05: true }));
       setIsDisplayNameChanged(false);
-      // setIsChecked(false);
       setIsFormValid(false);
       return;
     } else if (nickname === '') {
