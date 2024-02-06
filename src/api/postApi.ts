@@ -1,9 +1,9 @@
 import { addDoc, collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { QUERY_KEYS } from '../query/keys';
-import { db, storage } from '../shared/firebase';
-import { PostInputType, PostType } from '../types/PostType';
-import { createThumbnailImageFile } from '../util/imageResize';
+import { QUERY_KEYS } from 'query/keys';
+import { db, storage } from 'shared/firebase';
+import { PostInputType, PostType } from 'types/PostType';
+import { createThumbnailImageFile } from 'util/imageResize';
 
 const addPost = async (newPost: Omit<PostType, 'id'>) => {
   const docRef = await addDoc(collection(db, QUERY_KEYS.POSTS), newPost);

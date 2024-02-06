@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { getAdminPostList } from '../../api/pageListApi';
-import { QUERY_KEYS } from '../../query/keys';
-import { SortList } from '../../types/PostListType';
+import { getAdminPostList } from 'api/pageListApi';
+import { QUERY_KEYS } from 'query/keys';
+import { SortList } from 'types/PostListType';
 import PostListAdmin from './components/byMangoPostList/ByMangoPostList';
 import St from './style';
-import TopButton from '../about/components/TopButton';
+import TopButton from 'pages/about/components/TopButton';
 
 function ByMango() {
   const [sortBy, setSortBy] = useState<SortList>('latest');

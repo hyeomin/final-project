@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
-import useSwiperNavigation from '../../../hooks/useSwiperNavigation';
+import useSwiperNavigation from 'hooks/useSwiperNavigation';
 
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
-import pageOne from '../../../assets/guide/1.png';
-import pageTwo from '../../../assets/guide/2.png';
-import pageThree from '../../../assets/guide/3.png';
-import pageFour from '../../../assets/guide/4.png';
-import pageFive from '../../../assets/guide/5.png';
-import pageSix from '../../../assets/guide/6.png';
+import pageOne from 'assets/guide/1.png';
+import pageTwo from 'assets/guide/2.png';
+import pageThree from 'assets/guide/3.png';
+import pageFour from 'assets/guide/4.png';
+import pageFive from 'assets/guide/5.png';
+import pageSix from 'assets/guide/6.png';
 import St from './style';
 
 type ModalProps = {

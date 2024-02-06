@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUser } from '../api/authApi';
-import defaultUserProfile from '../assets/realMango.png';
+import { getUser } from 'api/authApi';
+import defaultUserProfile from 'assets/realMango.png';
 
 type Props = {
   userId: string;
@@ -15,7 +15,7 @@ const UserDetail = ({ userId, type }: Props) => {
   });
 
   if (error) {
-    console.log('특정 유저 가져오기 실패(UserDetail)', error);
+    console.log('user 데이터 가져오기 실패!', error);
   }
 
   return (

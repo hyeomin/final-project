@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import React from 'react';
-import { addNews } from '../../../../api/newsApi';
-import { QUERY_KEYS } from '../../../../query/keys';
-import { NewsType } from '../../../../types/NewsType';
+import { addNews } from 'api/newsApi';
+import { QUERY_KEYS } from 'query/keys';
+import { NewsType } from 'types/NewsType';
 
 type Props = {
   newsUrl: string;

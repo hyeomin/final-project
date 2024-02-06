@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { useDeleteTempSave } from '../../hooks/useDeleteTempSave';
-import { useModal } from '../../hooks/useModal';
-import { modalState } from '../../recoil/modals';
-import { initialPostInputState, postInputState } from '../../recoil/posts';
+import { useDeleteTempSave } from 'hooks/useDeleteTempSave';
+import { useModal } from 'hooks/useModal';
+import { modalState } from 'recoil/modals';
+import { initialPostInputState, postInputState } from 'recoil/posts';
 import Editor from './components/editor/Editor';
 import Hashtag from './components/hashtag/Hashtag';
 import ImageUpload from './components/imageUpload/ImageUpload';

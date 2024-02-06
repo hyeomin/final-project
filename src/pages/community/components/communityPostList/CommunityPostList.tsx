@@ -9,6 +9,7 @@ import {
 import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import { useSetRecoilState } from 'recoil';
 import mangoCover from '../../../../assets/mangoDefaultCover.png';
 import Loader from '../../../../components/Loader';
@@ -21,6 +22,22 @@ import { auth, db } from '../../../../shared/firebase';
 import { SortList } from '../../../../types/PostListType';
 import { PostType } from '../../../../types/PostType';
 import { getFormattedDate_yymmdd } from '../../../../util/formattedDateAndTime';
+=======
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import mangoCover from 'assets/mangoDefaultCover.png';
+import Loader from 'components/Loader';
+import PostContentPreview from 'components/PostContentPreview';
+import UserDetail from 'components/UserDetail';
+// import { SortList } from 'components/viewAll/ViewAllBody';
+import { useModal } from 'hooks/useModal';
+import { QUERY_KEYS } from 'query/keys';
+import { modalState } from 'recoil/modals';
+import { categoryListState } from 'recoil/posts';
+import { auth, db } from 'shared/firebase';
+import { SortList } from 'types/PostListType';
+import { PostType } from 'types/PostType';
+import { getFormattedDate_yymmdd } from 'util/formattedDateAndTime';
+>>>>>>> 8427e55fd4defdc973c58ce10ae1b4ce0e249a87
 import St, {
   AuthorNameAndDate,
   CommentAndLikes,
@@ -33,7 +50,11 @@ import St, {
   PostTitleAndContent,
   SinglePost
 } from './style';
+<<<<<<< HEAD
 import PostsSkeleton from '../../../../components/mypage/postsSkeleton/PostsSkeleton';
+=======
+import PostsSkeleton from 'components/mypage/postsSkeleton/PostsSkeleton';
+>>>>>>> 8427e55fd4defdc973c58ce10ae1b4ce0e249a87
 
 interface PostListProps {
   queryKey: QueryKey;

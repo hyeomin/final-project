@@ -1,20 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { addPost } from '../../../../api/postApi';
-import { useModal } from '../../../../hooks/useModal';
-import useRoleCheck from '../../../../hooks/useRoleCheck';
-import { QUERY_KEYS } from '../../../../query/keys';
-import { modalState } from '../../../../recoil/modals';
-import {
-  imageUploadingStatusState,
-  initialPostInputState,
-  isEditingPostState,
-  postInputState
-} from '../../../../recoil/posts';
-import { auth } from '../../../../shared/firebase';
-import { PostType } from '../../../../types/PostType';
-import { stripHtml } from '../../../../util/extractContentText';
+import { addPost } from 'api/postApi';
+import { useModal } from 'hooks/useModal';
+import useRoleCheck from 'hooks/useRoleCheck';
+import { QUERY_KEYS } from 'query/keys';
+import { modalState } from 'recoil/modals';
+import { imageUploadingStatusState, initialPostInputState, isEditingPostState, postInputState } from 'recoil/posts';
+import { auth } from 'shared/firebase';
+import { PostType } from 'types/PostType';
+import { stripHtml } from 'util/extractContentText';
 import { CustomButton } from './styles';
 
 function SubmitButton() {

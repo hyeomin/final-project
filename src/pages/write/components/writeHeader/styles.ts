@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import theme from '../../../../styles/theme';
+import theme from 'styles/theme';
 
 // WriteHeader.tsx
 const WriteHeader = styled.div`
