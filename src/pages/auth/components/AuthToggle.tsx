@@ -1,15 +1,19 @@
+import defaultImg from 'assets/defaultImg.jpg';
+import { AuthContext } from 'context/AuthContext';
 import { signOut } from 'firebase/auth';
+import { useModal } from 'hooks/useModal';
 import { useContext, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
-import defaultImg from 'assets/defaultImg.jpg';
-import { AuthContext } from 'context/AuthContext';
-import { useModal } from 'hooks/useModal';
 import { modalState } from 'recoil/modals';
 import { roleState } from 'recoil/users';
 import { auth } from 'shared/firebase';
+<<<<<<< HEAD
+import styled from 'styled-components';
+import theme from 'styles/theme';
+=======
 import theme from 'types/styles/theme';
+>>>>>>> e15e3ecafa59f576dbbb203d8daceb7eabcc0b61
 
 type Props = {
   setIsAuthToggleOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,8 +30,6 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
 
   const { pathname } = useLocation();
   const prevPathname = useRef(pathname);
-
-  // const userInfo = auth.currentUser;
 
   // 주소가 바뀌면 토글 창 꺼지게
   useEffect(() => {

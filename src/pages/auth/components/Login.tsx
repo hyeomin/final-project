@@ -1,23 +1,28 @@
 import { useQuery } from '@tanstack/react-query';
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { useContext, useEffect, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
 import { getAllUsers } from 'api/authApi';
 import googleLogo from 'assets/icons/googleLogo.png';
 import mangofavicon from 'assets/mango-favicon.png';
 import { AuthContext } from 'context/AuthContext';
+import {
+  GoogleAuthProvider,
+  browserSessionPersistence,
+  setPersistence,
+  signInWithEmailAndPassword,
+  signInWithPopup
+} from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { useModal } from 'hooks/useModal';
 import usePrintError from 'hooks/usePrintError';
 import { QUERY_KEYS } from 'query/keys';
+import { useContext, useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { modalState } from 'recoil/modals';
 import { isSignUpState, roleState } from 'recoil/users';
 import { auth, db } from 'shared/firebase';
 import { Data } from './Signup';
 import St from './style';
-import { setPersistence, browserSessionPersistence } from 'firebase/auth';
 interface UserData {
   uid: string;
   displayName: string | null;
@@ -51,6 +56,8 @@ function Login() {
     queryKey: [QUERY_KEYS.USERS],
     queryFn: getAllUsers
   });
+
+  console.log('login');
 
   if (error) {
     console.log('전체 유저리스트 가져오기 실패(Login)', error);

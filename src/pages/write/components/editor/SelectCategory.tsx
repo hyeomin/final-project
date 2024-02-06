@@ -11,9 +11,7 @@ function SelectCategory() {
   const [postInput, setPostInput] = useRecoilState(postInputState);
   const { category } = postInput;
 
-  // const [selectedCategoryEng, setSelectedCategoryEng] = useState(category ?? categoryList[0].nameEng);
-
-  // Filtered category list based on role
+  // user Role에 따라 보이는 카테고리 필터
   const filteredCategoryList = useMemo(() => {
     return role === 'user' ? categoryList.filter((category) => !category.isAdmin) : categoryList;
   }, [categoryList, role]);

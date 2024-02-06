@@ -4,9 +4,9 @@ export const resizeProfileImageFile = (file: File): Promise<File> =>
   new Promise((resolve, reject) => {
     Resizer.imageFileResizer(
       file,
-      300,
-      300,
-      'JPEG',
+      200,
+      200,
+      'WEBP',
       100,
       0,
       (uri) => {
@@ -44,8 +44,8 @@ export const createThumbnailImageFile = (file: File): Promise<File> =>
   new Promise((resolve, reject) => {
     Resizer.imageFileResizer(
       file,
-      900,
-      900,
+      700,
+      700,
       'WEBP',
       100,
       0,

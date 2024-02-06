@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
 import { getUser } from 'api/authApi';
 import { QUERY_KEYS } from 'query/keys';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { roleState } from 'recoil/users';
 import { auth } from 'shared/firebase';
 import { UserType } from 'types/UserType';
@@ -32,7 +32,7 @@ function useRoleCheck() {
     if (user) {
       setRole(user.role);
     }
-  }, [user]);
+  }, [user, auth]);
 
   // role 돌려주기
   return role;

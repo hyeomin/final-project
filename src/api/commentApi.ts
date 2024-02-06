@@ -1,6 +1,7 @@
 import { addDoc, collection, deleteDoc, doc, getDocs, increment, orderBy, query, updateDoc } from 'firebase/firestore';
 import { QUERY_KEYS } from 'query/keys';
 import { db } from 'shared/firebase';
+import { CommentType } from 'types/PostType';
 
 type AddComment = {
   newComment: Pick<CommentType, 'uid' | 'createdAt' | 'content'>;
@@ -57,6 +58,7 @@ type UpdateComment = {
   editingText: string;
   postId: string;
 };
+
 // 게시물 UPDATE
 const updateComment = async ({ postId, id, editingText: content }: UpdateComment) => {
   const postRef = doc(db, QUERY_KEYS.POSTS, postId, QUERY_KEYS.COMMENTS, id);

@@ -3,7 +3,6 @@ import theme from 'types/styles/theme';
 
 const ButtonContainer = styled.div`
   display: flex;
-  /* justify-content: space-between; */
   width: 100%;
   padding: 40px 0;
 `;
@@ -19,7 +18,6 @@ const ShiftButton = styled.button<ShiftButtonProps>`
   column-gap: 5px;
   color: '#222';
   border: none;
-  /* background-color: ${theme.color.mangoLight}; */
   background-color: transparent;
   font-size: 16px;
 
