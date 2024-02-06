@@ -46,6 +46,8 @@ const TeamInfo = styled.div`
 
 const SingleMember = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
   column-gap: 5px;
   padding: 0 15px;
 

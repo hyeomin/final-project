@@ -51,7 +51,11 @@ function Footer() {
             <span>|</span>
             <St.SingleMember>
               <span>송승훈 Hoon</span>
-              <a href="https://github.com/heeneeee" target="_blank" rel="noopener noreferrer">
+              <a
+                href="https://www.figma.com/file/26bMH0GEeJKepxaqcaYHMg/%EB%A7%9D%EA%B3%A0%EB%A7%9D?type=design&node-id=0%3A1&mode=design&t=KmHXwJ62oVZL2kyp-1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <img src={figma} alt="github" />
               </a>
             </St.SingleMember>
