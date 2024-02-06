@@ -16,7 +16,6 @@ import HomeHeaderSkeleton from './skeleton/HomeHeaderSkeleton';
 const HomeHeader = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  console.log('home header!');
   const {
     data: adminContents,
     isLoading,

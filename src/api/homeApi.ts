@@ -43,7 +43,6 @@ const getPosts = async () => {
 
 // 관리자게시물
 const getAdminPosts = async () => {
-  console.log('admin posts!');
   const q = query(
     collection(db, QUERY_KEYS.POSTS),
     where('role', '==', 'admin'),
@@ -57,7 +56,6 @@ const getAdminPosts = async () => {
     const postData = doc.data() as Omit<PostType, 'id'>;
     posts.push({ id: doc.id, ...postData });
   });
-  console.log('posts==>', posts);
   return posts;
 };
 
