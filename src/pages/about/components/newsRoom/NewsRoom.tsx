@@ -18,7 +18,6 @@ import St from './style';
 function NewsRoom() {
   const [newsUrl, setNewsUrl] = useState('');
   const [selectedVideo, setSelectedVideo] = useState(''); // 모달에 띄울 비디오 ID
-  console.log('newsroom');
 
   // swiper 관련
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);

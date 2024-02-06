@@ -54,7 +54,7 @@ const CategoryButtonWrapper = styled.div`
 
 const CategoryButton = styled.button<{ selected: boolean }>`
   font-size: 17px;
-  font-weight: ${({ selected }) => (selected ? 800 : 400)};
+  font-weight: ${({ selected }) => (selected ? 'bold' : 'normal')};
   color: ${({ selected }) => (selected ? '#222' : '#888')};
   border: none;
   border-bottom: ${({ selected }) => (selected ? '2px solid #ffa114' : 'none')};
@@ -129,13 +129,8 @@ const MangoWord = styled.p`
 const MangoOutWord = styled.p`
   color: #000;
   font-size: 38px;
-<<<<<<< HEAD
   font-weight: 1000;
   //모바일 세로
-=======
-  font-weight: 700;
-
->>>>>>> d43cc8f769e147ee83660900e04b59e266c51346
   @media screen and (max-width: 431px) {
     font-size: 28px;
   }
