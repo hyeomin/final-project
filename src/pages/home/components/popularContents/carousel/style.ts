@@ -284,7 +284,10 @@ const NavigationButtonContainer = styled.div`
   }
 
   @media screen and (max-width: 431px) {
-    width: 85vw;
+    /* width: 85vw; */
+    justify-content: center;
+    column-gap: 320px;
+    width: 100%;
 
     & img {
       width: 40px;
