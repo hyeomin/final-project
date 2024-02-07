@@ -8,6 +8,7 @@ import defaultUserProfile from 'assets/realMango.png';
 import St from './style';
 import { fetchUsers } from 'api/axios';
 import { useEffect, useState } from 'react';
+import { QUERY_KEYS } from 'query/keys';
 
 const TopUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -19,7 +20,7 @@ const TopUsers = () => {
     isLoading: topUsersIsLoading,
     error: topUsersError
   } = useQuery({
-    queryKey: ['posts', 'topUsers'],
+    queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.TOPUSERS],
     queryFn: getTopUsers,
     staleTime: 60_000
   });

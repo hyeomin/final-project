@@ -17,6 +17,7 @@ import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import { getThumbnailSource } from 'util/getThumbnailSource';
 import CarouselSkeleton from './skeleton/CarouselSkeleton';
 import St from './style';
+import { QUERY_KEYS } from 'query/keys';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);
@@ -32,7 +33,7 @@ const Carousel = () => {
     isLoading: popularPostsIsLoading,
     error: popularPostsError
   } = useQuery({
-    queryKey: ['posts', 'popular'],
+    queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.POPULAR],
     queryFn: getPopularPosts,
     staleTime: 60_000
   });
