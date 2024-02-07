@@ -1,8 +1,8 @@
+import { useDeleteTempSave } from 'hooks/useDeleteTempSave';
+import { useModal } from 'hooks/useModal';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { useDeleteTempSave } from 'hooks/useDeleteTempSave';
-import { useModal } from 'hooks/useModal';
 import { modalState } from 'recoil/modals';
 import { initialPostInputState, postInputState } from 'recoil/posts';
 import Editor from './components/editor/Editor';
@@ -20,6 +20,7 @@ function Write() {
   const { foundDetailPost } = location.state || {};
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
+  console.log(postInput.content);
 
   // 임시저장된 데이터 불러올지; 취소하면 날라가게
   useEffect(() => {

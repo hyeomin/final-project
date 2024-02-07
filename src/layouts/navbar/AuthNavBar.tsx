@@ -1,8 +1,8 @@
+import defaultImg from 'assets/defaultImg.jpg';
+import { useModal } from 'hooks/useModal';
 import { GoChevronDown } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import defaultImg from 'assets/defaultImg.jpg';
-import { useModal } from 'hooks/useModal';
 import { modalState } from 'recoil/modals';
 import { isSignUpState } from 'recoil/users';
 import { auth } from 'shared/firebase';
@@ -57,9 +57,9 @@ function AuthNavBar({ styledNav, setIsAuthToggleOpen }: Props) {
 
   return (
     <St.AuthContainer>
-      <St.StyledNavLnkWrite to="/write" onClick={onAuthCheckHandler} style={styledNav}>
+      <St.StyledNavLinkWrite to="/write" onClick={onAuthCheckHandler} style={styledNav}>
         글쓰기
-      </St.StyledNavLnkWrite>
+      </St.StyledNavLinkWrite>
       {currentUser ? (
         <>
           <St.UserInfo onClick={() => setIsAuthToggleOpen((prev) => !prev)}>
