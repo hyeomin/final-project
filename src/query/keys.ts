@@ -14,5 +14,6 @@ export const QUERY_KEYS = {
   NOCATEGORY: 'noCategory',
   NEWS: 'news',
   POPULAR: 'popular',
-  TOPUSERS: 'topusers'
+  TOPUSERS: 'topusers',
+  SELECTEDFOUR: 'selectedFour'
 };
