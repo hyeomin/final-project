@@ -105,7 +105,7 @@ function MyProfile() {
         {isLoading ? (
           <>
             <ProfileSkeleton />
-            <PostsSkeleton />
+            {activeTab !== 'calendar' && <PostsSkeleton />}
           </>
         ) : (
           <>

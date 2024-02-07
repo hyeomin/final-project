@@ -9,11 +9,13 @@
   width: 1000px;
   background-color: #eee;
   margin-top: 50px;
+  margin-bottom: 50px;
 
   @media screen and (max-width: 431px) {
     width: 100%;
     padding: 20px 40px;
     flex-direction: column;
+    margin-top: 0px;
   }
 }
 

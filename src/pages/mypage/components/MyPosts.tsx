@@ -30,7 +30,6 @@ const MyPosts = () => {
 
   return (
     <>
-      {isLoading && <PostsSkeleton />}
       <PostContainer>
         {myPosts?.length! === 0 ? (
           <div>내 게시물이 없습니다</div>

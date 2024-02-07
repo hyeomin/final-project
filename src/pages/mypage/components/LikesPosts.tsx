@@ -27,7 +27,6 @@ const LikesPosts = () => {
 
   return (
     <>
-      {isLoading && <PostsSkeleton />}
       <PostContainer>
         {likePosts?.length === 0 ? (
           <p style={{ display: 'flex', justifyContent: 'center' }}>좋아요 누른 게시물이 없습니다.</p>
