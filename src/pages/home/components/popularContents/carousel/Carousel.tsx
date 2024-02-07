@@ -6,6 +6,7 @@ import PostContentPreview from 'components/PostContentPreview';
 import { AuthContext } from 'context/AuthContext';
 import { useCarouselNavigation } from 'hooks/useCarouselNavigation';
 import { useLikeButton } from 'hooks/useLikeButton';
+import { QUERY_KEYS } from 'query/keys';
 import { useContext, useEffect, useState } from 'react';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
@@ -32,7 +33,7 @@ const Carousel = () => {
     isLoading: popularPostsIsLoading,
     error: popularPostsError
   } = useQuery({
-    queryKey: ['posts', 'popular'],
+    queryKey: [QUERY_KEYS.POSTS, 'popular'],
     queryFn: getPopularPosts,
     staleTime: 60_000
   });

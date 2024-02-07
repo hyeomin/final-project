@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UpdateLikedUsersType, updateLikedUsers } from 'api/homeApi';
-import { PostType } from 'types/PostType';
 import { QUERY_KEYS } from 'query/keys';
+import { PostType } from 'types/PostType';
 
 type MutationContext = {
   previousPosts: PostType[] | [];
@@ -13,11 +13,11 @@ const useLikeQuery = () => {
     mutationFn: updateLikedUsers,
 
     onMutate: async ({ id, currentUserId }) => {
-      await queryClient.cancelQueries({ queryKey: ['posts', 'popular'] });
-      const previousPosts = queryClient.getQueryData<PostType[]>(['posts', 'popular']);
+      await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS, 'popular'] });
+      const previousPosts = queryClient.getQueryData<PostType[]>([QUERY_KEYS.POSTS, 'popular']);
 
       if (currentUserId) {
-        queryClient.setQueryData(['posts', 'popular'], (old: PostType[] | []) => {
+        queryClient.setQueryData([QUERY_KEYS.POSTS, 'popular'], (old: PostType[] | []) => {
           return old.map((p) => {
             if (p.id === id) {
               const isLiked = p.likedUsers!.includes(currentUserId);

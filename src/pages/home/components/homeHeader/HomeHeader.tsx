@@ -1,4 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
+import { getAdminPosts } from 'api/homeApi';
+import defaultIllustration from 'assets/home/AdminPostIllustration.png';
+import Loader from 'components/Loader';
+import { QUERY_KEYS } from 'query/keys';
 import { useState } from 'react';
 import styled from 'styled-components';
 import 'swiper/css';
@@ -6,9 +10,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
-import { getAdminPosts } from 'api/homeApi';
-import defaultIllustration from 'assets/home/AdminPostIllustration.png';
-import Loader from 'components/Loader';
 import St from '../popularContents/carousel/style';
 import HomeHeaderCenterBox from './homeHeaderCenterBox/HomeHeaderCenterBox';
 import HomeHeaderSkeleton from './skeleton/HomeHeaderSkeleton';
@@ -21,7 +22,7 @@ const HomeHeader = () => {
     isLoading,
     error
   } = useQuery({
-    queryKey: ['posts', 'admin', 'selectedFour'],
+    queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.ADMIN, 'selectedFour'],
     queryFn: getAdminPosts,
     staleTime: 60_000
   });
