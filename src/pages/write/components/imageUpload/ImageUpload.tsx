@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { deleteImage, uploadSingleImage } from 'api/postApi';
+import DragNDrop from 'assets/icons/dragndrop.png';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { useModal } from 'hooks/useModal';
+import { QUERY_KEYS } from 'query/keys';
 import { useRef } from 'react';
 import { GoTrash } from 'react-icons/go';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import { deleteImage, uploadSingleImage } from 'api/postApi';
-import DragNDrop from 'assets/icons/dragndrop.png';
-import { useModal } from 'hooks/useModal';
-import { QUERY_KEYS } from 'query/keys';
 import { modalState } from 'recoil/modals';
 import { imageUploadingStatusState, isEditingPostState, postInputState } from 'recoil/posts';
 import { db } from 'shared/firebase';
@@ -38,7 +38,7 @@ function ImageUpload() {
     onSuccess: (downloadedImage) => {
       if (downloadedImage) {
         // 정상적으로 url을 반환 받았는지 확인
-        queryClient.invalidateQueries({ queryKey: ['coverImages'] });
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.COVER_IMAGES] });
 
         setPostInput((currentInput) => {
           // 그 전에 보여지고 있던 로컬 파일의 미리보기 없애기
