@@ -16,6 +16,7 @@ import { auth } from 'shared/firebase';
 import { FoundDetailPostProps } from 'types/PostType';
 import { extractFirst50Words } from 'util/extractContentText';
 import { getFormattedDate } from 'util/formattedDateAndTime';
+import { getTransformedImage } from 'util/getTransformedImage';
 import LikeButton from '../LikeButton';
 import EditNDeleteToggle from '../editNDeleteToggle/EditNDeleteToggle';
 import St from './style';
@@ -97,7 +98,7 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
             </St.EditNDeleteContainer>
           )}
         </St.BodyHeader>
-        <St.ContentBody dangerouslySetInnerHTML={{ __html: foundDetailPost?.content as string }} />
+        <St.ContentBody dangerouslySetInnerHTML={{ __html: getTransformedImage(foundDetailPost?.content) as string }} />
         <St.AdditionalInfoContainer>
           <St.DetailInfo>
             <div>
