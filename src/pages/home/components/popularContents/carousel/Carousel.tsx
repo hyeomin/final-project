@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchUsers } from 'api/axios';
 import { getPopularPosts } from 'api/homeApi';
 import defaultUserProfile from 'assets/realMango.png';
 import PostContentPreview from 'components/PostContentPreview';
@@ -18,15 +17,12 @@ import { getThumbnailSource } from 'util/getThumbnailSource';
 import CarouselSkeleton from './skeleton/CarouselSkeleton';
 import St from './style';
 import { QUERY_KEYS } from 'query/keys';
+import { getAllUsers } from 'api/authApi';
 
 const Carousel = () => {
   const authContext = useContext(AuthContext);
   const currentUser = authContext?.currentUser;
   const currentUserId = currentUser?.uid;
-
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   const {
     data: popularPosts,
@@ -35,32 +31,24 @@ const Carousel = () => {
   } = useQuery({
     queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.POPULAR],
     queryFn: getPopularPosts,
-    staleTime: 60_000
+    staleTime: 60_000 * 5
   });
   if (popularPostsError) {
     console.log('인기 게시물 가져오기 실패!', popularPostsError);
   }
 
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        setIsLoading(true);
-        const fetchedUsers = await fetchUsers();
-        if (fetchedUsers) {
-          setUsers(fetchedUsers);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        setError('users 데이터 fetch 실패!');
-        setIsLoading(false);
-      }
-    };
+  const {
+    data: users,
+    isLoading: userIsLoading,
+    error: usersError
+  } = useQuery({
+    queryKey: [QUERY_KEYS.USERS],
+    queryFn: getAllUsers,
+    staleTime: 60_000 * 5
+  });
 
-    getUsers();
-  }, []);
-
-  if (error) {
-    console.log('users 데이터 가져오기 실패!', error);
+  if (usersError) {
+    console.log('users 데이터 가져오기 실패!', usersError);
   }
 
   const onClickLikeButton = useLikeButton();
@@ -92,7 +80,7 @@ const Carousel = () => {
           <SlArrowLeft />
         </St.Button>
       )}
-      {popularPostsIsLoading && isLoading ? (
+      {popularPostsIsLoading && userIsLoading ? (
         <CarouselSkeleton />
       ) : (
         <St.SlideWrapper>
@@ -111,7 +99,7 @@ const Carousel = () => {
               <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
             ) : (
               popularPosts?.slice(currentSlide, currentSlide + swiperCnt).map((post, idx) => {
-                const user = users.find((user) => user.uid === post.uid);
+                const user = users?.find((user) => user.uid === post.uid);
                 return (
                   <SwiperSlide key={idx}>
                     <Link key={post.id} to={`/detail/${post.id}`}>

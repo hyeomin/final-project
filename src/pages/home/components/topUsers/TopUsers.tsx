@@ -22,7 +22,7 @@ const TopUsers = () => {
   } = useQuery({
     queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.TOPUSERS],
     queryFn: getTopUsers,
-    staleTime: 60_000
+    staleTime: 60_000 * 5
   });
 
   if (topUsersError) {
