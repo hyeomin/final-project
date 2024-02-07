@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import { updatePost } from 'api/postApi';
 import { useModal } from 'hooks/useModal';
 import { QUERY_KEYS } from 'query/keys';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { initialPostInputState, postInputState } from 'recoil/posts';
 import { stripHtml } from 'util/extractContentText';
 import { CustomButton } from './styles';
@@ -60,7 +60,7 @@ function EditUploadButton({ postId }: Props) {
     }
 
     // 유효성 검사 (content에서 텍스트만 발라냄)
-    if (title.length === 0 || stripHtml(content).trim().length === 0) {
+    if (title.length === 0 || stripHtml(content, true).trim().length === 0) {
       const onClickSave = () => {
         modal.close();
       };

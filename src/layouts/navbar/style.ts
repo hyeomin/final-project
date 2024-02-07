@@ -118,7 +118,7 @@ const AuthContainer = styled.div`
   }
 `;
 
-const StyledNavLnkWrite = styled(NavLink)`
+const StyledNavLinkWrite = styled(NavLink)`
   font-weight: normal;
 
   //모바일 : 세로
@@ -192,6 +192,6 @@ export default {
   RightNav,
   LogoContainerFooter,
   LoginModal,
-  StyledNavLnkWrite,
+  StyledNavLinkWrite,
   GuideToggle
 };
