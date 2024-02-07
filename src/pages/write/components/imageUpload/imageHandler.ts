@@ -25,8 +25,6 @@ const imageHandler = (quillRef: React.RefObject<ReactQuill>) => {
       // Use axios for the upload to Cloudinary
       const response = await axios.post(uploadUrl, formData);
       const data = await response.data;
-      console.log('data-->', data);
-      console.log('data.url-->', data.url);
 
       // Insert the uploaded image URL into the editor
       editor.insertEmbed(range.index, 'image', data.url);
@@ -34,18 +32,6 @@ const imageHandler = (quillRef: React.RefObject<ReactQuill>) => {
     } catch (error) {
       console.error('Error uploading image: ', error);
     }
-
-    // try {
-    //   const storageRef = ref(storage, `image/${file.name}`);
-    //   await uploadBytes(storageRef, file).then((snapshot) => {
-    //     getDownloadURL(snapshot.ref).then((url) => {
-    //       editor.insertEmbed(range.index, 'image', url);
-    //       editor.setSelection(range.index + 1, 0);
-    //     });
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
   });
 };
 
