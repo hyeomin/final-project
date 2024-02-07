@@ -266,6 +266,32 @@ const Button = styled.button<ButtonProps>`
     `}
 `;
 
+const NavigationButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 90vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+
+  & div {
+    cursor: pointer;
+  }
+
+  & img {
+    width: 60px;
+  }
+
+  @media screen and (max-width: 431px) {
+    width: 85vw;
+
+    & img {
+      width: 40px;
+    }
+  }
+`;
+
 export default {
   Container,
   PlaceHolder,
@@ -280,5 +306,6 @@ export default {
   InteractionInfo,
   HeartIcon,
   HeartFillIcon,
-  Button
+  Button,
+  NavigationButtonContainer
 };
