@@ -100,8 +100,6 @@ const Carousel = () => {
             }}
             modules={[Pagination, Navigation]}
             className="mySwiper"
-            // onSlideChange={() => {}}
-            // onSwiper={(swiper: SwiperClass) => {}}
             onSwiper={setSwiperInstance}
             onSlideChange={handleSlideChange}
             navigation={true}
