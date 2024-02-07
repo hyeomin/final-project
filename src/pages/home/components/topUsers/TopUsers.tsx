@@ -6,48 +6,36 @@ import thirdPlace from 'assets/home/3rdPlace.png';
 import TopUsersSkeleton from './skeleton/TopUsersSkeleton';
 import defaultUserProfile from 'assets/realMango.png';
 import St from './style';
-import { fetchUsers } from 'api/axios';
-import { useEffect, useState } from 'react';
+import { QUERY_KEYS } from 'query/keys';
+import { getAllUsers } from 'api/authApi';
 
 const TopUsers = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
   const {
     data: topUsers,
     isLoading: topUsersIsLoading,
     error: topUsersError
   } = useQuery({
-    queryKey: ['posts', 'topUsers'],
+    queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.TOPUSERS],
     queryFn: getTopUsers,
-    staleTime: 60_000
+    staleTime: 60_000 * 5
   });
 
   if (topUsersError) {
     console.log('top10 users 가져오기 실패!', topUsersError);
   }
 
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        setIsLoading(true);
-        const fetchedUsers = await fetchUsers();
-        if (fetchedUsers) {
-          setUsers(fetchedUsers);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        setError('users 데이터 fetch 실패!');
-        setIsLoading(false);
-      }
-    };
+  const {
+    data: users,
+    isLoading: userIsLoading,
+    error: usersError
+  } = useQuery({
+    queryKey: [QUERY_KEYS.USERS],
+    queryFn: getAllUsers,
+    staleTime: 60_000 * 5
+  });
 
-    getUsers();
-  }, []);
-
-  if (error) {
-    console.log('users 데이터 가져오기 실패!', error);
+  if (usersError) {
+    console.log('users 데이터 가져오기 실패!', usersError);
   }
 
   return (
@@ -56,7 +44,7 @@ const TopUsers = () => {
         <h1>TOP 10</h1>
         <h3>망고의 에코라이프 인플루언서들을 확인하세요!</h3>
       </St.Title>
-      {topUsersIsLoading && isLoading && <TopUsersSkeleton />}
+      {topUsersIsLoading && userIsLoading && <TopUsersSkeleton />}
       {topUsers?.length === 0 ? (
         <>
           <St.PlaceHolder>TOP10 데이터를 찾을 수 없습니다.</St.PlaceHolder>
@@ -64,7 +52,7 @@ const TopUsers = () => {
       ) : (
         <St.UserList>
           {topUsers?.map((topUser, index) => {
-            const user = users.find((user) => user.uid === topUser.uid);
+            const user = users?.find((user) => user.uid === topUser.uid);
             return (
               <St.UserInfo key={index}>
                 <St.ProfileImage>

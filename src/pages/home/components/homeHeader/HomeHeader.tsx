@@ -12,6 +12,7 @@ import Loader from 'components/Loader';
 import St from '../popularContents/carousel/style';
 import HomeHeaderCenterBox from './homeHeaderCenterBox/HomeHeaderCenterBox';
 import HomeHeaderSkeleton from './skeleton/HomeHeaderSkeleton';
+import { QUERY_KEYS } from 'query/keys';
 
 const HomeHeader = () => {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
@@ -21,7 +22,7 @@ const HomeHeader = () => {
     isLoading,
     error
   } = useQuery({
-    queryKey: ['posts', 'admin', 'selectedFour'],
+    queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.ADMIN, QUERY_KEYS.SELECTEDFOUR],
     queryFn: getAdminPosts,
     staleTime: 60_000
   });

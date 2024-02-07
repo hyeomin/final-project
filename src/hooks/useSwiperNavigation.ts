@@ -10,21 +10,13 @@ type Props = {
 const useSwiperNavigation = ({ swiperInstance, currentIndex, maxIndex }: Props) => {
   const goNext = () => {
     if (swiperInstance) {
-      if (currentIndex === maxIndex) {
-        swiperInstance.slideTo(0);
-      } else {
-        swiperInstance.slideNext();
-      }
+      currentIndex === maxIndex ? swiperInstance.slideTo(0) : swiperInstance.slideNext();
     }
   };
 
   const goPrev = () => {
     if (swiperInstance) {
-      if (currentIndex === 0) {
-        swiperInstance.slideTo(maxIndex);
-      } else {
-        swiperInstance.slidePrev();
-      }
+      currentIndex === 0 ? swiperInstance.slideTo(maxIndex) : swiperInstance.slidePrev();
     }
   };
   return { goNext, goPrev };
