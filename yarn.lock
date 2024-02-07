@@ -1158,6 +1158,39 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@cloudinary/html@^1.12.0":
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/@cloudinary/html/-/html-1.12.0.tgz#e73ff4b3753621bf4272ef12e154d979d9e50185"
+  integrity sha512-WwmB1de69uLYO3BWZjaNbY94EFE5KMRaNSFBjckC4gL77Je/EoVNGOi7qpUYg0sbnQ4hCEp61//yghDh3JKtIg==
+  dependencies:
+    "@types/lodash.clonedeep" "^4.5.6"
+    "@types/lodash.debounce" "^4.0.6"
+    "@types/node" "^14.14.10"
+    lodash.clonedeep "^4.5.0"
+    lodash.debounce "^4.0.8"
+    typescript "^4.1.2"
+
+"@cloudinary/react@^1.12.0":
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/@cloudinary/react/-/react-1.12.0.tgz#4f643f68f799f280110a62c076eec5b13156a826"
+  integrity sha512-JDp+CvGqLXJwJ662Yz1WcHe+y5X9peyRB8B2vkBF3bJlxLLTv1A7OyVTVu0cJB5CS6Q5xquWngA7O8/d4aH1+w==
+  dependencies:
+    "@cloudinary/html" "^1.12.0"
+
+"@cloudinary/transformation-builder-sdk@^1.10.3":
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/@cloudinary/transformation-builder-sdk/-/transformation-builder-sdk-1.10.3.tgz#4ea74ff91744ceac9193df55084cba548432768e"
+  integrity sha512-ybLvj4+WDK50BcPAa1aBKJ/etWiesmBzcEJxVorMjus+fKej10TlHmsUIqFltKAj55MRodXijV+iuzKeErU1Zg==
+  dependencies:
+    "@cloudinary/url-gen" "^1.7.0"
+
+"@cloudinary/url-gen@^1.16.1", "@cloudinary/url-gen@^1.7.0":
+  version "1.16.1"
+  resolved "https://registry.yarnpkg.com/@cloudinary/url-gen/-/url-gen-1.16.1.tgz#ba6a3e940f7754dfe8b368ab04a353d55efd3533"
+  integrity sha512-lRg0LlRJKrHHhSAedwR7u4YDvPQ2zuyXH3FpmyD8Ki6+/pcRVEJmkokKYnnbRNsu40smXFNJa6IHqjxsfbMmQg==
+  dependencies:
+    "@cloudinary/transformation-builder-sdk" "^1.10.3"
+
 "@craco/craco@^7.1.0":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@craco/craco/-/craco-7.1.0.tgz#12bd394c7f0334e214302e4d35a1768f68042fbb"
@@ -2703,6 +2736,20 @@
   dependencies:
     "@types/node" "*"
 
+"@types/lodash.clonedeep@^4.5.6":
+  version "4.5.9"
+  resolved "https://registry.yarnpkg.com/@types/lodash.clonedeep/-/lodash.clonedeep-4.5.9.tgz#ea48276c7cc18d080e00bb56cf965bcceb3f0fc1"
+  integrity sha512-19429mWC+FyaAhOLzsS8kZUsI+/GmBAQ0HFiCPsKGU+7pBXOQWhyrY6xNNDwUSX8SMZMJvuFVMF9O5dQOlQK9Q==
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash.debounce@^4.0.6":
+  version "4.0.9"
+  resolved "https://registry.yarnpkg.com/@types/lodash.debounce/-/lodash.debounce-4.0.9.tgz#0f5f21c507bce7521b5e30e7a24440975ac860a5"
+  integrity sha512-Ma5JcgTREwpLRwMM+XwBR7DaWe96nC38uCBDFKZWbNKD+osjVzdpnUSwBcqCptrp16sSOLBAUb50Car5I0TCsQ==
+  dependencies:
+    "@types/lodash" "*"
+
 "@types/lodash.memoize@^4.1.7":
   version "4.1.9"
   resolved "https://registry.yarnpkg.com/@types/lodash.memoize/-/lodash.memoize-4.1.9.tgz#9f8912d39b6e450c0d342a2b74c99d331bf2016b"
@@ -2738,6 +2785,11 @@
   integrity sha512-GPmeN1C3XAyV5uybAf4cMLWT9fDWcmQhZVtMFu7OR32WjrqGG+Wnk2V1d0bmtUyE/Zy1QJ9BxyiTih9z8Oks8A==
   dependencies:
     undici-types "~5.26.4"
+
+"@types/node@^14.14.10":
+  version "14.18.63"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.63.tgz#1788fa8da838dbb5f9ea994b834278205db6ca2b"
+  integrity sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==
 
 "@types/node@^16.11.26":
   version "16.18.77"
@@ -7751,6 +7803,11 @@ lodash.camelcase@^4.3.0:
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
   integrity sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==
 
+lodash.clonedeep@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
+  integrity sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ==
+
 lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
@@ -10997,7 +11054,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^4.4.2:
+typescript@^4.1.2, typescript@^4.4.2:
   version "4.9.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==

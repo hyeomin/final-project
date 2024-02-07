@@ -111,6 +111,7 @@ const Contents = styled.ul`
 
   @media screen and (max-width: 431px) {
     grid-template-columns: 50% 50%;
+
     gap: 0px;
   }
 `;

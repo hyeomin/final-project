@@ -25,12 +25,7 @@ export type Data = {
 
 function Signup() {
   const modal = useModal();
-  //const setIsModalOpen = useSetRecoilState(modalState);
   const [isModalOpen, setIsModalOpen] = useRecoilState(modalState);
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [nickname, setNickname] = useState('');
-  // const [passwordCheck, SetPasswordCheck] = useState('');
   const storage = getStorage();
   const [imageUpload, setImageUpload] = useState<any>('');
   const [image, setImage] = useState('');
@@ -40,7 +35,6 @@ function Signup() {
   const [isChecked, setIsChecked] = useState(false);
   const [isNicknameChecked, setIsNicknameChecked] = useState(false);
 
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -48,14 +42,12 @@ function Signup() {
     getValues,
     formState: { errors }
   } = useForm<Data>({ mode: 'onChange' });
+
   // 유효성 검사
-  // 정규식
   const emailRegex = /^[a-z0-9]{4,}@[a-z0-9]{3,}\.[a-z]{2,}$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
-  // const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/;
   const nicknameRegex = /^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,8}$/i;
-  // 파일이 업로드되면 스토리지에 업로드하고 다운 즉시 이미지가 보여짐
-  // 폴더/파일
+
   useEffect(() => {
     const imageRef = ref(storage, 'userProfile/' + `${auth.currentUser?.uid}`);
     if (!imageUpload) return;
@@ -69,7 +61,6 @@ function Signup() {
   const signUp: SubmitHandler<Data> = async ({ email, password, nickname, passwordCheck }: Data) => {
     try {
       if (!isChecked || !isNicknameChecked) {
-        // isChecked 상태가 false이거나 isFormValid 상태가 false일 때는 함수를 종료
         return;
       }
       if (!isChecked) {
@@ -93,7 +84,6 @@ function Signup() {
 
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      //console.log('userCredential', userCredential);
       const user = userCredential.user;
       if (user !== null) {
         await updateProfile(user, {
@@ -138,7 +128,6 @@ function Signup() {
       return;
     }
 
-    // 회원가입 state 업데이트 (Ashley)
     setIsSignUp(false);
     signOut(auth);
   };
@@ -272,7 +261,6 @@ function Signup() {
       };
       modal.open(openModalParams);
       setIsModalOpen((prev) => ({ ...prev, isModalOpen08: true }));
-      // setIsChecked(true);
       setIsNicknameChecked(true);
       setIsFormValid(true);
     }

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import defaultProfile from 'assets/defaultImg.jpg';
 import PostContentPreview from 'components/PostContentPreview';
 import { AuthContext } from 'context/AuthContext';
@@ -21,8 +21,8 @@ import {
   PostTitleAndContent,
   SinglePost
 } from 'pages/community/components/communityPostList/style';
-import { getThumbnailSource } from 'util/getThumbnailSource';
 import { QUERY_KEYS } from 'query/keys';
+import { getThumbnailSource } from 'util/getThumbnailSource';
 import { getAllUsers } from 'api/authApi';
 
 interface PostCardProps {
@@ -62,7 +62,7 @@ function PostCard({ post }: PostCardProps) {
       }
     },
     onMutate: async (postId) => {
-      queryClient.setQueriesData<PostType[]>({ queryKey: ['posts'] }, (prevPosts) => {
+      queryClient.setQueriesData<PostType[]>({ queryKey: [QUERY_KEYS.POSTS] }, (prevPosts) => {
         if (!Array.isArray(prevPosts)) return [];
 
         const nextPosts = produce(prevPosts, (draftPosts) => {
@@ -78,7 +78,7 @@ function PostCard({ post }: PostCardProps) {
       });
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.POSTS] });
     }
   });
 

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UpdateLikedUsersType, updateLikedUsers } from 'api/homeApi';
-import { PostType } from 'types/PostType';
 import { QUERY_KEYS } from 'query/keys';
+import { PostType } from 'types/PostType';
 
 type MutationContext = {
   previousPosts: PostType[] | [];

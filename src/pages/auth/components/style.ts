@@ -10,7 +10,6 @@ const AuthWrapper = styled.div`
   margin: 60px 0px;
   width: 100%;
   max-width: 1000px;
-  //min-width: 600px;
 `;
 
 const SubTitle = styled.div`
