@@ -35,8 +35,6 @@ function Detail() {
     console.log('상세페이지 게시글 불러오기 실패', error.message);
   }
 
-  console.log('detail');
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

@@ -6,8 +6,6 @@ import thirdPlace from 'assets/home/3rdPlace.png';
 import TopUsersSkeleton from './skeleton/TopUsersSkeleton';
 import defaultUserProfile from 'assets/realMango.png';
 import St from './style';
-import { fetchUsers } from 'api/axios';
-import { useEffect, useState } from 'react';
 import { QUERY_KEYS } from 'query/keys';
 import { getAllUsers } from 'api/authApi';
 

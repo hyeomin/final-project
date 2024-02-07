@@ -4,13 +4,12 @@ import PostContentPreview from 'components/PostContentPreview';
 import { AuthContext } from 'context/AuthContext';
 import { arrayRemove, arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { produce } from 'immer';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { useNavigate } from 'react-router-dom';
 import { db } from 'shared/firebase';
 import { PostType } from 'types/PostType';
 import { getFormattedDate_yymmdd } from 'util/formattedDateAndTime';
-
 import {
   AuthorNameAndDate,
   CommentAndLikes,
@@ -23,7 +22,8 @@ import {
   SinglePost
 } from 'pages/community/components/communityPostList/style';
 import { getThumbnailSource } from 'util/getThumbnailSource';
-import { fetchUsers } from 'api/axios';
+import { QUERY_KEYS } from 'query/keys';
+import { getAllUsers } from 'api/authApi';
 
 interface PostCardProps {
   post: PostType;
@@ -35,14 +35,6 @@ function PostCard({ post }: PostCardProps) {
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
   const queryClient = useQueryClient();
-
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  if (error) {
-    console.log('특정 유저 가져오기 실패(PostCard)', error);
-  }
 
   const { mutateAsync: toggleLike } = useMutation({
     mutationFn: async (postId: string) => {
@@ -90,29 +82,17 @@ function PostCard({ post }: PostCardProps) {
     }
   });
 
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        setIsLoading(true);
-        const fetchedUsers = await fetchUsers();
-        if (fetchedUsers) {
-          setUsers(fetchedUsers);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        setError('users 데이터 fetch 실패!');
-        setIsLoading(false);
-      }
-    };
+  const { data: users, error: usersError } = useQuery({
+    queryKey: [QUERY_KEYS.USERS],
+    queryFn: getAllUsers,
+    staleTime: 60_000 * 5
+  });
 
-    getUsers();
-  }, []);
-
-  if (error) {
-    console.log('users 데이터 가져오기 실패!', error);
+  if (usersError) {
+    console.log('users 데이터 가져오기 실패!', usersError);
   }
 
-  const user = users.find((user) => user.uid === post.uid);
+  const user = users?.find((user) => user.uid === post.uid);
 
   const handleClickLikeButton: React.MouseEventHandler = async (e) => {
     e.stopPropagation();
@@ -141,7 +121,6 @@ function PostCard({ post }: PostCardProps) {
           <p>{post.title}</p>
           {post.content && <PostContentPreview postContent={post.content} />}
         </PostTitleAndContent>
-
         <CommentAndLikes>
           <span>
             <GoEye />
