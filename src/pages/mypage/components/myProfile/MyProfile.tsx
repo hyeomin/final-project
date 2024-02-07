@@ -13,7 +13,7 @@ import MyPosts from '../MyPosts';
 import EditProfile from './EditProfile';
 import St from './style';
 import ProfileSkeleton from './myPageSkeleton/ProfileSkeleton';
-import PostCardSkeleton from '../PostCard/PostCardSkeleton/PostCardSkeleton';
+import PostsSkeleton from 'components/mypage/postsSkeleton/PostsSkeleton';
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState('calendar');
@@ -105,7 +105,7 @@ function MyProfile() {
         {isLoading ? (
           <>
             <ProfileSkeleton />
-            <PostCardSkeleton />
+            <PostsSkeleton />
           </>
         ) : (
           <>
