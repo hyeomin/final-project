@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchUsers } from 'api/axios';
+import { getAllUsers } from 'api/authApi';
 import { getPopularPosts } from 'api/homeApi';
 import defaultUserProfile from 'assets/realMango.png';
 import PostContentPreview from 'components/PostContentPreview';
 import { AuthContext } from 'context/AuthContext';
 import { useLikeButton } from 'hooks/useLikeButton';
 import useSwiperNavigation from 'hooks/useSwiperNavigation';
+import { QUERY_KEYS } from 'query/keys';
 import { useContext, useEffect, useState } from 'react';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
 import { Link } from 'react-router-dom';
-
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import { getThumbnailSource } from 'util/getThumbnailSource';
@@ -17,7 +17,6 @@ import CarouselSkeleton from './skeleton/CarouselSkeleton';
 
 import swipeLeft from 'assets/icons/swipeLeft.png';
 import swipeRight from 'assets/icons/swipeRight.png';
-import styled from 'styled-components';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import St from './style';
@@ -27,43 +26,31 @@ const Carousel = () => {
   const currentUser = authContext?.currentUser;
   const currentUserId = currentUser?.uid;
 
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
   const {
     data: popularPosts,
     isLoading: popularPostsIsLoading,
     error: popularPostsError
   } = useQuery({
-    queryKey: ['posts', 'popular'],
+    queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.POPULAR],
     queryFn: getPopularPosts,
-    staleTime: 60_000
+    staleTime: 60_000 * 5
   });
   if (popularPostsError) {
     console.log('인기 게시물 가져오기 실패!', popularPostsError);
   }
 
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        setIsLoading(true);
-        const fetchedUsers = await fetchUsers();
-        if (fetchedUsers) {
-          setUsers(fetchedUsers);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        setError('users 데이터 fetch 실패!');
-        setIsLoading(false);
-      }
-    };
+  const {
+    data: users,
+    isLoading: userIsLoading,
+    error: usersError
+  } = useQuery({
+    queryKey: [QUERY_KEYS.USERS],
+    queryFn: getAllUsers,
+    staleTime: 60_000 * 5
+  });
 
-    getUsers();
-  }, []);
-
-  if (error) {
-    console.log('users 데이터 가져오기 실패!', error);
+  if (usersError) {
+    console.log('users 데이터 가져오기 실패!', usersError);
   }
 
   // swiper 관련 ----
@@ -103,7 +90,7 @@ const Carousel = () => {
 
   return (
     <St.Container>
-      {popularPostsIsLoading && isLoading ? (
+      {popularPostsIsLoading && userIsLoading ? (
         <CarouselSkeleton />
       ) : (
         <St.SlideWrapper>
@@ -124,7 +111,7 @@ const Carousel = () => {
               <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
             ) : (
               popularPosts?.map((post, idx) => {
-                const user = users.find((user) => user.uid === post.uid);
+                const user = users?.find((user) => user.uid === post.uid);
                 return (
                   <SwiperSlide key={idx}>
                     <Link key={post.id} to={`/detail/${post.id}`}>
@@ -181,41 +168,15 @@ const Carousel = () => {
         </St.SlideWrapper>
       )}
       {popularPosts && (
-        <NavigationButtonContainer>
+        <St.NavigationButtonContainer>
           <div onClick={goPrev}>{currentIndex > 0 && <img src={swipeLeft} alt="Previous" />}</div>
           <div onClick={goNext}>
             {currentIndex < Math.floor(popularPosts.length - slidesPerView) && <img src={swipeRight} alt="Next" />}
           </div>
-        </NavigationButtonContainer>
+        </St.NavigationButtonContainer>
       )}
     </St.Container>
   );
 };
 
 export default Carousel;
-
-const NavigationButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 90vw;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-
-  & div {
-    cursor: pointer;
-  }
-
-  & img {
-    width: 60px;
-  }
-
-  @media screen and (max-width: 431px) {
-    width: 85vw;
-
-    & img {
-      width: 40px;
-    }
-  }
-`;

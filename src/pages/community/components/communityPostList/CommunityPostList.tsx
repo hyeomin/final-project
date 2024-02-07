@@ -4,9 +4,9 @@ import {
   QueryKey,
   useInfiniteQuery,
   useMutation,
+  useQuery,
   useQueryClient
 } from '@tanstack/react-query';
-import { fetchUsers } from 'api/axios';
 import mangoCover from 'assets/mangoDefaultCover.png';
 import defaultUserProfile from 'assets/realMango.png';
 import Loader from 'components/Loader';
@@ -37,6 +37,7 @@ import St, {
   PostTitleAndContent,
   SinglePost
 } from './style';
+import { getAllUsers } from 'api/authApi';
 // import { User } from 'firebase/auth';
 
 interface PostListProps {
@@ -64,10 +65,6 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const queryClient = useQueryClient();
   const modal = useModal();
   const setIsModalOpen = useSetRecoilState(modalState);
-
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   //더보기
   const {
@@ -209,37 +206,29 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     await toggleLike({ postId: id, postData: post });
   };
 
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        setIsLoading(true);
-        const fetchedUsers = await fetchUsers();
-        if (fetchedUsers) {
-          setUsers(fetchedUsers);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        setError('users 데이터 fetch 실패!');
-        setIsLoading(false);
-      }
-    };
+  const {
+    data: users,
+    isLoading: userIsLoading,
+    error: usersError
+  } = useQuery({
+    queryKey: [QUERY_KEYS.USERS],
+    queryFn: getAllUsers,
+    staleTime: 60_000 * 5
+  });
 
-    getUsers();
-  }, []);
-
-  if (error) {
-    console.log('users 데이터 가져오기 실패!', error);
+  if (usersError) {
+    console.log('users 데이터 가져오기 실패!', usersError);
   }
 
   return (
     <St.PostListContainer>
       <div>
-        {moreDataIsLoading && isLoading ? (
+        {moreDataIsLoading && userIsLoading ? (
           <PostsSkeleton />
         ) : (
           <PostContainer>
             {posts?.map((post, idx) => {
-              const user = users.find((user) => user.uid === post.uid);
+              const user = users?.find((user) => user.uid === post.uid);
               return (
                 <Link key={post.id} to={`/detail/${post.id}`}>
                   <SinglePost>

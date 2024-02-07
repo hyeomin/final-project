@@ -12,5 +12,8 @@ export const QUERY_KEYS = {
   COVER_IMAGES: 'coverImages',
   TOTAL: 'total',
   NOCATEGORY: 'noCategory',
-  NEWS: 'news'
+  NEWS: 'news',
+  POPULAR: 'popular',
+  TOPUSERS: 'topusers',
+  SELECTEDFOUR: 'selectedFour'
 };

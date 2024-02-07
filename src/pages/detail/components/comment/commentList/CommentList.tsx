@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchUsers } from 'api/axios';
 import { getComments } from 'api/commentApi';
 import { default as MangoLogo, default as defaultUserProfile } from 'assets/realMango.png';
 import { AuthContext } from 'context/AuthContext';
@@ -10,6 +9,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FoundDetailPostProps } from 'types/PostType';
 import { getFormattedDate } from 'util/formattedDateAndTime';
 import St from './style';
+import { getAllUsers } from 'api/authApi';
 
 const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const modal = useModal();
@@ -19,33 +19,17 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
   const [editingText, setEditingText] = useState('');
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
 
-  const [users, setUsers] = useState<User[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
   const authContext = useContext(AuthContext);
   const currentUserId = authContext?.currentUser?.uid;
 
-  useEffect(() => {
-    const getUsers = async () => {
-      try {
-        setIsLoading(true);
-        const fetchedUsers = await fetchUsers();
-        if (fetchedUsers) {
-          setUsers(fetchedUsers);
-        }
-        setIsLoading(false);
-      } catch (error) {
-        setError('users 데이터 fetch 실패!');
-        setIsLoading(false);
-      }
-    };
+  const { data: users, error: usersError } = useQuery({
+    queryKey: [QUERY_KEYS.USERS],
+    queryFn: getAllUsers,
+    staleTime: 60_000 * 5
+  });
 
-    getUsers();
-  }, []);
-
-  if (error) {
-    console.log('users 데이터 가져오기 실패!', error);
+  if (usersError) {
+    console.log('users 데이터 가져오기 실패!', usersError);
   }
 
   // 댓글목록 가져오기
@@ -55,7 +39,7 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
     staleTime: 60_000
   });
   if (CommentError) {
-    console.log('댓글 목록 가져오기 실패!', error);
+    console.log('댓글 목록 가져오기 실패!', CommentError);
   }
 
   //mutates
@@ -151,13 +135,12 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
         </St.SingleComment>
       ) : (
         comments?.map((comment) => {
-          const user = users.find((user) => user.uid === comment.uid);
+          const user = users?.find((user) => user.uid === comment.uid);
           return (
             <St.SingleComment key={comment.id}>
               <img src={user?.profileImg || defaultUserProfile} alt="profile" />
               <St.CommentDetail>
                 <St.NameAndTime>
-                  {/* <span>{comment.displayName}</span> */}
                   <span>{user?.displayName}</span>
                   <St.Time>{getFormattedDate(comment.createdAt)}</St.Time>
                 </St.NameAndTime>
