@@ -13,11 +13,11 @@ const useLikeQuery = () => {
     mutationFn: updateLikedUsers,
 
     onMutate: async ({ id, currentUserId }) => {
-      await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS, 'popular'] });
-      const previousPosts = queryClient.getQueryData<PostType[]>([QUERY_KEYS.POSTS, 'popular']);
+      await queryClient.cancelQueries({ queryKey: ['posts', 'popular'] });
+      const previousPosts = queryClient.getQueryData<PostType[]>(['posts', 'popular']);
 
       if (currentUserId) {
-        queryClient.setQueryData([QUERY_KEYS.POSTS, 'popular'], (old: PostType[] | []) => {
+        queryClient.setQueryData(['posts', 'popular'], (old: PostType[] | []) => {
           return old.map((p) => {
             if (p.id === id) {
               const isLiked = p.likedUsers!.includes(currentUserId);

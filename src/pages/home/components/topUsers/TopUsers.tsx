@@ -1,14 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchUsers } from 'api/axios';
 import { getTopUsers } from 'api/homeApi';
 import firstPlace from 'assets/home/1stPlace.png';
 import secondPlace from 'assets/home/2ndPlace.png';
 import thirdPlace from 'assets/home/3rdPlace.png';
-import defaultUserProfile from 'assets/realMango.png';
-import { QUERY_KEYS } from 'query/keys';
-import { useEffect, useState } from 'react';
 import TopUsersSkeleton from './skeleton/TopUsersSkeleton';
+import defaultUserProfile from 'assets/realMango.png';
 import St from './style';
+import { fetchUsers } from 'api/axios';
+import { useEffect, useState } from 'react';
 
 const TopUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -20,7 +19,7 @@ const TopUsers = () => {
     isLoading: topUsersIsLoading,
     error: topUsersError
   } = useQuery({
-    queryKey: [QUERY_KEYS.POSTS, 'topUsers'],
+    queryKey: ['posts', 'topUsers'],
     queryFn: getTopUsers,
     staleTime: 60_000
   });
