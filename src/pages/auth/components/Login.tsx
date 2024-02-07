@@ -36,7 +36,7 @@ function Login() {
   const [errorMsg, setErrorMsg] = usePrintError('');
 
   const setIsSignUp = useSetRecoilState(isSignUpState);
-  const setRole = useSetRecoilState(roleState); // Set으로 변경
+  const setRole = useSetRecoilState(roleState);
 
   const authContext = useContext(AuthContext);
   const authCurrentUser = authContext?.currentUser;
