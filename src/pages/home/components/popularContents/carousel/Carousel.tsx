@@ -4,18 +4,22 @@ import { getPopularPosts } from 'api/homeApi';
 import defaultUserProfile from 'assets/realMango.png';
 import PostContentPreview from 'components/PostContentPreview';
 import { AuthContext } from 'context/AuthContext';
-import { useCarouselNavigation } from 'hooks/useCarouselNavigation';
 import { useLikeButton } from 'hooks/useLikeButton';
+import useSwiperNavigation from 'hooks/useSwiperNavigation';
 import { useContext, useEffect, useState } from 'react';
 import { GoComment, GoEye, GoHeart } from 'react-icons/go';
-import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
 import { Link } from 'react-router-dom';
-import 'swiper/css';
-import 'swiper/css/pagination';
+
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react';
 import { getThumbnailSource } from 'util/getThumbnailSource';
 import CarouselSkeleton from './skeleton/CarouselSkeleton';
+
+import swipeLeft from 'assets/icons/swipeLeft.png';
+import swipeRight from 'assets/icons/swipeRight.png';
+import styled from 'styled-components';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import St from './style';
 
 const Carousel = () => {
@@ -62,12 +66,25 @@ const Carousel = () => {
     console.log('users 데이터 가져오기 실패!', error);
   }
 
-  const onClickLikeButton = useLikeButton();
-
-  let swiperCnt = 7;
-  const { currentSlide, handlePrev, handleNext } = useCarouselNavigation(popularPosts?.length || 0, swiperCnt);
-
+  // swiper 관련 ----
+  const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [slidesPerView, setSlidesPerView] = useState(4);
+
+  // 커스텀 Swiper handler
+  const { goNext, goPrev } = useSwiperNavigation({
+    swiperInstance,
+    currentIndex,
+    setCurrentIndex,
+    maxIndex: popularPosts ? popularPosts.length - 1 : 0
+  });
+
+  const handleSlideChange = (swiper: SwiperClass) => {
+    setCurrentIndex(swiper.realIndex);
+  };
+  // ---- swiper 관련
+
+  const onClickLikeButton = useLikeButton();
 
   useEffect(() => {
     const handleResize = () => {
@@ -86,11 +103,6 @@ const Carousel = () => {
 
   return (
     <St.Container>
-      {currentSlide > 0 && (
-        <St.Button type="button" onClick={handlePrev} $buttonType="prev">
-          <SlArrowLeft />
-        </St.Button>
-      )}
       {popularPostsIsLoading && isLoading ? (
         <CarouselSkeleton />
       ) : (
@@ -101,15 +113,17 @@ const Carousel = () => {
             }}
             modules={[Pagination, Navigation]}
             className="mySwiper"
-            onSlideChange={() => {}}
-            onSwiper={(swiper: SwiperClass) => {}}
+            // onSlideChange={() => {}}
+            // onSwiper={(swiper: SwiperClass) => {}}
+            onSwiper={setSwiperInstance}
+            onSlideChange={handleSlideChange}
             navigation={true}
             slidesPerView={slidesPerView}
           >
             {popularPosts && popularPosts.length === 0 ? (
               <St.PlaceHolder>인기 게시물 데이터 없습니다.</St.PlaceHolder>
             ) : (
-              popularPosts?.slice(currentSlide, currentSlide + swiperCnt).map((post, idx) => {
+              popularPosts?.map((post, idx) => {
                 const user = users.find((user) => user.uid === post.uid);
                 return (
                   <SwiperSlide key={idx}>
@@ -166,14 +180,42 @@ const Carousel = () => {
           </Swiper>
         </St.SlideWrapper>
       )}
-
-      {popularPosts && currentSlide < popularPosts.length - swiperCnt && (
-        <St.Button type="button" onClick={handleNext} $buttonType="next">
-          <SlArrowRight />
-        </St.Button>
+      {popularPosts && (
+        <NavigationButtonContainer>
+          <div onClick={goPrev}>{currentIndex > 0 && <img src={swipeLeft} alt="Previous" />}</div>
+          <div onClick={goNext}>
+            {currentIndex < Math.floor(popularPosts.length - slidesPerView) && <img src={swipeRight} alt="Next" />}
+          </div>
+        </NavigationButtonContainer>
       )}
     </St.Container>
   );
 };
 
 export default Carousel;
+
+const NavigationButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 90vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+
+  & div {
+    cursor: pointer;
+  }
+
+  & img {
+    width: 60px;
+  }
+
+  @media screen and (max-width: 431px) {
+    width: 85vw;
+
+    & img {
+      width: 40px;
+    }
+  }
+`;
