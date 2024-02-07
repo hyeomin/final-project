@@ -122,7 +122,7 @@ export type likeCountPerUserType = {
 
 // TOP10 user list
 const getTopUsers = async () => {
-  const postRef = collection(db, 'posts');
+  const postRef = query(collection(db, 'posts'), where('role', '==', 'user'));
   const querySnapshot = await getDocs(postRef);
 
   const posts: UsersWithLikeCount[] = [];
