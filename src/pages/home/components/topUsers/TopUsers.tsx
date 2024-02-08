@@ -42,7 +42,7 @@ const TopUsers = () => {
     <St.Container>
       <St.Title>
         <h1>TOP 10</h1>
-        <h3>망고의 에코라이프 인플루언서들을 확인하세요!</h3>
+        <h2>망고의 에코라이프 인플루언서들을 확인하세요!</h2>
       </St.Title>
       {topUsersIsLoading && userIsLoading && <TopUsersSkeleton />}
       {topUsers?.length === 0 ? (
