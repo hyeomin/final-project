@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { GoChevronUp } from 'react-icons/go';
 import styled from 'styled-components';
 
 interface TopButtonProps {
@@ -31,6 +32,7 @@ const TopButton = ({ $position }: TopButtonProps) => {
     <>
       {isVisible && (
         <StyledButton $position={$position} onClick={scrollToTop}>
+          <GoChevronUp />
           TOP
         </StyledButton>
       )}
@@ -45,15 +47,17 @@ const StyledButton = styled.button<TopButtonProps>`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: transparent;
-  color: black;
-  border: 1px solid black;
+  background-color: rgba(34, 34, 34, 0.5); 
+  color: #fff;
+  border: none;
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 14px;
   z-index: 999;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
   @media screen and (max-width: 431px) {
     display: none;
   }
