@@ -4,7 +4,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
-import { getAdminPostList } from 'api/pageListApi';
+import { getAdminPostList, getFirstPage } from 'api/pageListApi';
 import { QUERY_KEYS } from 'query/keys';
 import '../swiperStyle.css';
 import Carousel from './carousel/Carousel';
@@ -14,9 +14,9 @@ const PopularContents = () => {
   const queryClient = useQueryClient();
   const handleHover = async () => {
     queryClient.prefetchInfiniteQuery({
-      queryKey: [QUERY_KEYS.ADMIN],
-      queryFn: getAdminPostList,
-      initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
+      queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.TOTAL],
+      queryFn: () => getFirstPage('total'),
+      initialPageParam: undefined,
       staleTime: 60_000 * 5
     });
   };

@@ -58,6 +58,12 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
         { id, postId: foundDetailPost.id },
         {
           onSuccess: () => {
+            //혜민
+            //댓글삭제시, 디테일페이지에만 반영되서, 이렇게 추가하였습니다.
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.POSTS]
+            });
+
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEYS.COMMENTS]
             });

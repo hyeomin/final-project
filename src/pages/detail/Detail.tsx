@@ -61,7 +61,7 @@ function Detail() {
           <PostShift postId={id} />
         </>
       )}
-      {foundDetailPost && (
+      {!isLoading && foundDetailPost && (
         <>
           <DetailHeader foundDetailPost={foundDetailPost} isLoading={isLoading} />
           <DetailBody foundDetailPost={foundDetailPost} isLoading={isLoading} />

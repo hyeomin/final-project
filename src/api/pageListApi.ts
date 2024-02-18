@@ -4,6 +4,8 @@ import {
   Query,
   QueryDocumentSnapshot,
   collection,
+  doc,
+  getDoc,
   getDocs,
   limit,
   orderBy,
@@ -11,8 +13,9 @@ import {
   startAfter,
   where
 } from 'firebase/firestore';
-import { db } from 'shared/firebase';
+import { auth, db } from 'shared/firebase';
 import { Category } from 'types/PostListType';
+import { PostType, PostTypeFirebase } from 'types/PostType';
 
 //관리자 (콘텐츠 by Mango)
 export const getAdminPostList = async (context: {
@@ -54,3 +57,52 @@ export const getCategoryPosts =
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs;
   };
+
+export const getFirstPage = async (category: Category): Promise<PostTypeFirebase[]> => {
+  let q: Query<DocumentData> = await query(
+    collection(db, 'posts'),
+    where('role', '==', 'user'),
+    orderBy('createdAt', 'desc'),
+    limit(12)
+  );
+  if (category !== 'total') {
+    q = query(q, where('category', '==', category));
+  }
+
+  const querySnapshot = await getDocs(q);
+
+  const posts: PostTypeFirebase[] = [];
+  querySnapshot.forEach((doc) => {
+    const postData = doc.data() as Omit<PostTypeFirebase, 'id'>;
+    const isLiked = auth.currentUser ? postData.likedUsers.includes(auth.currentUser.uid) : false;
+    posts.push({ id: doc.id, ...postData, isLiked: isLiked, snapshot: doc });
+  });
+  return posts;
+};
+
+export const getNextPage = async (lastVisible: string, category: Category): Promise<PostTypeFirebase[]> => {
+  // 여기에서는 lastItemId를 사용하여 문서 스냅샷 얻기
+  // lastItemId를 사용하여 마지막 문서 스냅샷을 찾기
+  const lastDocumentRef = doc(db, 'posts', lastVisible);
+  const lastSnapshot = await getDoc(lastDocumentRef);
+
+  let q: Query<DocumentData> = await query(
+    collection(db, 'posts'),
+    where('role', '==', 'user'),
+    orderBy('createdAt', 'desc'),
+    startAfter(lastSnapshot),
+    limit(4)
+  );
+  if (category !== 'total') {
+    q = query(q, where('category', '==', category));
+  }
+
+  const querySnapshot = await getDocs(q);
+  const posts: PostTypeFirebase[] = [];
+  querySnapshot.forEach((doc) => {
+    const postData = doc.data() as Omit<PostTypeFirebase, 'id'>;
+    const isLiked = auth.currentUser ? postData.likedUsers.includes(auth.currentUser.uid) : false;
+    posts.push({ id: doc.id, ...postData, isLiked: isLiked, snapshot: doc });
+  });
+  return posts;
+};
