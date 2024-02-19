@@ -7,14 +7,14 @@ import { createThumbnailImageFile } from 'util/imageResize';
 
 const addPost = async (newPost: Omit<PostType, 'id'>) => {
   const docRef = await addDoc(collection(db, QUERY_KEYS.POSTS), newPost);
-  console.log('Document written with ID: ', docRef.id);
+  // console.log('Document written with ID: ', docRef.id);
   const postId = docRef.id;
   return postId;
 };
 
 const deletePost = async (postId: string) => {
   await deleteDoc(doc(db, QUERY_KEYS.POSTS, postId));
-  console.log('게시글 삭제 완료');
+  //console.log('게시글 삭제 완료');
 };
 
 type uploadPostProps = {
@@ -26,7 +26,7 @@ type uploadPostProps = {
 
 const updatePost = async ({ editingPost, postId }: uploadPostProps) => {
   await updateDoc(doc(db, `${QUERY_KEYS.POSTS}/${postId}`), editingPost);
-  console.log('포스트 업데이트 성공');
+  //console.log('포스트 업데이트 성공');
 };
 
 export type uploadImageProps = {
@@ -37,7 +37,7 @@ const uploadSingleImage = async ({ coverImage }: uploadImageProps) => {
   const coverImagesRef = ref(storage, `${QUERY_KEYS.COVER_IMAGES}/${coverImage.name}`);
   const snapshot = await uploadBytes(coverImagesRef, coverImage);
   const coverImageUrl = await getDownloadURL(snapshot.ref);
-  console.log('이미지 업로드 및 다운로드 성공');
+  // console.log('이미지 업로드 및 다운로드 성공');
 
   // 썸네일로 만들어서 Firebase 올리기
   let downloadedThumbUrl = null;
@@ -46,7 +46,7 @@ const uploadSingleImage = async ({ coverImage }: uploadImageProps) => {
     const thumbnailRef = ref(storage, `${QUERY_KEYS.COVER_IMAGES}/thumbnails/${coverImage.name}`);
     const thumbSnapShot = await uploadBytes(thumbnailRef, resizedCover);
     downloadedThumbUrl = await getDownloadURL(thumbSnapShot.ref);
-    console.log('썸네일 업로드 성공');
+    // console.log('썸네일 업로드 성공');
   } catch (error) {
     console.log('썸네일 업로드 실패');
   }
@@ -57,7 +57,7 @@ const uploadSingleImage = async ({ coverImage }: uploadImageProps) => {
 const deleteImage = async (url: string) => {
   const httpsReference = ref(storage, url);
   await deleteObject(httpsReference);
-  console.log('이미지 삭제 성공');
+  //console.log('이미지 삭제 성공');
   return url;
 };
 

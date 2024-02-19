@@ -1,28 +1,19 @@
-import {
-  InfiniteData,
-  QueryFunctionContext,
-  QueryKey,
-  useInfiniteQuery,
-  useMutation,
-  useQuery,
-  useQueryClient
-} from '@tanstack/react-query';
+import { InfiniteData, useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import mangoCover from 'assets/mangoDefaultCover.png';
 import defaultUserProfile from 'assets/realMango.png';
 import Loader from 'components/Loader';
 import PostContentPreview from 'components/PostContentPreview';
 import PostsSkeleton from 'components/mypage/postsSkeleton/PostsSkeleton';
-import { DocumentData, QueryDocumentSnapshot, arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { useModal } from 'hooks/useModal';
 import { QUERY_KEYS } from 'query/keys';
-import { useEffect, useState } from 'react';
 import { GoComment, GoEye, GoHeart, GoHeartFill } from 'react-icons/go';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { modalState } from 'recoil/modals';
 import { auth, db } from 'shared/firebase';
-import { SortList } from 'types/PostListType';
-import { PostType } from 'types/PostType';
+import { Category, SortList } from 'types/PostListType';
+import { PostTypeFirebase } from 'types/PostType';
 import { getFormattedDate_yymmdd } from 'util/formattedDateAndTime';
 import { getThumbnailSource } from 'util/getThumbnailSource';
 import St, {
@@ -38,28 +29,25 @@ import St, {
   SinglePost
 } from './style';
 import { getAllUsers } from 'api/authApi';
+import { getFirstPage, getNextPage } from 'api/pageListApi';
 // import { User } from 'firebase/auth';
 
 interface PostListProps {
-  queryKey: QueryKey;
-  queryFn: (
-    context: QueryFunctionContext<QueryKey, undefined | QueryDocumentSnapshot<DocumentData, DocumentData>>
-  ) => Promise<QueryDocumentSnapshot<DocumentData, DocumentData>[]>;
+  category: Category;
   sortBy: SortList;
 }
 
 interface PostCardProps {
   postId: string;
-  postData: PostType;
+  postData: PostTypeFirebase;
 }
 
 interface PostCardProps {
   postId: string;
-  postData: PostType;
+  postData: PostTypeFirebase;
 }
 
-function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
-  const category = queryKey[1];
+function CommunityPostList02({ category, sortBy }: PostListProps) {
   const navigate = useNavigate();
   const currentUserId = auth.currentUser?.uid;
   const queryClient = useQueryClient();
@@ -75,37 +63,36 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
     hasNextPage,
     error: moreDataError
   } = useInfiniteQuery({
-    queryKey,
-    queryFn,
-    initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
-    getNextPageParam: (lastPage) => {
-      if (lastPage.length === 0) {
+    queryKey: [QUERY_KEYS.POSTS, category],
+    queryFn: ({ pageParam }) => {
+      if (!pageParam) {
+        return getFirstPage(category);
+      } else {
+        return getNextPage(pageParam, category);
+      }
+    },
+    initialPageParam: undefined as undefined | string,
+    getNextPageParam: (lastPage: PostTypeFirebase[], allPages) => {
+      if (!lastPage || lastPage.length === 0 || !lastPage[lastPage.length - 1]) {
         return undefined;
       }
-      return lastPage[lastPage.length - 1];
+      //console.log('allPages', allPages.length);
+      const lastItem = lastPage[lastPage.length - 1];
+      return lastItem.id;
     },
     staleTime: 60_000,
     select: (data) => {
-      let sortedPosts = data.pages.flat().map((doc) => {
-        const postData = doc.data() as { likedUsers: string[] | undefined }; // 'likedUsers' 속성이 포함된 형식으로 타입 캐스팅
-        return {
-          isLiked: postData.likedUsers?.includes(auth.currentUser?.uid || ''),
-          id: doc.id,
-          ...postData
-        } as PostType;
-      });
+      let sortedPosts = data.pages.flat();
       if (sortBy === 'popularity') {
         sortedPosts = sortedPosts.sort((a, b) => {
-          const likeCountA = a.likeCount ?? 0; // 만약 likeCount가 없다면 0으로 처리
-          const likeCountB = b.likeCount ?? 0; // 만약 likeCount가 없다면 0으로 처리
-
+          const likeCountA = a.likeCount ?? 0;
+          const likeCountB = b.likeCount ?? 0;
           return likeCountB - likeCountA;
         });
       } else if (sortBy === 'latest') {
         sortedPosts = sortedPosts.sort((a, b) => {
-          const createdAtA = a.createdAt ?? 0; // 만약 createdAt이 없다면 0으로 처리
-          const createdAtB = b.createdAt ?? 0; // 만약 createdAt이 없다면 0으로 처리
-
+          const createdAtA = a.createdAt ?? 0;
+          const createdAtB = b.createdAt ?? 0;
           return createdAtB - createdAtA;
         });
       }
@@ -136,55 +123,38 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
           likedUsers: postData.isLiked ? arrayRemove(currentUserId) : arrayUnion(currentUserId),
           likeCount: newLikeCount
         });
-      } else {
-        throw new Error('Invalid input for toggleLike');
       }
     },
     onMutate: async (params: PostCardProps) => {
-      //const { postId: selectedPostId } = params;
-      const { postId: selectedPostId, postData } = params;
+      const { postId: selectedPostId } = params;
       await queryClient.cancelQueries({ queryKey: [QUERY_KEYS.POSTS, category] });
 
       //이전 데이터 저장
-      const previousPosts = queryClient.getQueriesData<InfiniteData<PostType[]> | undefined>({
+      const previousPosts = queryClient.getQueriesData<InfiniteData<PostTypeFirebase[]> | undefined>({
         queryKey: [QUERY_KEYS.POSTS, category]
       });
 
-      queryClient.setQueryData<
-        InfiniteData<
-          QueryDocumentSnapshot<DocumentData, DocumentData>[],
-          QueryDocumentSnapshot<DocumentData, DocumentData> | undefined
-        >
-      >([QUERY_KEYS.POSTS, category], (oldData) => {
-        // 이전 데이터를 수정하고 반환
+      queryClient.setQueryData<InfiniteData<PostTypeFirebase[]>>([QUERY_KEYS.POSTS, category], (oldData) => {
+        if (!oldData) return oldData;
 
-        let getData = oldData?.pages.flat().map((doc) => {
-          //const postData = doc.data() as { likedUsers: string[] | undefined };
-          //console.log(doc);
-          const postData = doc.data();
-
-          return {
-            id: doc.id,
-            isLiked: postData.likedUsers?.includes(auth.currentUser?.uid || ''),
-            ...postData
-            //
-          };
-        });
-
-        const updateData = getData?.map((post) => {
-          if (post.id === selectedPostId) {
-            return {
-              ...post,
-              isLiked: !post.isLiked
-            };
-          } else {
-            return post;
-          }
+        const updateData = oldData?.pages.map((pagesPost) => {
+          return pagesPost.map((post) => {
+            const newLikeCount = post.isLiked ? post.likeCount - 1 : post.likeCount + 1;
+            if (post.id === selectedPostId) {
+              return {
+                ...post,
+                isLiked: !post.isLiked,
+                likeCount: newLikeCount
+              };
+            } else {
+              return post;
+            }
+          });
         });
 
         return {
-          pages: oldData?.pages ?? [],
-          pageParams: oldData?.pageParams ?? []
+          ...oldData,
+          pages: updateData
         };
       });
       return { previousPosts };
@@ -203,7 +173,7 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
   const handleClickLikeButton = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     id: string,
-    post: PostType
+    post: PostTypeFirebase
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -328,4 +298,4 @@ function CommunityPostList({ queryKey, queryFn, sortBy }: PostListProps) {
   );
 }
 
-export default CommunityPostList;
+export default CommunityPostList02;

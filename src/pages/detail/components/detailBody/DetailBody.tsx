@@ -70,6 +70,13 @@ function DetailBody({ foundDetailPost }: FoundDetailPostProps) {
     }
   };
 
+  //혜민
+  //오류:Uncaught TypeError: Cannot read properties of undefined (reading '0')
+  //image={foundDetailPost.coverImages[0]?.url || defaultThumbnail}
+  //간헐적으로 발생하는 증상으로, 페이지에 5분정도 있다가 마이페이지에서 데이터 클릭시 해당 오류 발생
+  //그래서 DetailHeader를 호출하는 Detail.tsx에서
+  //{!isLoading && foundDetailPost && ( <<  !isLoading으로 확실하게 구분
+
   return (
     <>
       <MetaTag

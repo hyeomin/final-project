@@ -96,7 +96,7 @@ function NavBar() {
           <NavLink to="/bymango" style={styledNav} onMouseEnter={handleHover}>
             BY MANGO
           </NavLink>
-          <NavLink to="/community" style={styledNav} onMouseEnter={handleHover}>
+          <NavLink to="/community" style={styledNav}>
             COMMUNITY
           </NavLink>
           <St.GuideToggle onClick={onToggleModal}>GUIDE</St.GuideToggle>

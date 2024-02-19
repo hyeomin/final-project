@@ -56,6 +56,12 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
         { newComment, postId: foundDetailPost.id, currentUserId: currentUser.uid },
         {
           onSuccess: () => {
+            //혜민
+            //댓글작성시, 디테일페이지에만 반영되서, 이렇게 추가하였습니다.
+            queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.POSTS]
+            });
+
             queryClient.invalidateQueries({
               queryKey: [QUERY_KEYS.COMMENTS]
             });
