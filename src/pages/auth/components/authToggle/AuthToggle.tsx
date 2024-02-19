@@ -45,7 +45,6 @@ function AuthToggle({ setIsAuthToggleOpen }: Props) {
     e.preventDefault();
 
     try {
-      ////모달팝업 적용(혜민)
       const onClickCancel = () => {
         modal.close();
         return;

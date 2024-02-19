@@ -13,10 +13,7 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  //혜민
-  //커버이미지가 undefined일 경우, length의 길이를 확인하는데서 오류가 발생했음
-  //[오류메시지]Uncaught TypeError: Cannot read properties of undefined (reading 'length')at DetailHeader (DetailHeader.tsx:23:1)
-  //아래를 추가했는데 괜찮은가용?
+  //24.02.18 추가
   const coverImages = foundDetailPost.coverImages ?? [];
 
   // swiper custom hook
