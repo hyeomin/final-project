@@ -57,6 +57,10 @@ const AddCommentForm = ({ foundDetailPost }: FoundDetailPostProps) => {
         {
           onSuccess: () => {
             queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.POSTS]
+            });
+
+            queryClient.invalidateQueries({
               queryKey: [QUERY_KEYS.COMMENTS]
             });
           }

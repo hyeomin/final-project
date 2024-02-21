@@ -3,12 +3,14 @@ import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { getCategoryPosts } from 'api/pageListApi';
+import { getCategoryPosts, getFirstPage } from 'api/pageListApi';
 import { QUERY_KEYS } from 'query/keys';
 import { categoryListState } from 'recoil/posts';
 import TopButton from 'pages/about/components/TopButton';
 import CommunityPostList from './communityPostList/CommunityPostList';
 import St from './style';
+import CommunityPostList02 from './communityPostList/CommunityPostList02';
+import { PostTypeFirebase } from 'types/PostType';
 
 export type Category = 'knowHow' | 'recommendation' | 'sharing' | 'habit' | 'noCategory' | 'total';
 export type SortList = 'popularity' | 'latest';
@@ -62,12 +64,12 @@ function CommunityBody() {
   const queryClient = useQueryClient();
   const handleHover = async () => {
     const queriesToPrefetch = [
-      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.KNOWHOW], queryFn: getCategoryPosts('knowHow') },
-      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.RECOMMEND], queryFn: getCategoryPosts('recommendation') },
-      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.SHARE], queryFn: getCategoryPosts('sharing') },
-      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.HABIT], queryFn: getCategoryPosts('habit') },
-      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.TOTAL], queryFn: getCategoryPosts('total') },
-      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.NOCATEGORY], queryFn: getCategoryPosts('noCategory') }
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.KNOWHOW], queryFn: () => getFirstPage('knowHow') },
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.RECOMMEND], queryFn: () => getFirstPage('recommendation') },
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.SHARE], queryFn: () => getFirstPage('sharing') },
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.HABIT], queryFn: () => getFirstPage('habit') },
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.TOTAL], queryFn: () => getFirstPage('total') },
+      { queryKey: [QUERY_KEYS.POSTS, QUERY_KEYS.NOCATEGORY], queryFn: () => getFirstPage('noCategory') }
     ];
 
     //prefetch는 오류 반환 x
@@ -75,7 +77,7 @@ function CommunityBody() {
       await queryClient.prefetchInfiniteQuery({
         queryKey: queryKey,
         queryFn: queryFn,
-        initialPageParam: undefined as undefined | QueryDocumentSnapshot<DocumentData, DocumentData>,
+        initialPageParam: undefined,
         staleTime: 60_000
       });
     }
@@ -136,7 +138,8 @@ function CommunityBody() {
           </li>
         </St.SortingWrapper>
       </St.CommunityNavBar>
-      <CommunityPostList queryKey={[QUERY_KEYS.POSTS, category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} />
+      {/* <CommunityPostList queryKey={[QUERY_KEYS.POSTS, category]} queryFn={getCategoryPosts(category)} sortBy={sortBy} /> */}
+      <CommunityPostList02 category={category} sortBy={sortBy} />
       <TopButton $position={220} />
     </St.CommunityContainer>
   );

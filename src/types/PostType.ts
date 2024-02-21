@@ -1,3 +1,5 @@
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore';
+
 export type PostType = {
   id: string;
   category: string;
@@ -15,6 +17,26 @@ export type PostType = {
   commentCount?: number;
   viewCount?: number;
   isLiked?: boolean;
+};
+
+export type PostTypeFirebase = {
+  id: string;
+  category: string;
+  title: string;
+  content: string;
+  createdAt: number;
+  updatedAt: number;
+  hashtags: string[];
+  uid: string;
+  role: string;
+  likeCount: number;
+  likedUsers: string[];
+  coverImages: DownloadedImageType[];
+  comments?: [];
+  commentCount?: number;
+  viewCount?: number;
+  isLiked?: boolean;
+  snapshot?: QueryDocumentSnapshot<DocumentData, DocumentData>;
 };
 
 export type DownloadedImageType = {

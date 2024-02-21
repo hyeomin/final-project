@@ -59,6 +59,10 @@ const CommentList = ({ foundDetailPost }: FoundDetailPostProps) => {
         {
           onSuccess: () => {
             queryClient.invalidateQueries({
+              queryKey: [QUERY_KEYS.POSTS]
+            });
+
+            queryClient.invalidateQueries({
               queryKey: [QUERY_KEYS.COMMENTS]
             });
             modal.close();

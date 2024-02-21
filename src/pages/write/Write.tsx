@@ -20,7 +20,7 @@ function Write() {
   const { foundDetailPost } = location.state || {};
 
   const [postInput, setPostInput] = useRecoilState(postInputState);
-  console.log(postInput.content);
+  //console.log(postInput.content);
 
   // 임시저장된 데이터 불러올지; 취소하면 날라가게
   useEffect(() => {

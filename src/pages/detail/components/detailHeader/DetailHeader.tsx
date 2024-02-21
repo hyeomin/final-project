@@ -13,7 +13,8 @@ function DetailHeader({ foundDetailPost }: FoundDetailPostProps) {
   const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const coverImages = foundDetailPost.coverImages;
+  //24.02.18 추가
+  const coverImages = foundDetailPost.coverImages ?? [];
 
   // swiper custom hook
   const { goNext, goPrev } = useSwiperNavigation({
