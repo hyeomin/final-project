@@ -34,7 +34,7 @@
 ![Web App Reference Architecture (1)](https://github.com/hyeomin/final-project/assets/121536857/62e18735-6ee3-4403-a66d-7e40fcc8435d)
 
 
-## <b>기술적 의사결정정</b>
+## <b>기술적 의사결정</b>
 
 - **React**
     - 팀원 모두 React 관련 경험과 노하우가 쌓인 상태에서 완성도 높은 React 프로젝트를 구현하는 것을 목표로 삼았습니다. CSR 기반의 라이브러리인 React를 보다 장기 프로젝트에 적극 활용함으로써 CSR의 장점과 한계를 한층 더 깊이 이해하고자 했으며, 실제로 SSR 및 SSG의 등장 배경을 실감할 수 있었습니다. 특히, 서버 로직을 구축하는 데 필요한 시간과 자원을 UX 분석과 개선에 할당하고자 했습니다.
