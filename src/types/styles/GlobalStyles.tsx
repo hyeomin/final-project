@@ -53,6 +53,9 @@ const GlobalStyle = createGlobalStyle`
         font-family: "PretendardVariable-Regular", Pretendard, -apple-system, BlinkMacSystemFont, 'roca', 'Segoe UI', 'Roboto', 'Oxygen',
             'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
             sans-serif;
+            /* font-family: "PretendardVariable", Pretendard, -apple-system, BlinkMacSystemFont, 'roca', 'Segoe UI', 'Roboto', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif; */
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
