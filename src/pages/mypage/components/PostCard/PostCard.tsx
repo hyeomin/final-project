@@ -24,6 +24,7 @@ import {
 import { QUERY_KEYS } from 'query/keys';
 import { getThumbnailSource } from 'util/getThumbnailSource';
 import { getAllUsers } from 'api/authApi';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 interface PostCardProps {
   post: PostType;
@@ -103,6 +104,9 @@ function PostCard({ post }: PostCardProps) {
   return (
     <SinglePost onClick={() => navigate(`/detail/${post.id}`)}>
       <PostImg src={getThumbnailSource(post.coverImages)} alt="cover" />
+      {/* <PostImg>
+        <LazyLoadImage src={getThumbnailSource(post.coverImages)} alt="cover" />
+      </PostImg> */}
       <PostInfoContainer>
         <PostCardHeader>
           <PostCardHeaderLeft>
