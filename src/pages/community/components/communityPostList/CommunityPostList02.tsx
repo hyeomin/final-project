@@ -241,6 +241,7 @@ function CommunityPostList02({ category, sortBy }: PostListProps) {
                         target.src = mangoCover;
                       }}
                     />
+
                     <PostInfoContainer>
                       <PostCardHeader>
                         <PostCardHeaderLeft>

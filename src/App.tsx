@@ -10,7 +10,6 @@ function App() {
   if (!authContext) {
     return <Loader />;
   }
-
   const { init } = authContext;
   return <>{init ? <Router /> : <Loader />}</>;
 }

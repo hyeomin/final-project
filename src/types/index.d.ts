@@ -1,5 +1,6 @@
 declare module '*.jpg';
 declare module '*.png';
+declare module 'react-lazy-load-image-component';
 
 type User = {
   id?: string;
